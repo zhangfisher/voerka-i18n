@@ -83,6 +83,7 @@ module.exports = function(options={}){
     let results = {}
     // file == vinyl实例
     return through2.obj(function(file, encoding, callback){
+        // 如果没有指定输出路径，则默认输出到<原文件夹/languages>
         if(!outputPath){
             outputPath = path.join(file.base,"languages")
         }
@@ -106,5 +107,6 @@ module.exports = function(options={}){
     },function(callback){
         console.log("输出路径:",outputPath)
         console.log(JSON.stringify(results,null,2))
+        
     });
 }
