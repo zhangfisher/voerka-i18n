@@ -4,6 +4,7 @@
 
 const through2 = require('through2')
 const deepmerge = require("deepmerge")
+const path = require('path')
 
 // 捕获翻译函数的表达式
 const DefaultTranslateMatcher =  /\bt\(\s*("|'){1}(?:((?<namespace>\w+):))?(?<text>.*?)(((\1\s*\)){1})|((\1){1}\s*(,(\w|\d|(?:\{.*\})|(?:\[.*\])|([\"\'\(].*[\"\'\)]))*)*\s*\)))/gm
