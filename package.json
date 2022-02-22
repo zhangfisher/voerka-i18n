@@ -1,0 +1,17 @@
+{
+  "name": "voerka-i18n",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "extract": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "gulp": "^4.0.2",
+    "through2": "^4.0.2"
+  }
+}
