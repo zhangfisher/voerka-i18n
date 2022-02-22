@@ -5,42 +5,12 @@
 const through2 = require('through2')
 const deepmerge = require("deepmerge")
 const path = require('path')
+const fs = require('fs')
+const readJson = require("readjson")
+const { deepStrictEqual } = require('assert')
 
 // 捕获翻译函数的表达式
 const DefaultTranslateMatcher =  /\bt\(\s*("|'){1}(?:((?<namespace>\w+):))?(?<text>.*?)(((\1\s*\)){1})|((\1){1}\s*(,(\w|\d|(?:\{.*\})|(?:\[.*\])|([\"\'\(].*[\"\'\)]))*)*\s*\)))/gm
-
- 
-/**
- *  找出要翻译的文本列表 {namespace:[text,text],...}
- * {namespace:{text:[],...}
- * @param {*} content 
- * @param {*} matcher 
- * @returns 
- */
-function getTranslateTexts(content,matcher,namespace,file){
-    if(!matcher) return
-    let texts = {default:{}}
-    while ((result = matcher.exec(content)) !== null) {
-        // 这对于避免零宽度匹配的无限循环是必要的
-        if (result.index === matcher.lastIndex) {
-            matcher.lastIndex++;
-        }   
-        const text = result.groups.text
-        if(text){
-            const ns = result.groups.namespace || namespace
-            if(!(ns in texts)){
-                texts[ns]  = {}
-            }
-            texts[ns][text] = [file.relative]
-        }
-    }
-    return texts
-}
-
-// 将texts合并到results中
-function mergeTranslateTexts(results,texts){
-
-}
 
 // 获取指定文件的名称空间
 /**
@@ -48,7 +18,7 @@ function mergeTranslateTexts(results,texts){
  * @param {*} file 
  * @param {*} namespaces  名称空间配置 {<name>:[path,...,path],<name>:path,<name>:(file)=>{}}
  */
-function getFileNamespace(file,options){
+ function getFileNamespace(file,options){
     const {output, namespaces } = options
     const refPath = file.relative.toLowerCase()  
     for(let [name,paths] of Object.entries(options.namespaces)){
@@ -65,16 +35,63 @@ function getFileNamespace(file,options){
 }
 
  
+/**
+ *  找出要翻译的文本列表 {namespace:[text,text],...}
+ * {namespace:{text:{cn:"",en:"",$source:""},...}
+ * @param {*} content 
+ * @param {*} matcher 
+ * @returns 
+ */
+function getTranslateTexts(content,file,options){
+    
+    let { matcher,languages,defaultLanguage } = options
+
+    if(!matcher) return
+
+    // 获取当前文件的名称空间
+    const namespace = getFileNamespace(file,options)
+    
+    let texts = {default:{}}
+    while ((result = matcher.exec(content)) !== null) {
+        // 这对于避免零宽度匹配的无限循环是必要的
+        if (result.index === matcher.lastIndex) {
+            matcher.lastIndex++;
+        }   
+        const text = result.groups.text
+        if(text){
+            const ns = result.groups.namespace || namespace
+            if(!(ns in texts)){
+                texts[ns]  = {}
+            }
+            texts[ns][text] ={} 
+            languages.forEach(language=>{
+                if(language !== defaultLanguage){
+                    texts[ns][text][language] = ""
+                }                
+            })
+            texts[ns][text]["$file"]=[file.relative]
+        }
+    }
+    return texts
+}
+ 
+
+function mergeLanguageFile(langFile,texts,options){
+
+
+
+}
 
 module.exports = function(options={}){
     options = Object.assign({
         debug          : true,                    // 输出调试信息
         format         : "js",                    // 目标文件格式，取值JSON,JS
-        languages      : ["en","zh"],             // 目标语言列表
-        defaultLanguage: "zh",                    // 默认语言
+        languages      : ["en","cn"],             // 目标语言列表
+        defaultLanguage: "cn",                    // 默认语言
         matcher        : DefaultTranslateMatcher, // 匹配翻译函数并提取内容的正则表达式
         namespaces     : {},                      // 命名空间, {[name]: [path,...,path]}
-        output         : null                     //  输出目录，如果没有指定，则转让
+        output         : null,                     //  输出目录，如果没有指定，则转让
+        merge          : true,                    // 输出文本时默认采用合并更新方式
     },options) 
     let {debug,output:outputPath,languages} = options
     // 输出语言文件 {cn:{default:<文件>,namespace:<文件>},en:{default:{}}}
@@ -95,18 +112,28 @@ module.exports = function(options={}){
         if(file.isStream()){
             return callback()
         }
-        // 获取该文件的
-        const namespace = getFileNamespace(file,options)
-        if(debug) console.log(namespace," : ",file.path)
 
-        // 提出出翻译文件
-        const texts = getTranslateTexts(file.contents.toString(),options.matcher,namespace,file) 
+        // 提取翻译文本
+        const texts = getTranslateTexts(file.contents.toString(),file,options) 
         results = deepmerge(results,texts)
 
         callback()
     },function(callback){
-        console.log("输出路径:",outputPath)
-        console.log(JSON.stringify(results,null,2))
         
+        console.log("输出路径:",outputPath)
+        const translatesPath = path.join(outputPath,"translates")
+        if(!fs.existsSync(translatesPath)) fs.mkdirSync(translatesPath)
+
+        for(let [namespace,texts] of Object.entries(results)){
+            const langFile = path.join(outputPath,"translates",`${namespace}.json`)
+            const isExists = fs.existsSync(langFile)
+            const langTexts = isExists ? readJson.sync(langFile) : {}
+            if(isExists && options.merge){
+                mergeLanguageFile(langFile,langTexts,options)
+            }else{
+                fs.writeFileSync(langFile,JSON.stringify(texts,null,4)) 
+            }                     
+        }
+        callback()               
     });
 }

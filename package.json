@@ -12,6 +12,8 @@
   "dependencies": {
     "deepmerge": "^4.2.2",
     "gulp": "^4.0.2",
+    "logsets": "^1.0.2",
+    "readjson": "^2.2.2",
     "through2": "^4.0.2"
   }
 }

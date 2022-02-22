@@ -10,6 +10,7 @@ gulp.src([
     "!"+ soucePath+ '/languages/**'
 ]).pipe(extract({
     // output: path.join(soucePath , 'languages'),
+    languages: ['en','cn','de','jp'],
     namespaces:{
         "a":"a",
         "b":"b",
