@@ -10,11 +10,9 @@ t('fdgfdgfdg',a,b,c)
 
 t("cccc Arrow Function",()=>{},c)
 
-
-
-t("ddddd中国",c)
+ 
 t("eeeeee", )
 
 
 
-t("x:from a")
+t("x::from a")

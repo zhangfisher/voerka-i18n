@@ -17,4 +17,4 @@ t("eeeeee", )
 
 
 
-t("x:from a")
+t("x::from c2")

@@ -13,4 +13,4 @@ t("ddddd中国",()=>{},c)
 t("eeeeee")
 
 t("ddddd中国",()=>{},c)
-t("x:from b")
+t("x::from b")
