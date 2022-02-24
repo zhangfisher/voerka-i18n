@@ -10,8 +10,8 @@ const deepmerge = require("deepmerge")
 const path = require('path')
 const fs = require('fs')
 const readJson = require("readjson") 
-const createLogger = require("logsets")
-
+const createLogger = require("logsets") 
+const { replaceInterpolateVars,getDataTypeName } = require("./utils")
 const logger = createLogger() 
 
 // 捕获翻译文本的默认正则表达式
@@ -190,7 +190,7 @@ function normalizeLanguageOptions(options){
         // 以下变量会被用来传递给提取器正则表达式
         translation    : {
             funcName   : "t",                       // 翻译函数名称
-            attrName   :"data-i18n",                  // 用在html组件上的翻译属性名称
+            attrName   :"data-i18n",                // 用在html组件上的翻译属性名称
         }
     },options) 
     // 输出配置
@@ -270,8 +270,7 @@ function normalizeLanguageOptions(options){
             }
         })
     }
-
-    
+   
     logger.log("Supported languages\t: {}",options.languages.map(item=>`${item.title}(${item.name})`))
     logger.log("Default language\t: {}",options.defaultLanguage)
     logger.log("Active language\t\t: {}",options.activeLanguage) 
@@ -321,17 +320,9 @@ function updateLanguageFile(fromTexts,toLangFile,options){
                 if(langName.startsWith("$")) return         // 
                 const langExists = langName in targetLangs
                 const targetText = targetLangs[langName]
-                // 如果目标语言已经存在并且内容不为空，则不需要更新
-                if(!langExists){
-                    targetLangs[langName] = sourceText
-                }else if(typeof(targetText) === "string" && targetText.trim().length==0){ 
-                    targetLangs[langName] = sourceText
-                }else if(Array.isArray(targetText)){// 当文本内容支持复数时，可以用[单数文本,复数文本]的形式
-                    if(targetText.length>0){
-                        targetLangs[langName] = sourceText
-                    }else{
-                        
-                    }
+                // 如果目标语言已经存在并且内容不为空，则不需要更新 
+                if(!langExists){ // 不存在则创建新的翻译条目
+                    targetLangs[langName] = sourceText                
                 }
             })
         }else{
@@ -397,14 +388,14 @@ module.exports = function(options={}){
             }   
         }
         // 将元数据生成到 i18n.meta.json
-        const metaFile = path.join(outputPath,"i18n.meta.json")
+        const metaFile = path.join(outputPath,"i18n.settings.js")
         const meta = {
             languages      : options.languages,
             defaultLanguage: options.defaultLanguage,
             activeLanguage : options.activeLanguage,
             namespaces     : options.namespaces 
         }
-        fs.writeFileSync(metaFile,JSON.stringify(meta,null,4))
+        fs.writeFileSync(metaFile,`export default ${JSON.stringify(meta,null,4)}`)
         logger.log(" - Generate language metadata : {}",metaFile) 
         callback()               
     });

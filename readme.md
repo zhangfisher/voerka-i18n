@@ -113,3 +113,57 @@ t("第{}章",7)  // == Chapter Seven
 t("第{}章",100)  // == Chapter 100
 ```
 
+
+## 插值变量格式化
+
+voerka-i18n支持对插值变量进行格式化
+
+```javascript
+
+new VoerkaI18n({
+    formats:{
+        Date:{                    // 日期格式
+            en:{
+                default:(value)=>dayjs(value).format("YYYY/MM/DD"),       
+                time:(value)=>dayjs(value).format("HH:hh:mm"),
+                // 可以定义多种自定义格式...
+            },
+            cn:{
+                default:(value)=>dayjs(value).format("YYYY年MM月DD日"),       
+                time:(value)=>dayjs(value).format("HH:hh:mm"),
+                // 可以定义多种自定义格式...
+            },
+        },
+        String:{
+            en:{
+                firstUpper:(value)=>value[0].toUpperCase()+value.substr(1)         // 首字母大写
+            }
+        }
+    }
+})
+```
+以上代码定义了：
+- `Date`类型的英文和中文的两个格式化函数
+- `String`类型变量的`firstUpper`格式化函数
+
+接下来，在翻译内容中使用。
+
+```javascript
+
+// languages/translates/default.json
+{
+    "今天是{date}":{
+        en:"Today is {date}",   // 使用默认格式
+    },
+    "现在是北京时间：{date}":{
+        en:"Now is {date.time}"
+    },
+    "":{}
+}
+
+t("今天是{date}",{date:new Date()})
+
+```
+
+
+
