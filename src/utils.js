@@ -39,6 +39,22 @@ function getDataTypeName(v){
 	return v.constructor && v.constructor.name;
 };
 
+/**
+ * 生成一个基于时间戳的文本id
+ * performance.now()返回的是当前node进程从启动到现在时间戳
+ * 但是连续调用可能会导致重复id的生成，如果发现重复则会
+ * 在生成的id后面加上一个随机数，以保证id的唯一性
+ */
+function getMessageId(){
+    this.lastMsgId = null
+    let id = String(performance.now()).replace(".","")
+    if(this.lastMsgId === id){
+        id = id + parseInt(Math.random() * 1000) .toString()   
+    }else{
+        this.lastMsgId = id
+    } 
+    return id
+}
 /**  
  * 提取字符串中的插值变量
  * @param {*} str 
@@ -120,6 +136,7 @@ console.log(replaceInterpolateVars(str,"tom",18,()=>"bob"))
 console.log(replaceInterpolateVars(str,"tom",[1,2],{a:1},1,2))
 
 module.exports = {
+    getMessageId,
     hasInterpolation,
     getInterpolatedVars,
     replaceInterpolateVars

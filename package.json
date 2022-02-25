@@ -2,10 +2,11 @@
   "name": "voerka-i18n",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js", 
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "extract": ""
+    "extract": "",
+    "babeldemo": "babel ./demodata/a/a1.js --plugins=./src/babel-plugin-voerkai18n.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +16,9 @@
     "logsets": "^1.0.6",
     "readjson": "^2.2.2",
     "through2": "^4.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5"
   }
 }

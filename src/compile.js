@@ -6,7 +6,32 @@
  * 编译原理如下：
  * 
  * 
+ * 编译输出:
+ *      
+ *      hashId = hash([projectName]_[namespace]_[message])
+ *       
+ *    - languages/index.js    主源码，用来引用语言文件
+ *      {
+ *          languages:{},
+
+ *      }
+ *    - languages/messageIds.json   翻译文本的id映射表
+ *      {
+ *          [msg]:"<id>"
+ *      } 
+ *    - languages/en.js       英文语言文件
+ *       {
+ *          [region]:{
+ *              [namespace]:{
+ *                  [hashId]:"<message>",
+ *              },
+ *              [namespace]:{...},         
+ *         },
+ *          [region]:{...}
+ *       }     
  * 
+ *    - languages/[lang].js   语言文件 
+ *    - formaters.js
  * 
  * @param {*} opts 
  */
