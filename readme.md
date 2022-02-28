@@ -170,14 +170,9 @@ t("今天是{date}",{date:new Date()})
 
 ```javascript
 
-import { injectLanguage } from "voerka-i18n"
-import mylinLang from "mylib/languages"
-
-// 在当前工程注入第三方库的语言文件
-injectLanguage(mylinLang)
-
-import t from "./languages"
-
+import i18n from "voerka-i18n"
+import { t } from "./languages" 
+  
 t("xxxxx")
 
 VoerkaI18n实例
@@ -195,3 +190,6 @@ messages:{
 ```
 
 
+## 一语多译
+
+一语多译指同一句文本在不同的语景下，需要翻译成不同的内容。比如

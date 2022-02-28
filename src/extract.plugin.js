@@ -67,7 +67,7 @@ function extractTranslateTextUseRegexp(content,namespace,extractor,file,options)
             texts[ns][text] ={} 
             languages.forEach(language=>{
                 if(language.name !== defaultLanguage){
-                    texts[ns][text][language.name] = ""
+                    texts[ns][text][language.name] = text //""
                 }                
             })
             texts[ns][text]["$file"]=[file.relative]
@@ -388,7 +388,7 @@ module.exports = function(options={}){
             }   
         }
         // 将元数据生成到 i18n.meta.json
-        const metaFile = path.join(outputPath,"i18n.settings.js")
+        const metaFile = path.join(outputPath,"settings.js")
         const meta = {
             languages      : options.languages,
             defaultLanguage: options.defaultLanguage,

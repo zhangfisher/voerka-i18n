@@ -9,7 +9,9 @@ babel.transform(code, {
     plugins: [
         [
             i18nPlugin,
-            {a:1,b:2}
+            {
+                location:"./languages"              // 指定语言文件存放的目录，即保存编译后的语言文件的文件夹
+            }            
         ]]
 }, function(err, result) { 
     console.log(result.code)
