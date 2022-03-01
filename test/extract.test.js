@@ -33,7 +33,6 @@ test("启用名称空间后扫描提取翻译文本",(done)=>{
             "core":"a/b",               // 名称空间
         }
     }))     
-    expect("core" in texts).toBeFalsy()
     expect("core" in texts).toBeTruthy()
     expect(Object.keys(texts.core).join()).toBe("a,b,c,d")
     Object.entries(texts.core).forEach(([text,langs])=>{

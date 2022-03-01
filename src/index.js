@@ -1,4 +1,5 @@
-import deepMerge from "deepmerge"
+const deepMerge = require("deepmerge")
+const formatters = require("./formatters")
 
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
@@ -46,18 +47,21 @@ function getDataTypeName(v){
  * @param {*} str 
  * @returns {Array} [[变量名称,[]],[变量名称,[formatter,formatter,...]],...]
  */
-function getInterpolatedVars(str){
-    let result = []
+module.exports.getInterpolatedVars = function(str){
+    let results = []
     let match 
     while ((match = varWidthPipeRegexp.exec(str)) !== null) {
         if (match.index === varWidthPipeRegexp.lastIndex) {
             varWidthPipeRegexp.lastIndex++;
         }          
-        if(match.groups.varname) {
-            result.push(match.groups.formatters ? [match.groups.varname,match.groups.formatters.trim().split("|")] : [match.groups.varname,[]])
+        const varname = match.groups.varname
+        const formatters = match.groups.formatters ? match.groups.formatters.trim().substr(1).trim().split("|").map(r=>r.trim()) : []
+        if(varname) {
+            const varDefine = formatters ? [varname,formatters] : [varname,[]]
+            if(results.findIndex(item=>item[0]===varDefine[0] && item[1].join()===varDefine[1].join()) === -1) results.push(varDefine)
         }
     }
-    return result
+    return results
 }
 /**
  * 将要翻译内容提供了一个非文本内容时进行默认的转换
@@ -97,31 +101,39 @@ function transformVarValue(value){
   * @param {*} template 
   * @returns 
   */
-function replaceInterpolateVars(template,...args) {
+module.exports.replaceInterpolateVars = function(template,...args) {
     const scope = this
+    const activeLanguage = scope.activeLanguage
     let result=template
     if(!hasInterpolation(template)) return template
-
-    if(args.length===1 && typeof(args[0]) === "object" && !Array.isArray(args[0])){  // 变量插值
-        // 取得里面的插值变量 
-        let varNames =  getInterpolatedVars(template)
+    // 变量插值
+    if(args.length===1 && typeof(args[0]) === "object" && !Array.isArray(args[0])){  
+        // 格式化器只能用在字典变量中
+        // {var1:[formatter,formatter,...],var2:[formatter,formatter,...],...}
+        let varNames =  getInterpolatedVars(template) 
         let varValues = args[0]
         if(varNames.length===0) return template      
         for(let [name,formatters] of varNames){
             // 计算出变量值
             let value =  (name in varValues) ? varValues[name] : ''
-            if(formatters.length  >0 ){
+            // 针对每种数据类型的默认格式化器
+            let dataType= getDataTypeName(value)
+            if(dataType in scope.formatters[activeLanguage]){
+                const formatter = scope.formatters[activeLanguage][dataType]
+                formatters.splice(0,0,formatter)
+            }
+            if(formatters.length > 0 ){
                 formatters.reduce((v,formatter)=>{
                     if(formatter in scope.formatters){
                         return scope.formatters[formatter](v)
                     }else{
                         return v
                     } 
-                },"")
-            }               
+                },value)
+            }     
             // 如果变量中包括|管道符,则需要进行转换以适配更宽松的写法，比如data|time能匹配"data |time","data | time"等
-            let nameRegexp = name.includes("|") ? name.split("|").join("\\s*\\|\\s*") : name 
-            result=result.replaceAll(new RegExp(varReplaceRegexp.replaceAll("{varname}",nameRegexp),"g"),transformVarValue(args[0][name]))
+            let nameRegexp =new RegExp(`${name}\\s*\\|\\s*${formatters.join("\\s*\\|\\s*")}`,"g")
+            result=result.replaceAll(nameRegexp,"gm"),transformVarValue(value))
         }
     }else{ // 位置插值
         const params=(args.length===1 && Array.isArray(args[0])) ?  [...args[0]] : args         
@@ -138,13 +150,14 @@ function replaceInterpolateVars(template,...args) {
 }    
 
 // 默认语言配置
-export const defaultLanguageSettings = {  
+module.exports.defaultLanguageSettings = {  
     defaultLanguage: "cn",
     activeLanguage: "cn",
     languages:{
         cn:{name:"cn",title:"中文",default:true},
         en:{name:"en",title:"英文"},
-    }
+    },
+    formatters
 }
 
 function isMessageId(content){
@@ -165,7 +178,7 @@ function isMessageId(content){
  * this===scope  当前绑定的scope
  * 
  */
-export function translate(message) { 
+module.exports.translate = function(message) { 
     const scope = this
     const activeLanguage = scope.settings.activeLanguage 
     let vars={}           // 插值变量
@@ -175,7 +188,11 @@ export function translate(message) {
             Object.assign(vars,arguments[1])
             Object.entries(vars).forEach(([key,value])=>{
                 if(typeof(value)==="function"){
-                    vars[key] =try{value()}catch(e){value}
+                    try{
+                        vars[key] = value()
+                    }catch(e){
+                        vars[key] = value
+                    }
                 } 
                 if(key.startsWith("$")) pluralVars.push(key) // 复数变量
             })
@@ -226,7 +243,7 @@ export function translate(message) {
  * VoerkaI18n.off("change",(language)=>{}) 
  * 
  * */ 
-export class I18n{
+ module.exports.i18n =  class I18n{
     static instance    = null;                                 // 单例引用
     callbacks          =  []                                 //  当切换语言时的回调事件
     constructor(settings={}){

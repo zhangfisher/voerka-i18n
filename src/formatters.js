@@ -13,12 +13,14 @@
  *   
  * 
  */
-export default {        
+const dayjs = require("dayjs");
+
+module.exports = {        
     cn:{
         Date:{
-            default:(value)=>dayjs(value).format("YYYY年MM年DD日"),  // 默认的变量格式化器
+            default:(value)=>dayjs(value).format("YYYY年MM年DD日"),  // 默认的格式化器
             time:(value)=>dayjs(value).format("HH:mm:ss"),
-            short:(value)=>dayjs(value).format("YYYY/MM/DD"),
+            date:(value)=>dayjs(value).format("YYYY/MM/DD")
         },
         Number:{
             
