@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "extract": "",
     "babeldemo": "babel ./demodata/a/a1.js --plugins=./src/babel-plugin-voerkai18n.js"
   },
@@ -21,6 +21,8 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.5"
+    "@babel/core": "^7.17.5",
+    "jest": "^27.5.1",
+    "vinyl": "^2.2.1"
   }
 }

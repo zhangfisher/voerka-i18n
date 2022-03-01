@@ -3,7 +3,7 @@ const extract = require('./extract.plugin');
 const path = require('path');
 
 
-const soucePath = path.join(__dirname,'../demodata')
+const soucePath = path.join(__dirname,'../demoapps/app')
 
  
 
@@ -26,4 +26,4 @@ gulp.src([
         "b":"b",
     }
 }))
-.pipe(gulp.dest(path.join(__dirname,'../demodata/languages')));
+.pipe(gulp.dest(path.join(__dirname,'../demoapps/app/languages')));

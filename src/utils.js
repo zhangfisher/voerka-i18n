@@ -125,15 +125,15 @@ function replaceInterpolateVars(template,...args) {
 
 
 
-const str = "I am {name}, I am {age} years old. you are {name},Now is {date},time={date | time}?"
+// const str = "I am {name}, I am {age} years old. you are {name},Now is {date},time={date | time}?"
 
-console.log("vars=",getInterpolatedVars(str).join())
+// console.log("vars=",getInterpolatedVars(str).join())
 
-console.log(replaceInterpolateVars(str,{name:"tom",age:18,date:new Date(),"date|time":new Date().getTime()}))
-console.log(replaceInterpolateVars(str,"tom",18,"jack"))
-console.log(replaceInterpolateVars(str,["tom",18,"jack",1,2]))
-console.log(replaceInterpolateVars(str,"tom",18,()=>"bob"))
-console.log(replaceInterpolateVars(str,"tom",[1,2],{a:1},1,2))
+// console.log(replaceInterpolateVars(str,{name:"tom",age:18,date:new Date(),"date|time":new Date().getTime()}))
+// console.log(replaceInterpolateVars(str,"tom",18,"jack"))
+// console.log(replaceInterpolateVars(str,["tom",18,"jack",1,2]))
+// console.log(replaceInterpolateVars(str,"tom",18,()=>"bob"))
+// console.log(replaceInterpolateVars(str,"tom",[1,2],{a:1},1,2))
 
 module.exports = {
     getMessageId,
@@ -141,3 +141,5 @@ module.exports = {
     getInterpolatedVars,
     replaceInterpolateVars
 }
+
+

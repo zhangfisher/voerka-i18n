@@ -1,0 +1,26 @@
+{
+    "aaaaa": {
+        "en": "aaaaa",
+        "de": "aaaaa",
+        "jp": "aaaaa",
+        "$file": [
+            "b\\b1.js"
+        ]
+    },
+    "bbbbb": {
+        "en": "bbbbb",
+        "de": "bbbbb",
+        "jp": "bbbbb",
+        "$file": [
+            "b\\b1.js"
+        ]
+    },
+    "eeeeee": {
+        "en": "eeeeee",
+        "de": "eeeeee",
+        "jp": "eeeeee",
+        "$file": [
+            "b\\b1.js"
+        ]
+    }
+}

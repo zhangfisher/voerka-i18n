@@ -1,0 +1,34 @@
+{
+    "from a": {
+        "en": "from a",
+        "de": "from a",
+        "jp": "from a",
+        "$file": [
+            "a\\a2.js"
+        ]
+    },
+    "from b": {
+        "en": "from b",
+        "de": "from b",
+        "jp": "from b",
+        "$file": [
+            "b\\b1.js"
+        ]
+    },
+    "from c1": {
+        "en": "from c1",
+        "de": "from c1",
+        "jp": "from c1",
+        "$file": [
+            "c\\c1.js"
+        ]
+    },
+    "from c2": {
+        "en": "from c2",
+        "de": "from c2",
+        "jp": "from c2",
+        "$file": [
+            "c\\c2.js"
+        ]
+    }
+}

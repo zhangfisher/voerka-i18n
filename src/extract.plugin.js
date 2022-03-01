@@ -20,6 +20,20 @@ const DefaultTranslateExtractor = String.raw`\b{funcName}\(\s*("|'){1}(?:((?<nam
 // 从html文件标签中提取翻译文本
 const DefaultHtmlAttrExtractor = String.raw`\<(?<tagName>\w+)(.*?)(?<i18nKey>{attrName}\s*\=\s*)([\"\'']{1})(?<text>.*?)(\4){1}\s*(.*?)(\>|\/\>)`
 
+/**
+ * 
+ * 返回filePath是否在nsPaths名称空间内
+ * 
+ * inNamespace("a/b/c/xxx.js","a/b")  == true
+ * inNamespace("a/c/c/xxx.js","a/b")  == false
+ * 
+ * @param {*} filePath  文件路径
+ * @param {*} nsPath  名称空间的路径
+ * @returns 
+ */
+function inNamespace(filePath,nsPath){
+    return !path.relative(nsPath,filePath).startsWith("..") 
+}
 // 获取指定文件的名称空间
 /**
  * 
@@ -28,12 +42,12 @@ const DefaultHtmlAttrExtractor = String.raw`\<(?<tagName>\w+)(.*?)(?<i18nKey>{at
  */
  function getFileNamespace(file,options){
     const {output, namespaces } = options
-    const refPath = file.relative.toLowerCase()   // 当前文件相对源文件夹的路径
+    const fileRefPath = file.relative.toLowerCase()   // 当前文件相对源文件夹的路径
     for(let [name,paths] of Object.entries(options.namespaces)){ 
-        for(let path of paths){
-            if(typeof(path) === "string" && refPath.startsWith(path.toLowerCase())){
+        for(let nsPath of paths){
+            if(typeof(nsPath) === "string" && inNamespace(fileRefPath,nsPath)){
                 return name
-            }else if(typeof path === "function" && path(file)===true){
+            }else if(typeof nsPath === "function" && nsPath(file)===true){
                 return name
             }            
         } 
@@ -162,7 +176,7 @@ function getTranslateTexts(content,file,options){
         return deepmerge(preTexts,matchedTexts)
     },texts) 
 }
-  
+
 
 function normalizeLanguageOptions(options){
     options = Object.assign({
@@ -269,13 +283,7 @@ function normalizeLanguageOptions(options){
                 options.namespaces[name] = paths
             }
         })
-    }
-   
-    logger.log("Supported languages\t: {}",options.languages.map(item=>`${item.title}(${item.name})`))
-    logger.log("Default language\t: {}",options.defaultLanguage)
-    logger.log("Active language\t\t: {}",options.activeLanguage) 
-    logger.log("Language namespaces\t: {}",Object.keys(options.namespaces).join(","))
-    
+    }     
     return options
 }
 
@@ -331,9 +339,16 @@ function updateLanguageFile(fromTexts,toLangFile,options){
     })
     fs.writeFileSync(toLangFile,JSON.stringify(targetTexts,null,4))
 }
+
+
 module.exports = function(options={}){
     options = normalizeLanguageOptions(options)
     let {debug,output:{ path:outputPath, updateMode },languages} = options
+    
+    logger.log("Supported languages\t: {}",options.languages.map(item=>`${item.title}(${item.name})`))
+    logger.log("Default language\t: {}",options.defaultLanguage)
+    logger.log("Active language\t\t: {}",options.activeLanguage) 
+    logger.log("Language namespaces\t: {}",Object.keys(options.namespaces).join(","))
 
     // 保存提交提取的文本 = {}
     let results = {}
@@ -400,3 +415,7 @@ module.exports = function(options={}){
         callback()               
     });
 }
+
+
+module.exports.getTranslateTexts = getTranslateTexts
+module.exports.normalizeLanguageOptions = normalizeLanguageOptions

@@ -1,6 +1,6 @@
 import messageIds from "./messageIds"
 import { translate,i18n  } from "voerka-i18n"
-import defaultMessages from "./{{defaultLanguage}}.js"  
+import defaultMessages from "./cn.js"  
 import i18nSettings from "./settings.js"
 import formatters from "voerka-i18n/formatters" 
 
@@ -10,24 +10,28 @@ if(!globalThis.VoerkaI18n){
 }
 
 let scope = {
-    defaultLanguage: "{{defaultLanguage}}",     // 默认语言名称
+    defaultLanguage: "cn",     // 默认语言名称
     default:   defaultMessages,                 // 默认语言包
     messages : defaultMessages,                 // 当前语言包
-    idMap:messageIds,                             // 消息id映射列表
+    ids:messageIds,                             // 消息id映射列表
     formatters:{
         ...formatters,
         ...i18nSettings.formatters || {}
     },
-    loaders:{},                                 // 异步加载语言文件的函数列表
-    i18nSettings:{}                             // 引用全局VoerkaI18n实例 
+    loaders:{},      // 异步加载语言文件的函数列表
+    settings:{}      // 引用全局VoerkaI18n实例的配置
 }
 
 let supportedlanguages = {}  
 
-messages["{{defaultLanguage}}"]= defaultMessages
-{{each languages}}{{if $value.name !== defaultLanguage}}
-scope.loaders["{{$value.name}}"] = ()=>import("./{{$value.name}}.js")
-{{/if}}{{/each}}
+messages["cn"]= defaultMessages
+
+scope.loaders["en"] = ()=>import("./en.js")
+
+scope.loaders["de"] = ()=>import("./de.js")
+
+scope.loaders["jp"] = ()=>import("./jp.js")
+
 
 const t = ()=> translate.bind(scope)(...arguments)
 

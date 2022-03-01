@@ -1,0 +1,139 @@
+{
+    "aaaaa": {
+        "en": "aaaaa",
+        "de": "aaaaa",
+        "jp": "aaaaa",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "aaaaa1": {
+        "en": "aaaaa1",
+        "de": "aaaaa1",
+        "jp": "aaaaa1",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "aaaaa2": {
+        "en": "aaaaa2",
+        "de": "aaaaa2",
+        "jp": "aaaaa2",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "aaaaa 3": {
+        "en": "aaaaa 3",
+        "de": "aaaaa 3",
+        "jp": "aaaaa 3",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "bbbbb": {
+        "en": "bbbbb",
+        "de": "bbbbb",
+        "jp": "bbbbb",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "eeeeee": {
+        "en": "eeeeee",
+        "de": "eeeeee",
+        "jp": "eeeeee",
+        "$file": [
+            "index.js",
+            "c\\c2.js"
+        ]
+    },
+    "ccccc": {
+        "en": "ccccc",
+        "de": "ccccc",
+        "jp": "ccccc",
+        "$file": [
+            "c\\c1.js"
+        ]
+    },
+    "cccccdc": {
+        "en": "cccccdc",
+        "de": "cccccdc",
+        "jp": "cccccdc",
+        "$file": [
+            "c\\c1.js"
+        ]
+    },
+    "a2:aaaaa": {
+        "en": "a2:aaaaa",
+        "de": "a2:aaaaa",
+        "jp": "a2:aaaaa",
+        "$file": [
+            "c\\c2.js"
+        ]
+    },
+    "no erer": {
+        "en": "no erer",
+        "de": "no erer",
+        "jp": "no erer",
+        "$file": [
+            "c\\c2.js"
+        ]
+    },
+    "no aaareraa": {
+        "en": "no aaareraa",
+        "de": "no aaareraa",
+        "jp": "no aaareraa",
+        "$file": [
+            "c\\c2.js"
+        ]
+    },
+    "no fdfd": {
+        "en": "no fdfd",
+        "de": "no fdfd",
+        "jp": "no fdfd",
+        "$file": [
+            "c\\c2.js"
+        ]
+    },
+    "fdgfdgfdg": {
+        "en": "fdgfdgfdg",
+        "de": "fdgfdgfdg",
+        "jp": "fdgfdgfdg",
+        "$file": [
+            "c\\c2.js"
+        ]
+    },
+    "ddddd中国": {
+        "en": "ddddd中国",
+        "de": "ddddd中国",
+        "jp": "ddddd中国",
+        "$file": [
+            "c\\c2.js"
+        ]
+    },
+    "html-a": {
+        "en": "html-a",
+        "de": "html-a",
+        "jp": "html-a",
+        "$file": [
+            "c\\h1.html"
+        ]
+    },
+    "html-b": {
+        "en": "html-b",
+        "de": "html-b",
+        "jp": "html-b",
+        "$file": [
+            "c\\h1.html"
+        ]
+    },
+    "html-c": {
+        "en": "html-c",
+        "de": "html-c",
+        "jp": "html-c",
+        "$file": [
+            "c\\h1.html"
+        ]
+    }
+}
