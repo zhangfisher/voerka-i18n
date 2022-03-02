@@ -49,18 +49,22 @@ function normalizeCompileOptions(opts={}) {
     let options = Object.assign({
         input:null,                                    // 指定要编译的文件夹，即extract输出的语言文件夹
         output:null,                                   // 指定编译后的语言文件夹,如果没有指定，则使用input目录
-        formatters:{},                                 // 对插值变量进行格式化的函数列表
+        moduleType:"esm"                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
     }, opts)
+    if(options.moduleType==="es") options.moduleType = "esm"
+    if(options.moduleType==="cjs") options.moduleType = "common"
+    if(["common","cjs","esm","es"].includes(options.moduleType))  options.moduleType = "esm"
     return opts;
 }
 
 module.exports = function compile(langFolder,opts={}){
-    let options = normalizeCompileOptions(opts);
-    let { output } = options; 
+    const options = normalizeCompileOptions(opts);
+    const { output,moduleType } = options; 
     
     //1.  加载多语言配置文件
     import(`file:///${path.join(langFolder,"settings.js")}`).then(module=>{
-        let { languages,defaultLanguage,activeLanguage,namespaces }  = module.default;
+        const langSettings = module.default;
+        let { languages,defaultLanguage,activeLanguage,namespaces }  = langSettings
   
         // 1. 合并生成最终的语言文件
         let messages = {} ,msgId =1 
@@ -90,19 +94,33 @@ module.exports = function compile(langFolder,opts={}){
             Object.entries(messages).forEach(([message,translatedMsgs])=>{ 
                 langMessages[translatedMsgs.$id] = lang.name in translatedMsgs ? translatedMsgs[lang.name] : message
             })
+            const langFile = path.join(langFolder,`${lang.name}.js`)
             // 为每一种语言生成一个语言文件
-            fs.writeFileSync(path.join(langFolder,`${lang.name}.js`),`export default ${JSON.stringify(langMessages,null,4)}`)
+            if(moduleType==="esm"){
+                fs.writeFileSync(langFile,`export default ${JSON.stringify(langMessages,null,4)}`)
+            }else{
+                fs.writeFileSync(langFile,`module.exports = ${JSON.stringify(langMessages,null,4)}`)
+            } 
         })
         
         // 4. 生成id映射文件
-        fs.writeFileSync(path.join(langFolder,"messageIds.js"),`export default ${JSON.stringify(messageIds,null,4)}`)
- 
-        const hasFormatters = fs.existsSync(path.join(langFolder,"formatters.js")) 
-        // 生成编译后的访问入口文件
-        const entryContent = artTemplate(path.join(__dirname,"entry.template.js"), {languages,defaultLanguage,activeLanguage,namespaces } )
-        fs.writeFileSync(path.join(langFolder,"index.js"),entryContent)
+        const idMapFile = path.join(langFolder,"idMap.js")
+        if(moduleType==="esm"){
+            fs.writeFileSync(idMapFile,`export default ${JSON.stringify(messageIds,null,4)}`)
+        }else{
+            fs.writeFileSync(idMapFile,`module.exports = ${JSON.stringify(messageIds,null,4)}`)
+        }
 
+        // 5. 生成编译后的访问入口文件
+        const entryFile = path.join(langFolder,"index.js")
+        const entryContent = artTemplate(path.join(__dirname,"templates","entry.js"), {languages,defaultLanguage,activeLanguage,namespaces,moduleType } )
+        fs.writeFileSync(entryFile,entryContent)
+        
+        // 6 . 生成编译后的格式化函数文件
+        const formattersFile =  path.join(langFolder,"formatters.js") 
+        if(!fs.existsSync(formattersFile)){
+            const formattersContent = artTemplate(path.join(__dirname,"templates","formatters.js"), {languages,defaultLanguage,activeLanguage,namespaces,moduleType } )
+            fs.writeFileSync(formattersFile,formattersContent)
+        } 
     })
-    
-
 }

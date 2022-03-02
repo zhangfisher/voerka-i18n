@@ -3,9 +3,15 @@ const formatters = require("./formatters")
 
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
-// let varRegexp = /\{\s*(?<var>\w*\.?\w*)\s*\}/g
-let varWidthPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w+\s*)*)\s*\}/g
+// 不支持参数： let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*\s*)*)\s*\}/g
+
+// 支持参数： { var | formatter(x,x,..) | formatter }
+let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g
+
+
+
 // 插值变量字符串替换正则
+
 //let varReplaceRegexp =String.raw`\{\s*(?<var>{name}\.?\w*)\s*\}`
 
 
@@ -42,27 +48,87 @@ function getDataTypeName(v){
 	return v.constructor && v.constructor.name;
 };
 
+
+/**
+   通过正则表达式对原始文本内容进行解析匹配后得到的
+   formatters="| aaa(1,1) | bbb "
+
+   需要统一解析为
+
+   [
+       [aaa,[1,1]],         // [formatter'name,[args,...]]
+       [bbb,[]],
+   ]
+
+   formatters="| aaa(1,1,"dddd") | bbb "
+
+   目前对参数采用简单的split(",")来解析，因为无法正确解析aaa(1,1,"dd,,dd")形式的参数
+   在此场景下基本够用了，如果需要支持更复杂的参数解析，可以后续考虑使用正则表达式来解析
+   
+   @returns  [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
+ */
+function parseFormatters(formatters){
+    if(!formatters) return []
+    // 1. 先解析为 ["aaa()","bbb"]形式
+    let result = formatters.trim().substr(1).trim().split("|").map(r=>r.trim())  
+
+    // 2. 解析格式化器参数
+    return result.map(formatter=>{
+        let firstIndex = formatter.indexOf("(")
+        let lastIndex = formatter.lastIndexOf(")")
+        if(firstIndex!==-1 && lastIndex!==-1){ // 带参数的格式化器
+            const argsContent =  formatter.substr(firstIndex+1,lastIndex-firstIndex-1).trim()
+            let args = argsContent=="" ? [] :  argsContent.split(",").map(arg=>{
+                arg = arg.trim()
+                if(!isNaN(parseInt(arg))){
+                    return parseInt(arg)                  // 数字
+                }else if((arg.startsWith('\"') && arg.endsWith('\"')) || (arg.startsWith('\'') && arg.endsWith('\'')) ){
+                    return arg.substr(1,arg.length-2)       // 字符串
+                }else if(arg.toLowerCase()==="true" || arg.toLowerCase()==="false"){
+                    return arg.toLowerCase()==="true"     // 布尔值
+                }else if((arg.startsWith('{') && arg.endsWith('}')) || (arg.startsWith('[') && arg.endsWith(']'))){      
+                    try{
+                        return JSON.parse(arg)
+                    }catch(e){
+                        return String(arg)
+                    }
+                }else{
+                    return String(arg)
+                }
+            })
+            return [formatter.substr(0,firstIndex),args]
+        }else{// 不带参数的格式化器
+            return [formatter,[]]
+        }        
+    }) 
+}
+
 /**  
  * 提取字符串中的插值变量
  * @param {*} str 
+ * @param {*} isFull   =true 保留所有插值变量 =false 进行去重
  * @returns {Array} [[变量名称,[]],[变量名称,[formatter,formatter,...]],...]
  */
-module.exports.getInterpolatedVars = function(str){
-    let results = []
-    let match 
-    while ((match = varWidthPipeRegexp.exec(str)) !== null) {
-        if (match.index === varWidthPipeRegexp.lastIndex) {
-            varWidthPipeRegexp.lastIndex++;
+function getInterpolatedVars(str,isFull=false){
+    let results = [], match 
+    while ((match = varWithPipeRegexp.exec(str)) !== null) {
+        if (match.index === varWithPipeRegexp.lastIndex) {
+            varWithPipeRegexp.lastIndex++;
         }          
-        const varname = match.groups.varname
-        const formatters = match.groups.formatters ? match.groups.formatters.trim().substr(1).trim().split("|").map(r=>r.trim()) : []
-        if(varname) {
-            const varDefine = formatters ? [varname,formatters] : [varname,[]]
-            if(results.findIndex(item=>item[0]===varDefine[0] && item[1].join()===varDefine[1].join()) === -1) results.push(varDefine)
+        const varname = match.groups.varname || ""
+        // 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
+        const formatters = parseFormatters(match.groups.formatters)
+        const varInfo = [varname,formatters]
+        if(isFull) {  
+            results.push([varname,formatters] )           
+        }else{ 
+            if(results.findIndex(item=>item[0]===varInfo[0] && item[1].join()===varInfo[1].join()) === -1) results.push(varInfo)
         }
     }
     return results
 }
+
+
 /**
  * 将要翻译内容提供了一个非文本内容时进行默认的转换
  *  - 对函数则执行并取返回结果()
@@ -72,7 +138,7 @@ module.exports.getInterpolatedVars = function(str){
  * @param {*} value 
  * @returns 
  */
-function transformVarValue(value){
+function transformToString(value){
     let result  = value
     if(typeof(result)==="function") result = value()
     if(!(typeof(result)==="string")){
@@ -84,65 +150,217 @@ function transformVarValue(value){
     }
     return result
 }
+
+
+// 缓存数据类型的格式化器，避免每次都调用getDataTypeDefaultFormatter
+let datatypeFormattersCache ={
+    $activeLanguage:null,
+}
+/**
+ *   取得指定数据类型的默认格式化器 
+ *   
+ *   可以为每一个数据类型指定一个格式化器,当传入插值变量时，会自动调用该格式化器来对值进行格式化转换
+ 
+    const formatters =  {   
+        "*":{
+            $types:{...}                                    // 在所有语言下只作用于特定数据类型的格式化器
+        },                                      // 在所有语言下生效的格式化器    
+        cn:{            
+            $types:{         
+                [数据类型]:(value)=>{...},
+            }, 
+            [格式化器名称]:(value)=>{...},
+            [格式化器名称]:(value)=>{...},
+            [格式化器名称]:(value)=>{...},
+        },
+    }
+ * @param {*} scope 
+ * @param {*} activeLanguage 
+ * @param {*} dataType    数字类型
+ * @returns {Function} 格式化函数  
+ */
+function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
+    if(datatypeFormattersCache.$activeLanguage === activeLanguage) {
+        if(dataType in datatypeFormattersCache) return datatypeFormattersCache[dataType]
+    }else{// 清空缓存
+        datatypeFormattersCache = {   $activeLanguage:activeLanguage  }
+    }
+
+    // 先在当前作用域中查找，再在全局查找
+    const targets = [scope.formatters,scope.global.formatters]  
+    for(const target of targets){
+        if(activeLanguage in target){ 
+            // 在当前语言的$types中查找
+            let formatters = target[activeLanguage].$types || {}   
+            for(let [name,formatter] of Object.entries(formatters)){
+                if(name === dataType && typeof(formatter)==="function") {
+                    datatypeFormattersCache[dataType] = formatter
+                    return formatter
+                }
+            } 
+        }
+        // 在所有语言的$types中查找
+        let formatters = target["*"].$types || {}   
+        for(let [name,formatter] of Object.entries(formatters)){
+            if(name === dataType && typeof(formatter)==="function") {
+                datatypeFormattersCache[dataType] = formatter
+                return formatter
+            }
+        }         
+    }     
+}
+
+/**
+ * 获取指定名称的格式化器函数
+ * @param {*} scope 
+ * @param {*} activeLanguage 
+ * @param {*} name  格式化器名称
+ * @returns  {Function} 格式化函数  
+ */
+let formattersCache = { $activeLanguage:null}
+function getFormatter(scope,activeLanguage,name){
+    if(formattersCache.$activeLanguage === activeLanguage) {
+        if(name in formattersCache) return formattersCache[dataType]
+    }else{ // 当切换语言时需要清空缓存
+        formattersCache = {   $activeLanguage:activeLanguage  }
+    }
+    // 先在当前作用域中查找，再在全局查找
+    const targets = [scope.formatters,scope.global.formatters]  
+    for(const target of targets){
+        // 优先在当前语言查找
+        if(activeLanguage in target){  
+            let formatters = target[activeLanguage] || {}   
+            if((name in formatters) && typeof(formatters[name])==="function") return formattersCache[name] = formatters[name]
+        }
+        // 在所有语言的$types中查找
+        let formatters = target["*"] || {}   
+        if((name in formatters) && typeof(formatters[name])==="function") return formattersCache[name] = formatters[name]
+    }     
+}
+
+/**
+ * 执行格式化器并返回结果
+ * @param {*} value 
+ * @param {*} formatters 
+ */
+function executeFormatter(value,formatters){
+    if(formatters.length===0) return value
+    let result = value
+    try{
+        for(let formatter of formatters){
+            if(typeof(formatter) === "function") {
+                result = formatter(result)
+            }else{ // 碰到无效的格式化器时，直接返回 
+                return result
+            }
+        }
+    }catch(e){
+        console.error(`Error while execute i18n formatter for ${value}: ${e.message} ` )
+    }    
+    return result
+}
+/**
+ * 将  [[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]格式化器转化为
+ *   
+ * 
+ * 
+ * @param {*} scope 
+ * @param {*} activeLanguage 
+ * @param {*} formatters 
+ */
+function buildFormatters(scope,activeLanguage,formatters){
+    let results = [] 
+    for(let formatter of formatters){
+        if(formatter[0]){
+            results.push((v)=>{
+                return getFormatter(scope,activeLanguage,formatter[0])(v,...formatter[1])
+            })
+        }
+    }
+    return results
+}
+
  /**
   * 字符串可以进行变量插值替换，
-  *    replaceInterpolateVars("<模板字符串>",{变量名称:变量值,变量名称:变量值,...})
-  *    replaceInterpolateVars("<模板字符串>",[变量值,变量值,...])
-  *    replaceInterpolateVars("<模板字符串>",变量值,变量值,...])
+  *    replaceInterpolatedVars("<模板字符串>",{变量名称:变量值,变量名称:变量值,...})
+  *    replaceInterpolatedVars("<模板字符串>",[变量值,变量值,...])
+  *    replaceInterpolatedVars("<模板字符串>",变量值,变量值,...])
   * 
     - 当只有两个参数并且第2个参数是{}时，将第2个参数视为命名变量的字典
-        replaceInterpolateVars("this is {a}+{b},{a:1,b:2}) --> this is 1+2
+        replaceInterpolatedVars("this is {a}+{b},{a:1,b:2}) --> this is 1+2
     - 当只有两个参数并且第2个参数是[]时，将第2个参数视为位置参数
-       replaceInterpolateVars"this is {}+{}",[1,2]) --> this is 1+2
+       replaceInterpolatedVars"this is {}+{}",[1,2]) --> this is 1+2
     - 普通位置参数替换
-       replaceInterpolateVars("this is {a}+{b}",1,2) --> this is 1+2
+       replaceInterpolatedVars("this is {a}+{b}",1,2) --> this is 1+2
     - 
     this == scope == { formatters: {}, ... }
   * @param {*} template 
   * @returns 
   */
-module.exports.replaceInterpolateVars = function(template,...args) {
+function replaceInterpolatedVars(template,...args) {
     const scope = this
-    const activeLanguage = scope.activeLanguage
+    // 当前激活语言
+    const activeLanguage = scope.global.activeLanguage 
     let result=template
     if(!hasInterpolation(template)) return template
-    // 变量插值
+    // ****************************变量插值****************************
     if(args.length===1 && typeof(args[0]) === "object" && !Array.isArray(args[0])){  
-        // 格式化器只能用在字典变量中
-        // {var1:[formatter,formatter,...],var2:[formatter,formatter,...],...}
-        let varNames =  getInterpolatedVars(template) 
+        // 读取模板字符串中的插值变量列表
+        // [[var1:[formatter,formatter,...]],[var2:[formatter,formatter,...]],...}
+        let interpVars =  getInterpolatedVars(template) 
         let varValues = args[0]
-        if(varNames.length===0) return template      
-        for(let [name,formatters] of varNames){
-            // 计算出变量值
+        if(interpVars.length===0) return template    // 没有变量插值则的返回原字符串  
+        // 开始处理插值变量
+        for(let [name,formatters] of interpVars){
+            // 1. 取得格式化器函数列表 formatters=[[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]
+            const formatterFuncs = buildFormatters(scope,activeLanguage,formatters)
+            // 2. 取变量值
             let value =  (name in varValues) ? varValues[name] : ''
-            // 针对每种数据类型的默认格式化器
-            let dataType= getDataTypeName(value)
-            if(dataType in scope.formatters[activeLanguage]){
-                const formatter = scope.formatters[activeLanguage][dataType]
-                formatters.splice(0,0,formatter)
-            }
-            if(formatters.length > 0 ){
-                formatters.reduce((v,formatter)=>{
-                    if(formatter in scope.formatters){
-                        return scope.formatters[formatter](v)
-                    }else{
-                        return v
-                    } 
-                },value)
-            }     
+            // 3. 查找每种数据类型默认格式化器,并添加到formatters最前面，默认数据类型格式化器优先级最高
+            const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
+            if(defaultFormatter){
+                formatterFuncs.splice(0,0,defaultFormatter)
+            } 
+            
+            // 4. 执行格式化器
+            value = executeFormatter(value,formatterFuncs)
+             
+            // 5. 进行值替换
             // 如果变量中包括|管道符,则需要进行转换以适配更宽松的写法，比如data|time能匹配"data |time","data | time"等
-            let nameRegexp =new RegExp(`${name}\\s*\\|\\s*${formatters.join("\\s*\\|\\s*")}`,"g")
-            result=result.replaceAll(nameRegexp,"gm"),transformVarValue(value))
+            let nameRegexp =
+            if(formatters.length===0){
+                nameRegexp = new RegExp(String.raw`\{\s*${name}\s*\}`,"gm")
+            }else{
+                nameRegexp = new RegExp(`${name}\\s*\\|\\s*${formatters.join("\\s*\\|\\s*")}`,"gm")
+            }
+                
+            result= result.replaceAll(nameRegexp,transformToString(value))
         }
-    }else{ // 位置插值
-        const params=(args.length===1 && Array.isArray(args[0])) ?  [...args[0]] : args         
+
+    }else{  
+        // ****************************位置插值****************************
+        // 如果只有一个Array参数，则认为是位置变量列表，进行展开
+        const params=(args.length===1 && Array.isArray(args[0])) ?  [...args[0]] : args     
+        
+        // 取得模板字符串中的插值变量列表 , 包含命令变量和位置变量
+        let interpVars =  getInterpolatedVars(template,true) 
+        if(interpVars.length===0) return template    // 没有变量插值则的返回原字符串  
+
         let i=0
-        for(let match of result.match(varWidthPipeRegexp) || []){
+        for(let match of result.match(varWithPipeRegexp) || []){
             if(i<params.length){
-                let param = transformVarValue(params[i])
-                result=result.replace(match,param)
+                let value = params[i]
+                const formatterFuncs = buildFormatters(scope,activeLanguage,interpVars[i][1])  
+                // 执行默认的数据类型格式化器
+                const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
+                if(defaultFormatter){
+                    formatterFuncs.splice(0,0,defaultFormatter)
+                }  
+                value = executeFormatter(value,formatterFuncs)
+                result=result.replace(match,transformToString(value))
                 i+=1
+            }else{
+                break
             }
         }
     }
@@ -150,7 +368,7 @@ module.exports.replaceInterpolateVars = function(template,...args) {
 }    
 
 // 默认语言配置
-module.exports.defaultLanguageSettings = {  
+const defaultLanguageSettings = {  
     defaultLanguage: "cn",
     activeLanguage: "cn",
     languages:{
@@ -178,23 +396,25 @@ function isMessageId(content){
  * this===scope  当前绑定的scope
  * 
  */
-module.exports.translate = function(message) { 
+function translate(message) { 
     const scope = this
     const activeLanguage = scope.settings.activeLanguage 
-    let vars={}           // 插值变量
-    let pluralVars=[]
+    let vars={}                 // 插值变量
+    let pluralVars=[]           // 复数变量
     try{
+        // 1. 预处理变量:  复数变量保存至pluralVars中 , 变量如果是Function则调用 
         if(arguments.length === 2 && typeof(arguments[1])=='object'){
             Object.assign(vars,arguments[1])
-            Object.entries(vars).forEach(([key,value])=>{
+            Object.entries(vars).forEach(([name,value])=>{
                 if(typeof(value)==="function"){
                     try{
-                        vars[key] = value()
+                        vars[name] = value()
                     }catch(e){
-                        vars[key] = value
+                        vars[name] = value
                     }
                 } 
-                if(key.startsWith("$")) pluralVars.push(key) // 复数变量
+                // 复数变量
+                if(name.startsWith("$")) pluralVars.push(name) 
             })
         }else if(arguments.length >= 2){
             vars = [...arguments].splice(1).map(arg=>typeof(arg)==="function" ? arg() : arg)
@@ -206,7 +426,7 @@ module.exports.translate = function(message) {
             if(isMessageId(message)){
                 message = scope.default[message] || message
             }
-            return replaceInterpolateVars.call(scope,message,vars)
+            return replaceInterpolatedVars.call(scope,message,vars)
         }else{ 
             // 1. 获取翻译后的文本内容
             // 如果没有启用babel插件时，需要先将文本内容转换为msgId
@@ -243,24 +463,26 @@ module.exports.translate = function(message) {
  * VoerkaI18n.off("change",(language)=>{}) 
  * 
  * */ 
- module.exports.i18n =  class I18n{
-    static instance    = null;                                 // 单例引用
-    callbacks          =  []                                 //  当切换语言时的回调事件
+ class I18n{
+    static instance    = null;                                  // 单例引用
+    callbacks          =  []                                    //  当切换语言时的回调事件
     constructor(settings={}){
         if(i18n.instance==null){
             this.reset()
             i18n.instance = this;
         }
         this._settings = deepMerge(defaultLanguageSettings,settings)
-        this._scopes=[]  // [{cn:{...},en:Promise,de:Promise},{...},{...}]
+        this._scopes=[]  
         return i18n.instance;
     }
+    get settings(){ return this._settings }
+    get scopes(){ return this._scopes }
     // 当前激活语言
-    get language(){return this._settings.activeLanguage}
+    get activeLanguage(){ return this._settings.activeLanguage}
     // 默认语言
-    get defaultLanguage(){return this.this._settings.defaultLanguage}
+    get defaultLanguage(){ return this.this._settings.defaultLanguage}
     // 支持的语言列表
-    get languages(){return this._settings.languages}
+    get languages(){ return this._settings.languages}
     // 订阅语言切换事件
     on(callback){ 
         this.callbacks.push(callback)
@@ -353,8 +575,16 @@ module.exports.translate = function(message) {
      * @param {*} scope 
      */
     register(scope){
-        scope.i18nSettings = this.settings
+        scope.global = this._settings
         this._scopes.push(scope) 
     }
 }
  
+
+module.exports ={
+    getInterpolatedVars,
+    replaceInterpolatedVars,
+    I18n,
+    translate,
+    defaultLanguageSettings
+}

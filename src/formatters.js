@@ -3,13 +3,13 @@
  * 
  *    使用方法:
  *   
- *   在translates/xxx.json文件中进行翻译时，可以对插值变量进行格式化，
- * 
  *   {
- *      "Now is {date}":{
- *         "zh-CN":"现在是{date|time}"
+ *      "My birthday is {date}":{
+ *         "zh-CN":"我的生日是{date|time}"
  *      }
  *   }
+ * 
+ *  t("My birthday is {date}",new Date(1975,11,25))
  *   
  * 
  */
@@ -17,6 +17,9 @@ const dayjs = require("dayjs");
 
 module.exports = {        
     cn:{
+        "*":{           // 适用于所有类型的格式化器
+            default:null                            // 默认格式化器
+        },
         Date:{
             default:(value)=>dayjs(value).format("YYYY年MM年DD日"),  // 默认的格式化器
             time:(value)=>dayjs(value).format("HH:mm:ss"),

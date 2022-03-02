@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     "1": "德文:aaaaa",
     "2": "no aaaaa",
     "3": "bbbbb",
