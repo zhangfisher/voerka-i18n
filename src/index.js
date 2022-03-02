@@ -107,9 +107,9 @@ function parseFormatters(formatters){
  * 提取字符串中的插值变量
  * @param {*} str 
  * @param {*} isFull   =true 保留所有插值变量 =false 进行去重
- * @returns {Array} [[变量名称,[]],[变量名称,[formatter,formatter,...]],...]
+ * @returns {Array} [[变量名称,[],match],[变量名称,[formatter,formatter,...],match],...]
  */
-function getInterpolatedVars(str,isFull=false){
+function getInterpolatedVars(str){
     let results = [], match 
     while ((match = varWithPipeRegexp.exec(str)) !== null) {
         if (match.index === varWithPipeRegexp.lastIndex) {
@@ -118,17 +118,31 @@ function getInterpolatedVars(str,isFull=false){
         const varname = match.groups.varname || ""
         // 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
         const formatters = parseFormatters(match.groups.formatters)
-        const varInfo = [varname,formatters]
-        if(isFull) {  
-            results.push([varname,formatters] )           
-        }else{ 
-            if(results.findIndex(item=>item[0]===varInfo[0] && item[1].join()===varInfo[1].join()) === -1) results.push(varInfo)
-        }
+        const varInfo = [varname,formatters,match]
+        results.push(varInfo)  
     }
     return results
 }
-
-
+/**
+ * 遍历插值变量，并进行替换插值变量
+ * @param {*} str 
+ * @param {*} callback 
+ * @returns 
+ */
+function forEachInterpolatedVars(str,callback){
+    let result=str, match 
+    varWithPipeRegexp.lastIndex=0
+    while ((match = varWithPipeRegexp.exec(result)) !== null) {
+        const varname = match.groups.varname || ""
+        // 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
+        const formatters = parseFormatters(match.groups.formatters)
+        if(typeof(callback)==="function"){
+            result=result.replaceAll(match[0],callback(varname,formatters))
+        }
+        varWithPipeRegexp.lastIndex=0
+    }
+    return result
+}
 /**
  * 将要翻译内容提供了一个非文本内容时进行默认的转换
  *  - 对函数则执行并取返回结果()
@@ -220,7 +234,7 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
 let formattersCache = { $activeLanguage:null}
 function getFormatter(scope,activeLanguage,name){
     if(formattersCache.$activeLanguage === activeLanguage) {
-        if(name in formattersCache) return formattersCache[dataType]
+        if(name in formattersCache) return formattersCache[name]
     }else{ // 当切换语言时需要清空缓存
         formattersCache = {   $activeLanguage:activeLanguage  }
     }
@@ -250,7 +264,7 @@ function executeFormatter(value,formatters){
         for(let formatter of formatters){
             if(typeof(formatter) === "function") {
                 result = formatter(result)
-            }else{ // 碰到无效的格式化器时，直接返回 
+            }else{
                 return result
             }
         }
@@ -272,31 +286,41 @@ function buildFormatters(scope,activeLanguage,formatters){
     let results = [] 
     for(let formatter of formatters){
         if(formatter[0]){
-            results.push((v)=>{
-                return getFormatter(scope,activeLanguage,formatter[0])(v,...formatter[1])
-            })
+            const func = getFormatter(scope,activeLanguage,formatter[0])
+            if(typeof(func)==="function"){
+                results.push((v)=>{
+                    return func(v,...formatter[1])
+                })
+            }else{// 格式化器无效或者没有定义时，查看当前值是否具有同名的方法，如果有则执行调用
+                results.push((v)=>{
+                    if(typeof(v[formatter[0]])==="function"){
+                        return v[formatter[0]].call(v,...formatter[1])
+                    }else{
+                        return v
+                    }        
+                })  
+            }              
         }
     }
     return results
-}
-
- /**
-  * 字符串可以进行变量插值替换，
-  *    replaceInterpolatedVars("<模板字符串>",{变量名称:变量值,变量名称:变量值,...})
-  *    replaceInterpolatedVars("<模板字符串>",[变量值,变量值,...])
-  *    replaceInterpolatedVars("<模板字符串>",变量值,变量值,...])
-  * 
-    - 当只有两个参数并且第2个参数是{}时，将第2个参数视为命名变量的字典
-        replaceInterpolatedVars("this is {a}+{b},{a:1,b:2}) --> this is 1+2
-    - 当只有两个参数并且第2个参数是[]时，将第2个参数视为位置参数
-       replaceInterpolatedVars"this is {}+{}",[1,2]) --> this is 1+2
-    - 普通位置参数替换
-       replaceInterpolatedVars("this is {a}+{b}",1,2) --> this is 1+2
-    - 
-    this == scope == { formatters: {}, ... }
-  * @param {*} template 
-  * @returns 
-  */
+} 
+/**
+ * 字符串可以进行变量插值替换，
+ *    replaceInterpolatedVars("<模板字符串>",{变量名称:变量值,变量名称:变量值,...})
+ *    replaceInterpolatedVars("<模板字符串>",[变量值,变量值,...])
+ *    replaceInterpolatedVars("<模板字符串>",变量值,变量值,...])
+ * 
+- 当只有两个参数并且第2个参数是{}时，将第2个参数视为命名变量的字典
+    replaceInterpolatedVars("this is {a}+{b},{a:1,b:2}) --> this is 1+2
+- 当只有两个参数并且第2个参数是[]时，将第2个参数视为位置参数
+    replaceInterpolatedVars"this is {}+{}",[1,2]) --> this is 1+2
+- 普通位置参数替换
+    replaceInterpolatedVars("this is {a}+{b}",1,2) --> this is 1+2
+- 
+this == scope == { formatters: {}, ... }
+* @param {*} template 
+* @returns 
+*/
 function replaceInterpolatedVars(template,...args) {
     const scope = this
     // 当前激活语言
@@ -306,37 +330,22 @@ function replaceInterpolatedVars(template,...args) {
     // ****************************变量插值****************************
     if(args.length===1 && typeof(args[0]) === "object" && !Array.isArray(args[0])){  
         // 读取模板字符串中的插值变量列表
-        // [[var1:[formatter,formatter,...]],[var2:[formatter,formatter,...]],...}
-        let interpVars =  getInterpolatedVars(template) 
+        // [[var1,[formatter,formatter,...],match],[var2,[formatter,formatter,...],match],...}
         let varValues = args[0]
-        if(interpVars.length===0) return template    // 没有变量插值则的返回原字符串  
-        // 开始处理插值变量
-        for(let [name,formatters] of interpVars){
-            // 1. 取得格式化器函数列表 formatters=[[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]
+        return forEachInterpolatedVars(template,(varname,formatters)=>{
+            // 1. 取得格式化器函数列表
             const formatterFuncs = buildFormatters(scope,activeLanguage,formatters)
             // 2. 取变量值
-            let value =  (name in varValues) ? varValues[name] : ''
+            let value =  (varname in varValues) ? varValues[varname] : ''
             // 3. 查找每种数据类型默认格式化器,并添加到formatters最前面，默认数据类型格式化器优先级最高
             const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
             if(defaultFormatter){
                 formatterFuncs.splice(0,0,defaultFormatter)
-            } 
-            
+            }             
             // 4. 执行格式化器
-            value = executeFormatter(value,formatterFuncs)
-             
-            // 5. 进行值替换
-            // 如果变量中包括|管道符,则需要进行转换以适配更宽松的写法，比如data|time能匹配"data |time","data | time"等
-            let nameRegexp =
-            if(formatters.length===0){
-                nameRegexp = new RegExp(String.raw`\{\s*${name}\s*\}`,"gm")
-            }else{
-                nameRegexp = new RegExp(`${name}\\s*\\|\\s*${formatters.join("\\s*\\|\\s*")}`,"gm")
-            }
-                
-            result= result.replaceAll(nameRegexp,transformToString(value))
-        }
-
+            value = executeFormatter(value,formatterFuncs)     
+            return value
+        })   
     }else{  
         // ****************************位置插值****************************
         // 如果只有一个Array参数，则认为是位置变量列表，进行展开
@@ -357,7 +366,7 @@ function replaceInterpolatedVars(template,...args) {
                     formatterFuncs.splice(0,0,defaultFormatter)
                 }  
                 value = executeFormatter(value,formatterFuncs)
-                result=result.replace(match,transformToString(value))
+                result = result.replace(match,transformToString(value))
                 i+=1
             }else{
                 break

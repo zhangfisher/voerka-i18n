@@ -16,12 +16,12 @@ const scope1 ={
         "*":{
             $types:{
                 Date:(v)=>dayjs(v).format('YYYY/MM/DD'),
-                Boolean:(v)=>v?"True":"False",
+                Boolean:(v)=>v?"True":"False",                
             },
+            sum:(v,n=1)=>v+n,
+            double:(v)=>v*2,
             upper:(v)=>v.toUpperCase(),
-            lower:(v)=>v.toLowerCase(),
-            padStart:(v,len,pad)=>v.padStart(len,pad),
-            padStart:(v,len,pad)=>v.padStart(len,pad),
+            lower:(v)=>v.toLowerCase()
         },
         cn:{
             $types:{
@@ -105,7 +105,18 @@ test("替换翻译内容的位置插值变量",done=>{
 })
 
 test("替换翻译内容的命名插值变量",done=>{    
-    expect(replaceVars("{a}{b}{c}",{a:1,b:2,c:3})).toBe("123"); 
+    expect(replaceVars("{a}{b}{c}",{a:11,b:22,c:33})).toBe("112233"); 
     expect(replaceVars("{a}{b}{c}{a}{b}{c}",{a:1,b:"2",c:3})).toBe("123123");
-    done()
+       done()
+})
+
+test("命名插值变量使用格式化器",done=>{    
+  // 提供无效的格式化器，直接忽略
+  expect(replaceVars("{a|x}{b|x|y}{c|}",{a:1,b:2,c:3})).toBe("123"); 
+  expect(replaceVars("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
+  // 默认的字符串格式化器，不需要定义使用字符串方法
+  expect(replaceVars("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
+  expect(replaceVars("{a|padStart(10)}",{a:"123"})).toBe("       123"); 
+  expect(replaceVars("{a|padStart(10)|trim}",{a:"123"})).toBe("123"); 
+  done()
 })
