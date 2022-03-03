@@ -197,6 +197,51 @@ t("今天是{date}",{date:new Date()})
 
 ```
 
+
+### 异步格式化器
+
+大部分情况下，`formatter`均应该是一个简单的同步函数。VoerkaI18n也支持采用异步`formatter`，也就是说`formatter`函数可以是一个`async`函数。
+但是由于`t`函数是一个普通的同步函数，并且在应用程序中使用翻译时采用异步的意义并不大，比如我们打印到日志。
+
+```javascript
+    console.log(t("用户{ username | friend }没有权限",username))
+```
+上述语句中的friend格式化器如果是异步不可行的，但是在某此情况下，我们又的的确确需要异步的格式化器。
+比如在使用字典时，以下例子中,假设用户职位采用一个字典描述（`0-普通员工`、`1-主管`、`2-经理`、`3-总经理`）。
+常规情况下，应该由应用程序自行读取该字典
+```javascript
+    const post = await getDict(1)
+    console.log(t("您的身份是{ post }",post.name))
+```
+
+```javascript
+    console.log(t("您的身份是{ post | dict }",post))
+```
+
+
+
+用异步`formatter`需要遵循一定的流程约定。
+
+- 首先定义一个异步`formatter`
+
+```javascript
+{
+    cn:{
+        dict:async ()=>{
+            return {
+
+            }
+        }
+    }
+}
+```
+
+```javascript
+
+t(" {value | dict() }",{value:2})
+
+```
+
 ## 合并第三方库语言
 
 
