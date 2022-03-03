@@ -567,6 +567,20 @@ function translate(message) {
         }
     }
     /**
+     * 获取指定作用域的下的语言包加载器
+     * 
+     * 同时会进行语言兼容性处理
+     * 
+     * 如scope里面定义了一个cn的语言包，当切换到zh-cn时，会自动加载cn语言包
+     * 
+     * 
+     * @param {*} scope 
+     * @param {*} lang 
+     */
+    _getScopeLoader(scope,lang){
+
+    }
+    /**
      * 当切换语言时调用此方法来加载更新语言包
      * @param {*} newLanguage 
      */
