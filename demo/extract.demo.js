@@ -1,9 +1,9 @@
 const gulp = require('gulp');
-const extract = require('./extract.plugin');
+const extract = require('../src/extract.plugin');
 const path = require('path');
 
 
-const soucePath = path.join(__dirname,'../demoapps/app')
+const soucePath = path.join(__dirname,'./apps/app')
 
  
 
@@ -13,7 +13,7 @@ gulp.src([
 ]).pipe(extract({
     debug:true,
     // output: path.join(soucePath , 'languages'),
-    languages: [{name:'en',title:"英文"},{name:'cn',title:"中文",default:true},{name:'de',title:"德语"},{name:'jp',title:"日本語"}],
+    languages: [{name:'en',title:"英文"},{name:'cn',title:"中文",default:true},{name:'de',title:"德语"},{name:'jp',title:"日語"}],
     // extractor:{
     //     default:[new RegExp()],         // 默认匹配器，当文件类型没有对应的提取器时使用
     //     "*" : [new RegExp()],            // 所有类型均会执行的提取器
@@ -26,4 +26,4 @@ gulp.src([
         "b":"b",
     }
 }))
-.pipe(gulp.dest(path.join(__dirname,'../demoapps/app/languages')));
+.pipe(gulp.dest(path.join(__dirname,'./apps/app/languages')));

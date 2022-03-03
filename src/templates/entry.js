@@ -2,19 +2,19 @@
 import messageIds from "./idMap.js"
 import { translate,i18n  } from "voerka-i18n"
 import defaultMessages from "./{{defaultLanguage}}.js"  
-import i18nSettings from "./settings.js"
+import scopeSettings from "./settings.js"
 import formatters from "../formatters" 
 {{else}}
 const messageIds = require("./idMap")
 const { translate,i18n  } =  require("voerka-i18n")
 const defaultMessages =  require("./{{defaultLanguage}}.js")  
-const i18nSettings =  require("./settings.js")
+const scopeSettings =  require("./settings.js")
 const formatters = require("../formatters") 
 {{/if}} 
 
 // 自动创建全局VoerkaI18n实例
 if(!globalThis.VoerkaI18n){
-    globalThis.VoerkaI18n = new i18n(i18nSettings)
+    globalThis.VoerkaI18n = new i18n(scopeSettings)
 }
 
 let scope = {

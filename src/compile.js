@@ -6,32 +6,19 @@
  * 编译原理如下：
  * 
  * 
- * 编译输出:
- *      
- *      hashId = getMessageId()
- *       
- *    - languages/index.js    主源码，用来引用语言文件
- *      {
- *          languages:{},
-
- *      }
- *    - languages/messageIds.json   翻译文本的id映射表
- *      {
- *          [msg]:"<id>"
- *      } 
- *    - languages/en.js       英文语言文件
- *       {
- *          [region]:{
- *              [namespace]:{
- *                  [hashId]:"<message>",
- *              },
- *              [namespace]:{...},         
- *         },
- *          [region]:{...}
- *       }     
- * 
- *    - languages/[lang].js   语言文件 
- *    - formaters.js
+ * 编译后会在目标文件夹输出:
+ *    
+ *    - languages
+ *        translates
+ *          - en.json
+ *          - cn.json
+ *          - ...
+ *       idMap.js                    // id映射列表
+ *       settings.js                 // 配置文件
+ *       cn.js                       // 中文语言包
+ *       en.js                       // 英文语言包
+ *       [lang].js                   // 其他语言包
+ *       package.json                // 包信息，用来指定包类型，以便在nodejs中能够正确加载
  * 
  * @param {*} opts 
  */
@@ -52,8 +39,8 @@ function normalizeCompileOptions(opts={}) {
         moduleType:"esm"                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
     }, opts)
     if(options.moduleType==="es") options.moduleType = "esm"
-    if(options.moduleType==="cjs") options.moduleType = "common"
-    if(["common","cjs","esm","es"].includes(options.moduleType))  options.moduleType = "esm"
+    if(options.moduleType==="cjs") options.moduleType = "commonjs"
+    if(["commonjs","cjs","esm","es"].includes(options.moduleType))  options.moduleType = "esm"
     return opts;
 }
 
@@ -122,5 +109,17 @@ module.exports = function compile(langFolder,opts={}){
             const formattersContent = artTemplate(path.join(__dirname,"templates","formatters.js"), {languages,defaultLanguage,activeLanguage,namespaces,moduleType } )
             fs.writeFileSync(formattersFile,formattersContent)
         } 
+        // 7. 生成package.json
+        const packageJsonFile = path.join(langFolder,"package.json")
+        let packageJson = {}
+        if(moduleType==="esm"){
+            packageJson = {
+                type:"module",
+            } 
+        }else{
+            packageJson = { 
+            }
+        }
+        fs.writeFileSync(packageJsonFile,JSON.stringify(packageJson,null,4))
     })
 }

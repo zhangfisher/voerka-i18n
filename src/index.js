@@ -1,6 +1,6 @@
 const deepMerge = require("deepmerge")
 const formatters = require("./formatters")
-
+const {isPlainObject ,isNumber , getDataTypeName} = require("./utils")
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
 // 不支持参数： let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*\s*)*)\s*\}/g
@@ -8,6 +8,8 @@ const formatters = require("./formatters")
 // 支持参数： { var | formatter(x,x,..) | formatter }
 let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g
 
+// 有效的语言名称列表
+const languages = ["af","am","ar-dz","ar-iq","ar-kw","ar-ly","ar-ma","ar-sa","ar-tn","ar","az","be","bg","bi","bm","bn","bo","br","bs","ca","cs","cv","cy","da","de-at","de-ch","de","dv","el","en-au","en-ca","en-gb","en-ie","en-il","en-in","en-nz","en-sg","en-tt","en","eo","es-do","es-mx","es-pr","es-us","es","et","eu","fa","fi","fo","fr-ca","fr-ch","fr","fy","ga","gd","gl","gom-latn","gu","he","hi","hr","ht","hu","hy-am","id","is","it-ch","it","ja","jv","ka","kk","km","kn","ko","ku","ky","lb","lo","lt","lv","me","mi","mk","ml","mn","mr","ms-my","ms","mt","my","nb","ne","nl-be","nl","nn","oc-lnc","pa-in","pl","pt-br","pt","ro","ru","rw","sd","se","si","sk","sl","sq","sr-cyrl","sr","ss","sv-fi","sv","sw","ta","te","tet","tg","th","tk","tl-ph","tlh","tr","tzl","tzm-latn","tzm","ug-cn","uk","ur","uz-latn","uz","vi","x-pseudo","yo","zh-cn","zh-hk","zh-tw","zh"]
 
 
 // 插值变量字符串替换正则
@@ -28,25 +30,7 @@ let varReplaceRegexp =String.raw`\{\s*{varname}\s*\}`
  */
 function hasInterpolation(str){
     return str.includes("{") && str.includes("}")
-}
-/**
- * 获取指定变量类型名称
- * getDataTypeName(1) == Number
- * getDataTypeName("") == String
- * getDataTypeName(null) == Null
- * getDataTypeName(undefined) == Undefined
- * getDataTypeName(new Date()) == Date
- * getDataTypeName(new Error()) == Error
- * 
- * @param {*} v 
- * @returns 
- */
-function getDataTypeName(v){
-	if (v === null)  return 'Null' 
-	if (v === undefined) return 'Undefined'   
-    if(typeof(v)==="function")  return "Function"
-	return v.constructor && v.constructor.name;
-};
+} 
 
 
 /**
@@ -129,15 +113,26 @@ function getInterpolatedVars(str){
  * @param {*} callback 
  * @returns 
  */
-function forEachInterpolatedVars(str,callback){
+function forEachInterpolatedVars(str,callback,options={}){
     let result=str, match 
+    let opts = Object.assign({
+        replaceAll:true,                // 是否替换所有插值变量，当使用命名插值时应置为true，当使用位置插值时应置为false
+    },options)
     varWithPipeRegexp.lastIndex=0
     while ((match = varWithPipeRegexp.exec(result)) !== null) {
         const varname = match.groups.varname || ""
         // 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
         const formatters = parseFormatters(match.groups.formatters)
         if(typeof(callback)==="function"){
-            result=result.replaceAll(match[0],callback(varname,formatters))
+            try{
+                if(opts.replaceAll){
+                    result=result.replaceAll(match[0],callback(varname,formatters))
+                }else{
+                    result=result.replace(match[0],callback(varname,formatters))
+                }                
+            }catch{// callback函数可能会抛出异常，如果抛出异常，则中断匹配过程
+                break   
+            }            
         }
         varWithPipeRegexp.lastIndex=0
     }
@@ -156,7 +151,7 @@ function transformToString(value){
     let result  = value
     if(typeof(result)==="function") result = value()
     if(!(typeof(result)==="string")){
-        if(Array.isArray(result) || typeof(result)==="object"){
+        if(Array.isArray(result) || isPlainObject(result)){
             result = JSON.stringify(result)
         }else{
             result = result.toString()
@@ -304,6 +299,28 @@ function buildFormatters(scope,activeLanguage,formatters){
     }
     return results
 } 
+
+/**
+ *  将value经过格式化器处理后返回
+ * @param {*} scope 
+ * @param {*} activeLanguage 
+ * @param {*} formatters 
+ * @param {*} value 
+ * @returns 
+ */
+function getFormattedValue(scope,activeLanguage,formatters,value){
+    // 1. 取得格式化器函数列表
+    const formatterFuncs = buildFormatters(scope,activeLanguage,formatters) 
+    // 3. 查找每种数据类型默认格式化器,并添加到formatters最前面，默认数据类型格式化器优先级最高
+    const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
+    if(defaultFormatter){
+        formatterFuncs.splice(0,0,defaultFormatter)
+    }             
+    // 3. 执行格式化器
+    value = executeFormatter(value,formatterFuncs)     
+    return value
+}
+
 /**
  * 字符串可以进行变量插值替换，
  *    replaceInterpolatedVars("<模板字符串>",{变量名称:变量值,变量名称:变量值,...})
@@ -326,52 +343,33 @@ function replaceInterpolatedVars(template,...args) {
     // 当前激活语言
     const activeLanguage = scope.global.activeLanguage 
     let result=template
-    if(!hasInterpolation(template)) return template
+
+    // 没有变量插值则的返回原字符串  
+    if(args.length===0 || !hasInterpolation(template)) return template 
+
     // ****************************变量插值****************************
-    if(args.length===1 && typeof(args[0]) === "object" && !Array.isArray(args[0])){  
+    if(args.length===1 && isPlainObject(args[0])){  
         // 读取模板字符串中的插值变量列表
         // [[var1,[formatter,formatter,...],match],[var2,[formatter,formatter,...],match],...}
         let varValues = args[0]
         return forEachInterpolatedVars(template,(varname,formatters)=>{
-            // 1. 取得格式化器函数列表
-            const formatterFuncs = buildFormatters(scope,activeLanguage,formatters)
-            // 2. 取变量值
             let value =  (varname in varValues) ? varValues[varname] : ''
-            // 3. 查找每种数据类型默认格式化器,并添加到formatters最前面，默认数据类型格式化器优先级最高
-            const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
-            if(defaultFormatter){
-                formatterFuncs.splice(0,0,defaultFormatter)
-            }             
-            // 4. 执行格式化器
-            value = executeFormatter(value,formatterFuncs)     
-            return value
+            return getFormattedValue(scope,activeLanguage,formatters,value)  
         })   
     }else{  
         // ****************************位置插值****************************
         // 如果只有一个Array参数，则认为是位置变量列表，进行展开
         const params=(args.length===1 && Array.isArray(args[0])) ?  [...args[0]] : args     
-        
-        // 取得模板字符串中的插值变量列表 , 包含命令变量和位置变量
-        let interpVars =  getInterpolatedVars(template,true) 
-        if(interpVars.length===0) return template    // 没有变量插值则的返回原字符串  
-
-        let i=0
-        for(let match of result.match(varWithPipeRegexp) || []){
-            if(i<params.length){
-                let value = params[i]
-                const formatterFuncs = buildFormatters(scope,activeLanguage,interpVars[i][1])  
-                // 执行默认的数据类型格式化器
-                const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
-                if(defaultFormatter){
-                    formatterFuncs.splice(0,0,defaultFormatter)
-                }  
-                value = executeFormatter(value,formatterFuncs)
-                result = result.replace(match,transformToString(value))
-                i+=1
+        if(params.length===0) return template    // 没有变量则不需要进行插值处理，返回原字符串  
+        let i = 0
+        return forEachInterpolatedVars(template,(varname,formatters)=>{
+            if(params.length>i){ 
+                return getFormattedValue(scope,activeLanguage,formatters,params[i++]) 
             }else{
-                break
+                throw new Error()   // 抛出异常，停止插值处理
             }
-        }
+        },{replaceAll:false})
+         
     }
     return result
 }    
@@ -391,15 +389,30 @@ function isMessageId(content){
     return parseInt(content)>0
 }
 /**
+ * 根据值的单数和复数形式，从messages中取得相应的消息
+ * 
+ * @param {*} messages  复数形式的文本内容 = [<=0时的内容>，<=1时的内容>，<=2时的内容>,...]
+ * @param {*} value 
+ */
+function getPluraMessage(messages,value){
+    try{
+        if(Array.isArray(messages)){
+            return messages.length > value ? messages[value] : messages[messages.length-1]
+       }else{
+           return messages
+       }
+    }catch{
+        return Array.isArray(messages) ? messages[0] : messages
+    }
+}
+
+/**
  * 翻译函数
  * 
 * translate("要翻译的文本内容")                                 如果默认语言是中文，则不会进行翻译直接返回
 * translate("I am {} {}","man") == I am man                    位置插值
 * translate("I am {p}",{p:"man"})                              字典插值
-* translate("I am {p}",{p:"man",ns:""})                        指定名称空间
-* translate("I am {p}",{p:"man",namespace:""})
-* translate("I am {p}",{p:"man",namespace:""})
-* translate("total {count} items", {count:1})  //复数形式 
+* translate("total {$count} items", {$count:1})  //复数形式 
 * translate("total {} {} {} items",a,b,c)  // 位置变量插值
  * 
  * this===scope  当前绑定的scope
@@ -407,14 +420,15 @@ function isMessageId(content){
  */
 function translate(message) { 
     const scope = this
-    const activeLanguage = scope.settings.activeLanguage 
-    let vars={}                 // 插值变量
-    let pluralVars=[]           // 复数变量
+    const activeLanguage = scope.global.activeLanguage 
+    let content = message
+    let vars=[]                 // 插值变量列表
+    let pluralVars= []          // 复数变量
+    let pluraValue = null       // 复数值
     try{
         // 1. 预处理变量:  复数变量保存至pluralVars中 , 变量如果是Function则调用 
-        if(arguments.length === 2 && typeof(arguments[1])=='object'){
-            Object.assign(vars,arguments[1])
-            Object.entries(vars).forEach(([name,value])=>{
+        if(arguments.length === 2 && isPlainObject(arguments[1])){
+            Object.entries(arguments[1]).forEach(([name,value])=>{
                 if(typeof(value)==="function"){
                     try{
                         vars[name] = value()
@@ -422,41 +436,64 @@ function translate(message) {
                         vars[name] = value
                     }
                 } 
-                // 复数变量
-                if(name.startsWith("$")) pluralVars.push(name) 
+                // 以$开头的视为复数变量
+                if(name.startsWith("$")) pluralVars.push(name)
             })
+            vars = [arguments[1]]
         }else if(arguments.length >= 2){
-            vars = [...arguments].splice(1).map(arg=>typeof(arg)==="function" ? arg() : arg)
-        } 
-
-        // 默认语言，不需要查询加载，只需要做插值变换即可
+            vars = [...arguments].splice(1).map((arg,index)=>{
+                try{
+                    return typeof(arg)==="function" ? arg() : arg
+                }catch(e){
+                    return arg
+                } 
+                // 位置参数中以第一个数值变量为复数变量
+                if(isNumber(arg)) pluraValue = parseInt(arg)                
+            })
+            
+        }  
+        
+        // 2. 取得翻译文本模板字符串
         if(activeLanguage === scope.defaultLanguage){
+            // 2.1 从默认语言中取得翻译文本模板字符串
+            // 如果当前语言就是默认语言，不需要查询加载，只需要做插值变换即可
             // 当源文件运用了babel插件后会将原始文本内容转换为msgId
-            if(isMessageId(message)){
-                message = scope.default[message] || message
+            // 如果是msgId则从scope.default中读取,scope.default=默认语言包={<id>:<message>}
+            if(isMessageId(content)){
+                content = scope.default[content] || message
             }
-            return replaceInterpolatedVars.call(scope,message,vars)
         }else{ 
-            // 1. 获取翻译后的文本内容
-            // 如果没有启用babel插件时，需要先将文本内容转换为msgId
-            let msgId = isMessageId(message) ? message :  scope.idMap[message]  
-            message = scope.messages[msgId] || msgId
-
-            // 处理复数
-            if(Array.isArray(message)){
-
-            }else{ // 普通
-
-            }
-
+            // 2.2 从当前语言包中取得翻译文本模板字符串
+            // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
+            let msgId = isMessageId(content) ? content :  scope.idMap[content]  
+            content = scope.messages[msgId] || content
         }
+        
+        // 3. 处理复数
+        // 经过上面的处理，content可能是字符串或者数组
+        // content = "原始文本内容" || 复数形式["原始文本内容","原始文本内容"....]
+        // 如果是数组说明要启用复数机制，需要根据插值变量中的某个变量来判断复数形式
+        if(Array.isArray(content) && content.length>0){
+            // 如果存在复数命名变量，只取第一个复数变量
+            if(pluraValue){  // 启用的是位置插值,pluraIndex=第一个数字变量的位置
+                content = getPluraMessage(content,pluraValue)
+            }else if(pluralVar.length>0){
+                content = getPluraMessage(content,parseInt(vars(pluralVar[0])))
+            }else{ // 如果找不到复数变量，则使用第一个内容
+                content = content[0]
+            }
+        } 
+        // 进行插值处理
+        if(vars.length==0){
+            return content
+        }else{
+            return replaceInterpolatedVars.call(scope,content,...vars)
+        }        
     }catch(e){
-        return message
+        return content       // 出错则返回原始文本
     } 
 }
-
-
-
+ 
 /** 
  * 多语言管理类
  * 
@@ -587,13 +624,20 @@ function translate(message) {
         scope.global = this._settings
         this._scopes.push(scope) 
     }
+    /**
+     * 注册全局格式化器
+     * @param {*} formatters 
+     */
+    registerFormatters(formatters){
+
+    }
 }
- 
 
 module.exports ={
     getInterpolatedVars,
     replaceInterpolatedVars,
     I18n,
     translate,
+    languages,
     defaultLanguageSettings
 }
