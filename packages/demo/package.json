@@ -2,7 +2,7 @@
   "name": "@voerkai18n/demo",
   "version": "1.0.0",
   "description": "",
-  "main": "babel.plugin.demo.js",
+  "main": "babel.plugin.demo.js", 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

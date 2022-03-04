@@ -36,7 +36,7 @@ function normalizeCompileOptions(opts={}) {
     let options = Object.assign({
         input:null,                                    // 指定要编译的文件夹，即extract输出的语言文件夹
         output:null,                                   // 指定编译后的语言文件夹,如果没有指定，则使用input目录
-        moduleType:"esm"                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
+        moduleType:"auto"                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
     }, opts)
     if(options.moduleType==="es") options.moduleType = "esm"
     if(options.moduleType==="cjs") options.moduleType = "commonjs"
@@ -44,10 +44,34 @@ function normalizeCompileOptions(opts={}) {
     return options;
 }
 
+
+/**
+ * 从当前文件夹开始向上查找package.json文件，并解析出语言包的类型
+ * @param {*} folder 
+ */
+function findModuleType(folder){
+    try{
+        let pkgPath = path.join(folder, "package.json")
+        if(fs.existsSync(pkgPath)){
+            let pkg = readJson.sync(pkgPath)
+            return pkg.type || "commonjs"
+        }
+        let parent = path.dirname(folder)
+        if(parent===folder) return null
+        return findModuleType(parent)
+    }catch{
+        return "esm"
+    }
+}
+
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
     const { output,moduleType } = options; 
- 
+    
+    if(moduleType==="auto"){
+        moduleType = findModuleType(langFolder)
+    }
+
     // 加载多语言配置文件
     const settingsFile = path.join(langFolder,"settings.js")
     try{        
