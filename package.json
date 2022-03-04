@@ -5,25 +5,28 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "extract": "",
-    "babeldemo": "babel ./demodata/a/a1.js --plugins=./src/babel-plugin-voerkai18n.js"
+    "test:babelplugin": "jest babel",
+    "test:extract": "jest extract",
+    "test:translate": "jest translate",
+    "demo:extract": "node ./packages/demo/extract.demo.js",
+    "demo:compile": "node ./packages/demo/compile.demo.js",
+    "demo:babel": "babel ./demodata/a/a1.js --plugins=./src/babel-plugin-voerkai18n.js"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "art-template": "^4.13.2",
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^21.0.2",
     "dayjs": "^1.10.8",
     "deepmerge": "^4.2.2",
-    "glob": "^7.2.0",
     "gulp": "^4.0.2",
-    "logsets": "^1.0.6",
-    "readjson": "^2.2.2",
-    "through2": "^4.0.2"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.5",
     "jest": "^27.5.1",
+    "rollup": "^2.69.0",
+    "rollup-plugin-clear": "^2.0.7",
+    "rollup-plugin-uglify": "^6.0.4",
     "vinyl": "^2.2.1"
   }
 }

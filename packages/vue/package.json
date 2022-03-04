@@ -1,7 +1,7 @@
 {
-  "name": "@voerkai18n/runtime",
+  "name": "@voerkai18n/vue",
   "version": "1.0.0",
-  "description": "Voerkai18n Runtime",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "deepmerge": "^4.2.2"
+    "deepmerge": "^4.2.2",
+    "gulp": "^4.0.2",
+    "vinyl": "^2.2.1"
   }
 }

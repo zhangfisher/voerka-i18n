@@ -1,13 +1,17 @@
 {
-  "name": "@voerkai18n/formatters",
+  "name": "@voerkai18n/demo",
   "version": "1.0.0",
   "description": "",
-  "main": "currency.formatters.js",
+  "main": "babel.plugin.demo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@voerkai18n/runtime": "workspace:^1.0.0",
+    "@voerkai18n/tools": "workspace:^1.0.0"
+  },
   "devDependencies": {
     "deepmerge": "^4.2.2",
     "gulp": "^4.0.2",

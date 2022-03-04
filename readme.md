@@ -151,7 +151,7 @@ t("第{}章",100)  // == Chapter 100
 ## 插值变量格式化
 
 voerka-i18n支持对插值变量进行格式化
-
+{{value | filter}} 过滤器语法类似管道操作符，它的上一个输出作为下一个输入。
 ```javascript
 
 new VoerkaI18n({
@@ -194,6 +194,31 @@ new VoerkaI18n({
     },
 
 t("今天是{date}",{date:new Date()})
+
+```
+
+### 字典
+
+当翻译内容是一个{}时，启用字典插值模式。
+```javascript
+// 源文件
+// 假设网络状态取值：0=初始化,1=正在连接，2=已连接,3=正在断开.4=已断开,>4=未知
+
+    t("当前状态:{status}",{status})
+
+// translates/default.json
+
+{
+    "当前状态:{status}":{
+        cn:{0:"初始化",1:"正在连接"，2:"已连接",3:"正在断开",4:"已断开",unknow:"未知"},
+        en:{
+            to:"Status:{}",
+            vars:{"Init","Connecting","Connected","Disconnecting","Disconnected","unknow"}
+        },
+        en:"Status : {status | dict({0:"Init",1:"Connecting",2:"Connected",3:"Disconnecting",4:"Disconnected",5:"unknow"})}"
+    }
+}
+
 
 ```
 

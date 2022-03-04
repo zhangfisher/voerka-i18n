@@ -1,23 +1,26 @@
 const dayjs = require('dayjs');
-const { getInterpolatedVars,  replaceInterpolatedVars , translate}  = require('../src/index.js')
+const { getInterpolatedVars,  replaceInterpolatedVars , translate}  = require('../packages/runtime/index.js')
  
 const messages = {
     cn:{
         1:"你好",
         2:"现在是{}",
         3:"我出生于{year}年，今年{age}岁",
+        4:"我有{}个朋友",
     },
     en :{
         1:"hello",
         2:"Now is {}",
         3:"I was born in {year}, now is {age} years old",
+        4:["I have no friends","I have one friends","I have two friends","I have {} friends"],
     }
 }
 
 const idMap = {
     "你好":1,
     "现在是{}":2,
-    "我出生于{year}年，今年{age}岁":3
+    "我出生于{year}年，今年{age}岁":3,
+    "我有{}个朋友":4
 }
 
 
@@ -99,24 +102,48 @@ beforeEach(() => {
   
 
 test("获取翻译内容中的插值变量",done=>{
-    const results = getInterpolatedVars("中华人民共和国成立于{date | year | time }年,首都是{city}市");
-    expect(results.map(r=>r[0]).join(",")).toBe("date,city");
-    expect(results[0][0]).toEqual("date");
-    expect(results[0][1]).toEqual(["year","time"]);
-    expect(results[1][0]).toEqual("city");
-    expect(results[1][1]).toEqual([]);
+    const results = getInterpolatedVars("中华人民共和国成立于{date | year(1,2) | time('a','b') | rel }年,首都是{city}市");
+    expect(results.length).toEqual(2);
+    // 
+    expect(results[0].name).toEqual("date");
+    expect(results[0].formatters.length).toEqual(3);
+    // year(1,2)
+    expect(results[0].formatters[0].name).toEqual("year");
+    expect(results[0].formatters[0].args).toEqual([1,2]);
+    // time('a','b')
+    expect(results[0].formatters[1].name).toEqual("time");
+    expect(results[0].formatters[1].args).toEqual(["a","b"]);    
+    // rel
+    expect(results[0].formatters[2].name).toEqual("rel");
+    expect(results[0].formatters[2].args).toEqual([]);
+    
+
+    expect(results[1].name).toEqual("city");
+    expect(results[1].formatters.length).toEqual(0);
+
+
     done()
 })
 
 test("获取翻译内容中定义了重复的插值变量",done=>{
     const results = getInterpolatedVars("{a}{a}{a|x}{a|x}{a|x|y}{a|x|y}");
     expect(results.length).toEqual(3);
-    expect(results[0][0]).toEqual("a");
-    expect(results[0][1]).toEqual([]);
-    expect(results[1][0]).toEqual("a");
-    expect(results[1][1]).toEqual(["x"]);
-    expect(results[2][0]).toEqual("a");
-    expect(results[2][1]).toEqual(["x","y"]);
+    expect(results[0].name).toEqual("a");
+    expect(results[0].formatters.length).toEqual(0);
+    
+    expect(results[1].name).toEqual("a");
+    expect(results[1].formatters.length).toEqual(1);
+    expect(results[1].formatters[0].name).toEqual("x");
+    expect(results[1].formatters[0].args).toEqual([]);
+
+
+    expect(results[2].name).toEqual("a");
+    expect(results[2].formatters.length).toEqual(2);
+    expect(results[2].formatters[0].name).toEqual("x");
+    expect(results[2].formatters[0].args).toEqual([]);
+    expect(results[2].formatters[1].name).toEqual("y");
+    expect(results[2].formatters[1].args).toEqual([]);
+    
     done()
 })
 
@@ -220,6 +247,17 @@ test("切换到未知语言",done=>{
     expect(t("我是中国人")).toBe("我是中国人");       
     changeLanguage("en") 
     expect(t("我是中国人")).toBe("我是中国人");  
+    done()
+})
+ 
+
+test("翻译复数支持",done=>{   
+    changeLanguage("en") 
+    expect(t("我有{}个朋友",0)).toBe("I have no friends");       
+    expect(t("我有{}个朋友",1)).toBe("I have one friends");    
+    expect(t("我有{}个朋友",2)).toBe("I have two friends");    
+    expect(t("我有{}个朋友",3)).toBe("I have 3 friends");    
+    expect(t("我有{}个朋友",4)).toBe("I have 4 friends");       
     done()
 })
  

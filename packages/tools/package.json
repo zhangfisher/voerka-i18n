@@ -1,0 +1,26 @@
+{
+  "name": "@voerkai18n/tools",
+  "version": "1.0.0",
+  "description": "VoerkaI18n Tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "art-template": "^4.13.2",
+    "commander": "^9.0.0",
+    "glob": "^7.2.0",
+    "logsets": "^1.0.6",
+    "readjson": "^2.2.2",
+    "through2": "^4.0.2"
+  },
+  "devDependencies": {
+    "deepmerge": "^4.2.2",
+    "gulp": "^4.0.2",
+    "vinyl": "^2.2.1"
+  }
+}
