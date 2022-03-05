@@ -11,7 +11,8 @@ const path = require('path')
 const fs = require('fs')
 const readJson = require("readjson") 
 const createLogger = require("logsets") 
-const { replaceInterpolateVars,getDataTypeName } = require("../runtime/utils")
+const { replaceInterpolateVars,getDataTypeName } = require("@voerkai18n/runtime")
+const { findModuleType } = require("./utils")
 const logger = createLogger() 
 
 // 捕获翻译文本的默认正则表达式
@@ -415,7 +416,10 @@ module.exports = function(options={}){
             logger.log(" - Generate settings of language : {}",settingsFile) 
         }else{
             logger.log(" - Settings of language already exists : {}",settingsFile) 
-        }        
+        }    
+        // 生成package.json  
+        const packageJsonFile = path.join(outputPath,"package.json")  
+        fs.writeFileSync(packageJsonFile,`${JSON.stringify({type:"commonjs"},null,4)}`)  
         callback()               
     });
 }

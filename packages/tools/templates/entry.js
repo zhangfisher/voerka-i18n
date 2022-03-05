@@ -22,25 +22,28 @@ let scope = {
     idMap:messageIds,                           // 消息id映射列表
     formatters:{},                              // 当前作用域的格式化函数列表
     loaders:{},                                 // 异步加载语言文件的函数列表
-    global:{}                                   // 引用全局VoerkaI18n配置，注册后自动引用
+    global:{},                                   // 引用全局VoerkaI18n配置，注册后自动引用
+    // 主要用来缓存格式化器的引用，当使用格式化器时可以直接引用，避免检索
+    $cache:{
+        activeLanguage:null,
+        typedFormatters:{},
+        formatters:{},
+    }
 }
 
 let supportedlanguages = {}  
 
-messages["{{defaultLanguage}}"]= defaultMessages
 {{each languages}}{{if $value.name !== defaultLanguage}}
 scope.loaders["{{$value.name}}"] = ()=>import("./{{$value.name}}.js")
 {{/if}}{{/each}}
 
-const t = ()=> translate.bind(scope)(...arguments)
+const t = translate.bind(scope) 
 const languages =  {{@ JSON.stringify(languages,null,4) }}
 // 注册当前作用域到全局VoerkaI18n实例
 VoerkaI18n.register(scope)
 
 {{if moduleType === "esm"}}
-export languages 
-export scope
-export t
+export { t, languages,scope }
 {{else}}
 module.exports.languages = languages
 module.exports.scope = scope

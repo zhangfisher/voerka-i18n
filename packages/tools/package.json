@@ -7,20 +7,25 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
+  "bin": {
+      "voerkai18n": "./index.js"
+  },
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
+    "@voerkai18n/runtime": "workspace:^1.0.0",
     "art-template": "^4.13.2",
     "commander": "^9.0.0",
     "glob": "^7.2.0",
     "logsets": "^1.0.6",
     "readjson": "^2.2.2",
-    "through2": "^4.0.2"
-  },
-  "devDependencies": {
+    "through2": "^4.0.2",
     "deepmerge": "^4.2.2",
     "gulp": "^4.0.2",
     "vinyl": "^2.2.1"
+  },
+  "devDependencies": {
+
   }
 }

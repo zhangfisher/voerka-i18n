@@ -1,33 +1,30 @@
 
 import clear from 'rollup-plugin-clear'
-import { uglify } from "rollup-plugin-uglify";
-import { babel } from '@rollup/plugin-babel'; 
 import commonjs from '@rollup/plugin-commonjs';
+import resolve from "@rollup/plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
+// import { babel } from '@rollup/plugin-babel'; 
 
 export default  [
     {
         input:  './index.js', 
         output: [
             {
-                file: 'dist/index.mjs', 
-                format:"es" 
+                file: 'index.esm.js', 
+                format:"esm" 
             },
             {
-                file: 'dist/index.cjs', 
+                file: 'index.cjs', 
                 exports:"default",        
                 format:"cjs" 
             }
         ],
         plugins: [
-            //resolve(),
-            commonjs(),
-            babel({
-                babelHelpers:"runtime", 
-                exclude: 'node_modules/**'
-            }),
+            resolve(),
+            commonjs(), 
             clear({targets:["dist"]}),
-            uglify()
+            //terser()
         ],
-        external:["@babel/runtime"]
+        //external:["@babel/runtime"]
     }
 ]

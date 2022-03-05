@@ -27,7 +27,7 @@ const readJson = require("readjson")
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { importModule } = require("./utils")
+const { importModule,findModuleType } = require("./utils")
 const fs = require("fs")
 const logger = createLogger() 
 const artTemplate = require("art-template")
@@ -45,24 +45,7 @@ function normalizeCompileOptions(opts={}) {
 }
 
 
-/**
- * 从当前文件夹开始向上查找package.json文件，并解析出语言包的类型
- * @param {*} folder 
- */
-function findModuleType(folder){
-    try{
-        let pkgPath = path.join(folder, "package.json")
-        if(fs.existsSync(pkgPath)){
-            let pkg = readJson.sync(pkgPath)
-            return pkg.type || "commonjs"
-        }
-        let parent = path.dirname(folder)
-        if(parent===folder) return null
-        return findModuleType(parent)
-    }catch{
-        return "esm"
-    }
-}
+
 
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);

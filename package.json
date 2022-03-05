@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build:runtime":"pnpm build --filter \"@voerkai18n/runtime\"",
     "test": "jest",
     "test:babelplugin": "jest babel",
     "test:extract": "jest extract",
@@ -26,7 +27,6 @@
     "jest": "^27.5.1",
     "rollup": "^2.69.0",
     "rollup-plugin-clear": "^2.0.7",
-    "rollup-plugin-uglify": "^6.0.4",
     "vinyl": "^2.2.1"
   }
 }

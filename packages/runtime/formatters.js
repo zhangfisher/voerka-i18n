@@ -27,12 +27,14 @@
  * @returns 
  */
 function dict(value,...args){
-    for(let i=0;i<args.length;i+=2){
-        if(args[i]===value){
-            return args[i+1]
+    try{
+        for(let i=0;i<args.length;i+=2){
+            if(args[i]===value){
+                return args[i+1]
+            }
         }
-    }
-    if(args.length >0 && (args.length % 2!==0)) return args[args.length-1]
+        if(args.length >0 && (args.length % 2!==0)) return args[args.length-1]
+    }catch{}
     return value
 }
 
