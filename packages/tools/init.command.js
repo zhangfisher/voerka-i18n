@@ -10,8 +10,11 @@ const fs = require("fs")
 const createLogger = require("logsets")
 const logger = createLogger()
 
-module.exports = function(targetPath,{debug = true, langPath = "languages",languages=["cn","en"],defaultLanguage="cn",activeLanguage="cn",moduleType = "auto",reset=false}={}){
+module.exports = function(targetPath,{debug = true,languages=["cn","en"],defaultLanguage="cn",activeLanguage="cn",moduleType = "auto",reset=false}={}){
+    // 语言文件夹名称
+    const  langPath = "languages"
     // 查找当前项目的语言包类型路径
+
     if(moduleType==="auto"){
         moduleType = findModuleType(targetPath)
     }
@@ -41,11 +44,21 @@ module.exports = function(targetPath,{debug = true, langPath = "languages",langu
         activeLanguage,
         namespaces:{}
     }
+    const packageJsonFile = path.join(targetPath,"languages","package.json")
     if(["esm","es"].includes(moduleType)){
         fs.writeFileSync(settingsFile,`export default ${JSON.stringify(settings,null,4)}`)
+        fs.writeFileSync(packageJsonFile,JSON.stringify({type:"module"},null,4))
     }else{
         fs.writeFileSync(settingsFile,`module.exports = ${JSON.stringify(settings,null,4)}`)
+        fs.writeFileSync(packageJsonFile,JSON.stringify({},null,4))
     }
 
-    if(debug) logger.log("创建语言配置文件<{}>成功",settingsFile)
+    if(debug) {
+        logger.log("生成语言配置文件:{}","./languages/settings.js")
+        logger.log("拟支持的语言：{}",settings.languages.map(l=>l.name).join(","))
+        logger.log("下一步：")
+        logger.log(" - 编辑{}确定拟支持的语言种类等参数","languages/settings.js")
+        logger.log(" - 运行<{}>扫描提取要翻译的文本","voerkai18n extract")
+        logger.log(" - 运行<{}>编译语言包","voerkai18n compile")
+    }
 }

@@ -94,7 +94,7 @@ importers:
       deepmerge: ^4.2.2
       glob: ^7.2.0
       gulp: ^4.0.2
-      logsets: ^1.0.6
+      logsets: ^1.0.7
       readjson: ^2.2.2
       through2: ^4.0.2
       vinyl: ^2.2.1
@@ -107,7 +107,7 @@ importers:
       deepmerge: 4.2.2
       glob: 7.2.0
       gulp: 4.0.2
-      logsets: 1.0.6
+      logsets: 1.0.7
       readjson: 2.2.2
       through2: 4.0.2
       vinyl: 2.2.1
@@ -4166,8 +4166,8 @@ packages:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: true
 
-  /logsets/1.0.6:
-    resolution: {integrity: sha512-tTtHpJ2pEVC3goIfqswDIaY5wwImPpfkfdKAcuQ6F6KdaDW3HvftL3X5WyFYAn02Ig/MPnLzgd/6DPm+ewFr3g==}
+  /logsets/1.0.7:
+    resolution: {integrity: sha512-O9VFAcMEuUY1tyq81hdZada+77fLl2Ff602AhlKpEpVr3gMyPFM67tILlBZZgnCfcmoRUo6nwhl26xXURHPH0A==}
     dependencies:
       '@babel/runtime-corejs3': registry.npmmirror.com/@babel/runtime-corejs3/7.17.2
       ansicolor: registry.npmmirror.com/ansicolor/1.1.100

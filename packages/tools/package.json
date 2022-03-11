@@ -8,7 +8,7 @@
   },
   "author": "",
   "bin": {
-      "voerkai18n": "./index.js"
+    "voerkai18n": "./index.js"
   },
   "license": "ISC",
   "dependencies": {
@@ -17,15 +17,12 @@
     "@voerkai18n/runtime": "workspace:^1.0.0",
     "art-template": "^4.13.2",
     "commander": "^9.0.0",
+    "deepmerge": "^4.2.2",
     "glob": "^7.2.0",
-    "logsets": "^1.0.6",
+    "gulp": "^4.0.2",
+    "logsets": "^1.0.7",
     "readjson": "^2.2.2",
     "through2": "^4.0.2",
-    "deepmerge": "^4.2.2",
-    "gulp": "^4.0.2",
     "vinyl": "^2.2.1"
-  },
-  "devDependencies": {
-
   }
 }
