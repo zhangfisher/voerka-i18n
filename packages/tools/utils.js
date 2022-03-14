@@ -1,4 +1,6 @@
- 
+const path = require("path") 
+const fs = require("fs") 
+const readJson = require("readjson")
 
 async function importModule(url){
     try{
@@ -21,10 +23,25 @@ async function importModule(url){
         let parent = path.dirname(folder)
         if(parent===folder) return null
         return findModuleType(parent)
-    }catch{
+    }catch(e){
         return "esm"
     }
 }
+
+function createPackageJsonFile(targetPath,moduleType="auto"){
+    if(moduleType==="auto"){
+        moduleType = findModuleType(targetPath)
+    }
+    const packageJsonFile = path.join(targetPath, "package.json")
+    if(["esm","es"].includes(moduleType)){
+        fs.writeFileSync(packageJsonFile,JSON.stringify({type:"module",license:"MIT"},null,4))
+    }else{
+        fs.writeFileSync(packageJsonFile,JSON.stringify({license:"MIT"},null,4))
+    }
+    return moduleType
+}
+
+
 function isPlainObject(obj){
     if (typeof obj !== 'object' || obj === null) return false;
     var proto = Object.getPrototypeOf(obj);
@@ -95,7 +112,8 @@ function createJsModuleFile(filename,defaultExports={},namedExports={},moduleTyp
 }
 module.exports = {
     importModule,
-    findModuleType
+    findModuleType,
+    createPackageJsonFile
 }
 
 

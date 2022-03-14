@@ -92,9 +92,10 @@ importers:
       art-template: ^4.13.2
       commander: ^9.0.0
       deepmerge: ^4.2.2
+      dotenv: ^16.0.0
       glob: ^7.2.0
       gulp: ^4.0.2
-      logsets: ^1.0.7
+      logsets: ^1.0.8
       readjson: ^2.2.2
       through2: ^4.0.2
       vinyl: ^2.2.1
@@ -105,9 +106,10 @@ importers:
       art-template: 4.13.2
       commander: 9.0.0
       deepmerge: 4.2.2
+      dotenv: 16.0.0
       glob: 7.2.0
       gulp: 4.0.2
-      logsets: 1.0.7
+      logsets: 1.0.8
       readjson: 2.2.2
       through2: 4.0.2
       vinyl: 2.2.1
@@ -2567,6 +2569,11 @@ packages:
       webidl-conversions: 5.0.0
     dev: true
 
+  /dotenv/16.0.0:
+    resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
+    engines: {node: '>=12'}
+    dev: false
+
   /duplexify/3.7.1:
     resolution: {integrity: sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==}
     dependencies:
@@ -4166,8 +4173,8 @@ packages:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: true
 
-  /logsets/1.0.7:
-    resolution: {integrity: sha512-O9VFAcMEuUY1tyq81hdZada+77fLl2Ff602AhlKpEpVr3gMyPFM67tILlBZZgnCfcmoRUo6nwhl26xXURHPH0A==}
+  /logsets/1.0.8:
+    resolution: {integrity: sha512-9XuCtIjGvAWbi+JgF2+NI5Bb55uvzwgCFvlo/pafXdZjVC0DDri2k+Jzv7hWg0audTrw4FTnIBiSo3yOlEpmHQ==}
     dependencies:
       '@babel/runtime-corejs3': registry.npmmirror.com/@babel/runtime-corejs3/7.17.2
       ansicolor: registry.npmmirror.com/ansicolor/1.1.100

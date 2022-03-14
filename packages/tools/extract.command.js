@@ -2,6 +2,7 @@ const { findModuleType } = require("./utils")
 const path = require("path")
 const fs = require("fs")
 const gulp = require("gulp")
+const extractor = require("./extract.plugin")
 const createLogger = require("logsets")
 const logger = createLogger()
 
@@ -13,13 +14,11 @@ module.exports = function(targetPath,options={}){
     const folders = filetypes.map(ftype=>{
         if(ftype.startsWith(".")) ftype = "*"+ftype
         if(!ftype.startsWith("*.")) ftype = "*."+ftype
-        return path.join(targetPath,ftype)
+        return path.join(targetPath,"**",ftype)
     })
-    folders.push(`!${path.join(targetPath,"languages")}`)
-    folders.push(`!${path.join(targetPath,"node_modules")}`)
+    folders.push(`!${path.join(targetPath,"languages","**")}`)
+    folders.push(`!${path.join(targetPath,"node_modules","**")}`)
     folders.push(`!${path.join(targetPath,"**","node_modules","**")}`)
-    // 排除文件夹
-    console.log("exclude",exclude)
     if(!Array.isArray(exclude) && exclude){
         exclude = exclude.split(",")
     } 
@@ -27,10 +26,18 @@ module.exports = function(targetPath,options={}){
         exclude.forEach(folder=>{
             folders.push(`!${path.join(targetPath,folder)}`)
         })
+    } 
+    if(!fs.existsSync(targetPath)){
+        logger.log("目标文件夹<{}>不存在",targetPath)
+        return 
+    }
+    if(options.debug){
+        logger.log("扫描提取范围：")
+        logger.format(folders)
     }
 
-    console.log(folders)
-
-
-    //gulp.src(path.join(targetPath,"**/*.json"))
+    options.outputPath = path.join(targetPath,"languages")
+    gulp.src(folders)
+        .pipe(extractor(options))
+        .pipe(gulp.dest(options.outputPath))
 }

@@ -1,7 +1,7 @@
 /**
  *  转译源码中的t翻译函数的翻译内容转换为唯一的id值
  * 
- *  - 将源文件中的t("xxxxx")转码成t(hash(xxxxx))
+ *  - 将源文件中的t("xxxxx")转码成t("id")
  *  - 自动导入languages/index.js中的翻译函数t
  *  
  *  使用方法:

@@ -1,8 +1,8 @@
 
-import messageIds from "./idMap.js"
-import { translate,I18nManager  } from "@voerkai18n/runtime"
-import defaultMessages from "./cn.js"  
-import scopeSettings from "./settings.js"
+const messageIds = require("./idMap")
+const { translate,I18nManager  } =  require("@voerkai18n/runtime")
+const defaultMessages =  require("./cn.js")  
+const scopeSettings =  require("./settings.js") 
  
 
 // 自动创建全局VoerkaI18n实例
@@ -36,16 +36,22 @@ const t = translate.bind(scope)
 const languages =  [
     {
         "name": "cn",
-        "title": "cn"
+        "title": "中文"
     },
     {
         "name": "en",
-        "title": "en"
+        "title": "英文"
     }
 ]
 // 注册当前作用域到全局VoerkaI18n实例
 VoerkaI18n.register(scope)
 
 
-export { t, languages,scope }
+module.exports.languages = languages
+module.exports.scope = scope
+module.exports.t = t
+module.exports.changeLanguage = VoerkaI18n.change.bind(VoerkaI18n)
+module.exports.addLanguageListener = VoerkaI18n.on.bind(VoerkaI18n)
+module.exports.removeLanguageListener = VoerkaI18n.off.bind(VoerkaI18n) 
+module.exports.i18nManager = VoerkaI18n
 

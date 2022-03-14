@@ -1,7 +1,7 @@
 /**
  * 测试demp app的语言运行环境
  */ 
- const compile = require('../packages/tools/compile');
+ const compile = require('../packages/tools/compile.command');
  const path = require("path")
  
  

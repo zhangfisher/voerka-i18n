@@ -31,25 +31,20 @@ const { importModule,findModuleType } = require("./utils")
 const fs = require("fs")
 const logger = createLogger() 
 const artTemplate = require("art-template")
-
+const { t } = require("./languages")
 function normalizeCompileOptions(opts={}) {
     let options = Object.assign({
-        input:null,                                    // 指定要编译的文件夹，即extract输出的语言文件夹
-        output:null,                                   // 指定编译后的语言文件夹,如果没有指定，则使用input目录
         moduleType:"auto"                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
     }, opts)
     if(options.moduleType==="es") options.moduleType = "esm"
     if(options.moduleType==="cjs") options.moduleType = "commonjs"
-    if(!["commonjs","cjs","esm","es"].includes(options.moduleType))  options.moduleType = "esm"
+    if(!["auto","commonjs","cjs","esm","es"].includes(options.moduleType))  options.moduleType = "esm"
     return options;
 }
 
-
-
-
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
-    const { output,moduleType } = options; 
+    let { moduleType } = options; 
     
     if(moduleType==="auto"){
         moduleType = findModuleType(langFolder)
@@ -63,7 +58,7 @@ module.exports =async  function compile(langFolder,opts={}){
         const langSettings = module.default;
         let { languages,defaultLanguage,activeLanguage,namespaces }  = langSettings
         
-        logger.log("支持的语言\t: {}",languages.map(item=>`${item.title}(${item.name})`))
+        logger.log(t("支持的语言\t: {}",languages.map(item=>`${item.title}(${item.name})`).join(",")))
         logger.log("默认语言\t: {}",defaultLanguage)
         logger.log("激活语言\t: {}",activeLanguage) 
         logger.log("名称空间\t: {}",Object.keys(namespaces).join(","))
@@ -87,7 +82,7 @@ module.exports =async  function compile(langFolder,opts={}){
                 logger.log("读取语言文件{}失败:{}",file,e.message)
             }
         })
-        logger.log(" - 合成语言包文本，共{}条",Object.keys(messages).length)
+        logger.log(" - 共合成{}条语言包文本",Object.keys(messages).length)
 
         // 2. 为每一个文本内容生成一个唯一的id
         let messageIds = {}
@@ -158,12 +153,12 @@ module.exports =async  function compile(langFolder,opts={}){
         let packageJson = {}
         if(moduleType==="esm"){
             packageJson = {
-                version:"1.0.0",
+                license:"MIT",
                 type:"module",
             } 
         }else{
             packageJson = { 
-                version:"1.0.0",
+                license:"MIT",
             }
         }
         fs.writeFileSync(packageJsonFile,JSON.stringify(packageJson,null,4))

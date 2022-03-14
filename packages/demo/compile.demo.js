@@ -1,6 +1,6 @@
 
 
-const compile = require('@voerkai18n/tools/compile');
+const compile = require('@voerkai18n/tools/compile.command');
 const path = require("path")
 
 

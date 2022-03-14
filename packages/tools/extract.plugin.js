@@ -12,8 +12,10 @@ const fs = require('fs')
 const readJson = require("readjson") 
 const createLogger = require("logsets") 
 const { replaceInterpolateVars,getDataTypeName } = require("@voerkai18n/runtime")
-const { findModuleType } = require("./utils")
+const { findModuleType,createPackageJsonFile } = require("./utils")
 const logger = createLogger() 
+const { t } = require("./languages")
+
 
 // 捕获翻译文本的默认正则表达式
 const DefaultTranslateExtractor = String.raw`\b{funcName}\(\s*("|'){1}(?:((?<namespace>\w+)::))?(?<text>.*?)(((\1\s*\)){1})|((\1){1}\s*(,(\w|\d|(?:\{.*\})|(?:\[.*\])|([\"\'\(].*[\"\'\)]))*)*\s*\)))`
@@ -349,13 +351,14 @@ function updateLanguageFile(fromTexts,toLangFile,options){
 
 module.exports = function(options={}){
     options = normalizeLanguageOptions(options)
-    let {debug,output:{ path:outputPath, updateMode },languages} = options
+    let {debug,outputPath, updateMode,languages} = options
     
-    logger.log("Supported languages\t: {}",options.languages.map(item=>`${item.title}(${item.name})`))
-    logger.log("Default language\t: {}",options.defaultLanguage)
-    logger.log("Active language\t\t: {}",options.activeLanguage) 
-    logger.log("Language namespaces\t: {}",Object.keys(options.namespaces).join(","))
-
+    logger.log(t("支持的语言\t: {}"),options.languages.map(item=>`${item.title}(${item.name})`).join(","))
+    logger.log("默认语言\t: {}",options.defaultLanguage)
+    logger.log("激活语言\t: {}",options.activeLanguage) 
+    logger.log("名称空间\t: {}",Object.keys(options.namespaces).join(","))
+    logger.log("")
+    logger
     // 保存提交提取的文本 = {}
     let results = {}
     let fileCount=0  // 文件总数
@@ -375,21 +378,24 @@ module.exports = function(options={}){
             fileCount++
             if(debug){
                 const textCount = Object.values(texts).reduce((sum,item)=>sum+Object.keys(item).length,0)
-                logger.log("Extract <{}>, found [{}] namespaces and {} messages.",file.relative,Object.keys(texts).join(),textCount)
+                logger.log("提取<{}>, 发现 [{}] 名称空间，{} 条信息。",file.relative,Object.keys(texts).join(),textCount)
             }
         }catch(err){
-            logger.log("Error while extract messages from <{}> : {}",file.relative,err.message)
+            logger.log("从<{}>提取信息时出错 : {}",file.relative,err.message)
         }
         
         callback()
     },function(callback){
         logger.log("")
-        logger.log("Extracting finished.")
-        logger.log(" - Total of files\t: {}",fileCount)
-        logger.log(" - Output location\t: {}",outputPath)
+        logger.log("翻译信息提取完成。")
+        logger.log(" - 文件总数\t: {}",fileCount)
+        logger.log(" - 输出路径\t: {}",outputPath)
         const translatesPath = path.join(outputPath,"translates")
         if(!fs.existsSync(outputPath)) fs.mkdirSync(outputPath)
         if(!fs.existsSync(translatesPath)) fs.mkdirSync(translatesPath)
+        if(!("default" in results)){
+            results["default"] = {}
+        }
         // 每个名称空间对应一个文件
         for(let [namespace,texts] of Object.entries(results)){
             const langFile = path.join(outputPath,"translates",`${namespace}.json`)
@@ -397,10 +403,10 @@ module.exports = function(options={}){
             const langTexts = {}
             if(isExists){
                 updateLanguageFile(texts,langFile,options)
-                logger.log("     Update language file : {}",path.relative(outputPath,langFile))
+                logger.log("    √ 更新语言文件 : {}",path.relative(outputPath,langFile))
             }else{
                 fs.writeFileSync(langFile,JSON.stringify(texts,null,4)) 
-                logger.log("     Save language file : {}",path.relative(outputPath,langFile))
+                logger.log("    √ 保存语言文件 : {}",path.relative(outputPath,langFile))
             }   
         }
         // 生成语言配置文件 settings.js  , 仅当不存在时才生成
@@ -413,13 +419,20 @@ module.exports = function(options={}){
                 namespaces     : options.namespaces 
             }
             fs.writeFileSync(settingsFile,`module.exports = ${JSON.stringify(settings,null,4)}`)
-            logger.log(" - Generate settings of language : {}",settingsFile) 
+            logger.log(" - 生成语言配置文件: {}",settingsFile) 
         }else{
-            logger.log(" - Settings of language already exists : {}",settingsFile) 
+            logger.log(" - 已更新语言配置文件: {}",settingsFile) 
         }    
+
+
         // 生成package.json  
-        const packageJsonFile = path.join(outputPath,"package.json")  
-        fs.writeFileSync(packageJsonFile,`${JSON.stringify({type:"commonjs"},null,4)}`)  
+        createPackageJsonFile(outputPath)
+
+        logger.log("下一步：")
+        logger.log(" - 运行<{}>编译语言包","voerkai18n compile")
+        logger.log(" - 在源码中导入编译后的语言包[{}]","import './languages'")
+
+
         callback()               
     });
 }
