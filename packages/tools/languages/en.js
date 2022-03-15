@@ -1,4 +1,4 @@
 module.exports = {
-    "1": "Project directory",
-    "2": "Supported Languages\\t: {}"
+    "1": "Supported Languages\t: {}",
+    "2": "Project Directory"
 }

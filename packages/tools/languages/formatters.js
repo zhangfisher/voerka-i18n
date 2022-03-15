@@ -100,6 +100,6 @@ const formatters =  {
 }
 
 
-module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.exports.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s = formatters
+module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.exports.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s = formatters
 
 

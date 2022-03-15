@@ -1,38 +1,15 @@
 {
-    "工程项目所在目录": {
-        "en": "Project directory",
+    "支持的语言\t: {}": {
+        "en": "Supported Languages\t: {}",
         "$file": [
-            "index.js"
-        ]
-    },
-    "支持的语言\\t: {}": {
-        "en": "Supported Languages\\t: {}",
-        "$file": [
+            "compile.command.js",
             "extract.plugin.js"
         ]
     },
-    "xxxxx": {
-        "en": "xxxxx",
+    "工程项目所在目录": {
+        "en": "Project Directory",
         "$file": [
-            "babel-plugin-voerkai18n.js"
-        ]
-    },
-    "id": {
-        "en": "id",
-        "$file": [
-            "babel-plugin-voerkai18n.js"
-        ]
-    },
-    "支持的语言\\t: {}\",languages.map(item=>`${item.title}(${item.name})`).join(": {
-        "en": "支持的语言\\t: {}\",languages.map(item=>`${item.title}(${item.name})`).join(",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
-    "Now is { value | date | bjTime  }": {
-        "en": "Now is { value | date | bjTime  }",
-        "$file": [
-            "templates\\formatters.js"
+            "index.js"
         ]
     }
 }

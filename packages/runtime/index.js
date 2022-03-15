@@ -477,6 +477,7 @@ function translate(message) {
     let vars=[]                 // 插值变量列表
     let pluralVars= []          // 复数变量
     let pluraValue = null       // 复数值
+    if(!typeof(message)==="string") return message
     try{
         // 1. 预处理变量:  复数变量保存至pluralVars中 , 变量如果是Function则调用 
         if(arguments.length === 2 && isPlainObject(arguments[1])){
@@ -503,19 +504,25 @@ function translate(message) {
             })
             
         }  
-        
+        // 由于在编译语言时会使用JSON.stringify进行保存，而JSON.stringify会将\t\n\r转换为\\t\\n\\r的形式
+        // 这会导致在翻译时，如果消息中有\t\n\r则会出现翻译错误
+        // 所以需要将message再次使用JSON.stringify进行转换才可以匹配
+        content = JSON.stringify(content)
+        content = content.substr(1,content.length-2)
+
         // 2. 取得翻译文本模板字符串
         if(activeLanguage === scope.defaultLanguage){
             // 2.1 从默认语言中取得翻译文本模板字符串
             // 如果当前语言就是默认语言，不需要查询加载，只需要做插值变换即可
             // 当源文件运用了babel插件后会将原始文本内容转换为msgId
             // 如果是msgId则从scope.default中读取,scope.default=默认语言包={<id>:<message>}
-            if(isMessageId(content)){
+            if(isMessageId(text)){
                 content = scope.default[content] || message
             }
         }else{ 
             // 2.2 从当前语言包中取得翻译文本模板字符串
             // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
+            // JSON.stringify在进行转换时会将\t\n\r转换为\\t\\n\\r,这样在进行匹配时就出错 
             let msgId = isMessageId(content) ? content :  scope.idMap[content]  
             content = scope.messages[msgId] || content
         }

@@ -17,8 +17,12 @@ const logger = createLogger()
 const { t } = require("./languages")
 
 
-// 捕获翻译文本的默认正则表达式
-const DefaultTranslateExtractor = String.raw`\b{funcName}\(\s*("|'){1}(?:((?<namespace>\w+)::))?(?<text>.*?)(((\1\s*\)){1})|((\1){1}\s*(,(\w|\d|(?:\{.*\})|(?:\[.*\])|([\"\'\(].*[\"\'\)]))*)*\s*\)))`
+// 捕获翻译文本正则表达式一：缺点:当t(xxx,...复杂的表达式时不能正确匹配....)
+// const DefaultTranslateExtractor = String.raw`\b{funcName}\(\s*("|'){1}(?:((?<namespace>\w+)::))?(?<text>.*?)(((\1\s*\)){1})|((\1){1}\s*(,(\w|\d|(?:\{.*\})|(?:\[.*\])|([\"\'\(].*[\"\'\)]))*)*\s*\)))`
+
+// 捕获翻译文本正则表达式二： 能够支持复杂的表达式，但是当提供不完整的t函数定义时，也会进行匹配提取 ，比如t
+const DefaultTranslateExtractor = String.raw`\bt\(\s*("|'){1}(?:((?<namespace>\w+)::))?(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))`
+
 
 // 从html文件标签中提取翻译文本
 const DefaultHtmlAttrExtractor = String.raw`\<(?<tagName>\w+)(.*?)(?<i18nKey>{attrName}\s*\=\s*)([\"\'']{1})(?<text>.*?)(\4){1}\s*(.*?)(\>|\/\>)`
@@ -84,7 +88,7 @@ function extractTranslateTextUseRegexp(content,namespace,extractor,file,options)
             texts[ns][text] ={} 
             languages.forEach(language=>{
                 if(language.name !== defaultLanguage){
-                    texts[ns][text][language.name] = text //""
+                    texts[ns][text][language.name] = text
                 }                
             })
             texts[ns][text]["$file"]=[file.relative]
@@ -353,7 +357,7 @@ module.exports = function(options={}){
     options = normalizeLanguageOptions(options)
     let {debug,outputPath, updateMode,languages} = options
     
-    logger.log(t("支持的语言\t: {}"),options.languages.map(item=>`${item.title}(${item.name})`).join(","))
+    logger.log(t("支持的语言\t: {}",options.languages.map(item=>`${item.title}(${item.name})`).join(",")))
     logger.log("默认语言\t: {}",options.defaultLanguage)
     logger.log("激活语言\t: {}",options.activeLanguage) 
     logger.log("名称空间\t: {}",Object.keys(options.namespaces).join(","))
