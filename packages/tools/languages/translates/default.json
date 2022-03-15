@@ -1,15 +1,21 @@
 {
-    "支持的语言\t: {}": {
-        "en": "Supported Languages\t: {}",
+    "工程项目所在目录" : {
+        "en"   : "Project Directory",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "支持的语言\\t: {}": {
+        "en"   : "支持的语言\\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ]
     },
-    "工程项目所在目录": {
-        "en": "Project Directory",
+    "保存{}\\n"        : {
+        "en"   : "保存{}\\n",
         "$file": [
-            "index.js"
+            "stringify.js"
         ]
     }
 }

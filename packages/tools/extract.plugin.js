@@ -13,14 +13,16 @@ const readJson = require("readjson")
 const createLogger = require("logsets") 
 const { replaceInterpolateVars,getDataTypeName } = require("@voerkai18n/runtime")
 const { findModuleType,createPackageJsonFile } = require("./utils")
+const stringify = require("./stringify")
 const logger = createLogger() 
 const { t } = require("./languages")
 
 
-// 捕获翻译文本正则表达式一：缺点:当t(xxx,...复杂的表达式时不能正确匹配....)
+// 捕获翻译文本正则表达式一： 能匹配完整的t(xx,...)函数调用，如果t函数调用不完整，则不能匹配到
+//  但是当t(xxx,...复杂的表达式时....)则不能正确匹配到，因此放弃该正则表达式
 // const DefaultTranslateExtractor = String.raw`\b{funcName}\(\s*("|'){1}(?:((?<namespace>\w+)::))?(?<text>.*?)(((\1\s*\)){1})|((\1){1}\s*(,(\w|\d|(?:\{.*\})|(?:\[.*\])|([\"\'\(].*[\"\'\)]))*)*\s*\)))`
 
-// 捕获翻译文本正则表达式二： 能够支持复杂的表达式，但是当提供不完整的t函数定义时，也会进行匹配提取 ，比如t
+// 捕获翻译文本正则表达式二： 能够支持复杂的表达式，但是当提供不完整的t函数定义时，也会进行匹配提取 
 const DefaultTranslateExtractor = String.raw`\bt\(\s*("|'){1}(?:((?<namespace>\w+)::))?(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))`
 
 
@@ -314,7 +316,7 @@ function updateLanguageFile(fromTexts,toLangFile,options){
     
     // 默认的overwrite
     if(!["merge","sync"].includes(updateMode)){
-        fs.writeFileSync(toLangFile,JSON.stringify(targetTexts,null,4))
+        fs.writeFileSync(toLangFile,stringify(targetTexts))
         return 
     }
     let targetTexts = {}
@@ -349,7 +351,7 @@ function updateLanguageFile(fromTexts,toLangFile,options){
             targetTexts[text] = sourceLangs 
         }
     })
-    fs.writeFileSync(toLangFile,JSON.stringify(targetTexts,null,4))
+    fs.writeFileSync(toLangFile,stringify(targetTexts))
 }
 
 
@@ -409,7 +411,7 @@ module.exports = function(options={}){
                 updateLanguageFile(texts,langFile,options)
                 logger.log("    √ 更新语言文件 : {}",path.relative(outputPath,langFile))
             }else{
-                fs.writeFileSync(langFile,JSON.stringify(texts,null,4)) 
+                fs.writeFileSync(langFile,stringify(texts)) 
                 logger.log("    √ 保存语言文件 : {}",path.relative(outputPath,langFile))
             }   
         }

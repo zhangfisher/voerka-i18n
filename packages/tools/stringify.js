@@ -1,3 +1,33 @@
+/**
+ *  实现将{}转化为字符串
+ * 
+ *  为什么不使用JSON.stringify?
+ *  
+ *  假设有这样的翻译内容
+ *  {
+ *     "保存{}\n": "Save{}\n",
+ *  }
+ *  这个内容中包含了转义字符\n，JSON.stringify会将\n转义为\\n
+ *  因此，在保存后文件中就变成：
+ *  {
+ *     "保存{}\\n": "Save{}\n",
+ *  }
+ *  这个转义方式比较不符合我们的预期，更关键的是，在require("cn.js")时，
+ *  得到的是：
+ *  {
+ *     "保存{}\\n": "Save{}\n",
+ *  }
+ *  这样当我们调用t函数时就会找不到对应在的key
+ * 
+ *  问题的关键就在于，JSON.stringify对转义字符的处理不能符合我们的要求。
+ * 
+ *  因此，不得不自己来处理转义字符.
+ * 
+ *  使用objectToString方法后，就可以确保在翻译文件中的转义字符能按预期的方式工作。
+ * 
+ * 
+ * 
+ */
 
 const { isPlainObject } = require("./utils")
 /**
@@ -10,15 +40,16 @@ const { isPlainObject } = require("./utils")
  * @returns 
  */
  function escape(str){
-    return str.replaceAll("\t","\\t")
+    return str.replaceAll('\\','\\\\')
+            .replaceAll("\t","\\t")
             .replaceAll("\n","\\n")
             .replaceAll("\b","\\b")
             .replaceAll("\r","\\r")
             .replaceAll("\f","\\f")
-            .replaceAll("\\","\\\\")
             .replaceAll("\'","\\'")
             .replaceAll('\"','\\"')
             .replaceAll('\v','\\v')
+            
 }
 /**
  * 获取字符串的长度，中文算两个字符
@@ -62,7 +93,7 @@ function objectToString(obj,{indent=4,alignKey=true}={}){
                 }
                 results.push(item)
             })
-            endChar =" ".repeat((level-1) * indent) + ( last ? "]" : "]")
+            endChar =" ".repeat((level-1) * indent) + "]" 
             return beginChar + results.map(item=>{
                 return `${" ".repeat(level * indent)}${item}`
             }).join("\n") + endChar
@@ -73,7 +104,7 @@ function objectToString(obj,{indent=4,alignKey=true}={}){
             let alignIndent = 0
             Object.entries(node).forEach(([key,value],index)=>{
                 const isLastItem = index ===length-1    
-                alignIndent = Math.max(getStringWidth(key),alignIndent)
+                alignIndent = Math.max(getStringWidth(escape(key)),alignIndent)
                 let item = [`${indentSpace}"${escape(key)}"`,value]
                 if(Array.isArray(value) || isPlainObject(value)){
                     item[1] = nodeToString(value, level,isLastItem)
@@ -92,10 +123,10 @@ function objectToString(obj,{indent=4,alignKey=true}={}){
                 }
                 results.push(item)
             })
-            endChar =" ".repeat((level-1) * indent) + ( last ? "}" : "}")
+            endChar =" ".repeat((level-1) * indent) + "}" 
             return beginChar + results.map(item=>{
                 if(alignKey){
-                    return `${item[0]}${ " ".repeat(alignIndent-getStringWidth(item[0].trim())+2)}: ${item[1]}`
+                    return `${item[0]}${" ".repeat(alignIndent-getStringWidth(item[0].trim())+2)}: ${item[1]}`
                 }else{
                     return `${item[0]}: ${item[1]}`
                 }
@@ -104,8 +135,7 @@ function objectToString(obj,{indent=4,alignKey=true}={}){
       
     }
     return nodeToString(obj,0,true)
-}
-module.exports = { 
-    objectToString,
-    getStringWidth
-}
+} 
+module.exports = objectToString 
+
+
