@@ -19,7 +19,7 @@
 
 const fs =  require("fs");
 const path =  require("path");
-const { isPlainObject } = require("../runtime/utils");
+const { isPlainObject } = require("./utils");
  
 const DefaultI18nPluginOptions = {
     translateFunctionName:"t",          // 默认的翻译函数名称

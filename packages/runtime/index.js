@@ -279,7 +279,7 @@ function getFormatter(scope,activeLanguage,name){
     // 缓存格式化器引用，避免重复检索
     if(!scope.$cache) resetScopeCache(scope)
     if(scope.$cache.activeLanguage === activeLanguage) {
-        if(dataType in scope.$cache.formatters) return scope.$cache.formatters[dataType]
+        if(name in scope.$cache.formatters) return scope.$cache.formatters[name]
     }else{// 当语言切换时清空缓存
         resetScopeCache(scope,activeLanguage)
     }
@@ -300,7 +300,7 @@ function getFormatter(scope,activeLanguage,name){
 /**
  * 执行格式化器并返回结果
  * @param {*} value 
- * @param {*} formatters 
+ * @param {*} formatters  多个格式化器顺序执行，前一个输出作为下一个格式化器的输入
  */
 function executeFormatter(value,formatters){
     if(formatters.length===0) return value
@@ -309,8 +309,8 @@ function executeFormatter(value,formatters){
         for(let formatter of formatters){
             if(typeof(formatter) === "function") {
                 result = formatter(result)
-            }else{
-                return result
+            }else{// 如果碰到无效的格式化器，则跳过过续的格式化器
+                return result 
             }
         }
     }catch(e){
@@ -504,19 +504,13 @@ function translate(message) {
             })
             
         }  
-        // 由于在编译语言时会使用JSON.stringify进行保存，而JSON.stringify会将\t\n\r转换为\\t\\n\\r的形式
-        // 这会导致在翻译时，如果消息中有\t\n\r则会出现翻译错误
-        // 所以需要将message再次使用JSON.stringify进行转换才可以匹配
-        content = JSON.stringify(content)
-        content = content.substr(1,content.length-2)
-
-        // 2. 取得翻译文本模板字符串
+         // 2. 取得翻译文本模板字符串
         if(activeLanguage === scope.defaultLanguage){
             // 2.1 从默认语言中取得翻译文本模板字符串
             // 如果当前语言就是默认语言，不需要查询加载，只需要做插值变换即可
             // 当源文件运用了babel插件后会将原始文本内容转换为msgId
             // 如果是msgId则从scope.default中读取,scope.default=默认语言包={<id>:<message>}
-            if(isMessageId(text)){
+            if(isMessageId(content)){
                 content = scope.default[content] || message
             }
         }else{ 
