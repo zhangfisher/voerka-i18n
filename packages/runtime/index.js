@@ -518,7 +518,7 @@ function translate(message) {
                     }
                 } 
                 // 以$开头的视为复数变量
-                if(name.startsWith("$")) pluralVars.push(name)
+                if(name.startsWith("$") && typeof(vars[name])==="number")  pluralVars.push(name)
             })
             vars = [arguments[1]]
         }else if(arguments.length >= 2){
@@ -531,8 +531,12 @@ function translate(message) {
                 return arg   
             })
             
-        }  
-         // 2. 取得翻译文本模板字符串
+        }
+        
+        
+       
+
+        // 3. 取得翻译文本模板字符串
         if(activeLanguage === scope.defaultLanguage){
             // 2.1 从默认语言中取得翻译文本模板字符串
             // 如果当前语言就是默认语言，不需要查询加载，只需要做插值变换即可
@@ -547,10 +551,9 @@ function translate(message) {
             // JSON.stringify在进行转换时会将\t\n\r转换为\\t\\n\\r,这样在进行匹配时就出错 
             let msgId = isMessageId(content) ? content :  scope.idMap[escape(content)]  
             content = scope.messages[msgId] || content
-            content = unescape(content)
+            content = Array.isArray(content) ? content.map(v=>unescape(v)) : unescape(content)
         }
-        
-        // 3. 处理复数
+         // 2. 处理复数
         // 经过上面的处理，content可能是字符串或者数组
         // content = "原始文本内容" || 复数形式["原始文本内容","原始文本内容"....]
         // 如果是数组说明要启用复数机制，需要根据插值变量中的某个变量来判断复数形式
@@ -564,6 +567,7 @@ function translate(message) {
                 content = content[0]
             }
         } 
+        
         // 进行插值处理
         if(vars.length==0){
             return content

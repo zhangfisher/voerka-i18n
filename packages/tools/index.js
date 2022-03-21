@@ -18,7 +18,10 @@ program
     .option('-m, --moduleType [type]', t('生成的js模块类型,取值auto,esm,cjs'),"auto")   
     .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['cn','en']) 
     .hook("preAction",async function(location){
-        
+        const lang= process.env.LANGUAGE
+        if(lang){
+            await scope.change(lang)      
+        }
     })
     .action((location,options) => { 
         if(!location) {
@@ -48,6 +51,12 @@ program
     .option('-u, --updateMode', t('本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并'), 'sync')  
     .option('-f, --filetypes', t('要扫描的文件类型'), 'js,vue,html,jsx,ts')  
     .argument('[location]', t('工程项目所在目录'),"./")
+    .hook("preAction",async function(location){
+        const lang= process.env.LANGUAGE
+        if(lang){
+            await scope.change(lang)      
+        }
+    })
     .action(async (location,options) => {
         if(!location) {
             location = process.cwd()
