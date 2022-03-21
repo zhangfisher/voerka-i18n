@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "extract": "node ./index.js extract -d -e babel-plugin-voerkai18n.js,templates/**",
-    "compile": "node ./index.js compile -d"
+    "compile": "node ./index.js compile -d",
+    "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d"
   },
   "author": "",
   "bin": {
@@ -20,12 +21,15 @@
     "art-template": "^4.13.2",
     "commander": "^9.0.0",
     "deepmerge": "^4.2.2",
-    "dotenv": "^16.0.0",
     "glob": "^7.2.0",
     "gulp": "^4.0.2",
     "logsets": "^1.0.8",
     "readjson": "^2.2.2",
     "through2": "^4.0.2",
-    "vinyl": "^2.2.1"
+    "vinyl": "^2.2.1",
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    
   }
 }

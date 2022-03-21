@@ -27,11 +27,11 @@ const readJson = require("readjson")
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { importModule,findModuleType } = require("./utils")
+const { t,importModule,findModuleType,getCurrentPackageJson} = require("./utils")
 const fs = require("fs")
 const logger = createLogger() 
 const artTemplate = require("art-template")
-const { t } = require("./languages")
+ 
 function normalizeCompileOptions(opts={}) {
     let options = Object.assign({
         moduleType:"auto"                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
@@ -49,7 +49,7 @@ module.exports =async  function compile(langFolder,opts={}){
     if(moduleType==="auto"){
         moduleType = findModuleType(langFolder)
     }
-
+    const projectPackageJson = getCurrentPackageJson(langFolder)
     // 加载多语言配置文件
     const settingsFile = path.join(langFolder,"settings.js")
     try{        
@@ -58,13 +58,13 @@ module.exports =async  function compile(langFolder,opts={}){
         const langSettings = module.default;
         let { languages,defaultLanguage,activeLanguage,namespaces }  = langSettings
         
-        logger.log(t("支持的语言\t: {}",languages.map(item=>`${item.title}(${item.name})`).join(",")))
-        logger.log("默认语言\t: {}",defaultLanguage)
-        logger.log("激活语言\t: {}",activeLanguage) 
-        logger.log("名称空间\t: {}",Object.keys(namespaces).join(","))
-        logger.log("模块类型\t: {}",moduleType) 
+        logger.log(t("支持的语言\t: {}"),languages.map(item=>`${item.title}(${item.name})`).join(","))
+        logger.log(t("默认语言\t: {}"),defaultLanguage)
+        logger.log(t("激活语言\t: {}"),activeLanguage)
+        logger.log(t("名称空间\t: {}"),Object.keys(namespaces).join(","))
+        logger.log(t("模块类型\t: {}"),moduleType)
         logger.log("")
-        logger.log("编译结果输出至：{}",langFolder)
+        logger.log(t("编译结果输出至：{}"),langFolder)
 
         // 1. 合并生成最终的语言文件
         let messages = {} ,msgId =1 
@@ -79,10 +79,10 @@ module.exports =async  function compile(langFolder,opts={}){
                     } 
                 }) 
             }catch(e){
-                logger.log("读取语言文件{}失败:{}",file,e.message)
+                logger.log(t("读取语言文件{}失败:{}"),file,e.message)
             }
         })
-        logger.log(" - 共合成{}条语言包文本",Object.keys(messages).length)
+        logger.log(t(" - 共合成{}条语言包文本"),Object.keys(messages).length)
 
         // 2. 为每一个文本内容生成一个唯一的id
         let messageIds = {}
@@ -103,7 +103,7 @@ module.exports =async  function compile(langFolder,opts={}){
             }else{
                 fs.writeFileSync(langFile,`module.exports = ${JSON.stringify(langMessages,null,4)}`)
             } 
-            logger.log(" - 语言包文件: {}",path.basename(langFile))
+            logger.log(t(" - 语言包文件: {}"),path.basename(langFile))
         })
         
         // 4. 生成id映射文件
@@ -113,33 +113,45 @@ module.exports =async  function compile(langFolder,opts={}){
         }else{
             fs.writeFileSync(idMapFile,`module.exports = ${JSON.stringify(messageIds,null,4)}`)
         }
-        logger.log(" - idMap文件: {}",path.basename(idMapFile))
-
-        // 5. 生成编译后的访问入口文件
-        const entryFile = path.join(langFolder,"index.js")
-        const entryContent = artTemplate(path.join(__dirname,"templates","entry.js"), {languages,defaultLanguage,activeLanguage,namespaces,moduleType,JSON } )
-        fs.writeFileSync(entryFile,entryContent)
-        logger.log(" - 访问入口文件: {}",path.basename(entryFile))
-
+        logger.log(t(" - idMap文件: {}"),path.basename(idMapFile))
         
-        // 6 . 生成编译后的格式化函数文件
+        const templateContext = {
+            scopeId:projectPackageJson.name,
+            languages,
+            defaultLanguage,
+            activeLanguage,
+            namespaces,
+            moduleType,
+            JSON
+        }
+
+        // 5 . 生成编译后的格式化函数文件
         const formattersFile =  path.join(langFolder,"formatters.js") 
         if(!fs.existsSync(formattersFile)){
-            const formattersContent = artTemplate(path.join(__dirname,"templates","formatters.js"), {languages,defaultLanguage,activeLanguage,namespaces,moduleType } )
+            const formattersContent = artTemplate(path.join(__dirname,"templates","formatters.js"), templateContext )
             fs.writeFileSync(formattersFile,formattersContent)
-            logger.log(" - 格式化器:{}",path.basename(formattersFile))
+            logger.log(t(" - 格式化器:{}"),path.basename(formattersFile))
         }else{ // 格式化器如果存在，则需要更改对应的模块类型
             let formattersContent = fs.readFileSync(formattersFile,"utf8").toString()
             if(moduleType == "esm"){
                  formattersContent = formattersContent.replaceAll(/\s*module.exports\s*\=/g,"export default ")
                  formattersContent = formattersContent.replaceAll(/\s*module.exports\./g,"export ")
             }else{
-                formattersContent = formattersContent.replaceAll(/\s*export\s*default\s*/g,"module.exports = ")
-                formattersContent = formattersContent.replaceAll(/\s*export\s*/g,"module.exports.")
+                formattersContent = formattersContent.replaceAll(/^\s*export\s*default\s*/g,"module.exports = ")
+                formattersContent = formattersContent.replaceAll(/^\s*export\s*/g,"module.exports.")
             }
             fs.writeFileSync(formattersFile,formattersContent)
-            logger.log(" - 更新格式化器:{}",path.basename(formattersFile))
+            logger.log(t(" - 更新格式化器:{}"),path.basename(formattersFile))
         }
+
+        // 6. 生成编译后的访问入口文件
+        const entryFile = path.join(langFolder,"index.js")
+        const entryContent = artTemplate(path.join(__dirname,"templates","entry.js"), templateContext )
+        fs.writeFileSync(entryFile,entryContent)
+        logger.log(t(" - 访问入口文件: {}"),path.basename(entryFile))
+
+        
+
 
         // 7. 重新生成settings ,需要确保settings.js匹配模块类型
         if(moduleType==="esm"){
@@ -163,6 +175,6 @@ module.exports =async  function compile(langFolder,opts={}){
         }
         fs.writeFileSync(packageJsonFile,JSON.stringify(packageJson,null,4))
     }catch(e){ 
-        logger.log("加载多语言配置文件<{}>失败: {} ",settingsFile,e.message)
+        logger.log(t("加载多语言配置文件<{}>失败: {} "),settingsFile,e.message)
     }
 }

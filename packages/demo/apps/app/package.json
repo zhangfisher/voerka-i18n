@@ -1,4 +1,7 @@
 {
     "type": "commonjs",
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "@voerkai18n/tools": "workspace:^1.0.0"
+    }
 }

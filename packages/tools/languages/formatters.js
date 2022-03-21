@@ -47,59 +47,83 @@
  * 
  */
  
-const formatters =  {
-    "*":{ },                                            // 在所有语言下生效的格式化器    
-    $types:{ }                                          // 在所有语言下只作用于特定数据类型的格式化器   
- 
+module.exports = {
+    // 在所有语言下生效的格式化器
+    "*":{ 
+        //[格式化名称]:(value)=>{...},
+        //[格式化名称]:(value,arg)=>{...},
+    },                                                
+    // 在所有语言下只作用于特定数据类型的格式化器   
+    $types:{
+
+    },                                          
     cn:{
         $types:{
-            "*":{
+            // 所有类型的默认格式化器
+            // "*":{
                 
-            },
-            Date:{
+            // },
+            // Date:{
 
-            },
-            Number:{
+            // },
+            // Number:{
 
-            },
-            String:{
+            // },
+            // String:{
 
-            },
-            Array:{
+            // },
+            // Array:{
 
-            },
-            Object:{
+            // },
+            // Object:{
 
-            }
+            // }
         }        
-    }
- 
+    },
     en:{
         $types:{
-            "*":{
+            // 所有类型的默认格式化器
+            // "*":{
                 
-            },
-            Date:{
+            // },
+            // Date:{
 
-            },
-            Number:{
+            // },
+            // Number:{
 
-            },
-            String:{
+            // },
+            // String:{
 
-            },
-            Array:{
+            // },
+            // Array:{
 
-            },
-            Object:{
+            // },
+            // Object:{
 
-            }
+            // }
+        }        
+    },
+    jp:{
+        $types:{
+            // 所有类型的默认格式化器
+            // "*":{
+                
+            // },
+            // Date:{
+
+            // },
+            // Number:{
+
+            // },
+            // String:{
+
+            // },
+            // Array:{
+
+            // },
+            // Object:{
+
+            // }
         }        
     }
-
 }
-
-
-module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.module.exports.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s.s = formatters
-
-

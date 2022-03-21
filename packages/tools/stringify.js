@@ -40,7 +40,7 @@ const { isPlainObject } = require("./utils")
  * @returns 
  */
  function escape(str){
-    return str.replaceAll('\\','\\\\')
+    return str.replaceAll(/\\\\(?![trnbvf'"]{1})/g,"\\\\")
             .replaceAll("\t","\\t")
             .replaceAll("\n","\\n")
             .replaceAll("\b","\\b")
@@ -48,9 +48,22 @@ const { isPlainObject } = require("./utils")
             .replaceAll("\f","\\f")
             .replaceAll("\'","\\'")
             .replaceAll('\"','\\"')
-            .replaceAll('\v','\\v')
-            
+            .replaceAll('\v','\\v')       
 }
+function unescape(str){
+    return str
+            .replaceAll("\\t","\t")
+            .replaceAll("\\n","\n")
+            .replaceAll("\\b","\b")
+            .replaceAll("\\r","\r")
+            .replaceAll("\\f","\f")
+            .replaceAll("\\'","\'")
+            .replaceAll('\\"','\"')
+            .replaceAll('\\v','\v')
+            //.replaceAll("\\\\",'\\')       
+}
+
+
 /**
  * 获取字符串的长度，中文算两个字符
  * @param {*} s 
@@ -67,7 +80,7 @@ function getStringWidth(s){
     return realLength;  
 } 
  
-function objectToString(obj,{indent=4,alignKey=true}={}){
+function objectStringify(obj,{indent=4,alignKey=true}={}){
     function nodeToString(node,level,last=false){
         let results = [],beginChar = "",endChar = "" 
         level++
@@ -136,6 +149,10 @@ function objectToString(obj,{indent=4,alignKey=true}={}){
     }
     return nodeToString(obj,0,true)
 } 
-module.exports = objectToString 
-
-
+module.exports = {
+    objectStringify,
+    escape,
+    escape2,
+    unescape
+}
+ 

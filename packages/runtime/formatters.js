@@ -26,18 +26,19 @@
  * @param  {...any} args 
  * @returns 
  */
-function dict(value,...args){
-    try{
-        for(let i=0;i<args.length;i+=2){
-            if(args[i]===value){
-                return args[i+1]
-            }
+ function dict(value,...args){
+    for(let i=0;i<args.length;i+=2){
+        if(args[i]===value){
+            return args[i+1]
         }
-        if(args.length >0 && (args.length % 2!==0)) return args[args.length-1]
-    }catch{}
+    }
+    if(args.length >0 && (args.length % 2!==0)) return args[args.length-1]
     return value
 }
 
+function formatCurrency(value,symbol,retainDots){
+
+}
 
 module.exports = {     
     "*":{
@@ -45,6 +46,7 @@ module.exports = {
             Date:(value)=>value.toLocaleString()
         },
         time:(value)=>  value.toLocaleTimeString(),  
+        shorttime:(value)=>  value.toLocaleTimeString(),  
         date: (value)=> value.toLocaleDateString(),     
         dict,   //字典格式化器
     },   
@@ -52,11 +54,15 @@ module.exports = {
         $types:{
             Date:(value)=> `${value.getFullYear()}年${value.getMonth()+1}月${value.getDate()}日 ${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`
         },
+        shortime:(value)=>  value.toLocaleTimeString(),  
         time:(value)=>`${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`,     
         date: (value)=> `${value.getFullYear()}年${value.getMonth()+1}月${value.getDate()}日`,
+        shortdate: (value)=> `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()}`,
         currency:(value)=>`${value}元`,
     },
     en:{
-        currency:(value)=>`$${value}`,       
+        currency:(value)=>{
+            return `$${value}`
+        }
     }
 }

@@ -12,10 +12,8 @@ const fs = require('fs')
 const readJson = require("readjson") 
 const createLogger = require("logsets") 
 const { replaceInterpolateVars,getDataTypeName } = require("@voerkai18n/runtime")
-const { findModuleType,createPackageJsonFile } = require("./utils")
-const stringify = require("./stringify")
+const { findModuleType,createPackageJsonFile,t } = require("./utils")
 const logger = createLogger() 
-const { t } = require("./languages")
 
 
 // 捕获翻译文本正则表达式一： 能匹配完整的t(xx,...)函数调用，如果t函数调用不完整，则不能匹配到
@@ -311,35 +309,35 @@ function normalizeLanguageOptions(options){
 
 
  */
-function updateLanguageFile(fromTexts,toLangFile,options){
+function updateLanguageFile(newTexts,toLangFile,options){
     const { output:{ updateMode } } = options
     
     // 默认的overwrite
     if(!["merge","sync"].includes(updateMode)){
-        fs.writeFileSync(toLangFile,stringify(targetTexts))
+        fs.writeFileSync(toLangFile,JSON.stringify(oldTexts,null,4))
         return 
     }
-    let targetTexts = {}
+    let oldTexts = {}
     // 读取原始翻译文件
     try{
-        targetTexts = readJson.sync(toLangFile)
+        oldTexts =JSON.parse(fs.readFileSync(toLangFile))// readJson.sync(toLangFile)
     }catch(e){
         logger.log("Error while read language file <{}>: {}",toLangFile,e.message)
         // 如果读取出错，可能是语言文件不是有效的json文件，则备份一下
     }
     // 同步模式下，如果原始文本在新扫描的内容中，则需要删除
     if(updateMode==="sync"){
-        Object.keys(targetTexts).forEach((text)=>{
-            if(!(text in fromTexts)){
-                delete targetTexts[text]
+        Object.keys(oldTexts).forEach((text)=>{
+            if(!(text in newTexts)){
+                delete oldTexts[text]             
             }
         })
     }
-    Object.entries(fromTexts).forEach(([text,sourceLangs])=>{
-        if(text in targetTexts){ // 合并 
-            let targetLangs = targetTexts[text]  //{cn:'',en:''}
+    Object.entries(newTexts).forEach(([text,sourceLangs])=>{
+        if(text in oldTexts){ // 合并 
+            let targetLangs = oldTexts[text]  //{cn:'',en:''}
             Object.entries(sourceLangs).forEach(([langName,sourceText])=>{
-                if(langName.startsWith("$")) return         // 
+                if(langName.startsWith("$")) return         // 以$开头的为保留字段，不是翻译内容
                 const langExists = langName in targetLangs
                 const targetText = targetLangs[langName]
                 // 如果目标语言已经存在并且内容不为空，则不需要更新 
@@ -348,10 +346,10 @@ function updateLanguageFile(fromTexts,toLangFile,options){
                 }
             })
         }else{
-            targetTexts[text] = sourceLangs 
+            oldTexts[text] = sourceLangs 
         }
     })
-    fs.writeFileSync(toLangFile,stringify(targetTexts))
+    fs.writeFileSync(toLangFile,JSON.stringify(oldTexts,null,4))
 }
 
 
@@ -359,10 +357,10 @@ module.exports = function(options={}){
     options = normalizeLanguageOptions(options)
     let {debug,outputPath, updateMode,languages} = options
     
-    logger.log(t("支持的语言\t: {}",options.languages.map(item=>`${item.title}(${item.name})`).join(",")))
-    logger.log("默认语言\t: {}",options.defaultLanguage)
-    logger.log("激活语言\t: {}",options.activeLanguage) 
-    logger.log("名称空间\t: {}",Object.keys(options.namespaces).join(","))
+    logger.log(t("支持的语言\t: {}"),options.languages.map(item=>`${item.title}(${item.name})`).join(","))
+    logger.log(t("默认语言\t: {}"),options.defaultLanguage)
+    logger.log(t("激活语言\t: {}"),options.activeLanguage) 
+    logger.log(t("名称空间\t: {}"),Object.keys(options.namespaces).join(","))
     logger.log("")
     logger
     // 保存提交提取的文本 = {}
@@ -384,7 +382,9 @@ module.exports = function(options={}){
             fileCount++
             if(debug){
                 const textCount = Object.values(texts).reduce((sum,item)=>sum+Object.keys(item).length,0)
-                logger.log("提取<{}>, 发现 [{}] 名称空间，{} 条信息。",file.relative,Object.keys(texts).join(),textCount)
+                if(textCount>0){
+                    logger.log("提取<{}>, 发现 [{}] 名称空间，{} 条信息。",file.relative,Object.keys(texts).join(),textCount)
+                }                
             }
         }catch(err){
             logger.log("从<{}>提取信息时出错 : {}",file.relative,err.message)
@@ -411,7 +411,7 @@ module.exports = function(options={}){
                 updateLanguageFile(texts,langFile,options)
                 logger.log("    √ 更新语言文件 : {}",path.relative(outputPath,langFile))
             }else{
-                fs.writeFileSync(langFile,stringify(texts)) 
+                fs.writeFileSync(langFile,JSON.stringify(texts,null,4)) 
                 logger.log("    √ 保存语言文件 : {}",path.relative(outputPath,langFile))
             }   
         }
@@ -429,7 +429,6 @@ module.exports = function(options={}){
         }else{
             logger.log(" - 已更新语言配置文件: {}",settingsFile) 
         }    
-
 
         // 生成package.json  
         createPackageJsonFile(outputPath)

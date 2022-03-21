@@ -1,4 +1,4 @@
-const { findModuleType } = require("./utils")
+const { findModuleType,t } = require("./utils")
 const path = require("path")
 const fs = require("fs")
 const gulp = require("gulp")
@@ -9,7 +9,7 @@ const logger = createLogger()
 
 module.exports = function(targetPath,options={}){
     let { filetypes,exclude} =  options
-    if(!filetypes) filetypes = ["*.js","*.json","*.jsx","*.ts","*.tsx","*.vue","*.html"]
+    if(!filetypes) filetypes = ["*.js","*.jsx","*.ts","*.tsx","*.vue","*.html"]
     if(!Array.isArray(filetypes)) filetypes = filetypes.split(",")
     const folders = filetypes.map(ftype=>{
         if(ftype.startsWith(".")) ftype = "*"+ftype
@@ -19,6 +19,12 @@ module.exports = function(targetPath,options={}){
     folders.push(`!${path.join(targetPath,"languages","**")}`)
     folders.push(`!${path.join(targetPath,"node_modules","**")}`)
     folders.push(`!${path.join(targetPath,"**","node_modules","**")}`)
+    folders.push("!**/babel.config.js")
+    folders.push("!**/gulpfile.js")
+    folders.push("!**/*.test.js")
+    folders.push("!__test__/**/*.js")
+    
+
     if(!Array.isArray(exclude) && exclude){
         exclude = exclude.split(",")
     } 
@@ -28,11 +34,11 @@ module.exports = function(targetPath,options={}){
         })
     } 
     if(!fs.existsSync(targetPath)){
-        logger.log("目标文件夹<{}>不存在",targetPath)
+        logger.log(t("目标文件夹<{}>不存在"),targetPath)
         return 
     }
     if(options.debug){
-        logger.log("扫描提取范围：")
+        logger.log(t("扫描提取范围："))
         logger.format(folders)
     }
 

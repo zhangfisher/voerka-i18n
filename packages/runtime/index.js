@@ -1,5 +1,8 @@
 const deepMerge = require("deepmerge")
-const formatters = require("./formatters") 
+const EventEmitter = require("./eventemitter")
+const i18nScope = require("./scope.js")
+let  formatters = require("./formatters") 
+
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
 // 不支持参数： let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*\s*)*)\s*\}/g
@@ -30,6 +33,8 @@ let varReplaceRegexp =String.raw`\{\s*{varname}\s*\}`
 function hasInterpolation(str){
     return str.includes("{") && str.includes("}")
 } 
+const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"]
+
 /**
  * 获取指定变量类型名称
  * getDataTypeName(1) == Number
@@ -251,6 +256,7 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
     // 先在当前作用域中查找，再在全局查找
     const targets = [scope.formatters,scope.global.formatters]  
     for(const target of targets){
+        if(!target) continue
         // 优先在当前语言的$types中查找
         if((activeLanguage in target) && isPlainObject(target[activeLanguage].$types)){ 
             let formatters = target[activeLanguage].$types  
@@ -457,7 +463,29 @@ function getPluraMessage(messages,value){
         return Array.isArray(messages) ? messages[0] : messages
     }
 }
-
+function escape(str){
+    return str.replaceAll(/\\(?![trnbvf'"]{1})/g,"\\\\")
+        .replaceAll("\t","\\t")
+        .replaceAll("\n","\\n")
+        .replaceAll("\b","\\b")
+        .replaceAll("\r","\\r")
+        .replaceAll("\f","\\f")
+        .replaceAll("\'","\\'")
+        .replaceAll('\"','\\"')
+        .replaceAll('\v','\\v')       
+}
+function unescape(str){
+    return str
+        .replaceAll("\\t","\t")
+        .replaceAll("\\n","\n")
+        .replaceAll("\\b","\b")
+        .replaceAll("\\r","\r")
+        .replaceAll("\\f","\f")
+        .replaceAll("\\'","\'")
+        .replaceAll('\\"','\"')
+        .replaceAll('\\v','\v')       
+        .replaceAll(/\\\\(?![trnbvf'"]{1})/g,"\\")
+}
 /**
  * 翻译函数
  * 
@@ -517,8 +545,9 @@ function translate(message) {
             // 2.2 从当前语言包中取得翻译文本模板字符串
             // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
             // JSON.stringify在进行转换时会将\t\n\r转换为\\t\\n\\r,这样在进行匹配时就出错 
-            let msgId = isMessageId(content) ? content :  scope.idMap[content]  
+            let msgId = isMessageId(content) ? content :  scope.idMap[escape(content)]  
             content = scope.messages[msgId] || content
+            content = unescape(content)
         }
         
         // 3. 处理复数
@@ -561,10 +590,11 @@ function translate(message) {
  * VoerkaI18n.off("change",(language)=>{}) 
  * 
  * */ 
- class I18nManager{
+ class I18nManager extends EventEmitter{
     static instance    = null;                                  // 单例引用
     callbacks          =  []                                    //  当切换语言时的回调事件
     constructor(settings={}){
+        super()
         if(I18nManager.instance!=null){
             return I18nManager.instance;
         }
@@ -581,96 +611,39 @@ function translate(message) {
     get defaultLanguage(){ return this.this._settings.defaultLanguage}
     // 支持的语言列表
     get languages(){ return this._settings.languages}
-    // 订阅语言切换事件
-    on(callback){ 
-        this.callbacks.push(callback)
-    }
-    off(callback){
-        for(let i=0;i<this.callbacks.length;i++){
-            if(this.callbacks[i]===callback ){
-                this.callbacks.splice(i,1)
-                return
-            }
-        }
-    }
-    offAll(){
-        this.callbacks=[]
-    }
-    /**
-     * 切换语言时触发语言切换事件回调
-     */
-    async _triggerChangeEvents(newLanguage){        
-        try{
-            await this._updateScopes(newLanguage) 
-            if(Promise.allSettled){
-                await Promise.allSettled(this.callbacks.map(cb=>cb(newLanguage)))
-            }else{
-                await Promise.all(this.callbacks.map(cb=>cb(newLanguage)))
-            }
-        }catch(e){
-            console.warn("Error while executing language change events:",e.message)
-        }
-    }  
+    // 全局格式化器
+    get formatters(){ return formatters }
     /**
      *  切换语言
      */
     async change(value){
         if(this.languages.findIndex(lang=>lang.name === value)!==-1){
-            await this._triggerChangeEvents(value) 
+            // 通知所有作用域刷新到对应的语言包
+            await this._refreshScopes(value)
             this._settings.activeLanguage = value
+            /// 触发语言切换事件
+            await this.emit(value)            
         }else{
             throw new Error("Not supported language:"+value)
         }
     }
     /**
-     * 获取指定作用域的下的语言包加载器
-     * 
-     * 同时会进行语言兼容性处理
-     * 
-     * 如scope里面定义了一个cn的语言包，当切换到zh-cn时，会自动加载cn语言包
-     * 
-     * 
-     * @param {*} scope 
-     * @param {*} lang 
-     */
-    _getScopeLoader(scope,lang){
-
-    }
-    /**
      * 当切换语言时调用此方法来加载更新语言包
      * @param {*} newLanguage 
      */
-    async _updateScopes(newLanguage){ 
+    async _refreshScopes(newLanguage){ 
         // 并发执行所有作用域语言包的加载
         try{
-            let scopeLoders = this._scopes.map(scope=>{
-                return async ()=>{
-                    // 默认语言，所有均默认语言均采用静态加载方式，只需要简单的替换即可
-                    if(newLanguage === scope.defaultLanguage){
-                        scope.messages = scope.default
-                        return 
-                    }
-                    // 异步加载语言文件
-                    const loader = scope.loaders[newLanguage]
-                    if(typeof(loader) === "function"){
-                        try{
-                            scope.messages = (await loader() ).default 
-                        }catch(e){
-                            console.warn(`Error loading language ${newLanguage} : ${e.message}`)
-                            scope.messages = defaultMessages  // 出错时回退到默认语言
-                        }       
-                    }else{
-                        scope.messages = defaultMessages
-                    }
-                } 
-            }) 
+            const scopeRefreshers = this._scopes.map(scope=>{
+                return scope.refresh(newLanguage)
+            })
             if(Promise.allSettled){
-                await Promise.allSettled(scopeLoders.map((f)=>f()))
+                await Promise.allSettled(scopeRefreshers)
             }else{
-                await Promise.all(scopeLoders.map((f)=>f()))
+                await Promise.all(scopeRefreshers)
             } 
         }catch(e){
-            console.warn("Error while refreshing scope:",e.message)
+            console.warn("Error while refreshing i18n scopes:",e.message)
         }         
     }
     /**
@@ -678,33 +651,36 @@ function translate(message) {
      * 注册一个新的作用域
      * 
      * 每一个库均对应一个作用域，每个作用域可以有多个语言包，且对应一个翻译函数
-     * scope={ 
-     *      defaultLanguage:"cn",
-            default:   defaultMessages,                 // 转换文本信息
-            messages : defaultMessages,                 // 当前语言的消息
-            idMap:messageIds,
-            formatters:{
-                ...formatters,
-                ...i18nSettings.formatters || {}
-            },
-            loaders:{},      // 异步加载语言文件的函数列表
-            settings:{}      // 引用全局VoerkaI18n实例的配置
-     * }
-     * 
      * 除了默认语言外，其他语言采用动态加载的方式
      * 
      * @param {*} scope 
      */
-    register(scope){
-        scope.global = this._settings
+    async register(scope){
+        if(!(scope instanceof i18nScope)){
+            throw new TypeError("Scope must be an instance of I18nScope")
+        }
         this._scopes.push(scope) 
+        await scope.refresh(this.activeLanguage) 
     }
     /**
      * 注册全局格式化器
+     * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
+     * 
+     * registerFormatters(name,value=>{...})                                 // 适用于所有语言
+     * registerFormatters(name,value=>{...},{langauge:"cn"})                 // 适用于cn语言
+     * registerFormatters(name,value=>{...},{langauge:"en"})                 // 适用于en语言 
+     
      * @param {*} formatters 
      */
-    registerFormatters(formatters){
-
+    registerFormatter(name,formatter,{language="*"}={}){
+        if(!typeof(formatter)==="function" || typeof(name)!=="string"){
+            throw new TypeError("Formatter must be a function")
+        }        
+        if(DataTypes.includes(name)){
+            this.formatters[language].$types[name] = formatter
+        }else{
+            this.formatters[language][name] = formatter
+        }
     }
 }
 
@@ -714,6 +690,7 @@ module.exports ={
     I18nManager,
     translate,
     languages,
+    i18nScope,
     defaultLanguageSettings,
     getDataTypeName,
     isNumber,

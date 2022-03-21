@@ -48,7 +48,7 @@ importers:
   packages/demo/apps/app:
     specifiers:
       '@voerkai18n/tools': workspace:^1.0.0
-    dependencies:
+    devDependencies:
       '@voerkai18n/tools': link:../../../tools
 
   packages/demo/apps/app/languages:
@@ -91,8 +91,8 @@ importers:
       '@voerkai18n/runtime': workspace:^1.0.0
       art-template: ^4.13.2
       commander: ^9.0.0
+      cross-env: ^7.0.3
       deepmerge: ^4.2.2
-      dotenv: ^16.0.0
       glob: ^7.2.0
       gulp: ^4.0.2
       logsets: ^1.0.8
@@ -106,13 +106,14 @@ importers:
       art-template: 4.13.2
       commander: 9.0.0
       deepmerge: 4.2.2
-      dotenv: 16.0.0
       glob: 7.2.0
       gulp: 4.0.2
       logsets: 1.0.8
       readjson: 2.2.2
       through2: 4.0.2
       vinyl: 2.2.1
+    devDependencies:
+      cross-env: 7.0.3
 
   packages/vue:
     specifiers:
@@ -2426,6 +2427,14 @@ packages:
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
+
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -2568,11 +2577,6 @@ packages:
     dependencies:
       webidl-conversions: 5.0.0
     dev: true
-
-  /dotenv/16.0.0:
-    resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
-    engines: {node: '>=12'}
-    dev: false
 
   /duplexify/3.7.1:
     resolution: {integrity: sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==}

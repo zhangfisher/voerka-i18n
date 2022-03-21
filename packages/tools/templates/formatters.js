@@ -47,38 +47,37 @@
  * 
  */
  
-const formatters =  {
-    "*":{ },                                            // 在所有语言下生效的格式化器    
-    $types:{ }                                          // 在所有语言下只作用于特定数据类型的格式化器   
-{{each languages}} 
-    {{$value.name}}:{
+{{if moduleType === "esm"}}export default {{else}}module.exports = {{/if}}{
+    // 在所有语言下生效的格式化器
+    "*":{ 
+        //[格式化名称]:(value)=>{...},
+        //[格式化名称]:(value,arg)=>{...},
+    },                                                
+    // 在所有语言下只作用于特定数据类型的格式化器   
+    $types:{
+
+    },                                          
+{{each languages}}    {{$value.name}}:{
         $types:{
-            "*":{
+            // 所有类型的默认格式化器
+            // "*":{
                 
-            },
-            Date:{
+            // },
+            // Date:{
 
-            },
-            Number:{
+            // },
+            // Number:{
 
-            },
-            String:{
+            // },
+            // String:{
 
-            },
-            Array:{
+            // },
+            // Array:{
 
-            },
-            Object:{
+            // },
+            // Object:{
 
-            }
+            // }
         }        
-    }
-{{/each}}
-}
-
-{{if moduleType === "esm"}}
-export default formatters 
-{{else}}
-module.exports = formatters
-{{/if}}
-
+    }{{if $index !== languages.length - 1}},{{/if}}
+{{/each}}}
