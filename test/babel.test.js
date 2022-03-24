@@ -10,7 +10,7 @@
 const babel = require("@babel/core");
 const fs = require("fs");
 const path = require("path");
-const i18nPlugin = require("../packages/tools/babel-plugin-voerkai18n");
+const i18nPlugin = require("../packages/babel");
 
 const code = `
 function test(a,b){

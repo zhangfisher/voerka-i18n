@@ -1,0 +1,16 @@
+{
+  "name": "@voerkai18n/babel",
+  "version": "1.0.0",
+  "description": "VoerkaI18n babel plugin",
+  "main": "index.js",
+  "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitee.com/zhangfisher/voerka-i18n.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

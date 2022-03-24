@@ -2,17 +2,27 @@
   "name": "@voerkai18n/runtime",
   "version": "1.0.0",
   "description": "Voerkai18n Runtime",
-  "main": "index.js",
-  "module": "index.esm.js",
+  "main": "./dist/index.cjs",
+  "module": "dist/index.esm.js",
+  "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitee.com/zhangfisher/voerka-i18n.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
   },
-  "author": "",
-  "license": "ISC",
+  "exports":{
+    "import":"./dist/index.esm.js" ,
+    "require":"./dist/index.cjs"
+  },
+  "author": "wxzhang",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.1.3",
     "deepmerge": "^4.2.2",
+    "rollup": "^2.69.0",
     "rollup-plugin-terser": "^7.0.2"
   }
 }

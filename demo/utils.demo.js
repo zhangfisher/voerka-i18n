@@ -1,4 +1,4 @@
-const { objectStringify }   = require("../tools/stringify")
+const { objectStringify }   = require("@voerkai18n/cli/stringify")
 const path = require("path");
 const fs = require("fs");
 

@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const extract = require('@voerkai18n/tools/extract.plugin');
+const extract = require('@voerkai18n/cli/extract.plugin');
 const path = require('path');
 
 

@@ -10,11 +10,11 @@ export default  [
         input:  './index.js', 
         output: [
             {
-                file: 'index.esm.js', 
+                file: 'dist/index.esm.js', 
                 format:"esm" 
             },
             {
-                file: 'index.cjs', 
+                file: 'dist/index.cjs', 
                 exports:"default",        
                 format:"cjs" 
             }
@@ -23,8 +23,8 @@ export default  [
             resolve(),
             commonjs(), 
             clear({targets:["dist"]}),
-            //terser()
+            terser()
         ],
-        //external:["@babel/runtime"]
+        external:["@babel/runtime"]
     }
 ]

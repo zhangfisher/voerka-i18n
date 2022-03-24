@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:runtime":"pnpm build --filter \"@voerkai18n/runtime\"",
-    "test": "jest",
+    "build:runtime": "pnpm build --filter \"@voerkai18n/runtime\"",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js ",
     "test:babelplugin": "jest babel",
     "test:extract": "jest extract",
     "test:translate": "jest translate",
     "demo:extract": "node ./packages/demo/extract.demo.js",
-    "demo:compile": "node ./packages/demo/compile.demo.js",
-    "demo:babel": "babel ./demodata/a/a1.js --plugins=./src/babel-plugin-voerkai18n.js"
+    "demo:compile": "node ./packages/demo/compile.demo.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,10 +22,12 @@
     "@rollup/plugin-commonjs": "^21.0.2",
     "dayjs": "^1.10.8",
     "deepmerge": "^4.2.2",
+    "fs-extra": "^10.0.1",
     "gulp": "^4.0.2",
     "jest": "^27.5.1",
     "rollup": "^2.69.0",
     "rollup-plugin-clear": "^2.0.7",
+    "shelljs": "^0.8.5",
     "vinyl": "^2.2.1"
   }
 }

@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@voerkai18n/runtime": "workspace:^1.0.0",
-    "@voerkai18n/tools": "workspace:^1.0.0"
+    "@voerkai18n/cli": "workspace:^1.0.0"
   },
   "devDependencies": {
     "deepmerge": "^4.2.2",

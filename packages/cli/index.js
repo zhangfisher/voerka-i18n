@@ -16,7 +16,9 @@ program
     .option('-d, --debug', t('输出调试信息'))
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
     .option('-m, --moduleType [type]', t('生成的js模块类型,取值auto,esm,cjs'),"auto")   
-    .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['cn','en']) 
+    .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['cn','en'])     
+    .option('-default, --defaultLanguage <name>', t('默认语言'), 'cn')  
+    .option('-active, --activeLanguage <name>', t('激活语言'), 'cn')  
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE
         if(lang){

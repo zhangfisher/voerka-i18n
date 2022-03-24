@@ -47,7 +47,7 @@ module.exports = function(srcPath,{debug = true,languages=["cn","en"],defaultLan
         namespaces:{}
     }
     // 写入配置文件
-    if(["esm","es"].includes(moduleType)){
+    if(["esm","es","module"].includes(moduleType)){
         fs.writeFileSync(settingsFile,`export default ${JSON.stringify(settings,null,4)}`)
     }else{
         fs.writeFileSync(settingsFile,`module.exports = ${JSON.stringify(settings,null,4)}`)

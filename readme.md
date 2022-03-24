@@ -44,7 +44,7 @@
 
 - **@voerkai18/runtime**
 
-  必须的运行时，安装到运行依赖`dependencies`中
+  必须的运行时（大概12K），安装到运行依赖`dependencies`中
 
   ```javascript
   npm install --save @voerkai18/runtime
@@ -52,19 +52,23 @@
   pnpm add @voerkai18/runtime
   ```
 
-- **@voerkai18/tools**
+- **@voerkai18/cli**
 
-  包含文本提取/编译等命行工具，应该安装到开发依赖`devDependencies`中
+  包含文本提取/编译等命令行工具，应该安装到开发依赖`devDependencies`中
 
   ```javascript
-  npm install --save-dev @voerkai18/tools
-  yarn add -D @voerkai18/tools
-  pnpm add -D @voerkai18/tools
+  npm install --save-dev @voerkai18/cli
+  yarn add -D @voerkai18/cli
+  pnpm add -D @voerkai18/cli
   ```
 
 - **@voerkai18/formatters**
 
   可选的，一些额外的格式化器，可以按需进行安装到`dependencies`中，用来扩展翻译时对插值变量的额外处理。
+  
+- **@voerkai18/babel**
+  
+  可选的`babel`插件，用来实现自动导入翻译函数和翻译文本映射自动替换。
 
 
 # 快速入门
@@ -537,11 +541,17 @@ t("{value | uppercase}",3)  // == 3
 
 定义在`@voerkai18n/runtime`里面的格式化器则全局有效，在所有场合均可以使用，但是其优先级低于作用域内的同名格式化器。目前内置的格式化器有：
 
+| 名称 |      | 说明 |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
 ### 扩展格式化器
 
-除了可以在当前项目`languages/formatters.js`自定义格式化器和`@voerkai18n/runtime`里面的全局格式化器外，在`@voerkai18n/formatters`中包含了更多的格式化器。
+除了可以在当前项目`languages/formatters.js`自定义格式化器和`@voerkai18n/runtime`里面的全局格式化器外，单列了`@voerkai18n/formatters`项目用来包含了更多的格式化器。
 
-作为开源项目，欢迎大家提交贡献更多的格式化器。`@voerkai18n/formatters`
+作为开源项目，欢迎大家提交贡献更多的格式化器。
 
 ## 日期时间
 
@@ -626,28 +636,22 @@ t("我有{}辆车",100)  	// == "I have 100 cars"
 
 当启用复数功能时，`t`函数需要知道根据哪个变量来决定采用何种复数形式。
 
+**当采用位置变量插值时，`t`函数取第一个数字类型参数作为位置插值复数。**
+
 
 ```javascript
 t("{}有{}辆车","张三",0)
 ```
 
+**当采用命名变量插值时，`t`函数约定当插值字典中存在以`$字符开头`的变量时，并且值是`数字`时，根据该变量来引用复数。**
 
-以上采用位置插值变量时只能处理第一个位置插值复数，当翻译内容存在多个位置插值变量时,因为无法获取哪一个位置变量是数字，因此就不能有效处理。如:
+下例中，`t`函数根据`$count`值来处理复数。
+
 ```javascript
-t("{}有{}辆车","张三",0)
-t("{}有{}辆车","张三",1)
-```
-此种情况下就需要采用命名插值变量来处理。
-具体的方式是约定当插值字典中存在以`$字符开头`的变量时，并且值是`数字`时，根据该变量来引用复数。以下例中，`t`函数根据`$count`值来处理复数。
-```javascript
-t("{name}有{$count}辆车",{name:"Tom",$count:0})    // == "Tom don't have a car"
-t("{name}有{$count}辆车",{name:"Tom",$count:1})    // == "Tom have a car"
-t("{name}有{$count}辆车",{name:"Tom",$count:2})    // == "Tom have two cars"
-t("{name}有{$count}辆车",{name:"Tom",$count:100})  // == "Tom have 100 cars"
+t("{name}有{$count}辆车",{name:"张三",$count:1})
 ```
 
-
-### 示例
+- **示例**
 
 ```javascript
 // languages/translates/default.json
@@ -658,7 +662,7 @@ t("{name}有{$count}辆车",{name:"Tom",$count:100})  // == "Tom have 100 cars"
             "Chapter Five","Chapter Six","Chapter Seven","Chapter Eight","Chapter Nine",
             "Chapter {}"
         ],
-        cn:["第零章","第一章", "第二章", "第三章","第四章","第五章","第六章","第七章","第八章","第九章"]
+        cn:["起始","第一章", "第二章", "第三章","第四章","第五章","第六章","第七章","第八章","第九章",“第{}章”]
     }
 }
 // 翻译函数
@@ -671,6 +675,7 @@ t("第{}章",5)  // == Chapter Five
 t("第{}章",6)  // == Chapter Six
 t("第{}章",7)  // == Chapter Seven
 ...
+// 超过取最后一项
 t("第{}章",100)  // == Chapter 100
 ```
 
@@ -775,7 +780,7 @@ import { t } from "../../../languages"
 - 在`babel.config.js`中配置插件
 
 ```javascript
-const i18nPlugin =  require("@voerkai18n/tools/babel-plugin-voerkai18n")
+const i18nPlugin =  require("@voerkai18n/babel")
 module.expors = {
     plugins: [
         [
@@ -920,16 +925,34 @@ const scope = new i18nScope({
     })
 ```
 
+## babel插件
+
+全局安装`@voerkai18n/babel`插件用来进行自动导入t函数和自动文本映射。
+
+```javascript
+> npm install -g @voerkai18n/babel
+> yarn global add @voerkai18n/babel
+> pnpm add -g @voerkai18n/babel
+```
+
+然后在`babel.config.js`中使用，详见上节`自动导入翻译函数`介绍。
+
+
+
+## VUE扩展
+
+## React扩展
+
 
 
 # 命令行
 
-全局安装`@voerkai18n/tools`工具。
+全局安装`@voerkai18n/cli`工具。
 
 ```javascript
-> npm install -g @voerkai18n/tools
-> yarn global add @voerkai18n/tools
-> pnpm add -g @voerkai18n/tools
+> npm install -g @voerkai18n/cli
+> yarn global add @voerkai18n/cli
+> pnpm add -g @voerkai18n/cli
 ```
 
 然后就可以执行：
@@ -966,6 +989,8 @@ Options:
   -r, --reset                        重新生成当前项目的语言配置
   -m, --moduleType [type]            生成的js模块类型,取值auto,esm,cjs (default: "auto")
   -lngs, --languages <languages...>  支持的语言列表 (default: ["cn","en"])
+  -default, --defaultLanguage        默认语言
+  -active, --activeLanguage          激活语言
   -h, --help                         display help for command
 ```
 
@@ -975,7 +1000,7 @@ Options:
 
 ```javascript
 //- `lngs`参数用来指定拟支持的语言名称列表
-> voerkai18n init -lngs cn,en,jp,de
+> voerkai18n init . -lngs cn en jp de -default cn
 ```
 
 运行`voerkai18n init`命令后，会在当前工程中创建相应配置文件。

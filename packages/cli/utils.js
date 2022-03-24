@@ -2,13 +2,15 @@ const path = require("path")
 const fs = require("fs") 
 const readJson = require("readjson")
 
-async function importModule(url){
+async function importModule(url,onlyDefault=true) {
     try{
         return require(url)
-    }catch{
-        return await import(url)
-    }    
+    }catch(e){
+        const result = await import(`file:///${url}`)
+        return onlyDefault ? result.default : result
+    }
 }
+
 /**
  * 从当前文件夹开始向上查找package.json文件，并解析出语言包的类型
  * @param {*} folder 
@@ -58,8 +60,11 @@ function createPackageJsonFile(targetPath,moduleType="auto"){
         moduleType = findModuleType(targetPath)
     }
     const packageJsonFile = path.join(targetPath, "package.json")
-    if(["esm","es"].includes(moduleType)){
+    if(["esm","es","module"].includes(moduleType)){
         fs.writeFileSync(packageJsonFile,JSON.stringify({type:"module",license:"MIT"},null,4))
+        if(moduleType==="module"){
+            moduleType = "esm"
+        }
     }else{
         fs.writeFileSync(packageJsonFile,JSON.stringify({license:"MIT"},null,4))
     }
@@ -150,7 +155,7 @@ function escape(str){
 }
 
 // 翻译函数
-// @voerkai18n/tools工程本身使用了voerkai18n,即@voerkai18n/tools的extract和compile依赖于其自己生成的languages运行时
+// @voerkai18n/cli工程本身使用了voerkai18n,即@voerkai18n/cli的extract和compile依赖于其自己生成的languages运行时
 // 这样产生了鸡蛋问题，因此在extract与compile调试阶段如果t函数无法使用(即编译的languages无法正常使用)，则需要提供t函数
 // 此函数的目的是提供一种容错方式
 let t

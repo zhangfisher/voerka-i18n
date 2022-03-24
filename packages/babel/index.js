@@ -3,7 +3,10 @@
  * 
  *  - 将源文件中的t("xxxxx")转码成t("id")
  *  - 自动导入languages/index.js中的翻译函数t
- *  
+ * 
+ *  查看AST: https://astexplorer.net/
+ *  Babel插件手册: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md
+ * 
  *  使用方法:
  * 
  * {

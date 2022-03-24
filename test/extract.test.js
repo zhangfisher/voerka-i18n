@@ -1,8 +1,8 @@
-const extract = require("../packages/tools/extract.plugin");
+const extract = require("../packages/cli/extract.plugin");
 const gulp = require('gulp'); 
 const path = require('path');
 const Vinyl = require('vinyl');
-const {  getTranslateTexts, normalizeLanguageOptions } = require("../packages/tools/extract.plugin");
+const {  getTranslateTexts, normalizeLanguageOptions } = require("../packages/cli/extract.plugin");
 
  
 const languages = [{name:'en',title:"英文"},{name:'cn',title:"中文",default:true},{name:'de',title:"德语"},{name:'jp',title:"日本語"}]
