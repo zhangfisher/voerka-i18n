@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "VoerkaI18n command line interactive tools",
   "main": "index.js",
   "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -23,7 +23,8 @@
   "author": "wxzhang",
   "license": "MIT",
   "bin": {
-    "voerkai18n": "./index.js"
+    "voerkai18n": "./index.js",
+    "publish": "npm publish -access public"
   }, 
   "dependencies": {
     "@babel/cli": "^7.17.6",

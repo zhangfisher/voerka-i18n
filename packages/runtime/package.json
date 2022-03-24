@@ -11,7 +11,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "publish": "npm run build && npm publish -access public"
   },
   "exports":{
     "import":"./dist/index.esm.js" ,

@@ -10,7 +10,8 @@
     "test:extract": "jest extract",
     "test:translate": "jest translate",
     "demo:extract": "node ./packages/demo/extract.demo.js",
-    "demo:compile": "node ./packages/demo/compile.demo.js"
+    "demo:compile": "node ./packages/demo/compile.demo.js",
+    "publish":""
   },
   "author": "",
   "license": "ISC",
