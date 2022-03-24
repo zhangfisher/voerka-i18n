@@ -11,20 +11,56 @@ async function importModule(url,onlyDefault=true) {
     }
 }
 
+
+
+
 /**
+ * 返回当前项目根文件夹
+ * 从指定文件夹folder向上查找package.json
+ * @param {*} folder 
+ */
+ function getCurrentProjectRootFolder(folder,exclueCurrent=false){
+    try{ 
+        const pkgFile =exclueCurrent ? 
+                        path.join(folder, "..", "package.json")
+                        : path.join(folder, "package.json")
+        if(fs.existsSync(pkgFile)){ 
+            return path.dirname(pkgFile)
+        }
+        const parent = path.dirname(folder)
+        if(parent===folder) return null
+        return getCurrentProjectRootFolder(parent,false)
+    }catch(e){
+        return null
+    }
+}
+
+
+/**
+ * 读取指定文件夹的package.json文件，如果当前文件夹没有package.json文件，则向上查找
+ * @param {*} folder 
+ * @param {*} exclueCurrent    =true 排除folder，从folder的父级开始查找
+ * @returns 
+ */
+function getCurrentPackageJson(folder,exclueCurrent=true){ 
+    let projectFolder = getCurrentProjectRootFolder(folder,exclueCurrent)
+    if( projectFolder){
+       return readJson.sync(path.join(projectFolder, "package.json"))
+    }
+}
+
+/**
+ * 
+ * 返回当前项目的模块类型
+ * 
  * 从当前文件夹开始向上查找package.json文件，并解析出语言包的类型
+ * 
  * @param {*} folder 
  */
  function findModuleType(folder){
-    try{
-        let pkgPath = path.join(folder, "package.json")
-        if(fs.existsSync(pkgPath)){
-            let pkg = readJson.sync(pkgPath)
-            return pkg.type || "commonjs"
-        }
-        let parent = path.dirname(folder)
-        if(parent===folder) return null
-        return findModuleType(parent)
+    let packageJson = getCurrentPackageJson(folder)
+    try{ 
+        return packageJson.type || "commonjs"
     }catch(e){
         return "esm"
     }
@@ -32,28 +68,6 @@ async function importModule(url,onlyDefault=true) {
 
 
 
-/**
- * 读取指定文件夹的package.json文件，如果当前文件夹没有package.json文件，则向上查找
- * @param {*} folder 
- * @param {*} exclueSelf    =true 排除folder，从folder的父级开始查找
- * @returns 
- */
-function getCurrentPackageJson(folder,exclueSelf=true){
-    try{ 
-        let pkgPath =exclueSelf ? 
-                        path.join(folder, "..", "package.json")
-                        : path.join(folder, "package.json")
-        if(fs.existsSync(pkgPath)){
-            let pkg = readJson.sync(pkgPath)
-            return pkg
-        }
-        let parent = path.dirname(folder)
-        if(parent===folder) return null
-        return getCurrentPackageJson(parent,false)
-    }catch(e){
-        return null
-    }
-}
 
 function createPackageJsonFile(targetPath,moduleType="auto"){
     if(moduleType==="auto"){
@@ -172,6 +186,7 @@ module.exports = {
     createPackageJsonFile,
     isPlainObject,
     getCurrentPackageJson,
+    getCurrentProjectRootFolder,
     escape,
     t
 }

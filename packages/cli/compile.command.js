@@ -54,8 +54,7 @@ module.exports =async  function compile(langFolder,opts={}){
     const settingsFile = path.join(langFolder,"settings.js")
     try{        
         // 读取多语言配置文件
-        const module =await importModule(`file:///${settingsFile}`) 
-        const langSettings = module.default;
+        const langSettings = await importModule(settingsFile) 
         let { languages,defaultLanguage,activeLanguage,namespaces }  = langSettings
         
         logger.log(t("支持的语言\t: {}"),languages.map(item=>`${item.title}(${item.name})`).join(","))

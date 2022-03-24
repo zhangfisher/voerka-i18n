@@ -73,7 +73,7 @@ program
         const langSettingsFile = path.join(location,"languages","settings.js")
         if(fs.existsSync(langSettingsFile)){
             logger.log(t("语言配置文件<{}>已存在,将优先使用此配置文件中参数来提取文本","./languages/settings.js"))
-            let lngOptions  = (await importModule("file:///"+langSettingsFile)).default
+            let lngOptions  = await importModule(langSettingsFile)
             options.languages = lngOptions.languages
             options.defaultLanguage = lngOptions.defaultLanguage
             options.activeLanguage = lngOptions.activeLanguage

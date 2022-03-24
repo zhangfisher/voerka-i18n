@@ -50,6 +50,7 @@ importers:
       gulp: ^4.0.2
       logsets: ^1.0.8
       readjson: ^2.2.2
+      shelljs: ^0.8.5
       through2: ^4.0.2
       vinyl: ^2.2.1
     dependencies:
@@ -64,6 +65,7 @@ importers:
       gulp: 4.0.2
       logsets: 1.0.8
       readjson: 2.2.2
+      shelljs: 0.8.5
       through2: 4.0.2
       vinyl: 2.2.1
 
@@ -5047,7 +5049,6 @@ packages:
       glob: 7.2.0
       interpret: 1.4.0
       rechoir: 0.6.2
-    dev: true
 
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}

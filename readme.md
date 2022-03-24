@@ -20,7 +20,7 @@
 
 - 符合直觉，不需要手动定义文本`Key`映射。
 
-- 完整的自动化工具链支持，包括项目初始化、提取文本、编码语言等。
+- 完整的自动化工具链支持，包括项目初始化、提取文本、编译语言等。
 
 - 支持`babel`插件自动导入t翻译函数。
 
@@ -1041,13 +1041,19 @@ module.exports = {
 **说明：**
 
 - 您也可以手动自行创建`languages/settings.js`、`languages/package.json`文件。这样就不需运行`voerkai18n init`命令了。
+
 - 如果你的源码放在`src`文件夹，则需要在`src`文件夹下执行`init`命令。
+
 - `voerkai18n init`是可选的，直接使用`extract`时也会自动创建相应的文件。
+
 - `-m`参数用来指定生成的`settings.js`的模块类型：
   - 当`-m=auto`时，会自动读取前工程`package.json`中的`type`字段
   - 当`-m=esm`时，会生成`ESM`模块类型的`settings.js`。
   - 当`-m=cjs`时，会生成`commonjs`模块类型的`settings.js`。
+  
 - `location`参数是可选的，如果没有指定则采用当前目录。
+
+  如果你想将`languages`安装在`src/languages`下，则可以指定`voerkai18n init ./src`
 
 ## extract
 

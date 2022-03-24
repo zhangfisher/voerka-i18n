@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/cli",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "VoerkaI18n command line interactive tools",
   "main": "index.js",
   "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -25,20 +25,21 @@
   "bin": {
     "voerkai18n": "./index.js",
     "publish": "npm publish -access public"
-  }, 
+  },
   "dependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
     "@voerkai18n/runtime": "workspace:^1.0.0",
     "art-template": "^4.13.2",
     "commander": "^9.0.0",
+    "cross-env": "^7.0.3",
     "deepmerge": "^4.2.2",
     "glob": "^7.2.0",
     "gulp": "^4.0.2",
     "logsets": "^1.0.8",
     "readjson": "^2.2.2",
+    "shelljs": "^0.8.5",
     "through2": "^4.0.2",
-    "vinyl": "^2.2.1",
-    "cross-env": "^7.0.3"
+    "vinyl": "^2.2.1"
   }
 }
