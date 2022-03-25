@@ -1,0 +1,8 @@
+{
+    "Hello world!": {
+        "en": "Hello world!",
+        "$file": [
+            "App.vue"
+        ]
+    }
+}

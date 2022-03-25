@@ -27,48 +27,6 @@
             "extract.plugin.js"
         ]
     },
-    "模块类型\\t: {}": {
-        "en": "Module type\\t\\t: {}",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
-    "编译结果输出至：{}": {
-        "en": "Compile to：{}",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
-    "读取语言文件{}失败:{}": {
-        "en": "Error while read language of file<{}>:{}",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
-    " - 共合成{}条语言包文本": {
-        "en": " - Total {} messages",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
-    " - 语言包文件: {}": {
-        "en": " - language messages: {}",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
-    " - idMap文件: {}": {
-        "en": " - idMap file: {}",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
-    " - 格式化器:{}": {
-        "en": " - Formatters:{}",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
     " - 更新格式化器:{}": {
         "en": " - Update formatters:{}",
         "$file": [
@@ -119,12 +77,6 @@
     },
     "重新生成当前项目的语言配置": {
         "en": "Regenerate the language configuration of the current project",
-        "$file": [
-            "index.js"
-        ]
-    },
-    "生成的js模块类型,取值auto,esm,cjs": {
-        "en": "Generated JS module type, with values of auto, esm, cjs",
         "$file": [
             "index.js"
         ]
@@ -213,18 +165,6 @@
             "index.js"
         ]
     },
-    "找不到{}文件,{}只能在js项目工程中使用": {
-        "en": "Cannot find {} file, {} can only be used in JS project",
-        "$file": [
-            "init.command.js"
-        ]
-    },
-    "找不到package.json文件,voerkai18n只能在js项目工程中使用": {
-        "en": "Cannot find <package.json> file, voerkai18n can only be used in JS project",
-        "$file": [
-            "init.command.js"
-        ]
-    },
     "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建": {
         "en": "Language configuration {} file already exists, skipping creation\\n use {} to overwrite the creation",
         "$file": [
@@ -265,6 +205,66 @@
         "en": " - Run <{}> compile language messages",
         "$file": [
             "init.command.js"
+        ]
+    },
+    "创建语言包文件夹: {}": {
+        "en": "Create <languages> folder: {}",
+        "$file": [
+            "init.command.js"
+        ]
+    },
+    "正在安装多语言运行时：{}": {
+        "en": "Installing @voerkai18n/runtime：{}",
+        "$file": [
+            "init.command.js"
+        ]
+    },
+    "模块类型\\t: {}": {
+        "en": "Type of module\\t\\t: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "编译结果输出至：{}": {
+        "en": "Compile to：{}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "读取语言文件{}失败:{}": {
+        "en": "Error while read language file{}: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    " - 共合成{}条语言包文本": {
+        "en": " - Total {} messages",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    " - 语言包文件: {}": {
+        "en": " - Language file: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    " - idMap文件: {}": {
+        "en": " - idMap file: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    " - 格式化器:{}": {
+        "en": " - Formatters: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "Now is { value | date | bjTime  }": {
+        "en": "Now is { value | date | bjTime  }",
+        "$file": [
+            "templates\\formatters.js"
         ]
     }
 }

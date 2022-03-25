@@ -97,9 +97,9 @@ test("初始化工程(esm)",async () =>{
     let code = shelljs.exec(`node ${CLI_INDEX_FILE} init . -lngs ${SUPPORTED_LANGUAGES.join(" ")} -default ${DEFAULT_LANGUAGE} -active ${ACTIVE_LANGUAGE}`).code
     expect(code).toEqual(0);
     expect(fs.existsSync(path.join(LANGUAGE_FOLDER,"package.json"))).toBe(true);
-    expect(fs.existsSync(path.join(LANGUAGE_FOLDER,"settings.js"))).toBe(true);
+    expect(fs.existsSync(path.join(LANGUAGE_FOLDER,"settings.json"))).toBe(true);
     expect(fs.readJSONSync(path.join(LANGUAGE_FOLDER,"package.json")).type || "commonjs").toEqual(MODULE_TYPE);
-    const langSettings = await importModule(path.join(LANGUAGE_FOLDER,"settings.js"));
+    const langSettings = await importModule(path.join(LANGUAGE_FOLDER,"settings.json"));
 
     expect(langSettings.languages.map(lng=>lng.name).join(",")).toEqual(SUPPORTED_LANGUAGES.join(","));
     expect(langSettings.defaultLanguage).toEqual(DEFAULT_LANGUAGE);
@@ -110,9 +110,9 @@ test("初始化工程(cjs)",async () =>{
     let code = shelljs.exec(`node ${CLI_INDEX_FILE} init . -lngs ${SUPPORTED_LANGUAGES.join(" ")} -default ${DEFAULT_LANGUAGE} -active ${ACTIVE_LANGUAGE}`).code
     expect(code).toEqual(0);
     expect(fs.existsSync(path.join(LANGUAGE_FOLDER,"package.json"))).toBe(true);
-    expect(fs.existsSync(path.join(LANGUAGE_FOLDER,"settings.js"))).toBe(true);
+    expect(fs.existsSync(path.join(LANGUAGE_FOLDER,"settings.json"))).toBe(true);
     expect(fs.readJSONSync(path.join(LANGUAGE_FOLDER,"package.json")).type || "commonjs").toEqual("commonjs");
-    const langSettings = await importModule(path.join(LANGUAGE_FOLDER,"settings.js"));
+    const langSettings = await importModule(path.join(LANGUAGE_FOLDER,"settings.json"));
 
     expect(langSettings.languages.map(lng=>lng.name).join(",")).toEqual(SUPPORTED_LANGUAGES.join(","));
     expect(langSettings.defaultLanguage).toEqual(DEFAULT_LANGUAGE);

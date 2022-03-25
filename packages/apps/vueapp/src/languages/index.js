@@ -1,8 +1,8 @@
 
-const messageIds = require("./idMap")
-const { translate,I18nManager,i18nScope  } =  require("@voerkai18n/runtime")
-const formatters = require("./formatters.js")
-const defaultMessages =  require("./cn.js")  
+import messageIds from "./idMap.js"
+import { translate,I18nManager,i18nScope  } from "@voerkai18n/runtime"
+import formatters from "./formatters.js"
+import defaultMessages from "./cn.js"  
 const activeMessages = defaultMessages
  
  
@@ -26,7 +26,7 @@ const scopeSettings = {
 // 语言作用域
 const scope = new i18nScope({
     ...scopeSettings,                           // languages,defaultLanguage,activeLanguage,namespaces,formatters
-    id: "@voerkai18n/cli",                          // 当前作用域的id，自动取当前工程的package.json的name
+    id: "vueapp",                          // 当前作用域的id，自动取当前工程的package.json的name
     default:   defaultMessages,                 // 默认语言包
     messages : activeMessages,                  // 当前语言包
     idMap:messageIds,                           // 消息id映射列表
@@ -38,7 +38,9 @@ const scope = new i18nScope({
 // 翻译函数
 const t = translate.bind(scope) 
 
-module.exports.t = t
-module.exports.i18nScope = scope
-module.exports.i18nManager = VoerkaI18n
+export { 
+    t, 
+    i18nScope:scope,
+    i18nManager:VoerkaI18n, 
+}
 

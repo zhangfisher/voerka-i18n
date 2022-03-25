@@ -14,21 +14,19 @@
  *          - cn.json
  *          - ...
  *       idMap.js                    // id映射列表
- *       settings.js                 // 配置文件
+ *       settings.json                 // 配置文件
  *       cn.js                       // 中文语言包
  *       en.js                       // 英文语言包
  *       [lang].js                   // 其他语言包
- *       package.json                // 包信息，用来指定包类型，以便在nodejs中能够正确加载
  * 
  * @param {*} opts 
  */
 
-const readJson = require("readjson")
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { t,importModule,findModuleType,getCurrentPackageJson} = require("./utils")
-const fs = require("fs")
+const { t,findModuleType,getCurrentPackageJson} = require("./utils")
+const fs = require("fs-extra")
 const logger = createLogger() 
 const artTemplate = require("art-template")
  
@@ -36,6 +34,7 @@ function normalizeCompileOptions(opts={}) {
     let options = Object.assign({
         moduleType:"auto"                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
     }, opts)
+    options.moduleType = options.moduleType.trim()
     if(options.moduleType==="es") options.moduleType = "esm"
     if(options.moduleType==="cjs") options.moduleType = "commonjs"
     if(!["auto","commonjs","cjs","esm","es"].includes(options.moduleType))  options.moduleType = "esm"
@@ -45,16 +44,16 @@ function normalizeCompileOptions(opts={}) {
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
     let { moduleType } = options; 
-    
+    // 如果自动则会从当前项目读取，如果没有指定则会是esm
     if(moduleType==="auto"){
         moduleType = findModuleType(langFolder)
     }
     const projectPackageJson = getCurrentPackageJson(langFolder)
     // 加载多语言配置文件
-    const settingsFile = path.join(langFolder,"settings.js")
+    const settingsFile = path.join(langFolder,"settings.json")
     try{        
         // 读取多语言配置文件
-        const langSettings = await importModule(settingsFile) 
+        const langSettings = fs.readJSONSync(settingsFile) 
         let { languages,defaultLanguage,activeLanguage,namespaces }  = langSettings
         
         logger.log(t("支持的语言\t: {}"),languages.map(item=>`${item.title}(${item.name})`).join(","))
@@ -69,7 +68,7 @@ module.exports =async  function compile(langFolder,opts={}){
         let messages = {} ,msgId =1 
         glob.sync(path.join(langFolder,"translates/*.json")).forEach(file=>{
             try{
-                let msg = readJson.sync(file)
+                let msg = fs.readJSONSync(file)
                 Object.entries(msg).forEach(([msg,langs])=>{
                     if(msg in messages){
                         Object.assign(messages[msg],langs)
@@ -121,7 +120,8 @@ module.exports =async  function compile(langFolder,opts={}){
             activeLanguage,
             namespaces,
             moduleType,
-            JSON
+            JSON,
+            settings:JSON.stringify(langSettings,null,4)
         }
 
         // 5 . 生成编译后的格式化函数文件
@@ -133,11 +133,11 @@ module.exports =async  function compile(langFolder,opts={}){
         }else{ // 格式化器如果存在，则需要更改对应的模块类型
             let formattersContent = fs.readFileSync(formattersFile,"utf8").toString()
             if(moduleType == "esm"){
-                 formattersContent = formattersContent.replaceAll(/\s*module.exports\s*\=/g,"export default ")
-                 formattersContent = formattersContent.replaceAll(/\s*module.exports\./g,"export ")
+                 formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\s*\=/gm,"export default ")
+                 formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\./gm,"export ")
             }else{
-                formattersContent = formattersContent.replaceAll(/^\s*export\s*default\s*/g,"module.exports = ")
-                formattersContent = formattersContent.replaceAll(/^\s*export\s*/g,"module.exports.")
+                formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*default\s*/gm,"module.exports = ")
+                formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*/gm,"module.exports.")
             }
             fs.writeFileSync(formattersFile,formattersContent)
             logger.log(t(" - 更新格式化器:{}"),path.basename(formattersFile))
@@ -149,30 +149,6 @@ module.exports =async  function compile(langFolder,opts={}){
         fs.writeFileSync(entryFile,entryContent)
         logger.log(t(" - 访问入口文件: {}"),path.basename(entryFile))
 
-        
-
-
-        // 7. 重新生成settings ,需要确保settings.js匹配模块类型
-        if(moduleType==="esm"){
-            fs.writeFileSync(settingsFile,`export default ${JSON.stringify(langSettings,null,4)}`)
-        }else{
-            fs.writeFileSync(settingsFile,`module.exports = ${JSON.stringify(langSettings,null,4)}`)
-        }
-
-        // 8. 生成package.json
-        const packageJsonFile = path.join(langFolder,"package.json")
-        let packageJson = {}
-        if(moduleType==="esm"){
-            packageJson = {
-                license:"MIT",
-                type:"module",
-            } 
-        }else{
-            packageJson = { 
-                license:"MIT",
-            }
-        }
-        fs.writeFileSync(packageJsonFile,JSON.stringify(packageJson,null,4))
     }catch(e){ 
         logger.log(t("加载多语言配置文件<{}>失败: {} "),settingsFile,e.message)
     }

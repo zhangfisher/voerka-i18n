@@ -42,12 +42,14 @@
       最终的输出结果：
       中文: "现在是北京时间2022年3月1日"
       英文: "Now is BeiJing 2022/03/01" 
-     
- 
+      
  * 
  */
- 
-{{if moduleType === "esm"}}export default {{else}}module.exports = {{/if}}{
+
+
+{{if moduleType === "esm"}}
+
+export default{{else}}module.exports = {{/if}}{
     // 在所有语言下生效的格式化器
     "*":{ 
         //[格式化名称]:(value)=>{...},

@@ -78,12 +78,10 @@
 ```shell
 myapp
   |--package.json
-  |--index.js
+  |--index.js  
 ```
 
-## 第一步：使用翻译函数
-
-在源码文件中直接使用`t`翻译函数对要翻译文本信息进行封装，简单而粗暴。
+在本项目的所有支持的源码文件中均可以使用`t`函数对要翻译的文本进行包装，简单而粗暴。
 
 ```javascript
 // index.js
@@ -93,41 +91,89 @@ console.log(t("中华人民共和国成立于{}",1949))
 
 `t`翻译函数是从`myapp/languages/index.js`文件导出的翻译函数，但是现在`myapp/languages`还不存在，后续会使用工具自动生成。`voerkai18n`后续会使用正则表达式对提取要翻译的文本。
 
-##  第二步：提取要翻译的内容
+## 第一步：初始化工程
+
+在工程目录中运行`voerkai18n init`命令进行初始化。
+
+```javascript
+> voerkai18n init 
+```
+
+上述命令会在当前工程目录下创建`languages/settings.json`文件。如果您的源代码在`src`子文件夹中，则会创建在`src/languages/settings.json`
+
+`settings.json`内容如下:
+
+```json
+{
+    "languages": [
+        {
+            "name": "cn",
+            "title": "cn"
+        },
+        {
+            "name": "en",
+            "title": "en"
+        }
+    ],
+    "defaultLanguage": "cn",
+    "activeLanguage": "cn",
+    "namespaces": {}
+}
+```
+
+上述命令代表了：
+
+- 本项目拟支持`中文`和`英文`两种语言。
+- 默认语言是`中文`(即在源代码中直接使用中文)
+- 激活语言是`中文`
+
+
+
+**注意：**
+
+- `voerkai18n init`是可选的，`voerkai18n extract`也可以实现相同的功能。
+- 一般情况下，您可以手工修改`settings.json`，如定义名称空间。
+
+##  第二步：提取文本
 
 接下来我们使用`voerkai18n extract`命令来自动扫描工程源码文件中的需要的翻译的文本信息。
 
 ```shell
-myapp>voerkai18n extract -d -lngs cn,en,de,jp -default cn -active cn
+myapp>voerkai18n extract
 ```
 
-以上命令代表：
-
-- 扫描当前文件夹下所有源码文件，默认是`js`、`jsx`、`html`、`vue`文件类型，并排除`node_modules`。
-- 计划支持`cn`、`en`、`de`、`jp`四种语言
-- 默认语言是中文。（指在源码文件中我们直接使用中文即可）
-- 激活语言是中文（即默认切换到中文）
-- `-d`代表显示扫描调试信息
-
-执行`voerkai18n extract`命令后，就会在`myapp/languages`通过生成`translates/default.json`、`settings.js`等相关文件。
+执行`voerkai18n extract`命令后，就会在`myapp/languages`通过生成`translates/default.json`、`settings.json`等相关文件。
 
 - **translates/default.json** ： 该文件就是需要进行翻译的文本信息。
 
-- **settings.js**： 语言环境的基本配置信息，可以进行修改。
+- **settings.json**： 语言环境的基本配置信息，可以进行修改。
 
 最后文件结构如下：
 
 ```shell
 myapp
   |-- languages
-    |-- settings.js                  // 语言配置文件
-    |-- package.json
+    |-- settings.json                // 语言配置文件
     |-- translates                   // 此文件夹是所有需要翻译的内容
       |-- default.json               // 默认名称空间内容
   |-- package.json
   |-- index.js
 
 ```
+
+**如果略过第一步中的`voerkai18n init`，也可以使用以下命令来为创建和更新`settinbgs.json`**
+
+```javascript
+myapp>voerkai18n extract -D -lngs cn en de jp -d cn -a cn
+```
+
+以上命令代表：
+
+- 扫描当前文件夹下所有源码文件，默认是`js`、`jsx`、`html`、`vue`文件类型。
+- 计划支持`cn`、`en`、`de`、`jp`四种语言
+- 默认语言是中文。（指在源码文件中我们直接使用中文即可）
+- 激活语言是中文（即默认切换到中文）
+- `-D`代表显示扫描调试信息
 
 ## 第三步：翻译文本
 
@@ -160,7 +206,7 @@ myapp
 
 因此，反复执行`voerkai18n extract`命令是安全的，不会导致进行了一半的翻译内容丢失，可以放心执行。
 
-## 第三步：编译语言包
+## 第四步：编译语言包
 
 当我们完成`myapp/languages/translates`下的所有`JSON语言文件`的翻译后（如果配置了名称空间后，每一个名称空间会对应生成一个文件，详见后续`名称空间`介绍），接下来需要对翻译后的文件进行编译。
 
@@ -168,12 +214,11 @@ myapp
 myapp> voerkai18n compile
 ```
 
-`compile`命令根据`myapp/languages/translates/*.json`和`myapp/languages/settings.js`文件编译生成以下文件：
+`compile`命令根据`myapp/languages/translates/*.json`和`myapp/languages/settings.json`文件编译生成以下文件：
 
 ```javascript
   |-- languages
-    |-- package.json
-    |-- settings.js                  // 语言配置文件
+    |-- settings.json                // 语言配置文件
     |-- idMap.js                     // 文本信息id映射表
     |-- index.js                     // 包含该应用作用域下的翻译函数等
     |-- cn.js                        // 语言包
@@ -187,7 +232,7 @@ myapp> voerkai18n compile
 
 ```
 
-## 第四步：导入翻译函数
+## 第五步：导入翻译函数
 
 第一步中我们在源文件中直接使用了`t`翻译函数包装要翻译的文本信息，该`t`翻译函数就是在编译环节自动生成并声明在`myapp/languages/index.js`中的。
 
@@ -197,28 +242,28 @@ import { t } from "./languages"
 
 因此，我们需要在需要进行翻译时导入该函数即可。但是如果源码文件很多，重次重复导入`t`函数也是比较麻烦的，所以我们也提供了一个`babel插件`来自动导入`t`函数。
 
-## 第五步：切换语言
+## 第六步：切换语言
 
-当需要切换语言时，可以通过调用scope方法来切换语言。
+当需要切换语言时，可以通过调用`change`方法来切换语言。
 
 ```javascript
-import { scope } from "./languages"
+import { i18nScope } from "./languages"
 
 // 切换到英文
-await scope.change("en")
+await i18nScope.change("en")
 // VoerkaI18n是一个全局单例，可以直接访问
 VoerkaI18n.change("en")
 ```
 
-`scope.change`与`VoerkaI18n.change`两者是等价的。
+`i18nScope.change`与`VoerkaI18n.change`两者是等价的。
 
 一般可能也需要在语言切换后进行界面更新渲染，可以订阅事件来响应语言切换。
 
 ```javascript
-import { scope } from "./languages"
+import { i18nScope } from "./languages"
 
 // 切换到英文
-scope.on((newLanguage)=>{
+i18nScope.on((newLanguage)=>{
     ...
 })
 // 
@@ -262,7 +307,6 @@ t("中华人民共和国成立于{birthday | year}年",{birthday:new Date()})
 
 - `voerkai18n`使用正则表达式来提取要翻译的内容，因此`t()`可以使用在任意地方。
 
-- 
 
 
 ## 插值变量
@@ -705,11 +749,11 @@ t("当前状态:{status | dict(0,'初始化',1,'正在连接'，2,'已连接',3,
 
 因此，引入`名称空间`就是目的就是为了解决此问题。
 
-配置名称空间，需要配置`languages/settings.js`文件。
+配置名称空间，需要配置`languages/settings.json`文件。
 
 ```javascript
 // 工程目录：d:/code/myapp
-// languages/settings.js
+// languages/settings.json
 module.exports = {
     namespaces:{
         //"名称":"相对路径"，
@@ -882,10 +926,10 @@ module.expors = {
 可以通过全局单例或当前作用域实例切换语言。
 
 ```javascript
-import { scope } from "./languages"
+import { i18nScope } from "./languages"
 
 // 切换到英文
-await scope.change("en")
+await i18nScope.change("en")
 // VoerkaI18n是一个全局单例，可以直接访问
 VoerkaI18n.change("en")
 ```
@@ -893,10 +937,10 @@ VoerkaI18n.change("en")
 侦听语言切换事件：
 
 ```javascript
-import { scope } from "./languages"
+import { i18nScope } from "./languages"
 
 // 切换到英文
-scope.on((newLanguage)=>{
+i18nScope.on((newLanguage)=>{
     ...
 })
 // 
@@ -937,9 +981,9 @@ const scope = new i18nScope({
 
 然后在`babel.config.js`中使用，详见上节`自动导入翻译函数`介绍。
 
+## Vue扩展
 
 
-## VUE扩展
 
 ## React扩展
 
@@ -985,12 +1029,11 @@ const scope = new i18nScope({
 Arguments:
   location                           工程项目所在目录
 Options:
-  -d, --debug                        输出调试信息
+  -D, --debug                        输出调试信息
   -r, --reset                        重新生成当前项目的语言配置
-  -m, --moduleType [type]            生成的js模块类型,取值auto,esm,cjs (default: "auto")
   -lngs, --languages <languages...>  支持的语言列表 (default: ["cn","en"])
-  -default, --defaultLanguage        默认语言
-  -active, --activeLanguage          激活语言
+  -d, --defaultLanguage              默认语言
+  -a, --activeLanguage               激活语言
   -h, --help                         display help for command
 ```
 
@@ -1000,7 +1043,7 @@ Options:
 
 ```javascript
 //- `lngs`参数用来指定拟支持的语言名称列表
-> voerkai18n init . -lngs cn en jp de -default cn
+> voerkai18n init . -lngs cn en jp de -d cn
 ```
 
 运行`voerkai18n init`命令后，会在当前工程中创建相应配置文件。
@@ -1008,13 +1051,12 @@ Options:
 ```javascript
 myapp
   |-- languages 
-    |-- settings.js               // 语言配置文件
-    |-- package.json
+    |-- settings.json               // 语言配置文件
   |-- package.json
   |-- index.js
 ```
 
-`settings.js`文件很简单，主要是用来配置要支持的语言等基本信息。
+`settings.json`文件很简单，主要是用来配置要支持的语言等基本信息。
 
 ```javascript
 module.exports = {
@@ -1040,16 +1082,16 @@ module.exports = {
 
 **说明：**
 
-- 您也可以手动自行创建`languages/settings.js`、`languages/package.json`文件。这样就不需运行`voerkai18n init`命令了。
+- 您也可以手动自行创建`languages/settings.json`文件。这样就不需运行`voerkai18n init`命令了。
 
-- 如果你的源码放在`src`文件夹，则需要在`src`文件夹下执行`init`命令。
+- 如果你的源码放在`src`文件夹，则`init`命令会自动在在`src`文件夹下创建`languages`文件夹。
 
 - `voerkai18n init`是可选的，直接使用`extract`时也会自动创建相应的文件。
 
-- `-m`参数用来指定生成的`settings.js`的模块类型：
+- `-m`参数用来指定生成的`settings.json`的模块类型：
   - 当`-m=auto`时，会自动读取前工程`package.json`中的`type`字段
-  - 当`-m=esm`时，会生成`ESM`模块类型的`settings.js`。
-  - 当`-m=cjs`时，会生成`commonjs`模块类型的`settings.js`。
+  - 当`-m=esm`时，会生成`ESM`模块类型的`settings.json`。
+  - 当`-m=cjs`时，会生成`commonjs`模块类型的`settings.json`。
   
 - `location`参数是可选的，如果没有指定则采用当前目录。
 
@@ -1067,10 +1109,10 @@ Arguments:
   location                     工程项目所在目录 (default: "./")
 
 Options:
-  -d, --debug                  输出调试信息
+  -D, --debug                  输出调试信息
   -lngs, --languages           支持的语言
-  -default, --defaultLanguage  默认语言
-  -active, --activeLanguage    激活语言
+  -d, --defaultLanguage  默认语言
+  -a, --activeLanguage    激活语言
   -ns, --namespaces            翻译名称空间
   -e, --exclude <folders>      排除要扫描的文件夹，多个用逗号分隔
   -u, --updateMode             本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并
@@ -1081,7 +1123,7 @@ Options:
 **说明：**
 
 - 启用`-d`参数时会输出提取过程，显示从哪些文件提取了几条信息。
-- 如果已手动创建或通过`init`命令创建了`languages/settings.js`文件，则可以不指定`-ns`，`-lngs`，`-default`，`-active`参数。`extract`会优先使用`languages/settings.js`文件中的参数来进行提取。
+- 如果已手动创建或通过`init`命令创建了`languages/settings.json`文件，则可以不指定`-ns`，`-lngs`，`-d`，`-a`参数。`extract`会优先使用`languages/settings.json`文件中的参数来进行提取。
 - `-u`参数用来指定如何将提取的文本与现存的文件进行合并。因为在国际化流程中，我们经常面临源代码变更时需要更新翻译的问题。支持三种合并策略。
   - **sync**：同步（默认值）,两者自动合并，并且会删除在源码文件中不存在的文本。如果某个翻译已经翻译了一半也会保留。此值适用于大部情况，推荐。
   - **overwrite**：覆盖现存的翻译内容。这会导致已经进行了一半的翻译数据丢失，**慎用**。
@@ -1109,8 +1151,8 @@ Arguments:
   location                  工程项目所在目录 (default: "./")
 
 Options:
-  -d, --debug               输出调试信息
-  -m, --moduleType [types]  输出模块类型,取值auto,esm,cjs (default: "auto")
+  -D, --debug               输出调试信息
+  -m, --moduleType [types]  输出模块类型,取值auto,esm,cjs (default: "esm")
   -h, --help                display help for command
 ```
 
@@ -1119,7 +1161,6 @@ Options:
 ```javascript
 myapp
   |--- langauges
-    |-- package.json
     |-- index.js              // 当前作用域的源码
     |-- idMap.js              // 翻译文本与id的映射文件
     |-- formatters.js         // 自定义格式化器
@@ -1142,33 +1183,33 @@ myapp
 每个工程会创建一个`i18nScope`实例。
 
 ```javascript
-import { scope } from "./languages"
+import { i18nScope } from "./languages"
 
 // 订阅语言切换事件
-scope.on((newLanguage)=>{...})
+i18nScope.on((newLanguage)=>{...})
 // 取消语言切换事件订阅
-scope.off(callback)
+i18nScope.off(callback)
 // 当前作用域配置
-scope.settings
+i18nScope.settings
 // 当前语言
-scope.activeLanguage         // 如cn
+i18nScope.activeLanguage         // 如cn
 
 // 默认语言
-scope.defaultLanguage         
+i18nScope.defaultLanguage         
 // 返回当前支持的语言列表，可以用来显示
-scope.languages    // [{name:"cn",title:"中文"},{name:"en",title:"英文"},...]
+i18nScope.languages    // [{name:"cn",title:"中文"},{name:"en",title:"英文"},...]
 // 返回当前作用域的格式化器                         
-scope.formatters   
+i18nScope.formatters   
 // 当前作用id
-scop.id
+i18nScope.id
 // 切换语言，异步函数
-await scope.change(newLanguage)
+await i18nScope.change(newLanguage)
 // 当前语言包                         
-scope.messages        // {1:"...",2:"...","3":"..."}
+i18nScope.messages        // {1:"...",2:"...","3":"..."}
 // 引用全局VoerkaI18n实例                         
-scope.global
+i18nScope.global
 // 注册当前作用域格式化器
-scope.registerFormatter(name,formatter,{language:"*"})      
+i18nScope.registerFormatter(name,formatter,{language:"*"})      
 ```
 
 ## VoerkaI18n

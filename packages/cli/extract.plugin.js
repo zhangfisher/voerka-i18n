@@ -8,8 +8,7 @@
 const through2 = require('through2')
 const deepmerge = require("deepmerge")
 const path = require('path')
-const fs = require('fs')
-const readJson = require("readjson") 
+const fs = require('fs-extra')
 const createLogger = require("logsets") 
 const { replaceInterpolateVars,getDataTypeName } = require("@voerkai18n/runtime")
 const { findModuleType,createPackageJsonFile,t } = require("./utils")
@@ -26,6 +25,33 @@ const DefaultTranslateExtractor = String.raw`\bt\(\s*("|'){1}(?:((?<namespace>\w
 
 // 从html文件标签中提取翻译文本
 const DefaultHtmlAttrExtractor = String.raw`\<(?<tagName>\w+)(.*?)(?<i18nKey>{attrName}\s*\=\s*)([\"\'']{1})(?<text>.*?)(\4){1}\s*(.*?)(\>|\/\>)`
+
+// 声明各种语言的注释匹配正则表达式
+// {"js,jsx"}
+const commentRegexs ={
+    "js,vue,jsx,ts":[
+        /(^[^\n\r\w\W]*\/\/.*$)|(\/\/.*$)/gm,                   // 单行注释
+        /\/\*\s*[\W\w|\r|\n|*]*\s*\*\//gm                       // 多行注释
+    ],
+    html:[
+        /\<\!--[\s\r\n-]*[\w\r\n-\W]*?[\s\r\n-]*--\>/gm,    // 注释
+    ]
+} 
+
+/**
+* 匹配文件中的注释部分
+*/
+function removeComments(content,filetype="js"){
+    Object.entries(commentRegexs).forEach(([filetype,regexps])=>{
+        if(filetype.split(",").includes(filetype)){
+            regexps.forEach(regex=>{
+                content = content.replaceAll(regex,"")
+            })
+        }
+    })
+    return content
+}
+
 
 /**
  * 
@@ -61,6 +87,7 @@ function inNamespace(filePath,nsPath){
     }
     return "default"
 }
+ 
 
 /**
  * 使用正则表达式提取翻译文本
@@ -73,6 +100,10 @@ function extractTranslateTextUseRegexp(content,namespace,extractor,file,options)
   
     let { languages,defaultLanguage } = options
      
+    // 移除代码中的注释，以便正则表达式提取翻译文本时排除注释部分
+    const fileExtName = file.extname.substr(1).toLowerCase()  // 文件扩展名
+    content = removeComments(content,fileExtName)
+    
     let texts = {}
     while ((result = extractor.exec(content)) !== null) {
         // 这对于避免零宽度匹配的无限循环是必要的
@@ -320,7 +351,7 @@ function updateLanguageFile(newTexts,toLangFile,options){
     let oldTexts = {}
     // 读取原始翻译文件
     try{
-        oldTexts =JSON.parse(fs.readFileSync(toLangFile))// readJson.sync(toLangFile)
+        oldTexts =JSON.parse(fs.readFileSync(toLangFile))
     }catch(e){
         logger.log("Error while read language file <{}>: {}",toLangFile,e.message)
         // 如果读取出错，可能是语言文件不是有效的json文件，则备份一下
@@ -415,8 +446,8 @@ module.exports = function(options={}){
                 logger.log("    √ 保存语言文件 : {}",path.relative(outputPath,langFile))
             }   
         }
-        // 生成语言配置文件 settings.js  , 仅当不存在时才生成
-        const settingsFile = path.join(outputPath,"settings.js")
+        // 生成语言配置文件 settings.json  , 仅当不存在时才生成
+        const settingsFile = path.join(outputPath,"settings.json")
         if(!fs.existsSync(settingsFile)){
             const settings = {
                 languages      : options.languages,
@@ -424,14 +455,11 @@ module.exports = function(options={}){
                 activeLanguage : options.activeLanguage,
                 namespaces     : options.namespaces 
             }
-            fs.writeFileSync(settingsFile,`module.exports = ${JSON.stringify(settings,null,4)}`)
+            fs.writeFileSync(settingsFile,JSON.stringify(settings,null,4))
             logger.log(" - 生成语言配置文件: {}",settingsFile) 
         }else{
-            logger.log(" - 已更新语言配置文件: {}",settingsFile) 
+            logger.log(" - 应用语言配置文件: {}",settingsFile) 
         }    
-
-        // 生成package.json  
-        createPackageJsonFile(outputPath)
 
         logger.log("下一步：")
         logger.log(" - 运行<{}>编译语言包","voerkai18n compile")

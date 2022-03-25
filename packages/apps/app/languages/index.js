@@ -6,6 +6,7 @@ const defaultMessages =  require("./cn.js")
 const activeMessages = defaultMessages
  
  
+
 // 语言配置文件
 const scopeSettings = {
     "languages": [
@@ -26,7 +27,7 @@ const scopeSettings = {
 // 语言作用域
 const scope = new i18nScope({
     ...scopeSettings,                           // languages,defaultLanguage,activeLanguage,namespaces,formatters
-    id: "@voerkai18n/cli",                          // 当前作用域的id，自动取当前工程的package.json的name
+    id: "",                          // 当前作用域的id，自动取当前工程的package.json的name
     default:   defaultMessages,                 // 默认语言包
     messages : activeMessages,                  // 当前语言包
     idMap:messageIds,                           // 消息id映射列表
@@ -39,6 +40,6 @@ const scope = new i18nScope({
 const t = translate.bind(scope) 
 
 module.exports.t = t
-module.exports.i18nScope = scope
+module.exports.scope = scope
 module.exports.i18nManager = VoerkaI18n
 

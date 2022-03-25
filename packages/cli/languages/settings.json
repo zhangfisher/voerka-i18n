@@ -1,12 +1,12 @@
-module.exports = {
+{
     "languages": [
         {
             "name": "cn",
-            "title": "中文"
+            "title": "cn"
         },
         {
             "name": "en",
-            "title": "英文"
+            "title": "en"
         }
     ],
     "defaultLanguage": "cn",

@@ -1,18 +1,5 @@
 const path = require("path") 
-const fs = require("fs") 
-const readJson = require("readjson")
-
-async function importModule(url,onlyDefault=true) {
-    try{
-        return require(url)
-    }catch(e){
-        const result = await import(`file:///${url}`)
-        return onlyDefault ? result.default : result
-    }
-}
-
-
-
+const fs = require("fs-extra") 
 
 /**
  * 返回当前项目根文件夹
@@ -39,13 +26,13 @@ async function importModule(url,onlyDefault=true) {
 /**
  * 读取指定文件夹的package.json文件，如果当前文件夹没有package.json文件，则向上查找
  * @param {*} folder 
- * @param {*} exclueCurrent    =true 排除folder，从folder的父级开始查找
+ * @param {*} exclueCurrent    = true 排除folder，从folder的父级开始查找
  * @returns 
  */
 function getCurrentPackageJson(folder,exclueCurrent=true){ 
     let projectFolder = getCurrentProjectRootFolder(folder,exclueCurrent)
-    if( projectFolder){
-       return readJson.sync(path.join(projectFolder, "package.json"))
+    if(projectFolder){
+       return fs.readJSONSync(path.join(projectFolder,"package.json"))
     }
 }
 
@@ -168,26 +155,31 @@ function escape(str){
         .replaceAll("\\\\",'\\')       
 }
 
-// 翻译函数
-// @voerkai18n/cli工程本身使用了voerkai18n,即@voerkai18n/cli的extract和compile依赖于其自己生成的languages运行时
-// 这样产生了鸡蛋问题，因此在extract与compile调试阶段如果t函数无法使用(即编译的languages无法正常使用)，则需要提供t函数
-// 此函数的目的是提供一种容错方式
-let t
+ 
+let i18nScope,t
 try{
-    t = require("./languages").t
-}catch(e){
-    console.warn(e.stack)
-    t = v=>v
+    // @voerkai18n/cli工程本身使用了voerkai18n,即@voerkai18n/cli的extract和compile依赖于其自己生成的languages运行时
+    // 而@voerkai18n/cli又用来编译多语言包，这样产生了鸡生蛋问题
+    // extract与compile调试阶段如果t函数无法使用(即编译的languages无法正常使用)，则需要提供t函数
+    const language = require('./languages'); 
+    t = language.t
+    i18nScope = language.i18nScope
+}catch{
+    t=v=>v
+    i18nScope={change:()=>{} }
 }
 
+
+
+
 module.exports = {
-    importModule,
     findModuleType,
     createPackageJsonFile,
     isPlainObject,
     getCurrentPackageJson,
     getCurrentProjectRootFolder,
     escape,
+    i18nScope,
     t
 }
 

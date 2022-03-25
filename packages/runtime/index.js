@@ -621,6 +621,7 @@ function translate(message) {
      *  切换语言
      */
     async change(value){
+        value=value.trim()
         if(this.languages.findIndex(lang=>lang.name === value)!==-1){
             // 通知所有作用域刷新到对应的语言包
             await this._refreshScopes(value)

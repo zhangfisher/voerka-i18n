@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/runtime",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Voerkai18n Runtime",
   "main": "./dist/index.cjs",
   "module": "dist/index.esm.js",

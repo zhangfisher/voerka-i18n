@@ -1,0 +1,183 @@
+{
+    "a": {
+        "en": "a",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "b": {
+        "en": "b",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "c": {
+        "en": "c",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "d": {
+        "en": "d",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "e": {
+        "en": "e",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "请输入旧密码:": {
+        "en": "请输入旧密码:",
+        "$file": [
+            "auth\\changepassword.js"
+        ]
+    },
+    "请再次输入旧密码:": {
+        "en": "请再次输入旧密码:",
+        "$file": [
+            "auth\\changepassword.js"
+        ]
+    },
+    "请输入新密码:": {
+        "en": "请输入新密码:",
+        "$file": [
+            "auth\\changepassword.js"
+        ]
+    },
+    "请再次输入新密码:": {
+        "en": "请再次输入新密码:",
+        "$file": [
+            "auth\\changepassword.js"
+        ]
+    },
+    "密码至少需要6位，并且至少包含数字、字符或特殊符号中的两种": {
+        "en": "密码至少需要6位，并且至少包含数字、字符或特殊符号中的两种",
+        "$file": [
+            "auth\\changepassword.js"
+        ]
+    },
+    "密码强度: {strength}": {
+        "en": "密码强度: {strength}",
+        "$file": [
+            "auth\\changepassword.js"
+        ]
+    },
+    "用户名或密码错误": {
+        "en": "用户名或密码错误",
+        "$file": [
+            "auth\\login.js"
+        ]
+    },
+    "请输入用户名:": {
+        "en": "请输入用户名:",
+        "$file": [
+            "auth\\login.js",
+            "auth\\login.html"
+        ]
+    },
+    "请输入密码：": {
+        "en": "请输入密码：",
+        "$file": [
+            "auth\\login.js"
+        ]
+    },
+    "欢迎您: {}": {
+        "en": "欢迎您: {}",
+        "$file": [
+            "auth\\login.js"
+        ]
+    },
+    "数据库类型：{}、{}、{}": {
+        "en": "数据库类型：{}、{}、{}",
+        "$file": [
+            "db\\index.js"
+        ]
+    },
+    "数据库密码:{pwd}": {
+        "en": "数据库密码:{pwd}",
+        "$file": [
+            "db\\index.js"
+        ]
+    },
+    "数据库地址:{url}": {
+        "en": "数据库地址:{url}",
+        "$file": [
+            "db\\index.js"
+        ]
+    },
+    "编码:{encode}": {
+        "en": "编码:{encode}",
+        "$file": [
+            "db\\index.js"
+        ]
+    },
+    "编码": {
+        "en": "编码",
+        "$file": [
+            "db\\models.js"
+        ]
+    },
+    "名称": {
+        "en": "名称",
+        "$file": [
+            "db\\models.js"
+        ]
+    },
+    "描述": {
+        "en": "描述",
+        "$file": [
+            "db\\models.js"
+        ]
+    },
+    "文件名称": {
+        "en": "文件名称",
+        "$file": [
+            "db\\models.js"
+        ]
+    },
+    "您有{}条未读消息": {
+        "en": "您有{}条未读消息",
+        "$file": [
+            "messages\\index.js"
+        ]
+    },
+    "消息总数:{$count}": {
+        "en": "消息总数:{$count}",
+        "$file": [
+            "messages\\index.js"
+        ]
+    },
+    "消息类型:{type}": {
+        "en": "消息类型:{type}",
+        "$file": [
+            "messages\\index.js"
+        ]
+    },
+    "登录": {
+        "en": "登录",
+        "$file": [
+            "auth\\login.html"
+        ]
+    },
+    "请输入密码:": {
+        "en": "请输入密码:",
+        "$file": [
+            "auth\\login.html"
+        ]
+    },
+    "头像": {
+        "en": "头像",
+        "$file": [
+            "auth\\login.html"
+        ]
+    },
+    "相片": {
+        "en": "相片",
+        "$file": [
+            "auth\\login.html"
+        ]
+    }
+}
