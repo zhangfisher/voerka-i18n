@@ -56,10 +56,10 @@ module.exports = function(srcPath,{debug = true,languages=["cn","en"],defaultLan
     fs.writeFileSync(settingsFile,JSON.stringify(settings,null,4))
     
     // 自动安装运行时@voerkai18n/runtime
-    if(installRuntime){
-        logger.log(t("正在安装多语言运行时：{}"),"@voerkai18n/runtime")
-        installVoerkai18nRuntim(srcPath)
-    }
+    // if(installRuntime){
+    //     logger.log(t("正在安装多语言运行时：{}"),"@voerkai18n/runtime")
+    //     installVoerkai18nRuntim(srcPath)
+    // }
         
     if(debug) {
         logger.log(t("生成语言配置文件:{}"),"./languages/settings.json")

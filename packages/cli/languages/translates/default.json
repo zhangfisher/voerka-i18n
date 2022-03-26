@@ -237,12 +237,6 @@
             "compile.command.js"
         ]
     },
-    " - 共合成{}条语言包文本": {
-        "en": " - Total {} messages",
-        "$file": [
-            "compile.command.js"
-        ]
-    },
     " - 语言包文件: {}": {
         "en": " - Language file: {}",
         "$file": [
@@ -265,6 +259,30 @@
         "en": "Now is { value | date | bjTime  }",
         "$file": [
             "templates\\formatters.js"
+        ]
+    },
+    " - 共合成{}条文本": {
+        "en": " - Total{} messages",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    " - 运行时: {}": {
+        "en": " - Runtime: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "自动安装默认语言": {
+        "en": "Auto install default language",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "不嵌入运行时源码": {
+        "en": "Not inline runtime source",
+        "$file": [
+            "index.js"
         ]
     }
 }

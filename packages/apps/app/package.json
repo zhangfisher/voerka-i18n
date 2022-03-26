@@ -1,1 +1,6 @@
-{"type":"module","dependencies":{"@voerkai18n/cli":"workspace:^1.0.6","@voerkai18n/runtime":"^1.0.0"}}
+{
+    "dependencies": {
+        "@voerkai18n/cli": "workspace:^1.0.6",
+        "@voerkai18n/runtime": "^1.0.0"
+    }
+}

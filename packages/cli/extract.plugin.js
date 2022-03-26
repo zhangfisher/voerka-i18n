@@ -10,7 +10,6 @@ const deepmerge = require("deepmerge")
 const path = require('path')
 const fs = require('fs-extra')
 const createLogger = require("logsets") 
-const { replaceInterpolateVars,getDataTypeName } = require("@voerkai18n/runtime")
 const { findModuleType,createPackageJsonFile,t } = require("./utils")
 const logger = createLogger() 
 

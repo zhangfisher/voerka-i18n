@@ -38,9 +38,12 @@ module.exports = {
     "37": "Type of module\\t\\t: {}",
     "38": "Compile to：{}",
     "39": "Error while read language file{}: {}",
-    "40": " - Total {} messages",
-    "41": " - Language file: {}",
-    "42": " - idMap file: {}",
-    "43": " - Formatters: {}",
-    "44": "Now is { value | date | bjTime  }"
+    "40": " - Language file: {}",
+    "41": " - idMap file: {}",
+    "42": " - Formatters: {}",
+    "43": "Now is { value | date | bjTime  }",
+    "44": " - Total{} messages",
+    "45": " - Runtime: {}",
+    "46": "Auto install default language",
+    "47": "Not inline runtime source"
 }

@@ -2,4 +2,4 @@
 
 # @voerkai18n/runtime
 
-`voerkai18n`运行时依赖
+`voerkai18n`运行时核心代码

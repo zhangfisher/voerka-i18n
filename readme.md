@@ -1,4 +1,7 @@
 
+# ** 测试阶段，有问题请issues **
+
+[![star](https://gitee.com/zhangfisher/voerka-i18n/badge/star.svg?theme=white)](https://gitee.com/zhangfisher/voerka-i18n/stargazers) [![star](https://gitee.com/zhangfisher/voerka-i18n/badge/star.svg?theme=white)](https://gitee.com/zhangfisher/voerka-i18n/stargazers)
 
 # 前言
 
@@ -26,7 +29,7 @@
 
 - 支持`nodejs`、浏览器(`vue`/`react`)前端环境。
 
-- 采用`工程工具链`与`运行时`分开设计，发布时只需要集成很小的运行时(12K)。
+- 采用`工具链`与`运行时`分开设计，发布时只需要集成很小的运行时。
 
 - 高度可扩展的`复数`、`货币`、`数字`等常用的多语言处理机制。
 
@@ -42,29 +45,28 @@
 
 `VoerkaI18n`国际化框架是一个开源多包工程，主要由以下几个包组成：
 
+- **@voerkai18/cli**
+
+  包含文本提取/编译等命令行工具，一般应该安装到全局。
+
+  ```javascript
+  npm install --g @voerkai18/cli
+  yarn global add @voerkai18/cli
+  pnpm add -g @voerkai18/cli
+  ```
 - **@voerkai18/runtime**
 
-  必须的运行时，安装到运行依赖`dependencies`中
+  **可选的**，运行时，`@voerkai18/cli`的依赖。大部分情况下不需要手动安装。
 
   ```javascript
   npm install --save @voerkai18/runtime
   yarn add @voerkai18/runtime
   pnpm add @voerkai18/runtime
   ```
-
-- **@voerkai18/cli**
-
-  包含文本提取/编译等命令行工具，应该安装到开发依赖`devDependencies`中
-
-  ```javascript
-  npm install --save-dev @voerkai18/cli
-  yarn add -D @voerkai18/cli
-  pnpm add -D @voerkai18/cli
-  ```
-
+  
 - **@voerkai18/formatters**
 
-  可选的，一些额外的格式化器，可以按需进行安装到`dependencies`中，用来扩展翻译时对插值变量的额外处理。
+  **可选的**，一些额外的格式化器，可以按需进行安装到`dependencies`中，用来扩展翻译时对插值变量的额外处理。
   
 - **@voerkai18/babel**
   
@@ -91,7 +93,15 @@ console.log(t("中华人民共和国成立于{}",1949))
 
 `t`翻译函数是从`myapp/languages/index.js`文件导出的翻译函数，但是现在`myapp/languages`还不存在，后续会使用工具自动生成。`voerkai18n`后续会使用正则表达式对提取要翻译的文本。
 
-## 第一步：初始化工程
+## 第一步：安装命令行工具
+
+```shell
+> npm install -g @voerkai18n/cli
+> yarn global add @voerkai18n/cli
+>pnpm add -g @voerkai18/cli
+```
+
+## 第二步：初始化工程
 
 在工程目录中运行`voerkai18n init`命令进行初始化。
 
@@ -127,14 +137,12 @@ console.log(t("中华人民共和国成立于{}",1949))
 - 默认语言是`中文`(即在源代码中直接使用中文)
 - 激活语言是`中文`
 
-
-
 **注意：**
 
 - `voerkai18n init`是可选的，`voerkai18n extract`也可以实现相同的功能。
 - 一般情况下，您可以手工修改`settings.json`，如定义名称空间。
 
-##  第二步：提取文本
+##  第三步：提取文本
 
 接下来我们使用`voerkai18n extract`命令来自动扫描工程源码文件中的需要的翻译的文本信息。
 
@@ -175,7 +183,7 @@ myapp>voerkai18n extract -D -lngs cn en de jp -d cn -a cn
 - 激活语言是中文（即默认切换到中文）
 - `-D`代表显示扫描调试信息
 
-## 第三步：翻译文本
+## 第四步：翻译文本
 
 接下来就可以分别对`language/translates`文件夹下的所有`JSON`文件进行翻译了。每个`JSON`文件大概如下：
 
@@ -206,7 +214,7 @@ myapp>voerkai18n extract -D -lngs cn en de jp -d cn -a cn
 
 因此，反复执行`voerkai18n extract`命令是安全的，不会导致进行了一半的翻译内容丢失，可以放心执行。
 
-## 第四步：编译语言包
+## 第五步：编译语言包
 
 当我们完成`myapp/languages/translates`下的所有`JSON语言文件`的翻译后（如果配置了名称空间后，每一个名称空间会对应生成一个文件，详见后续`名称空间`介绍），接下来需要对翻译后的文件进行编译。
 
@@ -220,6 +228,7 @@ myapp> voerkai18n compile
   |-- languages
     |-- settings.json                // 语言配置文件
     |-- idMap.js                     // 文本信息id映射表
+    |-- runtime.js                   // 运行时源码
     |-- index.js                     // 包含该应用作用域下的翻译函数等
     |-- cn.js                        // 语言包
     |-- en.js
@@ -232,7 +241,7 @@ myapp> voerkai18n compile
 
 ```
 
-## 第五步：导入翻译函数
+## 第六步：导入翻译函数
 
 第一步中我们在源文件中直接使用了`t`翻译函数包装要翻译的文本信息，该`t`翻译函数就是在编译环节自动生成并声明在`myapp/languages/index.js`中的。
 
@@ -306,8 +315,6 @@ t("中华人民共和国成立于{birthday | year}年",{birthday:new Date()})
 **注意：**
 
 - `voerkai18n`使用正则表达式来提取要翻译的内容，因此`t()`可以使用在任意地方。
-
-
 
 ## 插值变量
 
@@ -968,6 +975,22 @@ const scope = new i18nScope({
         "jp" : ()=>import("./jp.js") 
     })
 ```
+
+## 运行时
+
+运行`voerkai18n compile`时会在`languages`文件下生成运行时文件`runtime.js`，该文件被`languages/index.js`引入，里面是核心运行时`ES6`源代码（`@voerkai18n/runtime`代码），也就是在您的工程中是直接引入的运行时代码，因此就不需要额外`@voerkai18n/runtime`了。
+
+每次运行`voerkai18n compile`时就会自动生成`runtime.js`,请及时升级`@voerkai18n/cli`工程以更新运行时代码。
+
+**重点：默认情况下是不需要额外安装`@voerkai18n/runtime`的。**
+
+由于`runtime.js`是`ES6`代码，在某些情况下，您需要兼容性更好的代码时，就需要进行`babel`转码。比如在普通的`nodejs`应用中。`@voerkai18n/runtime`也提供转码后的发布版本。
+
+当运行`voerkai18n compile --no-inline-runtime`时就不会生成`runtime.js`，而是直接引用的`@voerkai18n/runtime`，而`@voerkai18n/runtime`发布了`commonjs`和`esm`两个经过`babel/rollup`转码后的版本。
+
+- 当运行`voerkai18n compile`并启用了`--no-inline-runtime`时，在您在工程中就需要额外安装`@voerkai18n/runtime`到运行依赖中。
+
+- 当运行`voerkai18n compile --no-inline-runtime`时，不需要安装`@voerkai18n/runtime`。但是，您的运行环境需要支持`ES6`或者自行转码。大部分`vue/react`等应用均能支持转码。
 
 ## babel插件
 

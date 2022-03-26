@@ -1,13 +1,16 @@
 {{if moduleType === "esm"}}
 import messageIds from "./idMap.js"
-import { translate,I18nManager,i18nScope  } from "@voerkai18n/runtime"
+{{if inlineRuntime }}import runtime from "./runtime.js"
+const { translate,i18nScope  } = runtime
+{{else}}import { translate,i18nScope  } from "@voerkai18n/runtime"{{/if}}
 import formatters from "./formatters.js"
 import defaultMessages from "./{{defaultLanguage}}.js"  
 {{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages
 {{else}}import activeMessages  from "./{{activeLanguage}}.js"{{/if}} 
 {{else}}
 const messageIds = require("./idMap")
-const { translate,I18nManager,i18nScope  } =  require("@voerkai18n/runtime")
+{{if inlineRuntime }}const { translate,i18nScope  } =  require("./runtime.js")
+{{else}}const { translate,i18nScope  } =  require("@voerkai18n/runtime"){{/if}}
 const formatters = require("./formatters.js")
 const defaultMessages =  require("./{{defaultLanguage}}.js")  
 {{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages
@@ -33,11 +36,9 @@ const t = translate.bind(scope)
 {{if moduleType === "esm"}}
 export { 
     t, 
-    i18nScope:scope,
-    i18nManager:VoerkaI18n, 
+    i18nScope as scope
 }
 {{else}}
 module.exports.t = t
-module.exports.i18nScope = scope
-module.exports.i18nManager = VoerkaI18n
+module.exports.i18nScope = scope 
 {{/if}}

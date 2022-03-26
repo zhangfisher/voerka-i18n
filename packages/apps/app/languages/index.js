@@ -1,12 +1,12 @@
 
 const messageIds = require("./idMap")
-const { translate,I18nManager,i18nScope  } =  require("@voerkai18n/runtime")
+const { translate,i18nScope  } =  require("./runtime.js")
+
 const formatters = require("./formatters.js")
 const defaultMessages =  require("./cn.js")  
 const activeMessages = defaultMessages
  
  
-
 // 语言配置文件
 const scopeSettings = {
     "languages": [
@@ -40,6 +40,5 @@ const scope = new i18nScope({
 const t = translate.bind(scope) 
 
 module.exports.t = t
-module.exports.scope = scope
-module.exports.i18nManager = VoerkaI18n
+module.exports.i18nScope = scope 
 

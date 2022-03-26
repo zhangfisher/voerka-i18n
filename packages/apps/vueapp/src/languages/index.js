@@ -1,6 +1,8 @@
 
 import messageIds from "./idMap.js"
-import { translate,I18nManager,i18nScope  } from "@voerkai18n/runtime"
+import runtime from "./runtime.js"
+const { translate,i18nScope  } = runtime
+
 import formatters from "./formatters.js"
 import defaultMessages from "./cn.js"  
 const activeMessages = defaultMessages
@@ -40,7 +42,6 @@ const t = translate.bind(scope)
 
 export { 
     t, 
-    i18nScope:scope,
-    i18nManager:VoerkaI18n, 
+    i18nScope as scope
 }
 

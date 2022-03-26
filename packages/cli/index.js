@@ -46,7 +46,7 @@ program
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
     .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['cn','en'])     
     .option('-d, --defaultLanguage <name>', t('默认语言'), 'cn')  
-    .option('-i, --installRuntime', t('自动安装默认语言'),true)  
+    // .option('-i, --installRuntime', t('自动安装默认语言'),true)  
     .option('-a, --activeLanguage <name>', t('激活语言'), 'cn')  
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE || "cn"
@@ -104,6 +104,7 @@ program
     .command('compile')
     .description(t('编译指定项目的语言包'))
     .option('-d, --debug', t('输出调试信息')) 
+    .option('--no-inline-runtime', t('不嵌入运行时源码')) 
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .argument('[location]',  t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){

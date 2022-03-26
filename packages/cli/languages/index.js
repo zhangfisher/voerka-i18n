@@ -1,6 +1,7 @@
 
 const messageIds = require("./idMap")
-const { translate,I18nManager,i18nScope  } =  require("@voerkai18n/runtime")
+const { translate,i18nScope  } =  require("./runtime.js")
+
 const formatters = require("./formatters.js")
 const defaultMessages =  require("./cn.js")  
 const activeMessages = defaultMessages

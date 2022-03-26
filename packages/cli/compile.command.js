@@ -43,7 +43,7 @@ function normalizeCompileOptions(opts={}) {
 
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
-    let { moduleType } = options; 
+    let { moduleType,inlineRuntime } = options; 
     // 如果自动则会从当前项目读取，如果没有指定则会是esm
     if(moduleType==="auto"){
         moduleType = findModuleType(langFolder)
@@ -51,7 +51,11 @@ module.exports =async  function compile(langFolder,opts={}){
     const projectPackageJson = getCurrentPackageJson(langFolder)
     // 加载多语言配置文件
     const settingsFile = path.join(langFolder,"settings.json")
+
+
     try{        
+           
+
         // 读取多语言配置文件
         const langSettings = fs.readJSONSync(settingsFile) 
         let { languages,defaultLanguage,activeLanguage,namespaces }  = langSettings
@@ -80,8 +84,8 @@ module.exports =async  function compile(langFolder,opts={}){
                 logger.log(t("读取语言文件{}失败:{}"),file,e.message)
             }
         })
-        logger.log(t(" - 共合成{}条语言包文本"),Object.keys(messages).length)
-
+        logger.log(t(" - 共合成{}条文本"),Object.keys(messages).length)
+ 
         // 2. 为每一个文本内容生成一个唯一的id
         let messageIds = {}
         Object.entries(messages).forEach(([msg,langs])=>{
@@ -113,8 +117,19 @@ module.exports =async  function compile(langFolder,opts={}){
         }
         logger.log(t(" - idMap文件: {}"),path.basename(idMapFile))
         
+        // 嵌入运行时源码
+        if(inlineRuntime){
+            const runtimeSourceFolder = path.join(require.resolve("@voerkai18n/runtime"),"../..")
+            fs.copyFileSync(
+                path.join(runtimeSourceFolder,"dist",`runtime.${moduleType === 'esm' ? 'mjs' : 'cjs'}`),
+                path.join(langFolder,"runtime.js")
+            )
+            logger.log(t(" - 运行时: {}"),"runtime.js")
+        }   
+        
         const templateContext = {
             scopeId:projectPackageJson.name,
+            inlineRuntime,
             languages,
             defaultLanguage,
             activeLanguage,

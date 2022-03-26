@@ -1,7 +1,7 @@
 /.vscode
 /node_modules
 node_modules
-/demo/apps/app/languages
-/demo/apps/*/languages
-/demo/*/node_modules
+/packages/**/node_modules 
 /coverage
+/packages/apps/vueapp/src/languages
+/packages/apps/app/languages

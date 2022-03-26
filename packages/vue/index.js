@@ -16,8 +16,15 @@ export default {
     install: (app, opts={}) => {
         let options = Object.assign({
             t:message=>message,
-        }, opts)
+            i18nScope:null,
+        }, opts)        
         
+        let translate = options.t
+        if(typeof(translate)!=="function"){
+            console.warn("@voerkai18n/vue: t function is not provided, use default t function")
+            translate = message=>message
+        }
+
         // 全局翻译函数
         app.config.globalProperties.t = function(){
             return options.t(...arguments)

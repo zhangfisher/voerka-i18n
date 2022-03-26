@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/cli",
-  "version": "1.0.7",
+  "version": "1.0.10",
   "description": "VoerkaI18n command line interactive tools",
   "main": "index.js",
   "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -18,13 +18,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "extract": "node ./index.js extract -d -e babel-plugin-voerkai18n.js,templates/**",
     "compile": "node ./index.js compile -d",
-    "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d"
+    "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d",
+    "release": "npm version patch && pnpm publish  --no-git-checks --access public"
   },
   "author": "wxzhang",
   "license": "MIT",
   "bin": {
-    "voerkai18n": "./index.js",
-    "publish": "npm publish -access public"
+    "voerkai18n": "./index.js"
   },
   "dependencies": {
     "@babel/cli": "^7.17.6",

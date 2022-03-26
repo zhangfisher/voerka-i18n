@@ -11,12 +11,11 @@
 Arguments:
   location                           工程项目所在目录
 Options:
-  -d, --debug                        输出调试信息
+  -D, --debug                        输出调试信息
   -r, --reset                        重新生成当前项目的语言配置
-  -m, --moduleType [type]            生成的js模块类型,取值auto,esm,cjs (default: "auto")
   -lngs, --languages <languages...>  支持的语言列表 (default: ["cn","en"])
-  -default, --defaultLanguage        默认语言
-  -active, --activeLanguage          激活语言
+  -d, --defaultLanguage        默认语言
+  -a, --activeLanguage          激活语言
   -h, --help                         display help for command
 
 
@@ -33,10 +32,10 @@ Arguments:
   location                     工程项目所在目录 (default: "./")
 
 Options:
-  -d, --debug                  输出调试信息
+  -D, --debug                  输出调试信息
   -lngs, --languages           支持的语言
-  -default, --defaultLanguage  默认语言
-  -active, --activeLanguage    激活语言
+  -d, --defaultLanguage        默认语言
+  -a, --activeLanguage         激活语言
   -ns, --namespaces            翻译名称空间
   -e, --exclude <folders>      排除要扫描的文件夹，多个用逗号分隔
   -u, --updateMode             本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并
@@ -58,7 +57,7 @@ Arguments:
 
 Options:
   -d, --debug               输出调试信息
-  -m, --moduleType [types]  输出模块类型,取值auto,esm,cjs (default: "auto")
+  -m, --moduleType [types]  输出模块类型,取值auto,esm,cjs (default: "esm")
   -h, --help                display help for command
 
 ```
