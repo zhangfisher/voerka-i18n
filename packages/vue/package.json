@@ -1,16 +1,26 @@
 {
-  "name": "@voerkai18n/vue",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "deepmerge": "^4.2.2",
-    "gulp": "^4.0.2",
-    "vinyl": "^2.2.1"
-  }
+    "name": "@voerkai18n/vue",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "release": "npm version patch && pnpm publish  --no-git-checks --access public"
+    },
+    "exports": {
+        ".": "./index.js",
+        "./vite-plugin-voerkai18n": "./vite-plugin-voerkai18n.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "deepmerge": "^4.2.2",
+        "gulp": "^4.0.2",
+        "vinyl": "^2.2.1"
+    },
+    "dependencies": {
+        "minimatch": "^5.0.1",
+        "vite": "^2.8.6",
+        "vite-plugin-inspect": "^0.4.3"
+    }
 }

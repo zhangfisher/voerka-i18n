@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/cli",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "VoerkaI18n command line interactive tools",
   "main": "index.js",
   "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -29,7 +29,8 @@
   "dependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
-    "@voerkai18n/runtime": "workspace:^1.0.0",
+    "@voerkai18n/runtime": "workspace:^1.0.8",
+    "@voerkai18n/utils": "workspace:^1.0.0",
     "art-template": "^4.13.2",
     "commander": "^9.0.0",
     "cross-env": "^7.0.3",

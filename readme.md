@@ -1,7 +1,7 @@
 
 # ** 测试阶段，有问题请issues **
 
-[![star](https://gitee.com/zhangfisher/voerka-i18n/badge/star.svg?theme=white)](https://gitee.com/zhangfisher/voerka-i18n/stargazers) [![star](https://gitee.com/zhangfisher/voerka-i18n/badge/star.svg?theme=white)](https://gitee.com/zhangfisher/voerka-i18n/stargazers)
+[![star](https://gitee.com/zhangfisher/voerka-i18n/badge/star.svg?theme=white)](https://gitee.com/zhangfisher/voerka-i18n/stargazers) 
 
 # 前言
 
@@ -56,7 +56,7 @@
   ```
 - **@voerkai18/runtime**
 
-  **可选的**，运行时，`@voerkai18/cli`的依赖。大部分情况下不需要手动安装。
+  **可选的**，运行时，`@voerkai18/cli`的依赖。大部分情况下不需要手动安装，一般仅在开发库项目时采用独立的运行时依赖。
 
   ```javascript
   npm install --save @voerkai18/runtime
@@ -399,210 +399,7 @@ t("My name is { name | UpperCase | mr }",{name:"tom"})
 
   `｛data | f1 | f2 | f3(1)｝`等效于` f3(f2(f1(data)),1)`
 
-### 自定义格式化器
 
-当我们使用`voerkai18n compile`编译后，会生成`languages/formatters.js`文件，可以在该文件中自定义您自己的格式化器。
-
-`formatters.js`文件内容如下：
-
-```javascript
-module.exports = {
-    // 在所有语言下生效的格式化器
-    "*":{ 
-        //[格式化名称]:(value)=>{...},
-        //[格式化名称]:(value,arg)=>{...},
-    },                                                
-    // 在所有语言下只作用于特定数据类型的格式化器   
-    $types:{
-		// [数据类型名称]:(value)=>{...},
-        // [数据类型名称]:(value)=>{...},
-    },                                          
-    cn:{
-        $types:{
-            // 所有类型的默认格式化器
-            "*":{                
-            },
-            Date:{},
-            Number:{},
-            Boolean:{ },
-            String:{},
-            Array:{
-
-            },
-            Object:{
-
-            }
-        },
-        [格式化名称]:(value)=>{.....},
-        //.....
-    },
-    en:{
-        $types:{
-            // [数据类型名称]:(value)=>{...},
-        },
-        [格式化名称]:(value)=>{.....},
-        //.....更多的格式化器.....
-    }
-}
-```
-
-**说明：**
-
-#### 格式化器函数
-
-**每一个格式化器就是一个普通的同步函数**，不支持异步函数。
-
-典型的无参数的格式化器：`(value)=>{....返回格式化的结果...}`。
-
-带参数的格式化器：`(value,arg1,...)=>{....返回格式化的结果...}`，其中`value`是上一个格式化器的输出结果。
-
-#### 类型格式化器
-
-可以为每一种数据类型指定一个默认的格式化器，支持对`String`、`Date`、`Error`、`Object`、`Array`、`Boolean`、`Number`等数据类型的格式化。
-
-当插值变量传入时，如果有定义了对应的的类型格式化器，会先调用该格式化器。
-
-比如我们定义对`Boolean`类型格式化器，
-
-```javascript
-//formatters.js
-
-module.exports = {
-    // 在所有语言下只作用于特定数据类型的格式化器   
-    $types:{
-		Boolean:(value)=> value ? "ON" : "OFF"
-    }
-} 
-t("灯状态：{status}",true)  // === 灯状态：ON
-t("灯状态：{status}",false)  // === 灯状态：OFF
-```
-
-在上例中，如果我们想在不同的语言环境下，翻译为不同的显示文本，则可以为不同的语言指定类型格式化器
-
-```javascript
-//formatters.js
-module.exports = {
-    cn:{
-        $types:{
-			Boolean:(value)=> value ? "开" : "关"
-        }
-    },
-    en:{
-      $types:{
-		Boolean:(value)=> value ? "ON" : "OFF" 
-      }
-    }
-} 
-// 当切换到中文时
-t("灯状态：{status}",true)  // === 灯状态：开
-t("灯状态：{status}",false)  // === 灯状态：关
-// 当切换到英文时
-t("灯状态：{status}",true)  // === 灯状态：ON
-t("灯状态：{status}",false)  // === 灯状态：OFF
-```
-
-**说明：**
-
-- 完整的类型格式化器定义形式
-
-  ```javascript
-  module.exports = {
-      "*":{
-          $types:{...}
-      },    
-      cn:{
-          $types:{...}
-      },
-      en:{
-        $types:{....}
-      }
-  }
-  ```
-
-  在匹配应用格式化时会先在当前语言的`$types`中查找匹配的格式化器，如果找不到再上`*.$types`中查找。
-
-- `*.$types`代表当所有语言中均没有定义时才匹配的类型格式化。
-
-- 类型格式化器是默认执行的，不需要指定名称。
-
-- 当前作用域的格式化器优先于全局的格式化器。（后续）
-
-#### 通用的格式化器
-
-类型格式化器只针对特定数据类型，并且会默认调用。而通用的格式化器需要使用`|`管道符进行显式调用。
-
-同样的，通用的格式化器定义在`languages/formatters.js`中。
-
-```javascript
-module.exports = {
-    "*":{
-        $types:{...},
-         [格式化名称]:(value)=>{.....},       
-    },    
-    cn:{
-        $types:{...},
-        [格式化名称]:(value)=>{.....},
-    },
-    en:{
-      $types:{....},
-      [格式化名称]:(value)=>{.....},
-      [格式化名称]:(value,arg)=>{.....},        
-    }
-}
-```
-
-每一个格式化器均需要指定一个名称，在进行插值替换时会优先依据当前语言来匹配查找格式化器，如果找不到，再到键名为`*`中查找。
-
-```javascript
-module.exports = {
-    "*":{
-		uppercase:(value)=>value
-    },    
-    cn:{
-        uppercase:(value)=>["一","二","三","四","五","六","七","八","九","十"][value-1]
-    },
-    en:{
-		uppercase:(value)=>["One","Two","Three","Four","Five","Six","seven","eight","nine","ten"][value-1]
-    },
-    jp:{
-        
-    }
-}
-// 当切换到中文时
-t("{value | uppercase}",1)  // == 一
-t("{value | uppercase}",2)  // == 二
-t("{value | uppercase}",3)  // == 三
-// 当切换到英文时
-t("{value | uppercase}",1)  // == One
-t("{value | uppercase}",2)  // == Two
-t("{value | uppercase}",3)  // == Three
-// 当切换到日文时，由于在该语言下没有定义uppercase格式式，因此到*中查找
-t("{value | uppercase}",1)  // == 1
-t("{value | uppercase}",2)  // == 2
-t("{value | uppercase}",3)  // == 3
-```
-
-### 作用域格式化器
-
-定义在`languages/formatters.js`里面的格式化器仅在当前工程生效，也就是仅在当前作用域生效。一般由应用开发者自行扩展。
-
-关于作用域的概念详见后续介绍。
-
-### 全局格式化器
-
-定义在`@voerkai18n/runtime`里面的格式化器则全局有效，在所有场合均可以使用，但是其优先级低于作用域内的同名格式化器。目前内置的格式化器有：
-
-| 名称 |      | 说明 |
-| ---- | ---- | ---- |
-|      |      |      |
-|      |      |      |
-|      |      |      |
-
-### 扩展格式化器
-
-除了可以在当前项目`languages/formatters.js`自定义格式化器和`@voerkai18n/runtime`里面的全局格式化器外，单列了`@voerkai18n/formatters`项目用来包含了更多的格式化器。
-
-作为开源项目，欢迎大家提交贡献更多的格式化器。
 
 ## 日期时间
 
@@ -792,6 +589,181 @@ languages
 
 `名称空间`仅仅是为了解决当翻译内容太多时的分类问题。
 
+
+
+## 切换语言
+
+可以通过全局单例或当前作用域实例切换语言。
+
+```javascript
+import { i18nScope } from "./languages"
+
+// 切换到英文
+await i18nScope.change("en")
+// VoerkaI18n是一个全局单例，可以直接访问
+VoerkaI18n.change("en")
+```
+
+侦听语言切换事件：
+
+```javascript
+import { i18nScope } from "./languages"
+
+// 切换到英文
+i18nScope.on((newLanguage)=>{
+    ...
+})
+// 
+VoerkaI18n.on((newLanguage)=>{
+    ...
+})
+```
+
+## Vue应用
+
+在`Vue3`应用中引入`voerkai18n`来添加国际化应用需要由两个插件来简化应用。
+
+- **@voerkai18n/vue**
+
+  **Vue插件**，在初始化Vue应用时引入，提供访问`当前语言`、`切换语言`、`自动更新`等功能。
+
+- **@voerkai18n/vite**
+
+  **Vite插件**，在`vite.config.js`中配置，用来实现`自动文本映射`、`自动导入t函数`等功能。
+
+  
+
+`@voerkai18n/vue`和`@voerkai18n/vite`两件插件相互配合，安装配置好这两个插件后，就可以在Vue文件使用多语言`t`函数。
+
+**重点：`t`函数会在使用`@voerkai18n/vite`插件后自动注入，因此在Vue文件中可以直接使用。**
+
+```Vue
+<Script setup>
+// 如果没有在vite.config.js中配置`@voerkai18n/vite`插件，则需要手工导入t函数
+// import { t } from "./languages"
+</Script>
+<script>
+export default {
+    data(){
+        return {
+            username:"",
+            password:"",
+            title:t("认证")
+        }
+    },
+    methods:{
+        login(){
+            alert(t("登录"))
+        }
+    }
+}
+</script>
+<template>
+	<div>
+        <h1>{{ t("请输入用户名称") }}</h1>
+        <div>
+            <span>{{t("用户名:")}}</span><input type="text" :placeholder="t('邮件/手机号码/帐号')"/>
+            <span>{{t("密码:")}}</span><input type="password" :placeholder="t('至少6位的密码')"/>            
+    	</div>            
+    </div>
+        <button @click="login">{{t("登录")}}</button>
+    </div>
+</template>
+```
+
+**说明：**
+
+- 事实上，就算没有`@voerkai18n/vue`和`@voerkai18n/vite`两件插件相互配合，只需要导入`t`函数也就可以直接使用。这两个插件只是很简单的封装而已。
+- 如果要在应用中进行`语言动态切换`，则需要在应用中引入`@voerkai18n/vue`，请参阅`@voerkai18n/vue`插件使用说明。
+- `@voerkai18n/vite`的使用请参阅后续说明。
+
+## React应用
+
+
+
+# 高级特性
+
+## 运行时
+
+`@voerkai18n/runtime`是`voerkai18n`的运行时依赖，支持两种依赖方式。
+
+- **源码依赖**
+
+  默认情况下，运行`voerkai18n compile`时会在`languages`文件下生成运行时文件`runtime.js`，该文件被`languages/index.js`引入，里面是核心运行时`ES6`源代码（`@voerkai18n/runtime`源码），也就是在您的工程中是直接引入的运行时代码，因此就不需要额外安装`@voerkai18n/runtime`了。
+
+  此时，`@voerkai18n/runtime`源码就成为您工程是一部分。
+
+- **库依赖**
+
+  当运行`voerkai18n compile --no-inline-runtime`时，就不会生成运行时文件`runtime.js`，而是采用`import "@voerkai18n/runtime`的方式导入运行时，此时会自动/手动安装`@voerkai18n/runtime`到运行依赖中。
+
+  
+
+**那么应该选择`源码依赖`还是`库依赖`呢？**
+
+问题的重点在于，在`monorepo`工程或者`开发库`时，`源码依赖`会导致存在重复的运行时源码。而采用`库依赖`，则不存在此问题。因此：
+
+- 普通应用采用`源码依赖`方式，运行`voerkai18n compile `来编译语言包。
+- `monorepo`工程或者`开发库`采用`库依赖`，`voerkai18n compile --no-inline-runtime`来编译语言包。
+
+
+
+**注意：**
+
+- `@voerkai18n/runtime`发布了`commonjs`和`esm`两个经过`babel/rollup`转码后的`ES5`版本。
+
+- 每次运行`voerkai18n compile`时均会重新生成`runtime.js`源码文件，为了确保最新的运行时，请及时更新`@voerkai18n/cli`
+
+- 当升级了`@voerkai18n/runtime`后，需要重新运行`voerkai18n compile`以重新生成`runtime.js`文件。
+
+  
+
+## 文本映射
+
+虽然`VoerkaI18n`推荐采用`t("中华人民共和国万岁")`形式的符合直觉的翻译形式，而不是采用`t("xxxx.xxx")`这样不符合直觉的形式，但是为什么大部份的国际化方案均采用`t("xxxx.xxx")`形式？
+
+在我们的方案中，t("中华人民共和国万岁")形式相当于采用原始文本进行查表，语言名形式如下：
+
+```javascript
+// en.js
+{
+    "中华人民共和国":"the people's Republic of China"
+}
+// jp.js
+{
+    "中华人民共和国":"中華人民共和国"
+}
+```
+
+很显然，直接使用文本内容作为`key`，虽然符合直觉，但是会造成大量的冗余信息。因此，`voerkai18n compile`会将之编译成如下：
+
+```javascript
+//idMap.js
+{
+    "1":"中华人民共和国万岁"
+}
+// en.js
+{
+    "1":"Long live the people's Republic of China"
+}
+// jp.js
+{
+    "2":"中華人民共和国"
+}
+```
+
+如此，就消除了在`en.js`、`jp.js`文件中的冗余。但是在源代码文件中还存在`t("中华人民共和国万岁")`，整个运行环境中存在两份副本，一份在源代码文件中，一份在`idMap.js`中。
+
+为了进一步减少重复内容，因此，我们需要将源代码文件中的`t("中华人民共和国万岁")`更改为`t("1")`，这样就能确保无重复冗余。但是，很显然，我们不可能手动来更改源代码文件，这就需要由`voerkai18n`提供的一个编译区插件来做这一件事了。
+
+以`babel-plugin-voerkai18n`插件为例，该插件同时还完成一份任务，就是自动读取`voerkai18n compile`生成的`idMap.js`文件，然后将`t("中华人民共和国万岁")`自动更改为`t("1")`，这样就完全消除了重复冗余信息。
+
+所以，在最终形成的代码中，实际上每一个t函数均是`t("1")`、`t("2")`、`t("3")`、`...`、`t("n")`的形式，最终代码还是采用了用`key`来进行转换，只不过这个过程是自动完成的而已。
+
+**注意：**
+
+- 如果没有启用`babel-plugin-voerkai18n`或`vite`等编译区插件，还是可以正常工作，但是会有一份默认语言的冗余信息存在。
+
 ## 多库联动
 
 `voerkai18n `支持多个库国际化的联动和协作，即**当主程序切换语言时，所有引用依赖库也会跟随主程序进行语言切换**，整个切换过程对所有库开发都是透明的。
@@ -826,7 +798,243 @@ import { t } from "../../../languages"
 
 作为国际化解决方案，一般工程的大部份源码中均会使用到翻译函数，这种使用体验比较差。
 
-为此，我们提供了一个`babel`插件来自动完成翻译函数的自动引入。使用方法如下：
+为此，我们提供了一个`babel`插件来自动完成翻译函数的自动引入，详见后续`bable`插件、`vite`插件等介绍。
+
+## 自定义格式化器
+
+当我们使用`voerkai18n compile`编译后，会生成`languages/formatters.js`文件，可以在该文件中自定义您自己的格式化器。
+
+`formatters.js`文件内容如下：
+
+```javascript
+module.exports = {
+    // 在所有语言下生效的格式化器
+    "*":{ 
+        //[格式化名称]:(value)=>{...},
+        //[格式化名称]:(value,arg)=>{...},
+    },                                                
+    // 在所有语言下只作用于特定数据类型的格式化器   
+    $types:{
+		// [数据类型名称]:(value)=>{...},
+        // [数据类型名称]:(value)=>{...},
+    },                                          
+    cn:{
+        $types:{
+            // 所有类型的默认格式化器
+            "*":{                
+            },
+            Date:{},
+            Number:{},
+            Boolean:{ },
+            String:{},
+            Array:{
+
+            },
+            Object:{
+
+            }
+        },
+        [格式化名称]:(value)=>{.....},
+        //.....
+    },
+    en:{
+        $types:{
+            // [数据类型名称]:(value)=>{...},
+        },
+        [格式化名称]:(value)=>{.....},
+        //.....更多的格式化器.....
+    }
+}
+```
+
+### 格式化器函数
+
+**每一个格式化器就是一个普通的同步函数**，不支持异步函数，格式化器函数可以支持无参数或有参数。
+
+- 无参数的格式化器：`(value)=>{....返回格式化的结果...}`。
+
+- 带参数的格式化器：`(value,arg1,...)=>{....返回格式化的结果...}`，其中`value`是上一个格式化器的输出结果。
+
+### 类型格式化器
+
+可以为每一种数据类型指定一个默认的格式化器，支持对`String`、`Date`、`Error`、`Object`、`Array`、`Boolean`、`Number`等数据类型的格式化。
+
+当插值变量传入时，如果有定义了对应的的类型格式化器，会默认调用该格式化器对数据进行转换。
+
+比如我们定义对`Boolean`类型格式化器，
+
+```javascript
+//formatters.js
+
+module.exports = {
+    // 在所有语言下只作用于特定数据类型的格式化器   
+    $types:{
+		Boolean:(value)=> value ? "ON" : "OFF"
+    }
+} 
+t("灯状态：{status}",true)  // === 灯状态：ON
+t("灯状态：{status}",false)  // === 灯状态：OFF
+```
+
+在上例中，如果我们想在不同的语言环境下，翻译为不同的显示文本，则可以为不同的语言指定类型格式化器
+
+```javascript
+//formatters.js
+module.exports = {
+    cn:{
+        $types:{
+			Boolean:(value)=> value ? "开" : "关"
+        }
+    },
+    en:{
+      $types:{
+		Boolean:(value)=> value ? "ON" : "OFF" 
+      }
+    }
+} 
+// 当切换到中文时
+t("灯状态：{status}",true)  // === 灯状态：开
+t("灯状态：{status}",false)  // === 灯状态：关
+// 当切换到英文时
+t("灯状态：{status}",true)  // === 灯状态：ON
+t("灯状态：{status}",false)  // === 灯状态：OFF
+```
+
+**说明：**
+
+- 完整的类型格式化器定义形式
+
+  ```javascript
+  module.exports = {
+      "*":{
+          $types:{...}
+      },    
+      cn:{
+          $types:{...}
+      },
+      en:{
+        $types:{....}
+      }
+  }
+  ```
+
+  在匹配应用格式化时会先在当前语言的`$types`中查找匹配的格式化器，如果找不到再上`*.$types`中查找。
+
+- `*.$types`代表当所有语言中均没有定义时才匹配的类型格式化。
+
+- 类型格式化器是**默认执行的，不需要指定名称**。
+
+- 当前作用域的格式化器优先于全局的格式化器。
+
+### 通用的格式化器
+
+类型格式化器只针对特定数据类型，并且会默认调用。而通用的格式化器需要使用`|`管道符进行显式调用。
+
+同样的，通用的格式化器定义在`languages/formatters.js`中。
+
+```javascript
+module.exports = {
+    "*":{
+        $types:{...},
+         [格式化名称]:(value)=>{.....},       
+    },    
+    cn:{
+        $types:{...},
+        [格式化名称]:(value)=>{.....},
+    },
+    en:{
+      $types:{....},
+      [格式化名称]:(value)=>{.....},
+      [格式化名称]:(value,arg)=>{.....},        
+    }
+}
+```
+
+每一个格式化器均需要指定一个名称，在进行插值替换时会优先依据当前语言来匹配查找格式化器，如果找不到，再到键名为`*`中查找。
+
+```javascript
+module.exports = {
+    "*":{
+		uppercase:(value)=>value
+    },    
+    cn:{
+        uppercase:(value)=>["一","二","三","四","五","六","七","八","九","十"][value-1]
+    },
+    en:{
+		uppercase:(value)=>["One","Two","Three","Four","Five","Six","seven","eight","nine","ten"][value-1]
+    },
+    jp:{
+        
+    }
+}
+// 当切换到中文时
+t("{value | uppercase}",1)  // == 一
+t("{value | uppercase}",2)  // == 二
+t("{value | uppercase}",3)  // == 三
+// 当切换到英文时
+t("{value | uppercase}",1)  // == One
+t("{value | uppercase}",2)  // == Two
+t("{value | uppercase}",3)  // == Three
+// 当切换到日文时，由于在该语言下没有定义uppercase格式式，因此到*中查找
+t("{value | uppercase}",1)  // == 1
+t("{value | uppercase}",2)  // == 2
+t("{value | uppercase}",3)  // == 3
+```
+
+### 作用域格式化器
+
+定义在`languages/formatters.js`里面的格式化器仅在当前工程生效，也就是仅在当前作用域生效。一般由应用开发者自行扩展。
+
+### 全局格式化器
+
+定义在`@voerkai18n/runtime`里面的格式化器则全局有效，在所有场合均可以使用，但是其优先级低于作用域内的同名格式化器。目前内置的格式化器有：
+
+| 名称 |      | 说明 |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
+### 扩展格式化器
+
+除了可以在当前项目`languages/formatters.js`自定义格式化器和`@voerkai18n/runtime`里面的全局格式化器外，单列了`@voerkai18n/formatters`项目用来包含了更多的格式化器。
+
+作为开源项目，欢迎大家提交贡献更多的格式化器。
+
+## 语言包
+
+当使用`webpack`、`rollup`、`esbuild`进行项目打包时，默认语言包采用静态加载，会被打包进行源码中，而其他语言则采用异步打包方式。在`languages/index.js`中。
+
+```javascript
+const defaultMessages =  require("./cn.js")  
+const activeMessages = defaultMessages
+  
+// 语言作用域
+const scope = new i18nScope({
+    default:   defaultMessages,                 // 默认语言包
+    messages : activeMessages,                  // 当前语言包
+    ....
+    // 以下为每一种语言生成一个异步打包语句
+    loaders:{ 
+        "en" : ()=>import("./en.js") 
+        "de" : ()=>import("./de.js") 
+        "jp" : ()=>import("./jp.js") 
+    })
+```
+
+# 扩展工具
+
+## babel插件
+
+全局安装`@voerkai18n/babel`插件用来进行自动导入`t`函数和自动文本映射。
+
+```javascript
+> npm install -g @voerkai18n/babel
+> yarn global add @voerkai18n/babel
+> pnpm add -g @voerkai18n/babel
+```
+
+使用方法如下：
 
 - 在`babel.config.js`中配置插件
 
@@ -840,7 +1048,6 @@ module.expors = {
                 // 可选，指定语言文件存放的目录，即保存编译后的语言文件的文件夹
                 // 可以指定相对路径，也可以指定绝对路径
                 // location:"",
-
                 autoImport:"#/languages"  
             }            
         ]
@@ -884,129 +1091,194 @@ module.expors = {
 
   如`webpack`、`rollup`等打包工具也有类似的插件可以实现别名等转换，其目的就是让`babel-plugin-voerkai18n`插件能自动导入固定路径，而不是各种复杂的相对路径。
 
-## 文本映射
+## Vue插件
 
-虽然`VoerkaI18n`推荐采用`t("中华人民共和国万岁")`形式的符合直觉的翻译形式，而不是采用`t("xxxx.xxx")`这样不符合直觉的形式，但是为什么大部份的国际化方案均采用`t("xxxx.xxx")`形式？
+在`vue3`项目中可以安装`@voerkai18n/vue`来实现`枚举语言`、`语言切换`等功能。
 
-在我们的方案中，t("中华人民共和国万岁")形式相当于采用原始文本进行查表，语言名形式如下：
+### **安装**
+
+将`@voerkai18n/vue`安装为运行时依赖
 
 ```javascript
-// en.js
-{
-    "中华人民共和国":"the people's Republic of China"
+npm install @voerkai18n/vue
+pnpm add @voerkai18n/vue
+yarn add @voerkai18n/vue
+```
+
+### 启用插件
+
+```javascript
+    import { createApp } from 'vue'
+    import Root from './App.vue'
+    import i18nPlugin from '@voerkai18n/vue'
+    import { i18nScope } from './languages'
+    const app = createApp(Root)
+    app.use(i18nPlugin,{ i18nScope })   // 重点，需要引入i18nScope
+    app.mount('#app')
+```
+
+插件安装成功后，在当前`Vue App`实例上`provide`一个`i18n`响应式实例。
+
+### 注入`i18n`实例
+
+接下来在组件中按需注入`i18n`实例，可以用来访问当前的`激活语言`、`默认语言`、`切换语言`等。
+
+```javascript
+<script>
+import {reactive } from 'vue'
+export default {
+  inject: ['i18n'],    // 注入i18n实例，该实例由@voerkai18n/vue插件提供
+  ....
 }
-// jp.js
-{
-    "中华人民共和国":"中華人民共和国"
+</script>  
+```
+
+声明`inject: ['i18n']`后在当前组件实例中就可以访问`this.i18n`，该实例是一个经过`reactive`封闭的响应式对象，其内容是：
+
+```javascript
+this.i18n = {
+  	activeLanguage,					// 当前激活语言，可以通过直接赋值来切换语言
+    defaultLanguage,				// 默认语言名称
+    languages						// 支持的语言列表=[{name,title},...]
 }
 ```
 
-很显然，直接使用文本内容作为`key`，虽然符合直觉，但是会造成大量的冗余信息。因此，`voerkai18n compile`会将之编译成如下：
+### 应用示例
 
-```javascript
-//idMap.js
-{
-    "1":"中华人民共和国万岁"
+注入`i18n`实例后就可以在此基础上实现`激活语言`、`默认语言`、`切换语言`等功能。
+
+```vue
+<script>
+import {reactive } from 'vue'
+export default {
+  inject: ['i18n'],    // 注入i18n实例，该实例由@voerkai18n/vue插件提供
+  ....
 }
-// en.js
-{
-    "1":"Long live the people's Republic of China"
-}
-// jp.js
-{
-    "2":"中華人民共和国"
-}
+</script>  
+<template>
+	<div>当前语言:{{i18n.activeLanguage}}</div>
+	<div>默认语言:{{i18n.defaultLanguage}}</div>	
+	<div>
+        <button 
+            @click="i18n.activeLanguage=lng.name" 
+            v-for="lng of i18n.langauges">
+			{{ lng.title }}        
+	    </button>
+    </div>
+</templage>
 ```
 
-如此，就消除了在`en.js`、`jp.js`文件中的冗余。但是在源代码文件中还存在`t("中华人民共和国万岁")`，整个运行环境中存在两份副本，一份在源代码文件中，一份在`idMap.js`中。
+### 插件参数
 
-为了进一步减少重复内容，因此，我们需要将源代码文件中的`t("中华人民共和国万岁")`更改为`t("1")`，这样就能确保无重复冗余。但是，很显然，我们不可能手动来更改源代码文件，这就需要由babel插件来做这一件事了。
-
-`babel-plugin-voerkai18n`插件同时还完成一份任务，就是自动读取`voerkai18n compile`生成的`idMap.js`文件，然后将`t("中华人民共和国万岁")`自动更改为`t("1")`，这样就完全消除了重复冗余信息。
-
-所以，在最终形成的代码中，实际上每一个t函数均是`t("1")`、`t("2")`、`t("3")`、`...`、`t("n")`的形式，最终代码还是采用了用`key`来进行转换，只不过这个过程是自动完成的而已。
-
-**注意：**如果没有启用`babel-plugin-voerkai18n`插件，还是可以正常工作，但是会有一份默认语言的冗余信息存在。
-
-## 切换语言
-
-可以通过全局单例或当前作用域实例切换语言。
+`@voerkai18n/vue`插件支持以下参数：
 
 ```javascript
-import { i18nScope } from "./languages"
+import { i18nScope } from './languages'
+app.use(i18nPlugin,{ 
+    i18nScope,				// 重点，需要引入当前作用域的i18nScope
+    forceUpdate:true		// 当语言切换时是否强制重新渲染
+})   
 
-// 切换到英文
-await i18nScope.change("en")
-// VoerkaI18n是一个全局单例，可以直接访问
-VoerkaI18n.change("en")
 ```
 
-侦听语言切换事件：
+- 当`forceUpdate=true`时，`@voerkai18n/vue`插件在切换语言时会调用`app._instance.update()`对整个应用进行强制重新渲染。大部分情况下，切换语言时强制对整个应用进行重新渲染的行为是符合预期的。您也可以能够通过设`forceUpdate=false`来禁用强制重新渲染，此时，界面就不会马上看到语言的切换，需要您自己控制进行重新渲染。
+- 
+
+## Vite插件
+
+`@voerkai18n/babel`插件在`vite`应用中不能正常使用，需要使用`@voerkai18n/vite`插件来完成类似的功能，包括自动文本映射和自动导入`t`函数。
+
+### 安装
+
+`@voerkai18n/vite`只需要作为开发依赖安装即可。
 
 ```javascript
-import { i18nScope } from "./languages"
+npm install --save-dev @voerkai18n/vite
+yarn add -D @voerkai18n/vite
+pnpm add -D @voerkai18n/vite 
+```
 
-// 切换到英文
-i18nScope.on((newLanguage)=>{
-    ...
+### 启用插件
+
+接下来在`vite.config.js`中配置启用`@voerkai18n/vite`插件。
+
+```javascript
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import Inspect from 'vite-plugin-inspect'// 可选的
+import Voerkai18nPlugin from "@voerkai18n/vite"
+export default defineConfig({
+    plugins: [
+        Inspect(),  // 可选的
+        Voerkai18nPlugin({debug:true}),
+        vue()
+    ]
 })
-// 
-VoerkaI18n.on((newLanguage)=>{
-    ...
+
+```
+
+- ` vite-plugin-inspect`是开发`vite`插件时的调试插件，启用后就可以通过`localhost:3000/__inspect/ `查看Vue源码文件经过插件处理前后的内容，一般是Vite插件开发者使用。上例中安装后，就可以查看`Voerkai18nPlugin`对Vue文件干了什么事，可以加深理解，**正常使用不需要安装**。
+- `vite`插件
+
+### 插件功能
+
+`@voerkai18n/vite`插件配置启用后，`vite`在进行`dev`或`build`时，就会在`<script setup>....</script>`自动注入`import { t } from "languages"	`，同时会扫描源代码文件（包括`vue`,`js`等），根据`idMap.js`文件里面的文本映射表，将`t('"xxxx")`转换成`t("<id>")`的形式。
+
+不同于`@voerkai18n/babel`插件，`@voerkai18n/vite`插件不需要配置`location`和`autoImport`参数，能正确地处理导入`languages`路径。
+
+### 插件参数
+
+`vite`插件支持以下参数：
+
+```javascript
+import Voerkai18nPlugin from "@voerkai18n/vite"
+export default defineConfig({
+    plugins: [
+        Inspect(),  										// 可选的
+        Voerkai18nPlugin({
+            location: "./",                                 // 可选的，指定当前工程目录
+            autoImport: true,                               // 是否自动导入t函数
+            debug:false,                                    // 是否输出调试信息，当=true时，在控制台输出转换匹配的文件清单
+            patterns:[
+                "!(?<!.vue\?.*).(css|json|scss|less|sass)$",          // 排除所有css文件
+                /\.vue(\?.*)?/,                                     // 所有vue文件
+            ]    
+        }),
+        vue()
+    ]
 })
 ```
 
-## 加载语言包
+- `location`：可选的，用来指定当前工程目录，一般情况是不需要配置的，会自动取当前文件夹。并且假设`languages`文件夹在`<location>/src/languages`文件夹下。
 
-当使用`webpack`、`rollup`进行项目打包时，默认语言包采用静态打包，会被打包进行源码中。而其他语言则采用异步打包方式。在`languages/index.js`中
+- `autoImport`：可选的，默认`true`，用来配置是否自动导入`t`函数。当vue文件没有指定导入时才会自动导入，并且根据当前vue文件的路径处理好导入位置。
 
-```javascript
-const defaultMessages =  require("./cn.js")  
-const activeMessages = defaultMessages
-  
-// 语言作用域
-const scope = new i18nScope({
-    default:   defaultMessages,                 // 默认语言包
-    messages : activeMessages,                  // 当前语言包
-    ....
-    loaders:{ 
-        "en" : ()=>import("./en.js") 
-        "de" : ()=>import("./de.js") 
-        "jp" : ()=>import("./jp.js") 
-    })
-```
+- `debug`：可选的，开启后会在控制台输出一些调试信息，对一般用户没有用。
 
-## 运行时
+- `patterns`：可选的，一些正则表达式匹配规则，用来过滤匹配哪一些文件需要进行扫描和处理。默认的规则：
 
-运行`voerkai18n compile`时会在`languages`文件下生成运行时文件`runtime.js`，该文件被`languages/index.js`引入，里面是核心运行时`ES6`源代码（`@voerkai18n/runtime`代码），也就是在您的工程中是直接引入的运行时代码，因此就不需要额外`@voerkai18n/runtime`了。
+  ```javascript
+  const patterns={
+     	"!(?<!.vue\?.*).(css|json|scss|less|sass)$",          	// 排除所有css文件
+     	/\.vue(\?.*)?/,                                     	// 所有vue文件
+     	"!.*\/node_modules\/.*",								// 排除node_modules
+     	"!/.*\/languages\/.*",           					 	// 默认排除语言文件
+      "!\.babelrc",											// 排除.babelrc
+  	"!babel\.config\.js",									// 排除babel.config.js
+      "!package\.json$",										// 排除package.json
+      "!vite\.config\.js",									// 排除vite.config.js
+      "!^plugin-vue:.*"										// 排除plugin-vue
+  }
+  ```
 
-每次运行`voerkai18n compile`时就会自动生成`runtime.js`,请及时升级`@voerkai18n/cli`工程以更新运行时代码。
+  `patterns`的匹配规则语法支持`正则表达式字符串`和`正则表达式`两种，用来对经vite处理的文件名称进行匹配和处理。
 
-**重点：默认情况下是不需要额外安装`@voerkai18n/runtime`的。**
-
-由于`runtime.js`是`ES6`代码，在某些情况下，您需要兼容性更好的代码时，就需要进行`babel`转码。比如在普通的`nodejs`应用中。`@voerkai18n/runtime`也提供转码后的发布版本。
-
-当运行`voerkai18n compile --no-inline-runtime`时就不会生成`runtime.js`，而是直接引用的`@voerkai18n/runtime`，而`@voerkai18n/runtime`发布了`commonjs`和`esm`两个经过`babel/rollup`转码后的版本。
-
-- 当运行`voerkai18n compile`并启用了`--no-inline-runtime`时，在您在工程中就需要额外安装`@voerkai18n/runtime`到运行依赖中。
-
-- 当运行`voerkai18n compile --no-inline-runtime`时，不需要安装`@voerkai18n/runtime`。但是，您的运行环境需要支持`ES6`或者自行转码。大部分`vue/react`等应用均能支持转码。
-
-## babel插件
-
-全局安装`@voerkai18n/babel`插件用来进行自动导入t函数和自动文本映射。
-
-```javascript
-> npm install -g @voerkai18n/babel
-> yarn global add @voerkai18n/babel
-> pnpm add -g @voerkai18n/babel
-```
-
-然后在`babel.config.js`中使用，详见上节`自动导入翻译函数`介绍。
-
-## Vue扩展
-
-
+  - `正则表达式`比较容易理解，匹配上的就进行处理。
+  - `正则表达式字符串`支持一些简单的语法扩展，包括：
+    - 可以通过前置`!`符号来进行排除匹配。
+    - 将`**`替换为`.*`，允许使用类似`"/code/apps/test/**/node_modules/**"`的形式来匹配连续路径。
+    - 将`？`替换为`[^\/]?`
+    - 将`*`替换为`[^\/]*`
 
 ## React扩展
 

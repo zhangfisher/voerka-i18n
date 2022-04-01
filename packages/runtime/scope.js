@@ -95,7 +95,7 @@ module.exports = class i18nScope {
         const loader = this.loaders[newLanguage]
         if(typeof(loader) === "function"){
             try{
-                this._messages = (await loader()).default
+                this._messages  = (await loader()).default
                 this._activeLanguage = newLanguage
             }catch(e){
                 console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`)

@@ -32,13 +32,13 @@ const scope = new i18nScope({
     }
 }) 
 // 翻译函数
-const t = translate.bind(scope) 
+const scopedTtranslate = translate.bind(scope) 
 {{if moduleType === "esm"}}
 export { 
-    t, 
-    i18nScope as scope
+    scopedTtranslate as t, 
+    scope as i18nScope
 }
 {{else}}
-module.exports.t = t
+module.exports.t = scopedTtranslate
 module.exports.i18nScope = scope 
 {{/if}}

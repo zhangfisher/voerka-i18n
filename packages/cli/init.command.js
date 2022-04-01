@@ -4,29 +4,13 @@
  */
 
 
-const { findModuleType,createPackageJsonFile,t,getCurrentProjectRootFolder } = require("./utils")
 const path = require("path")
 const fs = require("fs")
 const shelljs = require("shelljs")
+const { t } = require("./i18nProxy")
+const { findModuleType } = require("@voerkai18n/utils")
 const createLogger = require("logsets")
 const logger = createLogger()
-
-/**
- * 在当前工程自动安装@voerkai18n/runtime
- * @param {*} langFolder 
- * @param {*} opts 
- */
- function installVoerkai18nRuntim(srcPath){
-    const projectFolder =  getCurrentProjectRootFolder(srcPath || process.cwd())
-    if(fs.existsSync("pnpm-lock.yaml")){
-        shelljs.exec("pnpm add @voerkai18n/runtime")
-    }else if(fs.existsSync("yarn.lock")){
-        shelljs.exec("yarn add @voerkai18n/runtime")
-    }else{
-        shelljs.exec("npm install @voerkai18n/runtime")
-    }
-}   
-
 
 module.exports = function(srcPath,{debug = true,languages=["cn","en"],defaultLanguage="cn",activeLanguage="cn",reset=false,installRuntime=true}={}){
     // 语言文件夹名称
@@ -37,7 +21,6 @@ module.exports = function(srcPath,{debug = true,languages=["cn","en"],defaultLan
         fs.mkdirSync(lngPath)
         if(debug) logger.log(t("创建语言包文件夹: {}"),lngPath)
     }
-
 
     // 创建settings.json文件
     const settingsFile = path.join(lngPath,"settings.json")
@@ -54,12 +37,6 @@ module.exports = function(srcPath,{debug = true,languages=["cn","en"],defaultLan
 
     // 写入配置文件
     fs.writeFileSync(settingsFile,JSON.stringify(settings,null,4))
-    
-    // 自动安装运行时@voerkai18n/runtime
-    // if(installRuntime){
-    //     logger.log(t("正在安装多语言运行时：{}"),"@voerkai18n/runtime")
-    //     installVoerkai18nRuntim(srcPath)
-    // }
         
     if(debug) {
         logger.log(t("生成语言配置文件:{}"),"./languages/settings.json")

@@ -2,41 +2,12 @@ const { Command } = require('commander');
 const createLogger =  require("logsets")
 const path = require("path")
 const fs = require("fs-extra")
-const deepmerge = require('deepmerge');
 const logger = createLogger()
-const { getCurrentProjectRootFolder,i18nScope ,t }  = require("./utils")
-
+const { i18nScope ,t }  = require("./i18nScope")
+const { getProjectRootFolder, getProjectSourceFolder }  = require("@voerkai18n/utils")
  
 
 const program = new Command();
-
-/**
- * 根据当前输入的文件夹位置自动确定源码文件夹位置
- * 
- * - 如果没有指定，则取当前文件夹
- * - 如果指定是非绝对路径，则以当前文件夹作为base
- * - 查找pack
- * - 如果该文件夹中存在src，则取src下的文件夹
- * -
- * 
- * @param {*} location 
- * @returns 
- */
-function getProjectSourceFolder(location){
-    if(!location) {
-        location = process.cwd()
-    }else{
-        if(!path.isAbsolute(location)){
-            location = path.join(process.cwd(),location)
-        }
-    }
-    let projectRoot = getCurrentProjectRootFolder(location)
-    // 如果当前工程存在src文件夹，则自动使用该文件夹作为源文件夹
-    if(fs.existsSync(path.join(projectRoot,"src"))){
-        projectRoot = path.join(projectRoot,"src")
-    }
-    return projectRoot
-}
 
 program
     .command('init')

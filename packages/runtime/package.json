@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/runtime",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Voerkai18n Runtime",
   "main": "./dist/index.cjs",
   "module": "dist/index.esm.js",
@@ -12,7 +12,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
-    "release": "npm version patch && npm run build && npm publish -access public"
+    "release": "npm version patch && pnpm publish  --no-git-checks --access public"
   },
   "exports": {
     "import": "./dist/index.esm.js",
@@ -33,5 +33,8 @@
     "rollup": "^2.69.0",
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-terser": "^7.0.2"
+  },
+  "dependencies": {
+    "@voerkai18n/utils": "workspace:^1.0.0"
   }
 }

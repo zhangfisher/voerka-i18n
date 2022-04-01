@@ -21,15 +21,15 @@
  */
 
 const fs =  require("fs");
-const path =  require("path");
-const { isPlainObject } = require("./utils");
- 
+const pathobj =  require("path");
+const { getProjectRootFolder } = require("@voerkai18n/utils")
+
+
 const DefaultI18nPluginOptions = {
     translateFunctionName:"t",          // 默认的翻译函数名称
     // 翻译文件存放的目录，即编译后的语言文件的文件夹
-    // 默认从当前目录下的languages文件夹中导入
-    // 如果不存在则会
-    location:"./languages",
+    // 默认从当前目录下的languages文件夹中导入 
+    location:"./",
     // 自动创建import {t} from "#/languages"  或  const { t } = require("#/languages")  
     // 如果此值是空，则不会自动创建import语句    
     autoImport:"#/languages",       
@@ -41,6 +41,7 @@ const DefaultI18nPluginOptions = {
     // 正常情况下会读取<location>/idMap.js文件
     idMap:{}                            
 }
+
 
 /**
  * 判断当前是否是一个esmodule，判断依据是
@@ -56,7 +57,6 @@ function isEsModule(path){
         }
     } 
 }
-
 /**
  * 判断是否导入了翻译函数 
  * import { t } from "./i18n"
@@ -67,7 +67,7 @@ function isEsModule(path){
 function hasImportTranslateFunction(path){  
     for(let ele of path.node.body){
         if(ele.type==="ImportDeclaration"){ 
-            if(ele.specifiers.findIndex(s => s.type === "ImportSpecifier"  && s.imported.name ==TRANSLATE_FUNCTION_NAME && s.local.name===TRANSLATE_FUNCTION_NAME)>-1){
+            if(Array.isArray(ele.specifiers) && ele.specifiers.findIndex(s => (s.type === "ImportSpecifier")  && (s.imported.name ==this.translateFunctionName) && (s.local.name===this.translateFunctionName))>-1){               
                 return true
             }
         }
@@ -76,24 +76,39 @@ function hasImportTranslateFunction(path){
 function hasRequireTranslateFunction(path){ 
     for(let ele of path.node.body){
         if(ele.type==="VariableDeclaration"){ 
-            if(ele.specifiers.findIndex(s => s.type === "ImportSpecifier"  && s.imported.name ==TRANSLATE_FUNCTION_NAME && s.local.name===TRANSLATE_FUNCTION_NAME)>-1){
+            if(Array.isArray(ele.specifiers) && ele.specifiers.findIndex(s => s.type === "ImportSpecifier"  && s.imported.name ==this.translateFunctionName && s.local.name===this.translateFunctionName)>-1){
                 return true
             }
         }
     }
 }
 
-function getIdMap(options){
-    const { idMap,location } = options
-    if(isPlainObject(idMap) && Object.keys(idMap).length>0){
+
+/**
+ * 读取idMap.js文件
+ * @param {*} options 
+ * @returns 
+ */
+function readIdMapFile(options){
+    let { idMap,location } = options
+    if(typeof(idMap)==="object" && Object.keys(idMap).length>0){
         return idMap
     }else{
-        let idMapFiles = [
-            path.join((path.isAbsolute(location) ? location : path.join(process.cwd(),location)),"idMap.js"),
-            path.join((path.isAbsolute(location) ? path.join(location,"languages") : path.join(process.cwd(),location,"languages")),'idMap.js')
-        ]
+        let searchIdMapFiles = []
+        if(!pathobj.isAbsolute(location)){
+            location =  pathobj.join(process.cwd(),location)
+        }
+        searchIdMapFiles.push(pathobj.join(location,"src","languages/idMap.js"))
+        searchIdMapFiles.push(pathobj.join(location,"languages/idMap.js"))
+        searchIdMapFiles.push(pathobj.join(location,"idMap.js"))
+    
+        let projectRoot = getProjectRootFolder(location)        
+        searchIdMapFiles.push(pathobj.join(projectRoot,"src","languages/idMap.js"))
+        searchIdMapFiles.push(pathobj.join(projectRoot,"languages/idMap.js"))
+        searchIdMapFiles.push(pathobj.join(projectRoot,"idMap.js"))
+         
         let idMapFile
-        for( idMapFile of idMapFiles){
+        for( idMapFile of searchIdMapFiles){
             // 如果不存在idMap文件，则尝试从location/languages/中导入
             if(fs.existsSync(idMapFile)){ 
                 try{
@@ -101,8 +116,7 @@ function getIdMap(options){
                     // 当require(idMap.js)失败时，对esm模块尝试采用直接读取的方式
                     return require(idMapFile)
                 }catch(e){
-                    // 出错原因可能是因为无效require esm模块，
-                    // 由于idMap.js文件格式相对简单，因此尝试直接读取解析
+                    // 出错原因可能是因为无效require esm模块，由于idMap.js文件格式相对简单，因此尝试直接读取解析
                     try{
                         let idMapContent = fs.readFileSync(idMapFile).toString()
                         idMapContent = idMapContent.trim().replace(/^\s*export\s*default\s/g,"")
@@ -126,20 +140,22 @@ module.exports = function voerkai18nPlugin(babel) {
                 // 转码插件参数可以覆盖默认参数
                 Object.assign(pluginOptions,state.opts || {}); 
                 const { location ,autoImport, translateFunctionName,moduleType } = pluginOptions
-                idMap = getIdMap(pluginOptions) 
+                if(Object.keys(idMap).length===0){
+                    idMap = readIdMapFile(pluginOptions) 
+                }                
                 // 是否自动导入t函数
                 if(autoImport){
                     let module = moduleType === 'auto' ? isEsModule(path) ? 'esm' : 'cjs' : moduleType
                     if(!["esm","es","cjs","commonjs"].includes(module)) module = 'esm'
                     if(module === 'esm'){
                         //  如果没有定义t函数，则自动导入
-                        if(!hasImportTranslateFunction(path)){       
+                        if(!hasImportTranslateFunction.call(pluginOptions, path)){       
                             path.node.body.unshift(t.importDeclaration([
                                 t.ImportSpecifier(t.identifier(translateFunctionName),t.identifier(translateFunctionName)
                             )],t.stringLiteral(autoImport)))
                         }
                     }else{
-                        if(!hasRequireTranslateFunction(path)){ 
+                        if(!hasRequireTranslateFunction.call(pluginOptions, path)){ 
                             path.node.body.unshift(t.variableDeclaration("const",[
                                 t.variableDeclarator(
                                     t.ObjectPattern([t.ObjectProperty(t.Identifier(translateFunctionName),t.Identifier(translateFunctionName),false,true)]),

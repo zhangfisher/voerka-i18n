@@ -38,10 +38,10 @@ const scope = new i18nScope({
     }
 }) 
 // 翻译函数
-const t = translate.bind(scope) 
+const scopedTtranslate = translate.bind(scope) 
 
 export { 
-    t, 
-    i18nScope as scope
+    scopedTtranslate as t, 
+    scope as i18nScope
 }
 

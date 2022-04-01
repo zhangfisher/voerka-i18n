@@ -4,5 +4,35 @@
         "$file": [
             "App.vue"
         ]
+    },
+    "中华人民共和国": {
+        "en": "The People's Republic of China",
+        "$file": [
+            "App.vue"
+        ]
+    },
+    "迎接中华民族的伟大复兴": {
+        "en": "Welcome the great rejuvenation of the Chinese nation",
+        "$file": [
+            "App.vue"
+        ]
+    },
+    "成立于{}年": {
+        "en": "Founded in {}",
+        "$file": [
+            "components\\china.vue"
+        ]
+    },
+    "首都：北京": {
+        "en": "Capital: Beijing",
+        "$file": [
+            "components\\china.vue"
+        ]
+    },
+    "VoerkaI18n多语言解决方案 ": {
+        "en": "VoerkaI18n多语言解决方案 ",
+        "$file": [
+            "App.vue"
+        ]
     }
 }

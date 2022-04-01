@@ -15,19 +15,23 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.17.8",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^21.0.2",
-    "dayjs": "^1.10.8",
+    "dayjs": "^1.11.0",
     "deepmerge": "^4.2.2",
     "fs-extra": "^10.0.1",
     "gulp": "^4.0.2",
     "jest": "^27.5.1",
-    "rollup": "^2.69.0",
+    "logsets": "^1.0.8",
+    "rollup": "^2.70.1",
     "rollup-plugin-clear": "^2.0.7",
     "shelljs": "^0.8.5",
     "vinyl": "^2.2.1"
+  },
+  "dependencies": {
+    "inquirer": "^8.2.2"
   }
 }

@@ -25,7 +25,8 @@
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { t,findModuleType,getCurrentPackageJson} = require("./utils")
+const { findModuleType,getCurrentPackageJson,installVoerkai18nRuntime,isInstallDependent} = require("@voerkai18n/utils")
+const { t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const logger = createLogger() 
 const artTemplate = require("art-template")
@@ -52,9 +53,7 @@ module.exports =async  function compile(langFolder,opts={}){
     // 加载多语言配置文件
     const settingsFile = path.join(langFolder,"settings.json")
 
-
-    try{        
-           
+    try{                   
 
         // 读取多语言配置文件
         const langSettings = fs.readJSONSync(settingsFile) 
@@ -125,8 +124,14 @@ module.exports =async  function compile(langFolder,opts={}){
                 path.join(langFolder,"runtime.js")
             )
             logger.log(t(" - 运行时: {}"),"runtime.js")
-        }   
-        
+        }else{//如果不嵌入则需要安装运行时依赖
+            if(!isInstallDependent("@voerkai18n/runtime")){
+                installVoerkai18nRuntime(langFolder,moduleType)
+                logger.log(t(" - 安装运行时: {}"),"@voerkai18n/runtime")
+            }else{
+                logger.log(t(" - 运行时{}已安装"),"@voerkai18n/runtime")
+            }            
+        }          
         const templateContext = {
             scopeId:projectPackageJson.name,
             inlineRuntime,

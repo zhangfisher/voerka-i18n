@@ -1,0 +1,15 @@
+{
+  "name": "@voerkai18n/vite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "npm version patch && pnpm publish  --no-git-checks --access public"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@voerkai18n/utils": "workspace:^1.0.0"
+  }
+}

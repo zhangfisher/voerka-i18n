@@ -1,6 +1,8 @@
 const EventEmitter = require("./eventemitter")
 const i18nScope = require("./scope.js")
-let  formatters = require("./formatters") 
+const { getDataTypeName,isNumber,isPlainObject,deepMerge } = require("@voerkai18n/utils")
+let  inlineFormatters = require("./formatters")         // 内置格式化器
+
 
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
@@ -33,80 +35,7 @@ function hasInterpolation(str){
     return str.includes("{") && str.includes("}")
 } 
 const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"]
-
-/**
- * 获取指定变量类型名称
- * getDataTypeName(1) == Number
- * getDataTypeName("") == String
- * getDataTypeName(null) == Null
- * getDataTypeName(undefined) == Undefined
- * getDataTypeName(new Date()) == Date
- * getDataTypeName(new Error()) == Error
- * 
- * @param {*} v 
- * @returns 
- */
- function getDataTypeName(v){
-	if (v === null)  return 'Null' 
-	if (v === undefined) return 'Undefined'   
-    if(typeof(v)==="function")  return "Function"
-	return v.constructor && v.constructor.name;
-};
-function isPlainObject(obj){
-    if (typeof obj !== 'object' || obj === null) return false;
-    var proto = Object.getPrototypeOf(obj);
-    if (proto === null) return true;
-    var baseProto = proto;
-
-    while (Object.getPrototypeOf(baseProto) !== null) {
-        baseProto = Object.getPrototypeOf(baseProto);
-    }
-    return proto === baseProto; 
-}
-function isNumber(value){
-    return !isNaN(parseInt(value))
-}
-
-
-
-/**
- * 简单进行对象合并
- * 
- * options={
- *    array:0 ,        // 数组合并策略，0-替换，1-合并，2-去重合并
- *    object:0,        // 对象合并策略，0-替换，1-合并，2-去重合并
- * }
- * 
- * @param {*} toObj 
- * @param {*} formObj 
- * @returns 合并后的对象
- */
-function deepMerge(toObj,formObj,options={}){
-    let results = Object.assign({},toObj)
-    Object.entries(formObj).forEach(([key,value])=>{
-        if(key in results){
-            if(typeof value === "object" && value !== null){
-                if(Array.isArray(value)){
-                    if(options.array === 0){
-                        results[key] = value
-                    }else if(options.array === 1){
-                        results[key] = [...results[key],...value]
-                    }else if(options.array === 2){
-                        results[key] = [...new Set([...results[key],...value])]
-                    }
-                }else{
-                    results[key] = deepMerge(results[key],value,options)
-                }
-            }else{
-                results[key] = value
-            }
-        }else{
-            results[key] = value
-        }
-    })
-    return results
-}
-  
+ 
 
 /**
    通过正则表达式对原始文本内容进行解析匹配后得到的
@@ -649,11 +578,11 @@ function translate(message) {
     // 当前激活语言
     get activeLanguage(){ return this._settings.activeLanguage}
     // 默认语言
-    get defaultLanguage(){ return this.this._settings.defaultLanguage}
+    get defaultLanguage(){ return this._settings.defaultLanguage}
     // 支持的语言列表
     get languages(){ return this._settings.languages}
-    // 全局格式化器
-    get formatters(){ return formatters }
+    // 内置格式化器
+    get formatters(){ return inlineFormatters }
     /**
      *  切换语言
      */

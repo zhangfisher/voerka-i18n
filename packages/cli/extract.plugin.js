@@ -10,7 +10,10 @@ const deepmerge = require("deepmerge")
 const path = require('path')
 const fs = require('fs-extra')
 const createLogger = require("logsets") 
-const { findModuleType,createPackageJsonFile,t } = require("./utils")
+const { t } = require("./i18nProxy")
+const { findModuleType } = require("@voerkai18n/utils")
+
+
 const logger = createLogger() 
 
 

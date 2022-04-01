@@ -30,6 +30,7 @@ function expectBabelSuccess(result){
     expect(result.includes(`t("4"`)).toBeTruthy()
     expect(result.includes(`t("5"`)).toBeTruthy()
 }
+
 test("翻译函数转换",done=>{ 
     babel.transform(code, {
         plugins: [
@@ -63,7 +64,7 @@ test("读取esm格式的idMap后进行翻译函数转换",done=>{
             [
                 i18nPlugin,
                 {
-                    location:path.join(__dirname, "../packages/demo/apps/lib1/languages"), 
+                    location:path.join(__dirname, "../packages/apps/lib1/languages"), 
                     autoImport:"#/languages",
                     moduleType:"esm",          
                 }            
@@ -80,7 +81,7 @@ test("读取commonjs格式的idMap后进行翻译函数转换",done=>{
             [
                 i18nPlugin,
                 {
-                    location:path.join(__dirname, "../packages/demo/apps/lib2/languages"), 
+                    location:path.join(__dirname, "../packages/apps/lib2/languages"), 
                     autoImport:"#/languages",
                     moduleType:"esm",          
                 }            

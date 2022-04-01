@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/babel",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "VoerkaI18n babel plugin",
   "main": "index.js",
   "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -10,8 +10,11 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish": "npm publish -access public"
+    "release": "npm version patch && pnpm publish --no-git-checks --access public"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@voerkai18n/utils": "workspace:^1.0.0"
+  }
 }
