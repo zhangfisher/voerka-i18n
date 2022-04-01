@@ -24,10 +24,12 @@
  const path = require("path");
  const shelljs = require("shelljs");
  const createLogger = require("logsets");
- const { Command } = require('commander');
+ const { Command ,Option} = require('commander');
  const dayjs = require("dayjs");
  const relativeTime = require("dayjs/plugin/relativeTime");
  dayjs.extend(relativeTime);
+ require('dayjs/locale/zh-cn')
+ dayjs.locale("zh-cn");
  
  const logger = createLogger();
  
@@ -99,15 +101,21 @@ function execShellScript(script){
      .option("-f, --force", "强制发布") 
      .option("--no-auto-commit", "不提交源码") 
      .option("-q, --query", "询问是否发布，否则会自动发布") 
-     .option("-i, --version-increment-step [value]", "版本增长方式，取值major,minor,patch",'patch')    
+     .addOption(new Option('-i, --version-increment-step [value]', '版本增长方式，取值major,minor,patch').default("patch").choices(['major', 'minor', 'patch']))
      .action(async (options) => {
          console.log(JSON.stringify(options))
          const {versionIncrementStep,autoCommit} = options
+        
+         if(!["major","minor","patch"].includes(versionIncrementStep)){
+            versionIncrementStep = "patch"
+        }               
+
+
          const packageFolder = process.cwd()        
          const packageName = path.basename(packageFolder)
          const pkgFile = path.join(packageFolder,"package.json")
          
-         const { scripts } = fs.readJSONSync(pkgFile)
+         const { version,scripts } = fs.readJSONSync(pkgFile)
  
          logger.log("包名：{}",`${packageName}`)
  
@@ -127,25 +135,24 @@ function execShellScript(script){
                 const result  = await inquirer.prompt({
                     name:"isCommit",
                     type:"confirm",
-                    message:"是否提交未提交的文件？"
+                    message:"是否提交以下文件？"
                 })
                 isCommit  = result.isCommit
             }
             if(isCommit){
                 execShellScript(`git commit -a -m "Update ${packageName}"`)
             }
-            
+        }
+        // 第二步：更新最新的版本号
+        
+        execShellScript(`npm version ${versionIncrementStep}`)
 
-         }
-
-
- 
  
          // 由于每次发布均会更新npm version patch，并且需要提交代码
         //  const lastCommit = shelljs.exec(`git log --format=%cd --date=iso -1 -- ${pkgFile}`, { silent: true }).stdout.trim()
  
         //  // 增加版本号
-        //  shelljs.exec(`npm version ${versionIncrementStep}`, { silent: true }).stdout.trim()
+        
          
         //  //
         //  shelljs.exec(`pnpm publish --access publish`, { silent: true }).stdout.trim()
