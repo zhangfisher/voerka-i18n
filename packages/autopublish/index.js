@@ -20,7 +20,7 @@
 
  const fs = require("fs-extra");
  const inquirer = require("inquirer");
-
+ const semver = require("semver")
  const path = require("path");
  const shelljs = require("shelljs");
  const createLogger = require("logsets");
@@ -38,16 +38,16 @@
  
  
  
- const packages = [
-     "git log --format=%cd --date=iso  -1 -- packages/babel/package.json",
-     "git log --format=%cd --date=iso  -1 -- packages/cli/package.json",
-     "git log --format=%cd --date=iso  -1 -- packages/runtime/package.json",
-     "git log --format=%cd --date=iso  -1 -- packages/formatters/package.json",
-     "git log --format=%cd --date=iso  -1 -- packages/vue/package.json",
-     "git log --format=%cd --date=iso  -1 -- packages/vite/package.json",
-     "git log --format=%cd --date=iso  -1 -- packages/autopublish/package.json",
-     "git log --format=%cd --date=iso  -1 -- packages/utils/package.json"    
- ]
+//  const packages = [
+//      "git log --format=%cd --date=iso  -1 -- packages/babel/package.json",
+//      "git log --format=%cd --date=iso  -1 -- packages/cli/package.json",
+//      "git log --format=%cd --date=iso  -1 -- packages/runtime/package.json",
+//      "git log --format=%cd --date=iso  -1 -- packages/formatters/package.json",
+//      "git log --format=%cd --date=iso  -1 -- packages/vue/package.json",
+//      "git log --format=%cd --date=iso  -1 -- packages/vite/package.json",
+//      "git log --format=%cd --date=iso  -1 -- packages/autopublish/package.json",
+//      "git log --format=%cd --date=iso  -1 -- packages/utils/package.json"    
+//  ]
  
  function getPackages(){
      let workspaceRoot = process.cwd()        
@@ -89,24 +89,74 @@
      return changeFiles.length>0 ? changeFiles.split("\n") : []
  }
  
-function execShellScript(script){
+ /**
+  * 执行脚本，出错会返回错误信息
+  * @param {*} script 
+  */
+function execShellScript(script,options={}){
     if(shelljs.exec(script).code>0){
         throw new Error(`执行<${script}>失败`)
     }
 }
+ /**
+  * 执行脚本并返回结果
+  * @param {*} script 
+  */
+function execShellScriptReturns(script,options={}){ ){
+    return shelljs.exec(script,options).code>0).stdout.trim()
+}
 
- program
+
+/**
+ * 执行Git提交命令
+ * 
+ * 1. 检查当前包是否有未提交的文件
+ * 2. 如果没有则不提交
+ * 3. 如果有则提交
+ * 
+ * 
+ */
+function commitProject(packageName,{versionIncrementStep="patch",autoCommit=false}={}){
+    const lastChanges = getPackageLastChanges(package.name)
+    let lastCommit = shelljs.exec(`git log --format=%cd --date=iso -1 -- .`, { silent: true }).stdout.trim()
+    let hasError = false                // 执行过程是否出错了
+    let isCommit = autoCommit           // 是否执行了提交操作
+
+    if(lastCommit){
+        lastCommit = dayjs(lastCommit)
+        logger.log("最后一次提交：{}({})",lastCommit.format("YYYY-MM-DD HH:mm:ss"),lastCommit.fromNow())
+    }
+    if(lastChanges.length>0){
+        logger.log("包[{}]存在{}个未提交的文件:",package.name,lastChanges.length)
+        lastChanges.forEach(file=>logger.log(` - ${file.trim()}`))  
+        if(!autoCommit){
+            const result  = await inquirer.prompt({
+                name:"isCommit",
+                type:"confirm",
+                message:"是否提交以上文件到仓库？"
+            })
+            isCommit  = result.isCommit
+        }
+        if(isCommit){
+            execShellScript(`git commit -a -m "Update ${package.name}"`)           
+        }
+    }
+}
+
+let VERSION_STEPS = ["major", "minor", "patch","premajor","preminor","prepatch","prerelease"]
+program
      .command("publish")
      .description("发布当前工作区下的包")
      .option("-f, --force", "强制发布") 
      .option("--no-auto-commit", "不提交源码") 
      .option("-q, --query", "询问是否发布，否则会自动发布") 
-     .addOption(new Option('-i, --version-increment-step [value]', '版本增长方式，取值major,minor,patch').default("patch").choices(['major', 'minor', 'patch']))
+     .option("--no-add-version-tag", "不添加版本标签") 
+     .addOption(new Option('-i, --version-increment-step [value]', '版本增长方式').default("patch").choices(VERSION_STEPS))
      .action(async (options) => {
          console.log(JSON.stringify(options))
-         const {versionIncrementStep,autoCommit} = options
+         const {versionIncrementStep,autoCommit,addVersionTag} = options
         
-         if(!["major","minor","patch"].includes(versionIncrementStep)){
+         if(!VERSION_STEPS.includes(versionIncrementStep)){
             versionIncrementStep = "patch"
         }               
 
@@ -114,49 +164,73 @@ function execShellScript(script){
          const packageFolder = process.cwd()        
          const packageName = path.basename(packageFolder)
          const pkgFile = path.join(packageFolder,"package.json")
-         
-         const { version,scripts } = fs.readJSONSync(pkgFile)
- 
+         const package = fs.readJSONSync(pkgFile)
+         const packageBackup = Object.assign({},package) // 备份package.json，当操作失败时，还原
+        
          logger.log("包名：{}",`${packageName}`)
  
  
-         //  第一步： 查询当否已经提交了代码，如果没有则提交代码
-        const lastChanges = getPackageLastChanges(packageName)
-        let lastCommit = shelljs.exec(`git log --format=%cd --date=iso -1 -- .`, { silent: true }).stdout.trim()
-        if(lastCommit){
-            lastCommit = dayjs(lastCommit)
-            logger.log("最后一次提交：{}({})",lastCommit.format("YYYY-MM-DD HH:mm:ss"),lastCommit.fromNow())
-        }
-         if(lastChanges.length>0){
-            logger.log("包[{}]存在{}个未提交的文件:",packageName,lastChanges.length)
-            lastChanges.forEach(file=>logger.log(` - ${file.trim()}`))
-            let isCommit = autoCommit
-            if(!autoCommit){
-                const result  = await inquirer.prompt({
-                    name:"isCommit",
-                    type:"confirm",
-                    message:"是否提交以下文件？"
-                })
-                isCommit  = result.isCommit
-            }
-            if(isCommit){
-                execShellScript(`git commit -a -m "Update ${packageName}"`)
-            }
-        }
-        // 第二步：更新最新的版本号
+        //  第一步： 提交代码         
+        commitProject(package,{versionIncrementStep,autoCommit})
         
-        execShellScript(`npm version ${versionIncrementStep}`)
+        //  第二步： 更新版本号和发布时间
+        package.version = semver.inc(package.version,versionIncrementStep)
+        package.lastPublish = dayjs().format()
+        fs.writeJSONSync(pkgFile,package)
 
+
+
+        // const lastChanges = getPackageLastChanges(packageName)
+        // let lastCommit = shelljs.exec(`git log --format=%cd --date=iso -1 -- .`, { silent: true }).stdout.trim()
+        // let hasError = false                // 执行过程是否出错了
+        // let isCommit = autoCommit           // 是否执行了提交操作
+
+        // if(lastCommit){
+        //     lastCommit = dayjs(lastCommit)
+        //     logger.log("最后一次提交：{}({})",lastCommit.format("YYYY-MM-DD HH:mm:ss"),lastCommit.fromNow())
+        // }
+        // // 如果当前包有变化时需要要进行提交
+        // if(lastChanges.length>0){
+        //     logger.log("包[{}]存在{}个未提交的文件:",packageName,lastChanges.length)
+        //     lastChanges.forEach(file=>logger.log(` - ${file.trim()}`))
+            
+        //     if(!autoCommit){
+        //         const result  = await inquirer.prompt({
+        //             name:"isCommit",
+        //             type:"confirm",
+        //             message:"是否提交以上文件到仓库？"
+        //         })
+        //         isCommit  = result.isCommit
+        //     }
+        //     if(isCommit){
+        //         // 由于更新版本号、发布时间等信息，需要修改package.json，所以在提交一份
+        //         execShellScript(`npm version ${versionIncrementStep}`)
+        //         // 重新读取package.json
+        //         package = fs.readJSONSync(pkgFile)
+        //         // 保存发布时间
+        //         package.lastPublish = dayjs().format()
+        //         // 由于更新版本号、发布时间等信息，需要修改package.json，所以在提交一份
+        //         execShellScript(`npm version ${versionIncrementStep}`)
+        //         // 提交代码到仓库
+        //         execShellScript(`git commit -a -m "Update ${packageName}"`)
+        //         // 添加版本标签
+        //         if(addVersionTag){
+        //             execShellScript(`git tag Version:${package.version}`)
+        //         }                
+        //     }
+        // }
  
-         // 由于每次发布均会更新npm version patch，并且需要提交代码
-        //  const lastCommit = shelljs.exec(`git log --format=%cd --date=iso -1 -- ${pkgFile}`, { silent: true }).stdout.trim()
- 
-        //  // 增加版本号
-        
-         
-        //  //
-        //  shelljs.exec(`pnpm publish --access publish`, { silent: true }).stdout.trim()
- 
+  
+        // 第三步：执行发布到Npm
+        // 由于工程可能引用了工作区内的其他包，必须pnpm publish才能发布
+        // pnpm publish会修正引用工作区其他包到的依赖信息，而npm publish不能识别工作区内的依赖，会导致报错        
+        try{
+            execShellScript(`pnpm publish --no-git-checks --access publish`)            
+            // 当发布完毕后，由于更新了publish，因此需要重新提交代码
+        }catch{
+            fs.writeJSONSync(pkgFile,packageBackup)
+        }
+
      })
  
  program

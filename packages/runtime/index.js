@@ -1,6 +1,6 @@
+const { getDataTypeName,isNumber,isPlainObject,deepMerge } = require("./utils")
 const EventEmitter = require("./eventemitter")
 const i18nScope = require("./scope.js")
-const { getDataTypeName,isNumber,isPlainObject,deepMerge } = require("@voerkai18n/utils")
 let  inlineFormatters = require("./formatters")         // 内置格式化器
 
 

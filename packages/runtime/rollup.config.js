@@ -1,7 +1,7 @@
 
 import clear from 'rollup-plugin-clear'
 import commonjs from '@rollup/plugin-commonjs';
-import resolve from "@rollup/plugin-node-resolve";
+// import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 import { babel } from '@rollup/plugin-babel'; 
 
@@ -22,7 +22,7 @@ export default  [
             }
         ],
         plugins: [
-            resolve(),
+            //resolve(),
             commonjs(), 
             babel({
                 babelHelpers:"runtime", 
@@ -48,7 +48,7 @@ export default  [
             }
         ],
         plugins:[
-            commonjs(), 
-        ],
+            commonjs() 
+        ] 
     }
 ]
