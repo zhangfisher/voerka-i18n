@@ -1,12 +1,11 @@
 {
   "name": "@voerkai18n/utils",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "npm version patch && npm run build && npm publish -access public"
-
+    "release": "npm version patch && pnpm publish  --no-git-checks --access public"
   },
   "author": "",
   "license": "ISC",

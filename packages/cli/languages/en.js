@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     "1": "Supported languages\\t: {}",
     "2": "Default language\\t: {}",
     "3": "Active language\\t\\t: {}",
@@ -34,16 +34,17 @@ module.exports = {
     "33": " - Run <{}> scan to extract the messages to be translated",
     "34": " - Run <{}> compile language messages",
     "35": "Create <languages> folder: {}",
-    "36": "Installing @voerkai18n/runtime：{}",
-    "37": "Type of module\\t\\t: {}",
-    "38": "Compile to：{}",
-    "39": "Error while read language file{}: {}",
-    "40": " - Language file: {}",
-    "41": " - idMap file: {}",
-    "42": " - Formatters: {}",
-    "43": "Now is { value | date | bjTime  }",
-    "44": " - Total{} messages",
-    "45": " - Runtime: {}",
-    "46": "Auto install default language",
-    "47": "Not inline runtime source"
+    "36": "Type of module\\t\\t: {}",
+    "37": "Compile to：{}",
+    "38": "Error while read language file{}: {}",
+    "39": " - Language file: {}",
+    "40": " - idMap file: {}",
+    "41": " - Formatters: {}",
+    "42": "Now is { value | date | bjTime  }",
+    "43": " - Total{} messages",
+    "44": " - Runtime: {}",
+    "45": "Auto install default language",
+    "46": "Not inline runtime source",
+    "47": " - Install runtime: {}",
+    "48": " - Runtime{} is installed"
 }

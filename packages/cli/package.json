@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/cli",
-  "version": "1.0.11",
+  "version": "1.0.15",
   "description": "VoerkaI18n command line interactive tools",
   "main": "index.js",
   "homepage": "https://gitee.com/zhangfisher/voerka-i18n",

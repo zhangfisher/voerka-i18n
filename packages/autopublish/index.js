@@ -38,17 +38,6 @@
  
  
  
-//  const packages = [
-//      "git log --format=%cd --date=iso  -1 -- packages/babel/package.json",
-//      "git log --format=%cd --date=iso  -1 -- packages/cli/package.json",
-//      "git log --format=%cd --date=iso  -1 -- packages/runtime/package.json",
-//      "git log --format=%cd --date=iso  -1 -- packages/formatters/package.json",
-//      "git log --format=%cd --date=iso  -1 -- packages/vue/package.json",
-//      "git log --format=%cd --date=iso  -1 -- packages/vite/package.json",
-//      "git log --format=%cd --date=iso  -1 -- packages/autopublish/package.json",
-//      "git log --format=%cd --date=iso  -1 -- packages/utils/package.json"    
-//  ]
- 
  function getPackages(){
      let workspaceRoot = process.cwd()        
      if(!fs.existsSync(path.join(workspaceRoot,"pnpm-workspace.yaml"))){
@@ -147,6 +136,7 @@ let VERSION_STEPS = ["major", "minor", "patch","premajor","preminor","prepatch",
 program
      .command("publish")
      .description("发布当前工作区下的包")
+     .option("-p, --package-name", "包名称") 
      .option("-f, --force", "强制发布") 
      .option("--no-auto-commit", "不提交源码") 
      .option("-q, --query", "询问是否发布，否则会自动发布") 
@@ -156,22 +146,16 @@ program
          console.log(JSON.stringify(options))
          const {versionIncrementStep,autoCommit,addVersionTag} = options
         
-         if(!VERSION_STEPS.includes(versionIncrementStep)){
-            versionIncrementStep = "patch"
-        }               
-
-
          const packageFolder = process.cwd()        
          const packageName = path.basename(packageFolder)
          const pkgFile = path.join(packageFolder,"package.json")
          const package = fs.readJSONSync(pkgFile)
          const packageBackup = Object.assign({},package) // 备份package.json，当操作失败时，还原
         
-         logger.log("包名：{}",`${packageName}`)
- 
+         logger.log("将发布包：{}",`${packageName}`) 
  
         //  第一步： 提交代码         
-        commitProject(package,{versionIncrementStep,autoCommit})
+        commitProject(package,options)
         
         //  第二步： 更新版本号和发布时间
         package.version = semver.inc(package.version,versionIncrementStep)
@@ -179,46 +163,7 @@ program
         fs.writeJSONSync(pkgFile,package)
 
 
-
-        // const lastChanges = getPackageLastChanges(packageName)
-        // let lastCommit = shelljs.exec(`git log --format=%cd --date=iso -1 -- .`, { silent: true }).stdout.trim()
-        // let hasError = false                // 执行过程是否出错了
-        // let isCommit = autoCommit           // 是否执行了提交操作
-
-        // if(lastCommit){
-        //     lastCommit = dayjs(lastCommit)
-        //     logger.log("最后一次提交：{}({})",lastCommit.format("YYYY-MM-DD HH:mm:ss"),lastCommit.fromNow())
-        // }
-        // // 如果当前包有变化时需要要进行提交
-        // if(lastChanges.length>0){
-        //     logger.log("包[{}]存在{}个未提交的文件:",packageName,lastChanges.length)
-        //     lastChanges.forEach(file=>logger.log(` - ${file.trim()}`))
-            
-        //     if(!autoCommit){
-        //         const result  = await inquirer.prompt({
-        //             name:"isCommit",
-        //             type:"confirm",
-        //             message:"是否提交以上文件到仓库？"
-        //         })
-        //         isCommit  = result.isCommit
-        //     }
-        //     if(isCommit){
-        //         // 由于更新版本号、发布时间等信息，需要修改package.json，所以在提交一份
-        //         execShellScript(`npm version ${versionIncrementStep}`)
-        //         // 重新读取package.json
-        //         package = fs.readJSONSync(pkgFile)
-        //         // 保存发布时间
-        //         package.lastPublish = dayjs().format()
-        //         // 由于更新版本号、发布时间等信息，需要修改package.json，所以在提交一份
-        //         execShellScript(`npm version ${versionIncrementStep}`)
-        //         // 提交代码到仓库
-        //         execShellScript(`git commit -a -m "Update ${packageName}"`)
-        //         // 添加版本标签
-        //         if(addVersionTag){
-        //             execShellScript(`git tag Version:${package.version}`)
-        //         }                
-        //     }
-        // }
+ 
  
   
         // 第三步：执行发布到Npm

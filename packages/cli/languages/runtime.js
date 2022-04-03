@@ -1,5 +1,3 @@
-'use strict';
-
 /**
 * 
 * 简单的事件触发器
@@ -921,4 +919,4 @@ var runtime ={
     isPlainObject 
 };
 
-module.exports = runtime;
+export { runtime as default };

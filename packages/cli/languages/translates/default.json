@@ -213,12 +213,6 @@
             "init.command.js"
         ]
     },
-    "正在安装多语言运行时：{}": {
-        "en": "Installing @voerkai18n/runtime：{}",
-        "$file": [
-            "init.command.js"
-        ]
-    },
     "模块类型\\t: {}": {
         "en": "Type of module\\t\\t: {}",
         "$file": [
@@ -283,6 +277,18 @@
         "en": "Not inline runtime source",
         "$file": [
             "index.js"
+        ]
+    },
+    " - 安装运行时: {}": {
+        "en": " - Install runtime: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    " - 运行时{}已安装": {
+        "en": " - Runtime{} is installed",
+        "$file": [
+            "compile.command.js"
         ]
     }
 }

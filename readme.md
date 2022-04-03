@@ -54,6 +54,7 @@
   yarn global add @voerkai18/cli
   pnpm add -g @voerkai18/cli
   ```
+  
 - **@voerkai18/runtime**
 
   **可选的**，运行时，`@voerkai18/cli`的依赖。大部分情况下不需要手动安装，一般仅在开发库项目时采用独立的运行时依赖。
@@ -71,6 +72,14 @@
 - **@voerkai18/babel**
   
   可选的`babel`插件，用来实现自动导入翻译函数和翻译文本映射自动替换。
+  
+- **@voerkai18/vue**
+  
+  可选的`vue`插件，用来为Vue应用提供语言动态切换功能。
+  
+- **@voerkai18/vite**
+  
+  可选的`vite`插件，用来为`vite`应用提供自动导入翻译函数和翻译文本映射自动替换。
 
 
 # 快速入门
@@ -261,7 +270,7 @@ import { i18nScope } from "./languages"
 // 切换到英文
 await i18nScope.change("en")
 // VoerkaI18n是一个全局单例，可以直接访问
-VoerkaI18n.change("en")
+await VoerkaI18n.change("en")
 ```
 
 `i18nScope.change`与`VoerkaI18n.change`两者是等价的。
@@ -625,7 +634,7 @@ VoerkaI18n.on((newLanguage)=>{
 
 - **@voerkai18n/vue**
 
-  **Vue插件**，在初始化Vue应用时引入，提供访问`当前语言`、`切换语言`、`自动更新`等功能。
+  **Vue插件**，在初始化`Vue`应用时引入，提供访问`当前语言`、`切换语言`、`自动更新`等功能。
 
 - **@voerkai18n/vite**
 
@@ -633,9 +642,9 @@ VoerkaI18n.on((newLanguage)=>{
 
   
 
-`@voerkai18n/vue`和`@voerkai18n/vite`两件插件相互配合，安装配置好这两个插件后，就可以在Vue文件使用多语言`t`函数。
+`@voerkai18n/vue`和`@voerkai18n/vite`两件插件相互配合，安装配置好这两个插件后，就可以在`Vue`文件使用多语言`t`函数。
 
-**重点：`t`函数会在使用`@voerkai18n/vite`插件后自动注入，因此在Vue文件中可以直接使用。**
+**重点：`t`函数会在使用`@voerkai18n/vite`插件后自动注入，因此在`Vue`文件中可以直接使用。**
 
 ```Vue
 <Script setup>
@@ -768,7 +777,7 @@ export default {
 
 `voerkai18n `支持多个库国际化的联动和协作，即**当主程序切换语言时，所有引用依赖库也会跟随主程序进行语言切换**，整个切换过程对所有库开发都是透明的。
 
-![结构图](images\arch.png)
+![结构图](./images/arch.png)
 
 当我们在开发一个应用或者库并`import "./languages"`时，在`langauges/index.js`进行了如下处理：
 

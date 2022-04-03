@@ -1,9 +1,9 @@
 
-const messageIds = require("./idMap")
-const { translate,i18nScope  } =  require("./runtime.js")
+import messageIds from "./idMap.js"
+import { translate,i18nScope  } from "./runtime"
 
-const formatters = require("./formatters.js")
-const defaultMessages =  require("./cn.js")  
+import formatters from "./formatters.js"
+import defaultMessages from "./cn.js"  
 const activeMessages = defaultMessages
  
  
@@ -39,7 +39,8 @@ const scope = new i18nScope({
 // 翻译函数
 const t = translate.bind(scope) 
 
-module.exports.t = t
-module.exports.i18nScope = scope
-module.exports.i18nManager = VoerkaI18n
+export { 
+    t, 
+    i18nScope:scope 
+}
 

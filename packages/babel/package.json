@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/babel",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "VoerkaI18n babel plugin",
   "main": "index.js",
   "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
