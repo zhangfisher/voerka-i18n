@@ -11,11 +11,11 @@
  *    - languages
  *        translates
  *          - en.json
- *          - cn.json
+ *          - zh.json
  *          - ...
  *       idMap.js                    // id映射列表
  *       settings.json                 // 配置文件
- *       cn.js                       // 中文语言包
+ *       zh.js                       // 中文语言包
  *       en.js                       // 英文语言包
  *       [lang].js                   // 其他语言包
  * 
@@ -25,7 +25,7 @@
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { findModuleType,getCurrentPackageJson,installVoerkai18nRuntime,isInstallDependent} = require("@voerkai18n/utils")
+const { findModuleType,getCurrentPackageJson,installVoerkai18nRuntime,isInstallDependent,updateVoerkai18nRuntime} = require("@voerkai18n/utils")
 const { t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const logger = createLogger() 
@@ -126,10 +126,11 @@ module.exports =async  function compile(langFolder,opts={}){
             logger.log(t(" - 运行时: {}"),"runtime.js")
         }else{//如果不嵌入则需要安装运行时依赖
             if(!isInstallDependent("@voerkai18n/runtime")){
-                installVoerkai18nRuntime(langFolder,moduleType)
+                installVoerkai18nRuntime(langFolder)
                 logger.log(t(" - 安装运行时: {}"),"@voerkai18n/runtime")
             }else{
-                logger.log(t(" - 运行时{}已安装"),"@voerkai18n/runtime")
+                updateVoerkai18nRuntime(langFolder)
+                logger.log(t(" - 更新运行时：{}"),"@voerkai18n/runtime")
             }            
         }          
         const templateContext = {

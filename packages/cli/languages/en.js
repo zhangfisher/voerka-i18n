@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     "1": "Supported languages\\t: {}",
     "2": "Default language\\t: {}",
     "3": "Active language\\t\\t: {}",
@@ -40,11 +40,19 @@ export default {
     "39": " - Language file: {}",
     "40": " - idMap file: {}",
     "41": " - Formatters: {}",
-    "42": "Now is { value | date | bjTime  }",
-    "43": " - Total{} messages",
-    "44": " - Runtime: {}",
-    "45": "Auto install default language",
-    "46": "Not inline runtime source",
-    "47": " - Install runtime: {}",
-    "48": " - Runtime{} is installed"
+    "42": " - Total{} messages",
+    "43": " - Runtime: {}",
+    "44": "Auto install default language",
+    "45": "Not inline runtime source",
+    "46": " - Install runtime: {}",
+    "47": " - Update runtime：{}",
+    "48": "Call the API translation language package of the online translation service provider, eg:baidu translation service",
+    "49": "API密钥",
+    "50": "API ID",
+    "51": "Translation speed limit. API calls per second",
+    "52": "在线翻译服务提供者名称或翻译脚本文件",
+    "53": "将多个文本合并提交的最大包字节数",
+    "54": "正在翻译文件:{}",
+    "55": "需要指定翻译脚本或者appkey和appid",
+    "56": " - 翻译 -> {}"
 }

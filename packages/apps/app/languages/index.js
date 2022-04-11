@@ -1,9 +1,10 @@
 
-const messageIds = require("./idMap")
-const { translate,i18nScope  } =  require("./runtime.js")
+import messageIds from "./idMap.js"
+import runtime from "./runtime.js"
+const { translate,i18nScope  } = runtime
 
-const formatters = require("./formatters.js")
-const defaultMessages =  require("./cn.js")  
+import formatters from "./formatters.js"
+import defaultMessages from "./zh.js"  
 const activeMessages = defaultMessages
  
  
@@ -11,16 +12,24 @@ const activeMessages = defaultMessages
 const scopeSettings = {
     "languages": [
         {
-            "name": "cn",
-            "title": "cn"
+            "name": "zh",
+            "title": "中文"
         },
         {
             "name": "en",
-            "title": "en"
+            "title": "英语"
+        },
+        {
+            "name": "de",
+            "title": "德语"
+        },
+        {
+            "name": "jp",
+            "title": "日语"
         }
     ],
-    "defaultLanguage": "cn",
-    "activeLanguage": "cn",
+    "defaultLanguage": "zh",
+    "activeLanguage": "zh",
     "namespaces": {}
 }
 
@@ -33,12 +42,16 @@ const scope = new i18nScope({
     idMap:messageIds,                           // 消息id映射列表
     formatters,                                  // 当前作用域的格式化函数列表
     loaders:{ 
-        "en" : ()=>import("./en.js") 
+        "en" : ()=>import("./en.js"),
+        "de" : ()=>import("./de.js"),
+        "jp" : ()=>import("./jp.js") 
     }
 }) 
 // 翻译函数
-const t = translate.bind(scope) 
+const scopedTtranslate = translate.bind(scope) 
 
-module.exports.t = t
-module.exports.i18nScope = scope 
+export { 
+    scopedTtranslate as t, 
+    scope as i18nScope
+}
 

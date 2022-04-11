@@ -1,15 +1,23 @@
 {
     "languages": [
         {
-            "name": "cn",
-            "title": "cn"
+            "name": "zh",
+            "title": "中文"
         },
         {
             "name": "en",
-            "title": "en"
+            "title": "英语"
+        },
+        {
+            "name": "de",
+            "title": "德语"
+        },
+        {
+            "name": "jp",
+            "title": "日语"
         }
     ],
-    "defaultLanguage": "cn",
-    "activeLanguage": "cn",
+    "defaultLanguage": "zh",
+    "activeLanguage": "zh",
     "namespaces": {}
 }

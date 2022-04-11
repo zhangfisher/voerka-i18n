@@ -1,16 +1,20 @@
 {
-  "name": "@voerkai18n/utils",
-  "version": "1.0.2",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "npm version patch && pnpm publish  --no-git-checks --access public"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "fs-extra": "^10.0.1",
-    "shelljs": "^0.8.5"
-  }
+    "name": "@voerkai18n/utils",
+    "version": "1.0.10",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "release": "pnpm autopublish"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "fs-extra": "^10.0.1",
+        "shelljs": "^0.8.5"
+    },
+    "devDependencies": {
+        "@voerkai18n/autopublish": "workspace:^1.0.2"
+    },
+    "lastPublish": "2022-04-10T17:21:16+08:00"
 }

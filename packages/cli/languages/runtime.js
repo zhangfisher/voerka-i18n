@@ -1,3 +1,93 @@
+'use strict';
+
+/**
+ * 判断是否是JSON对象
+ * @param {*} obj 
+ * @returns 
+ */
+ function isPlainObject$1(obj){
+    if (typeof obj !== 'object' || obj === null) return false;
+    var proto = Object.getPrototypeOf(obj);
+    if (proto === null) return true;
+    var baseProto = proto;
+
+    while (Object.getPrototypeOf(baseProto) !== null) {
+        baseProto = Object.getPrototypeOf(baseProto);
+    }
+    return proto === baseProto; 
+}
+
+function isNumber$1(value){
+    return !isNaN(parseInt(value))
+}
+ 
+/**
+ * 简单进行对象合并
+ * 
+ * options={
+ *    array:0 ,        // 数组合并策略，0-替换，1-合并，2-去重合并
+ * }
+ * 
+ * @param {*} toObj 
+ * @param {*} formObj 
+ * @returns 合并后的对象
+ */
+function deepMerge$1(toObj,formObj,options={}){
+    let results = Object.assign({},toObj);
+    Object.entries(formObj).forEach(([key,value])=>{
+        if(key in results){
+            if(typeof value === "object" && value !== null){
+                if(Array.isArray(value)){
+                    if(options.array === 0){
+                        results[key] = value;
+                    }else if(options.array === 1){
+                        results[key] = [...results[key],...value];
+                    }else if(options.array === 2){
+                        results[key] = [...new Set([...results[key],...value])];
+                    }
+                }else {
+                    results[key] = deepMerge$1(results[key],value,options);
+                }
+            }else {
+                results[key] = value;
+            }
+        }else {
+            results[key] = value;
+        }
+    });
+    return results
+}
+
+
+/**
+ * 获取指定变量类型名称
+ * getDataTypeName(1) == Number
+ * getDataTypeName("") == String
+ * getDataTypeName(null) == Null
+ * getDataTypeName(undefined) == Undefined
+ * getDataTypeName(new Date()) == Date
+ * getDataTypeName(new Error()) == Error
+ * 
+ * @param {*} v 
+ * @returns 
+ */
+ function getDataTypeName$1(v){
+	if (v === null)  return 'Null' 
+	if (v === undefined) return 'Undefined'   
+    if(typeof(v)==="function")  return "Function"
+	return v.constructor && v.constructor.name;
+}
+
+
+
+
+var utils ={
+    isPlainObject: isPlainObject$1,
+    isNumber: isNumber$1,
+    deepMerge: deepMerge$1,
+    getDataTypeName: getDataTypeName$1
+};
+
 /**
 * 
 * 简单的事件触发器
@@ -36,7 +126,7 @@ var scope = class i18nScope {
         // 每个作用域都有一个唯一的id
         this._id              = options.id || (new Date().getTime().toString()+parseInt(Math.random()*1000));
         this._languages       = options.languages;                               // 当前作用域的语言列表
-        this._defaultLanguage = options.defaultLanguage || "cn";                 // 默认语言名称
+        this._defaultLanguage = options.defaultLanguage || "zh";                 // 默认语言名称
         this._activeLanguage  = options.activeLanguage;                        // 当前语言名称
         this._default         = options.default;                                 // 默认语言包
         this._messages        = options.messages;                                // 当前语言包
@@ -127,7 +217,7 @@ var scope = class i18nScope {
         const loader = this.loaders[newLanguage];
         if(typeof(loader) === "function"){
             try{
-                this._messages = (await loader()).default;
+                this._messages  = (await loader()).default;
                 this._activeLanguage = newLanguage;
             }catch(e){
                 console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`);
@@ -183,7 +273,7 @@ var scope = class i18nScope {
     return value
 }
 
-var formatters$1 = {     
+var formatters = {     
     "*":{
         $types:{
             Date:(value)=>value.toLocaleString()
@@ -193,7 +283,7 @@ var formatters$1 = {
         date: (value)=> value.toLocaleDateString(),     
         dict,   //字典格式化器
     },   
-    cn:{ 
+    zh:{ 
         $types:{
             Date:(value)=> `${value.getFullYear()}年${value.getMonth()+1}月${value.getDate()}日 ${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`
         },
@@ -210,9 +300,11 @@ var formatters$1 = {
     }
 };
 
+const { getDataTypeName,isNumber,isPlainObject,deepMerge } = utils;
 const EventEmitter = eventemitter;
 const i18nScope = scope;
-let  formatters = formatters$1; 
+let  inlineFormatters = formatters;         // 内置格式化器
+
 
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
@@ -237,79 +329,7 @@ function hasInterpolation(str){
     return str.includes("{") && str.includes("}")
 } 
 const DataTypes$1 =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"];
-
-/**
- * 获取指定变量类型名称
- * getDataTypeName(1) == Number
- * getDataTypeName("") == String
- * getDataTypeName(null) == Null
- * getDataTypeName(undefined) == Undefined
- * getDataTypeName(new Date()) == Date
- * getDataTypeName(new Error()) == Error
- * 
- * @param {*} v 
- * @returns 
- */
- function getDataTypeName(v){
-	if (v === null)  return 'Null' 
-	if (v === undefined) return 'Undefined'   
-    if(typeof(v)==="function")  return "Function"
-	return v.constructor && v.constructor.name;
-}function isPlainObject(obj){
-    if (typeof obj !== 'object' || obj === null) return false;
-    var proto = Object.getPrototypeOf(obj);
-    if (proto === null) return true;
-    var baseProto = proto;
-
-    while (Object.getPrototypeOf(baseProto) !== null) {
-        baseProto = Object.getPrototypeOf(baseProto);
-    }
-    return proto === baseProto; 
-}
-function isNumber(value){
-    return !isNaN(parseInt(value))
-}
-
-
-
-/**
- * 简单进行对象合并
- * 
- * options={
- *    array:0 ,        // 数组合并策略，0-替换，1-合并，2-去重合并
- *    object:0,        // 对象合并策略，0-替换，1-合并，2-去重合并
- * }
- * 
- * @param {*} toObj 
- * @param {*} formObj 
- * @returns 合并后的对象
- */
-function deepMerge(toObj,formObj,options={}){
-    let results = Object.assign({},toObj);
-    Object.entries(formObj).forEach(([key,value])=>{
-        if(key in results){
-            if(typeof value === "object" && value !== null){
-                if(Array.isArray(value)){
-                    if(options.array === 0){
-                        results[key] = value;
-                    }else if(options.array === 1){
-                        results[key] = [...results[key],...value];
-                    }else if(options.array === 2){
-                        results[key] = [...new Set([...results[key],...value])];
-                    }
-                }else {
-                    results[key] = deepMerge(results[key],value,options);
-                }
-            }else {
-                results[key] = value;
-            }
-        }else {
-            results[key] = value;
-        }
-    });
-    return results
-}
-  
+ 
 
 /**
    通过正则表达式对原始文本内容进行解析匹配后得到的
@@ -452,7 +472,7 @@ function resetScopeCache(scope,activeLanguage=null){
         "*":{
             $types:{...}                                    // 在所有语言下只作用于特定数据类型的格式化器
         },                                      // 在所有语言下生效的格式化器    
-        cn:{            
+        zh:{            
             $types:{         
                 [数据类型]:(value)=>{...},
             }, 
@@ -653,13 +673,13 @@ function replaceInterpolatedVars(template,...args) {
 
 // 默认语言配置
 const defaultLanguageSettings = {  
-    defaultLanguage: "cn",
-    activeLanguage: "cn",
+    defaultLanguage: "zh",
+    activeLanguage: "zh",
     languages:[
-        {name:"cn",title:"中文",default:true},
+        {name:"zh",title:"中文",default:true},
         {name:"en",title:"英文"}
     ],
-    formatters
+    formatters:inlineFormatters 
 };
 
 function isMessageId(content){
@@ -829,11 +849,11 @@ function translate(message) {
     // 当前激活语言
     get activeLanguage(){ return this._settings.activeLanguage}
     // 默认语言
-    get defaultLanguage(){ return this.this._settings.defaultLanguage}
+    get defaultLanguage(){ return this._settings.defaultLanguage}
     // 支持的语言列表
     get languages(){ return this._settings.languages}
-    // 全局格式化器
-    get formatters(){ return formatters }
+    // 内置格式化器
+    get formatters(){ return inlineFormatters }
     /**
      *  切换语言
      */
@@ -889,7 +909,7 @@ function translate(message) {
      * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
      * 
      * registerFormatters(name,value=>{...})                                 // 适用于所有语言
-     * registerFormatters(name,value=>{...},{langauge:"cn"})                 // 适用于cn语言
+     * registerFormatters(name,value=>{...},{langauge:"zh"})                 // 适用于cn语言
      * registerFormatters(name,value=>{...},{langauge:"en"})                 // 适用于en语言 
      
      * @param {*} formatters 
@@ -919,4 +939,4 @@ var runtime ={
     isPlainObject 
 };
 
-export { runtime as default };
+module.exports = runtime;

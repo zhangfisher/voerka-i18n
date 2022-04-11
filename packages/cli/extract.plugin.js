@@ -96,7 +96,7 @@ function inNamespace(filePath,nsPath){
  * @param {*} content 
  * @param {*} file 
  * @param {*} options 
- * @returns   {namespace:{text:{cn:"",en:"",...,$file:""},text:{cn:"",en:"",...,$file:""}}
+ * @returns   {namespace:{text:{zh:"",en:"",...,$file:""},text:{zh:"",en:"",...,$file:""}}
  */
 function extractTranslateTextUseRegexp(content,namespace,extractor,file,options){
   
@@ -179,7 +179,7 @@ function getFileTypeExtractors(filetype,extractor){
 }
 /**
  *  找出要翻译的文本列表 {namespace:[text,text],...}
- * {namespace:{text:{cn:"",en:"",$source:""},...}
+ * {namespace:{text:{zh:"",en:"",$source:""},...}
  * @param {*} content 
  * @param {*} extractor 
  * @returns 
@@ -219,7 +219,7 @@ function getTranslateTexts(content,file,options){
 
 const defaultExtractLanguages  = [
     {name:'en',title:"英文"},
-    {name:'cn',title:"中文",default:true},
+    {name:'zh',title:"中文",default:true},
     {name:'de',title:"德语"},
     {name:'fr',title:"法语"},
     {name:'es',title:"西班牙语"},
@@ -231,8 +231,8 @@ function normalizeLanguageOptions(options){
     options = Object.assign({
         debug          : true,                    // 输出调试信息，控制台输出相关的信息 
         languages      :defaultExtractLanguages,  // 默认要支持的语言            
-        defaultLanguage: "cn",                    // 默认语言：指的是在源代码中的原始文本语言
-        activeLanguage : "cn",                    // 当前激活语言：指的是当前启用的语言，比如在源码中使用中文，在默认激活的是英文
+        defaultLanguage: "zh",                    // 默认语言：指的是在源代码中的原始文本语言
+        activeLanguage : "zh",                    // 当前激活语言：指的是当前启用的语言，比如在源码中使用中文，在默认激活的是英文
         extractor        : {                      // 匹配翻译函数并提取内容的正则表达式
             "*"                 :    DefaultTranslateExtractor,
             "html,vue,jsx"      :    DefaultHtmlAttrExtractor
@@ -258,7 +258,7 @@ function normalizeLanguageOptions(options){
     }else{
         options.output = Object.assign({},{updateMode: 'sync',path:null},options.output)
     }
-    // 语言配置  languages = [{name:"en",title:"英文"},{name:"cn",title:"中文",active:true,default:true}]
+    // 语言配置  languages = [{name:"en",title:"英文"},{name:"zh",title:"中文",active:true,default:true}]
     if(!Array.isArray(options.languages)){
         throw new TypeError("options.languages must be an array")
     }else{
@@ -368,7 +368,7 @@ function updateLanguageFile(newTexts,toLangFile,options){
     }
     Object.entries(newTexts).forEach(([text,sourceLangs])=>{
         if(text in oldTexts){ // 合并 
-            let targetLangs = oldTexts[text]  //{cn:'',en:''}
+            let targetLangs = oldTexts[text]  //{zh:'',en:''}
             Object.entries(sourceLangs).forEach(([langName,sourceText])=>{
                 if(langName.startsWith("$")) return         // 以$开头的为保留字段，不是翻译内容
                 const langExists = langName in targetLangs

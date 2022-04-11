@@ -6,11 +6,12 @@
   "scripts": {
     "build:runtime": "pnpm build --filter \"@voerkai18n/runtime\"",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js ",
-    "test:babelplugin": "jest babel",
-    "test:extract": "jest extract",
-    "test:translate": "jest translate",
-    "list:package":"node ./packages/autopublish/index.js list"
-   
+    "test:app": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js -- app",
+    "list:package": "node ./packages/autopublish/index.js list",
+    "autopublish": "node ./packages/autopublish/index.js",
+    "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress build docs",
+    "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
+    "docs:clean-dev": "vuepress dev docs --clean-cache"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "@babel/preset-env": "^7.16.11",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^21.0.2",
+    "@voerkai18n/autopublish": "^1.0.3",
     "dayjs": "^1.11.0",
     "deepmerge": "^4.2.2",
     "fs-extra": "^10.0.1",
@@ -29,9 +31,12 @@
     "rollup": "^2.70.1",
     "rollup-plugin-clear": "^2.0.7",
     "shelljs": "^0.8.5",
-    "vinyl": "^2.2.1"
+    "vinyl": "^2.2.1",
+    "vuepress": "^2.0.0-beta.38",
+    "vuepress-theme-hope": "^2.0.0-beta.36"
   },
   "dependencies": {
+    "cross-env": "^7.0.3",
     "inquirer": "^8.2.2"
   }
 }

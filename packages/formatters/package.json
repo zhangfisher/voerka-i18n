@@ -1,20 +1,23 @@
 {
-  "name": "@voerkai18n/formatters",
-  "version": "1.0.0",
-  "description": "",
-  "main": "currency.formatters.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "npm version patch && pnpm publish  --no-git-checks --access public"
-  },
-  "exports":{
-    
-  },
-  "author": "wxzhang",
-  "license": "MIT",
-  "devDependencies": {
-    "deepmerge": "^4.2.2",
-    "gulp": "^4.0.2",
-    "vinyl": "^2.2.1"
-  }
+    "name": "@voerkai18n/formatters",
+    "version": "1.0.5",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "release": "pnpm autopublish"
+    },
+    "exports": {
+        "currency": "./currency.formatters.js",
+        "datetime": "./datetime.formatters.js"
+    },
+    "author": "wxzhang",
+    "license": "MIT",
+    "dependencies": {
+        "dayjs": "^1.11.0"
+    },
+    "devDependencies": {
+        "@voerkai18n/autopublish": "workspace:^1.0.2"
+    },
+    "lastPublish": "2022-04-06T20:54:23+08:00"
 }

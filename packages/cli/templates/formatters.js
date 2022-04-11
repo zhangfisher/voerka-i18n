@@ -10,7 +10,7 @@
             $types:{...},                            // 只作用于特定数据类型的默认格式化器
             ....                                    // 全局格式化器
         },                                            
-        cn:{
+        zh:{
             // 只作用于特定数据类型的格式化器
             $types:{         
                 Date:(value)=>dayjs(value).format("YYYY年MM月DD日 HH:mm:ss"),    

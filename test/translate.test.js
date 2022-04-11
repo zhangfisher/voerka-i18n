@@ -2,7 +2,7 @@ const dayjs = require('dayjs');
 const { getInterpolatedVars,  replaceInterpolatedVars , translate}  = require('../packages/runtime/index.js')
  
 const messages = {
-    cn:{
+    zh:{
         1:"你好",
         2:"现在是{}",
         3:"我出生于{year}年，今年{age}岁",
@@ -27,9 +27,9 @@ const idMap = {
 
 
 let scope1 ={
-    defaultLanguage: "cn",                      // 默认语言名称
-    default:  messages.cn,                              
-    messages :messages.cn,                
+    defaultLanguage: "zh",                      // 默认语言名称
+    default:  messages.zh,                              
+    messages :messages.zh,                
     idMap,                           
     formatters:{                                // 当前作用域的格式化函数列表
         "*":{
@@ -42,7 +42,7 @@ let scope1 ={
             upper:(v)=>v.toUpperCase(),
             lower:(v)=>v.toLowerCase()
         },
-        cn:{
+        zh:{
             $types:{
                 Date:(v)=>dayjs(v).format('YYYY年MM月DD日 HH点mm分ss秒'),
                 Boolean:(v)=>v?"是":"否",
@@ -58,10 +58,10 @@ let scope1 ={
     },                                         
     loaders:{},                                 // 异步加载语言文件的函数列表
     global:{// 引用全局VoerkaI18n配置
-        defaultLanguage: "cn",
-        activeLanguage: "cn",
+        defaultLanguage: "zh",
+        activeLanguage: "zh",
         languages:[
-            {name:"cn",title:"中文",default:true},
+            {name:"zh",title:"中文",default:true},
             {name:"en",title:"英文"},
             {name:"de",title:"德语"},
             {name:"jp",title:"日语"}
@@ -72,7 +72,7 @@ let scope1 ={
     
                 }
             },
-            cn:{
+            zh:{
                 $types:{
     
                 }
@@ -97,7 +97,7 @@ function changeLanguage(language){
 }
 
 beforeEach(() => {
-    scope1.global.activeLanguage = "cn"     // 切换到中文
+    scope1.global.activeLanguage = "zh"     // 切换到中文
 });
   
 

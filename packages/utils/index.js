@@ -121,9 +121,7 @@ function getProjectRootFolder(folder="./",exclueCurrent=false){
 
 /**
  * 自动获取当前项目的languages
- * 
- * 1. 
- * 
+ *  
  * @param {*} location 
  */
  function getProjectLanguageFolder(location="./"){
@@ -188,7 +186,7 @@ function getProjectRootFolder(folder="./",exclueCurrent=false){
  * @returns 
  */
  function getCurrentPackageJson(folder,exclueCurrent=true){ 
-    let projectFolder = getCurrentProjectRootFolder(folder,exclueCurrent)
+    let projectFolder = getProjectRootFolder(folder,exclueCurrent)
     if(projectFolder){
        return fs.readJSONSync(path.join(projectFolder,"package.json"))
     }
@@ -229,6 +227,28 @@ function isInstallDependent(url){
     }catch(e){
         return false
     }
+}
+
+/**
+ * 获取当前包的版本号
+ */
+function getInstalledPackages(){
+    const packages = {
+        "@voerkai18n/runtime":"未安装",
+        "@voerkai18n/babel":"未安装",
+        "@voerkai18n/vue":"未安装",
+        "@voerkai18n/react":"未安装",
+        "@voerkai18n/vite":"未安装",
+        "@voerkai18n/formatters":"未安装"
+    }
+    for(let package of Object.keys(packages)){
+        try{
+            require(package)
+        }catch{
+            packages[package] = "已安装"
+        }
+    }
+
 }
 
 /**
@@ -333,6 +353,21 @@ function deepMerge(toObj,formObj,options={}){
         shelljs.exec("npm install @voerkai18n/runtime")
     }
 }   
+/**
+ * 在当前工程升级@voerkai18n/runtime
+ * @param {*} srcPath 
+ * @param {*} opts 
+ */
+function updateVoerkai18nRuntime(srcPath){
+    const projectFolder =  getCurrentProjectRootFolder(srcPath || process.cwd())
+    if(fs.existsSync("pnpm-lock.yaml")){
+        shelljs.exec("pnpm update --latest @voerkai18n/runtime")
+    }else if(fs.existsSync("yarn.lock")){
+        shelljs.exec("yarn upgrade @voerkai18n/runtime")
+    }else{
+        shelljs.exec("npm update --save @voerkai18n/runtime")
+    }
+}   
 
 
 /**
@@ -368,6 +403,7 @@ module.exports = {
     findModuleType,                         // 获取当前项目的模块类型 
     isInstallDependent,                     // 判断是否已经安装了依赖
     installVoerkai18nRuntime,               // 在当前工程自动安装@voerkai18n/runtime
+    updateVoerkai18nRuntime,                // 在当前工程升级@voerkai18n/runtime
     isPlainObject,                          // 判断是否是普通对象
     isNumber,                               // 判断是否是数字
     deepMerge,                              // 深度合并对象

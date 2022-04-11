@@ -1,20 +1,20 @@
 {
-  "name": "@voerkai18n/publish",
-  "version": "1.0.1",
-  "description": "发布项目工具",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "npm version patch && pnpm publish  --no-git-checks --access public",
-    "postpublish": "git push --follow-tags && npm run build && npm publish"
-  },
-  "author": "",
-  "license": "ISC",
-  "bin": {
-    "publish": "./index.js"
-  },
-  "dependencies": {
-    "commander": "^9.0.0",
-    "semver": "^7.3.5"
-  }
+    "name": "@voerkai18n/autopublish",
+    "version": "1.0.2",
+    "description": "自动发布工作区的包",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "release": "node ./index.js publish"
+    },
+    "author": "",
+    "license": "ISC",
+    "bin": {
+        "autopublish": "./index.js"
+    },
+    "dependencies": {
+        "commander": "^9.0.0",
+        "fast-glob": "^3.2.11"
+    },
+    "lastPublish": "2022-04-06T15:36:15+08:00"
 }

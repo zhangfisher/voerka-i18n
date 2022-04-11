@@ -5,3 +5,13 @@ node_modules
 /coverage
 /packages/apps/vueapp/src/languages
 /packages/apps/app/languages
+/packages/apps/test
+node_modules/
+docs/.vuepress/.cache/
+docs/.vuepress/.temp/
+docs/.vuepress/dist/
+/packages/cli/baidu.api.txt
+node_modules/
+docs/.vuepress/.cache/
+docs/.vuepress/.temp/
+docs/.vuepress/dist/

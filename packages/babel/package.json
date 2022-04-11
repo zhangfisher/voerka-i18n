@@ -1,20 +1,24 @@
 {
-  "name": "@voerkai18n/babel",
-  "version": "1.0.4",
-  "description": "VoerkaI18n babel plugin",
-  "main": "index.js",
-  "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitee.com/zhangfisher/voerka-i18n.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "npm version patch && pnpm publish --no-git-checks --access public"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@voerkai18n/utils": "workspace:^1.0.0"
-  }
+    "name": "@voerkai18n/babel",
+    "version": "1.0.21",
+    "description": "VoerkaI18n babel plugin",
+    "main": "index.js",
+    "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+    "repository": {
+        "type": "git",
+        "url": "git+https://gitee.com/zhangfisher/voerka-i18n.git"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "release": "pnpm autopublish"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@voerkai18n/utils": "workspace:^1.0.6"
+    },
+    "devDependencies": {
+        "@voerkai18n/autopublish": "workspace:^1.0.2"
+    },
+    "lastPublish": "2022-04-10T17:21:40+08:00"
 }

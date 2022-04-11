@@ -4,7 +4,7 @@ module.exports = class i18nScope {
         // 每个作用域都有一个唯一的id
         this._id              = options.id || (new Date().getTime().toString()+parseInt(Math.random()*1000))
         this._languages       = options.languages                               // 当前作用域的语言列表
-        this._defaultLanguage = options.defaultLanguage || "cn"                 // 默认语言名称
+        this._defaultLanguage = options.defaultLanguage || "zh"                 // 默认语言名称
         this._activeLanguage  = options.activeLanguage                        // 当前语言名称
         this._default         = options.default                                 // 默认语言包
         this._messages        = options.messages                                // 当前语言包

@@ -12,7 +12,34 @@ const { findModuleType } = require("@voerkai18n/utils")
 const createLogger = require("logsets")
 const logger = createLogger()
 
-module.exports = function(srcPath,{debug = true,languages=["cn","en"],defaultLanguage="cn",activeLanguage="cn",reset=false,installRuntime=true}={}){
+function getLanguageList(langs,defaultLanguage){
+    try{
+        const available_languages = require("./available_languages")
+        if(defaultLanguage in available_languages){
+            return langs.map(lng=>{
+                const langIndex = available_languages[defaultLanguage].findIndex(l=>l.name===lng)
+                if(langIndex > -1 ){
+                    return {
+                        name:lng,
+                        title:available_languages[defaultLanguage][langIndex].title
+                    }
+                }else{                    
+                    return {
+                        name:lng,
+                        title:lng
+                    }
+                }                
+            })   
+        }else{
+            return langs.map(lng=>({name:lng,title:lng}))
+        }        
+    }catch(e){
+        return langs.map(lng=>({name:lng,title:lng}))
+    }
+}
+
+
+module.exports = function(srcPath,{debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false,installRuntime=true}={}){
     // 语言文件夹名称
     const  langPath = "languages"
     // 查找当前项目的语言包类型路径
@@ -29,7 +56,7 @@ module.exports = function(srcPath,{debug = true,languages=["cn","en"],defaultLan
         return 
     }
     const settings = {
-        languages:languages.map(lng=>({name:lng,title:lng})),
+        languages:getLanguageList(languages,defaultLanguage),
         defaultLanguage,
         activeLanguage,
         namespaces:{}

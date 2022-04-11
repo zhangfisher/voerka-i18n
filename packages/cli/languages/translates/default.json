@@ -4,291 +4,396 @@
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
-        ]
+        ],
+        "de": "支持的语言\\t: {}"
     },
     "默认语言\\t: {}": {
         "en": "Default language\\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
-        ]
+        ],
+        "de": "默认语言\\t: {}"
     },
     "激活语言\\t: {}": {
         "en": "Active language\\t\\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
-        ]
+        ],
+        "de": "激活语言\\t: {}"
     },
     "名称空间\\t: {}": {
         "en": "Namespaces\\t\\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
-        ]
+        ],
+        "de": "名称空间\\t: {}"
     },
     " - 更新格式化器:{}": {
         "en": " - Update formatters:{}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": " - 更新格式化器:{}"
     },
     " - 访问入口文件: {}": {
         "en": " - Entry of language: {}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": " - 访问入口文件: {}"
     },
     "加载多语言配置文件<{}>失败: {} ": {
         "en": "Failed to load multilingual configuration file <{}>: {}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": "加载多语言配置文件<{}>失败: {} "
     },
     "目标文件夹<{}>不存在": {
         "en": "The destination folder < {} > does not exist",
         "$file": [
             "extract.command.js"
-        ]
+        ],
+        "de": "目标文件夹<{}>不存在"
     },
     "扫描提取范围：": {
         "en": "Scan for：",
         "$file": [
             "extract.command.js"
-        ]
+        ],
+        "de": "扫描提取范围："
     },
     "工程项目所在目录": {
         "en": "Project directory",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "工程项目所在目录"
     },
     "初始化项目国际化配置": {
         "en": "Initialize project i18n configuration",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "初始化项目国际化配置"
     },
     "输出调试信息": {
         "en": "Output debug information",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "输出调试信息"
     },
     "重新生成当前项目的语言配置": {
         "en": "Regenerate the language configuration of the current project",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "重新生成当前项目的语言配置"
     },
     "支持的语言列表": {
         "en": "Supported languages",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "支持的语言列表"
     },
     "工程目录：{}": {
         "en": "Folder of project：{}",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "工程目录：{}"
     },
     "扫描并提取所有待翻译的字符串到<languages/translates>文件夹中": {
         "en": "Scan and extract all strings to be translated into the <languages/translations> folder",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "扫描并提取所有待翻译的字符串到<languages/translates>文件夹中"
     },
     "支持的语言": {
         "en": "Supported languages",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "支持的语言"
     },
     "默认语言": {
         "en": "Default language",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "默认语言"
     },
     "激活语言": {
         "en": "Active language",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "激活语言"
     },
     "翻译名称空间": {
         "en": "Namespaces",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "翻译名称空间"
     },
     "排除要扫描的文件夹，多个用逗号分隔": {
         "en": "Exclude folders to scan, multiple separated by commas",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "排除要扫描的文件夹，多个用逗号分隔"
     },
     "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并": {
         "en": " strategy of messages merge,with value of sync(default),overwrite,merge",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并"
     },
     "要扫描的文件类型": {
         "en": "Type of file to scan",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "要扫描的文件类型"
     },
     "语言配置文件<{}>已存在,将优先使用此配置文件中参数来提取文本": {
         "en": "The language configuration file <{}> already exists. It will be used preferentially to extract messages",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "语言配置文件<{}>已存在,将优先使用此配置文件中参数来提取文本"
     },
     "编译指定项目的语言包": {
         "en": "Compiles the language messages for project",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "编译指定项目的语言包"
     },
     "输出模块类型,取值auto,esm,cjs": {
         "en": "Output module type, values： auto, esm, cjs",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "输出模块类型,取值auto,esm,cjs"
     },
     "语言包文件夹<{}>不存在": {
         "en": "The language messages folder <{}> does not exist",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "语言包文件夹<{}>不存在"
     },
     "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建": {
         "en": "Language configuration {} file already exists, skipping creation\\n use {} to overwrite the creation",
         "$file": [
             "init.command.js"
-        ]
+        ],
+        "de": "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建"
     },
     "生成语言配置文件:{}": {
         "en": "Generate language configuration: {}",
         "$file": [
             "init.command.js"
-        ]
+        ],
+        "de": "生成语言配置文件:{}"
     },
     "拟支持的语言：{}": {
         "en": "Languages to be supported：{}",
         "$file": [
             "init.command.js"
-        ]
+        ],
+        "de": "拟支持的语言：{}"
     },
     "初始化成功,下一步：": {
         "en": "Initialization succeeded, next step：",
         "$file": [
             "init.command.js"
-        ]
+        ],
+        "de": "初始化成功,下一步："
     },
     " - 编辑{}确定拟支持的语言种类等参数": {
         "en": " - Edit language parameters in {}",
         "$file": [
             "init.command.js"
-        ]
+        ],
+        "de": " - 编辑{}确定拟支持的语言种类等参数"
     },
     " - 运行<{}>扫描提取要翻译的文本": {
         "en": " - Run <{}> scan to extract the messages to be translated",
         "$file": [
             "init.command.js"
-        ]
+        ],
+        "de": " - 运行<{}>扫描提取要翻译的文本"
     },
     " - 运行<{}>编译语言包": {
         "en": " - Run <{}> compile language messages",
         "$file": [
             "init.command.js"
-        ]
+        ],
+        "de": " - 运行<{}>编译语言包"
     },
     "创建语言包文件夹: {}": {
         "en": "Create <languages> folder: {}",
         "$file": [
             "init.command.js"
-        ]
+        ],
+        "de": "创建语言包文件夹: {}"
     },
     "模块类型\\t: {}": {
         "en": "Type of module\\t\\t: {}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": "模块类型\\t: {}"
     },
     "编译结果输出至：{}": {
         "en": "Compile to：{}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": "编译结果输出至：{}"
     },
     "读取语言文件{}失败:{}": {
         "en": "Error while read language file{}: {}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": "读取语言文件{}失败:{}"
     },
     " - 语言包文件: {}": {
         "en": " - Language file: {}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": " - 语言包文件: {}"
     },
     " - idMap文件: {}": {
         "en": " - idMap file: {}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": " - idMap文件: {}"
     },
     " - 格式化器:{}": {
         "en": " - Formatters: {}",
         "$file": [
             "compile.command.js"
-        ]
-    },
-    "Now is { value | date | bjTime  }": {
-        "en": "Now is { value | date | bjTime  }",
-        "$file": [
-            "templates\\formatters.js"
-        ]
+        ],
+        "de": " - 格式化器:{}"
     },
     " - 共合成{}条文本": {
         "en": " - Total{} messages",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": " - 共合成{}条文本"
     },
     " - 运行时: {}": {
         "en": " - Runtime: {}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": " - 运行时: {}"
     },
     "自动安装默认语言": {
         "en": "Auto install default language",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "自动安装默认语言",
+        "zh": "自动安装默认语言"
     },
     "不嵌入运行时源码": {
         "en": "Not inline runtime source",
         "$file": [
             "index.js"
-        ]
+        ],
+        "de": "不嵌入运行时源码"
     },
     " - 安装运行时: {}": {
         "en": " - Install runtime: {}",
         "$file": [
             "compile.command.js"
-        ]
+        ],
+        "de": " - 安装运行时: {}"
     },
-    " - 运行时{}已安装": {
-        "en": " - Runtime{} is installed",
+    " - 更新运行时：{}": {
+        "en": " - Update runtime：{}",
         "$file": [
             "compile.command.js"
+        ],
+        "de": " - 更新运行时：{}"
+    },
+    "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务": {
+        "en": "Call the API translation language package of the online translation service provider, eg:baidu translation service",
+        "$file": [
+            "index.js"
+        ],
+        "de": "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务"
+    },
+    "API密钥": {
+        "en": "API密钥",
+        "$file": [
+            "index.js"
+        ],
+        "de": "API密钥"
+    },
+    "API ID": {
+        "en": "API ID",
+        "$file": [
+            "index.js"
+        ],
+        "de": "API ID"
+    },
+    "翻译速度限制,即每秒可调用的API次数": {
+        "en": "Translation speed limit. API calls per second",
+        "de": "翻译速度限制,即每秒可调用的API次数",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "在线翻译服务提供者名称或翻译脚本文件": {
+        "en": "在线翻译服务提供者名称或翻译脚本文件",
+        "de": "在线翻译服务提供者名称或翻译脚本文件",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "将多个文本合并提交的最大包字节数": {
+        "en": "将多个文本合并提交的最大包字节数",
+        "de": "将多个文本合并提交的最大包字节数",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "正在翻译文件:{}": {
+        "en": "正在翻译文件:{}",
+        "de": "正在翻译文件:{}",
+        "$file": [
+            "translate.command.js"
+        ]
+    },
+    "需要指定翻译脚本或者appkey和appid": {
+        "en": "需要指定翻译脚本或者appkey和appid",
+        "de": "需要指定翻译脚本或者appkey和appid",
+        "$file": [
+            "translate.command.js"
+        ]
+    },
+    " - 翻译 -> {}": {
+        "en": " - 翻译 -> {}",
+        "de": " - 翻译 -> {}",
+        "$file": [
+            "translate.command.js"
         ]
     }
 }

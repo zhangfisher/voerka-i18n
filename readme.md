@@ -1,6 +1,3 @@
-
-# ** 测试阶段，有问题请issues **
-
 [![star](https://gitee.com/zhangfisher/voerka-i18n/badge/star.svg?theme=white)](https://gitee.com/zhangfisher/voerka-i18n/stargazers) 
 
 # 前言
@@ -17,15 +14,17 @@
 
   
 
-  基于此就开始造出`VoerkaI18n`这个全新的国际化多语言解决方案，主要特性包括：
+  基于此就开始造出`VoerkaI18n`这个**全新的国际化多语言解决方案**，主要特性包括：
 
-- 简单易用
+  
+
+- 全面工程化解决方案，提供初始化、提取文本、自动翻译、编译等工具链支持。
 
 - 符合直觉，不需要手动定义文本`Key`映射。
 
-- 完整的自动化工具链支持，包括项目初始化、提取文本、编译语言等。
+- 强大的插值变量`格式化器`机制，可以扩展出强大的多语言特性。
 
-- 支持`babel`插件自动导入t翻译函数。
+- 支持`babel`插件自动导入`t`翻译函数。
 
 - 支持`nodejs`、浏览器(`vue`/`react`)前端环境。
 
@@ -33,11 +32,11 @@
 
 - 高度可扩展的`复数`、`货币`、`数字`等常用的多语言处理机制。
 
-- 通过`格式化器`可以扩展出强大的多语言特性。
-
 - 翻译过程内，提取文本可以自动进行同步，并保留已翻译的内容。
 
 - 可以随时添加支持的语言
+
+- 支持调用在线自动翻译对提取文本进行翻译。
 
   
 
@@ -126,16 +125,16 @@ console.log(t("中华人民共和国成立于{}",1949))
 {
     "languages": [
         {
-            "name": "cn",
-            "title": "cn"
+            "name": "zh",
+            "title": "zh"
         },
         {
             "name": "en",
             "title": "en"
         }
     ],
-    "defaultLanguage": "cn",
-    "activeLanguage": "cn",
+    "defaultLanguage": "zh",
+    "activeLanguage": "zh",
     "namespaces": {}
 }
 ```
@@ -181,13 +180,13 @@ myapp
 **如果略过第一步中的`voerkai18n init`，也可以使用以下命令来为创建和更新`settinbgs.json`**
 
 ```javascript
-myapp>voerkai18n extract -D -lngs cn en de jp -d cn -a cn
+myapp>voerkai18n extract -D -lngs zh en de jp -d zh -a zh
 ```
 
 以上命令代表：
 
 - 扫描当前文件夹下所有源码文件，默认是`js`、`jsx`、`html`、`vue`文件类型。
-- 计划支持`cn`、`en`、`de`、`jp`四种语言
+- 计划支持`zh`、`en`、`de`、`jp`四种语言
 - 默认语言是中文。（指在源码文件中我们直接使用中文即可）
 - 激活语言是中文（即默认切换到中文）
 - `-D`代表显示扫描调试信息
@@ -223,6 +222,14 @@ myapp>voerkai18n extract -D -lngs cn en de jp -d cn -a cn
 
 因此，反复执行`voerkai18n extract`命令是安全的，不会导致进行了一半的翻译内容丢失，可以放心执行。
 
+大部分国际化解决方案至此就需要交给人工进行翻译了，但是`voerkai18n`除了手动翻译外，通过`voerkai18n translate`命令来实现**调用在线翻译服务**进行自动翻译。
+
+```javascript
+>voerkai18n translate --provider baidu --appkey <在百度翻译上申请的密钥> --appid <在百度翻译上申请的appid>
+```
+
+ 在项目文件夹下执行上面的语句，将会自动调用百度的在线翻译API进行翻译，以现在的翻译水平而言，您只需要进行少量的微调即可。关于`voerkai18n translate`命令的使用请查阅后续介绍。
+
 ## 第五步：编译语言包
 
 当我们完成`myapp/languages/translates`下的所有`JSON语言文件`的翻译后（如果配置了名称空间后，每一个名称空间会对应生成一个文件，详见后续`名称空间`介绍），接下来需要对翻译后的文件进行编译。
@@ -239,7 +246,7 @@ myapp> voerkai18n compile
     |-- idMap.js                     // 文本信息id映射表
     |-- runtime.js                   // 运行时源码
     |-- index.js                     // 包含该应用作用域下的翻译函数等
-    |-- cn.js                        // 语言包
+    |-- zh.js                        // 语言包
     |-- en.js
     |-- jp.js
     |-- de.js
@@ -258,7 +265,9 @@ myapp> voerkai18n compile
 import { t } from "./languages"   
 ```
 
-因此，我们需要在需要进行翻译时导入该函数即可。但是如果源码文件很多，重次重复导入`t`函数也是比较麻烦的，所以我们也提供了一个`babel插件`来自动导入`t`函数。
+因此，我们需要在需要进行翻译时导入该函数即可。
+
+但是如果源码文件很多，重次重复导入`t`函数也是比较麻烦的，所以我们也提供了一个`babel/vite`等插件来自动导入`t`函数。
 
 ## 第六步：切换语言
 
@@ -362,8 +371,6 @@ t("我姓名叫{name},我今年{age}岁","tom",()=>12)
 
 `voerka-i18n`支持强大的插值变量格式化机制，可以在插值变量中使用`{变量名称 | 格式化器名称 | 格式化器名称(...参数) | ... }`类似管道操作符的语法，将上一个输出作为下一个输入，从而实现对变量值的转换。此机制是`voerka-i18n`实现复数、货币、数字等多语言支持的基础。
 
-### **格式化器语法**
-
 我们假设定义以下格式化器（如果定义格式化器，详见后续）来进行示例。
 
 - **UpperCase**：将字符转换为大写
@@ -407,8 +414,6 @@ t("My name is { name | UpperCase | mr }",{name:"tom"})
   就如您预期的一样，**将上一个格式化器的输出作为下一个格式化器的输入**。
 
   `｛data | f1 | f2 | f3(1)｝`等效于` f3(f2(f1(data)),1)`
-
-
 
 ## 日期时间
 
@@ -519,7 +524,7 @@ t("{name}有{$count}辆车",{name:"张三",$count:1})
             "Chapter Five","Chapter Six","Chapter Seven","Chapter Eight","Chapter Nine",
             "Chapter {}"
         ],
-        cn:["起始","第一章", "第二章", "第三章","第四章","第五章","第六章","第七章","第八章","第九章",“第{}章”]
+        zh:["起始","第一章", "第二章", "第三章","第四章","第五章","第六章","第七章","第八章","第九章",“第{}章”]
     }
 }
 // 翻译函数
@@ -827,7 +832,7 @@ module.exports = {
 		// [数据类型名称]:(value)=>{...},
         // [数据类型名称]:(value)=>{...},
     },                                          
-    cn:{
+    zh:{
         $types:{
             // 所有类型的默认格式化器
             "*":{                
@@ -890,7 +895,7 @@ t("灯状态：{status}",false)  // === 灯状态：OFF
 ```javascript
 //formatters.js
 module.exports = {
-    cn:{
+    zh:{
         $types:{
 			Boolean:(value)=> value ? "开" : "关"
         }
@@ -918,7 +923,7 @@ t("灯状态：{status}",false)  // === 灯状态：OFF
       "*":{
           $types:{...}
       },    
-      cn:{
+      zh:{
           $types:{...}
       },
       en:{
@@ -947,7 +952,7 @@ module.exports = {
         $types:{...},
          [格式化名称]:(value)=>{.....},       
     },    
-    cn:{
+    zh:{
         $types:{...},
         [格式化名称]:(value)=>{.....},
     },
@@ -966,7 +971,7 @@ module.exports = {
     "*":{
 		uppercase:(value)=>value
     },    
-    cn:{
+    zh:{
         uppercase:(value)=>["一","二","三","四","五","六","七","八","九","十"][value-1]
     },
     en:{
@@ -1015,7 +1020,7 @@ t("{value | uppercase}",3)  // == 3
 当使用`webpack`、`rollup`、`esbuild`进行项目打包时，默认语言包采用静态加载，会被打包进行源码中，而其他语言则采用异步打包方式。在`languages/index.js`中。
 
 ```javascript
-const defaultMessages =  require("./cn.js")  
+const defaultMessages =  require("./zh.js")  
 const activeMessages = defaultMessages
   
 // 语言作用域
@@ -1030,6 +1035,18 @@ const scope = new i18nScope({
         "jp" : ()=>import("./jp.js") 
     })
 ```
+
+## 自动翻译
+
+内置的`voerkai18n translate`命令能调用在线翻译服务完成对提取的文本的自动翻译。
+
+目前支持访问百度在线API进行自动翻译。百度提供了免费的在线API，虽然只支持`QPS=1`，即每秒调用一次。但是`voerkai18n translate`命令会对要翻译的文本进行合并后再调用，因此大部分情况下，均足够使用了。
+
+执行`voerkai18n translate`命令后，将大大提高您国际化的效率。
+
+## 语言代码
+
+请参阅https://fanyi-api.baidu.com/doc/21。
 
 # 扩展工具
 
@@ -1191,7 +1208,6 @@ app.use(i18nPlugin,{
 ```
 
 - 当`forceUpdate=true`时，`@voerkai18n/vue`插件在切换语言时会调用`app._instance.update()`对整个应用进行强制重新渲染。大部分情况下，切换语言时强制对整个应用进行重新渲染的行为是符合预期的。您也可以能够通过设`forceUpdate=false`来禁用强制重新渲染，此时，界面就不会马上看到语言的切换，需要您自己控制进行重新渲染。
-- 
 
 ## Vite插件
 
@@ -1226,8 +1242,7 @@ export default defineConfig({
 
 ```
 
-- ` vite-plugin-inspect`是开发`vite`插件时的调试插件，启用后就可以通过`localhost:3000/__inspect/ `查看Vue源码文件经过插件处理前后的内容，一般是Vite插件开发者使用。上例中安装后，就可以查看`Voerkai18nPlugin`对Vue文件干了什么事，可以加深理解，**正常使用不需要安装**。
-- `vite`插件
+- ` vite-plugin-inspect`是开发`vite`插件时的调试插件，启用后就可以通过`localhost:3000/__inspect/ `查看Vue源码文件经过插件处理前后的内容，一般是Vite插件开发者使用。上例中安装后，就可以查看`Voerkai18nPlugin`对`Vue`文件干了什么事，可以加深理解，**正常使用不需要安装**。
 
 ### 插件功能
 
@@ -1284,10 +1299,10 @@ export default defineConfig({
 
   - `正则表达式`比较容易理解，匹配上的就进行处理。
   - `正则表达式字符串`支持一些简单的语法扩展，包括：
-    - 可以通过前置`!`符号来进行排除匹配。
-    - 将`**`替换为`.*`，允许使用类似`"/code/apps/test/**/node_modules/**"`的形式来匹配连续路径。
-    - 将`？`替换为`[^\/]?`
-    - 将`*`替换为`[^\/]*`
+    - `!`符号：添加在字符串前面来进行排除匹配。
+    - `**`：将`**`替换为`.*`，允许使用类似`"/code/apps/test/**/node_modules/**"`的形式来匹配连续路径。
+    - `？`：将`？`替换为`[^\/]?`，用来匹配单个字符
+    - `*`：将`*`替换为`[^\/]*`，匹配路径名称
 
 ## React扩展
 
@@ -1335,7 +1350,7 @@ Arguments:
 Options:
   -D, --debug                        输出调试信息
   -r, --reset                        重新生成当前项目的语言配置
-  -lngs, --languages <languages...>  支持的语言列表 (default: ["cn","en"])
+  -lngs, --languages <languages...>  支持的语言列表 (default: ["zh","en"])
   -d, --defaultLanguage              默认语言
   -a, --activeLanguage               激活语言
   -h, --help                         display help for command
@@ -1347,7 +1362,7 @@ Options:
 
 ```javascript
 //- `lngs`参数用来指定拟支持的语言名称列表
-> voerkai18n init . -lngs cn en jp de -d cn
+> voerkai18n init . -lngs zh en jp de -d zh
 ```
 
 运行`voerkai18n init`命令后，会在当前工程中创建相应配置文件。
@@ -1367,7 +1382,7 @@ module.exports = {
     // 拟支持的语言列表
     "languages": [
         {
-            "name": "cn",
+            "name": "zh",
             "title": "中文"
         },
         {
@@ -1376,9 +1391,9 @@ module.exports = {
         }
     ],
     // 默认语言，即准备在源码中写的语言，一般我们可以直接使用中文
-    "defaultLanguage": "cn",
+    "defaultLanguage": "zh",
     // 激活语言，即默认要启用的语言，一般等于defaultLanguage
-    "activeLanguage": "cn",
+    "activeLanguage": "zh",
     // 翻译名称空间定义，详见后续介绍。
     "namespaces": {}
 }
@@ -1442,6 +1457,61 @@ Options:
 >
 >如果想添加新的语言支持，也`voerkai18n extract`也可以如预期的正常工作。
 
+## translate
+
+在工程文件夹下执行`voerkai18n translate`命令，该命令会读取`languages/settings.json`配置文件，并调用在线翻译服务（如百度在线翻译）对提取的文本(`languages/translates/*.json`)进行自动翻译。
+
+```shell
+Usage: voerkai18n translate [options] [location]
+
+调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务
+
+Arguments:
+  location                        工程项目所在目录
+
+Options:
+  -p, --provider <value>          在线翻译服务提供者名称或翻译脚本文件 (default: "baidu")
+  -m, --max-package-size <value>  将多个文本合并提交的最大包字节数 (default: 3000)
+  --appkey [key]                  API密钥
+  --appid [id]                    API ID
+  --no-backup                     备份原始文件
+  --mode                          翻译模式，取值auto=仅翻译未翻译的,full=全部翻译
+  -q, --qps <value>               翻译速度限制,即每秒可调用的API次数 (default: 1)
+  -h, --help                      显示帮助
+```
+
+- 内置支持调用百度的在线翻译服务，您需要百度的网站上(http://api.fanyi.baidu.com/)申请开通服务，开通后可以得到`appid`和`appkey`（密钥）。
+
+- `--provider`用来指定在线翻译服务提供者，内置支持的是百度在线翻译。也可以传入一个js脚本，如下：
+
+  ```javascript
+  // youdao.js
+  module.exports = async function(options){
+      let { appkey,appid } = options
+      return {
+          translate:async (texts,from,to){
+          	// texts是一个Array
+          	// from,to代表要从哪一种语言翻译到何种语言
+          	.....
+          	// 在此对texts内容调用在线翻译API
+  	        // 翻译结果应该返回与texts对应的数组
+              // 如果出错则应该throw new Error()
+          	return [...]
+  	    }
+      }
+  }
+  ```
+
+- `qps`用来指定调用在线翻译API的速度，默认是1，代表每秒调用一次；此参数的引入是考虑到有些翻译平台的免费API有QPS限制。比如百度在线翻译免费版本限制`QPS`就是1，即每秒只能调用一次。如果您购买了服务，则可以将`QPS`调高。
+
+- 默认情况下，每次运行时均会备份原始的翻译文件至`languages/translates/backup`，`--no-backup`可以禁止备份。
+
+- 默认情况下，`voerkai18n translate`会在每次运行时跳过已经翻译过的内容，这样可以保留翻译成果。此特性在您对自动翻译的内容进行修改后，再多次运行`voerkai18n translate`命令时均能保留翻译内容，不会导致您修改调整过的内容丢失。`--mode full`参数可以完全覆盖翻译，请慎用。
+
+- 为了提高在线翻译的速度，`voerkai18n translate`并不是一条文本调用一次API，而是将多条文本合并起来进行调用，但是单次调用也是有数据包大小的限制的，`--max-package-size`参数用来指定数据包的最大值。比如百度建议，为保证翻译质量，请将单次请求长度控制在 6000 bytes以内（汉字约为输入参数 2000 个）。
+
+- 需要注意的是，自动翻译虽然准确性还不错，真实场景还是需要进行手工调整的，特别是自动翻译一般不能识别插值变量。
+
 ## compile
 
 编译当前工程的语言包，编译结果输出在.`/langauges`文件夹。
@@ -1457,6 +1527,7 @@ Arguments:
 Options:
   -D, --debug               输出调试信息
   -m, --moduleType [types]  输出模块类型,取值auto,esm,cjs (default: "esm")
+  --no-inline-runtime       不嵌入运行时源码
   -h, --help                display help for command
 ```
 
@@ -1468,7 +1539,7 @@ myapp
     |-- index.js              // 当前作用域的源码
     |-- idMap.js              // 翻译文本与id的映射文件
     |-- formatters.js         // 自定义格式化器
-    |-- cn.js                 // 中文语言包
+    |-- zh.js                 // 中文语言包
     |-- en.js       	      // 英文语言包 
     |-- xx.js           	  // 其他语言包
     |-- ...
@@ -1478,7 +1549,8 @@ myapp
 
 - 在当前工程目录下，一般不需要指定参数就可以反复多次进行编译。
 - 您每次修改了源码并`extract`后，均应该再次运行`compile`命令。
-- 如果您修改了`formatters.js`，执行compile命令不会修改该文件。
+- 如果您修改了`formatters.js`，执行`compile`命令不会重新生成和修改该文件。
+- `--no-inline-runtime `参数用来指示如何引用运行时。默认会将运行时代码生成保存在`languages/runtime.js`，应用以源码形式引用。当启用`--no-inline-runtime `参数时会采用`require("@voerkai18n/runtime")`的方式。
 
 # API
 
@@ -1496,12 +1568,12 @@ i18nScope.off(callback)
 // 当前作用域配置
 i18nScope.settings
 // 当前语言
-i18nScope.activeLanguage         // 如cn
+i18nScope.activeLanguage         // 如zh
 
 // 默认语言
 i18nScope.defaultLanguage         
 // 返回当前支持的语言列表，可以用来显示
-i18nScope.languages    // [{name:"cn",title:"中文"},{name:"en",title:"英文"},...]
+i18nScope.languages    // [{name:"zh",title:"中文"},{name:"en",title:"英文"},...]
 // 返回当前作用域的格式化器                         
 i18nScope.formatters   
 // 当前作用id

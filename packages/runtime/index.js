@@ -11,10 +11,6 @@ let  inlineFormatters = require("./formatters")         // 内置格式化器
 // 支持参数： { var | formatter(x,x,..) | formatter }
 let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g
 
-// 有效的语言名称列表
-const languages = ["af","am","ar-dz","ar-iq","ar-kw","ar-ly","ar-ma","ar-sa","ar-tn","ar","az","be","bg","bi","bm","bn","bo","br","bs","ca","cs","cv","cy","da","de-at","de-ch","de","dv","el","en-au","en-ca","en-gb","en-ie","en-il","en-in","en-nz","en-sg","en-tt","en","eo","es-do","es-mx","es-pr","es-us","es","et","eu","fa","fi","fo","fr-ca","fr-ch","fr","fy","ga","gd","gl","gom-latn","gu","he","hi","hr","ht","hu","hy-am","id","is","it-ch","it","ja","jv","ka","kk","km","kn","ko","ku","ky","lb","lo","lt","lv","me","mi","mk","ml","mn","mr","ms-my","ms","mt","my","nb","ne","nl-be","nl","nn","oc-lnc","pa-in","pl","pt-br","pt","ro","ru","rw","sd","se","si","sk","sl","sq","sr-cyrl","sr","ss","sv-fi","sv","sw","ta","te","tet","tg","th","tk","tl-ph","tlh","tr","tzl","tzm-latn","tzm","ug-cn","uk","ur","uz-latn","uz","vi","x-pseudo","yo","zh-cn","zh-hk","zh-tw","zh"]
-
-
 // 插值变量字符串替换正则
 
 //let varReplaceRegexp =String.raw`\{\s*(?<var>{name}\.?\w*)\s*\}`
@@ -199,7 +195,7 @@ function resetScopeCache(scope,activeLanguage=null){
         "*":{
             $types:{...}                                    // 在所有语言下只作用于特定数据类型的格式化器
         },                                      // 在所有语言下生效的格式化器    
-        cn:{            
+        zh:{            
             $types:{         
                 [数据类型]:(value)=>{...},
             }, 
@@ -402,13 +398,13 @@ function replaceInterpolatedVars(template,...args) {
 
 // 默认语言配置
 const defaultLanguageSettings = {  
-    defaultLanguage: "cn",
-    activeLanguage: "cn",
+    defaultLanguage: "zh",
+    activeLanguage: "zh",
     languages:[
-        {name:"cn",title:"中文",default:true},
+        {name:"zh",title:"中文",default:true},
         {name:"en",title:"英文"}
     ],
-    formatters
+    formatters:inlineFormatters 
 }
 
 function isMessageId(content){
@@ -638,7 +634,7 @@ function translate(message) {
      * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
      * 
      * registerFormatters(name,value=>{...})                                 // 适用于所有语言
-     * registerFormatters(name,value=>{...},{langauge:"cn"})                 // 适用于cn语言
+     * registerFormatters(name,value=>{...},{langauge:"zh"})                 // 适用于cn语言
      * registerFormatters(name,value=>{...},{langauge:"en"})                 // 适用于en语言 
      
      * @param {*} formatters 
@@ -659,8 +655,7 @@ module.exports ={
     getInterpolatedVars,
     replaceInterpolatedVars,
     I18nManager,
-    translate,
-    languages,
+    translate
     i18nScope,
     defaultLanguageSettings,
     getDataTypeName,

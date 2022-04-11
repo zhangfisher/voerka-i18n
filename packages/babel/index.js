@@ -11,8 +11,14 @@
  * 
  * {
  *  plugins:[
- *      ["voerkai18n",{}]
+ *      ["voerkai18n",{
+ *          location:"./languages",
+ *          autoImport:"./languages",   
+ *          moduleType:"esm" 
+ *      }]
  *  ]
+ * 
+ * 
  * 
  * }
  * 

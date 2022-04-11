@@ -50,7 +50,7 @@ module.exports = {
         date: (value)=> value.toLocaleDateString(),     
         dict,   //字典格式化器
     },   
-    cn:{ 
+    zh:{ 
         $types:{
             Date:(value)=> `${value.getFullYear()}年${value.getMonth()+1}月${value.getDate()}日 ${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`
         },

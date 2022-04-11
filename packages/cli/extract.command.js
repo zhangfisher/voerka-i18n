@@ -1,4 +1,5 @@
-const { findModuleType,t } = require("./utils")
+const { findModuleType } = require("@voerkai18n/utils")
+const { t } = require("./i18nProxy")
 const path = require("path")
 const fs = require("fs")
 const gulp = require("gulp")
