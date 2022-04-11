@@ -1,7 +1,307 @@
-const { getDataTypeName,isNumber,isPlainObject,deepMerge } = require("./utils")
-const EventEmitter = require("./eventemitter")
-const i18nScope = require("./scope.js")
-let  inlineFormatters = require("./formatters")         // 内置格式化器
+/**
+ * 判断是否是JSON对象
+ * @param {*} obj 
+ * @returns 
+ */
+ function isPlainObject$1(obj){
+    if (typeof obj !== 'object' || obj === null) return false;
+    var proto = Object.getPrototypeOf(obj);
+    if (proto === null) return true;
+    var baseProto = proto;
+
+    while (Object.getPrototypeOf(baseProto) !== null) {
+        baseProto = Object.getPrototypeOf(baseProto);
+    }
+    return proto === baseProto; 
+}
+
+function isNumber$1(value){
+    return !isNaN(parseInt(value))
+}
+ 
+/**
+ * 简单进行对象合并
+ * 
+ * options={
+ *    array:0 ,        // 数组合并策略，0-替换，1-合并，2-去重合并
+ * }
+ * 
+ * @param {*} toObj 
+ * @param {*} formObj 
+ * @returns 合并后的对象
+ */
+function deepMerge$1(toObj,formObj,options={}){
+    let results = Object.assign({},toObj);
+    Object.entries(formObj).forEach(([key,value])=>{
+        if(key in results){
+            if(typeof value === "object" && value !== null){
+                if(Array.isArray(value)){
+                    if(options.array === 0){
+                        results[key] = value;
+                    }else if(options.array === 1){
+                        results[key] = [...results[key],...value];
+                    }else if(options.array === 2){
+                        results[key] = [...new Set([...results[key],...value])];
+                    }
+                }else {
+                    results[key] = deepMerge$1(results[key],value,options);
+                }
+            }else {
+                results[key] = value;
+            }
+        }else {
+            results[key] = value;
+        }
+    });
+    return results
+}
+
+
+/**
+ * 获取指定变量类型名称
+ * getDataTypeName(1) == Number
+ * getDataTypeName("") == String
+ * getDataTypeName(null) == Null
+ * getDataTypeName(undefined) == Undefined
+ * getDataTypeName(new Date()) == Date
+ * getDataTypeName(new Error()) == Error
+ * 
+ * @param {*} v 
+ * @returns 
+ */
+ function getDataTypeName$1(v){
+	if (v === null)  return 'Null' 
+	if (v === undefined) return 'Undefined'   
+    if(typeof(v)==="function")  return "Function"
+	return v.constructor && v.constructor.name;
+}
+
+
+
+
+var utils ={
+    isPlainObject: isPlainObject$1,
+    isNumber: isNumber$1,
+    deepMerge: deepMerge$1,
+    getDataTypeName: getDataTypeName$1
+};
+
+/**
+* 
+* 简单的事件触发器
+* 
+*/
+
+var eventemitter = class EventEmitter{
+    constructor(){
+        this._callbacks = [];
+    }
+    on(callback){
+        if(this._callbacks.includes(callback)) return
+        this._callbacks.push(callback);
+    }
+    off(callback){
+        for(let i=0;i<this._callbacks.length;i++){
+            if(this._callbacks[i]===callback ){
+                this._callbacks.splice(i,1);
+            }
+        }
+    }
+    offAll(){
+        this._callbacks = [];
+    }
+    async emit(...args){
+        if(Promise.allSettled){
+            await Promise.allSettled(this._callbacks.map(cb=>cb(...args)));
+        }else {
+            await Promise.all(this._callbacks.map(cb=>cb(...args)));
+        }
+    }    
+};
+
+var scope = class i18nScope {
+    constructor(options={},callback){
+        // 每个作用域都有一个唯一的id
+        this._id              = options.id || (new Date().getTime().toString()+parseInt(Math.random()*1000));
+        this._languages       = options.languages;                               // 当前作用域的语言列表
+        this._defaultLanguage = options.defaultLanguage || "zh";                 // 默认语言名称
+        this._activeLanguage  = options.activeLanguage;                        // 当前语言名称
+        this._default         = options.default;                                 // 默认语言包
+        this._messages        = options.messages;                                // 当前语言包
+        this._idMap           = options.idMap;                                   // 消息id映射列表
+        this._formatters      = options.formatters;                              // 当前作用域的格式化函数列表
+        this._loaders         = options.loaders;                                 // 异步加载语言文件的函数列表
+        this._global          = null;                                            // 引用全局VoerkaI18n配置，注册后自动引用     
+        // 主要用来缓存格式化器的引用，当使用格式化器时可以直接引用，避免检索
+        this.$cache={
+            activeLanguage : null,
+            typedFormatters: {},
+            formatters     : {},
+        };
+        // 如果不存在全局VoerkaI18n实例，说明当前Scope是唯一或第一个加载的作用域，
+        // 则使用当前作用域来初始化全局VoerkaI18n实例
+        if(!globalThis.VoerkaI18n){
+            const { I18nManager } = runtime;
+            globalThis.VoerkaI18n = new I18nManager({
+                defaultLanguage: this.defaultLanguage,
+                activeLanguage : this.activeLanguage,
+                languages: options.languages,
+            });
+        }
+        this.global = globalThis.VoerkaI18n; 
+        // 正在加载语言包标识
+        this._loading=false;
+        // 在全局注册作用域
+        this.register(callback);
+    }
+    // 作用域
+    get id(){return this._id}
+    // 默认语言名称
+    get defaultLanguage(){return this._defaultLanguage}
+    // 默认语言名称
+    get activeLanguage(){return this._activeLanguage}
+    // 默认语言包
+    get default(){return this._default}
+    // 当前语言包
+    get messages(){return this._messages}
+    // 消息id映射列表
+    get idMap(){return this._idMap}
+    // 当前作用域的格式化函数列表
+    get formatters(){return this._formatters}
+    // 异步加载语言文件的函数列表
+    get loaders(){return this._loaders}
+    // 引用全局VoerkaI18n配置，注册后自动引用
+    get global(){return this._global}
+    set global(value){this._global = value;}
+    /**
+     * 在全局注册作用域
+     * @param {*} callback   当注册
+     */
+    register(callback){
+        if(!typeof(callback)==="function") callback = ()=>{}; 
+        this.global.register(this).then(callback).catch(callback);    
+    }
+    registerFormatter(name,formatter,{language="*"}={}){
+        if(!typeof(formatter)==="function" || typeof(name)!=="string"){
+            throw new TypeError("Formatter must be a function")
+        }        
+        if(DataTypes.includes(name)){
+            this.formatters[language].$types[name] = formatter;
+        }else {
+            this.formatters[language][name] = formatter;
+        }
+    }
+    /**
+     * 回退到默认语言
+     */
+    _fallback(){
+        this._messages = this._default;  
+        this._activeLanguage = this.defaultLanguage;
+    }
+    /**
+     * 刷新当前语言包
+     * @param {*} newLanguage 
+     */
+    async refresh(newLanguage){
+        this._loading = Promise.resolve();
+        if(!newLanguage) newLanguage = this.activeLanguage;
+        // 默认语言，默认语言采用静态加载方式，只需要简单的替换即可
+        if(newLanguage === this.defaultLanguage){
+            this._messages = this._default;
+            return 
+        }
+        // 非默认语言需要异步加载语言包文件,加载器是一个异步函数
+        // 如果没有加载器，则无法加载语言包，因此回退到默认语言
+        const loader = this.loaders[newLanguage];
+        if(typeof(loader) === "function"){
+            try{
+                this._messages  = (await loader()).default;
+                this._activeLanguage = newLanguage;
+            }catch(e){
+                console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`);
+                this._fallback();
+            }       
+        }else {
+            this._fallback();
+        }   
+    }
+    // 以下方法引用全局VoerkaI18n实例的方法
+    get on(){return this.global.on.bind(this.global)}
+    get off(){return this.global.off.bind(this.global)}
+    get offAll(){return this.global.offAll.bind(this.global)}
+    get change(){
+        return this.global.change.bind(this.global)
+    }
+};
+
+/**
+ *    内置的格式化器
+ * 
+ */
+
+/**
+ *   字典格式化器
+ *   根据输入data的值，返回后续参数匹配的结果
+ *   dict(data,<value1>,<result1>,<value2>,<result1>,<value3>,<result1>,...)
+ *   
+ * 
+ *   dict(1,1,"one",2,"two",3,"three"，4,"four") == "one"
+ *   dict(2,1,"one",2,"two",3,"three"，4,"four") == "two"
+ *   dict(3,1,"one",2,"two",3,"three"，4,"four") == "three"
+ *   dict(4,1,"one",2,"two",3,"three"，4,"four") == "four"
+ *   // 无匹配时返回原始值
+ *   dict(5,1,"one",2,"two",3,"three"，4,"four") == 5  
+ *   // 无匹配时并且后续参数个数是奇数，则返回最后一个参数
+ *   dict(5,1,"one",2,"two",3,"three"，4,"four","more") == "more"  
+ * 
+ *   在翻译中使用
+ *   I have { value | dict(1,"one",2,"two",3,"three",4,"four")} apples
+ * 
+ * @param {*} value 
+ * @param  {...any} args 
+ * @returns 
+ */
+ function dict(value,...args){
+    for(let i=0;i<args.length;i+=2){
+        if(args[i]===value){
+            return args[i+1]
+        }
+    }
+    if(args.length >0 && (args.length % 2!==0)) return args[args.length-1]
+    return value
+}
+
+var formatters = {     
+    "*":{
+        $types:{
+            Date:(value)=>value.toLocaleString()
+        },
+        time:(value)=>  value.toLocaleTimeString(),  
+        shorttime:(value)=>  value.toLocaleTimeString(),  
+        date: (value)=> value.toLocaleDateString(),     
+        dict,   //字典格式化器
+    },   
+    zh:{ 
+        $types:{
+            Date:(value)=> `${value.getFullYear()}年${value.getMonth()+1}月${value.getDate()}日 ${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`
+        },
+        shortime:(value)=>  value.toLocaleTimeString(),  
+        time:(value)=>`${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`,     
+        date: (value)=> `${value.getFullYear()}年${value.getMonth()+1}月${value.getDate()}日`,
+        shortdate: (value)=> `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()}`,
+        currency:(value)=>`${value}元`,
+    },
+    en:{
+        currency:(value)=>{
+            return `$${value}`
+        }
+    }
+};
+
+const { getDataTypeName,isNumber,isPlainObject,deepMerge } = utils;
+const EventEmitter = eventemitter;
+const i18nScope = scope;
+let  inlineFormatters = formatters;         // 内置格式化器
 
 
 
@@ -9,14 +309,7 @@ let  inlineFormatters = require("./formatters")         // 内置格式化器
 // 不支持参数： let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*\s*)*)\s*\}/g
 
 // 支持参数： { var | formatter(x,x,..) | formatter }
-let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g
-
-// 插值变量字符串替换正则
-
-//let varReplaceRegexp =String.raw`\{\s*(?<var>{name}\.?\w*)\s*\}`
-
-
-let varReplaceRegexp =String.raw`\{\s*{varname}\s*\}`
+let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
 
 /**
  * 考虑到通过正则表达式进行插件的替换可能较慢，因此提供一个简单方法来过滤掉那些
@@ -30,7 +323,7 @@ let varReplaceRegexp =String.raw`\{\s*{varname}\s*\}`
 function hasInterpolation(str){
     return str.includes("{") && str.includes("}")
 } 
-const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"]
+const DataTypes$1 =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"];
  
 
 /**
@@ -54,16 +347,16 @@ const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Err
 function parseFormatters(formatters){
     if(!formatters) return []
     // 1. 先解析为 ["aaa()","bbb"]形式
-    let result = formatters.trim().substr(1).trim().split("|").map(r=>r.trim())  
+    let result = formatters.trim().substr(1).trim().split("|").map(r=>r.trim());  
 
     // 2. 解析格式化器参数
     return result.map(formatter=>{
-        let firstIndex = formatter.indexOf("(")
-        let lastIndex = formatter.lastIndexOf(")")
+        let firstIndex = formatter.indexOf("(");
+        let lastIndex = formatter.lastIndexOf(")");
         if(firstIndex!==-1 && lastIndex!==-1){ // 带参数的格式化器
-            const argsContent =  formatter.substr(firstIndex+1,lastIndex-firstIndex-1).trim()
+            const argsContent =  formatter.substr(firstIndex+1,lastIndex-firstIndex-1).trim();
             let args = argsContent=="" ? [] :  argsContent.split(",").map(arg=>{
-                arg = arg.trim()
+                arg = arg.trim();
                 if(!isNaN(parseInt(arg))){
                     return parseInt(arg)                  // 数字
                 }else if((arg.startsWith('\"') && arg.endsWith('\"')) || (arg.startsWith('\'') && arg.endsWith('\'')) ){
@@ -76,12 +369,12 @@ function parseFormatters(formatters){
                     }catch(e){
                         return String(arg)
                     }
-                }else{
+                }else {
                     return String(arg)
                 }
-            })
+            });
             return [formatter.substr(0,firstIndex),args]
-        }else{// 不带参数的格式化器
+        }else {// 不带参数的格式化器
             return [formatter,[]]
         }        
     }) 
@@ -110,7 +403,7 @@ function parseFormatters(formatters){
  * ]
  */
 function getInterpolatedVars(str){
-    let vars = []
+    let vars = [];
     forEachInterpolatedVars(str,(varName,formatters,match)=>{
         let varItem = {
             name:varName,
@@ -121,12 +414,12 @@ function getInterpolatedVars(str){
                 }
             }),
             match:match
-        }
+        };
         if(vars.findIndex(varDef=>((varDef.name===varItem.name) && (varItem.formatters.toString() == varDef.formatters.toString())))===-1){
-            vars.push(varItem) 
+            vars.push(varItem); 
         }
         return ""
-    }) 
+    }); 
     return vars
 }
 /**
@@ -136,54 +429,33 @@ function getInterpolatedVars(str){
  * @returns  返回替换后的字符串
  */
 function forEachInterpolatedVars(str,callback,options={}){
-    let result=str, match 
+    let result=str, match; 
     let opts = Object.assign({
         replaceAll:true,                // 是否替换所有插值变量，当使用命名插值时应置为true，当使用位置插值时应置为false
-    },options)
-    varWithPipeRegexp.lastIndex=0
+    },options);
+    varWithPipeRegexp.lastIndex=0;
     while ((match = varWithPipeRegexp.exec(result)) !== null) {
-        const varname = match.groups.varname || ""
+        const varname = match.groups.varname || "";
         // 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
-        const formatters = parseFormatters(match.groups.formatters)
+        const formatters = parseFormatters(match.groups.formatters);
         if(typeof(callback)==="function"){
             try{
                 if(opts.replaceAll){
-                    result=result.replaceAll(match[0],callback(varname,formatters,match[0]))
-                }else{
-                    result=result.replace(match[0],callback(varname,formatters,match[0]))
+                    result=result.replaceAll(match[0],callback(varname,formatters,match[0]));
+                }else {
+                    result=result.replace(match[0],callback(varname,formatters,match[0]));
                 }                
             }catch{// callback函数可能会抛出异常，如果抛出异常，则中断匹配过程
                 break   
             }            
         }
-        varWithPipeRegexp.lastIndex=0
-    }
-    return result
-}
-/**
- * 将要翻译内容提供了一个非文本内容时进行默认的转换
- *  - 对函数则执行并取返回结果()
- *  - 对Array和Object使用JSON.stringify
- *  - 其他类型使用toString
- * 
- * @param {*} value 
- * @returns 
- */
-function transformToString(value){
-    let result  = value
-    if(typeof(result)==="function") result = value()
-    if(!(typeof(result)==="string")){
-        if(Array.isArray(result) || isPlainObject(result)){
-            result = JSON.stringify(result)
-        }else{
-            result = result.toString()
-        }
+        varWithPipeRegexp.lastIndex=0;
     }
     return result
 }
 
 function resetScopeCache(scope,activeLanguage=null){
-    scope.$cache = {activeLanguage,typedFormatters:{},formatters:{}}
+    scope.$cache = {activeLanguage,typedFormatters:{},formatters:{}};
 }
 /**
  *   取得指定数据类型的默认格式化器 
@@ -210,27 +482,27 @@ function resetScopeCache(scope,activeLanguage=null){
  * @returns {Function} 格式化函数  
  */
 function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
-    if(!scope.$cache) resetScopeCache(scope)
+    if(!scope.$cache) resetScopeCache(scope);
     if(scope.$cache.activeLanguage === activeLanguage) {
         if(dataType in scope.$cache.typedFormatters) return scope.$cache.typedFormatters[dataType]
-    }else{// 当语言切换时清空缓存
-        resetScopeCache(scope,activeLanguage)
+    }else {// 当语言切换时清空缓存
+        resetScopeCache(scope,activeLanguage);
     }
 
     // 先在当前作用域中查找，再在全局查找
-    const targets = [scope.formatters,scope.global.formatters]  
+    const targets = [scope.formatters,scope.global.formatters];  
     for(const target of targets){
         if(!target) continue
         // 优先在当前语言的$types中查找
         if((activeLanguage in target) && isPlainObject(target[activeLanguage].$types)){ 
-            let formatters = target[activeLanguage].$types  
+            let formatters = target[activeLanguage].$types;  
             if(dataType in formatters && typeof(formatters[dataType])==="function"){                
                 return scope.$cache.typedFormatters[dataType] = formatters[dataType]
             }  
         }
         // 在所有语言的$types中查找
         if(("*" in target) && isPlainObject(target["*"].$types)){
-            let formatters = target["*"].$types 
+            let formatters = target["*"].$types; 
             if(dataType in formatters && typeof(formatters[dataType])==="function"){                
                 return scope.$cache.typedFormatters[dataType] = formatters[dataType]
             }  
@@ -247,22 +519,22 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
  */ 
 function getFormatter(scope,activeLanguage,name){
     // 缓存格式化器引用，避免重复检索
-    if(!scope.$cache) resetScopeCache(scope)
+    if(!scope.$cache) resetScopeCache(scope);
     if(scope.$cache.activeLanguage === activeLanguage) {
         if(name in scope.$cache.formatters) return scope.$cache.formatters[name]
-    }else{// 当语言切换时清空缓存
-        resetScopeCache(scope,activeLanguage)
+    }else {// 当语言切换时清空缓存
+        resetScopeCache(scope,activeLanguage);
     }
     // 先在当前作用域中查找，再在全局查找
-    const targets = [scope.formatters,scope.global.formatters]  
+    const targets = [scope.formatters,scope.global.formatters];  
     for(const target of targets){
         // 优先在当前语言查找
         if(activeLanguage in target){  
-            let formatters = target[activeLanguage] || {}   
+            let formatters = target[activeLanguage] || {};   
             if((name in formatters) && typeof(formatters[name])==="function") return scope.$cache.formatters[name] = formatters[name]
         }
         // 在所有语言的$types中查找
-        let formatters = target["*"] || {}   
+        let formatters = target["*"] || {};   
         if((name in formatters) && typeof(formatters[name])==="function") return scope.$cache.formatters[name] = formatters[name]
     }     
 }
@@ -274,17 +546,17 @@ function getFormatter(scope,activeLanguage,name){
  */
 function executeFormatter(value,formatters){
     if(formatters.length===0) return value
-    let result = value
+    let result = value;
     try{
         for(let formatter of formatters){
             if(typeof(formatter) === "function") {
-                result = formatter(result)
-            }else{// 如果碰到无效的格式化器，则跳过过续的格式化器
+                result = formatter(result);
+            }else {// 如果碰到无效的格式化器，则跳过过续的格式化器
                 return result 
             }
         }
     }catch(e){
-        console.error(`Error while execute i18n formatter for ${value}: ${e.message} ` )
+        console.error(`Error while execute i18n formatter for ${value}: ${e.message} ` );
     }    
     return result
 }
@@ -298,24 +570,24 @@ function executeFormatter(value,formatters){
  * @param {*} formatters 
  */
 function buildFormatters(scope,activeLanguage,formatters){
-    let results = [] 
+    let results = []; 
     for(let formatter of formatters){
         if(formatter[0]){
-            const func = getFormatter(scope,activeLanguage,formatter[0])
+            const func = getFormatter(scope,activeLanguage,formatter[0]);
             if(typeof(func)==="function"){
                 results.push((v)=>{
                     return func(v,...formatter[1])
-                })
-            }else{
+                });
+            }else {
                 // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
                 // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
                 results.push((v)=>{
                     if(typeof(v[formatter[0]])==="function"){
                         return v[formatter[0]].call(v,...formatter[1])
-                    }else{
+                    }else {
                         return v
                     }        
-                })  
+                });  
             }              
         }
     }
@@ -332,14 +604,14 @@ function buildFormatters(scope,activeLanguage,formatters){
  */
 function getFormattedValue(scope,activeLanguage,formatters,value){
     // 1. 取得格式化器函数列表
-    const formatterFuncs = buildFormatters(scope,activeLanguage,formatters) 
+    const formatterFuncs = buildFormatters(scope,activeLanguage,formatters); 
     // 2. 查找每种数据类型默认格式化器,并添加到formatters最前面，默认数据类型格式化器优先级最高
-    const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
+    const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)); 
     if(defaultFormatter){
-        formatterFuncs.splice(0,0,defaultFormatter)
+        formatterFuncs.splice(0,0,defaultFormatter);
     }             
     // 3. 执行格式化器
-    value = executeFormatter(value,formatterFuncs)     
+    value = executeFormatter(value,formatterFuncs);     
     return value
 }
 
@@ -361,10 +633,9 @@ this == scope == { formatters: {}, ... }
 * @returns 
 */
 function replaceInterpolatedVars(template,...args) {
-    const scope = this
+    const scope = this;
     // 当前激活语言
-    const activeLanguage = scope.global.activeLanguage 
-    let result=template
+    const activeLanguage = scope.global.activeLanguage; 
 
     // 没有变量插值则的返回原字符串  
     if(args.length===0 || !hasInterpolation(template)) return template 
@@ -373,27 +644,26 @@ function replaceInterpolatedVars(template,...args) {
     if(args.length===1 && isPlainObject(args[0])){  
         // 读取模板字符串中的插值变量列表
         // [[var1,[formatter,formatter,...],match],[var2,[formatter,formatter,...],match],...}
-        let varValues = args[0]
+        let varValues = args[0];
         return forEachInterpolatedVars(template,(varname,formatters)=>{
-            let value =  (varname in varValues) ? varValues[varname] : ''
+            let value =  (varname in varValues) ? varValues[varname] : '';
             return getFormattedValue(scope,activeLanguage,formatters,value)  
         })   
-    }else{  
+    }else {  
         // ****************************位置插值****************************
         // 如果只有一个Array参数，则认为是位置变量列表，进行展开
-        const params=(args.length===1 && Array.isArray(args[0])) ?  [...args[0]] : args     
+        const params=(args.length===1 && Array.isArray(args[0])) ?  [...args[0]] : args;     
         if(params.length===0) return template    // 没有变量则不需要进行插值处理，返回原字符串  
-        let i = 0
+        let i = 0;
         return forEachInterpolatedVars(template,(varname,formatters)=>{
             if(params.length>i){ 
                 return getFormattedValue(scope,activeLanguage,formatters,params[i++]) 
-            }else{
+            }else {
                 throw new Error()   // 抛出异常，停止插值处理
             }
         },{replaceAll:false})
          
     }
-    return result
 }    
 
 // 默认语言配置
@@ -405,7 +675,7 @@ const defaultLanguageSettings = {
         {name:"en",title:"英文"}
     ],
     formatters:inlineFormatters 
-}
+};
 
 function isMessageId(content){
     return parseInt(content)>0
@@ -420,7 +690,7 @@ function getPluraMessage(messages,value){
     try{
         if(Array.isArray(messages)){
             return messages.length > value ? messages[value] : messages[messages.length-1]
-       }else{
+       }else {
            return messages
        }
     }catch{
@@ -463,12 +733,12 @@ function unescape(str){
  * 
  */
 function translate(message) { 
-    const scope = this
-    const activeLanguage = scope.global.activeLanguage 
-    let content = message
-    let vars=[]                 // 插值变量列表
-    let pluralVars= []          // 复数变量
-    let pluraValue = null       // 复数值
+    const scope = this;
+    const activeLanguage = scope.global.activeLanguage; 
+    let content = message;
+    let vars=[];                 // 插值变量列表
+    let pluralVars= [];          // 复数变量
+    let pluraValue = null;       // 复数值
     if(!typeof(message)==="string") return message
     try{
         // 1. 预处理变量:  复数变量保存至pluralVars中 , 变量如果是Function则调用 
@@ -476,24 +746,24 @@ function translate(message) {
             Object.entries(arguments[1]).forEach(([name,value])=>{
                 if(typeof(value)==="function"){
                     try{
-                        vars[name] = value()
+                        vars[name] = value();
                     }catch(e){
-                        vars[name] = value
+                        vars[name] = value;
                     }
                 } 
                 // 以$开头的视为复数变量
-                if(name.startsWith("$") && typeof(vars[name])==="number")  pluralVars.push(name)
-            })
-            vars = [arguments[1]]
+                if(name.startsWith("$") && typeof(vars[name])==="number")  pluralVars.push(name);
+            });
+            vars = [arguments[1]];
         }else if(arguments.length >= 2){
             vars = [...arguments].splice(1).map((arg,index)=>{
                 try{
-                    arg = typeof(arg)==="function" ? arg() : arg                    
+                    arg = typeof(arg)==="function" ? arg() : arg;                    
                     // 位置参数中以第一个数值变量为复数变量
-                    if(isNumber(arg)) pluraValue = parseInt(arg)    
+                    if(isNumber(arg)) pluraValue = parseInt(arg);    
                 }catch(e){ }
                 return arg   
-            })
+            });
             
         }
         
@@ -507,15 +777,15 @@ function translate(message) {
             // 当源文件运用了babel插件后会将原始文本内容转换为msgId
             // 如果是msgId则从scope.default中读取,scope.default=默认语言包={<id>:<message>}
             if(isMessageId(content)){
-                content = scope.default[content] || message
+                content = scope.default[content] || message;
             }
-        }else{ 
+        }else { 
             // 2.2 从当前语言包中取得翻译文本模板字符串
             // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
             // JSON.stringify在进行转换时会将\t\n\r转换为\\t\\n\\r,这样在进行匹配时就出错 
-            let msgId = isMessageId(content) ? content :  scope.idMap[escape(content)]  
-            content = scope.messages[msgId] || content
-            content = Array.isArray(content) ? content.map(v=>unescape(v)) : unescape(content)
+            let msgId = isMessageId(content) ? content :  scope.idMap[escape(content)];  
+            content = scope.messages[msgId] || content;
+            content = Array.isArray(content) ? content.map(v=>unescape(v)) : unescape(content);
         }
          // 2. 处理复数
         // 经过上面的处理，content可能是字符串或者数组
@@ -524,18 +794,18 @@ function translate(message) {
         if(Array.isArray(content) && content.length>0){
             // 如果存在复数命名变量，只取第一个复数变量
             if(pluraValue!==null){  // 启用的是位置插值,pluraIndex=第一个数字变量的位置
-                content = getPluraMessage(content,pluraValue)
+                content = getPluraMessage(content,pluraValue);
             }else if(pluralVar.length>0){
-                content = getPluraMessage(content,parseInt(vars(pluralVar[0])))
-            }else{ // 如果找不到复数变量，则使用第一个内容
-                content = content[0]
+                content = getPluraMessage(content,parseInt(vars(pluralVar[0])));
+            }else { // 如果找不到复数变量，则使用第一个内容
+                content = content[0];
             }
         } 
         
         // 进行插值处理
         if(vars.length==0){
             return content
-        }else{
+        }else {
             return replaceInterpolatedVars.call(scope,content,...vars)
         }        
     }catch(e){
@@ -560,13 +830,13 @@ function translate(message) {
  * */ 
  class I18nManager extends EventEmitter{
     constructor(settings={}){
-        super()
+        super();
         if(I18nManager.instance!=null){
             return I18nManager.instance;
         }
         I18nManager.instance = this;
-        this._settings = deepMerge(defaultLanguageSettings,settings)
-        this._scopes=[]  
+        this._settings = deepMerge(defaultLanguageSettings,settings);
+        this._scopes=[];  
         return I18nManager.instance;
     }
     get settings(){ return this._settings }
@@ -583,14 +853,14 @@ function translate(message) {
      *  切换语言
      */
     async change(value){
-        value=value.trim()
+        value=value.trim();
         if(this.languages.findIndex(lang=>lang.name === value)!==-1){
             // 通知所有作用域刷新到对应的语言包
-            await this._refreshScopes(value)
-            this._settings.activeLanguage = value
+            await this._refreshScopes(value);
+            this._settings.activeLanguage = value;
             /// 触发语言切换事件
-            await this.emit(value)            
-        }else{
+            await this.emit(value);            
+        }else {
             throw new Error("Not supported language:"+value)
         }
     }
@@ -603,14 +873,14 @@ function translate(message) {
         try{
             const scopeRefreshers = this._scopes.map(scope=>{
                 return scope.refresh(newLanguage)
-            })
+            });
             if(Promise.allSettled){
-                await Promise.allSettled(scopeRefreshers)
-            }else{
-                await Promise.all(scopeRefreshers)
+                await Promise.allSettled(scopeRefreshers);
+            }else {
+                await Promise.all(scopeRefreshers);
             } 
         }catch(e){
-            console.warn("Error while refreshing i18n scopes:",e.message)
+            console.warn("Error while refreshing i18n scopes:",e.message);
         }         
     }
     /**
@@ -626,8 +896,8 @@ function translate(message) {
         if(!(scope instanceof i18nScope)){
             throw new TypeError("Scope must be an instance of I18nScope")
         }
-        this._scopes.push(scope) 
-        await scope.refresh(this.activeLanguage) 
+        this._scopes.push(scope); 
+        await scope.refresh(this.activeLanguage); 
     }
     /**
      * 注册全局格式化器
@@ -643,15 +913,15 @@ function translate(message) {
         if(!typeof(formatter)==="function" || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
         }        
-        if(DataTypes.includes(name)){
-            this.formatters[language].$types[name] = formatter
-        }else{
-            this.formatters[language][name] = formatter
+        if(DataTypes$1.includes(name)){
+            this.formatters[language].$types[name] = formatter;
+        }else {
+            this.formatters[language][name] = formatter;
         }
     }
 }
 
-module.exports ={
+var runtime ={
     getInterpolatedVars,
     replaceInterpolatedVars,
     I18nManager,
@@ -661,4 +931,6 @@ module.exports ={
     getDataTypeName,
     isNumber,
     isPlainObject 
-}
+};
+
+export { runtime as default };

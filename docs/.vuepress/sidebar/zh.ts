@@ -1,0 +1,60 @@
+import { defineSidebarConfig } from "vuepress-theme-hope";
+
+export const zh = defineSidebarConfig({
+    "/zh/guide/": [
+        {
+            text:"开始",
+            prefix:"intro/",
+            children:[
+                "",
+                "install.md",
+                "get-started.md",
+            ]
+        },
+        {
+            text:"指南",
+            link:false,
+            prefix:"use/",
+            children:[
+                "t",
+                "interpolation",
+                "datetime",
+                "plural",
+                "currency",
+                "namespace",
+                "change-langeuage",
+                "vue",
+                "react"
+            ]
+        },
+        {
+            text:"高级特性",
+            prefix:"advanced/",
+            children:[
+                "runtime",
+                "textMap",
+                "multi-libs",
+                "autoimport",
+                "customformatter",
+                "langpack",
+                "autotranslate"
+            ]
+        },
+        {
+            text:"工具",
+            prefix:"tools/",
+            children:[
+                "cli",
+                "babel", 
+                "vue",
+                "vite",
+            ]
+        }
+    ],
+    "/zh/reference": [
+        "i18nscope",
+        "voerkai18n",
+        "formatters",
+        "lang-code"
+    ]
+});
