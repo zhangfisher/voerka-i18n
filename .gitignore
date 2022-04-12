@@ -9,9 +9,6 @@ node_modules
 node_modules/
 docs/.vuepress/.cache/
 docs/.vuepress/.temp/
-docs/.vuepress/dist/
 /packages/cli/baidu.api.txt
 node_modules/
-docs/.vuepress/.cache/
-docs/.vuepress/.temp/
-docs/.vuepress/dist/
+/.github/access key.txt
