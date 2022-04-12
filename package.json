@@ -9,6 +9,7 @@
     "test:app": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js -- app",
     "list:package": "node ./packages/autopublish/index.js list",
     "autopublish": "node ./packages/autopublish/index.js",
+    "build-docs": "vuepress build docs",
     "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress build docs",
     "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
     "docs:clean-dev": "vuepress dev docs --clean-cache"

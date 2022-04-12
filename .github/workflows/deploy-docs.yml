@@ -33,7 +33,7 @@ jobs:
       - name: 构建文档
         env:
           NODE_OPTIONS: --max_old_space_size=4096
-        run: yarn run docs:build
+        run: yarn run build-docs
 
       - name: 部署文档
         uses: JamesIves/github-pages-deploy-action@v4
