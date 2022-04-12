@@ -2,7 +2,7 @@
 适用于`Javascript/Vue/React/ReactNative`的国际化解决方案
 
 
-[官方网站](zhangfisher.github.io/voerka-i18n/)
+[官方网站](https://zhangfisher.github.io/voerka-i18n/)
 
 
 基于`javascript`的国际化方案很多，比较有名的有`fbt`、`i18next`、`react-i18next`、`vue-i18n`、`react-intl`等等，每一种解决方案均有大量的用户。为什么还要再造一个轮子？好吧，再造轮子的理由不外乎不满足于现有方案，总想着现有方案的种种不足之处，然后就撸起袖子想造一个轮子，也不想想自己什么水平。
