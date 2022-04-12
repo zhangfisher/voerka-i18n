@@ -1,0 +1,5 @@
+
+User-agent:*
+Disallow:
+
+Sitemap: https://vuepress-theme-hope-v2-demo.mrhope.site/voerka-i18n/sitemap.xml
