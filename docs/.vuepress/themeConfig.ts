@@ -14,7 +14,7 @@ export default defineThemeConfig({
   logo: "/logo.svg",
 
   home:"/zh/home",
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  repo: "https://gitee.com/zhangfisher/voerka-i18n",
 
   docsDir: "docs",
   breadcrumb :false,
