@@ -1,1 +1,0 @@
-import{_ as e,a as t,o as a,b as c,d as r}from"./app.485199ac.js";const o={},s={id:"react\u5E94\u7528",tabindex:"-1"},_=c("a",{class:"header-anchor",href:"#react\u5E94\u7528","aria-hidden":"true"},"#",-1),n=r(" React\u5E94\u7528"),d=[_,n];function h(i,f){return a(),t("h1",s,d)}var m=e(o,[["render",h],["__file","react.html.vue"]]);export{m as default};
