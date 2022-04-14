@@ -8,9 +8,7 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "deepmerge": "^4.2.2",
-    "gulp": "^4.0.2",
-    "vinyl": "^2.2.1"
+  "dependencies": {
+    "react": "^17.0.2"
   }
 }

@@ -100,8 +100,11 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
         autoImport: true,                               // 是否自动导入t函数
         debug:false,                                    // 是否输出调试信息，当=true时，在控制台输出转换匹配的文件清单
         patterns:[
-            "!(?<!.vue\?.*).(css|json|scss|less|sass)$",          // 排除所有css文件
-            /\.vue(\?.*)?/,                                     // 所有vue文件
+            "!\.(svg|css|json|scss|less|sass)$", 
+            "!(?<!.vue\?.*).(css|json|scss|less|sass)$",            // 排除所有css文件
+            /\.vue(\?.*)?/,                                         // 所有vue文件
+            "!(?<!.jsx\?.*).(css|json|scss|less|sass)$", 
+            /\.jsx(\?.*)?/, 
         ]                              // 提取范围
     },opts)
     
@@ -110,6 +113,9 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
     let projectRoot = getProjectRootFolder(options.location)
     let languageFolder = getProjectLanguageFolder(projectRoot)        
 
+    if(!fs.existsSync(languageFolder)){
+        console.warn(`Voerkai18n语言文件夹不存在，@voerkai18n/vite未启用`)
+    }
     if(debug){
         console.log("Project root: ",projectRoot)
         console.log("Language folder: ",languageFolder)
@@ -119,7 +125,13 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
         basePath:projectRoot,
         debug:debug
     })
-    let idMap = readIdMapFile(options)
+    let idMap 
+    try{
+        idMap = readIdMapFile(options)
+    }catch(e){
+        console.warn("读取idMap.js文件失败，@voerkai18n/vite未启用")
+        return
+    }    
     
     return {
         name: 'voerkai18n',    
@@ -140,13 +152,18 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
                                 importSource = "./" + importSource
                             }
                             importSource=importSource.replace("\\","/")
-                            // 优先在<script setup></script>中导入
-                            const setupScriptRegex = /(^\s*\<script.*\s*setup\s*.*\>)/gmi
-                            if(setupScriptRegex.test(code)){
-                                code = code.replace(setupScriptRegex,`$1\nimport { t } from '${importSource}';`)
-                            }else{// 如果没有<script setup>则在<script></script>中导入
-                                code = code.replace(/(^\s*\<script.*\>)/gmi,`$1\nimport { t } from '${importSource}';`)
-                            }
+                            // 转换Vue文件
+                            if(path.extname(id)==".vue"){
+                                // 优先在<script setup></script>中导入
+                                const setupScriptRegex = /(^\s*\<script.*\s*setup\s*.*\>)/gmi
+                                if(setupScriptRegex.test(code)){
+                                    code = code.replace(setupScriptRegex,`$1\nimport { t } from '${importSource}';`)
+                                }else{// 如果没有<script setup>则在<script></script>中导入
+                                    code = code.replace(/(^\s*\<script.*\>)/gmi,`$1\nimport { t } from '${importSource}';`)
+                                }
+                            }else{// 普通js文件需要添加到最前面
+                                code = code = `import { t } from '${importSource}';\n${code}`
+                            }                            
                         }
                         return {
                             code,

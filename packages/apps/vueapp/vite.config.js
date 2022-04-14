@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
 import { babel } from '@rollup/plugin-babel'; 
 import Inspect from 'vite-plugin-inspect'
-import Voerkai18nPlugin from "../../vite"
+import Voerkai18nPlugin from "@voerkai18n/vite"
 
 
 // https://vitejs.dev/config/

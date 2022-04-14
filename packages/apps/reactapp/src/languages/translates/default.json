@@ -1,0 +1,38 @@
+{
+    "Voerkai1n是一个功能强大设计精良的国际化解决方案": {
+        "en": "Voerkai1n is a powerful and well-designed international solution",
+        "$file": [
+            "App.jsx"
+        ]
+    },
+    "中华民族伟大复兴": {
+        "en": "The great rejuvenation of the Chinese nation",
+        "$file": [
+            "modules\\module1.js"
+        ]
+    },
+    "犯我中华者，虽远必诛！": {
+        "en": "Those who violate China will be punished even if they are far away！",
+        "$file": [
+            "modules\\module2.js"
+        ]
+    },
+    "这是一个测试": {
+        "en": "This is test",
+        "$file": [
+            "App.jsx"
+        ]
+    },
+    "一字一世界，一笔一乾坤，汉字是这个星球上最美的语言": {
+        "en": "Chinese characters are the most beautiful language on the planet",
+        "$file": [
+            "components\\Banner.jsx"
+        ]
+    },
+    "当前语言": {
+        "en": "Current Language",
+        "$file": [
+            "components\\LanguageConfigurator.jsx"
+        ]
+    }
+}
