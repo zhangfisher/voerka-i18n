@@ -1,0 +1,21 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "适用于Nodejs/Vue/React的国际化解决方案",
+  "main": "index.js",
+  "scripts": {
+    "build-docs": "vuepress build .",
+    "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress build .",
+    "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress dev .",
+    "docs:clean-dev": "vuepress dev . --clean-cache"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vuepress": "^2.0.0-beta.38",
+    "vuepress-theme-hope": "^2.0.0-beta.38"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}

@@ -37,7 +37,8 @@ export const zh = defineSidebarConfig({
                 "autoimport",
                 "customformatter",
                 "langpack",
-                "autotranslate"
+                "autotranslate",
+                "framework"
             ]
         },
         {

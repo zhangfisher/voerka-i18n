@@ -310,7 +310,7 @@ async function publishPackage(options){
         // 由于工程可能引用了工作区内的其他包，必须pnpm publish才能发布
         // pnpm publish会修正引用工作区其他包到的依赖信息，而npm publish不能识别工作区内的依赖，会导致报错        
         tasks.add("发布包")
-        await asyncExecShellScript(`pnpm publish --no-git-checks --access publish`,{silent})            
+        await asyncExecShellScript(`pnpm publish --no-git-checks --access public`,{silent})            
         tasks.complete()        
 
         // 第四步：更新发布时间
@@ -414,6 +414,7 @@ program
      .option("-s, --no-silent", "静默显示脚本输出")
      .addOption(new Option('-i, --version-increment-step [value]', '版本增长方式').default("patch").choices(VERSION_STEPS))
      .action(async (options) => {        
+         console.log("options.all=",options.all)
         // 发布所有包时只能在工作区根目录下执行
         if(options.all){
             assertInWorkspaceRoot()        

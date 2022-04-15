@@ -38,6 +38,11 @@ pnpm add @voerkai18/runtime
 
 可选的`vue`插件，用来为Vue应用提供语言动态切换功能。
 
+## **@voerkai18/react**
+
+可选的，用来为React应用提供语言动态切换功能。
+
 ## **@voerkai18/vite**
 
 可选的`vite`插件，用来为`vite`应用提供自动导入翻译函数和翻译文本映射自动替换。
+

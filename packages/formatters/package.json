@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/formatters",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -19,5 +19,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-06T20:54:23+08:00"
+    "lastPublish": "2022-04-15T17:44:37+08:00"
 }

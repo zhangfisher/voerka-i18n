@@ -1,14 +1,19 @@
 {
-  "name": "@voerkai18n/react",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "react": "^17.0.2"
-  }
+    "name": "@voerkai18n/react",
+    "version": "1.0.3",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "release": "pnpm autopublish"
+    },
+    "author": "wxzhang",
+    "license": "ISC",
+    "dependencies": {
+        "react": "^17.0.2"
+    },
+    "devDependencies": {
+        "@voerkai18n/autopublish": "workspace:^1.0.2"
+    },
+    "lastPublish": "2022-04-15T17:53:30+08:00"
 }

@@ -2,7 +2,8 @@ import { defineHopeConfig } from "vuepress-theme-hope";
 import themeConfig from "./themeConfig";
 
 export default defineHopeConfig({
-  base: "/voerka-i18n/",
+  base: "/voerka-i18n/",          // 发布位置GithubPages时
+  //base: "/",                // 本机调试时
   head: [
     [
       "link",
