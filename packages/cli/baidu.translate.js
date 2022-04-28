@@ -21,7 +21,7 @@ module.exports = function(options={}){
          * @param {*} texts 多条文本
          * @returns 
          */
-        translate:async (texts=[],from,to)=>{           
+        translate:async (texts=[],from="zh",to="en")=>{           
 
             if(Array.isArray(texts)){
                 texts = texts.join("\n");

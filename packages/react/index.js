@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 /**
  * MyComponent(){
@@ -9,7 +9,7 @@ import React, { useState, useEffect,useCallback } from 'react';
  * 
  * 
  */
-export function useVoerkaI18n(i18nScope) {
+export function useVoerkaI18n() {
     
     if(!globalThis.VoerkaI18n){
         console.warn("useI18nContext is not provided, use default i18nContext")

@@ -67,6 +67,9 @@ function resetTestApp(){
 }
 
 beforeAll(() => {
+    shelljs.exec("pnpm add -g @voerkai18n/utils")
+    shelljs.exec("pnpm add -g @voerkai18n/runtime ")
+    shelljs.exec("pnpm add -g @voerkai18n/cli ")
     shelljs.exec("pnpm update -g @voerkai18n/utils")
     shelljs.exec("pnpm update -g @voerkai18n/runtime ")
     shelljs.exec("pnpm update -g @voerkai18n/cli ")

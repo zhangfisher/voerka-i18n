@@ -119,6 +119,8 @@ var eventemitter = class EventEmitter{
     }    
 };
 
+const DataTypes$1 = ["String","Number","Boolean","Object","Array","Function","Null","Undefined","Symbol","Date","RegExp","Error"];
+
 var scope = class i18nScope {
     constructor(options={},callback){
         // 每个作用域都有一个唯一的id
@@ -185,7 +187,7 @@ var scope = class i18nScope {
         if(!typeof(formatter)==="function" || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
         }        
-        if(DataTypes.includes(name)){
+        if(DataTypes$1.includes(name)){
             this.formatters[language].$types[name] = formatter;
         }else {
             this.formatters[language][name] = formatter;
@@ -323,7 +325,7 @@ let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\))
 function hasInterpolation(str){
     return str.includes("{") && str.includes("}")
 } 
-const DataTypes$1 =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"];
+const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"];
  
 
 /**
@@ -913,7 +915,7 @@ function translate(message) {
         if(!typeof(formatter)==="function" || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
         }        
-        if(DataTypes$1.includes(name)){
+        if(DataTypes.includes(name)){
             this.formatters[language].$types[name] = formatter;
         }else {
             this.formatters[language][name] = formatter;

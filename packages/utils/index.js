@@ -16,7 +16,8 @@ const fs = require("fs-extra")
  *      debug:<true/>false,是否输出调试信息,当=true时，.test()方法返回[<true/false>,pattern]      *      
  *  })
  * 
- * 
+ *  matcher.test("<文件名称>") 返回true/false   
+ *
  * 
  * 
  * @param {*} patterns 
@@ -35,6 +36,9 @@ const fs = require("fs-extra")
 
     // 默认排除模式
     if(defaultPatterns.length===0){        
+        finalPatterns.push([/__test__\/.*/,true])
+        finalPatterns.push([/.*\/.*\.test\.js$/,true])
+        finalPatterns.push([/node_modules\/.*/,true])
         finalPatterns.push([/.*\/node_modules\/.*/,true])
         finalPatterns.push([/.*\/languages\/.*/,true])           // 默认排除语言文件
         finalPatterns.push([/\.babelrc/,true])
@@ -46,15 +50,21 @@ const fs = require("fs-extra")
 
     inputPatterns.forEach(pattern=>{
         if(typeof pattern === "string"){    
-            pattern.replaceAll("**",".*")
-            pattern.replaceAll("?","[^\/]?")
-            pattern.replaceAll(/(?<!\.)\*/g,"[^\/]*")            
-            // 以!开头的表示排除
-            if(pattern.startsWith("!")){
-                finalPatterns.unshift([new RegExp(pattern.substring(1),"g"),true])
-            }else{
-                finalPatterns.push([new RegExp(pattern,"g"),false])
-            }
+            pattern = pattern.replaceAll("**",".*")
+                .replaceAll("?","[^\/]?")
+                .replaceAll(/(?<!\.)\*/g,"[^\/]*")   
+            try{
+                // 以!开头的表示排除
+                if(pattern.startsWith("!")){
+                    finalPatterns.unshift([new RegExp(pattern.substring(1),"g"),true])
+                }else{
+                    finalPatterns.push([new RegExp(pattern,"g"),false])
+                }
+            }catch(e){
+                if(debug){
+                    console.error(`${pattern} is not a valid pattern`)
+                }
+            }               
         }else{
             finalPatterns.push([pattern,false])
         }

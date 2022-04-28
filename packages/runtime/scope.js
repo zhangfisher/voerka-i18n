@@ -1,4 +1,7 @@
 
+
+const DataTypes = ["String","Number","Boolean","Object","Array","Function","Null","Undefined","Symbol","Date","RegExp","Error"];
+
 module.exports = class i18nScope {
     constructor(options={},callback){
         // 每个作用域都有一个唯一的id

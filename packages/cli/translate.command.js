@@ -63,7 +63,7 @@ function getTranslateProvider(options={}){
  * @param {*} options 
  * @returns 
  */
-async function translateMessages(messages={},from,to,options={}){
+async function translateMessages(messages={},from="zh",to="en",options={}){
     let { mode,qps=1 } = options
     if(messages.length===0) return;
     const provider = getTranslateProvider(options)
@@ -82,6 +82,7 @@ async function translateMessages(messages={},from,to,options={}){
  */
 async function translateMultiLineMessage(messages=[],from,to,options={}){
     if(messages.length===0) return;
+    const qps = options.qps || 1
     const provider = getTranslateProvider(options)    
     await delay(1000/qps)
     let result =  await provider.translate(messages,from,to)
@@ -125,7 +126,6 @@ async function translateLanguage(messages,from,to,options={}){
     }
     // 对剩余的信息进行翻译
     if(Object.keys(lngMessages).length > 0){
-        requestCount++
         await translateMessages(lngMessages,from,to,options)
         result = deepMerge(result,lngMessages)
     }

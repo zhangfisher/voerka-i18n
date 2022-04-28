@@ -10,8 +10,7 @@ const deepmerge = require("deepmerge")
 const path = require('path')
 const fs = require('fs-extra')
 const createLogger = require("logsets") 
-const { t } = require("./i18nProxy")
-const { findModuleType } = require("@voerkai18n/utils")
+const { t } = require("./i18nProxy") 
 
 
 const logger = createLogger() 
@@ -105,7 +104,7 @@ function extractTranslateTextUseRegexp(content,namespace,extractor,file,options)
     // 移除代码中的注释，以便正则表达式提取翻译文本时排除注释部分
     const fileExtName = file.extname.substr(1).toLowerCase()  // 文件扩展名
     content = removeComments(content,fileExtName)
-    
+    let result
     let texts = {}
     while ((result = extractor.exec(content)) !== null) {
         // 这对于避免零宽度匹配的无限循环是必要的
@@ -156,7 +155,7 @@ function extractTranslateTextUseFunction(content,namespace,extractor,file,option
  * @param {*} extractor 提取器配置={default:[],js:[],html:[],"sass,css":[],json:[],"*":[]}"}
  */
 function getFileTypeExtractors(filetype,extractor){
-    if(!typeof(extractor)==="object") return null
+    if(!typeof(extractor)=="object") return null
     let matchers=[]
     for(let [key,value] of Object.entries(extractor)){
         if(filetype.toLowerCase()===key.toLowerCase()){
@@ -395,7 +394,7 @@ module.exports = function(options={}){
     logger.log(t("激活语言\t: {}"),options.activeLanguage) 
     logger.log(t("名称空间\t: {}"),Object.keys(options.namespaces).join(","))
     logger.log("")
-    logger
+    
     // 保存提交提取的文本 = {}
     let results = {}
     let fileCount=0  // 文件总数

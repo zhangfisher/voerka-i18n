@@ -6,8 +6,7 @@ const path = require("path")
 const fs = require("fs-extra")
 const logger = createLogger()
 const { i18nScope ,t }  = require("./i18nProxy")
-const { getProjectRootFolder, getProjectSourceFolder }  = require("@voerkai18n/utils");
-const { translate } = require('../runtime/dist/index.cjs');
+const { getProjectSourceFolder }  = require("@voerkai18n/utils"); 
  
 logger.use(bannerPluin)
 
@@ -106,7 +105,7 @@ program
             logger.error(t("语言包文件夹<{}>不存在",langFolder))
             return
         }         
-        compile = require("./compile.command")
+        let compile = require("./compile.command")
         compile(langFolder,options)
     });
  

@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/cli",
-    "version": "1.0.28",
+    "version": "1.0.29",
     "description": "VoerkaI18n command line interactive tools",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -50,5 +50,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-15T17:44:50+08:00"
+    "lastPublish": "2022-04-16T09:12:24+08:00"
 }
