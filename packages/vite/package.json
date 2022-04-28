@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vite",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "VoerkaI18n plugin for Vite",
     "main": "index.js",
     "scripts": {
@@ -15,5 +15,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-16T09:12:34+08:00"
+    "lastPublish": "2022-04-28T09:03:52+08:00"
 }

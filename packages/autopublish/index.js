@@ -414,7 +414,6 @@ program
      .option("-s, --no-silent", "静默显示脚本输出")
      .addOption(new Option('-i, --version-increment-step [value]', '版本增长方式').default("patch").choices(VERSION_STEPS))
      .action(async (options) => {        
-         console.log("options.all=",options.all)
         // 发布所有包时只能在工作区根目录下执行
         if(options.all){
             assertInWorkspaceRoot()        

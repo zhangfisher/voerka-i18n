@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/babel",
-    "version": "1.0.21",
+    "version": "1.0.22",
     "description": "VoerkaI18n babel plugin",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -20,5 +20,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-10T17:21:40+08:00"
+    "lastPublish": "2022-04-28T09:03:42+08:00"
 }

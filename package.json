@@ -8,7 +8,7 @@
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js ",
     "test:app": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js -- app",
     "list:package": "node ./packages/autopublish/index.js list",
-    "autopublish": "node ./packages/autopublish/index.js",
+    "autopublish": "node ./packages/autopublish/index.js -a --no-ask",
     "build-docs": "vuepress build docs",
     "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress build docs",
     "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
