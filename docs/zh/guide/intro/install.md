@@ -11,9 +11,9 @@ title: 安装
 包含文本提取/编译等命令行工具，一般应该安装到全局。
 
 ```javascript
-npm install --g @voerkai18/cli
-yarn global add @voerkai18/cli
-pnpm add -g @voerkai18/cli
+npm install --g @voerkai18n/cli
+yarn global add @voerkai18n/cli
+pnpm add -g @voerkai18n/cli
 ```
 
 ## **@voerkai18/runtime**
@@ -21,9 +21,9 @@ pnpm add -g @voerkai18/cli
 **可选的**，运行时，`@voerkai18/cli`的依赖。大部分情况下不需要手动安装，一般仅在开发库项目时采用独立的运行时依赖。
 
 ```javascript
-npm install --save @voerkai18/runtime
-yarn add @voerkai18/runtime
-pnpm add @voerkai18/runtime
+npm install --save @voerkai18n/runtime
+yarn add @voerkai18n/runtime
+pnpm add @voerkai18n/runtime
 ```
 
 ## **@voerkai18/formatters**
@@ -45,4 +45,3 @@ pnpm add @voerkai18/runtime
 ## **@voerkai18/vite**
 
 可选的`vite`插件，用来为`vite`应用提供自动导入翻译函数和翻译文本映射自动替换。
-
