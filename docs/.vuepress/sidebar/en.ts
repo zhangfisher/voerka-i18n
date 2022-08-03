@@ -1,6 +1,4 @@
-import { defineSidebarConfig } from "vuepress-theme-hope";
-
-export const en = defineSidebarConfig({
+export const en = {
   "/en/": [
     "",
     "home",
@@ -13,4 +11,4 @@ export const en = defineSidebarConfig({
       children: "structure",
     }
   ],
-});
+}

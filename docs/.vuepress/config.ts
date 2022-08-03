@@ -1,30 +1,54 @@
-import { defineHopeConfig } from "vuepress-theme-hope";
-import themeConfig from "./themeConfig";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
+import * as navbar from "./navbar";
+import * as sidebar from "./sidebar";
 
-export default defineHopeConfig({
-  base: "/voerka-i18n/",          // 发布位置GithubPages时
-  //base: "/",                // 本机调试时
-  head: [
-    [
-      "link",
-      {
-        rel: "stylesheet",
-        href: "//at.alicdn.com/t/font_2410206_mfj6e1vbwo.css",
-      },
-    ],
-  ],
-  locales: {
-    "/": {
-      lang: "zh-CN",
-      title: "VoerkaI18n",
-      description: "适用于Nodejs/Vue/React的国际化解决方案",
+export default defineUserConfig({
+    base                 : "/voerka-i18n/",          // 发布位置GithubPages时
+    lang                     : "zh-CN",
+    locales                  : {
+        "/"                  : {
+            lang             : "zh-CN",
+            title            : "中文"
+        },
+        "/en/"               : {
+            lang             : "en-US",
+            title            : "English"
+        }
     },
-    "/en/": {
-      lang: "en-US",
-      title: "VoerkaI18n",
-      description: "适用于Nodejs/Vue/React的国际化解决方案",
-    }
-  },
-
-  themeConfig,
-});
+    theme                    : hopeTheme({
+        hostname             : "https://gitee.com/zhangfisher/voerka-i18n",
+        author               : {
+            name             : "wxzhang",
+            url              : "https://gitee.com/zhangfisher/voerka-i18n",
+        },
+        iconPrefix           : "iconfont icon-",
+        logo                 : "/logo.svg",
+        home                 : "/zh/home",
+        repo                 : "https://gitee.com/zhangfisher/voerka-i18n",    
+        docsDir              : "docs",
+        breadcrumb           : false,
+        pageInfo             : ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
+        locales              : {
+            "/"              : {
+                navbar       : navbar.zh,
+                sidebar      : sidebar.zh,
+                displayFooter: true
+            },
+            "/en/"           : {
+                navbar       : navbar.en,    
+                sidebar      : sidebar.en,
+                footer       : "Default footer",
+                displayFooter: true,
+            }
+        },
+        plugins              : { 
+            mdEnhance        : {
+                enableAll    : true,
+                presentation : {
+                    plugins  : ["highlight", "math", "search", "notes", "zoom"],
+                },
+            } 
+        } 
+    })
+})

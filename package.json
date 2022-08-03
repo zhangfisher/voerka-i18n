@@ -10,6 +10,7 @@
     "list:package": "node ./packages/autopublish/index.js list",
     "autopublish": "node ./packages/autopublish/index.js -a --no-ask",
     "build-docs": "vuepress build docs",
+    "docs:build2": "vuepress build docs",
     "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress build docs",
     "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
     "docs:clean-dev": "vuepress dev docs --clean-cache"
@@ -32,8 +33,10 @@
     "rollup-plugin-clear": "^2.0.7",
     "shelljs": "^0.8.5",
     "vinyl": "^2.2.1",
-    "vuepress": "^2.0.0-beta.38",
-    "vuepress-theme-hope": "^2.0.0-beta.38"
+    "@vuepress/client": "^2.0.0-beta.49",
+    "vue": "^3.2.37",
+    "vuepress": "^2.0.0-beta.49",
+    "vuepress-theme-hope": "^2.0.0-beta.87"
   },
   "dependencies": {
     "cross-env": "^7.0.3",

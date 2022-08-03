@@ -1,6 +1,5 @@
-import { defineNavbarConfig } from "vuepress-theme-hope";
 
-export const zh = defineNavbarConfig([
+export const zh = [
     { 
         text: "主页", 
         icon: "home", 
@@ -18,6 +17,4 @@ export const zh = defineNavbarConfig([
         text: "贡献源码",
         link: "/zh/contribute",
     }
-]);
-
-
+]

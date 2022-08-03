@@ -1,6 +1,5 @@
-import { defineSidebarConfig } from "vuepress-theme-hope";
 
-export const zh = defineSidebarConfig({
+export const zh = {
     "/zh/guide/": [
         {
             text:"开始",
@@ -58,4 +57,4 @@ export const zh = defineSidebarConfig({
         "formatters",
         "lang-code"
     ]
-});
+}

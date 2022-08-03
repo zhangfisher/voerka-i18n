@@ -12,3 +12,4 @@ docs/.vuepress/.temp/
 /packages/cli/baidu.api.txt
 node_modules/
 /.github/access key.txt
+/docs/.vuepress/dist
