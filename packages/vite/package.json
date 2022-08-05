@@ -1,7 +1,7 @@
 {
     "name": "@voerkai18n/vite",
-    "version": "1.0.11",
-    "description": "VoerkaI18n plugin for Vite",
+    "version": "1.0.12",
+    "description": "Vite插件,提供自动插入翻译函数和文本映射等功能",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,5 +15,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-28T09:03:52+08:00"
+    "lastPublish": "2022-08-05T16:46:10+08:00"
 }

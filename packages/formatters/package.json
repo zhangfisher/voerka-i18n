@@ -1,7 +1,7 @@
 {
     "name": "@voerkai18n/formatters",
-    "version": "1.0.6",
-    "description": "",
+    "version": "1.0.6", 
+    "description": "格式化器，提供对要翻译文本的转换功能",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

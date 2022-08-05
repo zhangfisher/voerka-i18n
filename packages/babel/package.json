@@ -1,7 +1,7 @@
 {
     "name": "@voerkai18n/babel",
-    "version": "1.0.22",
-    "description": "VoerkaI18n babel plugin",
+    "version": "1.0.23",
+    "description": "Babel插件，实现自动导入t函数和自动文本映射",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
@@ -20,5 +20,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-28T09:03:42+08:00"
+    "lastPublish": "2022-08-05T16:45:56+08:00"
 }

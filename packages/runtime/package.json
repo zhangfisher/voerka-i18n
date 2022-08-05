@@ -1,7 +1,7 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "1.0.25",
-    "description": "Voerkai18n Runtime",
+    "version": "1.0.27",
+    "description": "核心运行时",
     "main": "./dist/index.cjs",
     "module": "dist/index.esm.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -35,5 +35,5 @@
         "rollup-plugin-terser": "^7.0.2",
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-28T09:03:17+08:00"
+    "lastPublish": "2022-08-05T16:36:41+08:00"
 }

@@ -567,6 +567,7 @@ function translate(message) {
         I18nManager.instance = this;
         this._settings = deepMerge(defaultLanguageSettings,settings)
         this._scopes=[]  
+        this._defaultMessageLoader = null  // 默认文本加载器
         return I18nManager.instance;
     }
     get settings(){ return this._settings }
@@ -579,17 +580,22 @@ function translate(message) {
     get languages(){ return this._settings.languages}
     // 内置格式化器
     get formatters(){ return inlineFormatters }
+    get defaultMessageLoader(){ return this._defaultMessageLoader}
+    // 通过默认加载器加载文件
+    async loadMessagesFromDefaultLoader(newLanguage,scope){
+        if(typeof(this._defaultMessageLoader) != "function")  return //throw new Error("No default message loader specified")
+        return  await this._defaultMessageLoader.call(scope,newLanguage,scope)        
+    }
     /**
      *  切换语言
      */
     async change(value){
         value=value.trim()
-        if(this.languages.findIndex(lang=>lang.name === value)!==-1){
+        if(this.languages.findIndex(lang=>lang.name === value)!==-1 || typeof(this._defaultMessageLoader)==="function"){
             // 通知所有作用域刷新到对应的语言包
             await this._refreshScopes(value)
-            this._settings.activeLanguage = value
-            /// 触发语言切换事件
-            await this.emit(value)            
+            this._settings.activeLanguage = value            
+            await this.emit(value)            /// 触发语言切换事件
         }else{
             throw new Error("Not supported language:"+value)
         }
@@ -611,7 +617,7 @@ function translate(message) {
             } 
         }catch(e){
             console.warn("Error while refreshing i18n scopes:",e.message)
-        }         
+        }          
     }
     /**
      * 
@@ -649,6 +655,25 @@ function translate(message) {
             this.formatters[language][name] = formatter
         }
     }
+    /**
+    * 注册默认文本信息加载器
+    */
+    registerDefaultLoader(fn){
+        if(typeof(fn) !== 'function') throw new Error("The default loader must be a async function or promise returned")
+        this._defaultMessageLoader = fn
+        this.refresh()
+    } 
+    async refresh(){
+        try{
+            let requests = this._scopes.map(scope=>scope.refresh())
+            if(Promise.allSettled){
+                await Promise.allSettled(requests)
+            }else{
+                await Promise.all(requests)
+            }
+        }catch{}
+    }
+
 }
 
 module.exports ={

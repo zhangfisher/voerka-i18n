@@ -1,7 +1,7 @@
 {
     "name": "@voerkai18n/react",
     "version": "1.0.4",
-    "description": "",
+    "description": "React支持,提供语言切换等功能",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

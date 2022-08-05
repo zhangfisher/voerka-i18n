@@ -4,7 +4,7 @@ import runtime from "./runtime.js"
 const { translate,i18nScope  } = runtime
 
 import formatters from "./formatters.js"
-import defaultMessages from "./cn.js"  
+import defaultMessages from "./zh.js"  
 const activeMessages = defaultMessages
  
  
@@ -12,16 +12,16 @@ const activeMessages = defaultMessages
 const scopeSettings = {
     "languages": [
         {
-            "name": "cn",
-            "title": "cn"
+            "name": "zh",
+            "title": "zh"
         },
         {
             "name": "en",
             "title": "en"
         }
     ],
-    "defaultLanguage": "cn",
-    "activeLanguage": "cn",
+    "defaultLanguage": "zh",
+    "activeLanguage": "zh",
     "namespaces": {}
 }
 

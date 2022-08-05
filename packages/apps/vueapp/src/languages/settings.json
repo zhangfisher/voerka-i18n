@@ -1,15 +1,15 @@
 {
     "languages": [
         {
-            "name": "cn",
-            "title": "cn"
+            "name": "zh",
+            "title": "zh"
         },
         {
             "name": "en",
             "title": "en"
         }
     ],
-    "defaultLanguage": "cn",
-    "activeLanguage": "cn",
+    "defaultLanguage": "zh",
+    "activeLanguage": "zh",
     "namespaces": {}
 }

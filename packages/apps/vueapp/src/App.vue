@@ -46,7 +46,10 @@ export default {
   <h5>默认语言：{{ i18n.defaultLanguage }}</h5>
   <h5>当前语言：{{ i18n.activeLanguage.value }}</h5>
   <button v-for="lng of i18n.languages" @click="i18n.activeLanguage = lng.name" style="padding:8px;margin:8px;cursor:pointer" :style="{'outline' : lng.name === i18n.activeLanguage.value ? '2px red solid' : ''}" >{{ lng.title }}</button>
+  <button @click="i18n.activeLanguage = 'de'" style="padding:8px;margin:8px;cursor:pointer" :style="{'outline' : i18n.activeLanguage.value === 'de' ? '2px red solid' : ''}" >德语</button>
+  <button @click="i18n.activeLanguage = 'jp'" style="padding:8px;margin:8px;cursor:pointer" :style="{'outline' : i18n.activeLanguage.value === 'jp' ? '2px red solid' : ''}" >日语</button>
 </template>
+
 
 <style>
 #app {

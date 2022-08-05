@@ -405,7 +405,7 @@ function createPackageJsonFile(targetPath,moduleType="auto"){
 
 module.exports = {
     fileMatcher,                            // 文件名称匹配器
-    getProjectRootFolder,                  // 查找获取项目根目录
+    getProjectRootFolder,                   // 查找获取项目根目录
     createPackageJsonFile,                  // 创建package.json文件
     getProjectSourceFolder,                 // 获取项目源码目录
     getCurrentPackageJson,                  // 查找获取当前项目package.json

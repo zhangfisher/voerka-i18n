@@ -1,7 +1,7 @@
 {
     "name": "@voerkai18n/cli",
-    "version": "1.0.30",
-    "description": "VoerkaI18n command line interactive tools",
+    "version": "1.0.32",
+    "description": "命令行工具,用来初始化/提取/编译/自动翻译等工具链",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
@@ -50,5 +50,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-28T09:03:32+08:00"
+    "lastPublish": "2022-08-05T16:45:44+08:00"
 }

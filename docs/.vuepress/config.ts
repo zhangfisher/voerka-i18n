@@ -9,7 +9,7 @@ export default defineUserConfig({
     locales                  : {
         "/"                  : {
             lang             : "zh-CN",
-            title            : "中文"
+            title            : "VoerkaI18n"
         },
         "/en/"               : {
             lang             : "en-US",
@@ -22,6 +22,7 @@ export default defineUserConfig({
             name             : "wxzhang",
             url              : "https://gitee.com/zhangfisher/voerka-i18n",
         },
+        iconAssets           : "iconfont",
         iconPrefix           : "iconfont icon-",
         logo                 : "/logo.svg",
         home                 : "/zh/home",

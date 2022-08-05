@@ -8,6 +8,9 @@ export const zh = {
                 "",
                 "install.md",
                 "get-started.md",
+                "versions.md",
+                "support.md",
+                "history.md"
             ]
         },
         {
@@ -37,7 +40,10 @@ export const zh = {
                 "customformatter",
                 "langpack",
                 "autotranslate",
-                "framework"
+                "framework",
+                "remoteLoad",
+                "lngpatch",
+                "langedit"
             ]
         },
         {

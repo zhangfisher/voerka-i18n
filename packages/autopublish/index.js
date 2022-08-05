@@ -33,6 +33,7 @@ const dayjs = require("dayjs");
 const relativeTime = require("dayjs/plugin/relativeTime");
 const { rejects } = require("assert");
 const { Console } = require("console");
+const { resourceLimits } = require("worker_threads");
 dayjs.extend(relativeTime);
 require('dayjs/locale/zh-CN')
 dayjs.locale("zh-CN");
@@ -57,7 +58,7 @@ const program =new Command()
          const packageFolder = path.join(workspaceRoot,"packages",packageName)
          const pkgFile = path.join(workspaceRoot,"packages",packageName,"package.json")
          if(fs.existsSync(pkgFile)){
-             const { name, version,lastPublish,dependencies,devDependencies }= fs.readJSONSync(pkgFile)
+             const { name, version,lastPublish,dependencies,devDependencies,description }= fs.readJSONSync(pkgFile)
              // 读取工作区包依赖
              let packageDependencies =[]
              Object.entries({...dependencies,...devDependencies}).forEach(([name,version])=>{
@@ -67,6 +68,7 @@ const program =new Command()
              })
              return {
                  name,                                      // 完整包名
+                 description,
                  value:packageName,                         // 文件夹名称
                  version,
                  lastPublish,
@@ -349,9 +351,23 @@ program
              }
          })
          table.render()
+         generatePackageVersionDoc()
     })
  
-
+// 生成包版本列表文件到文档中
+function generatePackageVersionDoc(){
+    let workspaceRoot = path.join(__dirname,"../../")
+    shelljs.cd(workspaceRoot)
+    let results = []
+    results.push("# 版本信息")
+    results.push("| 包| 版本号| 最后更新|说明|")
+    results.push("| --- | :---:| --- |---|")
+    getPackages().forEach(package => {
+        const lastPublish = package.lastPublish ? dayjs(package.lastPublish).format("YYYY/MM/DD") : "None"
+        results.push(`|**${package.name}**|${package.version}|${lastPublish}|${package.description}`)
+    }) 
+    fs.writeFileSync(path.join(workspaceRoot,"docs/zh/guide/intro/versions.md"), results.join("\n"))
+}
 
 async function answerForSelectPackages(packages,options){
     const workspaceRoot = process.cwd()
@@ -432,6 +448,8 @@ program
         }else{// 只发布指定的包
             await publishPackage(options)
         }
+        // 在文档中输出各包的版本信息
+        generatePackageVersionDoc()
      })
 
  program.parseAsync(process.argv);
