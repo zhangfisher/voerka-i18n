@@ -13,13 +13,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/cache@v3
-        id: node-modules
-        with:
-          path: node_modules/
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-          
+      #- uses: actions/cache@v3
+      #  id: node-modules
+      #  with:
+      #    path: node_modules/
+      #    key: ${{ runner.os }}-node-modules-${{ hashFiles('yarn.lock') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-node-modules-          
       - name: 安装依赖
         if: steps.node-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
