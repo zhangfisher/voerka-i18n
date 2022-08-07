@@ -4,7 +4,7 @@ hero:
   desc: 适用于Nodejs/React/Vue/Svelte/Javascript的国际化解决方案
   actions:
     - text: 快速入门
-      link: https://zhangfisher.github.io/voerka-i18n/voerkai18n/guide/intro/get-started
+      link: https://zhangfisher.github.io/voerka-i18n/guide/intro/get-started 
 features:
   - title: 全流程支持
     icon: images/flow.png
