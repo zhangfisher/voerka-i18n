@@ -6,10 +6,10 @@ node_modules
 /packages/apps/vueapp/src/languages
 /packages/apps/app/languages
 /packages/apps/test
-node_modules/
-docs/.vuepress/.cache/
-docs/.vuepress/.temp/
+node_modules/ 
 /packages/cli/baidu.api.txt
 node_modules/
-/.github/access key.txt
-/docs/.vuepress/dist
+/.github/access key.txt 
+.umi
+.umi-production
+/docs/dist
