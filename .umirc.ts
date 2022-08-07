@@ -5,6 +5,7 @@ import { defineConfig } from 'dumi';
 export default defineConfig({
     title: 'VoerkaI18n全流程国际化解决方案',
     base:"/voerka-i18n/",
+    publicPath:"/voerka-i18n/",
     mode: 'site',
     logo: "/images/i18n.png",
     outputPath:"docs/dist",
