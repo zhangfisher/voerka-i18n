@@ -4,7 +4,7 @@ import { defineConfig } from 'dumi';
 
 export default defineConfig({
     title: 'VoerkaI18n',
-    base:"/voerkai18n",
+    base:"/voerkai18n/",
     mode: 'site',
     logo: "/images/i18n.png",
     outputPath:"docs/dist",
