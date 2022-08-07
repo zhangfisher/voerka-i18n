@@ -3,8 +3,8 @@ import { defineConfig } from 'dumi';
 // more config: https://d.umijs.org/config
 
 export default defineConfig({
-    title: 'VoerkaI18n',
-    base:"/voerkai18n/",
+    title: 'VoerkaI18n全流程国际化解决方案',
+    base:"/voerka-i18n/",
     mode: 'site',
     logo: "/images/i18n.png",
     outputPath:"docs/dist",
