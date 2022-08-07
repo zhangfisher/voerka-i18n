@@ -366,7 +366,8 @@ function generatePackageVersionDoc(){
         const lastPublish = package.lastPublish ? dayjs(package.lastPublish).format("YYYY/MM/DD") : "None"
         results.push(`|**${package.name}**|${package.version}|${lastPublish}|${package.description}`)
     }) 
-    fs.writeFileSync(path.join(workspaceRoot,"docs/zh/guide/intro/versions.md"), results.join("\n"))
+    
+    fs.writeFileSync(path.join(workspaceRoot,"docs/src/guide/intro/versions.md"), results.join("\n"))
 }
 
 async function answerForSelectPackages(packages,options){

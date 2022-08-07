@@ -427,6 +427,26 @@ function getPluraMessage(messages,value){
         return Array.isArray(messages) ? messages[0] : messages
     }
 }
+
+
+
+// if(!String.prototype.replaceAll){
+//     String.prototype.replaceAll = function(searchValue,replaceValue){
+//         if (!searchValue) return this
+//         if(typeof(searchValue)==="string"){
+//             return this.replace(new RegExp(searchValue,"gm"),replaceValue);
+//         }else if (searchValue instanceof RegExp) {
+//             const { global: globalFlag } = searchValue;
+//             if (!globalFlag) {
+//                 throw new TypeError(
+//                     '`String.prototype.replaceAll` ponyfill called with a non-global RegExp argument'
+//                 );
+//             }
+//             return this.replace(searchValue, replaceValue);
+//         }
+//     }
+// }
+
 function escape(str){
     return str.replaceAll(/\\(?![trnbvf'"]{1})/g,"\\\\")
         .replaceAll("\t","\\t")

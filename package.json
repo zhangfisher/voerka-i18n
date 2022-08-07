@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:runtime": "pnpm build --filter \"@voerkai18n/runtime\"",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js ",
     "test:app": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js -- app",
     "list:package": "node ./packages/autopublish/index.js list",

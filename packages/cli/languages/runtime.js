@@ -157,7 +157,7 @@ var scope = class i18nScope {
         }        
         this.global = globalThis.VoerkaI18n; 
         this._mergePatchedMessages();
-        this._patch(this._messages,newLanguage); 
+        this._patch(this._messages,this.activeLanguage); 
         // 正在加载语言包标识
         this._loading=false;
         // 在全局注册作用域
@@ -362,20 +362,28 @@ var formatters = {
         $types:{
             Date:(value)=>value.toLocaleString()
         },
+        // 日期
+        date: (value)=> value.toLocaleDateString(),     
+        shortdate: (value)=> `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()}`,
+
+        // 时间
         time:(value)=>  value.toLocaleTimeString(),  
         shorttime:(value)=>  value.toLocaleTimeString(),  
-        date: (value)=> value.toLocaleDateString(),     
+        
         dict,   //字典格式化器
     },   
     zh:{ 
         $types:{
             Date:(value)=> `${value.getFullYear()}年${value.getMonth()+1}月${value.getDate()}日 ${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`
         },
-        shortime:(value)=>  value.toLocaleTimeString(),  
-        time:(value)=>`${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`,     
+        // 日期
         date: (value)=> `${value.getFullYear()}年${value.getMonth()+1}月${value.getDate()}日`,
         shortdate: (value)=> `${value.getFullYear()}-${value.getMonth()+1}-${value.getDate()}`,
-        currency:(value)=>`${value}元`,
+        // 时间
+        shortime:(value)=>  value.toLocaleTimeString(),  
+        time:(value)=>`${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`,     
+        // 货币
+        currency:(value)=>`￥${value}元`,
     },
     en:{
         currency:(value)=>{

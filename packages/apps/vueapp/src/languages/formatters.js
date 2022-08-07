@@ -59,7 +59,7 @@ export default{
     $types:{
 
     },                                          
-    cn:{
+    zh:{
         $types:{
             // 所有类型的默认格式化器
             // "*":{

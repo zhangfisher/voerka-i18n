@@ -13,3 +13,5 @@ node_modules/
 .umi
 .umi-production
 /docs/dist
+dist
+/packages/runtime/dist

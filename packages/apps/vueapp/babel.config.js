@@ -1,7 +1,14 @@
 const i18nPlugin =require("@voerkai18n/babel")
 module.exports = {
     presets: [ 
-        "@babel/preset-env"
+        "@babel/preset-env",
+        {
+            corejs: { 
+                useBuiltIns: 'entry',
+                version: "3.8", 
+                proposals: true 
+            }
+        }
     ],
     plugins: [
         [

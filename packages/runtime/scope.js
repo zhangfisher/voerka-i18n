@@ -34,7 +34,7 @@ module.exports = class i18nScope {
         }        
         this.global = globalThis.VoerkaI18n 
         this._mergePatchedMessages()
-        this._patch(this._messages,newLanguage) 
+        this._patch(this._messages,this.activeLanguage) 
         // 正在加载语言包标识
         this._loading=false
         // 在全局注册作用域

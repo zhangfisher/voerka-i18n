@@ -19,6 +19,7 @@ importers:
       inquirer: ^8.2.2
       jest: ^27.5.1
       logsets: ^1.0.8
+      pnpm: ^7.8.0
       prettier: ^2.2.1
       rollup: ^2.70.1
       rollup-plugin-clear: ^2.0.7
@@ -42,6 +43,7 @@ importers:
       gulp: 4.0.2
       jest: 27.5.1
       logsets: 1.0.12
+      pnpm: 7.9.0
       prettier: 2.7.1
       rollup: 2.77.2
       rollup-plugin-clear: 2.0.7
@@ -8856,6 +8858,12 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 4.1.0
+    dev: true
+
+  /pnpm/7.9.0:
+    resolution: {integrity: sha512-xkIVw73yJm/h5M4VvFIS5Q+gQCRDrp3r92g58PtcCK86aZCa7EQ6q6ivdfTAz0KsAVgloA6Anub28n6wju5v3w==}
+    engines: {node: '>=14.6'}
+    hasBin: true
     dev: true
 
   /posix-character-classes/0.1.1:
