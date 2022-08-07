@@ -245,7 +245,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 2. 将语言包补丁文件保存在服务器上指定的位置`/languages/<应用名称>/<语言名称>.json`即可。
 3. 当应用启动后会自动从服务器上加载语言补丁包，从而实现动为语言包打补丁的功能。也可以实现动态增加临时支持一种语言的功能
 
-更完整的说明详见[`动态加载语言包`](../advanced/remoteLoad.md)和[`语言包补丁`](../advanced/lngpatch.md)功能介绍。
+更完整的说明详见[`动态加载语言包`](../advanced/remote-load.md)和[`语言包补丁`](../advanced/lngpatch.md)功能介绍。
 
 
  
