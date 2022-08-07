@@ -32,7 +32,7 @@ features:
     link: 
 
   - title: 多库联动
-    icon: /images/con.png
+    icon: /images/cooperate.png
     desc: 支持多包工程下多库进行语言切换的联动
     link:  
 
