@@ -1,10 +1,11 @@
 # 命令行工具
 
 `@voerkai18n/cli`命令行工具用来实现工程初始化、扫描提取文本、自动翻译和编译语言等功能。
+ 
+<Alert type="error">
+<b>建议将<code>@voerkai18n/cli</code>命令行工具安装在全局</b>
+</Alert>
 
-::: info
-建议将`@voerkai18n/cli`命令行工具安装在全局
-:::
 
 ## 安装
 
@@ -65,13 +66,20 @@ Options:
 
 运行`voerkai18n init`命令后，会在当前工程中创建相应配置文件。
 
-```javascript | pure
-myapp
-  |-- languages 
-    |-- settings.json               // 语言配置文件
-  |-- package.json
-  |-- index.js
-```
+<Tree title="myapp"> 
+  <ul> 
+        <li>
+          languages
+          <small>多语言目录</small>
+          <ul>
+            <li>settings.json</li>>
+          </ul>
+        </li>
+        <li>index.md</li>
+        <li>package.json</li>
+        <li>...</li>  
+  </ul>
+</Tree>
 
 `settings.json`文件很简单，主要是用来配置要支持的语言等基本信息。
 

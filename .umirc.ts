@@ -40,6 +40,7 @@ export default defineConfig({
                    "/guide/intro/install.md",
                    "/guide/intro/get-started.md",
                    "/guide/intro/versions.md",
+                   "/guide/intro/history.md",
                    "/guide/intro/support.md",
                    "/guide/intro/question.md"
                 ],

@@ -16,7 +16,8 @@ const scope = new i18nScope({
         "en" : ()=>import("./en.js") 
         "de" : ()=>import("./de.js") 
         "jp" : ()=>import("./jp.js") 
-    })
+    }
+})
 ```
 
 利用异步打包机制，从而避免将多个语言静态打包到源码包。
