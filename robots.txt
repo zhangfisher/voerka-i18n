@@ -1,5 +1,0 @@
-
-User-agent:*
-Disallow:
-
-Sitemap: https://gitee.com/zhangfisher/voerka-i18n/voerka-i18n/sitemap.xml
