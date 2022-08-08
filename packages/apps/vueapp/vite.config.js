@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig,loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
 import { babel } from '@rollup/plugin-babel'; 
@@ -19,5 +19,8 @@ export default defineConfig({
         alias:{
             //"voerkai18n":"./languages/index.js"
         }
+    },
+    define:{
+        'process.env':{...process.env, ...loadEnv("dev", process.cwd())}
     }
 })

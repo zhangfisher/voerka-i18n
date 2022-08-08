@@ -428,48 +428,6 @@ function getPluraMessage(messages,value){
     }
 }
 
-
-
-// if(!String.prototype.replaceAll){
-//     String.prototype.replaceAll = function(searchValue,replaceValue){
-//         if (!searchValue) return this
-//         if(typeof(searchValue)==="string"){
-//             return this.replace(new RegExp(searchValue,"gm"),replaceValue);
-//         }else if (searchValue instanceof RegExp) {
-//             const { global: globalFlag } = searchValue;
-//             if (!globalFlag) {
-//                 throw new TypeError(
-//                     '`String.prototype.replaceAll` ponyfill called with a non-global RegExp argument'
-//                 );
-//             }
-//             return this.replace(searchValue, replaceValue);
-//         }
-//     }
-// }
-
-function escape(str){
-    return str.replaceAll(/\\(?![trnbvf'"]{1})/g,"\\\\")
-        .replaceAll("\t","\\t")
-        .replaceAll("\n","\\n")
-        .replaceAll("\b","\\b")
-        .replaceAll("\r","\\r")
-        .replaceAll("\f","\\f")
-        .replaceAll("\'","\\'")
-        .replaceAll('\"','\\"')
-        .replaceAll('\v','\\v')       
-}
-function unescape(str){
-    return str
-        .replaceAll("\\t","\t")
-        .replaceAll("\\n","\n")
-        .replaceAll("\\b","\b")
-        .replaceAll("\\r","\r")
-        .replaceAll("\\f","\f")
-        .replaceAll("\\'","\'")
-        .replaceAll('\\"','\"')
-        .replaceAll('\\v','\v')       
-        .replaceAll(/\\\\(?![trnbvf'"]{1})/g,"\\")
-}
 /**
  * 翻译函数
  * 
@@ -532,10 +490,8 @@ function translate(message) {
         }else{ 
             // 2.2 从当前语言包中取得翻译文本模板字符串
             // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
-            // JSON.stringify在进行转换时会将\t\n\r转换为\\t\\n\\r,这样在进行匹配时就出错 
-            let msgId = isMessageId(content) ? content :  scope.idMap[escape(content)]  
+            let msgId = isMessageId(content) ? content :  scope.idMap[content]  
             content = scope.messages[msgId] || content
-            content = Array.isArray(content) ? content.map(v=>unescape(v)) : unescape(content)
         }
          // 2. 处理复数
         // 经过上面的处理，content可能是字符串或者数组
@@ -550,8 +506,7 @@ function translate(message) {
             }else{ // 如果找不到复数变量，则使用第一个内容
                 content = content[0]
             }
-        } 
-        
+        }         
         // 进行插值处理
         if(vars.length==0){
             return content

@@ -1,35 +1,35 @@
 {
-    "支持的语言\\t: {}": {
-        "en": "Supported languages\\t: {}",
+    "支持的语言\t: {}": {
+        "en": "Supported languages\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ],
-        "de": "支持的语言\\t: {}"
+        "de": "支持的语言\t: {}"
     },
-    "默认语言\\t: {}": {
-        "en": "Default language\\t: {}",
+    "默认语言\t: {}": {
+        "en": "Default language\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ],
-        "de": "默认语言\\t: {}"
+        "de": "默认语言\t: {}"
     },
-    "激活语言\\t: {}": {
-        "en": "Active language\\t\\t: {}",
+    "激活语言\t: {}": {
+        "en": "Active language\t\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ],
-        "de": "激活语言\\t: {}"
+        "de": "激活语言\t: {}"
     },
-    "名称空间\\t: {}": {
-        "en": "Namespaces\\t\\t: {}",
+    "名称空间\t: {}": {
+        "en": "Namespaces\t\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ],
-        "de": "名称空间\\t: {}"
+        "de": "名称空间\t: {}"
     },
     " - 更新格式化器:{}": {
         "en": " - Update formatters:{}",
@@ -192,12 +192,12 @@
         ],
         "de": "语言包文件夹<{}>不存在"
     },
-    "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建": {
-        "en": "Language configuration {} file already exists, skipping creation\\n use {} to overwrite the creation",
+    "语言配置文件{}文件已存在，跳过创建。\n使用{}可以重新覆盖创建": {
+        "en": "Language configuration {} file already exists, skipping creation\n use {} to overwrite the creation",
         "$file": [
             "init.command.js"
         ],
-        "de": "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建"
+        "de": "语言配置文件{}文件已存在，跳过创建。\n使用{}可以重新覆盖创建"
     },
     "生成语言配置文件:{}": {
         "en": "Generate language configuration: {}",
@@ -248,12 +248,12 @@
         ],
         "de": "创建语言包文件夹: {}"
     },
-    "模块类型\\t: {}": {
-        "en": "Type of module\\t\\t: {}",
+    "模块类型\t: {}": {
+        "en": "Type of module\t\t: {}",
         "$file": [
             "compile.command.js"
         ],
-        "de": "模块类型\\t: {}"
+        "de": "模块类型\t: {}"
     },
     "编译结果输出至：{}": {
         "en": "Compile to：{}",

@@ -2,15 +2,15 @@
     "languages": [
         {
             "name": "zh",
-            "title": "zh"
+            "title": "中文"
         },
         {
             "name": "en",
-            "title": "en"
+            "title": "英文"
         },
         {
             "name": "de",
-            "title": "de"
+            "title": "德语"
         }
     ],
     "defaultLanguage": "zh",

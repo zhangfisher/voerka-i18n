@@ -1,9 +1,10 @@
 
-const messageIds = require("./idMap")
-const { translate,i18nScope  } =  require("./runtime.js")
+import messageIds from "./idMap.js"
+import runtime from "./runtime.js"
+const { translate,i18nScope  } = runtime
 
-const formatters = require("./formatters.js")
-const defaultMessages =  require("./zh.js")  
+import formatters from "./formatters.js"
+import defaultMessages from "./zh.js"  
 const activeMessages = defaultMessages
  
  
@@ -12,15 +13,15 @@ const scopeSettings = {
     "languages": [
         {
             "name": "zh",
-            "title": "zh"
+            "title": "中文"
         },
         {
             "name": "en",
-            "title": "en"
+            "title": "英文"
         },
         {
             "name": "de",
-            "title": "de"
+            "title": "德语"
         }
     ],
     "defaultLanguage": "zh",
@@ -44,6 +45,8 @@ const scope = new i18nScope({
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 
 
-module.exports.t = scopedTtranslate
-module.exports.i18nScope = scope 
+export { 
+    scopedTtranslate as t, 
+    scope as i18nScope
+}
 

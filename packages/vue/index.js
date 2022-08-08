@@ -11,7 +11,24 @@
 
  */
 
+import { cat } from "shelljs"
 import { computed,reactive,ref } from "vue"
+
+function forceUpdate(app){
+    function updateComponent(inst){
+        if(inst && inst.update) inst.update()
+        if(inst.subTree && inst.subTree.children){
+            inst.subTree.children.forEach( vnode=>{
+                if(vnode && vnode.component) updateComponent(vnode.component)
+            })           
+        }
+    }
+    try{
+        renderComponent(app._instance.root)
+    }catch(e){
+        console.warn("forceUpdate error: ",e.message)
+    }    
+}
 
 export default {
     install: (app, opts={}) => {
@@ -46,7 +63,8 @@ export default {
                 get: () => activeLanguage,
                 set: (value) => i18nScope.global.change(value).then(()=>{
                     if(options.forceUpdate){
-                        app._instance.update()
+                        //app._instance.update()
+                        forceUpdate(app)
                     }
                 })
             }),

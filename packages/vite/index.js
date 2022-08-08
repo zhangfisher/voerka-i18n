@@ -56,24 +56,13 @@ const importTRegex = /^[^\w\r\n]*import\s*\{(.*)\bt\b(.*)\}\sfrom/gm
 
 }
 
-function escape(str){
-    return str.replaceAll(/\\(?![trnbvf'"]{1})/g,"\\\\")
-        .replaceAll("\t","\\t")
-        .replaceAll("\n","\\n")
-        .replaceAll("\b","\\b")
-        .replaceAll("\r","\\r")
-        .replaceAll("\f","\\f")
-        .replaceAll("\'","\\'")
-        .replaceAll('\"','\\"')
-        .replaceAll('\v','\\v')       
-}
+
 function replaceCode(code, idmap) {
-    return code.replaceAll(TranslateRegex, (text) => {
-    let message = escape(text) 
+    return code.replaceAll(TranslateRegex, (message) => {
     if(message in idmap) {
           return idmap[message]
       }else{
-          return text
+          return message
       }
     })
 }
