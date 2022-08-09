@@ -7,7 +7,9 @@
 
 </script>
 <script>
+import China from './china.vue'
 export default {
+    components:{China},
   data() {
     return {
       date1: new Date(),
@@ -23,6 +25,7 @@ export default {
         <p>{{ t("现在是{ value | date }",date1)}} </p>
         <p>{{ t("现在是{ value | date }",date2)}} </p>
         <p>{{ t("现在是{ value | date }",date3)}} </p>
+        <China></China>
     </div>
 </template>
 

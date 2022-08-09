@@ -46,7 +46,7 @@ const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Err
 
    formatters="| aaa(1,1,"dddd") | bbb "
 
-   目前对参数采用简单的split(",")来解析，因为无法正确解析aaa(1,1,"dd,,dd")形式的参数
+   目前对参数采用简单的split(",")来解析，因此如果参数中包括了,则无法正确解析，例如aaa(1,1,"dd,,dd")形式的参数
    在此场景下基本够用了，如果需要支持更复杂的参数解析，可以后续考虑使用正则表达式来解析
    
    @returns  [[<formatterName>,[<arg>,<arg>,...]]]
@@ -190,14 +190,20 @@ function resetScopeCache(scope,activeLanguage=null){
  *   
  *   可以为每一个数据类型指定一个默认的格式化器,当传入插值变量时，
  *   会自动调用该格式化器来对值进行格式化转换
+ * 
+ * 
+ * 
  
     const formatters =  {   
         "*":{
             $types:{...}                                    // 在所有语言下只作用于特定数据类型的格式化器
-        },                                      // 在所有语言下生效的格式化器    
+        },                                                  // 在所有语言下生效的格式化器    
         zh:{            
             $types:{         
-                [数据类型]:(value)=>{...},
+                [数据类型]:{
+                    default:(value)=>{...}                  // 默认    
+                },
+
             }, 
             [格式化器名称]:(value)=>{...},
             [格式化器名称]:(value)=>{...},
@@ -216,19 +222,18 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
     }else{// 当语言切换时清空缓存
         resetScopeCache(scope,activeLanguage)
     }
-
     // 先在当前作用域中查找，再在全局查找
     const targets = [scope.formatters,scope.global.formatters]  
     for(const target of targets){
         if(!target) continue
-        // 优先在当前语言的$types中查找
+        // 1. 优先在当前语言的$types中查找
         if((activeLanguage in target) && isPlainObject(target[activeLanguage].$types)){ 
             let formatters = target[activeLanguage].$types  
             if(dataType in formatters && typeof(formatters[dataType])==="function"){                
                 return scope.$cache.typedFormatters[dataType] = formatters[dataType]
             }  
         }
-        // 在所有语言的$types中查找
+        // 2. 在全局$types中查找
         if(("*" in target) && isPlainObject(target["*"].$types)){
             let formatters = target["*"].$types 
             if(dataType in formatters && typeof(formatters[dataType])==="function"){                
@@ -240,10 +245,17 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
 
 /**
  * 获取指定名称的格式化器函数
+ * 
+ * 查找逻辑
+ *  - 在当前作用域中查找 
+ *    
+ *  - 在全局作用域中查找
+ * 
+ * 
  * @param {*} scope 
  * @param {*} activeLanguage 
- * @param {*} name  格式化器名称
- * @returns  {Function} 格式化函数  
+ * @param {*} name                  格式化器名称
+ * @returns  {Function}             格式化函数  
  */ 
 function getFormatter(scope,activeLanguage,name){
     // 缓存格式化器引用，避免重复检索
@@ -256,12 +268,12 @@ function getFormatter(scope,activeLanguage,name){
     // 先在当前作用域中查找，再在全局查找
     const targets = [scope.formatters,scope.global.formatters]  
     for(const target of targets){
-        // 优先在当前语言查找
+        // 1. 优先在当前语言查找
         if(activeLanguage in target){  
             let formatters = target[activeLanguage] || {}   
             if((name in formatters) && typeof(formatters[name])==="function") return scope.$cache.formatters[name] = formatters[name]
         }
-        // 在所有语言的$types中查找
+        // 2. 全局作用域中查找
         let formatters = target["*"] || {}   
         if((name in formatters) && typeof(formatters[name])==="function") return scope.$cache.formatters[name] = formatters[name]
     }     
@@ -289,13 +301,23 @@ function executeFormatter(value,formatters){
     return result
 }
 /**
+ * 
+ * 
+ * 
  * 将  [[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]格式化器转化为
+ *  格式化器的调用函数链
+ * 
+ * 
+ * 
  *   
  * 
  * 
  * @param {*} scope 
  * @param {*} activeLanguage 
  * @param {*} formatters 
+ * @returns {Array}   [(v)=>{...},(v)=>{...},(v)=>{...}]
+ * 
+ * 
  */
 function buildFormatters(scope,activeLanguage,formatters){
     let results = [] 
@@ -335,7 +357,8 @@ function getFormattedValue(scope,activeLanguage,formatters,value){
     const formatterFuncs = buildFormatters(scope,activeLanguage,formatters) 
     // 2. 查找每种数据类型默认格式化器,并添加到formatters最前面，默认数据类型格式化器优先级最高
     const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
-    if(defaultFormatter){
+    // 默认数据类型的格式化器仅在没有指定其他格式化器时生效    
+    if(defaultFormatter && formatterFuncs.length==0){
         formatterFuncs.splice(0,0,defaultFormatter)
     }             
     // 3. 执行格式化器

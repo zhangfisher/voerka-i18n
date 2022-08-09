@@ -96,9 +96,9 @@ importers:
       '@voerkai18n/vue': workspace:^1.0.0
       babel-preset-env: ^1.7.0
       core-js: ^3.21.1
-      vite: ^2.8.6
+      vite: ^2.9.14
       vite-plugin-inspect: ^0.4.3
-      vue: ^3.2.31
+      vue: ^3.2.37
     dependencies:
       '@voerkai18n/cli': link:../../cli
       '@voerkai18n/vite': link:../../vite

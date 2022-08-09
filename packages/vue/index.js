@@ -11,7 +11,6 @@
 
  */
 
-import { cat } from "shelljs"
 import { computed,reactive,ref } from "vue"
 
 function forceUpdate(app){
@@ -24,7 +23,7 @@ function forceUpdate(app){
         }
     }
     try{
-        renderComponent(app._instance.root)
+        updateComponent(app._instance.root)
     }catch(e){
         console.warn("forceUpdate error: ",e.message)
     }    

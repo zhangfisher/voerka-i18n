@@ -5,7 +5,7 @@ import { babel } from '@rollup/plugin-babel';
 import Inspect from 'vite-plugin-inspect'
 import Voerkai18nPlugin from "@voerkai18n/vite"
 
-
+ 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
@@ -17,10 +17,7 @@ export default defineConfig({
     ],
     resolve:{
         alias:{
-            //"voerkai18n":"./languages/index.js"
+            "voerkai18n":"./languages/index.js"
         }
-    },
-    define:{
-        'process.env':{...process.env, ...loadEnv("dev", process.cwd())}
-    }
+    } 
 })
