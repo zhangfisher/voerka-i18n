@@ -22,7 +22,7 @@
  * @returns 
  */
  function isNumber(value){
-    if(!value) return false
+    if(value==undefined) return false
     if(typeof(value)=='number') return true
     if(typeof(value)!='string') return false        
     try{

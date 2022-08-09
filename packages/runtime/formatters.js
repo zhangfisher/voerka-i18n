@@ -36,19 +36,7 @@ function dict(value, ...args) {
     if (args.length > 0 && (args.length % 2 !== 0)) return args[args.length - 1]
     return value
 }
-
-/**
- * 格式化货币
- * formatCurrency("123456789") == "123,456,789"
- * formatCurrency("123456789",4) == "1,2345,6789" 
- * @param {*} value 
- * @param {*} bit 逗号分割位置
- */
-function formatCurrency(value, bit = 3) {
-    if (!isNumber(value)) return value
-
-}
-
+ 
 
 /**
  * 格式化日期
@@ -59,7 +47,7 @@ function toDate(value) {
     try {
         return value instanceof Date ? value : new Date(value)
     } catch {
-        return value == undefined ? "" : value
+        return value
     }
 }
 
@@ -71,7 +59,7 @@ function toNumber(value,defualt=0) {
             return defualt
         }
     } catch {
-        return value == undefined ? "" : value
+        return value 
     }
 }
 
@@ -80,14 +68,23 @@ const CHINESE_UNITS      = ['', '十', '百', '千', '万', '十', '百', '千',
 const CHINESE_BIG_DIGITS = ["零", '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖']
 const CHINESE_BIG_UNITS  = ['', '拾', '佰', '仟', '萬', '拾', '佰', '仟', '億', '拾', '佰', '仟', '兆', '拾', '佰', '仟', '京', '拾', '佰', '仟', '垓']
 
-function toChineseNumber(value,isBig=false) {   
-    if(typeof(value)!=="number") return value;
-
+/**
+ * 
+ * 将数字转换为中文数字
+ * 
+ * 注意会忽略掉小数点后面的数字
+ * 
+ * @param {*} value  数字
+ * @param {*} isBig 是否大写数字 
+ * @returns 
+ */
+function toChineseNumber(value,isBig) {   
+    if(!isNumber(value)) return value;
     let [wholeValue,decimalValue] = String(value).split(".") // 处理小数点     
     const DIGITS = isBig ? CHINESE_BIG_DIGITS : CHINESE_DIGITS
     const UNITS = isBig ? CHINESE_BIG_UNITS : CHINESE_UNITS 
-    // 整数部份
     let result = ''
+    if(wholeValue.length==1) return DIGITS[parseInt(wholeValue)]
     for(let i=wholeValue.length-1; i>=0; i--){
         let bit = parseInt(wholeValue[i])
         let digit = DIGITS[bit]
@@ -95,7 +92,6 @@ function toChineseNumber(value,isBig=false) {
         if(bit==0){
             let preBit =i< wholeValue.length ? parseInt(wholeValue[i+1]) : null// 上一位
             let isKeyBits = ((wholeValue.length-i-1) % 4)==0
-            //if(preBit && preBit!=0) result =  "零" + result
             if(preBit && preBit!=0 && !isKeyBits) result =  "零" + result
             if(isKeyBits) result = UNITS[wholeValue.length-i-1] + result
         }else{
@@ -116,12 +112,8 @@ function toChineseNumber(value,isBig=false) {
                     .replace("万千","万") 
         if(result.startsWith("一十")) result=result.substring(1)
     }    
-    // 中文数字忽略小数部分
-    return result
-}
-function toChineseBigNumber(value) {
-    return toChineseNumber(value,true)
-}
+    return result    // 中文数字忽略小数部分
+} 
 
 
 /**
@@ -147,19 +139,29 @@ function toCurrency(value,{division=3,unit="",precision=2}={}){
 
 /**
  * 转换为中文大写货币
+ * 
+ * 
+ * 
  * @param {*} value 
  * @param {*} division    分割符号位数,3代表每3个数字添加一个,号  
  * @param {*} unit        货币单位
  * @param {*} precision   小数点精确到几位
  */
-function toChineseCurrency(value,division=3,unit="￥"){
-    let result = []
-    let v = String(value)
-    for(let i=0;i<v.length;i++){
-        if(((v.length - i) % division)==0 && i<v.length-1) result.push(",")
-        result.push(v[i])
+function toChineseCurrency(value,padding){
+    let [wholeValue,decimalValue] = String(value).split(".")
+    let result = `￥${toChineseNumber(wholeValue,true)}元`
+    if(padding){
+        if(decimalValue){
+            decimalValue=decimalValue.padEnd(2,"0")
+        }else{
+            decimalValue="00"
+        }
+    } 
+    if(decimalValue){
+        if(decimalValue[0]) result=result+`${toChineseNumber(decimalValue[0],true)}角`
+        if(decimalValue[1]) result=result+`${toChineseNumber(decimalValue[1],true)}分`
     }
-    return unit+result.join("")
+    return result
 }
 
 
@@ -189,11 +191,15 @@ module.exports = {
         millisecond  : value => toDate(value).getMilliseconds(),
         timestamp    : value => toDate(value).getTime(),
         // 数字 
-        number : (value) => toNumber(value),
-        error  : (value, tips = 'ERROR') => value instanceof Error ? tips : value,                           
-        empty  : (value) => value, 
+        number       : (value) => toNumber(value),          
+
+        // 货币
+        currency: (value,unit="$",division=3,precision=2) => toCurrency(value,{division,unit,precision}),
+
         capital: value=>value,
         dict,         
+        error        : (value, tips = 'ERROR') => value instanceof Error ? tips : value,                           
+        empty        : (value) => value
     },
     zh: {
         $types: {
@@ -207,15 +213,12 @@ module.exports = {
         shorMonthName: value => ["一","二","三","四","五","六","七","八","九","十","十一","十二"][value.getMonth()]
         // 时间
         time         : value => `${value.getHours()}点${value.getMinutes()}分${value.getSeconds()}秒`
+
         // 数字
-        number       : (value) => toNumber(value),
+        number       : (value,isBig=false) => toChineseNumber(value,isBig),          // 转换为中文数字 
 
         // 货币
-        currency: (value) => `￥${value}元`,
+        currency: (value,unit="￥",division=4,precision=2) => toCurrency(value,{division,unit,precision}),
     },
-en: {
-    currency: (value) => {
-        return `$${value}`
-    }
-}
+    en: {   }
 }

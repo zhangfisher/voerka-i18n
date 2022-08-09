@@ -226,20 +226,20 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
     const targets = [scope.formatters,scope.global.formatters]  
     for(const target of targets){
         if(!target) continue
-        // 1. 优先在当前语言的$types中查找
+         // 1. 在全局$types中查找
+         if(("*" in target) && isPlainObject(target["*"].$types)){
+            let formatters = target["*"].$types 
+            if(dataType in formatters && typeof(formatters[dataType])==="function"){                
+                return scope.$cache.typedFormatters[dataType] = formatters[dataType]
+            }  
+        } 
+        // 2. 当前语言的$types中查找
         if((activeLanguage in target) && isPlainObject(target[activeLanguage].$types)){ 
             let formatters = target[activeLanguage].$types  
             if(dataType in formatters && typeof(formatters[dataType])==="function"){                
                 return scope.$cache.typedFormatters[dataType] = formatters[dataType]
             }  
-        }
-        // 2. 在全局$types中查找
-        if(("*" in target) && isPlainObject(target["*"].$types)){
-            let formatters = target["*"].$types 
-            if(dataType in formatters && typeof(formatters[dataType])==="function"){                
-                return scope.$cache.typedFormatters[dataType] = formatters[dataType]
-            }  
-        }   
+        }         
     }     
 }
 
@@ -251,6 +251,7 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
  *    
  *  - 在全局作用域中查找
  * 
+ * 全局作用域的格式化器优先
  * 
  * @param {*} scope 
  * @param {*} activeLanguage 
@@ -266,7 +267,7 @@ function getFormatter(scope,activeLanguage,name){
         resetScopeCache(scope,activeLanguage)
     }
     // 先在当前作用域中查找，再在全局查找
-    const targets = [scope.formatters,scope.global.formatters]  
+    const targets = [scope.global.formatters,scope.formatters]  
     for(const target of targets){
         // 1. 优先在当前语言查找
         if(activeLanguage in target){  
