@@ -12,6 +12,7 @@ const { findModuleType } = require("@voerkai18n/utils")
 const createLogger = require("logsets")
 const logger = createLogger()
 
+
 function getLanguageList(langs,defaultLanguage){
     try{
         const available_languages = require("./available_languages")
@@ -21,12 +22,12 @@ function getLanguageList(langs,defaultLanguage){
                 if(langIndex > -1 ){
                     return {
                         name:lng,
-                        title:available_languages[defaultLanguage][langIndex].title
+                        title:available_languages[defaultLanguage][langIndex].title 
                     }
                 }else{                    
                     return {
                         name:lng,
-                        title:lng
+                        title:lng 
                     }
                 }                
             })   

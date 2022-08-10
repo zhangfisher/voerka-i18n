@@ -428,7 +428,10 @@ const defaultLanguageSettings = {
         {name:"zh",title:"中文",default:true},
         {name:"en",title:"英文"}
     ],
-    formatters:inlineFormatters 
+    formatters:inlineFormatters,
+    datetime:{
+
+    },
 }
 
 function isMessageId(content){
@@ -643,16 +646,18 @@ function translate(message) {
      * registerFormatters(name,value=>{...},{langauge:"en"})                 // 适用于en语言 
      
      * @param {*} formatters 
+        language : 声明该格式化器适用语言
+        isGlobal : 注册到全局
      */
-    registerFormatter(name,formatter,{language="*"}={}){
+    registerFormatter(name,formatter,{language="*",isGlobal}={}){
         if(!typeof(formatter)==="function" || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
-        }        
+        }                
         if(DataTypes.includes(name)){
             this.formatters[language].$types[name] = formatter
         }else{
             this.formatters[language][name] = formatter
-        }
+        }    
     }
     /**
     * 注册默认文本信息加载器
@@ -672,6 +677,27 @@ function translate(message) {
             }
         }catch{}
     }
+
+}
+/**
+ * 创建格式化器
+ * @param {*} fn 
+ * @param {*} options  = {
+ *     erorr:(e)=>{...}    //执行出错时返回值
+ *     empty:()=>{...}     // 当空值时的返回值 * 
+ * }
+ * 
+ */
+function createFormatter(fn,options){
+    if(isPlainObject(options)) fn._options = options
+    return fn.bind(fn._options)
+}
+  
+/**
+ * 扩展格式化器
+ * @param {*} fn 
+ */
+function extendFormatter(fn){
 
 }
 

@@ -8,7 +8,7 @@ module.exports = class i18nScope {
         this._id              = options.id || (new Date().getTime().toString()+parseInt(Math.random()*1000))
         this._languages       = options.languages                              // 当前作用域的语言列表
         this._defaultLanguage = options.defaultLanguage || "zh"                 // 默认语言名称
-        this._activeLanguage  = options.activeLanguage                         // 当前语言名称
+        this._activeLanguage  = options.activeLanguage                          // 当前语言名称
         this._default         = options.default                                 // 默认语言包
         this._messages        = options.messages                                // 当前语言包
         this._idMap           = options.idMap                                   // 消息id映射列表
@@ -54,7 +54,7 @@ module.exports = class i18nScope {
     get idMap(){return this._idMap}
     // 当前作用域的格式化函数列表
     get formatters(){return this._formatters}
-    // 当前作用域支持的语言
+    // 当前作用域支持的语言列表[{name,title,fallback}]
     get languages(){return this._languages}
     // 异步加载语言文件的函数列表
     get loaders(){return this._loaders}
@@ -63,21 +63,37 @@ module.exports = class i18nScope {
     set global(value){this._global = value}
     /**
      * 在全局注册作用域
-     * @param {*} callback   当注册
+     * @param {*} callback   注册成功后的回调
      */
     register(callback){
         if(!typeof(callback)==="function") callback = ()=>{} 
         this.global.register(this).then(callback).catch(callback)    
     }
-    registerFormatter(name,formatter,{language="*"}={}){
+   /**
+     * 注册格式化器
+     * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
+     * 
+     * registerFormatters(name,value=>{...})                                 // 适用于所有语言
+     * registerFormatters(name,value=>{...},{langauge:"zh"})                 // 适用于cn语言
+     * registerFormatters(name,value=>{...},{langauge:"en"})                 // 适用于en语言 
+     
+     * @param {*} formatters 
+        language : 声明该格式化器适用语言
+        isGlobal : 注册到全局
+     */
+    registerFormatter(name,formatter,{language="*",isGlobal}={}){
         if(!typeof(formatter)==="function" || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
         }        
-        if(DataTypes.includes(name)){
-            this.formatters[language].$types[name] = formatter
+        if(isGlobal){
+            this.global.registerFormatter(name,formatter,{language})
         }else{
-            this.formatters[language][name] = formatter
-        }
+            if(DataTypes.includes(name)){
+                this.formatters[language].$types[name] = formatter
+            }else{
+                this.formatters[language][name] = formatter
+            }
+        }        
     }
     /**
      * 注册默认文本信息加载器
