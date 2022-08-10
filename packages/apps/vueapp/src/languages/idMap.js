@@ -24,6 +24,9 @@ export default {
     "现在是{ value | millisecond }": 23,
     "现在是{ value | timestamp }": 24,
     "商品价格：{ value | currency }": 25,
-    "商品价格：{ value | currency(\"==": 26,
-    "商品价格：{ value | capitalizeCurrency }": 27
+    "商品价格：{ value | capitalizeCurrency }": 26,
+    "现在是{ value  }": 27,
+    "商品价格：{ value | currency('CNY','元整',3)}": 28,
+    "商品价格：{ value | capitalizeCurrency(true) }": 29,
+    "商品数量：{ value | number }": 30
 }

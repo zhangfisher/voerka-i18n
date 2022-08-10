@@ -2,11 +2,11 @@
     "languages": [
         {
             "name": "zh",
-            "title": "zh"
+            "title": "中文"
         },
         {
             "name": "en",
-            "title": "en"
+            "title": "英文"
         }
     ],
     "defaultLanguage": "zh",

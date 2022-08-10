@@ -285,19 +285,19 @@ function getFormatter(scope,activeLanguage,name){
  * @param {*} value 
  * @param {*} formatters  多个格式化器顺序执行，前一个输出作为下一个格式化器的输入
  */
-function executeFormatter(value,formatters){
+function executeFormatter(value,formatters,scope){
     if(formatters.length===0) return value
     let result = value
     try{
         for(let formatter of formatters){
             if(typeof(formatter) === "function") {
-                result = formatter(result)
+                result = formatter.call(scope,result)
             }else{// 如果碰到无效的格式化器，则跳过过续的格式化器
                 return result 
             }
         }
     }catch(e){
-        console.error(`Error while execute i18n formatter for ${value}: ${e.message} ` )
+        //console.error(`Error while execute i18n formatter for ${value}: ${e.message} ` )
     }    
     return result
 }
@@ -307,11 +307,6 @@ function executeFormatter(value,formatters){
  * 
  * 将  [[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]格式化器转化为
  *  格式化器的调用函数链
- * 
- * 
- * 
- *   
- * 
  * 
  * @param {*} scope 
  * @param {*} activeLanguage 
@@ -363,7 +358,7 @@ function getFormattedValue(scope,activeLanguage,formatters,value){
         formatterFuncs.splice(0,0,defaultFormatter)
     }             
     // 3. 执行格式化器
-    value = executeFormatter(value,formatterFuncs)     
+    value = executeFormatter(value,formatterFuncs,scope)     
     return value
 }
 
@@ -432,6 +427,9 @@ const defaultLanguageSettings = {
     datetime:{
 
     },
+    currency:{
+
+    }
 }
 
 function isMessageId(content){
@@ -501,9 +499,6 @@ function translate(message) {
             })
             
         }
-        
-        
-       
 
         // 3. 取得翻译文本模板字符串
         if(activeLanguage === scope.defaultLanguage){

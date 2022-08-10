@@ -41,6 +41,19 @@
         return false
     }
 }
+/**
+ * 当value= null || undefined || "" || [] || {} 时返回true
+ * @param {*} value 
+ * @returns 
+ */
+function isNothing(value){
+    if(["boolean","function"].includes(typeof(value))) return false
+    if(value=="") return true    
+    if(value==undefined) return true    
+    if(Array.isArray(value) && value.length==0) return true
+    if(typeof(value)=="object" && Object.keys(value).length==0) return true
+    return false
+} 
 
 /**
  * 深度合并对象
@@ -172,6 +185,7 @@ function relativeTime(value, rel){
 module.exports ={
     isPlainObject,
     isNumber,
+    isNothing,
     deepMerge,
     deepMixin,
     getDataTypeName,

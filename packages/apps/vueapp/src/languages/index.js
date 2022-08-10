@@ -13,11 +13,11 @@ const scopeSettings = {
     "languages": [
         {
             "name": "zh",
-            "title": "zh"
+            "title": "中文"
         },
         {
             "name": "en",
-            "title": "en"
+            "title": "英文"
         }
     ],
     "defaultLanguage": "zh",
@@ -28,7 +28,7 @@ const scopeSettings = {
 // 语言作用域
 const scope = new i18nScope({
     ...scopeSettings,                           // languages,defaultLanguage,activeLanguage,namespaces,formatters
-    id: "vueapp",                          // 当前作用域的id，自动取当前工程的package.json的name
+    id: "vueapp",                               // 当前作用域的id，自动取当前工程的package.json的name
     default:   defaultMessages,                 // 默认语言包
     messages : activeMessages,                  // 当前语言包
     idMap:messageIds,                           // 消息id映射列表

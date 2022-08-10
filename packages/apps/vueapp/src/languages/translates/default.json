@@ -149,14 +149,32 @@
             "components\\formatters.vue"
         ]
     },
-    "商品价格：{ value | currency(\"==": {
-        "en": "Price: { value | currency(\"==",
+    "商品价格：{ value | capitalizeCurrency }": {
+        "en": "Price: { value | capitalizeCurrency }",
         "$file": [
             "components\\formatters.vue"
         ]
     },
-    "商品价格：{ value | capitalizeCurrency }": {
-        "en": "Price: { value | capitalizeCurrency }",
+    "现在是{ value  }": {
+        "en": "Now is { value  }",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "商品价格：{ value | currency('CNY','元整',3)}": {
+        "en": "Price: { value | currency('CNY','元整',3)}",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "商品价格：{ value | capitalizeCurrency(true) }": {
+        "en": "Price:{ value | capitalizeCurrency(true) }",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "商品数量：{ value | number }": {
+        "en": "Count: { value | number }",
         "$file": [
             "components\\formatters.vue"
         ]

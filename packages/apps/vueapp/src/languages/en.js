@@ -24,6 +24,9 @@ export default {
     "23": "Now is { value | millisecond }",
     "24": "Now is { value | timestamp }",
     "25": "Price: { value | currency }",
-    "26": "Price: { value | currency(\"==",
-    "27": "Price: { value | capitalizeCurrency }"
+    "26": "Price: { value | capitalizeCurrency }",
+    "27": "Now is { value  }",
+    "28": "Price: { value | currency('CNY','元整',3)}",
+    "29": "Price:{ value | capitalizeCurrency(true) }",
+    "30": "Count: { value | number }"
 }

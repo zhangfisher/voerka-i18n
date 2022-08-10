@@ -32,11 +32,11 @@ module.exports = class i18nScope {
                 languages: options.languages,
             })
         }        
-        this.global = globalThis.VoerkaI18n 
+        this._global = globalThis.VoerkaI18n 
         this._mergePatchedMessages()
         this._patch(this._messages,this.activeLanguage) 
         // 正在加载语言包标识
-        this._loading=false
+        this._refreshing=false
         // 在全局注册作用域
         this.register(callback)
     }
@@ -60,7 +60,6 @@ module.exports = class i18nScope {
     get loaders(){return this._loaders}
     // 引用全局VoerkaI18n配置，注册后自动引用
     get global(){return this._global}
-    set global(value){this._global = value}
     /**
      * 在全局注册作用域
      * @param {*} callback   注册成功后的回调
@@ -102,10 +101,14 @@ module.exports = class i18nScope {
     registerDefaultLoader(fn){
         this.global.registerDefaultLoader(fn)
     }
+    _getLanguage(lang){
+        let index = this._languages.findIndex(lng=>lng.name==lang)
+        if(index!==-1) return this._languages[index]
+    }
     /**
      * 回退到默认语言
      */
-    _fallback(){
+    _fallback(newLanguage){
         this._messages = this._default  
         this._activeLanguage = this.defaultLanguage
     }
@@ -114,7 +117,7 @@ module.exports = class i18nScope {
      * @param {*} newLanguage 
      */
     async refresh(newLanguage){
-        this._loading = Promise.resolve()
+        this._refreshing = true
         if(!newLanguage) newLanguage = this.activeLanguage
         // 默认语言，默认语言采用静态加载方式，只需要简单的替换即可
         if(newLanguage === this.defaultLanguage){
@@ -131,7 +134,8 @@ module.exports = class i18nScope {
                 this._activeLanguage = newLanguage 
                 await this._patch(this._messages,newLanguage)                   
             }else if(typeof(this.global.defaultMessageLoader) === "function"){// 如果该语言没有指定加载器，则使用全局配置的默认加载器
-                this._messages  = await this.global.loadMessagesFromDefaultLoader(newLanguage,this)
+                const loadedMessages  = await this.global.loadMessagesFromDefaultLoader(newLanguage,this)
+                this._messages  = Object.assign({},this._default,loadedMessages)
                 this._activeLanguage = newLanguage
             }else{
                 this._fallback()
@@ -139,6 +143,8 @@ module.exports = class i18nScope {
         }catch(e){
             console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`)
             this._fallback()
+        }finally{
+            this._refreshing = false
         } 
     }
     /**

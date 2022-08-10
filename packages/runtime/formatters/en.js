@@ -22,7 +22,7 @@
     day           : value => toDate(value).getDate(),
     weekdayValue  : value => toDate(value).getDay(),
     weekday       : value => ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][toDate(value).getDay()],
-    shortWeekday  : value => ["Sun", "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur"][toDate(value).getDay()],
+    shortWeekday  : value => ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"][toDate(value).getDay()],
     monthName     : value => ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][toDate(value).getMonth()],
     shorMonthName : value => ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"][toDate(value).getMonth()],
     // 时间
@@ -34,7 +34,7 @@
     timestamp     : value => toDate(value).getTime(),
     // 货币
     // 常规货币形式 $111,233.33
-    currency: (value, prefix = "$",suffix="", division = 3,precision = 2) => toCurrency(value, { division, prefix, precision,suffix }),
+    currency     : (value, prefix = "$",suffix="", division = 3,precision = 2) => toCurrency(value, { division, prefix, precision,suffix }),
     // 数字,如，使用分割符
-    number: (value, division = 3,precision = 0) => toCurrency(value, { division, precision})
+    number       : (value, division = 3,precision = 0) => toCurrency(value, { division, precision})
 } 

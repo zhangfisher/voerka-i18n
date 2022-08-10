@@ -14,7 +14,7 @@ module.exports = {// 简体中文
     // 日期  
     date         : value => `${value.getFullYear()}年${value.getMonth() + 1}月${value.getDate()}日`,
     weekday      : value => CN_WEEK_DAYS[toDate(value).getDay()],
-    shortWeekDay : value => CN_SHORT_WEEK_DAYS[toDate(value).getDay()],
+    shortWeekday : value => CN_SHORT_WEEK_DAYS[toDate(value).getDay()],
     monthName    : value => CN_MONTH_NAMES[toDate(value).getMonth()],
     shorMonthName: value => CN_SHORT_MONTH_NAMES[toDate(value).getMonth()], 
     // 时间
