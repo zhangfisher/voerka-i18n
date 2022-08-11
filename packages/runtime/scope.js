@@ -1,38 +1,40 @@
-const { isPlainObject } = require("./utils")
+const { isPlainObject,isFunction } = require("./utils")
 
 const DataTypes = ["String","Number","Boolean","Object","Array","Function","Null","Undefined","Symbol","Date","RegExp","Error"];
 
 module.exports = class i18nScope {
     constructor(options={},callback){
-        // 每个作用域都有一个唯一的id
         this._id              = options.id || (new Date().getTime().toString()+parseInt(Math.random()*1000))
-        this._languages       = options.languages                              // 当前作用域的语言列表
+        this._debug           = options.debug                                   // 当出错时是否在控制台台输出错误信息
+        this._languages       = options.languages                               // 当前作用域的语言列表
         this._defaultLanguage = options.defaultLanguage || "zh"                 // 默认语言名称
         this._activeLanguage  = options.activeLanguage                          // 当前语言名称
         this._default         = options.default                                 // 默认语言包
         this._messages        = options.messages                                // 当前语言包
         this._idMap           = options.idMap                                   // 消息id映射列表
-        this._formatters      = options.formatters                              // 当前作用域的格式化函数列表
+        this._formatters      = options.formatters                              // 当前作用域的格式化函数列表{<lang>:{$types,$options,[格式化器名称]:()=>{},[格式化器名称]:()=>{}}}
         this._loaders         = options.loaders                                 // 异步加载语言文件的函数列表
         this._global          = null                                            // 引用全局VoerkaI18n配置，注册后自动引用     
+        this._activeFormatters= options.formatters[options.activeLanguage]      // 激活使用的格式化器,查找格式化器时在此查找
         this._patchMessages = {}                                                // 语言包补丁信息 {<language>:{....},<language>:{....}}
-        // 主要用来缓存格式化器的引用，当使用格式化器时可以直接引用，避免检索
+        // 用来缓存格式化器的引用，当使用格式化器时可以直接引用，减少检索遍历
         this.$cache={
             activeLanguage : null,
             typedFormatters: {},
             formatters     : {},
         }
-        // 如果不存在全局VoerkaI18n实例，说明当前Scope是唯一或第一个加载的作用域，
-        // 则使用当前作用域来初始化全局VoerkaI18n实例
+        // 如果不存在全局VoerkaI18n实例，说明当前Scope是唯一或第一个加载的作用域，则自动创建全局VoerkaI18n实例 
         if(!globalThis.VoerkaI18n){
             const { I18nManager } = require("./")
             globalThis.VoerkaI18n = new I18nManager({
+                debug          : this._debug,
                 defaultLanguage: this.defaultLanguage,
                 activeLanguage : this.activeLanguage,
-                languages: options.languages,
+                languages      : options.languages,
             })
         }        
         this._global = globalThis.VoerkaI18n 
+        // 合并补丁语言包
         this._mergePatchedMessages()
         this._patch(this._messages,this.activeLanguage) 
         // 正在加载语言包标识
@@ -42,6 +44,8 @@ module.exports = class i18nScope {
     }
     // 作用域
     get id(){return this._id}
+    // 调试开关
+    get debug(){return this._debug}
     // 默认语言名称
     get defaultLanguage(){return this._defaultLanguage}
     // 默认语言名称
@@ -52,7 +56,7 @@ module.exports = class i18nScope {
     get messages(){return this._messages}
     // 消息id映射列表
     get idMap(){return this._idMap}
-    // 当前作用域的格式化函数列表
+    // 当前作用域的格式化器 {<lang>:{$types,$options,[格式化器名称]:()=>{},[格式化器名称]:()=>{}}}
     get formatters(){return this._formatters}
     // 当前作用域支持的语言列表[{name,title,fallback}]
     get languages(){return this._languages}
@@ -65,33 +69,39 @@ module.exports = class i18nScope {
      * @param {*} callback   注册成功后的回调
      */
     register(callback){
-        if(!typeof(callback)==="function") callback = ()=>{} 
+        if(!isFunction(callback)) callback = ()=>{} 
         this.global.register(this).then(callback).catch(callback)    
     }
    /**
      * 注册格式化器
+     * 
      * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
      * 
-     * registerFormatters(name,value=>{...})                                 // 适用于所有语言
-     * registerFormatters(name,value=>{...},{langauge:"zh"})                 // 适用于cn语言
-     * registerFormatters(name,value=>{...},{langauge:"en"})                 // 适用于en语言 
-     
-     * @param {*} formatters 
+     * registerFormatter(name,value=>{...})                                 // 注册到所有语言
+     * registerFormatter(name,value=>{...},{langauge:"zh"})                 // 注册到zh语言
+     * registerFormatter(name,value=>{...},{langauge:"en"})                 // 注册到en语言 
+       registerFormatter("Date",value=>{...},{langauge:"en"})               // 注册到en语言的默认数据类型格式化器
+       registerFormatter(name,value=>{...},{langauge:["zh","cht"]})         // 注册到zh和cht语言
+       registerFormatter(name,value=>{...},{langauge:"zh,cht"})
+     * @param {*} formatter            格式化器
         language : 声明该格式化器适用语言
-        isGlobal : 注册到全局
+        asGlobal : 注册到全局
      */
-    registerFormatter(name,formatter,{language="*",isGlobal}={}){
-        if(!typeof(formatter)==="function" || typeof(name)!=="string"){
+    registerFormatter(name,formatter,{language="*",asGlobal}={}){
+        if(!isFunction(formatter) || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
         }        
-        if(isGlobal){
+        language = Array.isArray(language) ? language : (language ? language.split(",") : [])
+        if(asGlobal){
             this.global.registerFormatter(name,formatter,{language})
         }else{
-            if(DataTypes.includes(name)){
-                this.formatters[language].$types[name] = formatter
-            }else{
-                this.formatters[language][name] = formatter
-            }
+            language.forEach(lng=>{
+                if(DataTypes.includes(name)){ 
+                    this._formatters[lng].$types[name] = formatter
+                }else{
+                    this._formatters[lng][name] = formatter
+                }
+            })            
         }        
     }
     /**
@@ -101,16 +111,75 @@ module.exports = class i18nScope {
     registerDefaultLoader(fn){
         this.global.registerDefaultLoader(fn)
     }
-    _getLanguage(lang){
-        let index = this._languages.findIndex(lng=>lng.name==lang)
+    /**
+     * 获取指定语言信息
+     * @param {*} language 
+     * @returns 
+     */
+    _getLanguage(language){
+        let index = this._languages.findIndex(lng=>lng.name==language)
         if(index!==-1) return this._languages[index]
+    }
+    /**
+     * 返回是否存在指定的语言
+     * @param {*} language 语言名称
+     * @returns 
+     */
+    hasLanguage(language){
+        return this._languages.indexOf(lang=>lang.name==language)!==-1
+    }
+    /**
+     * 获取指定语言的回退语言名称
+     * 
+     * 如果没有指定，则总是回退到到默认语言
+     * 
+     * 但是不支持回退链
+     * 
+     * 可以在配置中指定回退语言
+     * // settings.json
+     * {
+     *  languages:[
+     *      {name:"zh"},
+     *      {name:"cht",fallback:"zh"},     //繁体中文可以回退到简体中文,
+     *      {name:"en"},
+     *  ]     
+     * }
+     * 
+     * @param {*} language 
+     * @returns {Object} 语言信息数据  {name,title,fallback,...}
+     */
+    getFallbackLanguage(language){
+        let lang = this._getLanguage(language)
+        if(lang){
+            return this.hasLanguage(lang.fallback) ? lang.fallback : this.defaultLanguage
+        }
     }
     /**
      * 回退到默认语言
      */
-    _fallback(newLanguage){
+    _fallback(){
         this._messages = this._default  
         this._activeLanguage = this.defaultLanguage
+    }
+    /**
+     * 当切换语言时，格式化器应该切换到对应语言的格式化器
+     * @param {*} language 
+     */
+    async _loadFormatters(newLanguage){
+        try{
+            if(newLanguage in this._formatters){
+                let loader = this._formatters[newLanguage]
+                if(isPlainObject(loader)){
+                    this._activeFormatters  = loader
+                }else if(isFunction(loader)){
+                    this._activeFormatters  = (await loader()).default            
+                }
+            }else{
+                if(this._debug) console.warn(`Not configured <${newLanguage}> formatters.`)
+            }
+        }catch(e){
+            if(this._debug) console.error(`Error loading ${newLanguage} formatters: ${e.message}`)
+        }        
     }
     /**
      * 刷新当前语言包
@@ -119,29 +188,35 @@ module.exports = class i18nScope {
     async refresh(newLanguage){
         this._refreshing = true
         if(!newLanguage) newLanguage = this.activeLanguage
-        // 默认语言，默认语言采用静态加载方式，只需要简单的替换即可
+        // 默认语言：由于默认语言采用静态加载方式而不是异步块,因此只需要简单的替换即可
         if(newLanguage === this.defaultLanguage){
             this._messages = this._default
             await this._patch(this._messages,newLanguage)    // 异步补丁
+            this._loadFormatters(newLanguage)
             return 
         }
         // 非默认语言需要异步加载语言包文件,加载器是一个异步函数
         // 如果没有加载器，则无法加载语言包，因此回退到默认语言
         let loader = this.loaders[newLanguage]
         try{
-            if(typeof(loader) === "function"){
+            if(isPlainObject(loader)){
+                this._messages  = loader
+                await this._patch(this._messages,newLanguage)
+            }else if(isFunction(loader)){
                 this._messages  = (await loader()).default
                 this._activeLanguage = newLanguage 
                 await this._patch(this._messages,newLanguage)                   
-            }else if(typeof(this.global.defaultMessageLoader) === "function"){// 如果该语言没有指定加载器，则使用全局配置的默认加载器
+            }else if(isFunction(this.global.defaultMessageLoader)){// 如果该语言没有指定加载器，则使用全局配置的默认加载器
                 const loadedMessages  = await this.global.loadMessagesFromDefaultLoader(newLanguage,this)
                 this._messages  = Object.assign({},this._default,loadedMessages)
                 this._activeLanguage = newLanguage
             }else{
                 this._fallback()
             }
+            // 应该切换到对应语言的格式化器
+            this._loadFormatters(newLanguage)
         }catch(e){
-            console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`)
+            if(this._debug) console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`)
             this._fallback()
         }finally{
             this._refreshing = false
@@ -157,14 +232,16 @@ module.exports = class i18nScope {
      * @returns 
      */
     async _patch(messages,newLanguage){
-        if(typeof(this.global.loadMessagesFromDefaultLoader) !== 'function') return
+        if(!isFunction(this.global.loadMessagesFromDefaultLoader)) return
         try{
             let pachedMessages =  await this.global.loadMessagesFromDefaultLoader(newLanguage,this)
             if(isPlainObject(pachedMessages)){
                 Object.assign(messages,pachedMessages)
                 this._savePatchedMessages(pachedMessages,newLanguage)
             }
-        }catch{}
+        }catch(e){
+            if(this._debug) console.error(`Error while loading <${newLanguage}> messages from remote:${error.message}`)
+        }
     }
     /**
      * 从本地存储中读取语言包补丁合并到当前语言包中
@@ -190,7 +267,6 @@ module.exports = class i18nScope {
      * 因此，采用的方式是：
      * - 加载语言包补丁后，将之保存到到本地的LocalStorage中
      * - 当应用加载时会查询是否存在补丁，如果存在就会合并渲染
-     * - 
      * 
      * @param {*} messages 
      */
@@ -200,9 +276,14 @@ module.exports = class i18nScope {
                 globalThis.localStorage.setItem(`voerkai18n_${this.id}_${language}_patched_messages`, JSON.stringify(messages));
             }
         }catch(e){
-            console.error("Error while save voerkai18n patched messages:",e.message)
+            if(this.$cache._debug) console.error("Error while save voerkai18n patched messages:",e.message)
         }
     }
+    /**
+     * 从本地缓存中读取补丁语言包
+     * @param {*} language 
+     * @returns 
+     */
     _getPatchedMessages(language){
         try{
             return JSON.parse(localStorage.getItem(`voerkai18n_${this.id}_${language}_patched_messages`))
@@ -211,10 +292,8 @@ module.exports = class i18nScope {
         }
     }
     // 以下方法引用全局VoerkaI18n实例的方法
-    get on(){return this.global.on.bind(this.global)}
-    get off(){return this.global.off.bind(this.global)}
-    get offAll(){return this.global.offAll.bind(this.global)}
-    get change(){
-        return this.global.change.bind(this.global)
-    }
+    get on(){return this._global.on.bind(this._global)}
+    get off(){return this._global.off.bind(this._global)}
+    get offAll(){return this._global.offAll.bind(this._global)}
+    get change(){return this._global.change.bind(this._global)}
 }

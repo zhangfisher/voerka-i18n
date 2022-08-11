@@ -6,12 +6,35 @@
  const { toDate,toCurrency } = require("../utils")
  
  module.exports =   {
+    // 配置参数: 格式化器函数的最后一个参数就是该配置参数
+    $options:{
+        datetime          : {
+            units         : ["Year","Quarter","Month","Week","Day","Hour","Minute","Second","Millisecond","Microsecond"],
+            weekday       : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            shortWeekdays : ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"],
+            monthNames    : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            shorMonthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+        },
+        currency          : {
+            unit          : "$",
+            prefix        : "",
+            suffix        : "",
+            division      : 3,
+            precision     : 2
+        },
+        number            : {
+            division      : 3,
+            precision     : 2
+        }
+    },
+    // 默认数据类型的格式化器
     $types: {
         Date     : value => { const d = toDate(value); return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}` },
         Null     : value =>"",
         Undefined: value =>"",
         Error    : value => "ERROR"
     },
+    // 以下是格式化定义
     // 日期
     date          : value => { const d = toDate(value); return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}` },
     shortdate     : value => { const d = toDate(value); return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}` },

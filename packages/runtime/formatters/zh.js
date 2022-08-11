@@ -3,11 +3,31 @@
  * 
  */
 
- const { toChineseCurrency,toChineseNumber,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES} = require("../cnutils") 
+ const { toChineseCurrency,toChineseNumber,CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES} = require("../cnutils") 
  const { toDate, toCurrency } = require("../utils")
  
-
-module.exports = {// 简体中文
+module.exports = {
+    // 配置参数: 格式化器函数的最后一个参数就是该配置参数
+    $options:{
+        datetime          : {
+            units         : CN_DATETIME_UNITS,
+            weekdays      : CN_WEEK_DAYS,
+            shortWeekdays : CN_SHORT_WEEK_DAYS,
+            monthNames    : CN_MONTH_NAMES,
+            shorMonthNames: CN_SHORT_MONTH_NAMES
+        },
+        currency          : {
+            unit          : "$",
+            prefix        : "",
+            suffix        : "",
+            division      : 3,
+            precision     : 2
+        },
+        number            : {
+            division      : 3,
+            precision     : 2
+        }
+    },
     $types: {
         Date: value => {const d = toDate(value);return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}点${d.getMinutes()}分${d.getSeconds()}秒`}
     },

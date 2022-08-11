@@ -1,7 +1,7 @@
 const { getDataTypeName,isNumber,isPlainObject,deepMerge } = require("./utils")
 const EventEmitter = require("./eventemitter")
 const i18nScope = require("./scope.js")
-let  inlineFormatters = require("./formatters")         // 内置格式化器
+let  inlineFormatters = require("./formatters")         
 
 
 
@@ -34,28 +34,31 @@ const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Err
  
 
 /**
-   通过正则表达式对原始文本内容进行解析匹配后得到的
+   使用正则表达式对原始文本内容进行解析匹配后得到的便以处理的数组
+
    formatters="| aaa(1,1) | bbb "
 
-   需要统一解析为
+   统一解析为
 
    [
        [aaa,[1,1]],         // [formatter'name,[args,...]]
-       [bbb,[]],
+       [<格式化器名称>,[<参数>,<参数>,...]]
    ]
 
    formatters="| aaa(1,1,"dddd") | bbb "
 
-   目前对参数采用简单的split(",")来解析，因此如果参数中包括了,则无法正确解析，例如aaa(1,1,"dd,,dd")形式的参数
+   特别注意：
+   - 目前对参数采用简单的split(",")来解析，因此如果参数中包括了逗号等会影响解析的字符时，可能导致错误
+   例如aaa(1,1,"dd,,dd")形式的参数
    在此场景下基本够用了，如果需要支持更复杂的参数解析，可以后续考虑使用正则表达式来解析
+   - 如果参数是{},[]，则尝试解决为对象和数组，但是里面的内容无法支持复杂和嵌套数据类型
    
-   @returns  [[<formatterName>,[<arg>,<arg>,...]]]
+   @returns  [ [<格式化器名称>,[<参数>,<参数>,...],[<格式化器名称>,[<参数>,<参数>,...]],...]
  */
 function parseFormatters(formatters){
     if(!formatters) return []
     // 1. 先解析为 ["aaa()","bbb"]形式
     let result = formatters.trim().substr(1).trim().split("|").map(r=>r.trim())  
-
     // 2. 解析格式化器参数
     return result.map(formatter=>{
         let firstIndex = formatter.indexOf("(")
@@ -64,11 +67,11 @@ function parseFormatters(formatters){
             const argsContent =  formatter.substr(firstIndex+1,lastIndex-firstIndex-1).trim()
             let args = argsContent=="" ? [] :  argsContent.split(",").map(arg=>{
                 arg = arg.trim()
-                if(!isNaN(parseInt(arg))){
-                    return parseInt(arg)                  // 数字
+                if(isNumber(arg)){   // 数字
+                    return parseFloat(arg)                  
                 }else if((arg.startsWith('\"') && arg.endsWith('\"')) || (arg.startsWith('\'') && arg.endsWith('\'')) ){
-                    return arg.substr(1,arg.length-2)       // 字符串
-                }else if(arg.toLowerCase()==="true" || arg.toLowerCase()==="false"){
+                    return arg.substr(1,arg.length-2)    // 字符串
+                }else if(["true" ,"false"].includes(arg.toLowerCase())){
                     return arg.toLowerCase()==="true"     // 布尔值
                 }else if((arg.startsWith('{') && arg.endsWith('}')) || (arg.startsWith('[') && arg.endsWith(']'))){      
                     try{
@@ -89,7 +92,7 @@ function parseFormatters(formatters){
 
 /**  
  * 提取字符串中的插值变量
- *     // [
+ *  [
     //   {  
         name:<变量名称>,formatters:[{name:<格式化器名称>,args:[<参数>,<参数>,....]]｝],<匹配字符串>],
     //   ....
@@ -145,12 +148,12 @@ function forEachInterpolatedVars(str,callback,options={}){
         const varname = match.groups.varname || ""
         // 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
         const formatters = parseFormatters(match.groups.formatters)
-        if(typeof(callback)==="function"){
+        if(isFunction(callback)){
             try{
-                if(opts.replaceAll){
+                if(opts.replaceAll){ // 在某此版本上可能没有
                     result=result.replaceAll(match[0],callback(varname,formatters,match[0]))
                 }else{
-                    result=result.replace(match[0],callback(varname,formatters,match[0]))
+                    result=result.replace(new RegExp(match[0],"gm"),callback(varname,formatters,match[0]))
                 }                
             }catch{// callback函数可能会抛出异常，如果抛出异常，则中断匹配过程
                 break   
@@ -161,7 +164,8 @@ function forEachInterpolatedVars(str,callback,options={}){
     return result
 }
 /**
- * 将要翻译内容提供了一个非文本内容时进行默认的转换
+ *  当传入的翻译内容不是一个字符串时，进行默认的转换
+ * 
  *  - 对函数则执行并取返回结果()
  *  - 对Array和Object使用JSON.stringify
  *  - 其他类型使用toString
@@ -171,17 +175,25 @@ function forEachInterpolatedVars(str,callback,options={}){
  */
 function transformToString(value){
     let result  = value
-    if(typeof(result)==="function") result = value()
-    if(!(typeof(result)==="string")){
-        if(Array.isArray(result) || isPlainObject(result)){
-            result = JSON.stringify(result)
-        }else{
-            result = result.toString()
+    try{
+        if(isFunction(result)) result = value()
+        if(!(typeof(result)==="string")){
+            if(Array.isArray(result) || isPlainObject(result)){
+                result = JSON.stringify(result)
+            }else{
+                result = result.toString()
+            }
         }
+    }catch{
+        result = result.toString()
     }
     return result
 }
-
+/**
+ * 清空指定语言的缓存
+ * @param {*} scope 
+ * @param {*} activeLanguage 
+ */
 function resetScopeCache(scope,activeLanguage=null){
     scope.$cache = {activeLanguage,typedFormatters:{},formatters:{}}
 }
@@ -189,26 +201,20 @@ function resetScopeCache(scope,activeLanguage=null){
  *   取得指定数据类型的默认格式化器 
  *   
  *   可以为每一个数据类型指定一个默认的格式化器,当传入插值变量时，
- *   会自动调用该格式化器来对值进行格式化转换
- * 
- * 
- * 
- 
+ *   会自动调用该格式化器来对值进行格式化转换 
     const formatters =  {   
         "*":{
             $types:{...}                                    // 在所有语言下只作用于特定数据类型的格式化器
         },                                                  // 在所有语言下生效的格式化器    
         zh:{            
             $types:{         
-                [数据类型]:{
-                    default:(value)=>{...}                  // 默认    
-                },
-
+                [数据类型]:(value)=>{...}                  // 默认    
             }, 
             [格式化器名称]:(value)=>{...},
             [格式化器名称]:(value)=>{...},
             [格式化器名称]:(value)=>{...},
         },
+        en:{.....}
     }
  * @param {*} scope 
  * @param {*} activeLanguage 
@@ -216,6 +222,7 @@ function resetScopeCache(scope,activeLanguage=null){
  * @returns {Function} 格式化函数  
  */
 function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
+    // 当指定数据类型的的默认格式化器的缓存处理
     if(!scope.$cache) resetScopeCache(scope)
     if(scope.$cache.activeLanguage === activeLanguage) {
         if(dataType in scope.$cache.typedFormatters) return scope.$cache.typedFormatters[dataType]
@@ -229,19 +236,20 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
          // 1. 在全局$types中查找
          if(("*" in target) && isPlainObject(target["*"].$types)){
             let formatters = target["*"].$types 
-            if(dataType in formatters && typeof(formatters[dataType])==="function"){                
+            if(dataType in formatters && isFunction(formatters[dataType])){                
                 return scope.$cache.typedFormatters[dataType] = formatters[dataType]
             }  
         } 
         // 2. 当前语言的$types中查找
         if((activeLanguage in target) && isPlainObject(target[activeLanguage].$types)){ 
             let formatters = target[activeLanguage].$types  
-            if(dataType in formatters && typeof(formatters[dataType])==="function"){                
+            if(dataType in formatters && isFunction(formatters[dataType])){                
                 return scope.$cache.typedFormatters[dataType] = formatters[dataType]
             }  
         }         
-    }     
+    } 
 }
+
 
 /**
  * 获取指定名称的格式化器函数
@@ -254,7 +262,7 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
  * 全局作用域的格式化器优先
  * 
  * @param {*} scope 
- * @param {*} activeLanguage 
+ * @param {*} activeLanguage        当前激活语言名称
  * @param {*} name                  格式化器名称
  * @returns  {Function}             格式化函数  
  */ 
@@ -272,11 +280,18 @@ function getFormatter(scope,activeLanguage,name){
         // 1. 优先在当前语言查找
         if(activeLanguage in target){  
             let formatters = target[activeLanguage] || {}   
-            if((name in formatters) && typeof(formatters[name])==="function") return scope.$cache.formatters[name] = formatters[name]
-        }
+            if((name in formatters) && isFunction(formatters[name])) {
+                return scope.$cache.formatters[name] = formatters[name]
+            }else{       // 如果语言指定了fallback,则在其回退语言中查找
+                let fallbackLangName = scope.getFallbackLanguage(activeLanguage)
+                if((fallbackLangName in formatters) && isFunction(formatters[fallbackLangName])) {
+                    return scope.$cache.formatters[name] = formatters[fallbackLangName]
+                }
+            }
+        }        
         // 2. 全局作用域中查找
         let formatters = target["*"] || {}   
-        if((name in formatters) && typeof(formatters[name])==="function") return scope.$cache.formatters[name] = formatters[name]
+        if((name in formatters) && isFunction(formatters[name])) return scope.$cache.formatters[name] = formatters[name]
     }     
 }
 
@@ -290,7 +305,7 @@ function executeFormatter(value,formatters,scope){
     let result = value
     try{
         for(let formatter of formatters){
-            if(typeof(formatter) === "function") {
+            if(isFunction(formatter)) {
                 result = formatter.call(scope,result)
             }else{// 如果碰到无效的格式化器，则跳过过续的格式化器
                 return result 
@@ -320,7 +335,7 @@ function buildFormatters(scope,activeLanguage,formatters){
     for(let formatter of formatters){
         if(formatter[0]){
             const func = getFormatter(scope,activeLanguage,formatter[0])
-            if(typeof(func)==="function"){
+            if(isFunction(func)){
                 results.push((v)=>{
                     return func(v,...formatter[1])
                 })
@@ -328,7 +343,7 @@ function buildFormatters(scope,activeLanguage,formatters){
                 // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
                 // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
                 results.push((v)=>{
-                    if(typeof(v[formatter[0]])==="function"){
+                    if(isFunction(v[formatter[0]])){
                         return v[formatter[0]].call(v,...formatter[1])
                     }else{
                         return v
@@ -417,23 +432,23 @@ function replaceInterpolatedVars(template,...args) {
 
 // 默认语言配置
 const defaultLanguageSettings = {  
+    debug          : true,
     defaultLanguage: "zh",
-    activeLanguage: "zh",
-    languages:[
+    activeLanguage : "zh",
+    formatters     : inlineFormatters,
+    languages      : [
         {name:"zh",title:"中文",default:true},
         {name:"en",title:"英文"}
-    ],
-    formatters:inlineFormatters,
-    datetime:{
-
-    },
-    currency:{
-
-    }
+    ]
 }
 
+/**
+ * 文本id必须是一个数字
+ * @param {*} content 
+ * @returns 
+ */
 function isMessageId(content){
-    return parseInt(content)>0
+    return isNumber(content)
 }
 /**
  * 根据值的单数和复数形式，从messages中取得相应的消息
@@ -477,7 +492,7 @@ function translate(message) {
         // 1. 预处理变量:  复数变量保存至pluralVars中 , 变量如果是Function则调用 
         if(arguments.length === 2 && isPlainObject(arguments[1])){
             Object.entries(arguments[1]).forEach(([name,value])=>{
-                if(typeof(value)==="function"){
+                if(isFunction(value)){
                     try{
                         vars[name] = value()
                     }catch(e){
@@ -491,7 +506,7 @@ function translate(message) {
         }else if(arguments.length >= 2){
             vars = [...arguments].splice(1).map((arg,index)=>{
                 try{
-                    arg = typeof(arg)==="function" ? arg() : arg                    
+                    arg = isFunction(arg) ? arg() : arg                    
                     // 位置参数中以第一个数值变量为复数变量
                     if(isNumber(arg)) pluraValue = parseInt(arg)    
                 }catch(e){ }
@@ -580,7 +595,7 @@ function translate(message) {
     get defaultMessageLoader(){ return this._defaultMessageLoader}
     // 通过默认加载器加载文件
     async loadMessagesFromDefaultLoader(newLanguage,scope){
-        if(typeof(this._defaultMessageLoader) != "function")  return //throw new Error("No default message loader specified")
+        if(!isFunction(this._defaultMessageLoader))  return //throw new Error("No default message loader specified")
         return  await this._defaultMessageLoader.call(scope,newLanguage,scope)        
     }
     /**
@@ -588,7 +603,7 @@ function translate(message) {
      */
     async change(value){
         value=value.trim()
-        if(this.languages.findIndex(lang=>lang.name === value)!==-1 || typeof(this._defaultMessageLoader)==="function"){
+        if(this.languages.findIndex(lang=>lang.name === value)!==-1 || isFunction(this._defaultMessageLoader)){
             // 通知所有作用域刷新到对应的语言包
             await this._refreshScopes(value)
             this._settings.activeLanguage = value            
@@ -636,29 +651,36 @@ function translate(message) {
      * 注册全局格式化器
      * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
      * 
-     * registerFormatters(name,value=>{...})                                 // 适用于所有语言
-     * registerFormatters(name,value=>{...},{langauge:"zh"})                 // 适用于cn语言
-     * registerFormatters(name,value=>{...},{langauge:"en"})                 // 适用于en语言 
+     * registerFormatter(name,value=>{...})                                 // 注册到所有语言
+     * registerFormatter(name,value=>{...},{langauge:"zh"})                 // 注册到zh语言
+     * registerFormatter(name,value=>{...},{langauge:"en"})                 // 注册到en语言 
+       registerFormatter("Date",value=>{...},{langauge:"en"})               // 注册到en语言的默认数据类型格式化器
+       registerFormatter(name,value=>{...},{langauge:["zh","cht"]})         // 注册到zh和cht语言
+       registerFormatter(name,value=>{...},{langauge:"zh,cht"})
+
      
-     * @param {*} formatters 
+     * @param {*} formatter 
         language : 声明该格式化器适用语言
         isGlobal : 注册到全局
      */
-    registerFormatter(name,formatter,{language="*",isGlobal}={}){
-        if(!typeof(formatter)==="function" || typeof(name)!=="string"){
+    registerFormatter(name,formatter,{language="*"}={}){
+        if(!isFunction(formatter) || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
         }                
-        if(DataTypes.includes(name)){
-            this.formatters[language].$types[name] = formatter
-        }else{
-            this.formatters[language][name] = formatter
-        }    
+        language = Array.isArray(language) ? language : (language ? language.split(",") : [])
+        language.forEach(lng=>{
+            if(DataTypes.includes(name)){
+                this.formatters[lng].$types[name] = formatter
+            }else{
+                this.formatters[lng][name] = formatter
+            }  
+        })
     }
     /**
     * 注册默认文本信息加载器
     */
     registerDefaultLoader(fn){
-        if(typeof(fn) !== 'function') throw new Error("The default loader must be a async function or promise returned")
+        if(!isFunction(fn)) throw new Error("The default loader must be a async function or promise returned")
         this._defaultMessageLoader = fn
         this.refresh()
     } 
@@ -672,27 +694,6 @@ function translate(message) {
             }
         }catch{}
     }
-
-}
-/**
- * 创建格式化器
- * @param {*} fn 
- * @param {*} options  = {
- *     erorr:(e)=>{...}    //执行出错时返回值
- *     empty:()=>{...}     // 当空值时的返回值 * 
- * }
- * 
- */
-function createFormatter(fn,options){
-    if(isPlainObject(options)) fn._options = options
-    return fn.bind(fn._options)
-}
-  
-/**
- * 扩展格式化器
- * @param {*} fn 
- */
-function extendFormatter(fn){
 
 }
 

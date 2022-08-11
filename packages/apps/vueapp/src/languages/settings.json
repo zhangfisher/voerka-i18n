@@ -7,6 +7,10 @@
         {
             "name": "en",
             "title": "英文"
+        },
+        {
+            "name": "de",
+            "title": "德语"
         }
     ],
     "defaultLanguage": "zh",

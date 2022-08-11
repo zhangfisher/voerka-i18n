@@ -41,6 +41,9 @@
         return false
     }
 }
+function isFunction(fn){
+    return typeof fn === "function"
+}
 /**
  * 当value= null || undefined || "" || [] || {} 时返回true
  * @param {*} value 
@@ -142,8 +145,7 @@ function toNumber(value,defualt=0) {
     } catch {
         return value 
     }
-}
-
+} 
 /**
  * 转换为货币格式
  * 
@@ -184,6 +186,7 @@ function relativeTime(value, rel){
 
 module.exports ={
     isPlainObject,
+    isFunction,
     isNumber,
     isNothing,
     deepMerge,
