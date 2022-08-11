@@ -173,6 +173,31 @@ function toNumber(value,defualt=0) {
 }
 
 /**
+ * 根据路径获取指定值
+ * 
+ * getByPath({a:{b:1}},"a.b") == 1
+ * getByPath({a:{b:1}},"a.c",2) == 2
+ * 
+ * @param {*} obj 
+ * @param {*} path          使用.分割的路径
+ * @param {*} defaultValue  默认值
+ * @returns 
+ */
+function getByPath(obj,path,defaultValue){
+    if(typeof(obj)!="object") return defaultValue
+    let paths = path.split(".")
+    let cur = obj
+    for(let key of paths){
+        if(typeof(cur)=="object" && key in cur ){
+            cur = cur[key]
+        }else{
+            return defaultValue
+        }
+    }
+    return cur
+}
+
+/**
  * 返回value相对rel的相对时间
  * 
  * 如：12分钟前， 6秒前, 1小时
@@ -191,6 +216,7 @@ module.exports ={
     isNothing,
     deepMerge,
     deepMixin,
+    getByPath,
     getDataTypeName,
     toDate,
     toNumber,

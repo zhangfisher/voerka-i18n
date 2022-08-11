@@ -250,16 +250,12 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
     } 
 }
 
-
 /**
  * 获取指定名称的格式化器函数
  * 
  * 查找逻辑
- *  - 在当前作用域中查找 
- *    
+ *  - 在当前作用域中查找    
  *  - 在全局作用域中查找
- * 
- * 全局作用域的格式化器优先
  * 
  * @param {*} scope 
  * @param {*} activeLanguage        当前激活语言名称
@@ -267,31 +263,26 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
  * @returns  {Function}             格式化函数  
  */ 
 function getFormatter(scope,activeLanguage,name){
-    // 缓存格式化器引用，避免重复检索
+    // 1. 从缓存中直接读取： 缓存格式化器引用，避免重复检索
     if(!scope.$cache) resetScopeCache(scope)
     if(scope.$cache.activeLanguage === activeLanguage) {
         if(name in scope.$cache.formatters) return scope.$cache.formatters[name]
     }else{// 当语言切换时清空缓存
         resetScopeCache(scope,activeLanguage)
     }
-    // 先在当前作用域中查找，再在全局查找
-    const targets = [scope.global.formatters,scope.formatters]  
-    for(const target of targets){
-        // 1. 优先在当前语言查找
-        if(activeLanguage in target){  
-            let formatters = target[activeLanguage] || {}   
-            if((name in formatters) && isFunction(formatters[name])) {
-                return scope.$cache.formatters[name] = formatters[name]
-            }else{       // 如果语言指定了fallback,则在其回退语言中查找
-                let fallbackLangName = scope.getFallbackLanguage(activeLanguage)
-                if((fallbackLangName in formatters) && isFunction(formatters[fallbackLangName])) {
-                    return scope.$cache.formatters[name] = formatters[fallbackLangName]
-                }
-            }
-        }        
-        // 2. 全局作用域中查找
-        let formatters = target["*"] || {}   
-        if((name in formatters) && isFunction(formatters[name])) return scope.$cache.formatters[name] = formatters[name]
+    const fallbackLanguage = scope.getLanguage(activeLanguage).fallback
+    // 2. 先在当前作用域中查找，再在全局查找 formatters={$types,$options,[格式化器名称]:()=>{},[格式化器名称]:()=>{}}
+    const range = [
+        scope.activeFormatters,
+        scope.formatters[fallbackLanguage],         // 如果指定了回退语言时,也在该回退语言中查找
+        scope.global.formatters[activeLanguage],    // 适用于activeLanguage全局格式化器
+        scope.global.formatters["*"],               // 适用于所有语言的格式化器
+    ]
+    for(const formatters of range){
+        if(!formatters) continue
+        if(isFunction(formatters[name])) {
+            return scope.$cache.formatters[name] = formatters[name]
+        }
     }     
 }
 
@@ -318,8 +309,6 @@ function executeFormatter(value,formatters,scope){
 }
 /**
  * 
- * 
- * 
  * 将  [[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]格式化器转化为
  *  格式化器的调用函数链
  * 
@@ -327,7 +316,6 @@ function executeFormatter(value,formatters,scope){
  * @param {*} activeLanguage 
  * @param {*} formatters 
  * @returns {Array}   [(v)=>{...},(v)=>{...},(v)=>{...}]
- * 
  * 
  */
 function buildFormatters(scope,activeLanguage,formatters){
@@ -356,7 +344,7 @@ function buildFormatters(scope,activeLanguage,formatters){
 } 
 
 /**
- *  将value经过格式化器处理后返回
+ *  将value经过格式化器处理后返回的结果
  * @param {*} scope 
  * @param {*} activeLanguage 
  * @param {*} formatters 
@@ -578,9 +566,8 @@ function translate(message) {
         }
         I18nManager.instance = this;
         this._settings = deepMerge(defaultLanguageSettings,settings)
-        this._scopes=[]  
-        this._defaultMessageLoader = null  // 默认文本加载器
-        return I18nManager.instance;
+        this._scopes=[]                     // 保存i18nScope实例
+        this._defaultMessageLoader = null   // 默认文本加载器
     }
     get settings(){ return this._settings }
     get scopes(){ return this._scopes }
@@ -692,7 +679,9 @@ function translate(message) {
             }else{
                 await Promise.all(requests)
             }
-        }catch{}
+        }catch(e){
+            if(this._debug) console.error(`Error while refresh voerkai18n scopes:${e.message}`) 
+        }
     }
 
 }
