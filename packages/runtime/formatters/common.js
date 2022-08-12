@@ -1,4 +1,7 @@
- /**
+import { toNumber,isFunction } from "../utils"
+
+
+/**
   *   字典格式化器
   *   根据输入data的值，返回后续参数匹配的结果
   *   dict(data,<value1>,<result1>,<value2>,<result1>,<value3>,<result1>,...)
@@ -34,7 +37,156 @@
      if (args.length > 0 && (args.length % 2 !== 0)) return args[args.length - 1]
      return value
  }
-  
+ 
+/**
+ * 
+ * 空值： null,undefined
+ * 
+ * 当输入空值时的行为
+ * 
+ * { value | empty }  ==  转换显示为''
+ * { value | empty('无') }  == 无
+ * { value | unit('KB') | empty('0') } ==  0KB     
+ * 
+ * 有时在处理其他类型时，可能希望将0或者''也视为空值 
+ * { value | empty('没钱了') } == 
+ * 
+ * 
+ * @param {*} value 
+ * @param {String} escapeValue
+ * @param {*} options 
+ */
+ function empty(value,escapeValue,next) {
+    if(next===true) next = 'break'
+    let opts = Object.assign({escape:"",next:'ignore'},options.empty || {})             
+    if(!escapeValue) opts.escape = escapeValue
+    let emptyValues = [undefined,null]
+    if(Array.isArray(opts.values)) emptyValues.push(...opts.values)
+    if(emptyValues.includes(value)){                  
+        return {value:opts.escape,next: opts.next}
+    }else{
+        return value
+    }
+}
+empty.paramCount = 2 
+
+/**
+* 当执行格式化器出错时的显示内容.
+
+{ value | error }                       == 
+{ value | error('') }                   == 显示空字符串
+{ value | error('ERROR') }              == 显示ERROR字样
+{ value | error('ERROR:{ message}') }   == 显示error.message
+{ value | error('ERROR:{ error}') }     == 显示error.constructor.name
+
+this--> scope实例 
+
+ * @param {*} value 
+ * @param {*} escapeValue 
+ * @param {*} next   下一步的行为，取值，break,ignore
+ * @param {*} options 格式化器的全局配置参数
+ * @returns 
+ */
+function error(value,escapeValue,next,options) {
+    
+    if(value instanceof Error){     
+        try{
+            let opts = Object.assign({escape:"",next:'break'},options.error || {})
+            if(!escapeValue) opts.escape = escapeValue
+            if(!next) opts.next = next
+            return {
+                value : String(opts.escape).replace(/\{\s*message\s*\}/g,value.message)
+                                    .replace(/\{\s*error\s*\}/g,value.constructor.name)
+                next  : opts.next
+            }
+        }cache(e){
+            if(this.debug) console.error(`Error while execute formatter: ${e.message}`)
+        } 
+    }else{
+        return value
+    }
+}
+error.paramCount = 2            // 声明该格式化器支持两个参数 
+
+/**
+ * 添加前缀
+ * @param {*} value 
+ * @param {*} prefix 
+ * @returns 
+ */
+function prefix(value,prefix="") {
+    return prefix ?  `${prefix}${value}` : value
+}
+/**
+ * 添加后缀
+ * @param {*} value 
+ * @param {*} suffix 
+ * @returns 
+ */
+function suffix(value,suffix="") {
+    return suffix ?  `${value}${suffix}` : value
+}
+
+ const FILE_SIZE_SECTIONS = [
+    0,
+    1024,
+    1048576,
+    1073741824,
+    1099511627776,
+    1125899906842624,
+    1152921504606847000,
+    1.1805916207174113e+21,
+    1.2089258196146292e+24,
+    1.2379400392853803e+27,
+    1.2676506002282294e+30
+  ]
+const FILE_SIZE_BRIEF_UNITS = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"] 
+const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"]
+    //const getSizePoint= index=>index ==0 ? 0 : new Array(index).fill(0).reduce((pv,cv)=>pv*1024,1)
+
+/**
+ * 输出文件大小
+ *
+ * { value | fileSize }  
+ * { value | fileSize('KB') }  
+ * { value | fileSize('MB') }  
+ * 
+ * @param {*} value 
+ * @param {*} unit   单位，未指定时采用自动方式，即<1024用字节，1024<v<1024*1024显示KB,...
+ * @param {*} brief 
+ * @param {*} options 
+ */
+function fileSize(value,unit,brief=true,options={}){
+    let opts = Object.assign({
+        precision: 2,
+        brief    : FILE_SIZE_BRIEF_UNITS,
+        whole    : FILE_SIZE_WHOLE_UNITS
+    },options.fileSize || {})
+    let v = toNumber(value)
+    let unitIndex
+    if(unit==undefined || unit=="auto"){
+        unitIndex = FILE_SIZE_SECTIONS.findIndex(x=>v<x) - 1
+    }else{
+        unit = unit.toUpperCase()
+        unitIndex =["B","BYTE","BYTES"].includes(unit) ? 0 : FILE_SIZE_BRIEF_UNITS.indexOf(unit)
+    }
+    if(unitIndex<0 || unitIndex>=FILE_SIZE_BRIEF_UNITS.length) unitIndex= 0
+    let result = (unitIndex == 0 ? v : v / FILE_SIZE_SECTIONS[unitIndex]).toFixed(opts.precision)
+    if( unitIndex>0 && (v % FILE_SIZE_SECTIONS[unitIndex])!==0) result = result+"+" 
+    // 去除尾部的0
+    while(["0","."].includes(result[result.length-1])){
+        result = result.substring(0, result.length-2) 
+    } 
+    return  brief ? `${result} ${opts.brief[unitIndex]}` : `${result} ${opts.brief[whole]}`
+}
+fileSize.paramCount = 2
+fileSize.escape = 0 
+
  module.exports = {
-    dict
+    dict,
+    prefix,
+    suffix,
+    filesize,
+    error,
+    empty
  }

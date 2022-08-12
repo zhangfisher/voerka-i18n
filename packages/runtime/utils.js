@@ -197,16 +197,77 @@ function getByPath(obj,path,defaultValue){
     return cur
 }
 
-/**
- * 返回value相对rel的相对时间
- * 
- * 如：12分钟前， 6秒前, 1小时
- *  
- * 
- * 
- */
-function relativeTime(value, rel){
 
+// YY	18	年，两位数
+// YYYY	2018	年，四位数
+// M	1-12	月，从1开始
+// MM	01-12	月，两位数字
+// MMM	Jan-Dec	月，英文缩写
+// D	1-31	日
+// DD	01-31	日，两位数
+// H	0-23	24小时
+// HH	00-23	24小时，两位数
+// h	1-12	12小时
+// hh	01-12	12小时，两位数
+// m	0-59	分钟
+// mm	00-59	分钟，两位数
+// s	0-59	秒
+// ss	00-59	秒，两位数
+// S	0-9	毫秒（百），一位数
+// SS	00-99	毫秒（十），两位数
+// SSS	000-999	毫秒，三位数
+// Z	-05:00	UTC偏移
+// ZZ	-0500	UTC偏移，两位数
+// A	AM / PM	上/下午，大写
+// a	am / pm	上/下午，小写
+// Do	1st... 31st	月份的日期与序号
+
+function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
+    const v = toDate(value)
+    const year =String(v.getFullYear()),month = String(v.getMonth()+1),weekday=String(v.getDay()),day=String(v.getDate())
+    const minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds()),hour = String(v.getHours())
+    const time = String(v.getTime())
+    let result = templ
+    const vars = [
+        ["YYYY", year],                                                 // 2018	年，四位数
+        ["YY", year.substring(year.length - 2, year.length)],           // 18	年，两位数        
+        ["MMM", ""],                                                    // Jan-Dec	月，英文缩写
+        ["MM", month.padStart(2, "0")],                                 // 01-12	月，两位数字
+        ["M", month],                                                   // 1-12	月，从1开始
+        ["DD", day.padStart(2, "0")],                                   // 01-31	日，两位数
+        ["D", day],                                                     // 1-31	日
+        ["HH", String(hour).padStart(2, "0")],                          // 00-23	24小时，两位数
+        ["H", String(hour)],                                            // 0-23	24小时
+        ["hh", String(hour > 12 ? hour - 12 : hour).padStart(2, "0")],  // 01-12	12小时，两位数
+        ["h", hour > 12 ? hour - 12 : hour],                            // 1-12	12小时
+        ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
+        ["m", minute],                                                  // 0-59	分钟
+        ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
+        ["s", second],                                                  // 0-59	秒
+        ["SSS", millisecond],                                           // 000-999	毫秒，三位数
+        ["SS", millisecond.substring(year.length - 2, year.length)],    // 00-99	毫秒（十），两位数
+        ["S",millisecond[millisecond.length - 1]],                      // 0-9	毫秒（百），一位数
+        ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
+        ["a", hour > 12 ? "pm" : "am"]                                  // am / pm	上/下午，小写
+    ]
+    vars.forEach(([key,value])=>result = result.replace(key,value))
+    return result
+}
+
+
+/**
+ * 创建格式化器
+ */
+function createFormatter(fn,meta={}){
+    let opts = Object.assign({
+        checker     : false,        // true时代表该格式化器是作为校验器存在，会在执行每一次格式化器函数后调用进行检查
+        paramCount  : 0,            // 声明该该格式化器具有几个参数,0代表未知
+        error       : 0,            // 当执行格式化化器函数出错时的行为，取值0-break,1-skip,2-default
+        empty       : false,        // 当输入为空时的输出        
+        default     : null          // 当出错默认输出     
+    },meta)
+    Object.entries(opts).forEach(([key,value])=>fn[key] = value)
+    return fn 
 }
 
 module.exports ={

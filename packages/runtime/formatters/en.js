@@ -5,6 +5,9 @@
 
  const { toDate,toCurrency } = require("../utils")
  
+
+
+
  module.exports =   {
     // 配置参数: 格式化器函数的最后一个参数就是该配置参数
     $options:{
@@ -25,6 +28,21 @@
         number            : {
             division      : 3,
             precision     : 2
+        },
+        empty:{
+            //values        : [],               // 可选，定义空值，如果想让0,''也为空值，可以指定values=[0,'']
+            escape        : "",                 // 当空值时显示的备用值
+            next          : null                // 当空值时下一步的行为: break=中止;ignore=忽略
+        },
+        error             : {
+            //当错误时显示的内容，支持的插值变量有message=错误信息,error=错误类名,也可以是一个返回上面内容的同步函数
+            escape        : "",                 // 默认当错误时显示空内容
+            next          : null                // 当出错时下一步的行为: break=中止;ignore=忽略
+        },
+        fileSize:{
+            //brief: ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
+            //whole:["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
+            //precision: 2 // 小数精度
         }
     },
     // 默认数据类型的格式化器

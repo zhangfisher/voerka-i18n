@@ -288,28 +288,51 @@ function getFormatter(scope,activeLanguage,name){
 
 /**
  * 执行格式化器并返回结果
+ * 
+ * 格式化器this指向当前scope，并且最后一个参数是当前scope格式化器的$options
+ * 
+ * 这样格式化器可以读取$options
+ * 
  * @param {*} value 
- * @param {*} formatters  多个格式化器顺序执行，前一个输出作为下一个格式化器的输入
+ * @param {Array[Function]} formatters  多个格式化器函数(经过包装过的)顺序执行，前一个输出作为下一个格式化器的输入
  */
 function executeFormatter(value,formatters,scope){
     if(formatters.length===0) return value
     let result = value
-    try{
-        for(let formatter of formatters){
-            if(isFunction(formatter)) {
-                result = formatter.call(scope,result)
-            }else{// 如果碰到无效的格式化器，则跳过过续的格式化器
-                return result 
+
+    const emptyChecker = formatters.find(func=>func.$name==='empty')
+    const errorChecker = formatters.find(func=>func.$name==='error')
+    
+    // 当输入是一个空值时
+    if(emptyChecker){
+        const { value,next } = emptyChecker(result)
+        if(next == 'break') return value
+    }
+    if(result instanceof Error && errorChecker){
+        const { value,next } = errorChecker(result)
+        if(next == 'break') return value
+    }   
+
+    for(let formatter of formatters){
+        try{
+            result = formatter(result)
+        }catch(e){
+            if(scope.debug) console.error(`Error while execute i18n formatter<${formatter.$name}> for ${value}: ${e.message} ` )            
+            const { value,next } = errorChecker(e)
+            if(next=="break"){
+                if(value!==undefined) result = value
+                break
+            }else if(next=="ignore"){
+                continue
             }
-        }
-    }catch(e){
-        //console.error(`Error while execute i18n formatter for ${value}: ${e.message} ` )
-    }    
+            if(value!==undefined) result = value
+        }    
+    }
     return result
 }
 /**
  * 
- * 将  [[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]格式化器转化为
+ * 将[[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]格式化器包装转化为
  *  格式化器的调用函数链
  * 
  * @param {*} scope 
@@ -318,29 +341,41 @@ function executeFormatter(value,formatters,scope){
  * @returns {Array}   [(v)=>{...},(v)=>{...},(v)=>{...}]
  * 
  */
-function buildFormatters(scope,activeLanguage,formatters){
-    let results = [] 
-    for(let formatter of formatters){
-        if(formatter[0]){
-            const func = getFormatter(scope,activeLanguage,formatter[0])
+function wrapperFormatters(scope,activeLanguage,formatters){
+    let wrappedFormatters = [] 
+    for(let [name,args] of formatters){
+        if(name){
+            const func = getFormatter(scope,activeLanguage,name)
             if(isFunction(func)){
-                results.push((v)=>{
-                    return func(v,...formatter[1])
-                })
+                let fn = (value) => {
+                    // 每一个格式式化器均支持若干输入参数，但是在使用时，可以支持可选参数
+                    // 比currency(value,prefix,suffix, division,precision)支持4个参数，但是在使用时支持可选参数
+                    // {value | currency} 或 {value | currency('元')} 或 {value | currency('元',"整")} 
+                    // 为了让格式化器能比较方便地处理最后一个配置参数，当格式化器函数指定了paramCount参数来声明其支持的参数后
+                    // 在此就自动初始参数个数，这样在currency函数中，就可以使用这样的currency(value,prefix,suffix, division,precision,options)
+                    // 不管开发者使用时的输入参数数是多少均可以保证在currency函数中总是可以得到有效的options参数
+                    if(func.paramCount && args.length < func.paramCount  ){
+                        args.push(...new Array(parseInt(func.paramCount)-args.length).fill(undefined))
+                    }
+                    return func.call(scope,value,...args,scope.activeFormatterOptions)
+                }
+                fn.$name = name                          
+                wrappedFormatters.push(fn)
             }else{
                 // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
                 // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
-                results.push((v)=>{
-                    if(isFunction(v[formatter[0]])){
-                        return v[formatter[0]].call(v,...formatter[1])
+                wrappedFormatters.push((value)=>{
+                    if(isFunction(value[name])){
+                        // 最后一个参数是当前作用域的格式化器配置参数
+                        return value[name](value,...args)
                     }else{
-                        return v
+                        return value
                     }        
                 })  
             }              
         }
     }
-    return results
+    return wrappedFormatters
 } 
 
 /**
@@ -353,14 +388,15 @@ function buildFormatters(scope,activeLanguage,formatters){
  */
 function getFormattedValue(scope,activeLanguage,formatters,value){
     // 1. 取得格式化器函数列表
-    const formatterFuncs = buildFormatters(scope,activeLanguage,formatters) 
-    // 2. 查找每种数据类型默认格式化器,并添加到formatters最前面，默认数据类型格式化器优先级最高
-    const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
-    // 默认数据类型的格式化器仅在没有指定其他格式化器时生效    
-    if(defaultFormatter && formatterFuncs.length==0){
-        formatterFuncs.splice(0,0,defaultFormatter)
-    }             
+    const formatterFuncs = wrapperFormatters(scope,activeLanguage,formatters) 
     // 3. 执行格式化器
+    if(formatterFuncs.length==0){
+        // 当没有格式化器时，查询是否指定了默认数据类型的格式化器，如果有则执行
+        const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
+        if(defaultFormatter){
+            return executeFormatter(value,[defaultFormatter],scope)     
+        }        
+    }
     value = executeFormatter(value,formatterFuncs,scope)     
     return value
 }

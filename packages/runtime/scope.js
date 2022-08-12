@@ -57,49 +57,29 @@ module.exports = class i18nScope {
 		this.register(callback);
 	}
 	// 作用域
-	get id() {
-		return this._id;
-	}
+	get id() {return this._id;}
 	// 调试开关
-	get debug() {
-		return this._debug;
-	}
+	get debug() {return this._debug;}
 	// 默认语言名称
-	get defaultLanguage() {
-		return this._defaultLanguage;
-	}
+    get defaultLanguage() {return this._defaultLanguage;}
 	// 默认语言名称
-	get activeLanguage() {
-		return this._activeLanguage;
-	}
+	get activeLanguage() {return this._activeLanguage;}
 	// 默认语言包
-	get default() {
-		return this._default;
-	}
+	get default() {return this._default;}
 	// 当前语言包
-	get messages() {
-		return this._messages;
-	}
+	get messages() {return this._messages;	}
 	// 消息id映射列表
-	get idMap() {
-		return this._idMap;
-	}
+	get idMap() {return this._idMap;}
 	// 当前作用域的格式化器 {<lang>:{$types,$options,[格式化器名称]:()=>{},[格式化器名称]:()=>{}}}
-	get formatters() {
-		return this._formatters;
-	}
+	get formatters() {	return this._formatters;}
 	// 当前作用域支持的语言列表[{name,title,fallback}]
-	get languages() {
-		return this._languages;
-	}
+	get languages() {return this._languages;}
 	// 异步加载语言文件的函数列表
-	get loaders() {
-		return this._loaders;
-	}
+	get loaders() {	return this._loaders;}
 	// 引用全局VoerkaI18n配置，注册后自动引用
-	get global() {
-		return this._global;
-	}
+	get global() {	return this._global;}
+    // 当前格式化器配置参数
+    get activeFormatterOptions(){return this._activeFormatterOptions}
 	/**
 	 * 在全局注册作用域
 	 * @param {*} callback   注册成功后的回调

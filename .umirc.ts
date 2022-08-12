@@ -7,7 +7,7 @@ export default defineConfig({
     base:"/voerka-i18n/",
     publicPath:"/voerka-i18n/",
     mode: 'site',
-    logo: "/images/i18n.png",
+    logo: "/voerka-i18n/images/i18n.png",
     outputPath:"docs/dist",
     resolve:{
         includes:["docs/src"]
