@@ -17,7 +17,7 @@ module.exports = {
             shorMonthNames: CN_SHORT_MONTH_NAMES
         },
         currency          : {
-            unit          : "$",
+            unit          : "￥",
             prefix        : "",
             suffix        : "",
             division      : 3,
@@ -32,7 +32,7 @@ module.exports = {
         Date: value => {const d = toDate(value);return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}点${d.getMinutes()}分${d.getSeconds()}秒`}
     },
     // 日期  
-    date         : value => `${value.getFullYear()}年${value.getMonth() + 1}月${value.getDate()}日`,
+    date         : value => { const d = toDate(value); return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日` },
     weekday      : value => CN_WEEK_DAYS[toDate(value).getDay()],
     shortWeekday : value => CN_SHORT_WEEK_DAYS[toDate(value).getDay()],
     monthName    : value => CN_MONTH_NAMES[toDate(value).getMonth()],

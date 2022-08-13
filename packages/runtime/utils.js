@@ -254,21 +254,91 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
     return result
 }
 
+/**
+ * 替换所有字符串
+ * 低版本ES未提供replaceAll,此函数用来替代
+ * 
+ * 
+ * @param {*} str 
+ * @param {*} findValue 
+ * @param {*} replaceValue 
+ */
+function replaceAll(str,findValue,replaceValue){    
+    if(typeof(str)!=="string" || findValue=="" || findValue==replaceValue) return str
+    let result = str
+    try{
+        while(result.search(findValue)!=-1){
+            result = result.replace(findValue,replaceValue)
+        }        
+    }catch{}
+    return result
+}
+
 
 /**
  * 创建格式化器
+ * 
+ * 格式化器是一个普通的函数，具有以下特点：
+ * 
+ * - 函数第一个参数是上一上格式化器的输出
+ * - 支持0-N个简单类型的入参
+ * - 格式化器可以在格式化器的$options参数指定一个键值来配置不同语言时的参数
+ *  
+ *   createFormatter((value,prefix,suffix, division ,precision,options)=>{
+ *      
+ *      },
+ *      {
+ *          unit:"$",
+ *          prefix,
+ *          suffix,
+ *          division,
+ *          precision
+ *      },
+ *      {
+ *          params:["prefix","suffix", "division" ,"precision"]     // 声明参数顺序
+ *          optionKey:"currency"                                    // 声明特定语言下的配置在$options.currency
+ *      }
+ *   )
+ * 
+ * @param {*} fn 
+ * @param {*} defaultParams         默认参数
+ * @param {*} meta 
+ * @returns 
  */
-function createFormatter(fn,meta={}){
+ function createFormatter(fn,defaultParams={},meta={}){
     let opts = Object.assign({
-        checker     : false,        // true时代表该格式化器是作为校验器存在，会在执行每一次格式化器函数后调用进行检查
-        paramCount  : 0,            // 声明该该格式化器具有几个参数,0代表未知
-        error       : 0,            // 当执行格式化化器函数出错时的行为，取值0-break,1-skip,2-default
-        empty       : false,        // 当输入为空时的输出        
-        default     : null          // 当出错默认输出     
-    },meta)
-    Object.entries(opts).forEach(([key,value])=>fn[key] = value)
-    return fn 
+        normalize    : null,         // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
+        params       : [],           // 声明参数顺序
+        optionKeyPath: null          // 声明该格式化器在$options中的路径，支持简单的使用.的路径语法
+    })     
+
+    // 最后一个参数是传入activeFormatterOptions参数
+    const wrappedFn =  function(value,...args){
+        let finalValue = value
+        // 1. 输入值规范处理，主要的类型转换等
+        if(isFunction(opts.normalize)){
+            try{
+                finalValue = opts.normalize(finalValue)
+            }catch{}
+        }
+        // 2. 读取activeFormatterOptions
+        let activeFormatterOpts = args.length>0 ? args[args.length-1] : {}
+        if(!isPlainObject( activeFormatterOpts))  activeFormatterOpts ={}   
+        // 3. 从当前语言的激活语言中读取配置参数
+        const activeOptions =Object.assign({},defaultParams,getByPath(activeFormatterOpts,opts.optionKey,{}))
+        let finalArgs = opts.params.map(param=>getByPath(activeOptions,param,undefined))   
+        // 4. 将翻译函数执行格式化器时传入的参数具有高优先级     
+        for(let i =0; i<finalArgs.length-1;i++){
+            if(i>=args.length-1) break // 最后一参数是配置
+            if(args[i]!==undefined) finalArgs[i] = args[i]
+        }
+        return fn(finalValue,...finalArgs,activeFormatterOpts)
+    }
+    fn.paramCount = opts.paramCount
+    return wrappedFn
 }
+
+const Formatter = createFormatter
 
 module.exports ={
     isPlainObject,
@@ -277,9 +347,13 @@ module.exports ={
     isNothing,
     deepMerge,
     deepMixin,
+    Formatter,
+    createFormatter,
+    replaceAll,
     getByPath,
     getDataTypeName,
     toDate,
     toNumber,
-    toCurrency 
+    toCurrency,
+    createFormatter
 }

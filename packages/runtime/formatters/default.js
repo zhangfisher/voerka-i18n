@@ -1,4 +1,4 @@
-import { toNumber,isFunction } from "../utils"
+const { toNumber,isFunction } = require("../utils")
 
 
 /**
@@ -42,9 +42,9 @@ import { toNumber,isFunction } from "../utils"
  * 
  * 空值： null,undefined
  * 
- * 当输入空值时的行为
+ * 当输入空值时的处理逻辑
  * 
- * { value | empty }  ==  转换显示为''
+ * { value | empty }  ==  转换显示为''，并且忽略
  * { value | empty('无') }  == 无
  * { value | unit('KB') | empty('0') } ==  0KB     
  * 
@@ -54,14 +54,16 @@ import { toNumber,isFunction } from "../utils"
  * 
  * @param {*} value 
  * @param {String} escapeValue
+ * @paran {String} next 下一步行为，取值true/false,break,skip,默认是break
  * @param {*} options 
  */
- function empty(value,escapeValue,next) {
-    if(next===true) next = 'break'
-    let opts = Object.assign({escape:"",next:'ignore'},options.empty || {})             
-    if(!escapeValue) opts.escape = escapeValue
+ function empty(value,escapeValue,next,options) {
+    if(next===false) next = 'break'
+    if(next===true) next = 'skip'
+    let opts = Object.assign({escape:"",next:'break',values:[]},options.empty || {})             
+    if(escapeValue!=undefined) opts.escape = escapeValue
     let emptyValues = [undefined,null]
-    if(Array.isArray(opts.values)) emptyValues.push(...opts.values)
+    if(Array.isArray(opts.values)) emptyValues.push(...opts.values)    
     if(emptyValues.includes(value)){                  
         return {value:opts.escape,next: opts.next}
     }else{
@@ -73,13 +75,13 @@ empty.paramCount = 2
 /**
 * 当执行格式化器出错时的显示内容.
 
-{ value | error }                       == 
+{ value | error }                       ==  默认
 { value | error('') }                   == 显示空字符串
 { value | error('ERROR') }              == 显示ERROR字样
 { value | error('ERROR:{ message}') }   == 显示error.message
 { value | error('ERROR:{ error}') }     == 显示error.constructor.name
+{ value | error('ERROR:{ error}',) }     == 显示error.constructor.name
 
-this--> scope实例 
 
  * @param {*} value 
  * @param {*} escapeValue 
@@ -87,21 +89,22 @@ this--> scope实例
  * @param {*} options 格式化器的全局配置参数
  * @returns 
  */
-function error(value,escapeValue,next,options) {
-    
+function error(value,escapeValue,next,options) {    
     if(value instanceof Error){     
+        if(scope.debug) console.error(`Error while execute formatter<${value.formatter}>:`,e)
+        const scope = this
         try{
-            let opts = Object.assign({escape:"",next:'break'},options.error || {})
-            if(!escapeValue) opts.escape = escapeValue
-            if(!next) opts.next = next
+            let opts = Object.assign({escape:null,next:'break'},options.error || {})
+            if(escapeValue!=undefined) opts.escape = escapeValue
+            if(next!=undefined) opts.next = next
             return {
-                value : String(opts.escape).replace(/\{\s*message\s*\}/g,value.message)
-                                    .replace(/\{\s*error\s*\}/g,value.constructor.name)
+                value : opts.escape ? String(opts.escape).replace(/\{\s*message\s*\}/g,value.message).replace(/\{\s*error\s*\}/g,value.constructor.name) : null,
                 next  : opts.next
             }
-        }cache(e){
-            if(this.debug) console.error(`Error while execute formatter: ${e.message}`)
+        }catch(e){
+            if(scope.debug) console.error(`Error while execute formatter:`,e.message)
         } 
+        return value
     }else{
         return value
     }
@@ -142,7 +145,6 @@ function suffix(value,suffix="") {
   ]
 const FILE_SIZE_BRIEF_UNITS = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"] 
 const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"]
-    //const getSizePoint= index=>index ==0 ? 0 : new Array(index).fill(0).reduce((pv,cv)=>pv*1024,1)
 
 /**
  * 输出文件大小
@@ -156,7 +158,7 @@ const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "
  * @param {*} brief 
  * @param {*} options 
  */
-function fileSize(value,unit,brief=true,options={}){
+function filesize(value,unit,brief=true,options={}){
     let opts = Object.assign({
         precision: 2,
         brief    : FILE_SIZE_BRIEF_UNITS,
@@ -179,14 +181,17 @@ function fileSize(value,unit,brief=true,options={}){
     } 
     return  brief ? `${result} ${opts.brief[unitIndex]}` : `${result} ${opts.brief[whole]}`
 }
-fileSize.paramCount = 2
-fileSize.escape = 0 
+filesize.paramCount = 2 
 
- module.exports = {
+
+
+
+module.exports = {
     dict,
     prefix,
     suffix,
     filesize,
     error,
     empty
- }
+}
+

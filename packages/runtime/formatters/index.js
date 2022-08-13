@@ -5,12 +5,12 @@
 
 const enFormatters     = require("./en") 
 const zhFormatters     = require("./zh") 
-const commonFormatters = require("./common")
+const defaultFormatters = require("./default")
  
 module.exports = {
     "*":{
         ...enFormatters,
-        ...commonFormatters
+        ...defaultFormatters
     },
     zh:zhFormatters
 }

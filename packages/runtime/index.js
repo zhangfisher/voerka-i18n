@@ -1,8 +1,7 @@
-const { getDataTypeName,isNumber,isPlainObject,deepMerge } = require("./utils")
+const {createFormatter,getDataTypeName,isNumber,isPlainObject,deepMerge,isFunction,isNothing,deepMixin,replaceAll} = require("./utils")
 const EventEmitter = require("./eventemitter")
-const i18nScope = require("./scope.js")
-let  inlineFormatters = require("./formatters")         
-
+const inlineFormatters = require("./formatters")         
+const i18nScope = require("./scope")
 
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
@@ -150,10 +149,11 @@ function forEachInterpolatedVars(str,callback,options={}){
         const formatters = parseFormatters(match.groups.formatters)
         if(isFunction(callback)){
             try{
+                const finalValue = callback(varname,formatters,match[0])
                 if(opts.replaceAll){ // 在某此版本上可能没有
-                    result=result.replaceAll(match[0],callback(varname,formatters,match[0]))
+                    result=result.replaceAll(match[0],finalValue)
                 }else{
-                    result=result.replace(new RegExp(match[0],"gm"),callback(varname,formatters,match[0]))
+                    result=replaceAll(result,match[0],finalValue)
                 }                
             }catch{// callback函数可能会抛出异常，如果抛出异常，则中断匹配过程
                 break   
@@ -286,6 +286,22 @@ function getFormatter(scope,activeLanguage,name){
     }     
 }
 
+function executeChecker(checker,value){
+    let result ={ value, next:"skip"}
+    if(!isFunction(checker)) return result
+    try{
+        const r = checker(value)
+        if(isPlainObject(r)) {
+            Object.assign(result,r)
+        }else{
+            result.value = r
+        }
+        if(!["break","skip"].includes(result.next)) result.next="break"
+    }catch(e){
+
+    }
+    return result
+}
 /**
  * 执行格式化器并返回结果
  * 
@@ -296,40 +312,68 @@ function getFormatter(scope,activeLanguage,name){
  * @param {*} value 
  * @param {Array[Function]} formatters  多个格式化器函数(经过包装过的)顺序执行，前一个输出作为下一个格式化器的输入
  */
-function executeFormatter(value,formatters,scope){
+function executeFormatter(value,formatters,scope,template){
     if(formatters.length===0) return value
     let result = value
 
     const emptyChecker = formatters.find(func=>func.$name==='empty')
-    const errorChecker = formatters.find(func=>func.$name==='error')
+    const errorChecker = formatters.find(func=>func.$name==='error')    
     
-    // 当输入是一个空值时
+    // 1. 空值检查
     if(emptyChecker){
-        const { value,next } = emptyChecker(result)
-        if(next == 'break') return value
-    }
-    if(result instanceof Error && errorChecker){
-        const { value,next } = errorChecker(result)
-        if(next == 'break') return value
+        const { value,next } = executeChecker(emptyChecker,result)    
+        if(next == 'break') {
+            return value    
+        }else{
+            result = value
+        }
+    }    
+    // 2. 错误检查
+    if((result instanceof Error) && errorChecker){
+        result.formatter = formatter.$name
+        const { value,next } = executeChecker(emptyChecker,result)    
+        if(next == 'break') {
+            return value    
+        }else{
+            result = value
+        }
     }   
-
+    // 3. 分别执行格式化器函数
     for(let formatter of formatters){
         try{
             result = formatter(result)
         }catch(e){
-            if(scope.debug) console.error(`Error while execute i18n formatter<${formatter.$name}> for ${value}: ${e.message} ` )            
-            const { value,next } = errorChecker(e)
+            e.formatter = formatter.$name 
+            if(scope.debug) console.error(`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} ` )            
+            const { value,next } = executeChecker(errorChecker,result)
             if(next=="break"){
                 if(value!==undefined) result = value
                 break
-            }else if(next=="ignore"){
+            }else if(next=="skip"){
                 continue
-            }
-            if(value!==undefined) result = value
+            }            
         }    
     }
     return result
 }
+
+
+
+/**
+ * 添加默认的empty和error格式化器，用来提供默认的空值和错误处理逻辑
+ * @param {*} formatters 
+ */
+function addDefaultFormatters(formatters){ 
+    // 默认的空值处理逻辑： 转换为"",然后继续执行接下来的逻辑
+    if(formatters.findIndex(([name])=>name=="empty")===-1){
+        formatters.push(["empty",[]])
+    }
+    // 默认的错误处理逻辑:  开启DEBUG时会显示ERROR:message；关闭DEBUG时会保持最近值不变然后中止后续执行
+    if(formatters.findIndex(([name])=>name=="error")===-1){
+        formatters.push(["error",[]])
+    }
+}
+
 /**
  * 
  * 将[[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]格式化器包装转化为
@@ -342,7 +386,8 @@ function executeFormatter(value,formatters,scope){
  * 
  */
 function wrapperFormatters(scope,activeLanguage,formatters){
-    let wrappedFormatters = [] 
+    let wrappedFormatters = []     
+    addDefaultFormatters(formatters)
     for(let [name,args] of formatters){
         if(name){
             const func = getFormatter(scope,activeLanguage,name)
@@ -386,7 +431,7 @@ function wrapperFormatters(scope,activeLanguage,formatters){
  * @param {*} value 
  * @returns 
  */
-function getFormattedValue(scope,activeLanguage,formatters,value){
+function getFormattedValue(scope,activeLanguage,formatters,value,template){
     // 1. 取得格式化器函数列表
     const formatterFuncs = wrapperFormatters(scope,activeLanguage,formatters) 
     // 3. 执行格式化器
@@ -394,10 +439,10 @@ function getFormattedValue(scope,activeLanguage,formatters,value){
         // 当没有格式化器时，查询是否指定了默认数据类型的格式化器，如果有则执行
         const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
         if(defaultFormatter){
-            return executeFormatter(value,[defaultFormatter],scope)     
+            return executeFormatter(value,[defaultFormatter],scope,template)     
         }        
     }
-    value = executeFormatter(value,formatterFuncs,scope)     
+    value = executeFormatter(value,formatterFuncs,scope,template)     
     return value
 }
 
@@ -432,9 +477,9 @@ function replaceInterpolatedVars(template,...args) {
         // 读取模板字符串中的插值变量列表
         // [[var1,[formatter,formatter,...],match],[var2,[formatter,formatter,...],match],...}
         let varValues = args[0]
-        return forEachInterpolatedVars(template,(varname,formatters)=>{
+        return forEachInterpolatedVars(template,(varname,formatters,match)=>{
             let value =  (varname in varValues) ? varValues[varname] : ''
-            return getFormattedValue(scope,activeLanguage,formatters,value)  
+            return getFormattedValue(scope,activeLanguage,formatters,value,template)  
         })   
     }else{  
         // ****************************位置插值****************************
@@ -442,9 +487,9 @@ function replaceInterpolatedVars(template,...args) {
         const params=(args.length===1 && Array.isArray(args[0])) ?  [...args[0]] : args     
         if(params.length===0) return template    // 没有变量则不需要进行插值处理，返回原字符串  
         let i = 0
-        return forEachInterpolatedVars(template,(varname,formatters)=>{
+        return forEachInterpolatedVars(template,(varname,formatters,match)=>{
             if(params.length>i){ 
-                return getFormattedValue(scope,activeLanguage,formatters,params[i++]) 
+                return getFormattedValue(scope,activeLanguage,formatters,params[i++],template) 
             }else{
                 throw new Error()   // 抛出异常，停止插值处理
             }
@@ -603,19 +648,16 @@ function translate(message) {
         I18nManager.instance = this;
         this._settings = deepMerge(defaultLanguageSettings,settings)
         this._scopes=[]                     // 保存i18nScope实例
-        this._defaultMessageLoader = null   // 默认文本加载器
+        this._defaultMessageLoader = null   // 默认语言包加载器
     }
-    get settings(){ return this._settings }
-    get scopes(){ return this._scopes }
-    // 当前激活语言
-    get activeLanguage(){ return this._settings.activeLanguage}
-    // 默认语言
-    get defaultLanguage(){ return this._settings.defaultLanguage}
-    // 支持的语言列表
-    get languages(){ return this._settings.languages}
-    // 内置格式化器
-    get formatters(){ return inlineFormatters }
-    get defaultMessageLoader(){ return this._defaultMessageLoader}
+    get settings(){ return this._settings }                         // 配置参数
+    get scopes(){ return this._scopes }                             // 注册的报有i18nScope实例q   
+    get activeLanguage(){ return this._settings.activeLanguage}     // 当前激活语言    名称
+    get defaultLanguage(){ return this._settings.defaultLanguage}   // 默认语言名称    
+    get languages(){ return this._settings.languages}               // 支持的语言列表    
+    get formatters(){ return this._settings.formatters }            // 内置格式化器{*:{$options,$types,...},zh:{$options,$types,...},en:{$options,$types,...}}
+    get defaultMessageLoader(){ return this._defaultMessageLoader}  // 默认语言包加载器
+
     // 通过默认加载器加载文件
     async loadMessagesFromDefaultLoader(newLanguage,scope){
         if(!isFunction(this._defaultMessageLoader))  return //throw new Error("No default message loader specified")
@@ -627,10 +669,9 @@ function translate(message) {
     async change(value){
         value=value.trim()
         if(this.languages.findIndex(lang=>lang.name === value)!==-1 || isFunction(this._defaultMessageLoader)){
-            // 通知所有作用域刷新到对应的语言包
-            await this._refreshScopes(value)
+            await this._refreshScopes(value)                        // 通知所有作用域刷新到对应的语言包
             this._settings.activeLanguage = value            
-            await this.emit(value)            /// 触发语言切换事件
+            await this.emit(value)                                  // 触发语言切换事件
         }else{
             throw new Error("Not supported language:"+value)
         }
@@ -640,7 +681,6 @@ function translate(message) {
      * @param {*} newLanguage 
      */
     async _refreshScopes(newLanguage){ 
-        // 并发执行所有作用域语言包的加载
         try{
             const scopeRefreshers = this._scopes.map(scope=>{
                 return scope.refresh(newLanguage)
@@ -728,8 +768,13 @@ module.exports ={
     I18nManager,
     translate,
     i18nScope,
+    createFormatter,
     defaultLanguageSettings,
     getDataTypeName,
     isNumber,
-    isPlainObject 
+    isNothing,
+    isPlainObject,
+    isFunction,
+    deepMerge,
+    deepMixin
 }
