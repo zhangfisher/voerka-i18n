@@ -3,7 +3,7 @@
  * 
  */
 
- const { toDate,toCurrency,formatDatetime,formatTime,Formatter } = require("../utils")
+ const { toDate,toCurrency,toNumber,formatDatetime,formatTime,Formatter } = require("../utils")
 
 // 日期格式化器
 // format取字符串"long","short","local","iso","gmt","utc"或者日期模块字符串
@@ -43,7 +43,17 @@ const dateFormatter = Formatter((value,format,$config)=>{
     params   : ['format'],
     configKey: "datetime.date"
 })
-
+// 季度格式化器 format= 0=短格式  1=长格式  
+const mquarterFormatter = Formatter((value,format,$config)=>{
+    const month = value.getMonth() + 1 
+    const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
+    if(format<0 && format>1) format = 0
+    return format==0 ? $config.shortNames[month] : (format==1 ? $config.shortNames[month] : month+1)
+},{  
+    normalize: toDate,                      
+    params   : ['format'],
+    configKey: "datetime.quarter"
+})
 
 // 月份格式化器 format可以取值0,1,2，也可以取字符串long,short,number
 const monthFormatter = Formatter((value,format,$config)=>{
@@ -104,15 +114,17 @@ const timeFormatter = Formatter((value,format,$config)=>{
 })
 
 // 货币格式化器, CNY $13,456.00 
-const currencyFormatter = Formatter((value, unit,prefix ,suffix, division,precision) =>{
-    return toCurrency(value, { unit,division, prefix, precision,suffix })
+const currencyFormatter = Formatter((value, symbol,prefix ,suffix, division,precision) =>{
+    return toCurrency(value, { symbol,division, prefix, precision,suffix })
 },{
     normalize: toNumber,
-    params:["prefix","suffix", "division","precision"],
+    params:["symbol","prefix","suffix", "division","precision"],
     configKey: "currency"
 }) 
 
- module.exports =   {
+
+
+module.exports =   {
     // 配置参数
     $config:{
         datetime            : {
@@ -121,6 +133,10 @@ const currencyFormatter = Formatter((value, unit,prefix ,suffix, division,precis
                 long        : 'YYYY/MM/DD HH:mm:ss', 
                 short       : "MM/DD",
                 format      : "local"
+            },
+            quarter         : {
+                names  : ["Q1","Q2","Q3","Q4"],
+                shortNames  : ["Q1","Q2","Q3","Q4"]
             },
             month:{
                 names       : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -137,9 +153,9 @@ const currencyFormatter = Formatter((value, unit,prefix ,suffix, division,precis
                 short       : "HH:mm:ss",
                 format      : 'local'
             },   
-        }
+        },
         currency          : {
-            unit          : "$",                    // 单位
+            symbol        : "$",                    // 符号
             prefix        : "",                     // 前缀
             suffix        : "",                     // 后缀
             division      : 3,                      // ,分割位
@@ -150,14 +166,14 @@ const currencyFormatter = Formatter((value, unit,prefix ,suffix, division,precis
             precision     : 2
         },
         empty:{
-            //values        : [],               // 可选，定义空值，如果想让0,''也为空值，可以指定values=[0,'']
-            escape        : "",                 // 当空值时显示的备用值
-            next          : 'break'                // 当空值时下一步的行为: break=中止;skip=跳过
+            //values        : [],                   // 可选，定义空值，如果想让0,''也为空值，可以指定values=[0,'']
+            escape        : "",                     // 当空值时显示的备用值
+            next          : 'break'                 // 当空值时下一步的行为: break=中止;skip=跳过
         },
         error             : {
             //当错误时显示的内容，支持的插值变量有message=错误信息,error=错误类名,也可以是一个返回上面内容的同步函数
             escape        : null,                   // 默认当错误时显示空内容
-            next          : 'break'                    // 当出错时下一步的行为: break=中止;skip=忽略
+            next          : 'break'                 // 当出错时下一步的行为: break=中止;skip=忽略
         },
         fileSize:{
             //brief: ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],

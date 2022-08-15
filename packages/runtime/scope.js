@@ -40,10 +40,10 @@ module.exports = class i18nScope {
 		if (!globalThis.VoerkaI18n) {
 			const { I18nManager } = require("./");
 			globalThis.VoerkaI18n = new I18nManager({
-				debug: this._debug,
+				debug          : this._debug,
 				defaultLanguage: this.defaultLanguage,
-				activeLanguage: this.activeLanguage,
-				languages: options.languages,
+				activeLanguage : this.activeLanguage,
+				languages      : options.languages,
 			});
 		}
 		this._global = globalThis.VoerkaI18n;        
@@ -64,7 +64,7 @@ module.exports = class i18nScope {
 	get global() {	return this._global;}                               // 引用全局VoerkaI18n配置，注册后自动引用    
 	get formatters() {	return this._formatters;}                       // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
 	get activeFormatters() {return this._activeFormatters}              // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
-    get activeFormatterOptions(){return this._activeFormatterOptions}   // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
+    get activeFormatterConfig(){return this._activeFormatterConfig}   // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
 
 	/**
 	 * 在全局注册作用域当前作用域
@@ -119,12 +119,12 @@ module.exports = class i18nScope {
      * @param {*} formatters ={"*",zh:{...},en:{...}}
      * @returns 
      */
-    registerFormatters(formatters,isGlobal=false) {
-        Object.entries(formatters).forEach(([language,fns]=>{
+    registerFormatters(formatters,asGlobal=false) {
+        Object.entries(formatters).forEach(([language,fns])=>{
             Object.entries(fns).forEach(([name,formatter])=>{
-                this.registerFormatter(name,formatter,{language})
+                this.registerFormatter(name,formatter,{language,global:asGlobal})
             })            
-        })) 
+        }) 
     }
 	/**
 	 * 注册默认文本信息加载器
@@ -222,7 +222,7 @@ module.exports = class i18nScope {
             if(this.debug) console.error(`Error while generate <${language}> formatter options: `,e)
             if(!options) options = this._activeFormatters.$config || {}
         }        
-        return this._activeFormatterOptions = options
+        return this._activeFormatterConfig = options
     }
 	/**
 	 * 刷新当前语言包

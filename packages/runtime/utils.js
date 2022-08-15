@@ -138,7 +138,7 @@ function toDate(value) {
 function toNumber(value,defualt=0) {
     try {
         if (isNumber(value)) {
-            return parseInt(value)
+            return parseFloat(value)
         } else {
             return defualt
         }
@@ -156,7 +156,7 @@ function toNumber(value,defualt=0) {
  * @param {*} precision   小数点精确到几位，0-自动
  * @returns 
  */
- function toCurrency(value,{unit="",division=3,prefix="",precision=0,suffix=""}={}){
+ function toCurrency(value,{symbol="",division=3,prefix="",precision=0,suffix=""}={}){
     let [wholeValue,decimalValue] = String(value).split(".")
     let result = []
     for(let i=0;i<wholeValue.length;i++){
@@ -169,7 +169,7 @@ function toNumber(value,defualt=0) {
         }
         result.push(`.${decimalValue}`)
     }
-    return `${prefix}${unit}${result.join("")}${suffix}`
+    return `${prefix}${symbol}${result.join("")}${suffix}`
 }
 
 /**
@@ -253,6 +253,7 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
     vars.forEach(([key,value])=>result = replaceAll(result,key,value))
     return result
 }
+
 function formatTime(value,templ="HH:mm:ss"){
     const v = toDate(value)
     const hourNum = v.getHours()
@@ -348,7 +349,7 @@ function replaceAll(str,findValue,replaceValue){
         configKey    : null          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
     })     
 
-    // 最后一个参数是传入activeFormatterOptions参数
+    // 最后一个参数是传入activeFormatterConfig参数
     const wrappedFn =  function(value,...args){
         let finalValue = value
         // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
@@ -357,18 +358,18 @@ function replaceAll(str,findValue,replaceValue){
                 finalValue = opts.normalize(finalValue)
             }catch{}
         }
-        // 2. 读取activeFormatterOptions
-        let activeFormatterOpts = args.length>0 ? args[args.length-1] : {}
-        if(!isPlainObject( activeFormatterOpts))  activeFormatterOpts ={}   
+        // 2. 读取activeFormatterConfig
+        let activeFormatterConfigs = args.length>0 ? args[args.length-1] : {}
+        if(!isPlainObject( activeFormatterConfigs))  activeFormatterConfigs ={}   
         // 3. 从当前语言的激活语言中读取配置参数
-        const activeConfig =Object.assign({},defaultParams,getByPath(activeFormatterOpts,opts.configKey,{}))
-        let finalArgs = opts.params.map(param=>getByPath(activeConfig,param,undefined))   
+        const formatterConfig =Object.assign({},defaultParams,getByPath(activeFormatterConfigs,opts.configKey,{}))
+        let finalArgs = opts.params.map(param=>getByPath(formatterConfig,param,undefined))   
         // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
         for(let i =0; i<finalArgs.length-1;i++){
             if(i>=args.length-1) break // 最后一参数是配置
             if(args[i]!==undefined) finalArgs[i] = args[i]
         }
-        return fn(finalValue,...finalArgs,activeFormatterOpts)
+        return fn(finalValue,...finalArgs,activeFormatterConfigs)
     }
     wrappedFn.configurable = true       //  当函数是可配置时才在最后一个参数中传入$config
     return wrappedFn

@@ -386,23 +386,17 @@ function addDefaultFormatters(formatters){
  * 
  */
 function wrapperFormatters(scope,activeLanguage,formatters){
-    let wrappedFormatters = []     
-    addDefaultFormatters(formatters)
+    let wrappedFormatters = []         
     for(let [name,args] of formatters){
         if(name){
-            const func = getFormatter(scope,activeLanguage,name)
-            if(isFunction(func)){
-                let fn = (value) => {
-                    // 每一个格式式化器均支持若干输入参数，但是在使用时，可以支持可选参数
-                    // 比currency(value,prefix,suffix, division,precision)支持4个参数，但是在使用时支持可选参数
-                    // {value | currency} 或 {value | currency('元')} 或 {value | currency('元',"整")} 
-                    // 为了让格式化器能比较方便地处理最后一个配置参数，当格式化器函数指定了paramCount参数来声明其支持的参数后
-                    // 在此就自动初始参数个数，这样在currency函数中，就可以使用这样的currency(value,prefix,suffix, division,precision,options)
-                    // 不管开发者使用时的输入参数数是多少均可以保证在currency函数中总是可以得到有效的options参数
-                    if(func.paramCount && args.length < func.paramCount  ){
-                        args.push(...new Array(parseInt(func.paramCount)-args.length).fill(undefined))
+            const func = getFormatter(scope,activeLanguage,name)            
+            if(isFunction(func)){               
+                const fn = (value) => {                    
+                    if(func.configurable){ // 如果格式化器函数是使用createFormatter创建的
+                        return func.call(scope,value,...args,scope.activeFormatterConfig)
+                    }else{  //  不可配置的格式化器不会传入格式化器配置
+                        return func.call(scope,value,...args)
                     }
-                    return func.call(scope,value,...args,scope.activeFormatterOptions)
                 }
                 fn.$name = name                          
                 wrappedFormatters.push(fn)
@@ -441,8 +435,9 @@ function getFormattedValue(scope,activeLanguage,formatters,value,template){
         if(defaultFormatter){
             return executeFormatter(value,[defaultFormatter],scope,template)     
         }        
-    }
-    value = executeFormatter(value,formatterFuncs,scope,template)     
+    }else{
+        value = executeFormatter(value,formatterFuncs,scope,template)     
+    }    
     return value
 }
 

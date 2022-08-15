@@ -1,5 +1,5 @@
+const {i18nScope, translate, getInterpolatedVars }  = require('../packages/runtime/index')
 const dayjs = require('dayjs');
-const { i18nScope, translate, getInterpolatedVars }  = require('../packages/runtime/dist/runtime.cjs')
 
 const loaders = {
     zh:{
@@ -12,7 +12,7 @@ const loaders = {
         1:"hello",
         2:"Now is {}",
         3:"I was born in {year}, now is {age} years old",
-        4:["I have no friends","I have one friends","I have two friends","I have {} friends"],
+        4:["I have no friends","I have one friends","I have two friends","I have {} friends"]
     }
 }
 
@@ -29,10 +29,11 @@ const formatters = {
         book:(v)=>`<${v}>`,
     },
 }
+
 const idMap = {
     1:"你好",
     2:"现在是{}",
-    3:"我出生于{year}年，今年{age}岁"
+    3:"我出生于{year}年，今年{age}岁",
     4:"我有{}个朋友"
 }
 const languages = [
@@ -64,7 +65,7 @@ scope.registerFormatters({
     "*":{
         sum   : (v,n=1)=>v+n,
         double: (v)=>v*2,
-        upper : (v)=>v.toUpperCase(),
+        upper : (v)=>v.toUpperCase()
     }
 },true)
 
@@ -207,22 +208,22 @@ test("命名插值翻译文本内容",done=>{
 
 test("当没有对应的语言翻译时",done=>{    
     expect(t("我是中国人")).toBe("我是中国人");       
-    changeLanguage("en") 
+    scope.change("en") 
     expect(t("我是中国人")).toBe("我是中国人");  
     done()
 })
  
 
-test("切换到未知语言",done=>{    
+test("切换到未知语言时回退到默认语言",done=>{    
     expect(t("我是中国人")).toBe("我是中国人");       
-    changeLanguage("en") 
+    scope.change("xn") 
     expect(t("我是中国人")).toBe("我是中国人");  
     done()
 })
  
 
 test("翻译复数支持",done=>{   
-    changeLanguage("en") 
+    scope.change("en") 
     expect(t("我有{}个朋友",0)).toBe("I have no friends");       
     expect(t("我有{}个朋友",1)).toBe("I have one friends");    
     expect(t("我有{}个朋友",2)).toBe("I have two friends");    

@@ -16,6 +16,11 @@ module.exports = {
                 short       : "MM/DD",                          
                 format      : 'YYYY年MM月DD日 HH点mm分ss秒'
             },
+            quarter         : {
+                names  : ["一季度","二季度","三季度","四季度"],
+                shortNames  : ["Q1","Q2","Q3","Q4"],
+                format      : 0           // 0-短格式,1-长格式
+            },
             month:{
                 names       : CN_MONTH_NAMES,
                 shortNames  : CN_SHORT_MONTH_NAMES,
@@ -33,7 +38,7 @@ module.exports = {
         },
 
         currency          : {
-            unit          : "￥",
+            symbol        : "￥",
             prefix        : "",
             suffix        : "元",
             division      : 4,
@@ -49,9 +54,7 @@ module.exports = {
         Boolean  : value =>value ? "是":"否"                
 
     },
-    // 货币
-    currency     : (value,prefix = "￥",suffix="", division = 4, precision = 2) => toCurrency(value, { division, prefix, precision,suffix }),
-    // 中文货币，big=true代表大写形式
+      // 中文货币，big=true代表大写形式
     capitalizeCurrency:(value,big,unit="元",prefix,suffix)=>toChineseCurrency(value,{big,prefix,suffix,unit}),
     // 中文数字,如一千二百三十一
     number:(value,isBig)=>toChineseNumber(value,isBig)
