@@ -4,8 +4,10 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "dev:clean":"vite --force",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "go":"pnpm voerkai18n extract && pnpm voerkai18n compile && vite"
   },
   "dependencies": {
     "@voerkai18n/cli": "workspace:^1.0.11",

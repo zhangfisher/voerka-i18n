@@ -30,7 +30,7 @@
  */
 
 {{if moduleType === "esm"}}
-export default{{else}}module.exports = {{/if}}{
+export default{{else}}module.exports = {{/if}} {
     // 格式化器参数
     $config:{
 

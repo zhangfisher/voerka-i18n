@@ -1,6 +1,7 @@
 {{if moduleType === "esm"}}
 import messageIds from "./idMap.js"                                             // 语言ID映射文件
-{{if inlineRuntime }}import  { translate,i18nScope  }  from "./runtime.js"                           // 运行时
+{{if inlineRuntime }}import  runtime from "./runtime.js"                           // 运行时
+const { translate,i18nScope  } = runtime
 import defaultFormatters from "./formatters/{{defaultLanguage}}.js"             // 默认语言格式化器
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}import activeFormatters from "./formatters/{{activeLanguage}}.js"{{/if}}                 // 激活语言格式化器
 {{else}}import { translate,i18nScope  } from "@voerkai18n/runtime"

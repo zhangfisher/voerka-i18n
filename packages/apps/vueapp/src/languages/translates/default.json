@@ -1,212 +1,219 @@
 {
     "Hello world!": {
-        "en": "Hello world!",
+        "en": "Hello world!(EN)",
         "$file": [
             "App.vue"
         ],
-        "de": "Hello world!"
+        "de": "Hello world!(DE)"
     },
     "中华人民共和国": {
         "en": "The People's Republic of China",
         "$file": [
             "App.vue"
         ],
-        "de": "中华人民共和国"
+        "de": "中华人民共和国(DE)"
     },
     "迎接中华民族的伟大复兴": {
         "en": "Welcome the great rejuvenation of the Chinese nation",
         "$file": [
             "App.vue"
         ],
-        "de": "迎接中华民族的伟大复兴"
+        "de": "迎接中华民族的伟大复兴(DE)"
     },
     "成立于{}年": {
         "en": "Founded in {}",
         "$file": [
             "components\\china.vue"
         ],
-        "de": "成立于{}年"
+        "de": "成立于{}年(DE)"
     },
     "首都：北京": {
         "en": "Capital: Beijing",
         "$file": [
             "components\\china.vue"
         ],
-        "de": "首都：北京"
+        "de": "首都：北京(DE)"
     },
     "VoerkaI18n多语言解决方案 ": {
         "en": "VoerkaI18n多语言解决方案 ",
         "$file": [
             "App.vue"
         ],
-        "de": "VoerkaI18n多语言解决方案 "
+        "de": "VoerkaI18n多语言解决方案 (DE)"
     },
     "现在是{ value | date }": {
         "en": "Now is { value | date }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "de": "现在是{ value | date }"
+        "de": "DE Now is { value | date }(DE)"
+    },
+    "现在是{ value | date | empty }": {
+        "en": "Now is { value | date | empty }",
+        "de": "Now is { value | date | empty }(DE)",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "现在是{ value | date | empty('无') }": {
+        "en": "Now is { value | date | empty('无') }",
+        "de": "Now is { value | date | empty('无') } (DE) ",
+        "$file": [
+            "components\\formatters.vue"
+        ]
     },
     "现在是{ value | shortdate }": {
-        "en": "Now is { value | shortdate }",
+        "en": "现在是{ value | shortdate }",
+        "de": "现在是{ value | shortdate }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | shortdate }"
+        ]
     },
     "现在是{ value | time }": {
-        "en": "Now is { value | time }",
+        "en": "现在是{ value | time }",
+        "de": "现在是{ value | time }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | time }"
+        ]
     },
     "现在是{ value | shorttime }": {
-        "en": "Now is { value | shorttime }",
+        "en": "现在是{ value | shorttime }",
+        "de": "现在是{ value | shorttime }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | shorttime }"
+        ]
     },
     "现在是{ value | year }": {
-        "en": "Now is { value | year }",
+        "en": "现在是{ value | year }",
+        "de": "现在是{ value | year }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | year }"
+        ]
     },
     "现在是{ value | month }": {
-        "en": "Now is { value | month }",
+        "en": "现在是{ value | month }",
+        "de": "现在是{ value | month }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | month }"
+        ]
     },
     "现在是{ value | day }": {
-        "en": "Now is { value | day }",
+        "en": "现在是{ value | day }",
+        "de": "现在是{ value | day }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | day }"
+        ]
     },
     "现在是{ value | weekdayValue }": {
-        "en": "Now is { value | weekdayValue }",
+        "en": "现在是{ value | weekdayValue }",
+        "de": "现在是{ value | weekdayValue }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | weekdayValue }"
+        ]
     },
     "现在是{ value | weekday }": {
-        "en": "Now is { value | weekday }",
+        "en": "现在是{ value | weekday }",
+        "de": "现在是{ value | weekday }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | weekday }"
+        ]
     },
     "现在是{ value | shortWeekday }": {
-        "en": "Now is { value | shortWeekday }",
+        "en": "现在是{ value | shortWeekday }",
+        "de": "现在是{ value | shortWeekday }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | shortWeekday }"
+        ]
     },
     "现在是{ value | monthName }": {
-        "en": "Now is { value | monthName }",
+        "en": "现在是{ value | monthName }",
+        "de": "现在是{ value | monthName }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | monthName }"
+        ]
     },
     "现在是{ value | shorMonthName }": {
-        "en": "Now is { value | shorMonthName }",
+        "en": "现在是{ value | shorMonthName }",
+        "de": "现在是{ value | shorMonthName }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | shorMonthName }"
+        ]
     },
     "现在是{ value | hour }": {
-        "en": "Now is { value | hour }",
+        "en": "现在是{ value | hour }",
+        "de": "现在是{ value | hour }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | hour }"
+        ]
     },
     "现在是{ value | hour12 }": {
-        "en": "Now is { value | hour12 }",
+        "en": "现在是{ value | hour12 }",
+        "de": "现在是{ value | hour12 }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | hour12 }"
+        ]
     },
     "现在是{ value | minute }": {
-        "en": "Now is { value | minute }",
+        "en": "现在是{ value | minute }",
+        "de": "现在是{ value | minute }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | minute }"
+        ]
     },
     "现在是{ value | second }": {
-        "en": "Now is { value | second }",
+        "en": "现在是{ value | second }",
+        "de": "现在是{ value | second }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | second }"
+        ]
     },
     "现在是{ value | millisecond }": {
-        "en": "Now is { value | millisecond }",
+        "en": "现在是{ value | millisecond }",
+        "de": "现在是{ value | millisecond }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | millisecond }"
+        ]
     },
     "现在是{ value | timestamp }": {
-        "en": "Now is { value | timestamp }",
+        "en": "现在是{ value | timestamp }",
+        "de": "现在是{ value | timestamp }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "现在是{ value | timestamp }"
-    },
-    "商品价格：{ value | currency }": {
-        "en": "Price: { value | currency }",
-        "$file": [
-            "components\\formatters.vue"
-        ],
-        "de": "商品价格：{ value | currency }"
-    },
-    "商品价格：{ value | capitalizeCurrency }": {
-        "en": "Price: { value | capitalizeCurrency }",
-        "$file": [
-            "components\\formatters.vue"
-        ],
-        "de": "商品价格：{ value | capitalizeCurrency }"
-    },
-    "现在是{ value  }": {
-        "en": "Now is { value  }",
-        "$file": [
-            "components\\formatters.vue"
-        ],
-        "de": "现在是{ value  }"
+        ]
     },
     "商品价格：{ value | currency('CNY','元整',3)}": {
-        "en": "Price: { value | currency('CNY','元整',3)}",
+        "en": "商品价格：{ value | currency('US ','元整',3)}",
+        "de": "商品价格：{ value | currency('CNY','元整',3)}",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "商品价格：{ value | currency('CNY','元整',3)}"
+        ]
+    },
+    "商品价格：{ value | currency }": {
+        "en": "商品价格：{ value | currency }",
+        "de": "商品价格：{ value | currency }",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "商品价格：{ value | capitalizeCurrency }": {
+        "en": "商品价格：{ value | capitalizeCurrency }",
+        "de": "商品价格：{ value | capitalizeCurrency }",
+        "$file": [
+            "components\\formatters.vue"
+        ]
     },
     "商品价格：{ value | capitalizeCurrency(true) }": {
-        "en": "Price:{ value | capitalizeCurrency(true) }",
+        "en": "商品价格：{ value | capitalizeCurrency(true) }",
+        "de": "商品价格：{ value | capitalizeCurrency(true) }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "商品价格：{ value | capitalizeCurrency(true) }"
+        ]
     },
     "商品数量：{ value | number }": {
-        "en": "Count: { value | number }",
+        "en": "商品数量：{ value | number }",
+        "de": "商品数量：{ value | number }",
         "$file": [
             "components\\formatters.vue"
-        ],
-        "de": "商品数量：{ value | number }"
+        ]
     }
 }

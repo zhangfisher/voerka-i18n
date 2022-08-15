@@ -1,6 +1,7 @@
 
 import messageIds from "./idMap.js"                                             // 语言ID映射文件
-import  { translate,i18nScope  }  from "./runtime.js"                           // 运行时
+import  runtime from "./runtime.js"                           // 运行时
+const { translate,i18nScope  } = runtime
 import defaultFormatters from "./formatters/zh.js"             // 默认语言格式化器
 const activeFormatters = defaultFormatters                 // 激活语言格式化器
 
@@ -44,6 +45,7 @@ const loaders = {
 const scope = new i18nScope({
     ...scopeSettings,                               // languages,defaultLanguage,activeLanguage,namespaces,formatters
     id          : "vueapp",                    // 当前作用域的id，自动取当前工程的package.json的name
+    debug       : false,                            // 是否在控制台输出高度信息
     default     : defaultMessages,                  // 默认语言包
     messages    : activeMessages,                   // 当前语言包
     idMap       : messageIds,                       // 消息id映射列表    

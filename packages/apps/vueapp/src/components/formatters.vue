@@ -12,14 +12,16 @@ export default {
     components: { China },
     data() {
         return {
-            NOW: null//new Date()
+            NOW: new Date(),
+            datetime:null
 
         }
     }
 }
 </script>
 <template>
-    <div style="padding:16px;border:1px red solid;line-height:120%;margin:0 auto;margin-bottom:16px;width:600px;text-align:left;">
+    <div class="font-size:6px;">
+        {{t("Hello world!")}}
         <table>
             <thead>
                 <tr style="font-weight:bold;">
@@ -28,9 +30,17 @@ export default {
                 </tr>
             </thead>
             <tbody>
+                <tr><td colspan="2" >
+                    <select v-model="datetime" >
+                        <option default :value="null">空值</option>
+                        <option :value="NOW">现在</option>
+                    </select>    
+                </td></tr>
                 <tr><td colspan="2" ><b>日期</b></td></tr>
-                <tr><td>默认</td><td>{{ t("现在是{ value  }", NOW) }}</td></tr>
-                <tr><td>date</td><td>{{ t("现在是{ value | date }", NOW) }}</td></tr>
+                <!-- <tr><td>默认</td><td>{{ t("现在是{ value  }", NOW) }}</td></tr> -->
+                <!-- <tr><td>date</td><td>{{ t("现在是{ value | date }", datetime) }}</td></tr>
+                <tr><td>date|empty</td><td>{{ t("现在是{ value | date | empty }", datetime) }}</td></tr>
+                <tr><td>date|empty('无')</td><td>{{ t("现在是{ value | date | empty('无') }", datetime) }}</td></tr>
                 <tr><td>shortdate</td><td>{{ t("现在是{ value | shortdate }", NOW) }}</td></tr>
                 <tr><td>time</td><td>{{ t("现在是{ value | time }", NOW) }}</td></tr>
                 <tr><td>shorttime</td><td>{{ t("现在是{ value | shorttime }", NOW) }}</td></tr>
@@ -50,7 +60,7 @@ export default {
                 <tr><td>millisecond</td><td>{{ t("现在是{ value | millisecond }", NOW) }}</td></tr>
                 <tr><td>timestamp</td><td>{{ t("现在是{ value | timestamp }", NOW) }}</td></tr>
                 <tr><td colspan="2" ><b>货币</b></td></tr>
-                <tr><td>currency-cny</td><td>{{ t("商品价格：{ value | currency('CNY','元整',3)}", 788741) }}</td></tr>
+                <tr><td>currency-cny</td><td>{{ t("商品价格：{ value | currency('CNY','元整',3)}", 788741) }}</td></tr> -->
                 <tr><td>currency</td><td>{{ t("商品价格：{ value | currency }", 788741) }}</td></tr>
                 <tr><td>capitalizeCurrency</td><td>{{ t("商品价格：{ value | capitalizeCurrency }", 788741) }}</td></tr>
                 <tr><td>capitalizeCurrency</td><td>{{ t("商品价格：{ value | capitalizeCurrency(true) }", 788741.35) }}</td></tr>

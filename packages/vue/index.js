@@ -15,11 +15,19 @@ import { computed,reactive,ref } from "vue"
 
 function forceUpdate(app){
     function updateComponent(inst){
-        if(inst && inst.update) inst.update()
-        if(inst.subTree && inst.subTree.children){
-            inst.subTree.children.forEach( vnode=>{
-                if(vnode && vnode.component) updateComponent(vnode.component)
-            })           
+        if(!inst) return
+        if(inst.update) inst.update()
+        if(inst.subTree){
+            if(inst.subTree.children){
+                inst.subTree.children.forEach( vnode=>{
+                    if(vnode && vnode.component) updateComponent(vnode.component)
+                })  
+            }         
+            if(inst.subTree.dynamicChildren){
+                inst.subTree.dynamicChildren.forEach( vnode=>{
+                    if(vnode && vnode.component) updateComponent(vnode.component)
+                })  
+            }         
         }
     }
     try{
