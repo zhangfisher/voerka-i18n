@@ -8,19 +8,35 @@
  
 module.exports = {
     // 配置参数: 格式化器函数的最后一个参数就是该配置参数
-    $options:{
+    $config:{
         datetime          : {
             units         : CN_DATETIME_UNITS,
-            weekdays      : CN_WEEK_DAYS,
-            shortWeekdays : CN_SHORT_WEEK_DAYS,
-            monthNames    : CN_MONTH_NAMES,
-            shorMonthNames: CN_SHORT_MONTH_NAMES
+            date            :{
+                long        : 'YYYY年MM月DD日 HH点mm分ss秒',       
+                short       : "MM/DD",                          
+                format      : 'YYYY年MM月DD日 HH点mm分ss秒'
+            },
+            month:{
+                names       : CN_MONTH_NAMES,
+                shortNames  : CN_SHORT_MONTH_NAMES,
+                format      : 0,           // 0-长名称，1-短名称，2-数字
+            },
+            weekday:{
+                names       : CN_WEEK_DAYS,
+                shortNames  : CN_SHORT_WEEK_DAYS,
+                format      : 0,            // 0-长名称，1-短名称，2-数字   
+            },
+            time:{
+                long        : "HH点mm分ss秒",
+                short       : "HH:mm:ss",
+            }
         },
+
         currency          : {
             unit          : "￥",
             prefix        : "",
-            suffix        : "",
-            division      : 3,
+            suffix        : "元",
+            division      : 4,
             precision     : 2
         },
         number            : {
@@ -29,16 +45,10 @@ module.exports = {
         }
     },
     $types: {
-        Date: value => {const d = toDate(value);return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}点${d.getMinutes()}分${d.getSeconds()}秒`}
+        Date: value => {const d = toDate(value);return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}点${d.getMinutes()}分${d.getSeconds()}秒`},
+        Boolean  : value =>value ? "是":"否"                
+
     },
-    // 日期  
-    date         : value => { const d = toDate(value); return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日` },
-    weekday      : value => CN_WEEK_DAYS[toDate(value).getDay()],
-    shortWeekday : value => CN_SHORT_WEEK_DAYS[toDate(value).getDay()],
-    monthName    : value => CN_MONTH_NAMES[toDate(value).getMonth()],
-    shorMonthName: value => CN_SHORT_MONTH_NAMES[toDate(value).getMonth()], 
-    // 时间
-    time         : value =>{const d = toDate(value);return `${d.getHours()}点${d.getMinutes()}分${d.getSeconds()}秒`},
     // 货币
     currency     : (value,prefix = "￥",suffix="", division = 4, precision = 2) => toCurrency(value, { division, prefix, precision,suffix }),
     // 中文货币，big=true代表大写形式

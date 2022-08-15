@@ -151,12 +151,12 @@ function toNumber(value,defualt=0) {
  * 
  * @param {*} value      可以是数字也可以是字符串
  * @param {*} division    分割符号位数,3代表每3个数字添加一个,号  
- * @param {*} prefix      前缀,货币单位
- * @param {*} suffix      前缀,货币单位
+ * @param {*} prefix      前缀
+ * @param {*} suffix      后缀
  * @param {*} precision   小数点精确到几位，0-自动
  * @returns 
  */
- function toCurrency(value,{division=3,prefix="",precision=0,suffix=""}={}){
+ function toCurrency(value,{unit="",division=3,prefix="",precision=0,suffix=""}={}){
     let [wholeValue,decimalValue] = String(value).split(".")
     let result = []
     for(let i=0;i<wholeValue.length;i++){
@@ -169,7 +169,7 @@ function toNumber(value,defualt=0) {
         }
         result.push(`.${decimalValue}`)
     }
-    return prefix + result.join("") + suffix
+    return `${prefix}${unit}${result.join("")}${suffix}`
 }
 
 /**
@@ -225,9 +225,9 @@ function getByPath(obj,path,defaultValue){
 function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
     const v = toDate(value)
     const year =String(v.getFullYear()),month = String(v.getMonth()+1),weekday=String(v.getDay()),day=String(v.getDate())
-    const minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds()),hour = String(v.getHours())
-    const time = String(v.getTime())
-    let result = templ
+    const hourNum = v.getHours()
+    const hour = String(hourNum).minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
+    const timezone = v.getTimezoneOffset()
     const vars = [
         ["YYYY", year],                                                 // 2018	年，四位数
         ["YY", year.substring(year.length - 2, year.length)],           // 18	年，两位数        
@@ -236,10 +236,33 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
         ["M", month],                                                   // 1-12	月，从1开始
         ["DD", day.padStart(2, "0")],                                   // 01-31	日，两位数
         ["D", day],                                                     // 1-31	日
-        ["HH", String(hour).padStart(2, "0")],                          // 00-23	24小时，两位数
-        ["H", String(hour)],                                            // 0-23	24小时
+        ["HH", hour.padStart(2, "0")],                          // 00-23	24小时，两位数
+        ["H", hour],                                            // 0-23	24小时
+        ["hh", String(hourNum > 12 ? hourNum - 12 : hourNum).padStart(2, "0")],  // 01-12	12小时，两位数
+        ["h", String(hourNum > 12 ? hourNum - 12 : hourNum)],                            // 1-12	12小时
+        ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
+        ["m", minute],                                                  // 0-59	分钟
+        ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
+        ["s", second],                                                  // 0-59	秒
+        ["SSS", millisecond],                                           // 000-999	毫秒，三位数
+        ["SS", millisecond.substring(year.length - 2, year.length)],    // 00-99	毫秒（十），两位数
+        ["S",millisecond[millisecond.length - 1]],                      // 0-9	毫秒（百），一位数
+        ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
+        ["a", hour > 12 ? "pm" : "am"],                                 // am / pm	上/下午，小写
+    ]
+    vars.forEach(([key,value])=>result = replaceAll(result,key,value))
+    return result
+}
+function formatTime(value,templ="HH:mm:ss"){
+    const v = toDate(value)
+    const hourNum = v.getHours()
+    const hour = String(hourNum).minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
+    let result = templ
+    const vars = [
+        ["HH", hour.padStart(2, "0")],                          // 00-23	24小时，两位数
+        ["H", hour],                                            // 0-23	24小时
         ["hh", String(hour > 12 ? hour - 12 : hour).padStart(2, "0")],  // 01-12	12小时，两位数
-        ["h", hour > 12 ? hour - 12 : hour],                            // 1-12	12小时
+        ["h", String(hour > 12 ? hour - 12 : hour)],                            // 1-12	12小时
         ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
         ["m", minute],                                                  // 0-59	分钟
         ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
@@ -250,10 +273,9 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
         ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
         ["a", hour > 12 ? "pm" : "am"]                                  // am / pm	上/下午，小写
     ]
-    vars.forEach(([key,value])=>result = result.replace(key,value))
+    vars.forEach(([key,value])=>result = replaceAll(result,key,value))
     return result
 }
-
 /**
  * 替换所有字符串
  * 低版本ES未提供replaceAll,此函数用来替代
@@ -282,10 +304,23 @@ function replaceAll(str,findValue,replaceValue){
  * 
  * - 函数第一个参数是上一上格式化器的输出
  * - 支持0-N个简单类型的入参
- * - 格式化器可以在格式化器的$options参数指定一个键值来配置不同语言时的参数
+ * - 格式化器可以在格式化器的$config参数指定一个键值来配置不同语言时的参数
  *  
- *   createFormatter((value,prefix,suffix, division ,precision,options)=>{
- *      
+ *   "currency":createFormatter((value,prefix,suffix, division ,precision,options)=>{
+ *     // 无论在格式化入参数是多少个，经过处理后在此得到prefix,suffix, division ,precision参数已经是经过处理后的参数
+ *     依次读取格式化器的参数合并：
+ *       - 从当前激活格式化器的$config中读取配置参数
+ *       - 在t函数后传入参数
+  *     比如currency格式化器支持4参数，其入参顺序是prefix,suffix, division ,precision
+  *     那么在t函数中可以使用以下五种入参数方式
+  *      {value | currency }                                    //prefix=undefined,suffix=undefined, division=undefined ,precision=undefined
+  *      {value | currency(prefix) }
+  *      {value | currency(prefix,suffix) }
+  *      {value | currency(prefix,suffix,division)  }
+  *      {value | currency(prefix,suffix,division,precision)}
+  *    
+  * 经过createFormatter处理后，会从当前激活格式化器的$config中读取prefix,suffix, division ,precision参数作为默认参数
+  * 然后t函数中的参数会覆盖默认参数，优先级更高
  *      },
  *      {
  *          unit:"$",
@@ -295,8 +330,9 @@ function replaceAll(str,findValue,replaceValue){
  *          precision
  *      },
  *      {
+ *          normalize:value=>{...},
  *          params:["prefix","suffix", "division" ,"precision"]     // 声明参数顺序
- *          optionKey:"currency"                                    // 声明特定语言下的配置在$options.currency
+ *          configKey:"currency"                                    // 声明特定语言下的配置在$config.currency
  *      }
  *   )
  * 
@@ -309,13 +345,13 @@ function replaceAll(str,findValue,replaceValue){
     let opts = Object.assign({
         normalize    : null,         // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
         params       : [],           // 声明参数顺序
-        optionKeyPath: null          // 声明该格式化器在$options中的路径，支持简单的使用.的路径语法
+        configKey    : null          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
     })     
 
     // 最后一个参数是传入activeFormatterOptions参数
     const wrappedFn =  function(value,...args){
         let finalValue = value
-        // 1. 输入值规范处理，主要的类型转换等
+        // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
         if(isFunction(opts.normalize)){
             try{
                 finalValue = opts.normalize(finalValue)
@@ -325,16 +361,16 @@ function replaceAll(str,findValue,replaceValue){
         let activeFormatterOpts = args.length>0 ? args[args.length-1] : {}
         if(!isPlainObject( activeFormatterOpts))  activeFormatterOpts ={}   
         // 3. 从当前语言的激活语言中读取配置参数
-        const activeOptions =Object.assign({},defaultParams,getByPath(activeFormatterOpts,opts.optionKey,{}))
-        let finalArgs = opts.params.map(param=>getByPath(activeOptions,param,undefined))   
-        // 4. 将翻译函数执行格式化器时传入的参数具有高优先级     
+        const activeConfig =Object.assign({},defaultParams,getByPath(activeFormatterOpts,opts.configKey,{}))
+        let finalArgs = opts.params.map(param=>getByPath(activeConfig,param,undefined))   
+        // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
         for(let i =0; i<finalArgs.length-1;i++){
             if(i>=args.length-1) break // 最后一参数是配置
             if(args[i]!==undefined) finalArgs[i] = args[i]
         }
         return fn(finalValue,...finalArgs,activeFormatterOpts)
     }
-    fn.paramCount = opts.paramCount
+    wrappedFn.configurable = true       //  当函数是可配置时才在最后一个参数中传入$config
     return wrappedFn
 }
 
@@ -352,6 +388,8 @@ module.exports ={
     replaceAll,
     getByPath,
     getDataTypeName,
+    formatDatetime,
+    formatTime,
     toDate,
     toNumber,
     toCurrency,

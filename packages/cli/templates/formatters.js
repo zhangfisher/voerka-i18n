@@ -7,7 +7,7 @@
     - 以下定义了一些格式化器，在中文场景下，会启用这些格式化器。
     import dayjs from "dayjs";
     export default {   
-        $options:{...},
+        $config:{...},
         $types:{         
             Date:(value)=>dayjs(value).format("YYYY年MM月DD日 HH:mm:ss"),    
         },
@@ -32,7 +32,7 @@
 {{if moduleType === "esm"}}
 export default{{else}}module.exports = {{/if}}{
     // 格式化器参数
-    $options:{
+    $config:{
 
     },
     // 指定数据类型的默认格式化器

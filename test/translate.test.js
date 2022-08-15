@@ -1,7 +1,7 @@
 const dayjs = require('dayjs');
-const { getInterpolatedVars,  replaceInterpolatedVars , translate}  = require('../packages/runtime/index.js')
- 
-const messages = {
+const { i18nScope, translate, getInterpolatedVars }  = require('../packages/runtime/dist/runtime.cjs')
+
+const loaders = {
     zh:{
         1:"你好",
         2:"现在是{}",
@@ -16,88 +16,60 @@ const messages = {
     }
 }
 
+
+const formatters = {
+    zh:{
+        $config:{},
+        $types:{},
+        book:(v)=>`《${v}》`,
+    },
+    en:{
+        $config:{},
+        $types:{ },
+        book:(v)=>`<${v}>`,
+    },
+}
 const idMap = {
-    "你好":1,
-    "现在是{}":2,
-    "我出生于{year}年，今年{age}岁":3,
-    "我有{}个朋友":4
+    1:"你好",
+    2:"现在是{}",
+    3:"我出生于{year}年，今年{age}岁"
+    4:"我有{}个朋友"
 }
+const languages = [
+    { name: "zh", title: "中文" },
+    { name: "en", title: "英文" },
+    { name: "de", title: "德语" },
+    { name: "jp", title: "日语" }
+] 
 
 
+const scope = new i18nScope({
+    id             : "test",
+    defaultLanguage: "zh",
+    activeLanguage : "zh",
+    namespaces     : {},    
+    default        : loaders.zh,                        // 默认语言包
+    messages       : loaders.zh,                        // 当前语言包
+    languages,                                          // 语言配置
+    idMap,                                              // 消息id映射列表    
+    formatters,                                         // 扩展自定义格式化器    
+    loaders                                             // 语言包加载器
+})
 
 
-let scope1 ={
-    defaultLanguage: "zh",                      // 默认语言名称
-    default:  messages.zh,                              
-    messages :messages.zh,                
-    idMap,                           
-    formatters:{                                // 当前作用域的格式化函数列表
-        "*":{
-            $types:{
-                Date:(v)=>dayjs(v).format('YYYY-MM-DD HH:mm:ss'),
-                Boolean:(v)=>v?"True":"False",                
-            },
-            sum:(v,n=1)=>v+n,
-            double:(v)=>v*2,
-            upper:(v)=>v.toUpperCase(),
-            lower:(v)=>v.toLowerCase()
-        },
-        zh:{
-            $types:{
-                Date:(v)=>dayjs(v).format('YYYY年MM月DD日 HH点mm分ss秒'),
-                Boolean:(v)=>v?"是":"否",
-            },
-            book:(v)=>`《${v}》`,
-        },
-        en:{
-            $types:{
+const t = translate.bind(scope) 
 
-            },
-            book:(v)=>`<${v}>`,
-        },
-    },                                         
-    loaders:{},                                 // 异步加载语言文件的函数列表
-    global:{// 引用全局VoerkaI18n配置
-        defaultLanguage: "zh",
-        activeLanguage: "zh",
-        languages:[
-            {name:"zh",title:"中文",default:true},
-            {name:"en",title:"英文"},
-            {name:"de",title:"德语"},
-            {name:"jp",title:"日语"}
-        ],
-        formatters:{                                // 当前作用域的格式化函数列表
-            "*":{
-                $types:{
-    
-                }
-            },
-            zh:{
-                $types:{
-    
-                }
-            },
-            en:{
-                $types:{
-    
-                }
-            },
-        }
-    }                                   
-} 
-
-const replaceVars  = replaceInterpolatedVars.bind(scope1)
-const t =  translate.bind(scope1)
-
-
-function changeLanguage(language){
-    scope1.global.activeLanguage = language
-    scope1.messages = messages[language]
-
-}
+// 适用于所有语言的格式化器，并且注册到全局
+scope.registerFormatters({
+    "*":{
+        sum   : (v,n=1)=>v+n,
+        double: (v)=>v*2,
+        upper : (v)=>v.toUpperCase(),
+    }
+},true)
 
 beforeEach(() => {
-    scope1.global.activeLanguage = "zh"     // 切换到中文
+    scope.change("zh")
 });
   
 
@@ -121,7 +93,6 @@ test("获取翻译内容中的插值变量",done=>{
     expect(results[1].name).toEqual("city");
     expect(results[1].formatters.length).toEqual(0);
 
-
     done()
 })
 
@@ -136,7 +107,6 @@ test("获取翻译内容中定义了重复的插值变量",done=>{
     expect(results[1].formatters[0].name).toEqual("x");
     expect(results[1].formatters[0].args).toEqual([]);
 
-
     expect(results[2].name).toEqual("a");
     expect(results[2].formatters.length).toEqual(2);
     expect(results[2].formatters[0].name).toEqual("x");
@@ -148,45 +118,45 @@ test("获取翻译内容中定义了重复的插值变量",done=>{
 })
 
 test("替换翻译内容的位置插值变量",done=>{   
-    expect(replaceVars("{}{}{}",1,2,3)).toBe("123");
-    expect(replaceVars("{a}{b}{c}",1,2,3)).toBe("123");
+    expect(t("{}{}{}",1,2,3)).toBe("123");
+    expect(t("{a}{b}{c}",1,2,3)).toBe("123");
     // 定义了一些无效的格式化器，直接忽略
-    expect(replaceVars("{a|xxx}{b|dd}{c|}",1,2,3)).toBe("123");
-    expect(replaceVars("{a|xxx}{b|dd}{c|}",1,2,3,4,5,6)).toBe("123");
-    expect(replaceVars("{ a|}{b|dd}{c|}{}",1,2,3)).toBe("123{}");
+    expect(t("{a|xxx}{b|dd}{c|}",1,2,3)).toBe("123");
+    expect(t("{a|xxx}{b|dd}{c|}",1,2,3,4,5,6)).toBe("123");
+    expect(t("{ a|}{b|dd}{c|}{}",1,2,3)).toBe("123{}");
     // 中文状态下true和false被转换成中文的"是"和"否"
-    expect(replaceVars("{}{}{}",1,"2",true)).toBe("12是");
-    expect(replaceVars("{|double}{}{}",1,"2",true)).toBe("22是");
+    expect(t("{}{}{}",1,"2",true)).toBe("12是");
+    expect(trim("{|double}{}{}",1,"2",true)).toBe("22是");
     done()
 })
 
 test("替换翻译内容的命名插值变量",done=>{    
-    expect(replaceVars("{a}{b}{c}",{a:11,b:22,c:33})).toBe("112233"); 
-    expect(replaceVars("{a}{b}{c}{a}{b}{c}",{a:1,b:"2",c:3})).toBe("123123");
+    expect(t("{a}{b}{c}",{a:11,b:22,c:33})).toBe("112233"); 
+    expect(t("{a}{b}{c}{a}{b}{c}",{a:1,b:"2",c:3})).toBe("123123");
     done()
 })
 
 test("命名插值变量使用格式化器",done=>{    
   // 提供无效的格式化器，直接忽略
-  expect(replaceVars("{a|x}{b|x|y}{c|}",{a:1,b:2,c:3})).toBe("123"); 
-  expect(replaceVars("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
+  expect(t("{a|x}{b|x|y}{c|}",{a:1,b:2,c:3})).toBe("123"); 
+  expect(t("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
   // 默认的字符串格式化器，不需要定义使用字符串方法
-  expect(replaceVars("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
+  expect(t("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
   // padStart格式化器是字符串的方法，不需要额外定义可以直接使用
-  expect(replaceVars("{a|padStart(10)}",{a:"123"})).toBe("       123"); 
-  expect(replaceVars("{a|padStart(10)|trim}",{a:"123"})).toBe("123"); 
+  expect(t("{a|padStart(10)}",{a:"123"})).toBe("       123"); 
+  expect(t("{a|padStart(10)|trim}",{a:"123"})).toBe("123"); 
   done()
 })
 
 
 test("命名插值变量使用格式化器",done=>{    
     // 提供无效的格式化器，直接忽略
-    expect(replaceVars("{a|x}{b|x|y}{c|}",{a:1,b:2,c:3})).toBe("123"); 
-    expect(replaceVars("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
+    expect(t("{a|x}{b|x|y}{c|}",{a:1,b:2,c:3})).toBe("123"); 
+    expect(t("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
     // 默认的字符串格式化器，不需要定义使用字符串方法
-    expect(replaceVars("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
-    expect(replaceVars("{a|padStart(10)}",{a:"123"})).toBe("       123"); 
-    expect(replaceVars("{a|padStart(10)|trim}",{a:"123"})).toBe("123"); 
+    expect(t("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
+    expect(t("{a|padStart(10)}",{a:"123"})).toBe("       123"); 
+    expect(t("{a|padStart(10)|trim}",{a:"123"})).toBe("123"); 
     done()
   })
 
@@ -194,11 +164,11 @@ test("命名插值变量使用格式化器",done=>{
   
 test("切换到其他语言时的自动匹配同名格式化器",done=>{    
     // 默认的字符串类型的格式化器
-    expect(replaceVars("{a}",{a:true})).toBe("是");  
-    expect(replaceVars("{name|book}是毛泽东思想的重要载体","毛泽东选集")).toBe("《毛泽东选集》是毛泽东思想的重要载体");  
+    expect(t("{a}",{a:true})).toBe("是");  
+    expect(t("{name|book}是毛泽东思想的重要载体","毛泽东选集")).toBe("《毛泽东选集》是毛泽东思想的重要载体");  
     changeLanguage("en")
-    expect(replaceVars("{a}",{a:false})).toBe("False");  
-    expect(replaceVars("{name|book}是毛泽东思想的重要载体","毛泽东选集")).toBe("<毛泽东选集>是毛泽东思想的重要载体");  
+    expect(t("{a}",{a:false})).toBe("False");  
+    expect(t("{name|book}是毛泽东思想的重要载体","毛泽东选集")).toBe("<毛泽东选集>是毛泽东思想的重要载体");  
     done()
 })
 

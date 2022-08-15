@@ -271,7 +271,7 @@ function getFormatter(scope,activeLanguage,name){
         resetScopeCache(scope,activeLanguage)
     }
     const fallbackLanguage = scope.getLanguage(activeLanguage).fallback
-    // 2. 先在当前作用域中查找，再在全局查找 formatters={$types,$options,[格式化器名称]:()=>{},[格式化器名称]:()=>{}}
+    // 2. 先在当前作用域中查找，再在全局查找 formatters={$types,$config,[格式化器名称]:()=>{},[格式化器名称]:()=>{}}
     const range = [
         scope.activeFormatters,
         scope.formatters[fallbackLanguage],         // 如果指定了回退语言时,也在该回退语言中查找
@@ -305,9 +305,9 @@ function executeChecker(checker,value){
 /**
  * 执行格式化器并返回结果
  * 
- * 格式化器this指向当前scope，并且最后一个参数是当前scope格式化器的$options
+ * 格式化器this指向当前scope，并且最后一个参数是当前scope格式化器的$config
  * 
- * 这样格式化器可以读取$options
+ * 这样格式化器可以读取$config
  * 
  * @param {*} value 
  * @param {Array[Function]} formatters  多个格式化器函数(经过包装过的)顺序执行，前一个输出作为下一个格式化器的输入
@@ -655,7 +655,7 @@ function translate(message) {
     get activeLanguage(){ return this._settings.activeLanguage}     // 当前激活语言    名称
     get defaultLanguage(){ return this._settings.defaultLanguage}   // 默认语言名称    
     get languages(){ return this._settings.languages}               // 支持的语言列表    
-    get formatters(){ return this._settings.formatters }            // 内置格式化器{*:{$options,$types,...},zh:{$options,$types,...},en:{$options,$types,...}}
+    get formatters(){ return this._settings.formatters }            // 内置格式化器{*:{$config,$types,...},zh:{$config,$types,...},en:{$config,$types,...}}
     get defaultMessageLoader(){ return this._defaultMessageLoader}  // 默认语言包加载器
 
     // 通过默认加载器加载文件

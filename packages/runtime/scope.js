@@ -25,7 +25,7 @@ module.exports = class i18nScope {
 		this._default         = options.default;                            // 默认语言包
 		this._messages        = options.messages;                           // 当前语言包
 		this._idMap           = options.idMap;                              // 消息id映射列表
-		this._formatters      = options.formatters;                         // 当前作用域的格式化函数列表{<lang>: {$types,$options,[格式化器名称]: () => {},[格式化器名称]: () => {}}}
+		this._formatters      = options.formatters;                         // 当前作用域的格式化函数列表{<lang>: {$types,$config,[格式化器名称]: () => {},[格式化器名称]: () => {}}}
 		this._loaders         = options.loaders;                            // 异步加载语言文件的函数列表
 		this._global          = null;                                       // 引用全局VoerkaI18n配置，注册后自动引用
 		this._patchMessages   = {};                                         // 语言包补丁信息{<language>: {....},<language>:{....}}
@@ -62,8 +62,8 @@ module.exports = class i18nScope {
 	get languages() {return this._languages;}                           // 当前作用域支持的语言列表[{name,title,fallback}]	
 	get loaders() {	return this._loaders;}                              // 异步加载语言文件的函数列表	
 	get global() {	return this._global;}                               // 引用全局VoerkaI18n配置，注册后自动引用    
-	get formatters() {	return this._formatters;}                       // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$options,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
-	get activeFormatters() {return this._activeFormatters}              // 当前作用域激活的格式化器定义 {$types,$options,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
+	get formatters() {	return this._formatters;}                       // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
+	get activeFormatters() {return this._activeFormatters}              // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
     get activeFormatterOptions(){return this._activeFormatterOptions}   // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
 
 	/**
@@ -86,10 +86,12 @@ module.exports = class i18nScope {
        registerFormatter(name,value=>{...},{langauge:["zh","cht"]})         // 注册到zh和cht语言
        registerFormatter(name,value=>{...},{langauge:"zh,cht"})
      * @param {*} formatter            格式化器
-        language : 声明该格式化器适用语言
+        language : 字符串或数组，声明该格式化器适用语言
+           *代表适用于所有语言
+           语言名称，语言名称数组，或者使用,分割的语言名称字符串
         asGlobal : 注册到全局
      */
-	registerFormatter(name, formatter, { language = "*", asGlobal } = {}) {
+	registerFormatter(name, formatter, { language = "*", global : asGlobal } = {}) {
 		if (!isFunction(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
@@ -110,6 +112,20 @@ module.exports = class i18nScope {
 			});
 		}
 	}
+    /**
+     * 注册多种格式化器
+     * registerFormatters(={"*",zh:{...},en:{...}})
+     *  registerFormatters(={"*",zh:{...},en:{...}},true) 在全局注册
+     * @param {*} formatters ={"*",zh:{...},en:{...}}
+     * @returns 
+     */
+    registerFormatters(formatters,isGlobal=false) {
+        Object.entries(formatters).forEach(([language,fns]=>{
+            Object.entries(fns).forEach(([name,formatter])=>{
+                this.registerFormatter(name,formatter,{language})
+            })            
+        })) 
+    }
 	/**
 	 * 注册默认文本信息加载器
 	 * @param {Function} 必须是异步函数或者是返回Promise
@@ -144,7 +160,7 @@ module.exports = class i18nScope {
     /**
      * 初始化格式化器
      * 激活和默认语言的格式化器采用静态导入的形式，而没有采用异步块的形式，这是为了确保首次加载时的能马上读取，而减少延迟加载
-     * _activeFormatters={$options:{...},$types:{...},[格式化器名称]:()=>{...},[格式化器名称]:()=>{...},...}}
+     * _activeFormatters={$config:{...},$types:{...},[格式化器名称]:()=>{...},[格式化器名称]:()=>{...},...}}
      */
     _initFormatters(newLanguage){
         this._activeFormatters = {}
@@ -167,7 +183,7 @@ module.exports = class i18nScope {
      * 当切换语言时，格式化器应该切换到对应语言的格式化器
      * 
      * 重要需要处理：
-     *   $options参数采用合并继承机制
+     *   $config参数采用合并继承机制
      * 
      * 
 	 * @param {*} language
@@ -192,19 +208,19 @@ module.exports = class i18nScope {
 	}
     /**
      * 生成格式化器的配置参数，该参数由以下合并而成：
-     *  - global.formatters[*].$options
-     *  - global.formatters[language].$options
-     *  - scope.activeFormatters.$options   当前优先
+     *  - global.formatters[*].$config
+     *  - global.formatters[language].$config
+     *  - scope.activeFormatters.$config   当前优先
      */
     _generateFormatterOptions(language){
         let options 
         try{
-            options = Object.assign({},getByPath(this._global.formatters,`*.$options`,{}))
-            deepMixin(options,getByPath(this._global.formatters,`${language}.$options`,{}))
-            deepMixin(options,getByPath(this._activeFormatters,"$options",{}))
+            options = Object.assign({},getByPath(this._global.formatters,`*.$config`,{}))
+            deepMixin(options,getByPath(this._global.formatters,`${language}.$config`,{}))
+            deepMixin(options,getByPath(this._activeFormatters,"$config",{}))
         }catch(e){
             if(this.debug) console.error(`Error while generate <${language}> formatter options: `,e)
-            if(!options) options = this._activeFormatters.$options || {}
+            if(!options) options = this._activeFormatters.$config || {}
         }        
         return this._activeFormatterOptions = options
     }
