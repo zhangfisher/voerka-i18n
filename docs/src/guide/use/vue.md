@@ -51,7 +51,7 @@ import { t } from "../../../languages"
 
 导入`t`函数后就可以直接使用了。
 
-```vue
+```javascript | pure
 <Script setup>
 // 如果没有在vite.config.js中配置`@voerkai18n/vite`插件，则需要手工导入t函数
 // import { t } from "./languages"
@@ -101,17 +101,17 @@ export default {
 引入`@voerkai18n/vue`插件来实现切换语言和自动重新渲染的功能。
 
 ```javascript | pure
-    import { createApp } from 'vue'
-    import Root from './App.vue'
-    import i18nPlugin from '@voerkai18n/vue'
-    import { i18nScope } from './languages'
-    const app = createApp(Root)
-    app.use(i18nPlugin,{ i18nScope })   // 重点，需要引入i18nScope
-    app.mount('#app')
+import { createApp } from 'vue'
+import Root from './App.vue'
+import i18nPlugin from '@voerkai18n/vue'
+import { i18nScope } from './languages'
+const app = createApp(Root)
+app.use(i18nPlugin,{ i18nScope })   // 重点，需要引入i18nScope
+app.mount('#app')
 ```
 `@voerkai18n/vue`插件安装后,提供了一个`i18n`实例，可以在组件中进行`inject`。就可以按如下方式使用：
 
-```vue
+```javascript | pure
 <script>
 export default {
   inject: ['i18n']          // 此值由`@voerkai18n/vue`插件提供

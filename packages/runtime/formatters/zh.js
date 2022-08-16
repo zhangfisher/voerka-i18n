@@ -14,7 +14,7 @@ module.exports = {
             date            :{
                 long        : 'YYYY年MM月DD日 HH点mm分ss秒',       
                 short       : "MM/DD",                          
-                format      : 'YYYY年MM月DD日 HH点mm分ss秒'
+                format      : 'long'
             },
             quarter         : {
                 names  : ["一季度","二季度","三季度","四季度"],
@@ -50,12 +50,10 @@ module.exports = {
         }
     },
     $types: {
-        Date: value => {const d = toDate(value);return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}点${d.getMinutes()}分${d.getSeconds()}秒`},
-        Boolean  : value =>value ? "是":"否"                
-
+        Boolean  : value =>value ? "是":"否"
     },
-      // 中文货币，big=true代表大写形式
-    capitalizeCurrency:(value,big,unit="元",prefix,suffix)=>toChineseCurrency(value,{big,prefix,suffix,unit}),
+    // 中文货币，big=true代表大写形式
+    rmb     :   (value,big,unit="元",prefix,suffix)=>toChineseCurrency(value,{big,prefix,suffix,unit}),
     // 中文数字,如一千二百三十一
-    number:(value,isBig)=>toChineseNumber(value,isBig)
+    number  :(value,isBig)=>toChineseNumber(value,isBig)
 } 

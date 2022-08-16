@@ -96,7 +96,6 @@ function deepMerge(toObj,formObj,options={}){
     })
     return results
 }
-
  
 function deepMixin(toObj,formObj,options={}){
     return deepMerge(toObj,formObj,{...options,mixin:true})
@@ -174,7 +173,7 @@ function toNumber(value,defualt=0) {
 
 /**
  * 根据路径获取指定值
- * 
+ * 只支持简单的.分割路径
  * getByPath({a:{b:1}},"a.b") == 1
  * getByPath({a:{b:1}},"a.c",2) == 2
  * 
@@ -184,17 +183,33 @@ function toNumber(value,defualt=0) {
  * @returns 
  */
 function getByPath(obj,path,defaultValue){
-    if(typeof(obj)!="object") return defaultValue
+    if(typeof(obj)!="object" || typeof(path)!="string") return defaultValue
     let paths = path.split(".")
     let cur = obj
     for(let key of paths){
-        if(typeof(cur)=="object" && key in cur ){
+        if(typeof(cur)=="object" && (key in cur) ){
             cur = cur[key]
         }else{
             return defaultValue
         }
     }
     return cur
+}
+function deepClone(obj){
+    if(obj==undefined) return obj
+    if (['string',"number","boolean","function","undefined"].includes(typeof(obj))){
+        return obj
+    }else if(Array.isArray(obj)){
+        return obj.map(item => deepClone(item))        
+    }else if(typeof(obj)=="object"){
+        let results = {}
+        Object.entries(obj).forEach(([key,value])=>{
+            results[key] = deepClone(value)         
+        })
+        return results
+    }else{
+        return obj
+    }    
 }
 
 
@@ -226,8 +241,7 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
     const v = toDate(value)
     const year =String(v.getFullYear()),month = String(v.getMonth()+1),weekday=String(v.getDay()),day=String(v.getDate())
     const hourNum = v.getHours()
-    const hour = String(hourNum).minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
-    const timezone = v.getTimezoneOffset()
+    const hour = String(hourNum), minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
     const vars = [
         ["YYYY", year],                                                 // 2018	年，四位数
         ["YY", year.substring(year.length - 2, year.length)],           // 18	年，两位数        
@@ -250,14 +264,15 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
         ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
         ["a", hour > 12 ? "pm" : "am"],                                 // am / pm	上/下午，小写
     ]
-    vars.forEach(([key,value])=>result = replaceAll(result,key,value))
+    let result = templ
+    vars.forEach(([k,v])=>result = replaceAll(result,k,v))
     return result
 }
 
 function formatTime(value,templ="HH:mm:ss"){
     const v = toDate(value)
     const hourNum = v.getHours()
-    const hour = String(hourNum).minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
+    const hour = String(hourNum),minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
     let result = templ
     const vars = [
         ["HH", hour.padStart(2, "0")],                          // 00-23	24小时，两位数
@@ -274,7 +289,7 @@ function formatTime(value,templ="HH:mm:ss"){
         ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
         ["a", hour > 12 ? "pm" : "am"]                                  // am / pm	上/下午，小写
     ]
-    vars.forEach(([key,value])=>result = replaceAll(result,key,value))
+    vars.forEach(([k,v])=>result = replaceAll(result,k,v))
     return result
 }
 /**
@@ -310,6 +325,7 @@ function replaceAll(str,findValue,replaceValue){
  *   "currency":createFormatter((value,prefix,suffix, division ,precision,options)=>{
  *     // 无论在格式化入参数是多少个，经过处理后在此得到prefix,suffix, division ,precision参数已经是经过处理后的参数
  *     依次读取格式化器的参数合并：
+ *       - 创建格式化时的defaultParams参数
  *       - 从当前激活格式化器的$config中读取配置参数
  *       - 在t函数后传入参数
   *     比如currency格式化器支持4参数，其入参顺序是prefix,suffix, division ,precision
@@ -338,19 +354,19 @@ function replaceAll(str,findValue,replaceValue){
  *   )
  * 
  * @param {*} fn 
- * @param {*} defaultParams         默认参数
- * @param {*} meta 
+ * @param {*} options               配置参数
+ * @param {*} defaultParams         可选默认值
  * @returns 
  */
- function createFormatter(fn,defaultParams={},meta={}){
+ function createFormatter(fn,options={},defaultParams={}){
     let opts = Object.assign({
         normalize    : null,         // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
         params       : [],           // 声明参数顺序
         configKey    : null          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
-    })     
+    },options)     
 
     // 最后一个参数是传入activeFormatterConfig参数
-    const wrappedFn =  function(value,...args){
+    const $formatter =  function(value,...args){
         let finalValue = value
         // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
         if(isFunction(opts.normalize)){
@@ -369,10 +385,10 @@ function replaceAll(str,findValue,replaceValue){
             if(i>=args.length-1) break // 最后一参数是配置
             if(args[i]!==undefined) finalArgs[i] = args[i]
         }
-        return fn(finalValue,...finalArgs,activeFormatterConfigs)
+        return fn(finalValue,...finalArgs,formatterConfig)
     }
-    wrappedFn.configurable = true       //  当函数是可配置时才在最后一个参数中传入$config
-    return wrappedFn
+    $formatter.configurable = true       //  当函数是可配置时才在最后一个参数中传入$config
+    return $formatter
 }
 
 const Formatter = createFormatter
@@ -382,6 +398,7 @@ module.exports ={
     isFunction,
     isNumber,
     isNothing,
+    deepClone,
     deepMerge,
     deepMixin,
     Formatter,

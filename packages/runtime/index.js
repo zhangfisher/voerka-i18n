@@ -1,4 +1,4 @@
-const {createFormatter,getDataTypeName,isNumber,isPlainObject,deepMerge,isFunction,isNothing,deepMixin,replaceAll} = require("./utils")
+const {createFormatter,Formatter,getDataTypeName,isNumber,isPlainObject,deepMerge,isFunction,isNothing,deepMixin,replaceAll} = require("./utils")
 const EventEmitter = require("./eventemitter")
 const inlineFormatters = require("./formatters")         
 const i18nScope = require("./scope")
@@ -153,7 +153,7 @@ function forEachInterpolatedVars(str,callback,options={}){
                 if(opts.replaceAll){ // 在某此版本上可能没有
                     result=result.replaceAll(match[0],finalValue)
                 }else{
-                    result=replaceAll(result,match[0],finalValue)
+                    result=result.replace(match[0],finalValue)
                 }                
             }catch{// callback函数可能会抛出异常，如果抛出异常，则中断匹配过程
                 break   
@@ -229,24 +229,19 @@ function getDataTypeDefaultFormatter(scope,activeLanguage,dataType){
     }else{// 当语言切换时清空缓存
         resetScopeCache(scope,activeLanguage)
     }
+    const fallbackLanguage = scope.getLanguage(activeLanguage).fallback;
     // 先在当前作用域中查找，再在全局查找
-    const targets = [scope.formatters,scope.global.formatters]  
+    const targets = [
+        scope.activeFormatters,
+        scope.formatters[fallbackLanguage],                 // 如果指定了回退语言时,也在该回退语言中查找
+        scope.global.formatters[activeLanguage],
+        scope.global.formatters["*"]
+    ]  
     for(const target of targets){
         if(!target) continue
-         // 1. 在全局$types中查找
-         if(("*" in target) && isPlainObject(target["*"].$types)){
-            let formatters = target["*"].$types 
-            if(dataType in formatters && isFunction(formatters[dataType])){                
-                return scope.$cache.typedFormatters[dataType] = formatters[dataType]
-            }  
-        } 
-        // 2. 当前语言的$types中查找
-        if((activeLanguage in target) && isPlainObject(target[activeLanguage].$types)){ 
-            let formatters = target[activeLanguage].$types  
-            if(dataType in formatters && isFunction(formatters[dataType])){                
-                return scope.$cache.typedFormatters[dataType] = formatters[dataType]
-            }  
-        }         
+         if(isPlainObject(target.$types) && isFunction(target.$types[dataType])){
+            return scope.$cache.typedFormatters[dataType] = target.$types[dataType]
+        }        
     } 
 }
 
@@ -285,7 +280,16 @@ function getFormatter(scope,activeLanguage,name){
         }
     }     
 }
-
+/**
+ * Checker是一种特殊的格式化器，会在特定的时间执行
+ * 
+ * Checker应该返回{value,next}用来决定如何执行下一个格式化器函数
+ * 
+ * 
+ * @param {*} checker 
+ * @param {*} value 
+ * @returns 
+ */
 function executeChecker(checker,value){
     let result ={ value, next:"skip"}
     if(!isFunction(checker)) return result
@@ -341,7 +345,7 @@ function executeFormatter(value,formatters,scope,template){
     // 3. 分别执行格式化器函数
     for(let formatter of formatters){
         try{
-            result = formatter(result)
+            result = formatter(result,scope.activeFormatterConfig)
         }catch(e){
             e.formatter = formatter.$name 
             if(scope.debug) console.error(`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} ` )            
@@ -361,6 +365,9 @@ function executeFormatter(value,formatters,scope,template){
 
 /**
  * 添加默认的empty和error格式化器，用来提供默认的空值和错误处理逻辑
+ * 
+ * empty和error格式化器有且只能有一个，其他无效
+ * 
  * @param {*} formatters 
  */
 function addDefaultFormatters(formatters){ 
@@ -376,8 +383,13 @@ function addDefaultFormatters(formatters){
 
 /**
  * 
- * 将[[格式化器名称,[参数,参数,...]]，[格式化器名称,[参数,参数,...]]]格式化器包装转化为
- *  格式化器的调用函数链
+ *  经parseFormatters解析t('{}')中的插值表达式中的格式化器后会得到
+ *  [[<格式化器名称>,[参数,参数,...]]，[<格式化器名称>,[参数,参数,...]]]数组
+ * 
+ *  本函数将之传换为转化为调用函数链，形式如下：
+ *  [(v)=>{...},(v)=>{...},(v)=>{...}]
+ * 
+ *  并且会自动将当前激活语言的格式化器配置作为最后一个参数配置传入,这样格式化器函数就可以读取
  * 
  * @param {*} scope 
  * @param {*} activeLanguage 
@@ -386,32 +398,24 @@ function addDefaultFormatters(formatters){
  * 
  */
 function wrapperFormatters(scope,activeLanguage,formatters){
-    let wrappedFormatters = []         
+    let wrappedFormatters = []      
+    addDefaultFormatters(formatters)   
     for(let [name,args] of formatters){
         if(name){
-            const func = getFormatter(scope,activeLanguage,name)            
-            if(isFunction(func)){               
-                const fn = (value) => {                    
-                    if(func.configurable){ // 如果格式化器函数是使用createFormatter创建的
-                        return func.call(scope,value,...args,scope.activeFormatterConfig)
-                    }else{  //  不可配置的格式化器不会传入格式化器配置
-                        return func.call(scope,value,...args)
-                    }
-                }
-                fn.$name = name                          
-                wrappedFormatters.push(fn)
-            }else{
-                // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
-                // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
-                wrappedFormatters.push((value)=>{
+            let fn = getFormatter(scope,activeLanguage,name)            
+            // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
+            // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
+            if(!isFunction(fn)){               
+                fn = (value,...args) =>{
                     if(isFunction(value[name])){
-                        // 最后一个参数是当前作用域的格式化器配置参数
-                        return value[name](value,...args)
+                        return value[name](...args)
                     }else{
                         return value
-                    }        
-                })  
-            }              
+                    }                   
+                }
+            }   
+            fn.$name = name                            
+            wrappedFormatters.push(fn)         
         }
     }
     return wrappedFormatters
@@ -426,10 +430,11 @@ function wrapperFormatters(scope,activeLanguage,formatters){
  * @returns 
  */
 function getFormattedValue(scope,activeLanguage,formatters,value,template){
-    // 1. 取得格式化器函数列表
+    // 1. 取得格式化器函数列表，然后经过包装以传入当前格式化器的配置参数
     const formatterFuncs = wrapperFormatters(scope,activeLanguage,formatters) 
     // 3. 执行格式化器
-    if(formatterFuncs.length==0){
+    // EMPTY和ERROR是默认两个格式化器，如果只有两个则说明在t(...)中没有指定格式化器
+    if(formatterFuncs.length==2){
         // 当没有格式化器时，查询是否指定了默认数据类型的格式化器，如果有则执行
         const defaultFormatter =  getDataTypeDefaultFormatter(scope,activeLanguage,getDataTypeName(value)) 
         if(defaultFormatter){
@@ -661,14 +666,13 @@ function translate(message) {
     /**
      *  切换语言
      */
-    async change(value){
-        value=value.trim()
-        if(this.languages.findIndex(lang=>lang.name === value)!==-1 || isFunction(this._defaultMessageLoader)){
-            await this._refreshScopes(value)                        // 通知所有作用域刷新到对应的语言包
-            this._settings.activeLanguage = value            
-            await this.emit(value)                                  // 触发语言切换事件
+    async change(language){
+        if(this.languages.findIndex(lang=>lang.name === language)!==-1 || isFunction(this._defaultMessageLoader)){
+            await this._refreshScopes(language)                        // 通知所有作用域刷新到对应的语言包
+            this._settings.activeLanguage = language            
+            await this.emit(language)                                  // 触发语言切换事件
         }else{
-            throw new Error("Not supported language:"+value)
+            throw new Error("Not supported language:"+language)
         }
     }
     /**
@@ -681,7 +685,7 @@ function translate(message) {
                 return scope.refresh(newLanguage)
             })
             if(Promise.allSettled){
-                await Promise.allSettled(scopeRefreshers)
+               await Promise.allSettled(scopeRefreshers)
             }else{
                 await Promise.all(scopeRefreshers)
             } 
@@ -764,6 +768,7 @@ module.exports ={
     translate,
     i18nScope,
     createFormatter,
+    Formatter,
     defaultLanguageSettings,
     getDataTypeName,
     isNumber,

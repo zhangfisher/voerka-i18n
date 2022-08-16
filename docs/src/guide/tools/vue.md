@@ -55,7 +55,7 @@ this.i18n = {
 
 注入`i18n`实例后就可以在此基础上实现`激活语言`、`默认语言`、`切换语言`等功能。
 
-```vue
+```javascript | pure
 <script>
 import {reactive } from 'vue'
 export default {

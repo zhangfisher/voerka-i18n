@@ -1,4 +1,4 @@
-const { isPlainObject, isFunction, getByPath, deepMixin } = require("./utils");
+const { isPlainObject, isFunction, getByPath, deepMixin,deepClone } = require("./utils");
 
 const DataTypes = [
 	"String",
@@ -41,8 +41,8 @@ module.exports = class i18nScope {
 			const { I18nManager } = require("./");
 			globalThis.VoerkaI18n = new I18nManager({
 				debug          : this._debug,
-				defaultLanguage: this.defaultLanguage,
-				activeLanguage : this.activeLanguage,
+				defaultLanguage: this._defaultLanguage,
+				activeLanguage : this._activeLanguage,
 				languages      : options.languages,
 			});
 		}
@@ -55,7 +55,7 @@ module.exports = class i18nScope {
 	get id() {return this._id;}                                         // 作用域唯一id	
 	get debug() {return this._debug;}                                   // 调试开关	
     get defaultLanguage() {return this._defaultLanguage;}               // 默认语言名称	
-	get activeLanguage() {return this._activeLanguage;}                 // 默认语言名称	
+	get activeLanguage() {return this._global.activeLanguage;}                 // 默认语言名称	
 	get default() {return this._default;}                               // 默认语言包	
 	get messages() {return this._messages;	}                           // 当前语言包	
 	get idMap() {return this._idMap;}                                   // 消息id映射列表	
@@ -64,7 +64,7 @@ module.exports = class i18nScope {
 	get global() {	return this._global;}                               // 引用全局VoerkaI18n配置，注册后自动引用    
 	get formatters() {	return this._formatters;}                       // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
 	get activeFormatters() {return this._activeFormatters}              // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
-    get activeFormatterConfig(){return this._activeFormatterConfig}   // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
+    get activeFormatterConfig(){return this._activeFormatterConfig}     // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
 
 	/**
 	 * 在全局注册作用域当前作用域
@@ -159,7 +159,7 @@ module.exports = class i18nScope {
 	}
     /**
      * 初始化格式化器
-     * 激活和默认语言的格式化器采用静态导入的形式，而没有采用异步块的形式，这是为了确保首次加载时的能马上读取，而减少延迟加载
+     * 激活和默认语言的格式化器采用静态导入的形式，而没有采用异步块的形式，这是为了确保首次加载时的能马上读取，而不能采用延迟加载方式
      * _activeFormatters={$config:{...},$types:{...},[格式化器名称]:()=>{...},[格式化器名称]:()=>{...},...}}
      */
     _initFormatters(newLanguage){
@@ -170,7 +170,7 @@ module.exports = class i18nScope {
 			} else {
 				if (this._debug) console.warn(`Not initialize <${newLanguage}> formatters.`);
 			}
-            this._generateFormatterOptions(newLanguage)
+            this._generateFormatterConfig(newLanguage)
 		} catch (e) {
 			if (this._debug) console.error(`Error while initialize ${newLanguage} formatters: ${e.message}`);
 		}
@@ -183,7 +183,7 @@ module.exports = class i18nScope {
      * 当切换语言时，格式化器应该切换到对应语言的格式化器
      * 
      * 重要需要处理：
-     *   $config参数采用合并继承机制
+     *   $config参数采用合并继承机制,从全局读取
      * 
      * 
 	 * @param {*} language
@@ -198,7 +198,7 @@ module.exports = class i18nScope {
 					this._activeFormatters = (await loader()).default;
 				}
                 // 合并生成格式化器的配置参数,当执行格式化器时该参数将被传递给格式化器
-                this._generateFormatterOptions(newLanguage)
+                this._generateFormatterConfig(newLanguage)
 			} else {
 				if (this._debug) console.warn(`Not configured <${newLanguage}> formatters.`);
 			}
@@ -212,10 +212,10 @@ module.exports = class i18nScope {
      *  - global.formatters[language].$config
      *  - scope.activeFormatters.$config   当前优先
      */
-    _generateFormatterOptions(language){
+    _generateFormatterConfig(language){
         let options 
         try{
-            options = Object.assign({},getByPath(this._global.formatters,`*.$config`,{}))
+            options = deepClone(getByPath(this._global.formatters,`*.$config`,{}))
             deepMixin(options,getByPath(this._global.formatters,`${language}.$config`,{}))
             deepMixin(options,getByPath(this._activeFormatters,"$config",{}))
         }catch(e){
@@ -235,38 +235,45 @@ module.exports = class i18nScope {
 		if (newLanguage === this.defaultLanguage) {
 			this._messages = this._default;
 			await this._patch(this._messages, newLanguage); // 异步补丁
-			this._changeFormatters(newLanguage);
+			await this._changeFormatters(newLanguage);
 			return;
 		}
 		// 非默认语言需要异步加载语言包文件,加载器是一个异步函数
 		// 如果没有加载器，则无法加载语言包，因此回退到默认语言
 		let loader = this.loaders[newLanguage];
 		try {
-			if (isPlainObject(loader)) {
-				this._messages = loader;
-				await this._patch(this._messages, newLanguage);
-			} else if (isFunction(loader)) {
-				this._messages = (await loader()).default;
-				this._activeLanguage = newLanguage;
-				await this._patch(this._messages, newLanguage);
-			} else if (isFunction(this.global.defaultMessageLoader)) {
-				// 如果该语言没有指定加载器，则使用全局配置的默认加载器
-				const loadedMessages =
-					await this.global.loadMessagesFromDefaultLoader(
-						newLanguage,
-						this
-					);
-				this._messages = Object.assign(
-					{},
-					this._default,
-					loadedMessages
-				);
-				this._activeLanguage = newLanguage;
-			} else {
-				this._fallback();
-			}
-			// 应该切换到对应语言的格式化器
-			this._changeFormatters(newLanguage);
+            let newMessages, useRemote =false;
+			if (isPlainObject(loader)) {                // 静态语言包
+				newMessages = loader;
+			} else if (isFunction(loader)) {            // 语言包异步chunk
+				newMessages = (await loader()).default;
+			} else if (isFunction(this.global.defaultMessageLoader)) { // 从远程加载语言包:如果该语言没有指定加载器，则使用全局配置的默认加载器
+				const loadedMessages = await this.global.loadMessagesFromDefaultLoader(newLanguage,this);                
+                if(isPlainObject(loadedMessages)){
+                    useRemote = true
+                    // 需要保存动态语言包中的$config，合并到对应语言的格式化器配置
+                    if(isPlainObject(loadedMessages.$config)){                        
+                        this._formatters[newLanguage] = {
+                            $config  : loadedMessages.$config
+                        }
+                        delete loadedMessages.$config
+                    }
+                    newMessages = Object.assign({},this._default,loadedMessages);
+                }
+			} 
+            if(newMessages){
+                this._messages = newMessages
+                this._activeLanguage = newLanguage;       
+                // 打语言包补丁, 如果是从远程加载语言包则不需要再打补丁了
+                if(!useRemote) {
+                    await this._patch(this._messages, newLanguage);                    
+                }
+                // 切换到对应语言的格式化器
+			    await this._changeFormatters(newLanguage);        
+            }else{
+                this._fallback();
+            }
+
 		} catch (e) {
 			if (this._debug) console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`);
 			this._fallback();
@@ -344,16 +351,10 @@ module.exports = class i18nScope {
 		}
 	}
 	// 以下方法引用全局VoerkaI18n实例的方法
-	get on() {
-		return this._global.on.bind(this._global);
-	}
-	get off() {
-		return this._global.off.bind(this._global);
-	}
-	get offAll() {
-		return this._global.offAll.bind(this._global);
-	}
-	get change() {
-		return this._global.change.bind(this._global);
-	}
+	on() {return this._global.on(...arguments);	}
+	off() {return this._global.off(...arguments); }
+	offAll() {return this._global.offAll(...arguments);}
+	async change(language) {
+        await this._global.change(language);
+    }
 };

@@ -55,12 +55,12 @@ const { toNumber,isFunction } = require("../utils")
  * @param {*} value 
  * @param {String} escapeValue
  * @paran {String} next 下一步行为，取值true/false,break,skip,默认是break
- * @param {*} options 
+ * @param {*} config 
  */
- function empty(value,escapeValue,next,options) {
+ function empty(value,escapeValue,next,config) {
     if(next===false) next = 'break'
     if(next===true) next = 'skip'
-    let opts = Object.assign({escape:"",next:'break',values:[]},options.empty || {})             
+    let opts = Object.assign({escape:"",next:'break',values:[]},config.empty || {})             
     if(escapeValue!=undefined) opts.escape = escapeValue
     let emptyValues = [undefined,null]
     if(Array.isArray(opts.values)) emptyValues.push(...opts.values)    
@@ -86,15 +86,15 @@ empty.paramCount = 2
  * @param {*} value 
  * @param {*} escapeValue 
  * @param {*} next   下一步的行为，取值，break,ignore
- * @param {*} options 格式化器的全局配置参数
+ * @param {*} config 格式化器的全局配置参数
  * @returns 
  */
-function error(value,escapeValue,next,options) {    
+function error(value,escapeValue,next,config) {    
     if(value instanceof Error){     
         if(scope.debug) console.error(`Error while execute formatter<${value.formatter}>:`,e)
         const scope = this
         try{
-            let opts = Object.assign({escape:null,next:'break'},options.error || {})
+            let opts = Object.assign({escape:null,next:'break'},config.error || {})
             if(escapeValue!=undefined) opts.escape = escapeValue
             if(next!=undefined) opts.next = next
             return {

@@ -1,4 +1,4 @@
-const {i18nScope, translate, getInterpolatedVars }  = require('../packages/runtime/index')
+const {i18nScope, translate, getInterpolatedVars }  = require('../packages/runtime/dist/runtime.cjs')
 const dayjs = require('dayjs');
 
 const loaders = {
@@ -31,10 +31,10 @@ const formatters = {
 }
 
 const idMap = {
-    1:"你好",
-    2:"现在是{}",
-    3:"我出生于{year}年，今年{age}岁",
-    4:"我有{}个朋友"
+    "你好":1,
+    "现在是{}":2,
+    "我出生于{year}年，今年{age}岁":3,
+    "我有{}个朋友":4
 }
 const languages = [
     { name: "zh", title: "中文" },
@@ -127,7 +127,7 @@ test("替换翻译内容的位置插值变量",done=>{
     expect(t("{ a|}{b|dd}{c|}{}",1,2,3)).toBe("123{}");
     // 中文状态下true和false被转换成中文的"是"和"否"
     expect(t("{}{}{}",1,"2",true)).toBe("12是");
-    expect(trim("{|double}{}{}",1,"2",true)).toBe("22是");
+    expect(t("{|double}{}{}",1,"2",true)).toBe("22是");
     done()
 })
 
@@ -141,9 +141,7 @@ test("命名插值变量使用格式化器",done=>{
   // 提供无效的格式化器，直接忽略
   expect(t("{a|x}{b|x|y}{c|}",{a:1,b:2,c:3})).toBe("123"); 
   expect(t("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
-  // 默认的字符串格式化器，不需要定义使用字符串方法
-  expect(t("{a|x}{b|x|y}{c|double}",{a:1,b:2,c:3})).toBe("126");   
-  // padStart格式化器是字符串的方法，不需要额外定义可以直接使用
+  // padStart和trim格式化器只是字符串的原型方法，不需要额外定义可以直接使用
   expect(t("{a|padStart(10)}",{a:"123"})).toBe("       123"); 
   expect(t("{a|padStart(10)|trim}",{a:"123"})).toBe("123"); 
   done()
@@ -163,18 +161,16 @@ test("命名插值变量使用格式化器",done=>{
 
 
   
-test("切换到其他语言时的自动匹配同名格式化器",done=>{    
-    // 默认的字符串类型的格式化器
+test("切换到其他语言时的自动匹配同名格式化器",async ()=>{    
     expect(t("{a}",{a:true})).toBe("是");  
     expect(t("{name|book}是毛泽东思想的重要载体","毛泽东选集")).toBe("《毛泽东选集》是毛泽东思想的重要载体");  
-    changeLanguage("en")
+    await scope.change("en")
     expect(t("{a}",{a:false})).toBe("False");  
     expect(t("{name|book}是毛泽东思想的重要载体","毛泽东选集")).toBe("<毛泽东选集>是毛泽东思想的重要载体");  
-    done()
 })
 
 
-test("位置插值翻译文本内容",done=>{    
+test("位置插值翻译文本内容",async ()=>{    
     const now = new Date()
     expect(t("你好")).toBe("你好");       
     expect(t("现在是{}",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);       
@@ -183,21 +179,20 @@ test("位置插值翻译文本内容",done=>{
     expect(t("1")).toBe("你好");       
     expect(t("2",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);     
 
-    changeLanguage("en")
+    await scope.change("en")
+.eixt
     expect(t("你好")).toBe("hello"); 
     expect(t("现在是{}",now)).toBe(`Now is ${dayjs(now).format('YYYY-MM-DD HH:mm:ss')}`);  
     expect(t("1")).toBe("hello"); 
     expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY-MM-DD HH:mm:ss')}`);  
-    done()
 })
 
-test("命名插值翻译文本内容",done=>{    
+test("命名插值翻译文本内容",async ()=>{    
     const now = new Date()
     expect(t("你好")).toBe("你好");       
     expect(t("现在是{}",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);       
-   
 
-    changeLanguage("en")
+    await scope.change("en")
     expect(t("你好")).toBe("hello"); 
     expect(t("现在是{}",now)).toBe(`Now is ${dayjs(now).format('YYYY-MM-DD HH:mm:ss')}`);  
     expect(t("1")).toBe("hello"); 
@@ -206,24 +201,22 @@ test("命名插值翻译文本内容",done=>{
 })
 
 
-test("当没有对应的语言翻译时",done=>{    
+test("当没有对应的语言翻译时,保持原始输出",async ()=>{    
     expect(t("我是中国人")).toBe("我是中国人");       
-    scope.change("en") 
+    await scope.change("en") 
     expect(t("我是中国人")).toBe("我是中国人");  
-    done()
 })
  
 
-test("切换到未知语言时回退到默认语言",done=>{    
+test("切换到未知语言时回退到默认语言",async ()=>{    
     expect(t("我是中国人")).toBe("我是中国人");       
-    scope.change("xn") 
+    expect(async ()=>await scope.change("xn")).rejects.toThrow(Error);
     expect(t("我是中国人")).toBe("我是中国人");  
-    done()
 })
  
 
-test("翻译复数支持",done=>{   
-    scope.change("en") 
+test("翻译复数支持",async ()=>{   
+    await scope.change("en") 
     expect(t("我有{}个朋友",0)).toBe("I have no friends");       
     expect(t("我有{}个朋友",1)).toBe("I have one friends");    
     expect(t("我有{}个朋友",2)).toBe("I have two friends");    

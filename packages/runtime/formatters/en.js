@@ -7,7 +7,7 @@
 
 // 日期格式化器
 // format取字符串"long","short","local","iso","gmt","utc"或者日期模块字符串
-// { value | date } == '2022/8/15'
+// { value | date } == '2022/8/15'    默认
 // { value | date('long') } == '2022/8/15 12:08:32'
 // { value | date('short') } == '8/15'
 // { value | date('GMT') } == 'Mon, 15 Aug 2022 06:39:38 GMT'
@@ -15,6 +15,7 @@
 // { value | date('YYYY-MM-DD HH:mm:ss') } == '2022-8-15 12:08:32'
 const dateFormatter = Formatter((value,format,$config)=>{
     const optionals = ["long","short","local","iso","gmt","utc"]
+    // 处理参数：支持大小写和数字0-long,1-short,2-local,3-iso,4-gmt,5-utc
     const optionIndex = optionals.findIndex((v,i)=>{
         if(typeof(format)=="string"){
             return v==format || v== format.toUpperCase()
@@ -132,7 +133,7 @@ module.exports =   {
             date            :{
                 long        : 'YYYY/MM/DD HH:mm:ss', 
                 short       : "MM/DD",
-                format      : "local"
+                format      : "long"
             },
             quarter         : {
                 names  : ["Q1","Q2","Q3","Q4"],
@@ -183,7 +184,8 @@ module.exports =   {
     },
     // 默认数据类型的格式化器
     $types: {
-        Date     : value => { const d = toDate(value); return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}` },
+        Date     : dateFormatter,
+        //value => { const d = toDate(value); return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}` },
         Null     : value =>"",
         Undefined: value =>"",
         Error    : value => "ERROR",

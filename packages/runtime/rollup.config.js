@@ -39,12 +39,14 @@ export default  [
             {
                 file: 'dist/runtime.cjs', 
                 exports:"auto", 
-                format:"cjs"
+                format:"cjs",
+                sourcemap:true
             },
             {
                 file: 'dist/runtime.mjs', 
                 exports:"default", 
-                format:"esm"
+                format:"esm",
+                sourcemap:true
             }
         ],
         plugins:[
