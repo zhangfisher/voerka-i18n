@@ -319,12 +319,10 @@ function executeChecker(checker,value){
 function executeFormatter(value,formatters,scope,template){
     if(formatters.length===0) return value
     let result = value
-
-    const emptyChecker = formatters.find(func=>func.$name==='empty')
-    const errorChecker = formatters.find(func=>func.$name==='error')    
-    
     // 1. 空值检查
-    if(emptyChecker){
+    const emptyCheckerIndex = formatters.findIndex(func=>func.$name==='empty')
+    if(emptyCheckerIndex!=-1){
+        const emptyChecker = formatters.splice(emptyCheckerIndex,1)[0]
         const { value,next } = executeChecker(emptyChecker,result)    
         if(next == 'break') {
             return value    
@@ -333,15 +331,21 @@ function executeFormatter(value,formatters,scope,template){
         }
     }    
     // 2. 错误检查
-    if((result instanceof Error) && errorChecker){
-        result.formatter = formatter.$name
-        const { value,next } = executeChecker(emptyChecker,result)    
-        if(next == 'break') {
-            return value    
-        }else{
-            result = value
-        }
+    const errorCheckerIndex = formatters.findIndex(func=>func.$name==='error')    
+    let errorChecker
+    if(errorCheckerIndex!=-1){
+        errorChecker = formatters.splice(errorCheckerIndex,1)[0]
+        if(result instanceof Error){
+            result.formatter = formatter.$name
+            const { value,next } = executeChecker(errorChecker,result)    
+            if(next == 'break') {
+                return value    
+            }else{
+                result = value
+            }
+        }        
     }   
+    
     // 3. 分别执行格式化器函数
     for(let formatter of formatters){
         try{
@@ -349,12 +353,14 @@ function executeFormatter(value,formatters,scope,template){
         }catch(e){
             e.formatter = formatter.$name 
             if(scope.debug) console.error(`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} ` )            
-            const { value,next } = executeChecker(errorChecker,result)
-            if(next=="break"){
-                if(value!==undefined) result = value
-                break
-            }else if(next=="skip"){
-                continue
+            if(isFunction(errorChecker)){
+                const { value,next } = executeChecker(errorChecker,result)
+                if(next=="break"){
+                    if(value!==undefined) result = value
+                    break
+                }else if(next=="skip"){
+                    continue
+                }            
             }            
         }    
     }
@@ -406,7 +412,7 @@ function wrapperFormatters(scope,activeLanguage,formatters){
             // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
             // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
             if(!isFunction(fn)){               
-                fn = (value,...args) =>{
+                fn = (value) =>{
                     if(isFunction(value[name])){
                         return value[name](...args)
                     }else{

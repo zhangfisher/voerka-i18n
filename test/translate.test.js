@@ -179,12 +179,12 @@ test("位置插值翻译文本内容",async ()=>{
     expect(t("1")).toBe("你好");       
     expect(t("2",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);     
 
-    await scope.change("en")
-.eixt
+    await scope.change("en") 
+
     expect(t("你好")).toBe("hello"); 
-    expect(t("现在是{}",now)).toBe(`Now is ${dayjs(now).format('YYYY-MM-DD HH:mm:ss')}`);  
+    expect(t("现在是{}",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
     expect(t("1")).toBe("hello"); 
-    expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY-MM-DD HH:mm:ss')}`);  
+    expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
 })
 
 test("命名插值翻译文本内容",async ()=>{    
@@ -194,10 +194,9 @@ test("命名插值翻译文本内容",async ()=>{
 
     await scope.change("en")
     expect(t("你好")).toBe("hello"); 
-    expect(t("现在是{}",now)).toBe(`Now is ${dayjs(now).format('YYYY-MM-DD HH:mm:ss')}`);  
+    expect(t("现在是{}",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
     expect(t("1")).toBe("hello"); 
-    expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY-MM-DD HH:mm:ss')}`);  
-    done()
+    expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
 })
 
 
@@ -222,6 +221,5 @@ test("翻译复数支持",async ()=>{
     expect(t("我有{}个朋友",2)).toBe("I have two friends");    
     expect(t("我有{}个朋友",3)).toBe("I have 3 friends");    
     expect(t("我有{}个朋友",4)).toBe("I have 4 friends");       
-    done()
 })
  
