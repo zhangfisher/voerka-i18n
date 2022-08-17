@@ -1,18 +1,292 @@
 const {i18nScope, translate, getInterpolatedVars }  = require('../packages/runtime/dist/runtime.cjs')
 const dayjs = require('dayjs');
 
+function toLanguageDict(values,startIndex=0){
+    return values.reduce((result,curValue,i)=>{
+        result[i+startIndex] = curValue;
+        return result
+    },{})
+}
+function toLanguageIdMap(values,startIndex=0){
+    return values.reduce((result,curValue,i)=>{
+        result[curValue] = i+startIndex
+        return result
+    },{})
+}
+function diffArray(arr1,arr2){
+    let diffs = []
+    arr1.forEach((v,i)=>{
+        if(v!=arr2[i]) diffs.push([i,[v,arr2[i]]])
+    })
+    return diffs
+ }
+
+
+const NOW =  new Date("2022/08/12 10:12:36")
+
+const zhDatetimes =[
+    "现在是{ value }",
+    "现在是{ value | date }",
+    "现在是{ value | date('local') }",
+    "现在是{ value | date('long') }",
+    "现在是{ value | date('short') }",    
+    "现在是{ value | date('iso') }",
+    "现在是{ value | date('gmt') }",
+    "现在是{ value | date('utc') }",
+    "现在是{ value | date(0) }",  // local
+    "现在是{ value | date(1) }",  // long
+    "现在是{ value | date(2) }",  // short
+    "现在是{ value | date(3) }",  // iso
+    "现在是{ value | date(4) }",  // gmt
+    "现在是{ value | date(5) }",  // utc
+    "现在是{ value | date('YYYY-MM-DD HH:mm:ss')}",
+    "现在是{ value | date('YYYY-MM-DD')}",
+    "现在是{ value | date('HH:mm:ss')}",
+    "现在是{ value | month }",
+    "现在是{ value | month('long')}",
+    "现在是{ value | month('short')}",
+    "现在是{ value | month('number')}",
+    "现在是{ value | month(0)}",
+    "现在是{ value | month(1)}",
+    "现在是{ value | month(2)}",
+    "现在是{ value | weekday }",
+    "现在是{ value | weekday('long')}",
+    "现在是{ value | weekday('short')}",
+    "现在是{ value | weekday('number')}",
+    "现在是{ value | weekday(0)}",
+    "现在是{ value | weekday(1)}",
+    "现在是{ value | weekday(2)}",
+    // 时间
+    "现在时间 - { value | time }",
+    "现在时间 - { value | time('local') }",
+    "现在时间 - { value | time('long') }",
+    "现在时间 - { value | time('short') }",
+    "现在时间 - { value | time('timestamp') }",    
+    "现在时间 - { value | time(0) }",
+    "现在时间 - { value | time(1) }",
+    "现在时间 - { value | time(2) }",
+    "现在时间 - { value | time(3) }",
+    "现在时间 - { value | time('HH:mm:ss') }",
+    "现在时间 - { value | time('mm:ss') }",
+    "现在时间 - { value | time('ss') }"
+]
+//
+
+const expectZhDatetimes =[
+    "现在是2022/8/12 10:12:36",		                    // { value }
+    "现在是2022/8/12 10:12:36",		                    // { value | date }
+    `现在是${NOW.toLocaleString()}`,                    // { value | date('local') }
+    "现在是2022年08月12日 10点12分36秒",                 // { value | date('long') }
+	"现在是2022/08/12",		                            // { value | date('short') }
+	`现在是${NOW.toISOString()}`,	    	            // { value | date('iso') }
+	`现在是${NOW.toGMTString()}`,		                // { value | date('gmt') }
+	`现在是${NOW.toUTCString()}`,		                // { value | date('utc') }
+	`现在是${NOW.toLocaleString()}`,		            // { value | date(0) }  // local
+    "现在是2022年08月12日 10点12分36秒",                 // { value | date(1) }  // long
+	"现在是2022/08/12",		                            // { value | date(2) }  // short	
+	`现在是${NOW.toISOString()}`,		                // { value | date(3) }  // iso
+	`现在是${NOW.toGMTString()}`,		                // { value | date(4) }  // gmt
+	`现在是${NOW.toUTCString()}`,		                // { value | date(5) }  // utc
+	"现在是2022-08-12 10:12:36",		                // { value | date('YYYY-MM-DD HH:mm:ss')}
+	"现在是2022-08-12",		                            // { value | date('YYYY-MM-DD')}
+	"现在是10:12:36",		                            // { value | date('HH:mm:ss')}
+	"现在是八月",		                                // { value | month }
+	"现在是八月",		                                // { value | month('long')}
+	"现在是八",		                                    // { value | month('short')}
+	"现在是8",		                                    // { value | month('number')}
+	"现在是八月",		                                // { value | month(0)}
+	"现在是八",		                                    // { value | month(1)}
+	"现在是8",		                                    // { value | month(2)}
+	"现在是星期五",		                                // { value | weekday }
+	"现在是星期五",		                                // { value | weekday('long')}
+	"现在是五",		                                    // { value | weekday('short')}
+	"现在是5",		                                    // { value | weekday('number')}
+	"现在是星期五",		                                // { value | weekday(0)}
+	"现在是五",		                                    // { value | weekday(1)}
+	"现在是5",		                                    // { value | weekday(2)}
+    // 时间
+	`现在时间 - ${NOW.toLocaleTimeString()}`,          // { value | time }
+	`现在时间 - ${NOW.toLocaleTimeString()}`,          // { value | time('local') }
+    "现在时间 - 10点12分36秒",		                   // { value | time('long') }
+	"现在时间 - 10:12:36",		                       // { value | time('short') }
+	"现在时间 - 1660270356000",		                   // { value | time('timestamp') }
+	`现在时间 - ${NOW.toLocaleTimeString()}`,	       // { value | time(0) }
+	"现在时间 - 10点12分36秒",		                   // { value | time(1) }
+	"现在时间 - 10:12:36",		                       // { value | time(2) }
+	"现在时间 - 1660270356000",		                   // { value | time(3) }
+	"现在时间 - 10:12:36",		                       // { value | time('HH:mm:ss') }
+	"现在时间 - 12:36",		                           // { value | time('mm:ss') }
+	"现在时间 - 36",		                           // { value | time('ss') }"
+]
+ 
+
+const enDatetimes =[
+    "Now is { value }",
+    "Now is { value | date }",
+    "Now is { value | date('local') }",
+    "Now is { value | date('long') }",
+    "Now is { value | date('short') }",    
+    "Now is { value | date('iso') }",
+    "Now is { value | date('gmt') }",
+    "Now is { value | date('utc') }",
+    "Now is { value | date(0) }",  // local
+    "Now is { value | date(1) }",  // long
+    "Now is { value | date(2) }",  // short
+    "Now is { value | date(3) }",  // iso
+    "Now is { value | date(4) }",  // gmt
+    "Now is { value | date(5) }",  // utc
+    "Now is { value | date('YYYY-MM-DD HH:mm:ss')}",
+    "Now is { value | date('YYYY-MM-DD')}",
+    "Now is { value | date('HH:mm:ss')}",
+    "Now is { value | month }",
+    "Now is { value | month('long')}",
+    "Now is { value | month('short')}",
+    "Now is { value | month('number')}",
+    "Now is { value | month(0)}",
+    "Now is { value | month(1)}",
+    "Now is { value | month(2)}",
+    "Now is { value | weekday }",
+    "Now is { value | weekday('long')}",
+    "Now is { value | weekday('short')}",
+    "Now is { value | weekday('number')}",
+    "Now is { value | weekday(0)}",
+    "Now is { value | weekday(1)}",
+    "Now is { value | weekday(2)}",
+    // 时间
+    "Now time: { value | time }",
+    "Now time: { value | time('local') }",
+    "Now time: { value | time('long') }",
+    "Now time: { value | time('short') }",
+    "Now time: { value | time('timestamp') }",    
+    "Now time: { value | time(0) }",
+    "Now time: { value | time(1) }",
+    "Now time: { value | time(2) }",
+    "Now time: { value | time(3) }",
+    "Now time: { value | time('HH:mm:ss') }",
+    "Now time: { value | time('mm:ss') }",
+    "Now time: { value | time('ss') }"
+]
+
+const expectEnDatetimes =[
+    "Now is 2022/8/12 10:12:36",		                // { value }
+    "Now is 2022/8/12 10:12:36",		                // { value | date }
+    `Now is ${NOW.toLocaleString()}`,		            // { value | date('local') }
+    "Now is 2022/08/12 10:12:36",		                // { value | date('long') }
+	"Now is 2022/08/12",		                        // { value | date('short') }	
+	`Now is ${NOW.toISOString()}`,		                // { value | date('iso') }
+	`Now is ${NOW.toGMTString()}`,		                // { value | date('gmt') }
+	`Now is ${NOW.toUTCString()}`,		                // { value | date('utc') }
+	`Now is ${NOW.toLocaleString()}`,		            // { value | date(0) }  // local
+    "Now is 2022/08/12 10:12:36",		                // { value | date(1) }  // long
+	"Now is 2022/08/12",		                        // { value | date(2) }  // short	
+	`Now is ${NOW.toISOString()}`,		                // { value | date(3) }  // iso
+	`Now is ${NOW.toGMTString()}`,		                // { value | date(4) }  // gmt
+	`Now is ${NOW.toUTCString()}`,		                // { value | date(5) }  // utc
+	"Now is 2022-08-12 10:12:36",		                // { value | date('YYYY-MM-DD HH:mm:ss')}
+	"Now is 2022-08-12",		                        // { value | date('YYYY-MM-DD')}
+	"Now is 10:12:36",		                            // { value | date('HH:mm:ss')}
+	"Now is August",		                            // { value | month }
+	"Now is August",		                            // { value | month('long')}
+	"Now is Aug",		                                // { value | month('short')}
+	"Now is 8",		                                    // { value | month('number')}
+	"Now is August",		                            // { value | month(0)}
+	"Now is Aug",		                                // { value | month(1)}
+	"Now is 8",		                                    // { value | month(2)}
+	"Now is Friday",		                            // { value | weekday }
+	"Now is Friday",		                            // { value | weekday('long')}
+	"Now is Fri",		                                // { value | weekday('short')}
+	"Now is 5",		                                    // { value | weekday('number')}
+	"Now is Friday",		                            // { value | weekday(0)}
+	"Now is Fri",		                                // { value | weekday(1)}
+	"Now is 5",		                                    // { value | weekday(2)}
+    // 时间
+    `Now time: ${NOW.toLocaleTimeString()}`,            // { value | time }
+	`Now time: ${NOW.toLocaleTimeString()}`,		    // { value | time('local') }
+	"Now time: 10:12:36",		                        // { value | time('long') }
+	"Now time: 10:12:36",		                        // { value | time('short') }
+	"Now time: 1660270356000",		                    // { value | time('timestamp') }
+	`Now time: ${NOW.toLocaleTimeString()}`,	        // { value | time(0) }
+	"Now time: 10:12:36",		                        // { value | time(1) }
+	"Now time: 10:12:36",		                        // { value | time(2) }
+	"Now time: 1660270356000",		                    // { value | time(3) }
+	"Now time: 10:12:36",		                        // { value | time('HH:mm:ss') }
+	"Now time: 12:36",		                            // { value | time('mm:ss') }
+	"Now time: 36",		                                // { value | time('ss') }"
+]
+
+const MONEY = 123456789.8848
+const zhMoneys = [
+    "商品价格: { value | currency }",                          // 默认格式，由语言配置指定，不同的语言不一样
+    "商品价格: { value | currency('long')}",                   // 长格式
+    "商品价格: { value | currency('short')}",                  // 短格式 == short(0)
+    "商品价格: { value | currency('long',1)}",                 // 长格式: 万元
+    "商品价格: { value | currency('long',2)}",                 // 长格式: 亿
+    "商品价格: { value | currency('long',3)}",                 // 长格式: 万亿
+    "商品价格: { value | currency('long',4)}",                 // 长格式: 万万亿
+
+    "商品价格: { value | currency('short')}",                 // 短格式
+    "商品价格: { value | currency('short',1)}",                 // 短格式
+    "商品价格: { value | currency('short',2)}",                 // 短格式
+    "商品价格: { value | currency('short',3)}",                 // 短格式
+    "商品价格: { value | currency('short',4)}",                 // 短格式
+    "商品价格: { value | currency('short',5)}",                 // 短格式
+    
+    "商品价格: { value | currency({symbol,prefix ,suffix, division,precision,unit})}",  // 自定义货币格式
+    
+    "商品价格: { value | currency('￥')}",                      // 指定货币符号
+    "商品价格: { value | currency('￥','CNY')}",                // 指定货币符号+前缀
+    "商品价格: { value | currency('￥','CNY','元')}",           // 指定货币符号+前缀+后缀
+    "商品价格: { value | currency('￥','CNY','元',3)}",         // 指定货币符号+前缀+后缀+分割位
+    "商品价格: { value | currency('￥','CNY','元',3,3)}",       // 指定货币符号+前缀+后缀+分割位+精度
+]
+const expectZhMoneys =[
+    "商品价格: ￥1,2345,6789.88",                             // { value | currency }                          
+    "商品价格: ￥1,2345,6789.88元",                           // { value | currency('long')}
+    "商品价格: ￥1,2345,6789.88",                             // { value | currency('short')}
+    "商品价格: ￥1,2345,6789.88",                             // { value | currency('￥')}
+    "商品价格: CNY￥1,2345,6789.88",                          // { value | currency('￥','CNY')}
+    "商品价格: CNY￥1,2345,6789.88元",                        // { value | currency('￥','CNY','元')}
+    "商品价格: CNY￥123,456,789.885元",                      // { value | currency('￥','CNY','元',3)}
+    "商品价格: CNY￥123,456,789.885元",                      //{ value | currency('￥','CNY','元',3,3)}
+]
+const enMoneys = [
+    "Price: { value | currency }",                          // 默认格式，由语言配置指定，不同的语言不一样
+    "Price: { value | currency('long')}",                   // 长格式
+    "Price: { value | currency('short')}",                  // 短格式
+    "Price: { value | currency('$')}",                      // 指定货币符号
+    "Price: { value | currency('$','USD')}",                // 指定货币符号+前缀
+    "Price: { value | currency('$','USD','')}",             // 指定货币符号+前缀+后缀
+    "Price: { value | currency('$','USD','',3)}",           // 指定货币符号+前缀+后缀+分割位
+    "Price: { value | currency('$','USD','',3,3)}",         // 指定货币符号+前缀+后缀+分割位+精度
+]
+const expectEnMoneys =[
+    "Price: $123,456,789.88",                               // { value | currency }                          
+    "Price: $123,456,789.88",                               // { value | currency('long')}
+    "Price: $123,456,789.88",                               // { value | currency('short')}
+    "Price: $123,456,789.88",                               // { value | currency('$')}
+    "Price: USD$1,2345,6789.88",                            // { value | currency('$','USD')}
+    "Price: USD$1,2345,6789.88",                            // { value | currency('$','USD','元')}
+    "Price: USD$123,456,789.885",                           // { value | currency('$','USD','元',3)}
+    "Price: USD$123,456,789.885",                           //{ value | currency('$','USD','元',3,3)}
+
+]
+
+
+
 const loaders = {
     zh:{
         1:"你好",
-        2:"现在是{}",
+        2:"现在是{ value | }",
         3:"我出生于{year}年，今年{age}岁",
         4:"我有{}个朋友",
+        ...toLanguageDict(zhDatetimes,5),        
     },
     en :{
         1:"hello",
         2:"Now is {}",
         3:"I was born in {year}, now is {age} years old",
-        4:["I have no friends","I have one friends","I have two friends","I have {} friends"]
+        4:["I have no friends","I have one friends","I have two friends","I have {} friends"],
+        ...toLanguageDict(enDatetimes,5),    
     }
 }
 
@@ -32,9 +306,10 @@ const formatters = {
 
 const idMap = {
     "你好":1,
-    "现在是{}":2,
+    "现在是{ value | }":2,
     "我出生于{year}年，今年{age}岁":3,
-    "我有{}个朋友":4
+    "我有{}个朋友":4,
+    ...toLanguageIdMap(zhDatetimes,5)
 }
 const languages = [
     { name: "zh", title: "中文" },
@@ -173,7 +448,7 @@ test("切换到其他语言时的自动匹配同名格式化器",async ()=>{
 test("位置插值翻译文本内容",async ()=>{    
     const now = new Date()
     expect(t("你好")).toBe("你好");       
-    expect(t("现在是{}",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);       
+    expect(t("现在是{ value | }",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);       
 
     // 经babel自动码换后，文本内容会根据idMap自动转为id
     expect(t("1")).toBe("你好");       
@@ -182,7 +457,7 @@ test("位置插值翻译文本内容",async ()=>{
     await scope.change("en") 
 
     expect(t("你好")).toBe("hello"); 
-    expect(t("现在是{}",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
+    expect(t("现在是{ value | }",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
     expect(t("1")).toBe("hello"); 
     expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
 })
@@ -190,11 +465,11 @@ test("位置插值翻译文本内容",async ()=>{
 test("命名插值翻译文本内容",async ()=>{    
     const now = new Date()
     expect(t("你好")).toBe("你好");       
-    expect(t("现在是{}",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);       
+    expect(t("现在是{ value | }",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);       
 
     await scope.change("en")
     expect(t("你好")).toBe("hello"); 
-    expect(t("现在是{}",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
+    expect(t("现在是{ value | }",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
     expect(t("1")).toBe("hello"); 
     expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
 })
@@ -222,4 +497,22 @@ test("翻译复数支持",async ()=>{
     expect(t("我有{}个朋友",3)).toBe("I have 3 friends");    
     expect(t("我有{}个朋友",4)).toBe("I have 4 friends");       
 })
- 
+test("日期时间格式化器",async ()=>{  
+    
+    let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
+    expect(zhTranslatedResults).toStrictEqual(expectZhDatetimes)
+    await scope.change("en")
+    let enTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
+    expect(enTranslatedResults).toStrictEqual(expectEnDatetimes)
+ })
+
+
+ test("货币格式化器",async ()=>{      
+    
+
+    let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
+    expect(zhTranslatedResults).toStrictEqual(expectZhDatetimes)
+    await scope.change("en")
+    let enTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
+    expect(enTranslatedResults).toStrictEqual(expectEnDatetimes)
+ })

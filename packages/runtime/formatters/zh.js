@@ -13,8 +13,8 @@ module.exports = {
             units         : CN_DATETIME_UNITS,
             date            :{
                 long        : 'YYYY年MM月DD日 HH点mm分ss秒',       
-                short       : "MM/DD",                          
-                format      : 'long'
+                short       : "YYYY/MM/DD",                          
+                format      : 'local'
             },
             quarter         : {
                 names  : ["一季度","二季度","三季度","四季度"],
@@ -34,15 +34,17 @@ module.exports = {
             time:{
                 long        : "HH点mm分ss秒",
                 short       : "HH:mm:ss",
+                format      : 'local'
             }
         },
 
         currency          : {
+            units         : ["万","亿","万亿","万万亿"]
             symbol        : "￥",
             prefix        : "",
             suffix        : "元",
             division      : 4,
-            precision     : 2
+            precision     : 2            
         },
         number            : {
             division      : 3,

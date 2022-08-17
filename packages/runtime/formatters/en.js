@@ -5,17 +5,18 @@
 
  const { toDate,toCurrency,toNumber,formatDatetime,formatTime,Formatter } = require("../utils")
 
-// 日期格式化器
-// format取字符串"long","short","local","iso","gmt","utc"或者日期模块字符串
-// { value | date } == '2022/8/15'    默认
-// { value | date('long') } == '2022/8/15 12:08:32'
-// { value | date('short') } == '8/15'
-// { value | date('GMT') } == 'Mon, 15 Aug 2022 06:39:38 GMT'
-// { value | date('ISO') } == 'Mon, 15 Aug 2022 06:39:38 ISO'
-// { value | date('YYYY-MM-DD HH:mm:ss') } == '2022-8-15 12:08:32'
+
+
+/**
+ * 日期格式化器
+ *  format取值：
+ *  0-local,1-long,2-short,3-iso,4-gmt,5-UTC
+ *  或者日期模板字符串
+ *   默认值是local
+ */
 const dateFormatter = Formatter((value,format,$config)=>{
-    const optionals = ["long","short","local","iso","gmt","utc"]
-    // 处理参数：支持大小写和数字0-long,1-short,2-local,3-iso,4-gmt,5-utc
+    const optionals = ["local","long","short","iso","gmt","utc"]
+    // 处理参数：同时支持大小写名称和数字
     const optionIndex = optionals.findIndex((v,i)=>{
         if(typeof(format)=="string"){
             return v==format || v== format.toUpperCase()
@@ -24,12 +25,12 @@ const dateFormatter = Formatter((value,format,$config)=>{
         }
     })
     switch(optionIndex){
-        case 0: // long
-            return formatDatetime(value,$config.long) 
-        case 1: // short
-            return formatDatetime(value,$config.short) 
-        case 2: // local
+        case 0: // local
             return value.toLocaleString()
+        case 1: // long
+            return formatDatetime(value,$config.long) 
+        case 2: // short
+            return formatDatetime(value,$config.short) 
         case 3: // ISO
             return value.toISOString()
         case 4: // GMT
@@ -45,7 +46,7 @@ const dateFormatter = Formatter((value,format,$config)=>{
     configKey: "datetime.date"
 })
 // 季度格式化器 format= 0=短格式  1=长格式  
-const mquarterFormatter = Formatter((value,format,$config)=>{
+const quarterFormatter = Formatter((value,format,$config)=>{
     const month = value.getMonth() + 1 
     const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
     if(format<0 && format>1) format = 0
@@ -70,7 +71,7 @@ const monthFormatter = Formatter((value,format,$config)=>{
     configKey: "datetime.month"
 })
 
-// 周格式化器  format可以取值0,1,2，也可以取字符串long,short,number
+// 星期x格式化器  format可以取值0,1,2，也可以取字符串long,short,number
 const weekdayFormatter = Formatter((value,format,$config)=>{
     const day = value.getDay()
     if(typeof(format)==='string'){ 
@@ -85,10 +86,9 @@ const weekdayFormatter = Formatter((value,format,$config)=>{
 })
 
 
-// 时间格式化器 format可以取值0,1,2，也可以取字符串long,short,timestamp,local
+// 时间格式化器 format可以取值0-local(默认),1-long,2-short,3-timestamp,也可以是一个插值表达式
 const timeFormatter = Formatter((value,format,$config)=>{
-    const month = value.getMonth()
-    const optionals = ['long','short','timestamp','local']        //toLocaleTimeString
+    const optionals = ['local','long','short','timestamp']      
     const optionIndex = optionals.findIndex((v,i)=>{
         if(typeof(format)=="string"){
             return v==format || v== format.toUpperCase()
@@ -97,21 +97,21 @@ const timeFormatter = Formatter((value,format,$config)=>{
         }
     })
     switch(optionIndex){
-        case 0: // long
-            return formatTime(value,$config.long) 
-        case 1: // short
-            return formatTime(value,$config.short) 
-        case 2: // timestamp
-            return value.getTime()
-        case 3: // local
+        case 0: // local : toLocaleTimeString
             return value.toLocaleTimeString()
+        case 1: // long
+            return formatTime(value,$config.long) 
+        case 2: // short
+            return formatTime(value,$config.short) 
+        case 3: // timestamp
+            return value.getTime()
         default:
             return formatTime(value,format) 
     }  
 },{  
     normalize: toDate,                       
     params   : ['format'],
-    configKey: "datetime.month"
+    configKey: "datetime.time"
 })
 
 // 货币格式化器, CNY $13,456.00 
@@ -132,8 +132,8 @@ module.exports =   {
             units           : ["Year","Quarter","Month","Week","Day","Hour","Minute","Second","Millisecond","Microsecond"],
             date            :{
                 long        : 'YYYY/MM/DD HH:mm:ss', 
-                short       : "MM/DD",
-                format      : "long"
+                short       : "YYYY/MM/DD",
+                format      : "local"
             },
             quarter         : {
                 names  : ["Q1","Q2","Q3","Q4"],
@@ -156,11 +156,16 @@ module.exports =   {
             },   
         },
         currency          : {
-            symbol        : "$",                    // 符号
-            prefix        : "",                     // 前缀
-            suffix        : "",                     // 后缀
-            division      : 3,                      // ,分割位
-            precision     : 2,                      // 精度
+            units         : ["Thousands","Millions","Billions","Trillions"],    //千,百万,十亿,万亿
+            default       : "{symbol}{value}",
+            long          : "{prefix} {symbol}{value}{suffix}", 
+            short         : "{symbol}{value}",
+            symbol        : "$",                     // 符号
+            prefix        : "",                      // 前缀
+            suffix        : "",                      // 后缀
+            division      : 3,                       // ,分割位
+            precision     : 2,                       // 精度            
+            
         },
         number            : {
             division      : 3,

@@ -77,12 +77,12 @@ function deepMerge(toObj,formObj,options={}){
         if(key in results){
             if(typeof value === "object" && value !== null){
                 if(Array.isArray(value)){
-                    if(options.array === 0){//替换
-                        results[key] = value
-                    }else if(options.array === 1){//合并
+                    if(options.array === 1){//合并
                         results[key] = [...results[key],...value]
                     }else if(options.array === 2){//去重合并
                         results[key] = [...new Set([...results[key],...value])]
+                    }else{                  //默认： 替换
+                        results[key] = value
                     }
                 }else{
                     results[key] = deepMerge(results[key],value,options)
@@ -259,8 +259,6 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
         ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
         ["s", second],                                                  // 0-59	秒
         ["SSS", millisecond],                                           // 000-999	毫秒，三位数
-        ["SS", millisecond.substring(year.length - 2, year.length)],    // 00-99	毫秒（十），两位数
-        ["S",millisecond[millisecond.length - 1]],                      // 0-9	毫秒（百），一位数
         ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
         ["a", hour > 12 ? "pm" : "am"],                                 // am / pm	上/下午，小写
     ]
@@ -284,8 +282,6 @@ function formatTime(value,templ="HH:mm:ss"){
         ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
         ["s", second],                                                  // 0-59	秒
         ["SSS", millisecond],                                           // 000-999	毫秒，三位数
-        ["SS", millisecond.substring(year.length - 2, year.length)],    // 00-99	毫秒（十），两位数
-        ["S",millisecond[millisecond.length - 1]],                      // 0-9	毫秒（百），一位数
         ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
         ["a", hour > 12 ? "pm" : "am"]                                  // am / pm	上/下午，小写
     ]
@@ -381,8 +377,8 @@ function replaceAll(str,findValue,replaceValue){
         const formatterConfig =Object.assign({},defaultParams,getByPath(activeFormatterConfigs,opts.configKey,{}))
         let finalArgs = opts.params.map(param=>getByPath(formatterConfig,param,undefined))   
         // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
-        for(let i =0; i<finalArgs.length-1;i++){
-            if(i>=args.length-1) break // 最后一参数是配置
+        for(let i =0; i<finalArgs.length;i++){
+            if(i==args.length-1) break // 最后一参数是配置
             if(args[i]!==undefined) finalArgs[i] = args[i]
         }
         return fn(finalValue,...finalArgs,formatterConfig)

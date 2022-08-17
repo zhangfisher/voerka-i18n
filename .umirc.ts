@@ -70,7 +70,7 @@ export default defineConfig({
                    "/guide/advanced/langpack.md",
                    "/guide/advanced/autotranslate.md",
                    "/guide/advanced/framework.md",
-                   "/guide/advanced/remoteLoad.md",
+                   "/guide/advanced/dynamic-add.md",
                    "/guide/advanced/lngpatch.md",
                    "/guide/advanced/langedit.md"
                 ],

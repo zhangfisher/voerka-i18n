@@ -407,22 +407,23 @@ function wrapperFormatters(scope,activeLanguage,formatters){
     let wrappedFormatters = []      
     addDefaultFormatters(formatters)   
     for(let [name,args] of formatters){
-        if(name){
-            let fn = getFormatter(scope,activeLanguage,name)            
-            // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
-            // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
-            if(!isFunction(fn)){               
-                fn = (value) =>{
-                    if(isFunction(value[name])){
-                        return value[name](...args)
-                    }else{
-                        return value
-                    }                   
-                }
-            }   
-            fn.$name = name                            
-            wrappedFormatters.push(fn)         
-        }
+        let fn = getFormatter(scope,activeLanguage,name) 
+        let formatter            
+        // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
+        // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
+        if(isFunction(fn)){               
+            formatter = (value,config) => fn.call(scope,value,...args,config)
+        }else{
+            formatter = (value) =>{
+                if(isFunction(value[name])){
+                    return value[name](...args)
+                }else{
+                    return value
+                }                   
+            }
+        } 
+        formatter.$name = name                            
+        wrappedFormatters.push(formatter)         
     }
     return wrappedFormatters
 } 

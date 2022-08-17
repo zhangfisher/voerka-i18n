@@ -1,4 +1,4 @@
-# 远程加载语言包
+# 动态增加语言支持
 
 ## 前言
 `voerkaI18n`默认将要翻译的文本内容经编译后保存在当`languages`文件夹下,当打包应用时会与工程一起进行打包进工程源码中。这会带来以下问题：
@@ -13,7 +13,7 @@
 
 ### 准备
 
-为说明如何从远程加载语言包，我们将假设以下的应用：
+为说明如何利用远程加载语言包的机制为应用动态增加语言支持，我们将假设以下的应用：
 应用`chat`，依赖于`user`、`manager`、`log`等三个库，均使用了`voerkiai18n`作为多语言解决方案
 当执行完`voerkai18n compile`后，项目结构大概如下：
 ```javascript | pure
@@ -94,14 +94,6 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
     //....
 }
 ```
-
-**重点：为什么要向服务器传递`scope.id`参数？** 
-在多包环境下，按照多包/库开发的规范，每一个库或包均具有一个**唯一的id**,默认会使用`package.json`中的`name`字段。
-  **例如**：
-- 应用`A`，依赖于包/库`X`、`Y`、`Z`，并且`A/X/Y/Z`均使用了`voerkiai18n`作为多语言解决方案
-- 当应用启动时，`A/X/Y/Z`均会创建一个`i18nScope`实例，其`id`分别是`A/X/Y/Z`，然后这些`i18nScope`实例会注册到全局的`voerkaI18n`实例中（详见多库联动介绍）。
-- 假如应用`A`配置支持`zh`、`en`两种语言,当应用要切换到`de`语言时，那么不仅是`A`应用本身需要切换到`de`语言,所依赖的库也需要切换到`de`语言。但是库`X`、`Y`、`Z`本身可能支持`de`语言，也可能不支持。如果不支持，则同样需要向服务器请求该库的翻译语言。因此，在向服务器请求时就需要带上`scope.id`,这样服务器就可以分别为应用`A`和依赖库`X`、`Y`、`Z`均准备对应的语言包了。
-
 
 ### 第三步：将语言包文件保存在服务器
 
@@ -192,8 +184,8 @@ webroot
 语言加载器时会传入两个参数：
 | 参数 | 说明 |
 | --- | --- |
-| language | 要切换的此语言|
-| scope |语言作用域实例,其中`scope.id`值默认等于`package.json`中的`name`字段。详见[参考](../../reference/i18nscope)。 |
+| **language** | 要切换的此语言|
+| **scope** |语言作用域实例,其中`scope.id`值默认等于`package.json`中的`name`字段。详见[参考](../../reference/i18nscope)。 |
 
 - 典型的语言加载器非常简单，如下：
 ```javascript | pure
@@ -202,8 +194,9 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
     return await (await fetch(`/languages/${scope.id}/${language}.json`)).json()
 })
 ```
-- 为什么要应用自己编写语言加载器,而不是提供约定开箱即用？
-  主要原因是编写语言加载器很简单，但是如何组织在服务器上的保存，想让应用开发者自行决定。比如，开发者完全可以将语言包保存在数据库中等。  另外考虑安全、兼容性等原因，因此`voerkaI18n`就将此交由开发者自行编写。
+- 为什么要应用自己编写语言加载器,而不是提供开箱即用的功能？
+  主要原因是编写语言加载器很简单，只是简单地使用HTTP从服务器上读取JSON语言包文件，不存在任何难度，甚至您可以直接使用上面的例子即可。
+  而关键是语言包在服务器上的如何组织与保存，可以让应用开发者自行决定。比如，开发者完全可以将语言包保存在数据库表中，以便能扩展其他功能。另外考虑安全、兼容性等原因，因此`voerkaI18n`就将此交由开发者自行编写。
   
 
 ### 编写语言切换界面
@@ -242,7 +235,46 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 ```
 通过编写合适的语言切换界面，您可以在后期随时在线增加语种支持。
 
-### 关于语言包补丁
-语言包补丁仅对在`settings.json`配置的语言起作用，而动态增加的语种因为其语言包本身就保存在服务器，因此就不存在补丁的问题。
-语言包补丁会在加载时自动合并到源码中的语言包，并且会自动在本地`localStorage`中缓存。
+### `scope.id`参数
+
+**重点：为什么要向服务器传递`scope.id`参数？** 
+在多包环境下，按照多包/库开发的规范，每一个库或包均具有一个**唯一的id**,默认会使用`package.json`中的`name`字段。
+
+**例如**：
+- 应用`A`，依赖于包/库`X`、`Y`、`Z`，并且`A/X/Y/Z`均使用了`voerkiai18n`作为多语言解决方案
+- 当应用启动时，`A/X/Y/Z`均会创建一个`i18nScope`实例，其`id`分别是`A/X/Y/Z`，然后这些`i18nScope`实例会注册到全局的`voerkaI18n`实例中（详见多库联动介绍）。
+- 假如应用`A`配置支持`zh`、`en`两种语言,当应用要切换到`de`语言时，那么不仅是`A`应用本身需要切换到`de`语言,所依赖的库也需要切换到`de`语言。但是库`X`、`Y`、`Z`本身可能支持`de`语言，也可能不支持。如果不支持，则同样需要向服务器请求该库的翻译语言。因此，在向服务器请求时就需要带上`scope.id`,这样服务器就可以分别为应用`A`和依赖库`X`、`Y`、`Z`均准备对应的语言包了。
+
+**按此机制，如果您的应用使用了任何第三方库，只要第三方库也是使用voerkai18n作为多语言解决方案，那么不需要原开发者支持，您自已就可以为之`增加语言支持`或者`打语言包补丁`。**
+
+
+### 缓存语言包
+
+当切换到动态增加的语言时会从远程服务器加载语言包，取决于语言包的大小，可能会产生延迟，这可能对用户体验造成不良影响。因此，您可以在客户端对语言包进行缓存。
+
+```javascript | pure
+import { i18nScope } from "./languages"
+
+async function loadLanguageMessages(language,scope){
+    let messages  = await (await fetch(`/languages/${scope.id}/${language}.json`)).json()    
+    localStorage.setItem(`voerkai18n_${scope.id}_${language}_messages`,JSON.stringify(messages));
+    return messages
+}
+
+i18nScope.registerDefaultLoader(async (language,scope)=>{
+    let message = localStorage.getItem(`voerkai18n_${scope.id}_${language}_messages`);
+    if(messages){        
+        setTimeout(async ()=>{
+            const messages  = loadLanguageMessages(language,scope)
+            scope.refresh()            
+        },0)        
+    }else{
+        messages  = loadLanguageMessages(language,scope)        
+    }
+    return messages
+})
+
+```
+
+
 
