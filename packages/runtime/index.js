@@ -18,7 +18,7 @@ let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\))
 let varReplaceRegexp =String.raw`\{\s*{varname}\s*\}`
 
 // 提取匹配("a",1,2,'b',{..},[...])
-let formaterVarsRegexp  = String.raw`((([\'\"])(.*?)\3)|(\w)|(\{.*?\})|(\[.*?\])),?`
+let formaterVarsRegexp  = String.raw`((([\'\"])(.*?)\3)|(\w)|(\{.*?\})|(\[.*?\]))(?<=\s*[,\)]?\s*)`
 
 /**
  * 考虑到通过正则表达式进行插件的替换可能较慢，因此提供一个简单方法来过滤掉那些
