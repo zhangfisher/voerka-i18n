@@ -156,10 +156,10 @@ module.exports =   {
             },   
         },
         currency          : {
-            units         : ["Thousands","Millions","Billions","Trillions"],    //千,百万,十亿,万亿
-            default       : "{symbol}{value}",
-            long          : "{prefix} {symbol}{value}{suffix}", 
-            short         : "{symbol}{value}",
+            units         : ["","Thousands","Millions","Billions","Trillions"],    //千,百万,十亿,万亿
+            default       : "{symbol}{value}{unit}",
+            long          : "{prefix} {symbol}{value}{unit}{suffix}", 
+            short         : "{symbol}{value}{unit}",
             symbol        : "$",                     // 符号
             prefix        : "",                      // 前缀
             suffix        : "",                      // 后缀

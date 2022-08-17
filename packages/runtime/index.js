@@ -17,6 +17,9 @@ let varWithPipeRegexp = /\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\))
 
 let varReplaceRegexp =String.raw`\{\s*{varname}\s*\}`
 
+// 提取匹配("a",1,2,'b',{..},[...])
+let formaterVarsRegexp  = String.raw`((([\'\"])(.*?)\3)|(\w)|(\{.*?\})|(\[.*?\])),?`
+
 /**
  * 考虑到通过正则表达式进行插件的替换可能较慢，因此提供一个简单方法来过滤掉那些
  * 不需要进行插值处理的字符串
@@ -64,6 +67,7 @@ function parseFormatters(formatters){
         let lastIndex = formatter.lastIndexOf(")")
         if(firstIndex!==-1 && lastIndex!==-1){ // 带参数的格式化器
             const argsContent =  formatter.substr(firstIndex+1,lastIndex-firstIndex-1).trim()
+            // 此处采用,分割参数，存在的问题，如果参数里面存在,会导致分解析参数错误，TODO: 采用正则表达式进行解析
             let args = argsContent=="" ? [] :  argsContent.split(",").map(arg=>{
                 arg = arg.trim()
                 if(isNumber(arg)){   // 数字

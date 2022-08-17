@@ -216,9 +216,11 @@ const expectEnDatetimes =[
 
 const MONEY = 123456789.8848
 const zhMoneys = [
-    "商品价格: { value | currency }",                          // 默认格式，由语言配置指定，不同的语言不一样
+    "商品价格: { value | currency }",                          // 默认格式
     "商品价格: { value | currency('long')}",                   // 长格式
-    "商品价格: { value | currency('short')}",                  // 短格式 == short(0)
+    "商品价格: { value | currency('short')}",                  // 短格式    
+    "商品价格: { value | currency('unit',0)}",                 // 短格式 
+    
     "商品价格: { value | currency('long',1)}",                 // 长格式: 万元
     "商品价格: { value | currency('long',2)}",                 // 长格式: 亿
     "商品价格: { value | currency('long',3)}",                 // 长格式: 万亿
