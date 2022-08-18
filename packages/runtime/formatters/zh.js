@@ -39,7 +39,8 @@ module.exports = {
         },
 
         currency          : {
-            units         : ["万","亿","万亿","万万亿"]
+            units         : ["","万","亿","万亿","万万亿"],
+            radix         : 4,                       // 进制，即三位一进制，中文是是4位一进
             symbol        : "￥",
             prefix        : "",
             suffix        : "元",

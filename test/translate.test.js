@@ -216,40 +216,42 @@ const expectEnDatetimes =[
 
 const MONEY = 123456789.8848
 const zhMoneys = [
-    "商品价格: { value | currency }",                          // 默认格式
+    "商品价格: { value | currency}",                           // 默认格式    
+    // long
     "商品价格: { value | currency('long')}",                   // 长格式
-    "商品价格: { value | currency('short')}",                  // 短格式    
-    "商品价格: { value | currency('unit',0)}",                 // 短格式 
-    
     "商品价格: { value | currency('long',1)}",                 // 长格式: 万元
     "商品价格: { value | currency('long',2)}",                 // 长格式: 亿
     "商品价格: { value | currency('long',3)}",                 // 长格式: 万亿
     "商品价格: { value | currency('long',4)}",                 // 长格式: 万万亿
-
-    "商品价格: { value | currency('short')}",                 // 短格式
-    "商品价格: { value | currency('short',1)}",                 // 短格式
-    "商品价格: { value | currency('short',2)}",                 // 短格式
-    "商品价格: { value | currency('short',3)}",                 // 短格式
-    "商品价格: { value | currency('short',4)}",                 // 短格式
-    "商品价格: { value | currency('short',5)}",                 // 短格式
+    // short
+    "商品价格: { value | currency('short')}",                   // 短格式
+    "商品价格: { value | currency('short',1)}",                 // 短格式 Thousands
+    "商品价格: { value | currency('short',2)}",                 // 短格式 Millions
+    "商品价格: { value | currency('short',3)}",                 // 短格式 Billions
+    "商品价格: { value | currency('short',4)}",                 // 短格式 Trillions
     
-    "商品价格: { value | currency({symbol,prefix ,suffix, division,precision,unit})}",  // 自定义货币格式
-    
-    "商品价格: { value | currency('￥')}",                      // 指定货币符号
-    "商品价格: { value | currency('￥','CNY')}",                // 指定货币符号+前缀
-    "商品价格: { value | currency('￥','CNY','元')}",           // 指定货币符号+前缀+后缀
-    "商品价格: { value | currency('￥','CNY','元',3)}",         // 指定货币符号+前缀+后缀+分割位
-    "商品价格: { value | currency('￥','CNY','元',3,3)}",       // 指定货币符号+前缀+后缀+分割位+精度
+    // // 自定义货币格式
+    // "商品价格: { value | currency({symbol:'#￥'})}",  
+    // "商品价格: { value | currency({symbol:'#￥',prefix:'人民币'})}",  
+    // "商品价格: { value | currency({symbol:'#￥',prefix:'人民币',suffix:'整'})}",  
+    // "商品价格: { value | currency({symbol:'#￥',prefix:'人民币',suffix:'整',precision:4})}",  
+    // "商品价格: { value | currency({symbol:'#￥',suffix:'整',precision:4, unit:2})}",       
 ]
+
 const expectZhMoneys =[
-    "商品价格: ￥1,2345,6789.88",                             // { value | currency }                          
-    "商品价格: ￥1,2345,6789.88元",                           // { value | currency('long')}
-    "商品价格: ￥1,2345,6789.88",                             // { value | currency('short')}
-    "商品价格: ￥1,2345,6789.88",                             // { value | currency('￥')}
-    "商品价格: CNY￥1,2345,6789.88",                          // { value | currency('￥','CNY')}
-    "商品价格: CNY￥1,2345,6789.88元",                        // { value | currency('￥','CNY','元')}
-    "商品价格: CNY￥123,456,789.885元",                      // { value | currency('￥','CNY','元',3)}
-    "商品价格: CNY￥123,456,789.885元",                      //{ value | currency('￥','CNY','元',3,3)}
+    "商品价格: ￥1,2345,6789.88",                             // { value | currency }         
+    // long                 
+    "商品价格: ￥1,2345,6789.88元",                          // { value | currency('long')}
+    "商品价格: ￥1,2345,68万元",                             // { value | currency('long',1)}
+    "商品价格: ￥1.23亿元",                                  // { value | currency('long',2)}
+    "商品价格: ￥0.00万亿元",                                // { value | currency('long',3)}
+    "商品价格: ￥0.00万万亿元",                              // { value | currency('long',4)} 
+    // short
+    "商品价格: ￥1,2345,6789.88",                           // { value | currency('short')}
+    "商品价格: ￥1,2345,68万",                               // { value | currency('short',1)}
+    "商品价格: ￥1.23亿",                                    // { value | currency('short',2)}
+    "商品价格: ￥0.00万亿",                                  // { value | currency('short',3)}
+    "商品价格: ￥0.00万万亿",                                // { value | currency('short',4)}
 ]
 const enMoneys = [
     "Price: { value | currency }",                          // 默认格式，由语言配置指定，不同的语言不一样
@@ -509,12 +511,12 @@ test("日期时间格式化器",async ()=>{
  })
 
 
- test("货币格式化器",async ()=>{      
+//  test("货币格式化器",async ()=>{      
     
 
-    let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
-    expect(zhTranslatedResults).toStrictEqual(expectZhDatetimes)
-    await scope.change("en")
-    let enTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
-    expect(enTranslatedResults).toStrictEqual(expectEnDatetimes)
- })
+//     let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
+//     expect(zhTranslatedResults).toStrictEqual(expectZhDatetimes)
+//     await scope.change("en")
+//     let enTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
+//     expect(enTranslatedResults).toStrictEqual(expectEnDatetimes)
+//  })

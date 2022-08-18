@@ -115,11 +115,42 @@ const timeFormatter = Formatter((value,format,$config)=>{
 })
 
 // 货币格式化器, CNY $13,456.00 
-const currencyFormatter = Formatter((value, symbol,prefix ,suffix, division,precision) =>{
-    return toCurrency(value, { symbol,division, prefix, precision,suffix })
+/**
+ * { value | currency }
+ * { value | currency('long') }
+ * { value | currency('long',1) }  万元
+ * { value | currency('long',2) }  亿元
+ * { value | currency({symbol,unit,prefix,precision,suffix}) }
+ */
+const currencyFormatter = Formatter((value,...args) =>{
+    let params = {  
+        unit          : 0,         
+        radix         : $config.radix,                          // 进制，即三位一进制，中文是是4位一进
+        symbol        : $config.symbol,                         // 符号
+        prefix        : $config.prefix,                         // 前缀
+        suffix        : $config.suffix,                         // 后缀
+        division      : $config.division,                       // ,分割位
+        precision     : $config.precision,                      // 精度     
+        format        : $config.format,                         // 模板字符串
+    }
+    let $config = args[args.length-1]
+    if(args.length==1) {
+        Object.assign(params,{format:'default'})
+    }else if(args.length==2 && isPlainObject(args[0])){
+        Object.assign(params,args[0])
+    }else if(args.length==2){
+        Object.assign(params,{format:args[0]})            
+    }else{
+        Object.assign(params,{format:args[0],unit:args[1]})
+    }
+    // 模板字符串
+    if(params.format in $config){
+        params.format = $config[params.format]
+    }     
+    params.unitName =(Array.isArray($config.units) && params.unit> 0 && params.unit<$config.units.length) ? $config.units[params.unit] : ""
+    return toCurrency(value,params)
 },{
-    normalize: toNumber,
-    params:["symbol","prefix","suffix", "division","precision"],
+    normalize: toNumber, 
     configKey: "currency"
 }) 
 
@@ -156,10 +187,13 @@ module.exports =   {
             },   
         },
         currency          : {
-            units         : ["","Thousands","Millions","Billions","Trillions"],    //千,百万,十亿,万亿
             default       : "{symbol}{value}{unit}",
-            long          : "{prefix} {symbol}{value}{unit}{suffix}", 
+            long          : "{prefix}{symbol}{value}{unit}{suffix}", 
             short         : "{symbol}{value}{unit}",
+            auto          : "{symbol}{value} {unit}",
+            //--
+            units         : ["","Thousands","Millions","Billions","Trillions"],    //千,百万,十亿,万亿
+            radix         : 3,                       // 进制，即三位一进制，中文是是4位一进
             symbol        : "$",                     // 符号
             prefix        : "",                      // 前缀
             suffix        : "",                      // 后缀

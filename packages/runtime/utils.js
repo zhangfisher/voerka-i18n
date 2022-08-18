@@ -58,6 +58,32 @@ function isNothing(value){
     return false
 } 
 
+
+// 区配JSON字符串里面的非标的key，即key没有使用"字符包起来的键
+const bastardJsonKeyRegex = /(([\w\u4e00-\u9fa5])|(\'.*?\'))+(?=\s*\:)/g
+/**
+ * 格式化器中的{a:1,b:2}形式的参数由于是非标准的JSON格式，采用JSON.parse会出错
+ * 如果使用eval转换则存在安全隐患
+ * 因此，本函数采用正则表达式来匹配KEY，然后为KEY自动添加""转换成标准JSON后再转换
+ * @param {*} s 
+ */
+function safeParseJson(str){
+     let params = [];
+     let matched; 
+     while ((matched = bastardJsonKeyRegex.exec(str)) !== null) {
+         if (matched.index === bastardJsonKeyRegex.lastIndex) {
+             bastardJsonKeyRegex.lastIndex++;
+         }        
+         str = str.replace(new RegExp(`${matched[0]}\s*:`),key=>{
+             key = key.substring(0,key.length-1).trim()
+             if(key.startsWith("'") && key.endsWith("'")){
+                 key = key.substring(1,key.length-1)
+             }
+             return `"${key}" :`
+         })
+     }
+     return JSON.parse(str)
+ }
 /**
  * 深度合并对象
  * 
@@ -153,22 +179,49 @@ function toNumber(value,defualt=0) {
  * @param {*} prefix      前缀
  * @param {*} suffix      后缀
  * @param {*} precision   小数点精确到几位，0-自动
+ * @param {*} format      格式模块板字符串
  * @returns 
  */
- function toCurrency(value,{symbol="",division=3,prefix="",precision=0,suffix=""}={}){
+ function toCurrency(value,params={}){
+    const {symbol="",division=3,prefix="",precision=0,suffix="",unit=0,unitName="",radix=3,format="{symbol}{value}{unit}"}  = params
+
+    // 1. 分离出整数和小数部分
     let [wholeValue,decimalValue] = String(value).split(".")
+    
+    // 2. 转换数制单位   比如将元转换到万元单位
+    // 如果指定了unit单位，0-代表默认，1-N代表将小数点字向后移动radix*unit位
+    // 比如 123456789.88   
+    // 当unit=1,radix=3时，   == [123456,78988]
+    // 当unit=1,radix=3时，   == [123,45678988]
+    if(unit>0 && radix>0){
+        // 不足位数时补零
+        if(wholeValue.length<radix) wholeValue = new Array(radix-wholeValue.length+1).fill(0).join("")+ wholeValue        
+        // 移到小数部分
+        decimalValue+=wholeValue.substring(wholeValue,wholeValue.length-radix)
+        wholeValue  = wholeValue.substring(0,wholeValue.length-radix)
+    }
+
+    // 3. 添加分割符号
     let result = []
     for(let i=0;i<wholeValue.length;i++){
         if(((wholeValue.length - i) % division)==0 && i>0) result.push(",")
         result.push(wholeValue[i])
     }
+    // 4. 处理保留小数位数，即精度
     if(decimalValue){
         if(precision>0){
             decimalValue = String(parseFloat(`0.${decimalValue}`).toFixed(precision)).split(".")[1]
         }
         result.push(`.${decimalValue}`)
     }
-    return `${prefix}${symbol}${result.join("")}${suffix}`
+    result = result.join("")
+    // 5. 模板替换
+    result = format.replace("{value}",result)
+                    .replace("{symbol}",symbol)
+                    .replace("{prefix}",prefix)
+                    .replace("{suffix}",suffix)
+                    .replace("{unit}",unitName)
+    return result
 }
 
 /**
@@ -357,7 +410,7 @@ function replaceAll(str,findValue,replaceValue){
  function createFormatter(fn,options={},defaultParams={}){
     let opts = Object.assign({
         normalize    : null,         // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
-        params       : [],           // 声明参数顺序
+        params       : null,         // 可选的，声明参数顺序，如果是变参的，则需要传入null
         configKey    : null          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
     },options)     
 
@@ -375,12 +428,18 @@ function replaceAll(str,findValue,replaceValue){
         if(!isPlainObject( activeFormatterConfigs))  activeFormatterConfigs ={}   
         // 3. 从当前语言的激活语言中读取配置参数
         const formatterConfig =Object.assign({},defaultParams,getByPath(activeFormatterConfigs,opts.configKey,{}))
-        let finalArgs = opts.params.map(param=>getByPath(formatterConfig,param,undefined))   
-        // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
-        for(let i =0; i<finalArgs.length;i++){
-            if(i==args.length-1) break // 最后一参数是配置
-            if(args[i]!==undefined) finalArgs[i] = args[i]
+        let finalArgs
+        if(opts.params==null){// 如果格式化器支持变参，则需要指定params=null
+            finalArgs = args
+        }else{  // 具有固定的参数个数
+            finalArgs = opts.params.map(param=>getByPath(formatterConfig,param,undefined))   
+            // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
+            for(let i =0; i<finalArgs.length;i++){
+                if(i==args.length-1) break // 最后一参数是配置
+                if(args[i]!==undefined) finalArgs[i] = args[i]
+            }
         }
+        
         return fn(finalValue,...finalArgs,formatterConfig)
     }
     $formatter.configurable = true       //  当函数是可配置时才在最后一个参数中传入$config
@@ -407,5 +466,6 @@ module.exports ={
     toDate,
     toNumber,
     toCurrency,
+    safeParseJson,
     createFormatter
 }
