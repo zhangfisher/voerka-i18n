@@ -13,7 +13,15 @@ export default defineConfig({
         includes:["docs/src"]
     },
     locales: [['zh-CN', '中文']],
-    scripts:["/voerka-i18n/js/baidu-stats.js"],
+    scripts:[`
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?06dc18a1ffc1c69ab1445ba8020ded5b";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();    
+    `],
     navs:[
         {
             title:"指南",
