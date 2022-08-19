@@ -1,15 +1,6 @@
 import { defineConfig } from 'dumi';
 
 // more config: https://d.umijs.org/config
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?06dc18a1ffc1c69ab1445ba8020ded5b";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
 
 export default defineConfig({
     title: 'VoerkaI18n全流程国际化解决方案',
