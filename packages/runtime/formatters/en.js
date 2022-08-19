@@ -3,9 +3,7 @@
  * 
  */
 
- const { toDate,toCurrency,toNumber,formatDatetime,formatTime,Formatter } = require("../utils")
-
-
+ const { toDate,toCurrency,toNumber,isPlainObject,formatDatetime,formatTime,Formatter } = require("../utils")
 
 /**
  * 日期格式化器
@@ -123,26 +121,44 @@ const timeFormatter = Formatter((value,format,$config)=>{
  * { value | currency({symbol,unit,prefix,precision,suffix}) }
  */
 const currencyFormatter = Formatter((value,...args) =>{
+    // 1. 最后一个参数是格式化器的参数,不同语言不一样
+    let $config = args[args.length-1]
+    // 2. 从语言配置中读取默认参数
     let params = {  
         unit          : 0,         
-        radix         : $config.radix,                          // 进制，即三位一进制，中文是是4位一进
-        symbol        : $config.symbol,                         // 符号
+        radix         : $config.radix,                          // 进制，取值,0-4,
+        symbol        : $config.symbol,                         // 符号,即三位一进制，中文是是4位一进
         prefix        : $config.prefix,                         // 前缀
         suffix        : $config.suffix,                         // 后缀
         division      : $config.division,                       // ,分割位
         precision     : $config.precision,                      // 精度     
         format        : $config.format,                         // 模板字符串
-    }
-    let $config = args[args.length-1]
-    if(args.length==1) {
+    }   
+    // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
+    if(args.length==1) {   // 无参调用
         Object.assign(params,{format:'default'})
-    }else if(args.length==2 && isPlainObject(args[0])){
+    }else if(args.length==2 && isPlainObject(args[0])){       // 一个参数且是{}
         Object.assign(params,args[0])
-    }else if(args.length==2){
+    }else if(args.length==2){            
+        // 一个字符串参数，只能是default,long,short, 或者是一个模板字符串，如"{symbol}{value}{unit}"
         Object.assign(params,{format:args[0]})            
-    }else{
+    }else if(args.length==3){// 2个参数，分别是format,unit
         Object.assign(params,{format:args[0],unit:args[1]})
+    }else if(args.length==4){// 2个参数，分别是format,unit,precision
+        Object.assign(params,{format:args[0],unit:args[1],precision:args[2]})
+    }   
+    // 4. 检查参数正确性
+    params.unit = parseInt(params.unit) || 0
+    if(params.unit>4) params.unit = 4
+    if(params.unit<0) params.unit = 0
+    // 当指定unit大于0时取消小数点精度控制
+    // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
+    // 将params.precision=0取消精度限制就可以显示1234.567899万，从而保证完整的精度
+    // 除非显示将precision设置为>2的值
+    if(params.unit>0 && params.precision==2){
+        params.precision = 0
     }
+
     // 模板字符串
     if(params.format in $config){
         params.format = $config[params.format]
@@ -188,17 +204,16 @@ module.exports =   {
         },
         currency          : {
             default       : "{symbol}{value}{unit}",
-            long          : "{prefix}{symbol}{value}{unit}{suffix}", 
+            long          : "{prefix} {symbol}{value}{unit}{suffix}", 
             short         : "{symbol}{value}{unit}",
-            auto          : "{symbol}{value} {unit}",
             //--
-            units         : ["","Thousands","Millions","Billions","Trillions"],    //千,百万,十亿,万亿
+            units         : [""," thousands"," millions"," billions"," trillions"],    //千,百万,十亿,万亿
             radix         : 3,                       // 进制，即三位一进制，中文是是4位一进
             symbol        : "$",                     // 符号
-            prefix        : "",                      // 前缀
+            prefix        : "USD",                   // 前缀
             suffix        : "",                      // 后缀
             division      : 3,                       // ,分割位
-            precision     : 2,                       // 精度            
+            precision     : 2,                    // 精度            
             
         },
         number            : {

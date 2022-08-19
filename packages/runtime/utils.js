@@ -59,8 +59,8 @@ function isNothing(value){
 } 
 
 
-// 区配JSON字符串里面的非标的key，即key没有使用"字符包起来的键
-const bastardJsonKeyRegex = /(([\w\u4e00-\u9fa5])|(\'.*?\'))+(?=\s*\:)/g
+// 区配JSON字符串里面的非标的key，即key没有使用"字符包起来的键  
+const bastardJsonKeyRegex = /((?<=:\s*)(\'.*?\')+)|((([\w\u4e00-\u9fa5])|(\'.*?\'))+(?=\s*\:))/g
 /**
  * 格式化器中的{a:1,b:2}形式的参数由于是非标准的JSON格式，采用JSON.parse会出错
  * 如果使用eval转换则存在安全隐患
@@ -74,12 +74,11 @@ function safeParseJson(str){
          if (matched.index === bastardJsonKeyRegex.lastIndex) {
              bastardJsonKeyRegex.lastIndex++;
          }        
-         str = str.replace(new RegExp(`${matched[0]}\s*:`),key=>{
-             key = key.substring(0,key.length-1).trim()
+         str = str.replace(new RegExp(matched[0]),key=>{
              if(key.startsWith("'") && key.endsWith("'")){
                  key = key.substring(1,key.length-1)
              }
-             return `"${key}" :`
+             return `"${key}"`
          })
      }
      return JSON.parse(str)
@@ -183,36 +182,40 @@ function toNumber(value,defualt=0) {
  * @returns 
  */
  function toCurrency(value,params={}){
-    const {symbol="",division=3,prefix="",precision=0,suffix="",unit=0,unitName="",radix=3,format="{symbol}{value}{unit}"}  = params
+    let {symbol="",division=3,prefix="",precision=2,suffix="",unit=0,unitName="",radix=3,format="{symbol}{value}{unit}"}  = params
 
     // 1. 分离出整数和小数部分
-    let [wholeValue,decimalValue] = String(value).split(".")
-    
+    let [wholeDigits,decimalDigits] = String(value).split(".")
     // 2. 转换数制单位   比如将元转换到万元单位
     // 如果指定了unit单位，0-代表默认，1-N代表将小数点字向后移动radix*unit位
     // 比如 123456789.88   
-    // 当unit=1,radix=3时，   == [123456,78988]
-    // 当unit=1,radix=3时，   == [123,45678988]
+    // 当unit=1,radix=3时，   == [123456,78988]  // [整数,小数]
+    // 当unit=2,radix=3时，   == [123,45678988]  // [整数,小数]
     if(unit>0 && radix>0){
         // 不足位数时补零
-        if(wholeValue.length<radix) wholeValue = new Array(radix-wholeValue.length+1).fill(0).join("")+ wholeValue        
-        // 移到小数部分
-        decimalValue+=wholeValue.substring(wholeValue,wholeValue.length-radix)
-        wholeValue  = wholeValue.substring(0,wholeValue.length-radix)
+        if(wholeDigits.length<radix*unit) wholeDigits = new Array(radix*unit-wholeDigits.length+1).fill(0).join("")+ wholeDigits    
+        // 将整数的最后radix*unit字符移到小数部分前面
+        wholeDigits  = wholeDigits.substring(0,wholeDigits.length-radix*unit)
+        decimalDigits=wholeDigits.substring(wholeDigits,wholeDigits.length-radix*unit)+decimalDigits        
+        if(wholeDigits=="") wholeDigits = "0"      
     }
 
     // 3. 添加分割符号
     let result = []
-    for(let i=0;i<wholeValue.length;i++){
-        if(((wholeValue.length - i) % division)==0 && i>0) result.push(",")
-        result.push(wholeValue[i])
+    for(let i=0;i<wholeDigits.length;i++){
+        if(((wholeDigits.length - i) % division)==0 && i>0) result.push(",")
+        result.push(wholeDigits[i])
     }
     // 4. 处理保留小数位数，即精度
-    if(decimalValue){
-        if(precision>0){
-            decimalValue = String(parseFloat(`0.${decimalValue}`).toFixed(precision)).split(".")[1]
+    if(decimalDigits){
+        // 如果precision是一个数字，则进行四舍五入处理
+        if(isNumber(precision) && precision>0){// 四舍五入处理
+            let finalBits = decimalDigits.length  // 四舍五入前的位数
+            decimalDigits = String(parseFloat(`0.${decimalDigits}`).toFixed(precision)).split(".")[1]
+            //如果经过四舍五入处理后的位数小于，代表精度进行舍去，则未尾显示+符号
+            if(finalBits > decimalDigits.length) decimalDigits+="+"
         }
-        result.push(`.${decimalValue}`)
+        result.push(`.${decimalDigits}`)
     }
     result = result.join("")
     // 5. 模板替换
@@ -369,9 +372,10 @@ function replaceAll(str,findValue,replaceValue){
  * 
  * - 函数第一个参数是上一上格式化器的输出
  * - 支持0-N个简单类型的入参
+ * - 可以是定参，也可以变参
  * - 格式化器可以在格式化器的$config参数指定一个键值来配置不同语言时的参数
  *  
- *   "currency":createFormatter((value,prefix,suffix, division ,precision,options)=>{
+ *   "currency":createFormatter((value,prefix,suffix, division ,precision,$config)=>{
  *     // 无论在格式化入参数是多少个，经过处理后在此得到prefix,suffix, division ,precision参数已经是经过处理后的参数
  *     依次读取格式化器的参数合并：
  *       - 创建格式化时的defaultParams参数

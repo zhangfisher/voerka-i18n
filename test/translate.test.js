@@ -13,6 +13,7 @@ function toLanguageIdMap(values,startIndex=0){
         return result
     },{})
 }
+// 显示两个数组哪一行不同
 function diffArray(arr1,arr2){
     let diffs = []
     arr1.forEach((v,i)=>{
@@ -214,7 +215,7 @@ const expectEnDatetimes =[
 	"Now time: 36",		                                // { value | time('ss') }"
 ]
 
-const MONEY = 123456789.8848
+const MONEY = 123456789.88
 const zhMoneys = [
     "商品价格: { value | currency}",                           // 默认格式    
     // long
@@ -230,49 +231,67 @@ const zhMoneys = [
     "商品价格: { value | currency('short',3)}",                 // 短格式 Billions
     "商品价格: { value | currency('short',4)}",                 // 短格式 Trillions
     
-    // // 自定义货币格式
-    // "商品价格: { value | currency({symbol:'#￥'})}",  
-    // "商品价格: { value | currency({symbol:'#￥',prefix:'人民币'})}",  
-    // "商品价格: { value | currency({symbol:'#￥',prefix:'人民币',suffix:'整'})}",  
-    // "商品价格: { value | currency({symbol:'#￥',prefix:'人民币',suffix:'整',precision:4})}",  
-    // "商品价格: { value | currency({symbol:'#￥',suffix:'整',precision:4, unit:2})}",       
+    // 自定义货币格式
+    "商品价格: { value | currency({symbol:'￥￥'})}",  
+    "商品价格: { value | currency({symbol:'￥￥',prefix:'人民币:'})}",  
+    "商品价格: { value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整'})}",    
+    "商品价格: { value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2})}",
+    "商品价格: { value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4})}"
 ]
 
 const expectZhMoneys =[
-    "商品价格: ￥1,2345,6789.88",                             // { value | currency }         
+    "商品价格: ￥1,2345,6789.88",                                // { value | currency }         
     // long                 
-    "商品价格: ￥1,2345,6789.88元",                          // { value | currency('long')}
-    "商品价格: ￥1,2345,68万元",                             // { value | currency('long',1)}
-    "商品价格: ￥1.23亿元",                                  // { value | currency('long',2)}
-    "商品价格: ￥0.00万亿元",                                // { value | currency('long',3)}
-    "商品价格: ￥0.00万万亿元",                              // { value | currency('long',4)} 
+    "商品价格: RMB ￥1,2345,6789.88元",                          // { value | currency('long')}
+    "商品价格: RMB ￥1,2345.678988万元",                         // { value | currency('long',1)}
+    "商品价格: RMB ￥1.2345678988亿元",                          // { value | currency('long',2)}
+    "商品价格: RMB ￥0.00012345678988万亿元",                    // { value | currency('long',3)}
+    "商品价格: RMB ￥0.000000012345678988万万亿元",              // { value | currency('long',4)}    
     // short
-    "商品价格: ￥1,2345,6789.88",                           // { value | currency('short')}
-    "商品价格: ￥1,2345,68万",                               // { value | currency('short',1)}
-    "商品价格: ￥1.23亿",                                    // { value | currency('short',2)}
-    "商品价格: ￥0.00万亿",                                  // { value | currency('short',3)}
-    "商品价格: ￥0.00万万亿",                                // { value | currency('short',4)}
+    "商品价格: ￥1,2345,6789.88",                                // { value | currency('short')}
+    "商品价格: ￥1,2345.678988万",                               // { value | currency('short',1)}
+    "商品价格: ￥1.2345678988亿",                                // { value | currency('short',2)}
+    "商品价格: ￥0.00012345678988万亿",                          // { value | currency('short',3)}
+    "商品价格: ￥0.000000012345678988万万亿",                    // { value | currency('short',4)}
+    // 自定义货币格式
+    "商品价格: ￥￥1,2345,6789.88",  
+    "商品价格: 人民币:￥￥1,2345,6789.88",  
+    "商品价格: 人民币:￥￥1,2345,6789.88元整",  
+    "商品价格: 人民币:￥￥1,2345.678988万元",  
+    "商品价格: 人民币:￥￥1.2346亿元整"   
 ]
+
+
+
 const enMoneys = [
-    "Price: { value | currency }",                          // 默认格式，由语言配置指定，不同的语言不一样
-    "Price: { value | currency('long')}",                   // 长格式
-    "Price: { value | currency('short')}",                  // 短格式
-    "Price: { value | currency('$')}",                      // 指定货币符号
-    "Price: { value | currency('$','USD')}",                // 指定货币符号+前缀
-    "Price: { value | currency('$','USD','')}",             // 指定货币符号+前缀+后缀
-    "Price: { value | currency('$','USD','',3)}",           // 指定货币符号+前缀+后缀+分割位
-    "Price: { value | currency('$','USD','',3,3)}",         // 指定货币符号+前缀+后缀+分割位+精度
+    "Price: { value | currency }",                           // 默认格式    
+    // long
+    "Price: { value | currency('long') }",                   // 长格式
+    "Price: { value | currency('long',1) }",                 // 长格式: 万元
+    "Price: { value | currency('long',2) }",                 // 长格式: 亿
+    "Price: { value | currency('long',3) }",                 // 长格式: 万亿
+    "Price: { value | currency('long',4) }",                 // 长格式: 万万亿
+    // short
+    "Price: { value | currency('short') }",                   // 短格式
+    "Price: { value | currency('short',1) }",                 // 短格式 Thousands
+    "Price: { value | currency('short',2) }",                 // 短格式 Millions
+    "Price: { value | currency('short',3) }",                 // 短格式 Billions
+    "Price: { value | currency('short',4) }",                 // 短格式 Trillions
 ]
 const expectEnMoneys =[
-    "Price: $123,456,789.88",                               // { value | currency }                          
-    "Price: $123,456,789.88",                               // { value | currency('long')}
-    "Price: $123,456,789.88",                               // { value | currency('short')}
-    "Price: $123,456,789.88",                               // { value | currency('$')}
-    "Price: USD$1,2345,6789.88",                            // { value | currency('$','USD')}
-    "Price: USD$1,2345,6789.88",                            // { value | currency('$','USD','元')}
-    "Price: USD$123,456,789.885",                           // { value | currency('$','USD','元',3)}
-    "Price: USD$123,456,789.885",                           //{ value | currency('$','USD','元',3,3)}
-
+    "Price: $123,456,789.88",                                   // { value | currency }         
+    // long                 
+    "Price: USD $123,456,789.88",                               // { value | currency('long')}
+    "Price: USD $123,456.78988 thousands",                      // { value | currency('long',1)}
+    "Price: USD $123.45678988 millions",                        // { value | currency('long',2)}
+    "Price: USD $0.12345678988 billions",                       // { value | currency('long',3)}
+    "Price: USD $0.00012345678988 trillions",                   // { value | currency('long',4)}    
+    // short
+    "Price: $123,456,789.88",                                   // { value | currency('short')}
+    "Price: $123,456.78988 thousands",                          // { value | currency('short',1)}
+    "Price: $123.45678988 millions",                            // { value | currency('short',2)}
+    "Price: $0.12345678988 billions",                           // { value | currency('short',3)}
+    "Price: $0.00012345678988 trillions",                       // { value | currency('short',4)}
 ]
 
 
@@ -452,30 +471,31 @@ test("切换到其他语言时的自动匹配同名格式化器",async ()=>{
 test("位置插值翻译文本内容",async ()=>{    
     const now = new Date()
     expect(t("你好")).toBe("你好");       
-    expect(t("现在是{ value | }",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);       
+    expect(t("现在是{ value | }",now)).toBe(`现在是${dayjs(now).format('YYYY/M/D HH:mm:ss')}`);       
 
     // 经babel自动码换后，文本内容会根据idMap自动转为id
     expect(t("1")).toBe("你好");       
-    expect(t("2",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);     
+    expect(t("2",now)).toBe(`现在是${dayjs(now).format('YYYY/M/D HH:mm:ss')}`);     
 
     await scope.change("en") 
 
     expect(t("你好")).toBe("hello"); 
-    expect(t("现在是{ value | }",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
+    expect(t("现在是{ value | }",now)).toBe(`Now is ${dayjs(now).format('YYYY/M/D HH:mm:ss')}`);  
     expect(t("1")).toBe("hello"); 
-    expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
+    expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY/M/D HH:mm:ss')}`);  
 })
 
 test("命名插值翻译文本内容",async ()=>{    
     const now = new Date()
     expect(t("你好")).toBe("你好");       
-    expect(t("现在是{ value | }",now)).toBe(`现在是${dayjs(now).format('YYYY年MM月DD日 HH点mm分ss秒')}`);       
+    expect(t("现在是{ value | }",now)).toBe(`现在是${dayjs(now).format('YYYY/M/D HH:mm:ss')}`);       
 
     await scope.change("en")
     expect(t("你好")).toBe("hello"); 
-    expect(t("现在是{ value | }",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
+    expect(t("现在是{ value | }",now)).toBe(`Now is ${dayjs(now).format('YYYY/M/D HH:mm:ss')}`);  
+    // 使用idMap
     expect(t("1")).toBe("hello"); 
-    expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY/MM/DD HH:mm:ss')}`);  
+    expect(t("2",now)).toBe(`Now is ${dayjs(now).format('YYYY/M/D HH:mm:ss')}`);  
 })
 
 
@@ -511,12 +531,10 @@ test("日期时间格式化器",async ()=>{
  })
 
 
-//  test("货币格式化器",async ()=>{      
-    
-
-//     let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
-//     expect(zhTranslatedResults).toStrictEqual(expectZhDatetimes)
-//     await scope.change("en")
-//     let enTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
-//     expect(enTranslatedResults).toStrictEqual(expectEnDatetimes)
-//  })
+ test("货币格式化器",async ()=>{    
+    let zhMoneysResults =  zhMoneys.map(v=>t(v,MONEY))
+    expect(zhMoneysResults).toStrictEqual(expectZhMoneys)
+    await scope.change("en")
+    let enMoneysResults =  enMoneys.map(v=>t(v,MONEY))
+    expect(enMoneysResults).toStrictEqual(expectEnMoneys)
+ })

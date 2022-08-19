@@ -41,8 +41,8 @@
  // 插值变量字符串替换正则 
  let varReplaceRegexp =String.raw`\{\s*{varname}\s*\}` 
  // 提取匹配("a",1,2,'b',{..},[...])
- const formaterVarsRegexp  = String.raw`((([\'\"])(.*?)\3)|(\w)|(\{.*?\})|(\[.*?\]))(?<=\s*[,\)]?\s*)`
- 
+ const formatterParamsRegex = /((([\'\"])(.*?)\3)|(\{.*?\})|(\[.*?\])|([\d]+\.?[\d]?)|((true|false|null)(?=[,\b\s]))|([\w\.]+)|((?<=,)\s*(?=,)))(?<=\s*[,\)]?\s*)/g;
+
  /**
   * 考虑到通过正则表达式进行插值的替换可能较慢
   * 因此提供一个简单方法来过滤掉那些不需要进行插值处理的字符串
@@ -84,6 +84,7 @@
      let result = formatters.trim().substr(1).trim().split("|").map(r=>r.trim())  
      // 2. 解析格式化器参数
      return result.map(formatter=>{
+        if(formatter=="") return null
          let firstIndex = formatter.indexOf("(")
          let lastIndex = formatter.lastIndexOf(")")
          if(firstIndex!==-1 && lastIndex!==-1){ // 带参数的格式化器
@@ -96,7 +97,7 @@
          }else{// 不带参数的格式化器
              return [formatter,[]]
          }        
-     }) 
+     }).filter(formatter=> Array.isArray(formatter)) 
  }
  /**
  *  解析格式化器的参数
@@ -186,7 +187,7 @@ function parseFormaterParams(strParams) {
   * @param {Function(<变量名称>,[formatters],match[0])} callback 
   * @returns  返回替换后的字符串
   */
- function forEachInterpolatedVars(str,callback,options={}){
+ function forEachInterpolatedVars(str,replacer,options={}){
      let result=str, match 
      let opts = Object.assign({
          replaceAll:true,                // 是否替换所有插值变量，当使用命名插值时应置为true，当使用位置插值时应置为false
@@ -196,9 +197,9 @@ function parseFormaterParams(strParams) {
          const varname = match.groups.varname || ""
          // 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
          const formatters = parseFormatters(match.groups.formatters)
-         if(isFunction(callback)){
+         if(isFunction(replacer)){
              try{
-                 const finalValue = callback(varname,formatters,match[0])
+                 const finalValue = replacer(varname,formatters,match[0])
                  if(opts.replaceAll){ // 在某此版本上可能没有
                      result=result.replaceAll(match[0],finalValue)
                  }else{

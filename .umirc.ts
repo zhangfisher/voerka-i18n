@@ -14,13 +14,13 @@ export default defineConfig({
     },
     locales: [['zh-CN', '中文']],
     scripts:[`
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?06dc18a1ffc1c69ab1445ba8020ded5b";
-            var s = document.getElementsByTagName("script")[0]; 
-            s.parentNode.insertBefore(hm, s);
-        })();    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?14df7a33942125aa14ad60ee1cdb1940";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();  
     `],
     navs:[
         {
