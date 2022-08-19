@@ -13,6 +13,7 @@ export default defineConfig({
         includes:["docs/src"]
     },
     locales: [['zh-CN', '中文']],
+    scripts:["/voerka-i18n/js/baidu-stats.js"],
     navs:[
         {
             title:"指南",
@@ -100,3 +101,4 @@ export default defineConfig({
         
     }
 });
+
