@@ -58,31 +58,6 @@ function isNothing(value){
     return false
 } 
 
-
-// 区配JSON字符串里面的非标的key，即key没有使用"字符包起来的键  
-const bastardJsonKeyRegex = /((?<=:\s*)(\'.*?\')+)|((([\w\u4e00-\u9fa5])|(\'.*?\'))+(?=\s*\:))/g
-/**
- * 格式化器中的{a:1,b:2}形式的参数由于是非标准的JSON格式，采用JSON.parse会出错
- * 如果使用eval转换则存在安全隐患
- * 因此，本函数采用正则表达式来匹配KEY，然后为KEY自动添加""转换成标准JSON后再转换
- * @param {*} s 
- */
-function safeParseJson(str){
-     let params = [];
-     let matched; 
-     while ((matched = bastardJsonKeyRegex.exec(str)) !== null) {
-         if (matched.index === bastardJsonKeyRegex.lastIndex) {
-             bastardJsonKeyRegex.lastIndex++;
-         }        
-         str = str.replace(new RegExp(matched[0]),key=>{
-             if(key.startsWith("'") && key.endsWith("'")){
-                 key = key.substring(1,key.length-1)
-             }
-             return `"${key}"`
-         })
-     }
-     return JSON.parse(str)
- }
 /**
  * 深度合并对象
  * 
@@ -195,8 +170,8 @@ function toNumber(value,defualt=0) {
         // 不足位数时补零
         if(wholeDigits.length<radix*unit) wholeDigits = new Array(radix*unit-wholeDigits.length+1).fill(0).join("")+ wholeDigits    
         // 将整数的最后radix*unit字符移到小数部分前面
-        wholeDigits  = wholeDigits.substring(0,wholeDigits.length-radix*unit)
         decimalDigits=wholeDigits.substring(wholeDigits,wholeDigits.length-radix*unit)+decimalDigits        
+        wholeDigits  = wholeDigits.substring(0,wholeDigits.length-radix*unit)
         if(wholeDigits=="") wholeDigits = "0"      
     }
 
@@ -357,100 +332,61 @@ function replaceAll(str,findValue,replaceValue){
     if(typeof(str)!=="string" || findValue=="" || findValue==replaceValue) return str
     let result = str
     try{
-        while(result.search(findValue)!=-1){
+        while(result.includes(findValue)){
             result = result.replace(findValue,replaceValue)
         }        
     }catch{}
     return result
 }
-
-
 /**
- * 创建格式化器
+ *   使用正则表达式解析非标JOSN
  * 
- * 格式化器是一个普通的函数，具有以下特点：
- * 
- * - 函数第一个参数是上一上格式化器的输出
- * - 支持0-N个简单类型的入参
- * - 可以是定参，也可以变参
- * - 格式化器可以在格式化器的$config参数指定一个键值来配置不同语言时的参数
+ */
+
+ const bastardJsonKeyRegex = /(?<value>(?<=:\s*)(\'.*?\')+)|(?<key>(([\w\u4e00-\u9fa5])|(\'.*?\'))+(?=\s*\:))/g
+
+ /**
+  * 当需要采用正则表达式进行字符串替换时，需要对字符串进行转义
+  * 
+  * 比如  str = "I am {username}"  
+  * replace(new RegExp(str),"Tom") !===  I am Tom
+  * 
+  * 因为{}是正则表达式元字符，需要转义成 "\{username\}"
+  * 
+  * replace(new RegExp(escapeRegexpStr(str)),"Tom")
+  * 
+  * 
+  * @param {*} str 
+  * @returns 
+  */
+ function escapeRegexpStr(str){
+     return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1")
+ } 
+/**
+ * 解析非标的JSON字符串为{}
+ * 非标的JSON字符串指的是：
+ *  - key没有使用使用""包裹
+ *  - 字符串value没有使用""包裹
  *  
- *   "currency":createFormatter((value,prefix,suffix, division ,precision,$config)=>{
- *     // 无论在格式化入参数是多少个，经过处理后在此得到prefix,suffix, division ,precision参数已经是经过处理后的参数
- *     依次读取格式化器的参数合并：
- *       - 创建格式化时的defaultParams参数
- *       - 从当前激活格式化器的$config中读取配置参数
- *       - 在t函数后传入参数
-  *     比如currency格式化器支持4参数，其入参顺序是prefix,suffix, division ,precision
-  *     那么在t函数中可以使用以下五种入参数方式
-  *      {value | currency }                                    //prefix=undefined,suffix=undefined, division=undefined ,precision=undefined
-  *      {value | currency(prefix) }
-  *      {value | currency(prefix,suffix) }
-  *      {value | currency(prefix,suffix,division)  }
-  *      {value | currency(prefix,suffix,division,precision)}
-  *    
-  * 经过createFormatter处理后，会从当前激活格式化器的$config中读取prefix,suffix, division ,precision参数作为默认参数
-  * 然后t函数中的参数会覆盖默认参数，优先级更高
- *      },
- *      {
- *          unit:"$",
- *          prefix,
- *          suffix,
- *          division,
- *          precision
- *      },
- *      {
- *          normalize:value=>{...},
- *          params:["prefix","suffix", "division" ,"precision"]     // 声明参数顺序
- *          configKey:"currency"                                    // 声明特定语言下的配置在$config.currency
- *      }
- *   )
- * 
- * @param {*} fn 
- * @param {*} options               配置参数
- * @param {*} defaultParams         可选默认值
+ * @param {*} str 
  * @returns 
  */
- function createFormatter(fn,options={},defaultParams={}){
-    let opts = Object.assign({
-        normalize    : null,         // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
-        params       : null,         // 可选的，声明参数顺序，如果是变参的，则需要传入null
-        configKey    : null          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
-    },options)     
-
-    // 最后一个参数是传入activeFormatterConfig参数
-    const $formatter =  function(value,...args){
-        let finalValue = value
-        // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
-        if(isFunction(opts.normalize)){
-            try{
-                finalValue = opts.normalize(finalValue)
-            }catch{}
+function safeParseJson(str){
+    let matched; 
+    while ((matched = bastardJsonKeyRegex.exec(str)) !== null) {
+        if (matched.index === bastardJsonKeyRegex.lastIndex) {
+            bastardJsonKeyRegex.lastIndex++;
+        }                
+        let item = matched[0]
+        if(item.startsWith("'") && item.endsWith("'")){
+            item = item.substring(1,item.length-1)
         }
-        // 2. 读取activeFormatterConfig
-        let activeFormatterConfigs = args.length>0 ? args[args.length-1] : {}
-        if(!isPlainObject( activeFormatterConfigs))  activeFormatterConfigs ={}   
-        // 3. 从当前语言的激活语言中读取配置参数
-        const formatterConfig =Object.assign({},defaultParams,getByPath(activeFormatterConfigs,opts.configKey,{}))
-        let finalArgs
-        if(opts.params==null){// 如果格式化器支持变参，则需要指定params=null
-            finalArgs = args
-        }else{  // 具有固定的参数个数
-            finalArgs = opts.params.map(param=>getByPath(formatterConfig,param,undefined))   
-            // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
-            for(let i =0; i<finalArgs.length;i++){
-                if(i==args.length-1) break // 最后一参数是配置
-                if(args[i]!==undefined) finalArgs[i] = args[i]
-            }
-        }
-        
-        return fn(finalValue,...finalArgs,formatterConfig)
+        const findValue =  matched.groups.key ? new RegExp( escapeRegexpStr(matched[0]) + "\s*:") : new RegExp(":\s*" +  escapeRegexpStr(matched[0]))
+        const replaceTo = matched.groups.key ? `"${item}":` : `: "${item}"`
+        str = str.replace(findValue,replaceTo)
     }
-    $formatter.configurable = true       //  当函数是可配置时才在最后一个参数中传入$config
-    return $formatter
+    return JSON.parse(str)
 }
-
-const Formatter = createFormatter
 
 module.exports ={
     isPlainObject,
@@ -460,8 +396,6 @@ module.exports ={
     deepClone,
     deepMerge,
     deepMixin,
-    Formatter,
-    createFormatter,
     replaceAll,
     getByPath,
     getDataTypeName,
@@ -470,6 +404,6 @@ module.exports ={
     toDate,
     toNumber,
     toCurrency,
-    safeParseJson,
-    createFormatter
+    escapeRegexpStr,
+    safeParseJson
 }

@@ -3,7 +3,8 @@
  * 
  */
 
- const { toDate,toCurrency,toNumber,isPlainObject,formatDatetime,formatTime,Formatter } = require("../utils")
+ const { toDate,toCurrency,toNumber,isPlainObject,formatDatetime,formatTime } = require("../utils")
+ const { Formatter } = require("../formatter")
 
 /**
  * 日期格式化器
@@ -138,7 +139,7 @@ const currencyFormatter = Formatter((value,...args) =>{
     if(args.length==1) {   // 无参调用
         Object.assign(params,{format:'default'})
     }else if(args.length==2 && isPlainObject(args[0])){       // 一个参数且是{}
-        Object.assign(params,args[0])
+        Object.assign(params,{format:$config.custom},args[0])
     }else if(args.length==2){            
         // 一个字符串参数，只能是default,long,short, 或者是一个模板字符串，如"{symbol}{value}{unit}"
         Object.assign(params,{format:args[0]})            
@@ -206,6 +207,7 @@ module.exports =   {
             default       : "{symbol}{value}{unit}",
             long          : "{prefix} {symbol}{value}{unit}{suffix}", 
             short         : "{symbol}{value}{unit}",
+            custom        : "{prefix} {symbol}{value}{unit}{suffix}", 
             //--
             units         : [""," thousands"," millions"," billions"," trillions"],    //千,百万,十亿,万亿
             radix         : 3,                       // 进制，即三位一进制，中文是是4位一进

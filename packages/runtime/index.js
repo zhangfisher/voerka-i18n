@@ -1,5 +1,6 @@
-const {createFormatter,Formatter,getDataTypeName,isNumber,isPlainObject,isFunction,isNothing,deepMerge,deepMixin} = require("./utils")
+const {getDataTypeName,isNumber,isPlainObject,isFunction,isNothing,deepMerge,deepMixin} = require("./utils")
 const {getInterpolatedVars,replaceInterpolatedVars} = require("./interpolate")
+const {createFormatter,Formatter} = require("./formatter")
 const EventEmitter = require("./eventemitter")
 const inlineFormatters = require("./formatters")         
 const i18nScope = require("./scope")
@@ -155,7 +156,7 @@ const defaultLanguageSettings = {
         }
     }
 
-}
+} 
 
 module.exports ={
     getInterpolatedVars,

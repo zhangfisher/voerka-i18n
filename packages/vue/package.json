@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vue",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Vue3插件,提供自动插件翻译函数和语言切换功能",
     "main": "index.js",
     "scripts": {
@@ -12,5 +12,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-15T17:45:10+08:00"
+    "lastPublish": "2022-08-20T20:54:52+08:00"
 }

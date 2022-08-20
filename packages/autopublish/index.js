@@ -364,7 +364,7 @@ function generatePackageVersionDoc(){
     results.push("| --- | :---:| --- |---|")
     getPackages().forEach(package => {
         const lastPublish = package.lastPublish ? dayjs(package.lastPublish).format("YYYY/MM/DD") : "None"
-        results.push(`|**${package.name}**|${package.version}|${lastPublish}|${package.description}`)
+        results.push(`|**${package.name}**|${package.version}|${lastPublish}|${package.description}|`)
     }) 
     
     fs.writeFileSync(path.join(workspaceRoot,"docs/src/guide/intro/versions.md"), results.join("\n"))
