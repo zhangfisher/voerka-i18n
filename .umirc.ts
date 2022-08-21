@@ -14,7 +14,7 @@ export default defineConfig({
     },
     locales: [['zh-CN', '中文']],
     theme:{
-        "@c-heading": "#118809"
+        "@c-heading": "#4569d4"
     },
     scripts:[`
     var _hmt = _hmt || [];
