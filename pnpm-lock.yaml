@@ -27,7 +27,6 @@ importers:
       vinyl: ^2.2.1
       yorkie: ^2.0.0
     dependencies:
-      cross-env: 7.0.3
       inquirer: 8.2.4
     devDependencies:
       '@babel/core': 7.18.10
@@ -36,6 +35,7 @@ importers:
       '@rollup/plugin-babel': 5.3.1_tui6liyexu3zy4m5r2rytc7ixu
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
       '@vuepress/client': 2.0.0-beta.49
+      cross-env: 7.0.3
       dayjs: 1.11.4
       deepmerge: 4.2.2
       dumi: 1.1.47
@@ -4501,7 +4501,6 @@ packages:
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
-    dev: false
 
   /cross-spawn/5.1.0:
     resolution: {integrity: sha512-pTgQJ5KC0d2hcY8eyL1IzlBPYjTkyH72XRZPnLyKus2mBfNjQs3klqbJU2VILqZryAZUt9JOb3h/mWMy23/f5A==}

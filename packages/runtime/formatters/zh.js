@@ -17,18 +17,18 @@ module.exports = {
                 format      : 'local'
             },
             quarter         : {
-                names  : ["一季度","二季度","三季度","四季度"],
-                shortNames  : ["Q1","Q2","Q3","Q4"],
-                format      : 0           // 0-短格式,1-长格式
+                long        : ["一季度","二季度","三季度","四季度"],
+                short       : ["Q1","Q2","Q3","Q4"],
+                format      : "short"          // 0-短格式,1-长格式,2-数字
             },
             month:{
-                names       : CN_MONTH_NAMES,
-                shortNames  : CN_SHORT_MONTH_NAMES,
+                long       : CN_MONTH_NAMES,
+                short       : CN_SHORT_MONTH_NAMES,
                 format      : 0,           // 0-长名称，1-短名称，2-数字
             },
             weekday:{
-                names       : CN_WEEK_DAYS,
-                shortNames  : CN_SHORT_WEEK_DAYS,
+                short       : CN_WEEK_DAYS,
+                long        : CN_SHORT_WEEK_DAYS,
                 format      : 0,            // 0-长名称，1-短名称，2-数字   
             },
             time:{

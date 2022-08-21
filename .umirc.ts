@@ -13,6 +13,9 @@ export default defineConfig({
         includes:["docs/src"]
     },
     locales: [['zh-CN', '中文']],
+    theme:{
+        "@c-heading": "#118809"
+    },
     scripts:[`
     var _hmt = _hmt || [];
     (function() {

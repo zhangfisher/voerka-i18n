@@ -1258,11 +1258,15 @@ const dateFormatter = Formatter$1((value,format,$config)=>{
     params   : ['format'],
     configKey: "datetime.date"
 });
-// 季度格式化器 format= 0=短格式  1=长格式  
-Formatter$1((value,format,$config)=>{
+// 季度格式化器 format= 0=短格式  1=长格式    1=数字  
+const quarterFormatter = Formatter$1((value,format,$config)=>{
     const month = value.getMonth() + 1; 
-    if(format<0 && format>1) format = 0;
-    return format==0 ? $config.shortNames[month] : (format==1 ? $config.shortNames[month] : month+1)
+    const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ));
+    if(typeof(format)==='string'){ 
+        format = ['short','long','number'].indexOf(format);        
+    }
+    if(format<0 && format>2) format = 0;
+    return format==0 ? $config.short[quarter] : (format==1 ? $config.long[quarter] : quarter)
 },{  
     normalize: toDate,                      
     params   : ['format'],
@@ -1276,7 +1280,7 @@ const monthFormatter = Formatter$1((value,format,$config)=>{
         format = ['long','short','number'].indexOf(format);        
     }
     if(format<0 && format>2) format = 0;
-    return format==0 ? $config.names[month] : (format==1 ? $config.shortNames[month] : month+1)
+    return format==0 ? $config.long[month] : (format==1 ? $config.short[month] : month+1)
 },{  
     normalize: toDate,                      
     params   : ['format'],
@@ -1290,7 +1294,7 @@ const weekdayFormatter = Formatter$1((value,format,$config)=>{
         format = ['long','short','number'].indexOf(format);        
     }
     if(format<0 && format>2) format = 0;
-    return format==0 ? $config.names[day] : (format==1 ? $config.shortNames[day] : day)
+    return format==0 ? $config.long[day] : (format==1 ? $config.short[day] : day)
 },{  
     normalize: toDate,                       
     params   : ['format'],
@@ -1397,17 +1401,18 @@ var en =   {
                 format      : "local"
             },
             quarter         : {
-                names  : ["Q1","Q2","Q3","Q4"],
-                shortNames  : ["Q1","Q2","Q3","Q4"]
+                long        : ["First Quarter","Second Quarter","Third Quarter","Fourth Quarter"],
+                short       : ["Q1","Q2","Q3","Q4"],
+                format      : "short"
             },
             month:{
-                names       : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                shortNames  : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+                long        : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                short       : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
                 format      : 0           // 0-长名称，1-短名称，2-数字
             },
             weekday:{
-                names       :["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                shortNames  : ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"],
+                long        : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                short       : ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"],
                 format      : 0,            // 0-长名称，1-短名称，2-数字   
             },       
             time            : {
@@ -1465,10 +1470,10 @@ var en =   {
     date          : dateFormatter,
     time          : timeFormatter,
     year          : value => toDate(value).getFullYear(),
-    month         : value => toDate(value).getMonth() + 1,
-    day           : value => toDate(value).getDate(),
-    weekday       : weekdayFormatter,
+    quarter       : quarterFormatter,
     month         : monthFormatter,
+    weekday       : weekdayFormatter,
+    day           : value => toDate(value).getDate(),
     // ******************* 时间 *******************
     hour          : value => toDate(value).getHours(),
     hour12        : value => {const hour = toDate(value).getHours(); return hour > 12 ? hour - 12 : thour},
@@ -1608,18 +1613,18 @@ var zh = {
                 format      : 'local'
             },
             quarter         : {
-                names  : ["一季度","二季度","三季度","四季度"],
-                shortNames  : ["Q1","Q2","Q3","Q4"],
-                format      : 0           // 0-短格式,1-长格式
+                long        : ["一季度","二季度","三季度","四季度"],
+                short       : ["Q1","Q2","Q3","Q4"],
+                format      : "short"          // 0-短格式,1-长格式,2-数字
             },
             month:{
-                names       : CN_MONTH_NAMES,
-                shortNames  : CN_SHORT_MONTH_NAMES,
+                long       : CN_MONTH_NAMES,
+                short       : CN_SHORT_MONTH_NAMES,
                 format      : 0,           // 0-长名称，1-短名称，2-数字
             },
             weekday:{
-                names       : CN_WEEK_DAYS,
-                shortNames  : CN_SHORT_WEEK_DAYS,
+                short       : CN_WEEK_DAYS,
+                long        : CN_SHORT_WEEK_DAYS,
                 format      : 0,            // 0-长名称，1-短名称，2-数字   
             },
             time:{

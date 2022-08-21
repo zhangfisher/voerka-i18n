@@ -1,4 +1,4 @@
-const {i18nScope, translate, getInterpolatedVars }  = require('./dist/runtime.cjs.js')
+const {i18nScope, translate, getInterpolatedVars }  = require('../dist/runtime.cjs.js')
 const dayjs = require('dayjs');
 
 function toLanguageDict(values,startIndex=0){
