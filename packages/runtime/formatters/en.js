@@ -310,7 +310,7 @@ module.exports =   {
             },
             timeslots       : {
                 slots       : [12],
-                lowercase   : ["AM","PM"]
+                lowercase   : ["am","pm"],
                 uppercase   : ["AM","PM"]
             }
         },

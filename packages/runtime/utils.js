@@ -268,11 +268,44 @@ function deepClone(obj){
 // a	am / pm	上/下午，小写
 // Do	1st... 31st	月份的日期与序号
 
-function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
+
+function getTimeSlot(hour,options={}){
+    if(hour<0 && hour>23) hour = 0
+    const opts = Object.assign({
+        slots        : [12],
+        lowerCases   : ["am","pm"],
+        upperCases   : ["AM","PM"],
+        caseType     : 0 
+    },options)
+    opts.slots.splice(0,0,0)    // slots = [0,....]
+    opts.slots.push(24)
+    let slotIndex = opts.slots.findIndex(v=>v>hour) - 1 
+    return caseType == 0 ? opts.lowerCases[slotIndex] :  opts.upperCases[slotIndex]
+}
+
+
+/**
+ * 根据模板格式化日期时间
+ * @param {*} value 
+ * @param {*} templ 
+ * @param {*} options   = {month:[<短月份名称>,<短月份名称>],timeSlots:{}}
+ * @returns 
+ */
+function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss",options={}){
+    const opts = Object.assign({
+        month:["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        timeSlots:{
+            slots       : [12],
+            lowercase   : ["am","pm"],
+            uppercase   : ["AM","PM"],
+            caseType     : 0 
+        }
+    },options)
     const v = toDate(value)
     const year =String(v.getFullYear()),month = String(v.getMonth()+1),weekday=String(v.getDay()),day=String(v.getDate())
-    const hourNum = v.getHours()
-    const hour = String(hourNum), minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
+    const hourValue = v.getHours()
+    const hour = String(hourValue), minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
+    const timeSlot = getTimeSlot(hourValue,opts.timeSlots)
     const vars = [
         ["YYYY", year],                                                 // 2018	年，四位数
         ["YY", year.substring(year.length - 2, year.length)],           // 18	年，两位数        
@@ -283,8 +316,8 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
         ["D", day],                                                     // 1-31	日
         ["HH", hour.padStart(2, "0")],                                  // 00-23	24小时，两位数
         ["H", hour],                                                    // 0-23	24小时
-        ["hh", String(hourNum > 12 ? hourNum - 12 : hourNum).padStart(2, "0")],  // 01-12	12小时，两位数
-        ["h", String(hourNum > 12 ? hourNum - 12 : hourNum)],           // 1-12	12小时
+        ["hh", String(hourValue > 12 ? hourValue - 12 : hourValue).padStart(2, "0")],  // 01-12	12小时，两位数
+        ["h", String(hourValue > 12 ? hourValue - 12 : hourValue)],           // 1-12	12小时
         ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
         ["m", minute],                                                  // 0-59	分钟
         ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
@@ -292,29 +325,41 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
         ["SSS", millisecond],                                           // 000-999	毫秒，三位数
         ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
         ["a", hour > 12 ? "pm" : "am"],                                 // am / pm	上/下午，小写
+        ["t",  getTimeSlot(hourValue,{...opts.timeSlots,caseType:0})],  // 小写时间段，如上午、中午、下午
+        ["T",  getTimeSlot(hourValue,{...opts.timeSlots,caseType:1})],  // 大写时间段，如上午、中午、下午
     ]
     let result = templ
     vars.forEach(([k,v])=>result = replaceAll(result,k,v))
     return result
 }
 
-function formatTime(value,templ="HH:mm:ss"){
+function formatTime(value,templ="HH:mm:ss",options={}){
+    const opts = Object.assign({
+        timeSlots:{
+            slots       : [12],
+            lowercase   : ["am","pm"],
+            uppercase   : ["AM","PM"],
+            caseType     : 0 
+        }
+    },options)
     const v = toDate(value)
-    const hourNum = v.getHours()
-    const hour = String(hourNum),minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
+    const hourValue = v.getHours()
+    const hour = String(hourValue),minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
     let result = templ
     const vars = [
         ["HH", hour.padStart(2, "0")],                                  // 00-23	24小时，两位数
         ["H", hour],                                                    // 0-23	24小时
         ["hh", String(hour > 12 ? hour - 12 : hour).padStart(2, "0")],  // 01-12	12小时，两位数
-        ["h", String(hour > 12 ? hour - 12 : hour)],                            // 1-12	12小时
+        ["h", String(hour > 12 ? hour - 12 : hour)],                    // 1-12	12小时
         ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
         ["m", minute],                                                  // 0-59	分钟
         ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
         ["s", second],                                                  // 0-59	秒
         ["SSS", millisecond],                                           // 000-999	毫秒，三位数
         ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
-        ["a", hour > 12 ? "pm" : "am"]                                  // am / pm	上/下午，小写
+        ["a", hour > 12 ? "pm" : "am"],                                  // am / pm	上/下午，小写
+        ["t",  getTimeSlot(hourValue,{...opts.timeSlots,caseType:0})],  // 小写时间段，如上午、中午、下午
+        ["T",  getTimeSlot(hourValue,{...opts.timeSlots,caseType:1})],  // 大写时间段，如上午、中午、下午
     ]
     vars.forEach(([k,v])=>result = replaceAll(result,k,v))
     return result
