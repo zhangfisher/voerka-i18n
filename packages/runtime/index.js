@@ -1,4 +1,4 @@
-const {getDataTypeName,isNumber,isPlainObject,isFunction,isNothing,deepMerge,deepMixin} = require("./utils")
+const {DataTypes,getDataTypeName,isNumber,isPlainObject,isFunction,isNothing,deepMerge,deepMixin} = require("./utils")
 const {getInterpolatedVars,replaceInterpolatedVars} = require("./interpolate")
 const {createFormatter,Formatter} = require("./formatter")
 const EventEmitter = require("./eventemitter")
@@ -7,8 +7,6 @@ const i18nScope = require("./scope")
 const { translate } = require("./translate")
 
 
-const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"]
- 
 // 默认语言配置
 const defaultLanguageSettings = {  
     debug          : true,

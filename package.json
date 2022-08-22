@@ -6,10 +6,11 @@
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js ",
     "test:app": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js -- app",
+    "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest translate --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
     "list:package": "node ./packages/autopublish/index.js list",
     "autopublish": "node ./packages/autopublish/index.js -a --no-ask",
-    "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider && dumi build",
-    "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && dumi dev "
+    "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
+    "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev "
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +24,7 @@
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.0",
     "deepmerge": "^4.2.2",
-    "dumi": "^1.0.13",
+    "dumi": "^1.1.47",
     "fs-extra": "^10.0.1",
     "gulp": "^4.0.2",
     "jest": "^27.5.1",

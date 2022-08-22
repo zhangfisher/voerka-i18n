@@ -3,118 +3,221 @@
  * 
  */
 
- const { toDate,toCurrency,toNumber,isPlainObject,formatDatetime,formatTime } = require("../utils")
+ const { toDate,toCurrency,toNumber,isFunction,isPlainObject,formatDatetime,formatTime } = require("../utils")
  const { Formatter } = require("../formatter")
+
+
+/**
+ *   该类型的格式化器具有以下特点：
+ *  
+ *   1. 接受一个format参数，
+ *   2. format参数取值可以是若干预设的值，如long,short等，也可能是一个模板字符串
+ *   3. 当format值时，如果定义在$config[configKey]里面，代表了$config[configKey][format]是一个模板字符串
+ *   4. 如果!(format in $config[configKey])，则代表format值是一个模板字符串 
+ *   5. 如果format in presets, 则要求presets[format ]是一个(value)=>{....}，直接返回
+ * 
+  **/ 
+function createDateTimeFormatter(options={},transformer){
+    let opts = Object.assign({presets:{}},options)
+    return Formatter((value,format,$config)=>{
+        if((format in opts.presets) && isFunction(opts.presets[format])){
+            return opts.presets[format](value)
+        }else if((format in $config)){
+            format = $config[format]
+        }else if(format == "number"){
+            return value
+        }
+        try{
+            return format==null ? value : transformer(value,format)
+        }catch(e){
+            return value
+        }        
+    },opts)
+}
+
 
 /**
  * 日期格式化器
- *  format取值：
- *  0-local,1-long,2-short,3-iso,4-gmt,5-UTC
- *  或者日期模板字符串
- *   默认值是local
+ *  - format取值：local,long,short,iso,gmt,utc,<模板字符串>
+ *  - 默认值由$config.datetime.date.format指定
  */
-const dateFormatter = Formatter((value,format,$config)=>{
-    const optionals = ["local","long","short","iso","gmt","utc"]
-    // 处理参数：同时支持大小写名称和数字
-    const optionIndex = optionals.findIndex((v,i)=>{
-        if(typeof(format)=="string"){
-            return v==format || v== format.toUpperCase()
-        }else if(typeof(format)=="number"){
-            return format === i
-        }
-    })
-    switch(optionIndex){
-        case 0: // local
-            return value.toLocaleString()
-        case 1: // long
-            return formatDatetime(value,$config.long) 
-        case 2: // short
-            return formatDatetime(value,$config.short) 
-        case 3: // ISO
-            return value.toISOString()
-        case 4: // GMT
-            return value.toGMTString()
-        case 5: // UTC
-            return value.toUTCString()
-        default:
-            return formatDatetime(value,format) 
-    }  
-},{  
-    normalize: toDate,                       // 转换输入为Date类型
-    params   : ['format'],
-    configKey: "datetime.date"
-})
-// 季度格式化器 format= 0=短格式  1=长格式    1=数字  
-const quarterFormatter = Formatter((value,format,$config)=>{
-    const month = value.getMonth() + 1 
-    const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
-    if(typeof(format)==='string'){ 
-        format = ['short','long','number'].indexOf(format)        
+const dateFormatter = createDateTimeFormatter({
+    normalize: toDate,
+    params   : ["format"],
+    configKey: "datetime.date",
+    presets  : {
+        local: value=>value.toLocaleString(),
+        iso  : value=>value.toISOString(),
+        utc  : value=>value.toUTCString(),
+        gmt  : value=>value.toGMTString()
     }
-    if(format<0 && format>2) format = 0
-    return format==0 ? $config.short[quarter] : (format==1 ? $config.long[quarter] : quarter)
-},{  
-    normalize: toDate,                      
-    params   : ['format'],
+},formatDatetime)
+
+
+/**
+ *  季度格式化器
+ *  - format: long,short,number
+ *  - 默认值是 short
+ */
+const quarterFormatter = createDateTimeFormatter({
+    normalize : value=>{
+        const month = value.getMonth() + 1 
+        return Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
+    },
+    params   : ["format"],
     configKey: "datetime.quarter"
-})
+},(quarter,format)=>format[quarter-1]) 
 
-// 月份格式化器 format可以取值0,1,2，也可以取字符串long,short,number
-const monthFormatter = Formatter((value,format,$config)=>{
-    const month = value.getMonth() 
-    if(typeof(format)==='string'){ 
-        format = ['long','short','number'].indexOf(format)        
-    }
-    if(format<0 && format>2) format = 0
-    return format==0 ? $config.long[month] : (format==1 ? $config.short[month] : month+1)
-},{  
-    normalize: toDate,                      
-    params   : ['format'],
+/**
+ *  月份格式化器
+ *  - format: long,short,number
+ *  - 默认值是 short
+ */
+const monthFormatter = createDateTimeFormatter({
+    normalize: value=> value.getMonth() + 1, 
+    params   : ["format"],
     configKey: "datetime.month"
-})
+},(month,format)=>format[month-1]) 
 
-// 星期x格式化器  format可以取值0,1,2，也可以取字符串long,short,number
-const weekdayFormatter = Formatter((value,format,$config)=>{
-    const day = value.getDay()
-    if(typeof(format)==='string'){ 
-        format = ['long','short','number'].indexOf(format)        
-    }
-    if(format<0 && format>2) format = 0
-    return format==0 ? $config.long[day] : (format==1 ? $config.short[day] : day)
-},{  
-    normalize: toDate,                       
-    params   : ['format'],
+/**
+ *  周格式化器
+ *  - format: long,short,number
+ *  - 默认值是 long
+ */
+const weekdayFormatter = createDateTimeFormatter({
+    normalize: value=> value.getDay(), 
+    params   : ["format"],
     configKey: "datetime.weekday"
-})
+},(day,format)=>format[day]) 
+
+/**
+ * 时间格式化器
+ *  - format取值：local,long,short,timestamp,<模板字符串>
+ *  - 默认值由$config.datetime.time.format指定
+ */
+ const timeFormatter = createDateTimeFormatter({
+    normalize    : toDate,
+    params       : ["format"],
+    configKey    : "datetime.time",
+    presets      : {
+        local    : value=>value.toLocaleTimeString(), 
+        timestamp: value=>value.getTime()
+    }
+},formatTime) 
 
 
-// 时间格式化器 format可以取值0-local(默认),1-long,2-short,3-timestamp,也可以是一个插值表达式
-const timeFormatter = Formatter((value,format,$config)=>{
-    const optionals = ['local','long','short','timestamp']      
-    const optionIndex = optionals.findIndex((v,i)=>{
-        if(typeof(format)=="string"){
-            return v==format || v== format.toUpperCase()
-        }else if(typeof(format)=="number"){
-            return format === i
-        }
-    })
-    switch(optionIndex){
-        case 0: // local : toLocaleTimeString
-            return value.toLocaleTimeString()
-        case 1: // long
-            return formatTime(value,$config.long) 
-        case 2: // short
-            return formatTime(value,$config.short) 
-        case 3: // timestamp
-            return value.getTime()
-        default:
-            return formatTime(value,format) 
-    }  
-},{  
-    normalize: toDate,                       
-    params   : ['format'],
-    configKey: "datetime.time"
-})
+// const dateFormatter = Formatter((value,format,$config)=>{
+//     const optionals = ["local","long","short","iso","gmt","utc"]
+//     // 处理参数：同时支持大小写名称和数字
+//     const optionIndex = optionals.findIndex((v,i)=>{
+//         if(typeof(format)=="string"){
+//             return v==format || v== format.toUpperCase()
+//         }else if(typeof(format)=="number"){
+//             return format === i
+//         }
+//     })
+//     // format名称不是optionals中的一个，并且被配置在$config，则视为扩展预设值
+//     if(optionIndex==-1 && typeof(format)=="string" && (format in $config)){
+//         format = $config[format]
+//     }
+
+//     switch(optionIndex){
+//         case 0: // local
+//             return value.toLocaleString()
+//         case 1: // long
+//             return formatDatetime(value,$config.long) 
+//         case 2: // short
+//             return formatDatetime(value,$config.short) 
+//         case 3: // ISO
+//             return value.toISOString()
+//         case 4: // GMT
+//             return value.toGMTString()
+//         case 5: // UTC
+//             return value.toUTCString()
+//         default:
+//             return formatDatetime(value,format) 
+//     }  
+// },{  
+//     normalize: toDate,                       // 转换输入为Date类型
+//     params   : ['format'],
+//     configKey: "datetime.date"
+// })
+// // 季度格式化器 format= 0=短格式  1=长格式    1=数字  
+// const quarterFormatter = Formatter((value,format,$config)=>{
+//     const month = value.getMonth() + 1 
+//     const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
+//     if(typeof(format)==='string'){ 
+//         format = ['short','long','number'].indexOf(format)        
+//     }    
+//     if(format<0 && format>2) format = 0
+//     return format==0 ? $config.short[quarter] : (format==1 ? $config.long[quarter] : quarter)
+// },{  
+//     normalize: toDate,                      
+//     params   : ['format'],
+//     configKey: "datetime.quarter"
+// })
+
+// // 月份格式化器 format可以取值0,1,2，也可以取字符串long,short,number
+// const monthFormatter = Formatter((value,format,$config)=>{
+//     const month = value.getMonth() 
+//     if(typeof(format)==='string'){ 
+//         format = ['long','short','number'].indexOf(format)        
+//     }
+//     if(format<0 && format>2) format = 0
+//     return format==0 ? $config.long[month] : (format==1 ? $config.short[month] : month+1)
+// },{  
+//     normalize: toDate,                      
+//     params   : ['format'],
+//     configKey: "datetime.month"
+// })
+
+// // 星期x格式化器  format可以取值0,1,2，也可以取字符串long,short,number
+// const weekdayFormatter = Formatter((value,format,$config)=>{
+//     const day = value.getDay()
+//     if(typeof(format)==='string'){ 
+//         format = ['long','short','number'].indexOf(format)        
+//     }
+//     if(format<0 && format>2) format = 0
+//     return format==0 ? $config.long[day] : (format==1 ? $config.short[day] : day)
+// },{  
+//     normalize: toDate,                       
+//     params   : ['format'],
+//     configKey: "datetime.weekday"
+// })
+
+
+// // 时间格式化器 format可以取值0-local(默认),1-long,2-short,3-timestamp,也可以是一个插值表达式
+// const timeFormatter = Formatter((value,format,$config)=>{
+//     const optionals = ['local','long','short','timestamp']      
+//     const optionIndex = optionals.findIndex((v,i)=>{
+//         if(typeof(format)=="string"){
+//             return v==format || v== format.toUpperCase()
+//         }else if(typeof(format)=="number"){
+//             return format === i
+//         }
+//     })
+//     // format名称不是optionals中的一个，并且被配置在$config，则视为扩展预设值
+//     if(optionIndex==-1 && typeof(format)=="string" && (format in $config)){
+//         format = $config[format]
+//     }
+    
+//     switch(optionIndex){
+//         case 0: // local : toLocaleTimeString
+//             return value.toLocaleTimeString()
+//         case 1: // long
+//             return formatTime(value,$config.long) 
+//         case 2: // short
+//             return formatTime(value,$config.short) 
+//         case 3: // timestamp
+//             return value.getTime()
+//         default:
+//             return formatTime(value,format) 
+//     }  
+// },{  
+//     normalize: toDate,                       
+//     params   : ['format'],
+//     configKey: "datetime.time"
+// })
 
 // 货币格式化器, CNY $13,456.00 
 /**
@@ -175,7 +278,6 @@ const currencyFormatter = Formatter((value,...args) =>{
 }) 
 
 
-
 module.exports =   {
     // 配置参数
     $config:{
@@ -194,18 +296,23 @@ module.exports =   {
             month:{
                 long        : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
                 short       : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-                format      : 0           // 0-长名称，1-短名称，2-数字
+                format      : "long"           // 0-长名称，1-短名称，2-数字
             },
             weekday:{
                 long        : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                 short       : ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"],
-                format      : 0,            // 0-长名称，1-短名称，2-数字   
+                format      : "long",            // 0-长名称，1-短名称，2-数字   
             },       
             time            : {
                 long        : "HH:mm:ss",
                 short       : "HH:mm:ss",
                 format      : 'local'
-            },   
+            },
+            timeslots       : {
+                slots       : [12],
+                lowercase   : ["AM","PM"]
+                uppercase   : ["AM","PM"]
+            }
         },
         currency          : {
             default       : "{symbol}{value}{unit}",
@@ -254,19 +361,12 @@ module.exports =   {
     // 以下是格式化定义
     // ******************* 日期 *******************
     date          : dateFormatter,
-    time          : timeFormatter,
     year          : value => toDate(value).getFullYear(),
     quarter       : quarterFormatter,
     month         : monthFormatter,
     weekday       : weekdayFormatter,
-    day           : value => toDate(value).getDate(),
     // ******************* 时间 *******************
-    hour          : value => toDate(value).getHours(),
-    hour12        : value => {const hour = toDate(value).getHours(); return hour > 12 ? hour - 12 : thour},
-    minute        : value => toDate(value).getMinutes(),
-    second        : value => toDate(value).getSeconds(),
-    millisecond   : value => toDate(value).getMilliseconds(),
-    timestamp     : value => toDate(value).getTime(),
+    time          : timeFormatter,
     // ******************* 货币 ******************* 
     currency     : currencyFormatter,
     // 数字,如，使用分割符

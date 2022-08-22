@@ -34,12 +34,6 @@ const zhDatetimes =[
     "现在是{ value | date('iso') }",
     "现在是{ value | date('gmt') }",
     "现在是{ value | date('utc') }",
-    "现在是{ value | date(0) }",  // local
-    "现在是{ value | date(1) }",  // long
-    "现在是{ value | date(2) }",  // short
-    "现在是{ value | date(3) }",  // iso
-    "现在是{ value | date(4) }",  // gmt
-    "现在是{ value | date(5) }",  // utc
     "现在是{ value | date('YYYY-MM-DD HH:mm:ss')}",
     "现在是{ value | date('YYYY-MM-DD')}",
     "现在是{ value | date('HH:mm:ss')}",
@@ -47,26 +41,21 @@ const zhDatetimes =[
     "现在是{ value | month('long')}",
     "现在是{ value | month('short')}",
     "现在是{ value | month('number')}",
-    "现在是{ value | month(0)}",
-    "现在是{ value | month(1)}",
-    "现在是{ value | month(2)}",
     "现在是{ value | weekday }",
     "现在是{ value | weekday('long')}",
     "现在是{ value | weekday('short')}",
     "现在是{ value | weekday('number')}",
-    "现在是{ value | weekday(0)}",
-    "现在是{ value | weekday(1)}",
-    "现在是{ value | weekday(2)}",
+    "现在是{ value | quarter }",
+    "现在是{ value | quarter('long')}",
+    "现在是{ value | quarter('short')}",
+    "现在是{ value | quarter('number')}",
+
     // 时间
     "现在时间 - { value | time }",
     "现在时间 - { value | time('local') }",
     "现在时间 - { value | time('long') }",
     "现在时间 - { value | time('short') }",
     "现在时间 - { value | time('timestamp') }",    
-    "现在时间 - { value | time(0) }",
-    "现在时间 - { value | time(1) }",
-    "现在时间 - { value | time(2) }",
-    "现在时间 - { value | time(3) }",
     "现在时间 - { value | time('HH:mm:ss') }",
     "现在时间 - { value | time('mm:ss') }",
     "现在时间 - { value | time('ss') }"
@@ -82,39 +71,28 @@ const expectZhDatetimes =[
 	`现在是${NOW.toISOString()}`,	    	            // { value | date('iso') }
 	`现在是${NOW.toGMTString()}`,		                // { value | date('gmt') }
 	`现在是${NOW.toUTCString()}`,		                // { value | date('utc') }
-	`现在是${NOW.toLocaleString()}`,		            // { value | date(0) }  // local
-    "现在是2022年08月12日 10点12分36秒",                 // { value | date(1) }  // long
-	"现在是2022/08/12",		                            // { value | date(2) }  // short	
-	`现在是${NOW.toISOString()}`,		                // { value | date(3) }  // iso
-	`现在是${NOW.toGMTString()}`,		                // { value | date(4) }  // gmt
-	`现在是${NOW.toUTCString()}`,		                // { value | date(5) }  // utc
 	"现在是2022-08-12 10:12:36",		                // { value | date('YYYY-MM-DD HH:mm:ss')}
 	"现在是2022-08-12",		                            // { value | date('YYYY-MM-DD')}
 	"现在是10:12:36",		                            // { value | date('HH:mm:ss')}
 	"现在是八月",		                                // { value | month }
 	"现在是八月",		                                // { value | month('long')}
-	"现在是八",		                                    // { value | month('short')}
+	"现在是8月",		                                // { value | month('short')}
 	"现在是8",		                                    // { value | month('number')}
-	"现在是八月",		                                // { value | month(0)}
-	"现在是八",		                                    // { value | month(1)}
-	"现在是8",		                                    // { value | month(2)}
 	"现在是星期五",		                                // { value | weekday }
 	"现在是星期五",		                                // { value | weekday('long')}
-	"现在是五",		                                    // { value | weekday('short')}
+	"现在是周五",		                                // { value | weekday('short')}
 	"现在是5",		                                    // { value | weekday('number')}
-	"现在是星期五",		                                // { value | weekday(0)}
-	"现在是五",		                                    // { value | weekday(1)}
-	"现在是5",		                                    // { value | weekday(2)}
+    "现在是Q3",		                                    // { value | quarter }
+	"现在是三季度",		                                // { value | quarter('long')}
+	"现在是Q3",		                                    // { value | quarter('short')}
+	"现在是3",		                                    // { value | quarter('number')}
+
     // 时间
 	`现在时间 - ${NOW.toLocaleTimeString()}`,          // { value | time }
 	`现在时间 - ${NOW.toLocaleTimeString()}`,          // { value | time('local') }
     "现在时间 - 10点12分36秒",		                   // { value | time('long') }
 	"现在时间 - 10:12:36",		                       // { value | time('short') }
 	"现在时间 - 1660270356000",		                   // { value | time('timestamp') }
-	`现在时间 - ${NOW.toLocaleTimeString()}`,	       // { value | time(0) }
-	"现在时间 - 10点12分36秒",		                   // { value | time(1) }
-	"现在时间 - 10:12:36",		                       // { value | time(2) }
-	"现在时间 - 1660270356000",		                   // { value | time(3) }
 	"现在时间 - 10:12:36",		                       // { value | time('HH:mm:ss') }
 	"现在时间 - 12:36",		                           // { value | time('mm:ss') }
 	"现在时间 - 36",		                           // { value | time('ss') }"
@@ -130,12 +108,6 @@ const enDatetimes =[
     "Now is { value | date('iso') }",
     "Now is { value | date('gmt') }",
     "Now is { value | date('utc') }",
-    "Now is { value | date(0) }",  // local
-    "Now is { value | date(1) }",  // long
-    "Now is { value | date(2) }",  // short
-    "Now is { value | date(3) }",  // iso
-    "Now is { value | date(4) }",  // gmt
-    "Now is { value | date(5) }",  // utc
     "Now is { value | date('YYYY-MM-DD HH:mm:ss')}",
     "Now is { value | date('YYYY-MM-DD')}",
     "Now is { value | date('HH:mm:ss')}",
@@ -143,26 +115,20 @@ const enDatetimes =[
     "Now is { value | month('long')}",
     "Now is { value | month('short')}",
     "Now is { value | month('number')}",
-    "Now is { value | month(0)}",
-    "Now is { value | month(1)}",
-    "Now is { value | month(2)}",
     "Now is { value | weekday }",
     "Now is { value | weekday('long')}",
     "Now is { value | weekday('short')}",
     "Now is { value | weekday('number')}",
-    "Now is { value | weekday(0)}",
-    "Now is { value | weekday(1)}",
-    "Now is { value | weekday(2)}",
+    "Now is { value | quarter }",
+    "Now is { value | quarter('long')}",
+    "Now is { value | quarter('short')}",
+    "Now is { value | quarter('number')}",
     // 时间
     "Now time: { value | time }",
     "Now time: { value | time('local') }",
     "Now time: { value | time('long') }",
     "Now time: { value | time('short') }",
     "Now time: { value | time('timestamp') }",    
-    "Now time: { value | time(0) }",
-    "Now time: { value | time(1) }",
-    "Now time: { value | time(2) }",
-    "Now time: { value | time(3) }",
     "Now time: { value | time('HH:mm:ss') }",
     "Now time: { value | time('mm:ss') }",
     "Now time: { value | time('ss') }"
@@ -177,12 +143,6 @@ const expectEnDatetimes =[
 	`Now is ${NOW.toISOString()}`,		                // { value | date('iso') }
 	`Now is ${NOW.toGMTString()}`,		                // { value | date('gmt') }
 	`Now is ${NOW.toUTCString()}`,		                // { value | date('utc') }
-	`Now is ${NOW.toLocaleString()}`,		            // { value | date(0) }  // local
-    "Now is 2022/08/12 10:12:36",		                // { value | date(1) }  // long
-	"Now is 2022/08/12",		                        // { value | date(2) }  // short	
-	`Now is ${NOW.toISOString()}`,		                // { value | date(3) }  // iso
-	`Now is ${NOW.toGMTString()}`,		                // { value | date(4) }  // gmt
-	`Now is ${NOW.toUTCString()}`,		                // { value | date(5) }  // utc
 	"Now is 2022-08-12 10:12:36",		                // { value | date('YYYY-MM-DD HH:mm:ss')}
 	"Now is 2022-08-12",		                        // { value | date('YYYY-MM-DD')}
 	"Now is 10:12:36",		                            // { value | date('HH:mm:ss')}
@@ -190,26 +150,22 @@ const expectEnDatetimes =[
 	"Now is August",		                            // { value | month('long')}
 	"Now is Aug",		                                // { value | month('short')}
 	"Now is 8",		                                    // { value | month('number')}
-	"Now is August",		                            // { value | month(0)}
-	"Now is Aug",		                                // { value | month(1)}
-	"Now is 8",		                                    // { value | month(2)}
 	"Now is Friday",		                            // { value | weekday }
 	"Now is Friday",		                            // { value | weekday('long')}
 	"Now is Fri",		                                // { value | weekday('short')}
 	"Now is 5",		                                    // { value | weekday('number')}
-	"Now is Friday",		                            // { value | weekday(0)}
-	"Now is Fri",		                                // { value | weekday(1)}
-	"Now is 5",		                                    // { value | weekday(2)}
+    "Now is Q3",		                                // { value | quarter }
+	"Now is Third Quarter",		                        // { value | quarter('long')}
+	"Now is Q3",		                                // { value | quarter('short')}
+	"Now is 3",		                                    // { value | quarter('number')}
+    
+
     // 时间
     `Now time: ${NOW.toLocaleTimeString()}`,            // { value | time }
 	`Now time: ${NOW.toLocaleTimeString()}`,		    // { value | time('local') }
 	"Now time: 10:12:36",		                        // { value | time('long') }
 	"Now time: 10:12:36",		                        // { value | time('short') }
 	"Now time: 1660270356000",		                    // { value | time('timestamp') }
-	`Now time: ${NOW.toLocaleTimeString()}`,	        // { value | time(0) }
-	"Now time: 10:12:36",		                        // { value | time(1) }
-	"Now time: 10:12:36",		                        // { value | time(2) }
-	"Now time: 1660270356000",		                    // { value | time(3) }
 	"Now time: 10:12:36",		                        // { value | time('HH:mm:ss') }
 	"Now time: 12:36",		                            // { value | time('mm:ss') }
 	"Now time: 36",		                                // { value | time('ss') }"
@@ -393,7 +349,6 @@ test("获取翻译内容中的插值变量",done=>{
     expect(results[0].formatters[2].name).toEqual("rel");
     expect(results[0].formatters[2].args).toEqual([]);
     
-
     expect(results[1].name).toEqual("city");
     expect(results[1].formatters.length).toEqual(0);
 
@@ -526,8 +481,7 @@ test("翻译复数支持",async ()=>{
     expect(t("我有{}个朋友",3)).toBe("I have 3 friends");    
     expect(t("我有{}个朋友",4)).toBe("I have 4 friends");       
 })
-test("日期时间格式化器",async ()=>{  
-    
+test("日期时间格式化器",async ()=>{      
     let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
     expect(zhTranslatedResults).toStrictEqual(expectZhDatetimes)
     await scope.change("en")

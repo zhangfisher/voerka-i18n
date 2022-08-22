@@ -188,6 +188,11 @@ myapp> voerkai18n compile
     |-- en.js
     |-- jp.js
     |-- de.js
+    |-- formatters                   // 自定义扩展格式化器
+        |-- zh.js                     
+        |-- en.js
+        |-- jp.js
+        |-- de.js
     |-- translates                   // 此文件夹包含了所有需要翻译的内容
       |-- default.json
   |-- package.json

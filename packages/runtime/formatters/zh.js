@@ -22,19 +22,23 @@ module.exports = {
                 format      : "short"          // 0-短格式,1-长格式,2-数字
             },
             month:{
-                long       : CN_MONTH_NAMES,
+                long        : CN_MONTH_NAMES,
                 short       : CN_SHORT_MONTH_NAMES,
-                format      : 0,           // 0-长名称，1-短名称，2-数字
+                format      : "long",           // 0-长名称，1-短名称，2-数字
             },
             weekday:{
-                short       : CN_WEEK_DAYS,
-                long        : CN_SHORT_WEEK_DAYS,
-                format      : 0,            // 0-长名称，1-短名称，2-数字   
+                long        : CN_WEEK_DAYS,
+                short       : CN_SHORT_WEEK_DAYS,
+                format      : "long",            // 0-长名称，1-短名称，2-数字   
             },
             time:{
                 long        : "HH点mm分ss秒",
                 short       : "HH:mm:ss",
                 format      : 'local'
+            },
+            timeslots       : {
+                slots       : [6,9,11,13,18],
+                long        : ["凌晨","早上","上午","中午","下午","晚上"]
             }
         },
 

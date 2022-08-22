@@ -15,7 +15,12 @@ export default defineConfig({
     locales: [['zh-CN', '中文']],
     theme:{
         "@c-heading": "#4569d4"
-    },
+    },  
+    styles: [`
+    ul.__dumi-default-layout-toc > li[data-depth=2] { 
+        font-weight: bold; 
+    }
+    `],
     scripts:[`
     var _hmt = _hmt || [];
     (function() {

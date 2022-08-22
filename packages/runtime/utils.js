@@ -128,7 +128,7 @@ function toDate(value) {
     try {
         return value instanceof Date ? value : new Date(value)
     } catch {
-        return value
+        return parseInt(value)
     }
 }
 /**
@@ -281,10 +281,10 @@ function formatDatetime(value,templ="YYYY/MM/DD HH:mm:ss"){
         ["M", month],                                                   // 1-12	月，从1开始
         ["DD", day.padStart(2, "0")],                                   // 01-31	日，两位数
         ["D", day],                                                     // 1-31	日
-        ["HH", hour.padStart(2, "0")],                          // 00-23	24小时，两位数
-        ["H", hour],                                            // 0-23	24小时
+        ["HH", hour.padStart(2, "0")],                                  // 00-23	24小时，两位数
+        ["H", hour],                                                    // 0-23	24小时
         ["hh", String(hourNum > 12 ? hourNum - 12 : hourNum).padStart(2, "0")],  // 01-12	12小时，两位数
-        ["h", String(hourNum > 12 ? hourNum - 12 : hourNum)],                            // 1-12	12小时
+        ["h", String(hourNum > 12 ? hourNum - 12 : hourNum)],           // 1-12	12小时
         ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
         ["m", minute],                                                  // 0-59	分钟
         ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
@@ -304,8 +304,8 @@ function formatTime(value,templ="HH:mm:ss"){
     const hour = String(hourNum),minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds())
     let result = templ
     const vars = [
-        ["HH", hour.padStart(2, "0")],                          // 00-23	24小时，两位数
-        ["H", hour],                                            // 0-23	24小时
+        ["HH", hour.padStart(2, "0")],                                  // 00-23	24小时，两位数
+        ["H", hour],                                                    // 0-23	24小时
         ["hh", String(hour > 12 ? hour - 12 : hour).padStart(2, "0")],  // 01-12	12小时，两位数
         ["h", String(hour > 12 ? hour - 12 : hour)],                            // 1-12	12小时
         ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
@@ -322,21 +322,16 @@ function formatTime(value,templ="HH:mm:ss"){
 /**
  * 替换所有字符串
  * 低版本ES未提供replaceAll,此函数用来替代
- * 
- * 
  * @param {*} str 
  * @param {*} findValue 
  * @param {*} replaceValue 
  */
 function replaceAll(str,findValue,replaceValue){    
     if(typeof(str)!=="string" || findValue=="" || findValue==replaceValue) return str
-    let result = str
     try{
-        while(result.includes(findValue)){
-            result = result.replace(findValue,replaceValue)
-        }        
+        return str.replace(new RegExp(escapeRegexpStr(findValue),"g"),replaceValue)
     }catch{}
-    return result
+    return str
 }
 /**
  *   使用正则表达式解析非标JOSN
@@ -387,8 +382,10 @@ function safeParseJson(str){
     }
     return JSON.parse(str)
 }
+const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"]
 
 module.exports ={
+    DataTypes,
     isPlainObject,
     isFunction,
     isNumber,

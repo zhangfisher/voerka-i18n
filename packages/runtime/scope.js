@@ -1,19 +1,4 @@
-const { isPlainObject, isFunction, getByPath, deepMixin,deepClone } = require("./utils");
-
-const DataTypes = [
-	"String",
-	"Number",
-	"Boolean",
-	"Object",
-	"Array",
-	"Function",
-	"Null",
-	"Undefined",
-	"Symbol",
-	"Date",
-	"RegExp",
-	"Error",
-];
+const { DataTypes,isPlainObject, isFunction, getByPath, deepMixin,deepClone } = require("./utils");
 
 module.exports = class i18nScope {
 	constructor(options = {}, callback) {
