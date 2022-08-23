@@ -3,21 +3,8 @@
 处理日期时间相关
 
 */
-const { isFunction,replaceAll } = require('../utils')
+const { isFunction,replaceAll,toDate } = require('../utils')
 const  { Formatter } = require('../formatter');
-
-/**
- * 格式化日期
- * 将值转换为Date类型
- * @param {*} value  
- */
- function toDate(value) {
-    try {
-        return value instanceof Date ? value : new Date(value)
-    } catch {
-        return parseInt(value)
-    }
-}
 
 /**
  * 获取一天中的时间段
@@ -156,9 +143,84 @@ function createDateTimeFormatter(options={},transformer){
 }
 
 
+/**
+ * 日期格式化器
+ *  - format取值：local,long,short,iso,gmt,utc,<模板字符串>
+ *  - 默认值由$config.datetime.date.format指定
+ */
+ const dateFormatter = createDateTimeFormatter({
+    normalize: toDate,
+    params   : ["format"],
+    configKey: "datetime.date",
+    presets  : {
+        local: value=>value.toLocaleString(),
+        iso  : value=>value.toISOString(),
+        utc  : value=>value.toUTCString(),
+        gmt  : value=>value.toGMTString()
+    }
+},formatDatetime)
+
+
+/**
+ *  季度格式化器
+ *  - format: long,short,number
+ *  - 默认值是 short
+ */
+const quarterFormatter = createDateTimeFormatter({
+    normalize : value=>{
+        const month = value.getMonth() + 1 
+        return Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
+    },
+    params   : ["format"],
+    configKey: "datetime.quarter"
+},(quarter,format)=>format[quarter-1]) 
+
+/**
+ *  月份格式化器
+ *  - format: long,short,number
+ *  - 默认值是 short
+ */
+const monthFormatter = createDateTimeFormatter({
+    normalize: value=> value.getMonth() + 1, 
+    params   : ["format"],
+    configKey: "datetime.month"
+},(month,format)=>format[month-1]) 
+
+/**
+ *  周格式化器
+ *  - format: long,short,number
+ *  - 默认值是 long
+ */
+const weekdayFormatter = createDateTimeFormatter({
+    normalize: value=> value.getDay(), 
+    params   : ["format"],
+    configKey: "datetime.weekday"
+},(day,format)=>format[day]) 
+
+/**
+ * 时间格式化器
+ *  - format取值：local,long,short,timestamp,<模板字符串>
+ *  - 默认值由$config.datetime.time.format指定
+ */
+ const timeFormatter = createDateTimeFormatter({
+    normalize    : toDate,
+    params       : ["format"],
+    configKey    : "datetime.time",
+    presets      : {
+        local    : value=>value.toLocaleTimeString(), 
+        timestamp: value=>value.getTime()
+    }
+},formatTime) 
+
+
 module.exports = {
     toDate,
     formatTime,
     formatDatetime,
-    createDateTimeFormatter    
+    createDateTimeFormatter,
+    dateFormatter,
+    quarterFormatter,
+    monthFormatter,
+    weekdayFormatter,
+    timeFormatter
 }

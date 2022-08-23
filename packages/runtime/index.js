@@ -1,8 +1,9 @@
 const {DataTypes,getDataTypeName,isPlainObject,isFunction,isNumber,isNothing,deepMerge,deepMixin} = require("./utils")
 const {getInterpolatedVars,replaceInterpolatedVars} = require("./interpolate")
-const {createFormatter,Formatter} = require("./formatter")
+const {createFormatter,Formatter,FlexFormatter,createFlexFormatter} = require("./formatter")
 const { toDate } = require("./datatypes/datetime")
 const { toNumber } = require("./datatypes/numeric")
+
 const EventEmitter = require("./eventemitter")
 const inlineFormatters = require("./formatters")         
 const i18nScope = require("./scope")
@@ -158,12 +159,12 @@ const defaultLanguageSettings = {
 } 
 
 module.exports ={
-    toDate,
-    toNumber,  
     isNumber,
     isNothing,
     isPlainObject,
     isFunction,
+    toDate,
+    toNumber,
     deepMerge,
     deepMixin,
     getInterpolatedVars,
@@ -173,5 +174,7 @@ module.exports ={
     i18nScope,
     createFormatter,
     Formatter,
+    createFlexFormatter,
+    FlexFormatter,
     getDataTypeName
 }

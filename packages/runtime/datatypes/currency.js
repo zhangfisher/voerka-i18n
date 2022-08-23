@@ -4,8 +4,8 @@
  * 
  */
 
-const { isNumber } = require('../utils')
-
+const { isNumber, toNumber, getByPath } = require('../utils')
+const { FlexFormatter } = require("../formatter")
 
 /**
  * 为字符串按bits位添加一个,
@@ -33,8 +33,8 @@ function addSplitChars(str,bits=3){
  * @param {*} format      格式模块板字符串
  * @returns 
  */
- function toCurrency(value,params={}){
-    let {symbol="",division=3,prefix="",precision=2,suffix="",unit=0,unitName="",radix=3,format="{symbol}{value}{unit}"}  = params
+ function toCurrency(value,params={},$config={}){
+    let {symbol="",division=3,prefix="",precision=2,suffix="",unit=0,radix=3,format="{symbol}{value}{unit}"}  = params
 
     // 1. 分离出整数和小数部分
     let [wholeDigits,decimalDigits] = String(value).split(".")
@@ -50,8 +50,7 @@ function addSplitChars(str,bits=3){
         decimalDigits=wholeDigits.substring(wholeDigits,wholeDigits.length-radix*unit)+decimalDigits        
         wholeDigits  = wholeDigits.substring(0,wholeDigits.length-radix*unit)
         if(wholeDigits=="") wholeDigits = "0"      
-    }
-
+    } 
     // 3. 添加分割符号
     let result = []
     result.push(addSplitChars(wholeDigits,division))
@@ -68,13 +67,36 @@ function addSplitChars(str,bits=3){
         result.push(`.${decimalDigits}`)
     } 
     // 5. 模板替换 
+    const unitName =  getByPath($config,`units`,[])[unit] || ""
     return format.replace("{value}",result.join(""))
                     .replace("{symbol}",symbol)
                     .replace("{prefix}",prefix)
                     .replace("{suffix}",suffix)
                     .replace("{unit}",unitName)
 }
+const currencyFormatter = FlexFormatter((value,params={},$config)=>{
+    params.unit = parseInt(params.unit) || 0
+    if(params.unit>$config.units.length-1) params.unit = $config.units.length-1
+    if(params.unit<0) params.unit = 0
+    // 当指定unit大于0时取消小数点精度控制
+    // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
+    // 将params.precision=0取消精度限制就可以显示1234.567899万，从而保证完整的精度
+    // 除非显式将precision设置为>2的值
+    if(params.unit>0 && params.precision==2){
+        params.precision = 0
+    }
+    return toCurrency(value,params,$config)
+},{
+    normalize: toNumber,
+    params : ["format","unit","precision","prefix","suffix","division","symbol","radix"],
+    configKey: "currency"
+},{
+    format:"default",
+    unit:0              // 小数点精度控制,0代表不控制
+})
 
- module.exports = {
-    toCurrency
+
+module.exports = {
+    toCurrency,
+    currencyFormatter
 }

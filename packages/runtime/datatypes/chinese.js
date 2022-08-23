@@ -3,7 +3,8 @@
  * 处理中文数字和货币相关
  * 
  */
- const { isNumber } = require('./utils')
+ const { FlexFormatter } = require('../dist/index.cjs')
+const { isNumber } = require('./utils')
 
  const CN_DATETIME_UNITS =  ["年","季度","月","周","日","小时","分钟","秒","毫秒","微秒"]
  const CN_WEEK_DAYS = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
@@ -72,9 +73,10 @@
    * @param {*} division    分割符号位数,3代表每3个数字添加一个,号  
    * @param {*} prefix      前缀 
    * @param {*} suffix      后缀
+   * @param {*} showWhole   显示
    * @param {*} precision   小数点精确到几位
    */
- function toChineseCurrency(value,{big=false,prefix="",unit="元",suffix=""}={}){
+function toChineseCurrency(value,{big=false,prefix="",unit="元",suffix="",precision=2,showWhole=true}={}){
      let [wholeValue,decimalValue] = String(value).split(".")
      let result 
      if(big){
@@ -87,12 +89,20 @@
          if(decimalValue[1]) result =result+  CN_NUMBER_DIGITS[parseInt(decimalValue[1])]+"分"        
      }
      return prefix+result+suffix
- }
- 
-  module.exports ={ 
+}
+
+const rmbFormater = FlexFormatter((value,params,$config)=>{
+    return toChineseCurrency(value,params,$config)
+},{
+    params:["big","prefix","unit","suffix","precision","showWhole"],
+    configKey:"rmb"
+})
+
+module.exports ={ 
      toChineseCurrency,
      toChineseNumber,
      toChineseBigNumber,
+     rmbFormater,
      CN_DATETIME_UNITS,
      CN_WEEK_DAYS,
      CN_SHORT_WEEK_DAYS,
@@ -102,4 +112,4 @@
      CN_NUMBER_UNITS,
      CN_NUMBER_BIG_DIGITS,
      CN_NUMBER_BIG_UNITS
- }  
+}  

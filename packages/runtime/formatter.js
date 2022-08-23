@@ -10,8 +10,6 @@
 
 
 const { getByPath,isNumber,isFunction,isPlainObject,escapeRegexpStr,safeParseJson } = require("./utils")
-const { toNumber } = require("./datatypes/numeric");
-
 
 /**
 使用正则表达式对原始文本内容进行解析匹配后得到的便以处理的数组
@@ -334,42 +332,25 @@ const createFlexFormatter = function(fn,options={},defaultParams={}){
             return r
         } ,{})
         // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
-        if(args.length==1) {   // 无参调用
-            Object.assign(params,{format:'default'})
-        }else if(args.length==2 && isPlainObject(args[0])){       // 一个参数且是{}
-            Object.assign(params,args[0])
+        if(args.length==2 && isPlainObject(args[0])){       // 一个参数且是{}
+            Object.assign(finalParams,{format:"custom"},args[0])
         }else{   // 位置参数,如果是空则代表
             for(let i=0; i<args.length-1; i++){
-                if(args[i]!==undefined) params[options.params[i]] = args[i]
+                if(args[i]!==undefined) finalParams[options.params[i]] = args[i]
             }
         }   
-        return fn.call(this,value,params,$config)
+        if(finalParams.format in $config){
+            finalParams.format = $config[finalParams.format]
+        }
+
+        return fn.call(this,value,finalParams,$config)
     },{...options,params:null})  // 变参工式化器需要指定params=null
     return $formatter 
 }
 
-const currencyFormatter = createFlexFormatter((value,params={},$config)=>{
-    params.unit = parseInt(params.unit) || 0
-    if(params.unit>4) params.unit = 4
-    if(params.unit<0) params.unit = 0
-    // 当指定unit大于0时取消小数点精度控制
-    // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
-    // 将params.precision=0取消精度限制就可以显示1234.567899万，从而保证完整的精度
-    // 除非显式将precision设置为>2的值
-    if(params.unit>0 && params.precision==2){
-        params.precision = 0
-    }
-    return toCurrency(value,params)
-},{
-    normalize: toNumber,
-    params : ["format","unit","precision","prefix","suffix","division","radix"],
-    configKey: "currency"
-},{
-    format:"default",
-    unit:0              // 小数点精度控制,0代表不控制
-})
 
-const FlexFormatter =createFlexFormatter
+
+const FlexFormatter = createFlexFormatter
 
 module.exports = {
     createFormatter,

@@ -4,8 +4,6 @@
  */
 
 const { toChineseCurrency,toChineseNumber,CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES} = require("../cnutils") 
-const { toDate } = require("../datatypes/datetime")
-const { toCurrency } = require("../datatypes/currency")
 
 module.exports = {
     // 配置参数: 格式化器函数的最后一个参数就是该配置参数
@@ -54,10 +52,7 @@ module.exports = {
         },
         number            : {
             division      : 4,
-            precision     : 0,
-            default       : null,                   // 默认数字写法          
-            short         : null,                   // 正规数字，不同的语言可能理解不一样,在中文中对应一、二、三
-            long          : null                    // 正则数字，在中文中对应的是大写壹、貳、參
+            precision     : 0
         }
     },
     $types: {
@@ -65,6 +60,6 @@ module.exports = {
     },
     // 中文货币，big=true代表大写形式
     rmb     :   (value,big,unit="元",prefix,suffix)=>toChineseCurrency(value,{big,prefix,suffix,unit}),
-    // 中文数字,如一千二百三十一
-    number  :(value,isBig)=>toChineseNumber(value,isBig)
+    // // 中文数字,如一千二百三十一
+    chineseNumber  :(value,isBig)=>toChineseNumber(value,isBig)
 } 

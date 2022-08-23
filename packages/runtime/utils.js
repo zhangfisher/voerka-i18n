@@ -228,6 +228,36 @@ function safeParseJson(str){
     return JSON.parse(str)
 }
 const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"]
+/**
+ * 转换为数字类型
+ */
+ function toNumber(value,defualt=0) {
+    try {
+        if (isNumber(value)) {
+            return parseFloat(value)
+        } else {
+            return defualt
+        }
+    } catch {
+        return value 
+    }
+} 
+
+/**
+ * 将值转换为Date类型
+ * @param {*} value  
+ */
+ function toDate(value) {
+    try {
+        return value instanceof Date ? value : new Date(value)
+    } catch {
+        return parseInt(value)
+    }
+}
+
+function toBoolean(value){
+    return !!value
+}
 
 module.exports ={
     DataTypes,
@@ -235,6 +265,9 @@ module.exports ={
     isFunction,
     isNumber,
     isNothing,
+    toNumber,
+    toDate,
+    toBoolean,
     deepClone,
     deepMerge,
     deepMixin,
