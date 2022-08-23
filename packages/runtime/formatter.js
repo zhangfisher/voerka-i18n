@@ -9,7 +9,8 @@
  */
 
 
- const { getByPath,isNumber,isFunction,isPlainObject,escapeRegexpStr,safeParseJson } = require("./utils")
+const { getByPath,isNumber,isFunction,isPlainObject,escapeRegexpStr,safeParseJson } = require("./utils")
+const { toNumber } = require("./datatypes/numeric");
 
 
 /**
@@ -268,6 +269,7 @@ const formatterNestingParamsRegex = String.raw`((([\'\"])(.*?)\3))|__TAG_REGEXP_
     },options)     
 
     // 最后一个参数是传入activeFormatterConfig参数
+    // 并且格式化器的this指向的是activeFormatterConfig
     const $formatter =  function(value,...args){
         let finalValue = value
         // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
@@ -285,15 +287,17 @@ const formatterNestingParamsRegex = String.raw`((([\'\"])(.*?)\3))|__TAG_REGEXP_
         if(opts.params==null){// 如果格式化器支持变参，则需要指定params=null
             finalArgs = args.slice(0,args.length-1)
         }else{  // 具有固定的参数个数
-            finalArgs = opts.params.map(param=>getByPath(formatterConfig,param,undefined))   
+            finalArgs = opts.params.map(param=>{
+                let paramValue = getByPath(formatterConfig,param,undefined)   
+                return isFunction(paramValue) ? paramValue(finalValue) : paramValue
+            })
             // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
             for(let i =0; i<finalArgs.length;i++){
                 if(i==args.length-1) break // 最后一参数是配置
                 if(args[i]!==undefined) finalArgs[i] = args[i]
             }
-        }
-        
-        return fn(finalValue,...finalArgs,formatterConfig)
+        }        
+        return fn.call(this,finalValue,...finalArgs,formatterConfig)
     }
     $formatter.configurable = true       //  当函数是可配置时才在最后一个参数中传入$config
     return $formatter
@@ -301,8 +305,77 @@ const formatterNestingParamsRegex = String.raw`((([\'\"])(.*?)\3))|__TAG_REGEXP_
 
 const Formatter = createFormatter
 
+
+
+/**
+ * 创建支持弹性参数的格式化器
+ * 弹性参数指的是该格式式化器支持两种传参数形式:
+ * - 位置参数： { value | format(a,b,c,d,e) }
+ * - 对象参数： { value | format({a,b,c,e}) }
+ * 
+ *  弹性参数的目的是只需要位置参数中的第N参数时，简化传参
+ *  例： 
+ *  上例中，我们只需要传入e参数，则不得不使用{ value | format(,,,,e) }
+ *  弹性参数允许使用 { value | format({e:<value>}) }       
+ *  
+ *  请参阅currencyFormatter用法
+ *  
+ * @param {*} fn 
+ * @param {*} options 
+ * @param {*} defaultParams 
+ */
+const createFlexFormatter = function(fn,options={},defaultParams={}){
+    const $formatter =  Formatter(function(value,...args){
+        // 1. 最后一个参数是格式化器的参数,不同语言不一样
+        let $config = args[args.length-1]
+        // 2. 从语言配置中读取默认参数
+        let finalParams = options.params.reduce((r,name) =>{
+            r[name] = $config[name] || defaultParams[name]
+            return r
+        } ,{})
+        // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
+        if(args.length==1) {   // 无参调用
+            Object.assign(params,{format:'default'})
+        }else if(args.length==2 && isPlainObject(args[0])){       // 一个参数且是{}
+            Object.assign(params,args[0])
+        }else{   // 位置参数,如果是空则代表
+            for(let i=0; i<args.length-1; i++){
+                if(args[i]!==undefined) params[options.params[i]] = args[i]
+            }
+        }   
+        return fn.call(this,value,params,$config)
+    },{...options,params:null})  // 变参工式化器需要指定params=null
+    return $formatter 
+}
+
+const currencyFormatter = createFlexFormatter((value,params={},$config)=>{
+    params.unit = parseInt(params.unit) || 0
+    if(params.unit>4) params.unit = 4
+    if(params.unit<0) params.unit = 0
+    // 当指定unit大于0时取消小数点精度控制
+    // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
+    // 将params.precision=0取消精度限制就可以显示1234.567899万，从而保证完整的精度
+    // 除非显式将precision设置为>2的值
+    if(params.unit>0 && params.precision==2){
+        params.precision = 0
+    }
+    return toCurrency(value,params)
+},{
+    normalize: toNumber,
+    params : ["format","unit","precision","prefix","suffix","division","radix"],
+    configKey: "currency"
+},{
+    format:"default",
+    unit:0              // 小数点精度控制,0代表不控制
+})
+
+const FlexFormatter =createFlexFormatter
+
 module.exports = {
     createFormatter,
+    createFlexFormatter,
     Formatter,
+    FlexFormatter,
     parseFormatters
+    
 }

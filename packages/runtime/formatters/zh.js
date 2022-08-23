@@ -3,9 +3,10 @@
  * 
  */
 
- const { toChineseCurrency,toChineseNumber,CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES} = require("../cnutils") 
- const { toDate, toCurrency } = require("../utils")
- 
+const { toChineseCurrency,toChineseNumber,CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES} = require("../cnutils") 
+const { toDate } = require("../datatypes/datetime")
+const { toCurrency } = require("../datatypes/currency")
+
 module.exports = {
     // 配置参数: 格式化器函数的最后一个参数就是该配置参数
     $config:{
@@ -36,13 +37,12 @@ module.exports = {
                 short       : "HH:mm:ss",
                 format      : 'local'
             },
-            timeslots       : {
+            timeSlots       : {
                 slots       : [6,9,11,13,18],
                 lowerCases  : ["凌晨","早上","上午","中午","下午","晚上"],
                 upperCases  : ["凌晨","早上","上午","中午","下午","晚上"]
             }
         },
-
         currency          : {
             units         : ["","万","亿","万亿","万万亿"],
             radix         : 4,                       // 进制，即三位一进制，中文是是4位一进
@@ -53,8 +53,11 @@ module.exports = {
             precision     : 2            
         },
         number            : {
-            division      : 3,
-            precision     : 2
+            division      : 4,
+            precision     : 0,
+            default       : null,                   // 默认数字写法          
+            short         : null,                   // 正规数字，不同的语言可能理解不一样,在中文中对应一、二、三
+            long          : null                    // 正则数字，在中文中对应的是大写壹、貳、參
         }
     },
     $types: {

@@ -175,10 +175,7 @@ function getDataTypeDefaultFormatter(scope, activeLanguage, dataType) {
 	];
 	for (const target of targets) {
 		if (!target) continue;
-		if (
-			isPlainObject(target.$types) &&
-			isFunction(target.$types[dataType])
-		) {
+		if (isPlainObject(target.$types) &&isFunction(target.$types[dataType])) {
 			return (scope.$cache.typedFormatters[dataType] =
 				target.$types[dataType]);
 		}
@@ -203,8 +200,7 @@ function getFormatter(scope, activeLanguage, name) {
 	if (scope.$cache.activeLanguage === activeLanguage) {
 		if (name in scope.$cache.formatters)
 			return scope.$cache.formatters[name];
-	} else {
-		// 当语言切换时清空缓存
+	} else {		// 当语言切换时清空缓存
 		resetScopeCache(scope, activeLanguage);
 	}
 	const fallbackLanguage = scope.getLanguage(activeLanguage).fallback;
@@ -232,18 +228,20 @@ function getFormatter(scope, activeLanguage, name) {
  * @param {*} value
  * @returns
  */
-function executeChecker(checker, value) {
+function executeChecker(checker, value,scope) {
 	let result = { value, next: "skip" };
 	if (!isFunction(checker)) return result;
 	try {
-		const r = checker(value);
-		if (isPlainObject(r)) {
+		const r = checker(value,scope.activeFormatterConfig);
+		if (isPlainObject(r) && ("next" in r)  &&  ("value" in r)) {
 			Object.assign(result, r);
 		} else {
 			result.value = r;
 		}
 		if (!["break", "skip"].includes(result.next)) result.next = "break";
-	} catch (e) {}
+	} catch (e) {
+        if(scope.debug) console.error("Error while  execute VoerkaI18n checker :"+e.message)
+    }
 	return result;
 }
 /**
@@ -265,7 +263,7 @@ function executeFormatter(value, formatters, scope, template) {
 	);
 	if (emptyCheckerIndex != -1) {
 		const emptyChecker = formatters.splice(emptyCheckerIndex, 1)[0];
-		const { value, next } = executeChecker(emptyChecker, result);
+		const { value, next } = executeChecker(emptyChecker, result,scope);
 		if (next == "break") {
 			return value;
 		} else {
@@ -273,15 +271,13 @@ function executeFormatter(value, formatters, scope, template) {
 		}
 	}
 	// 2. 错误检查
-	const errorCheckerIndex = formatters.findIndex(
-		(func) => func.$name === "error"
-	);
+	const errorCheckerIndex = formatters.findIndex((func) => func.$name === "error"	);
 	let errorChecker;
 	if (errorCheckerIndex != -1) {
 		errorChecker = formatters.splice(errorCheckerIndex, 1)[0];
 		if (result instanceof Error) {
 			result.formatter = formatter.$name;
-			const { value, next } = executeChecker(errorChecker, result);
+			const { value, next } = executeChecker(errorChecker, result,scope);
 			if (next == "break") {
 				return value;
 			} else {
@@ -293,13 +289,11 @@ function executeFormatter(value, formatters, scope, template) {
 	// 3. 分别执行格式化器函数
 	for (let formatter of formatters) {
 		try {
-			result = formatter(result, scope.activeFormatterConfig);
+            result = formatter(result, scope.activeFormatterConfig);		
 		} catch (e) {
 			e.formatter = formatter.$name;
 			if (scope.debug)
-				console.error(
-					`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} `
-				);
+				console.error(`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} `);
 			if (isFunction(errorChecker)) {
 				const { value, next } = executeChecker(errorChecker, result);
 				if (next == "break") {
@@ -340,7 +334,7 @@ function addDefaultFormatters(formatters) {
  *  本函数将之传换为转化为调用函数链，形式如下：
  *  [(v)=>{...},(v)=>{...},(v)=>{...}]
  *
- *  并且会自动将当前激活语言的格式化器配置作为最后一个参数配置传入,这样格式化器函数就可以读取
+ *  并且会自动将当前激活语言的格式化器配置作为最后一个参数配置传入,这样格式化器函数就可以读取其配置参数
  *
  * @param {*} scope
  * @param {*} activeLanguage
@@ -353,13 +347,12 @@ function wrapperFormatters(scope, activeLanguage, formatters) {
 	addDefaultFormatters(formatters);
 	for (let [name, args] of formatters) {
 		let fn = getFormatter(scope, activeLanguage, name);
-		let formatter;
-		// 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
-		// 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
+		let formatter;		
 		if (isFunction(fn)) {
-			formatter = (value, config) =>
-				fn.call(scope, value, ...args, config);
+			formatter = (value, config) =>fn.call(scope.activeFormatterConfig, value, ...args, config);
 		} else {
+            // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
+		    // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
 			formatter = (value) => {
 				if (isFunction(value[name])) {
 					return value[name](...args);

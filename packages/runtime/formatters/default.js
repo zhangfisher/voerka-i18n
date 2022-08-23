@@ -1,42 +1,22 @@
 const { toNumber,isFunction } = require("../utils")
-
+const { Formatter } = require("../formatter")
 
 /**
-  *   字典格式化器
-  *   根据输入data的值，返回后续参数匹配的结果
-  *   dict(data,<value1>,<result1>,<value2>,<result1>,<value3>,<result1>,...)
-  *   
+  *  字典格式化器
   * 
-  *   dict(1,1,"one",2,"two",3,"three"，4,"four") == "one"
-  *   dict(2,1,"one",2,"two",3,"three"，4,"four") == "two"
-  *   dict(3,1,"one",2,"two",3,"three"，4,"four") == "three"
-  *   dict(4,1,"one",2,"two",3,"three"，4,"four") == "four"
-  *   // 无匹配时返回原始值
-  *   dict(5,1,"one",2,"two",3,"three"，4,"four") == 5  
-  *   // 无匹配时并且后续参数个数是奇数，则返回最后一个参数
-  *   dict(5,1,"one",2,"two",3,"three"，4,"four","more") == "more"  
-  * 
-  *   在翻译中使用
-  *   I have { value | dict(1,"one",2,"two",3,"three",4,"four")} apples
-  * 
-  *  为什么不使用 {value | dict({1:"one",2:"two",3:"three",4:"four"})}的形式更加自然？
-  * 
-  *  因为我们是采用正则表达式来对格式化器的语法进行解释的，目前无法支持复杂的数据类型，只能支持简单的形式
-  * 
-  * 
+  *  {value | dict({1:"one",2:"two",3:"three",4:"four"})}
+
   * @param {*} value 
   * @param  {...any} args 
   * @returns 
   */
- function dict(value, ...args) {
-     for (let i = 0; i < args.length; i += 2) {
-         if (args[i] === value) {
-             return args[i + 1]
-         }
-     }
-     if (args.length > 0 && (args.length % 2 !== 0)) return args[args.length - 1]
-     return value
- }
+ function dict(key, values) { 
+    if(key in values){
+        return values[key]
+    }else{
+        return ("default" in values) ? values[key] : value
+    }
+}
  
 /**
  * 
@@ -57,10 +37,10 @@ const { toNumber,isFunction } = require("../utils")
  * @paran {String} next 下一步行为，取值true/false,break,skip,默认是break
  * @param {*} config 
  */
- function empty(value,escapeValue,next,config) {
+const empty = Formatter(function(value,escapeValue,next,$config){
     if(next===false) next = 'break'
     if(next===true) next = 'skip'
-    let opts = Object.assign({escape:"",next:'break',values:[]},config.empty || {})             
+    let opts = Object.assign({escape:"",next:'break',values:[]},$config)             
     if(escapeValue!=undefined) opts.escape = escapeValue
     let emptyValues = [undefined,null]
     if(Array.isArray(opts.values)) emptyValues.push(...opts.values)    
@@ -69,8 +49,11 @@ const { toNumber,isFunction } = require("../utils")
     }else{
         return value
     }
-}
-empty.paramCount = 2 
+},{
+    params:["escape","next"],
+    configKey: "empty"
+})
+
 
 /**
 * 当执行格式化器出错时的显示内容.
@@ -91,12 +74,10 @@ empty.paramCount = 2
  * @param {*} config 格式化器的全局配置参数
  * @returns 
  */
-function error(value,escapeValue,next,config) {    
+const error = Formatter(function(value,escapeValue,next,$config){
     if(value instanceof Error){     
-        if(scope.debug) console.error(`Error while execute formatter<${value.formatter}>:`,e)
-        const scope = this
         try{
-            let opts = Object.assign({escape:null,next:'break'},config.error || {})
+            let opts = Object.assign({escape:null,next:'break'},$config)
             if(escapeValue!=undefined) opts.escape = escapeValue
             if(next!=undefined) opts.next = next
             return {
@@ -104,14 +85,16 @@ function error(value,escapeValue,next,config) {
                 next  : opts.next
             }
         }catch(e){
-            if(scope.debug) console.error(`Error while execute formatter:`,e.message)
+           
         } 
         return value
     }else{
         return value
     }
-}
-error.paramCount = 2            // 声明该格式化器支持两个参数 
+},{
+    params:["escape","next"],
+    configKey: "error"
+})
 
 /**
  * 添加前缀
@@ -157,15 +140,10 @@ const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "
  * 
  * @param {*} value 
  * @param {*} unit   单位，未指定时采用自动方式，即<1024用字节，1024<v<1024*1024显示KB,...
- * @param {*} brief 
+ * @param {*} brief  是否采用简称单位
  * @param {*} options 
  */
-function filesize(value,unit,brief=true,options={}){
-    let opts = Object.assign({
-        precision: 2,
-        brief    : FILE_SIZE_BRIEF_UNITS,
-        whole    : FILE_SIZE_WHOLE_UNITS
-    },options.fileSize || {})
+ const filesize= Formatter((value,unit,brief=true,$config)=>{
     let v = toNumber(value)
     let unitIndex
     if(unit==undefined || unit=="auto"){
@@ -175,16 +153,17 @@ function filesize(value,unit,brief=true,options={}){
         unitIndex =["B","BYTE","BYTES"].includes(unit) ? 0 : FILE_SIZE_BRIEF_UNITS.indexOf(unit)
     }
     if(unitIndex<0 || unitIndex>=FILE_SIZE_BRIEF_UNITS.length) unitIndex= 0
-    let result = (unitIndex == 0 ? v : v / FILE_SIZE_SECTIONS[unitIndex]).toFixed(opts.precision)
+    let result = (unitIndex == 0 ? v : v / FILE_SIZE_SECTIONS[unitIndex]).toFixed($config.precision)
     if( unitIndex>0 && (v % FILE_SIZE_SECTIONS[unitIndex])!==0) result = result+"+" 
     // 去除尾部的0
     while(["0","."].includes(result[result.length-1])){
         result = result.substring(0, result.length-2) 
     } 
-    return  brief ? `${result} ${opts.brief[unitIndex]}` : `${result} ${opts.brief[whole]}`
-}
-filesize.paramCount = 2 
-
+    return  brief ? `${result} ${$config.brief[unitIndex]}` : `${result} ${$config.whole[unitIndex]}`
+},{
+    params:["unit","brief"],
+    configKey:"fileSize"
+})
 
 
 

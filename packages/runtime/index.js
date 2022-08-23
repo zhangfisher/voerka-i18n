@@ -1,11 +1,12 @@
-const {DataTypes,getDataTypeName,isNumber,isPlainObject,isFunction,isNothing,deepMerge,deepMixin} = require("./utils")
+const {DataTypes,getDataTypeName,isPlainObject,isFunction,isNumber,isNothing,deepMerge,deepMixin} = require("./utils")
 const {getInterpolatedVars,replaceInterpolatedVars} = require("./interpolate")
 const {createFormatter,Formatter} = require("./formatter")
+const { toDate } = require("./datatypes/datetime")
+const { toNumber } = require("./datatypes/numeric")
 const EventEmitter = require("./eventemitter")
 const inlineFormatters = require("./formatters")         
 const i18nScope = require("./scope")
 const { translate } = require("./translate")
-
 
 // 默认语言配置
 const defaultLanguageSettings = {  
@@ -157,6 +158,14 @@ const defaultLanguageSettings = {
 } 
 
 module.exports ={
+    toDate,
+    toNumber,  
+    isNumber,
+    isNothing,
+    isPlainObject,
+    isFunction,
+    deepMerge,
+    deepMixin,
     getInterpolatedVars,
     replaceInterpolatedVars,
     I18nManager,
@@ -164,11 +173,5 @@ module.exports ={
     i18nScope,
     createFormatter,
     Formatter,
-    getDataTypeName,
-    isNumber,
-    isNothing,
-    isPlainObject,
-    isFunction,
-    deepMerge,
-    deepMixin
+    getDataTypeName
 }

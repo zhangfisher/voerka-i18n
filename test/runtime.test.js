@@ -482,7 +482,8 @@ test("翻译复数支持",async ()=>{
     expect(t("我有{}个朋友",4)).toBe("I have 4 friends");       
 })
 test("日期时间格式化器",async ()=>{      
-    let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
+    let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))    
+    let p = diffArray(zhTranslatedResults,expectZhDatetimes)
     expect(zhTranslatedResults).toStrictEqual(expectZhDatetimes)
     await scope.change("en")
     let enTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
@@ -497,5 +498,26 @@ test("日期时间格式化器",async ()=>{
     let enMoneysResults =  enMoneys.map(v=>t(v,MONEY))
     expect(enMoneysResults).toStrictEqual(expectEnMoneys)
  })
+ 
+ test("数字格式化器",async ()=>{     
+
+    expect(t("{value}",123)).toBe("123")
+    expect(t("{value | number}",123)).toBe("123")
+    expect(t("{value | number}",123456789)).toBe("1,2345,6789")
+    expect(t("{value | number}",123456789.8888)).toBe("1,2345,6789.8888")
+    expect(t("{value | number(3)}",123456789.8888)).toBe("1,2345,6789.889")
+    expect(t("{value | number(3,2)}",123456789.8888)).toBe("12,34,567,89.889")
+    
+    await scope.change("en")
+    
+    expect(t("{value}",123)).toBe("123")
+    expect(t("{value | number}",123)).toBe("123")
+    expect(t("{value | number}",123456789)).toBe("123,456,789")
+    expect(t("{value | number}",123456789.8888)).toBe("123,456,789.8888")
+    expect(t("{value | number(3)}",123456789.8888)).toBe("1,2345,6789.889")
+    expect(t("{value | number(3,2)}",123456789.8888)).toBe("12,34,567,89.889")
+
+ })
+
 
 })
