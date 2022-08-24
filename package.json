@@ -9,7 +9,8 @@
     "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
     "list:package": "node ./packages/autopublish/index.js list",
     "autopublish": "node ./packages/autopublish/index.js -a --no-ask",
-    "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
+    "docs:build2": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
+    "docs:build": " dumi build",
     "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev "
   },
   "author": "",
