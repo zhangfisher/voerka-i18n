@@ -5,7 +5,7 @@
  * @param {*} obj 
  * @returns 
  */
- function isPlainObject$6(obj){
+ function isPlainObject$5(obj){
     if (typeof obj !== 'object' || obj === null) return false;
     var proto = Object.getPrototypeOf(obj);
     if (proto === null) return true;
@@ -22,7 +22,7 @@
  * @param {*} value 
  * @returns 
  */
- function isNumber$4(value){
+ function isNumber$6(value){
     if(value==undefined) return false
     if(typeof(value)=='number') return true
     if(typeof(value)!='string') return false        
@@ -42,7 +42,7 @@
         return false
     }
 }
-function isFunction$6(fn){
+function isFunction$7(fn){
     return typeof fn === "function"
 }
 /**
@@ -119,88 +119,8 @@ function deepMixin$2(toObj,formObj,options={}){
 	if (v === undefined) return 'Undefined'   
     if(typeof(v)==="function")  return "Function"
 	return v.constructor && v.constructor.name;
-}/**
- * 格式化日期
- * 将值转换为Date类型
- * @param {*} value  
- */
-function toDate$1(value) {
-    try {
-        return value instanceof Date ? value : new Date(value)
-    } catch {
-        return value
-    }
 }
-/**
- * 转换为数字类型
- */
-function toNumber$2(value,defualt=0) {
-    try {
-        if (isNumber$4(value)) {
-            return parseFloat(value)
-        } else {
-            return defualt
-        }
-    } catch {
-        return value 
-    }
-} 
-/**
- * 转换为货币格式
- * 
- * @param {*} value      可以是数字也可以是字符串
- * @param {*} division    分割符号位数,3代表每3个数字添加一个,号  
- * @param {*} prefix      前缀
- * @param {*} suffix      后缀
- * @param {*} precision   小数点精确到几位，0-自动
- * @param {*} format      格式模块板字符串
- * @returns 
- */
- function toCurrency$1(value,params={}){
-    let {symbol="",division=3,prefix="",precision=2,suffix="",unit=0,unitName="",radix=3,format="{symbol}{value}{unit}"}  = params;
 
-    // 1. 分离出整数和小数部分
-    let [wholeDigits,decimalDigits] = String(value).split(".");
-    // 2. 转换数制单位   比如将元转换到万元单位
-    // 如果指定了unit单位，0-代表默认，1-N代表将小数点字向后移动radix*unit位
-    // 比如 123456789.88   
-    // 当unit=1,radix=3时，   == [123456,78988]  // [整数,小数]
-    // 当unit=2,radix=3时，   == [123,45678988]  // [整数,小数]
-    if(unit>0 && radix>0){
-        // 不足位数时补零
-        if(wholeDigits.length<radix*unit) wholeDigits = new Array(radix*unit-wholeDigits.length+1).fill(0).join("")+ wholeDigits;    
-        // 将整数的最后radix*unit字符移到小数部分前面
-        decimalDigits=wholeDigits.substring(wholeDigits,wholeDigits.length-radix*unit)+decimalDigits;        
-        wholeDigits  = wholeDigits.substring(0,wholeDigits.length-radix*unit);
-        if(wholeDigits=="") wholeDigits = "0";      
-    }
-
-    // 3. 添加分割符号
-    let result = [];
-    for(let i=0;i<wholeDigits.length;i++){
-        if(((wholeDigits.length - i) % division)==0 && i>0) result.push(",");
-        result.push(wholeDigits[i]);
-    }
-    // 4. 处理保留小数位数，即精度
-    if(decimalDigits){
-        // 如果precision是一个数字，则进行四舍五入处理
-        if(isNumber$4(precision) && precision>0){// 四舍五入处理
-            let finalBits = decimalDigits.length;  // 四舍五入前的位数
-            decimalDigits = String(parseFloat(`0.${decimalDigits}`).toFixed(precision)).split(".")[1];
-            //如果经过四舍五入处理后的位数小于，代表精度进行舍去，则未尾显示+符号
-            if(finalBits > decimalDigits.length) decimalDigits+="+";
-        }
-        result.push(`.${decimalDigits}`);
-    }
-    result = result.join("");
-    // 5. 模板替换
-    result = format.replace("{value}",result)
-                    .replace("{symbol}",symbol)
-                    .replace("{prefix}",prefix)
-                    .replace("{suffix}",suffix)
-                    .replace("{unit}",unitName);
-    return result
-}
 
 /**
  * 根据路径获取指定值
@@ -213,7 +133,7 @@ function toNumber$2(value,defualt=0) {
  * @param {*} defaultValue  默认值
  * @returns 
  */
-function getByPath$2(obj,path,defaultValue){
+function getByPath$3(obj,path,defaultValue){
     if(typeof(obj)!="object" || typeof(path)!="string") return defaultValue
     let paths = path.split(".");
     let cur = obj;
@@ -244,99 +164,19 @@ function deepClone$1(obj){
 }
 
 
-// YY	18	年，两位数
-// YYYY	2018	年，四位数
-// M	1-12	月，从1开始
-// MM	01-12	月，两位数字
-// MMM	Jan-Dec	月，英文缩写
-// D	1-31	日
-// DD	01-31	日，两位数
-// H	0-23	24小时
-// HH	00-23	24小时，两位数
-// h	1-12	12小时
-// hh	01-12	12小时，两位数
-// m	0-59	分钟
-// mm	00-59	分钟，两位数
-// s	0-59	秒
-// ss	00-59	秒，两位数
-// S	0-9	毫秒（百），一位数
-// SS	00-99	毫秒（十），两位数
-// SSS	000-999	毫秒，三位数
-// Z	-05:00	UTC偏移
-// ZZ	-0500	UTC偏移，两位数
-// A	AM / PM	上/下午，大写
-// a	am / pm	上/下午，小写
-// Do	1st... 31st	月份的日期与序号
-
-function formatDatetime$1(value,templ="YYYY/MM/DD HH:mm:ss"){
-    const v = toDate$1(value);
-    const year =String(v.getFullYear()),month = String(v.getMonth()+1);String(v.getDay());const day=String(v.getDate());
-    const hourNum = v.getHours();
-    const hour = String(hourNum), minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds());
-    const vars = [
-        ["YYYY", year],                                                 // 2018	年，四位数
-        ["YY", year.substring(year.length - 2, year.length)],           // 18	年，两位数        
-        ["MMM", ""],                                                    // Jan-Dec	月，英文缩写
-        ["MM", month.padStart(2, "0")],                                 // 01-12	月，两位数字
-        ["M", month],                                                   // 1-12	月，从1开始
-        ["DD", day.padStart(2, "0")],                                   // 01-31	日，两位数
-        ["D", day],                                                     // 1-31	日
-        ["HH", hour.padStart(2, "0")],                          // 00-23	24小时，两位数
-        ["H", hour],                                            // 0-23	24小时
-        ["hh", String(hourNum > 12 ? hourNum - 12 : hourNum).padStart(2, "0")],  // 01-12	12小时，两位数
-        ["h", String(hourNum > 12 ? hourNum - 12 : hourNum)],                            // 1-12	12小时
-        ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
-        ["m", minute],                                                  // 0-59	分钟
-        ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
-        ["s", second],                                                  // 0-59	秒
-        ["SSS", millisecond],                                           // 000-999	毫秒，三位数
-        ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
-        ["a", hour > 12 ? "pm" : "am"],                                 // am / pm	上/下午，小写
-    ];
-    let result = templ;
-    vars.forEach(([k,v])=>result = replaceAll$1(result,k,v));
-    return result
-}
-
-function formatTime$1(value,templ="HH:mm:ss"){
-    const v = toDate$1(value);
-    const hourNum = v.getHours();
-    const hour = String(hourNum),minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds());
-    let result = templ;
-    const vars = [
-        ["HH", hour.padStart(2, "0")],                          // 00-23	24小时，两位数
-        ["H", hour],                                            // 0-23	24小时
-        ["hh", String(hour > 12 ? hour - 12 : hour).padStart(2, "0")],  // 01-12	12小时，两位数
-        ["h", String(hour > 12 ? hour - 12 : hour)],                            // 1-12	12小时
-        ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
-        ["m", minute],                                                  // 0-59	分钟
-        ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
-        ["s", second],                                                  // 0-59	秒
-        ["SSS", millisecond],                                           // 000-999	毫秒，三位数
-        ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
-        ["a", hour > 12 ? "pm" : "am"]                                  // am / pm	上/下午，小写
-    ];
-    vars.forEach(([k,v])=>result = replaceAll$1(result,k,v));
-    return result
-}
 /**
  * 替换所有字符串
  * 低版本ES未提供replaceAll,此函数用来替代
- * 
- * 
  * @param {*} str 
  * @param {*} findValue 
  * @param {*} replaceValue 
  */
-function replaceAll$1(str,findValue,replaceValue){    
+function replaceAll$2(str,findValue,replaceValue){    
     if(typeof(str)!=="string" || findValue=="" || findValue==replaceValue) return str
-    let result = str;
     try{
-        while(result.includes(findValue)){
-            result = result.replace(findValue,replaceValue);
-        }        
+        return str.replace(new RegExp(escapeRegexpStr$1(findValue),"g"),replaceValue)
     }catch{}
-    return result
+    return str
 }
 /**
  *   使用正则表达式解析非标JOSN
@@ -387,23 +227,53 @@ function safeParseJson$1(str){
     }
     return JSON.parse(str)
 }
+const DataTypes$2 =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"];
+/**
+ * 转换为数字类型
+ */
+ function toNumber$4(value,defualt=0) {
+    try {
+        if (isNumber$6(value)) {
+            return parseFloat(value)
+        } else {
+            return defualt
+        }
+    } catch {
+        return value 
+    }
+} 
+
+/**
+ * 将值转换为Date类型
+ * @param {*} value  
+ */
+ function toDate$2(value) {
+    try {
+        return value instanceof Date ? value : new Date(value)
+    } catch {
+        return parseInt(value)
+    }
+}
+
+function toBoolean(value){
+    return !!value
+}
 
 var utils ={
-    isPlainObject: isPlainObject$6,
-    isFunction: isFunction$6,
-    isNumber: isNumber$4,
+    DataTypes: DataTypes$2,
+    isPlainObject: isPlainObject$5,
+    isFunction: isFunction$7,
+    isNumber: isNumber$6,
     isNothing: isNothing$1,
+    toNumber: toNumber$4,
+    toDate: toDate$2,
+    toBoolean,
     deepClone: deepClone$1,
     deepMerge: deepMerge$1,
     deepMixin: deepMixin$2,
-    replaceAll: replaceAll$1,
-    getByPath: getByPath$2,
-    getDataTypeName: getDataTypeName$2,
-    formatDatetime: formatDatetime$1,
-    formatTime: formatTime$1,
-    toDate: toDate$1,
-    toNumber: toNumber$2,
-    toCurrency: toCurrency$1,
+    replaceAll: replaceAll$2,
+    getByPath: getByPath$3,
+    getDataTypeName: getDataTypeName$2, 
     escapeRegexpStr: escapeRegexpStr$1,
     safeParseJson: safeParseJson$1
 };
@@ -418,8 +288,7 @@ var utils ={
  * 
  */
 
-const { getByPath: getByPath$1,isNumber: isNumber$3,isFunction: isFunction$5,isPlainObject: isPlainObject$5,escapeRegexpStr,safeParseJson } = utils;
-
+const { getByPath: getByPath$2,isNumber: isNumber$5,isFunction: isFunction$6,isPlainObject: isPlainObject$4,escapeRegexpStr,safeParseJson } = utils;
 
 /**
 使用正则表达式对原始文本内容进行解析匹配后得到的便以处理的数组
@@ -611,7 +480,7 @@ const formatterNestingParamsRegex = String.raw`((([\'\"])(.*?)\3))|__TAG_REGEXP_
                 }catch{}
             }else if(["true","false","null"].includes(value)){
                 value = JSON.parse(value);
-            }else if(isNumber$3(value)){
+            }else if(isNumber$5(value)){
                 value = parseFloat(value);
             }else { 
                 value = removeTagHelperFlags(String(value));
@@ -677,43 +546,98 @@ const formatterNestingParamsRegex = String.raw`((([\'\"])(.*?)\3))|__TAG_REGEXP_
     },options);     
 
     // 最后一个参数是传入activeFormatterConfig参数
+    // 并且格式化器的this指向的是activeFormatterConfig
     const $formatter =  function(value,...args){
         let finalValue = value;
         // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
-        if(isFunction$5(opts.normalize)){
+        if(isFunction$6(opts.normalize)){
             try{
                 finalValue = opts.normalize(finalValue);
             }catch{}
         }
         // 2. 读取activeFormatterConfig
         let activeFormatterConfigs = args.length>0 ? args[args.length-1] : {};
-        if(!isPlainObject$5( activeFormatterConfigs))  activeFormatterConfigs ={};   
+        if(!isPlainObject$4( activeFormatterConfigs))  activeFormatterConfigs ={};   
         // 3. 从当前语言的激活语言中读取配置参数
-        const formatterConfig =Object.assign({},defaultParams,getByPath$1(activeFormatterConfigs,opts.configKey,{}));
+        const formatterConfig =Object.assign({},defaultParams,getByPath$2(activeFormatterConfigs,opts.configKey,{}));
         let finalArgs;
         if(opts.params==null){// 如果格式化器支持变参，则需要指定params=null
             finalArgs = args.slice(0,args.length-1);
         }else {  // 具有固定的参数个数
-            finalArgs = opts.params.map(param=>getByPath$1(formatterConfig,param,undefined));   
+            finalArgs = opts.params.map(param=>{
+                let paramValue = getByPath$2(formatterConfig,param,undefined);   
+                return isFunction$6(paramValue) ? paramValue(finalValue) : paramValue
+            });
             // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
             for(let i =0; i<finalArgs.length;i++){
                 if(i==args.length-1) break // 最后一参数是配置
                 if(args[i]!==undefined) finalArgs[i] = args[i];
             }
-        }
-        
-        return fn(finalValue,...finalArgs,formatterConfig)
+        }        
+        return fn.call(this,finalValue,...finalArgs,formatterConfig)
     };
     $formatter.configurable = true;       //  当函数是可配置时才在最后一个参数中传入$config
     return $formatter
 }
 
-const Formatter$2 = createFormatter$1;
+const Formatter$5 = createFormatter$1;
+
+
+
+/**
+ * 创建支持弹性参数的格式化器
+ * 弹性参数指的是该格式式化器支持两种传参数形式:
+ * - 位置参数： { value | format(a,b,c,d,e) }
+ * - 对象参数： { value | format({a,b,c,e}) }
+ * 
+ *  弹性参数的目的是只需要位置参数中的第N参数时，简化传参
+ *  例： 
+ *  上例中，我们只需要传入e参数，则不得不使用{ value | format(,,,,e) }
+ *  弹性参数允许使用 { value | format({e:<value>}) }       
+ *  
+ *  请参阅currencyFormatter用法
+ *  
+ * @param {*} fn 
+ * @param {*} options 
+ * @param {*} defaultParams 
+ */
+const createFlexFormatter$1 = function(fn,options={},defaultParams={}){
+    const $flexFormatter =  Formatter$5(function(value,...args){
+        // 1. 最后一个参数是格式化器的参数,不同语言不一样
+        let $config = args[args.length-1];
+        // 2. 从语言配置中读取默认参数
+        let finalParams = options.params.reduce((r,name) =>{
+            r[name] = $config[name]==undefined ? defaultParams[name] : $config[name];
+            return r
+        } ,{});
+        // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
+        if(args.length==2 && isPlainObject$4(args[0])){       // 一个参数且是{}
+            Object.assign(finalParams,{format:"custom"},args[0]);
+        }else {   // 位置参数,如果是空则代表
+            for(let i=0; i<args.length-1; i++){
+                if(args[i]!==undefined) finalParams[options.params[i]] = args[i];
+            }
+        }   
+        if(finalParams.format in $config){
+            finalParams.format = $config[finalParams.format];
+        }
+
+        return fn.call(this,value,finalParams,$config)
+    },{...options,params:null});  // 变参工式化器需要指定params=null
+    return $flexFormatter 
+};
+
+
+
+const FlexFormatter$3 = createFlexFormatter$1;
 
 var formatter$1 = {
     createFormatter: createFormatter$1,
-    Formatter: Formatter$2,
+    createFlexFormatter: createFlexFormatter$1,
+    Formatter: Formatter$5,
+    FlexFormatter: FlexFormatter$3,
     parseFormatters: parseFormatters$1
+    
 };
 
 /**
@@ -746,7 +670,7 @@ var formatter$1 = {
  *
  */
 
-const { getDataTypeName: getDataTypeName$1,isPlainObject: isPlainObject$4,isFunction: isFunction$4,replaceAll } = utils;
+const { getDataTypeName: getDataTypeName$1,isPlainObject: isPlainObject$3,isFunction: isFunction$5,replaceAll: replaceAll$1 } = utils;
 const { parseFormatters } = formatter$1;
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
@@ -823,11 +747,11 @@ function forEachInterpolatedVars(str, replacer, options = {}) {
 		const varname = matched.groups.varname || "";
 		// 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
 		const formatters = parseFormatters(matched.groups.formatters);
-		if (isFunction$4(replacer)) {
+		if (isFunction$5(replacer)) {
 			try {
 				const finalValue = replacer(varname, formatters, matched[0]);
 				if (opts.replaceAll) {
-					result = replaceAll(result,matched[0], finalValue);
+					result = replaceAll$1(result,matched[0], finalValue);
 				} else {
 					result = result.replace(matched[0], finalValue);
 				}
@@ -893,10 +817,7 @@ function getDataTypeDefaultFormatter(scope, activeLanguage, dataType) {
 	];
 	for (const target of targets) {
 		if (!target) continue;
-		if (
-			isPlainObject$4(target.$types) &&
-			isFunction$4(target.$types[dataType])
-		) {
+		if (isPlainObject$3(target.$types) &&isFunction$5(target.$types[dataType])) {
 			return (scope.$cache.typedFormatters[dataType] =
 				target.$types[dataType]);
 		}
@@ -921,8 +842,7 @@ function getFormatter(scope, activeLanguage, name) {
 	if (scope.$cache.activeLanguage === activeLanguage) {
 		if (name in scope.$cache.formatters)
 			return scope.$cache.formatters[name];
-	} else {
-		// 当语言切换时清空缓存
+	} else {		// 当语言切换时清空缓存
 		resetScopeCache(scope, activeLanguage);
 	}
 	const fallbackLanguage = scope.getLanguage(activeLanguage).fallback;
@@ -935,7 +855,7 @@ function getFormatter(scope, activeLanguage, name) {
 	];
 	for (const formatters of range) {
 		if (!formatters) continue;
-		if (isFunction$4(formatters[name])) {
+		if (isFunction$5(formatters[name])) {
 			return (scope.$cache.formatters[name] = formatters[name]);
 		}
 	}
@@ -950,18 +870,20 @@ function getFormatter(scope, activeLanguage, name) {
  * @param {*} value
  * @returns
  */
-function executeChecker(checker, value) {
+function executeChecker(checker, value,scope) {
 	let result = { value, next: "skip" };
-	if (!isFunction$4(checker)) return result;
+	if (!isFunction$5(checker)) return result;
 	try {
-		const r = checker(value);
-		if (isPlainObject$4(r)) {
+		const r = checker(value,scope.activeFormatterConfig);
+		if (isPlainObject$3(r) && ("next" in r)  &&  ("value" in r)) {
 			Object.assign(result, r);
 		} else {
 			result.value = r;
 		}
 		if (!["break", "skip"].includes(result.next)) result.next = "break";
-	} catch (e) {}
+	} catch (e) {
+        if(scope.debug) console.error("Error while  execute VoerkaI18n checker :"+e.message);
+    }
 	return result;
 }
 /**
@@ -983,7 +905,7 @@ function executeFormatter(value, formatters, scope, template) {
 	);
 	if (emptyCheckerIndex != -1) {
 		const emptyChecker = formatters.splice(emptyCheckerIndex, 1)[0];
-		const { value, next } = executeChecker(emptyChecker, result);
+		const { value, next } = executeChecker(emptyChecker, result,scope);
 		if (next == "break") {
 			return value;
 		} else {
@@ -991,15 +913,13 @@ function executeFormatter(value, formatters, scope, template) {
 		}
 	}
 	// 2. 错误检查
-	const errorCheckerIndex = formatters.findIndex(
-		(func) => func.$name === "error"
-	);
+	const errorCheckerIndex = formatters.findIndex((func) => func.$name === "error"	);
 	let errorChecker;
 	if (errorCheckerIndex != -1) {
 		errorChecker = formatters.splice(errorCheckerIndex, 1)[0];
 		if (result instanceof Error) {
 			result.formatter = formatter.$name;
-			const { value, next } = executeChecker(errorChecker, result);
+			const { value, next } = executeChecker(errorChecker, result,scope);
 			if (next == "break") {
 				return value;
 			} else {
@@ -1011,14 +931,12 @@ function executeFormatter(value, formatters, scope, template) {
 	// 3. 分别执行格式化器函数
 	for (let formatter of formatters) {
 		try {
-			result = formatter(result, scope.activeFormatterConfig);
+            result = formatter(result, scope.activeFormatterConfig);		
 		} catch (e) {
 			e.formatter = formatter.$name;
 			if (scope.debug)
-				console.error(
-					`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} `
-				);
-			if (isFunction$4(errorChecker)) {
+				console.error(`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} `);
+			if (isFunction$5(errorChecker)) {
 				const { value, next } = executeChecker(errorChecker, result);
 				if (next == "break") {
 					if (value !== undefined) result = value;
@@ -1058,7 +976,7 @@ function addDefaultFormatters(formatters) {
  *  本函数将之传换为转化为调用函数链，形式如下：
  *  [(v)=>{...},(v)=>{...},(v)=>{...}]
  *
- *  并且会自动将当前激活语言的格式化器配置作为最后一个参数配置传入,这样格式化器函数就可以读取
+ *  并且会自动将当前激活语言的格式化器配置作为最后一个参数配置传入,这样格式化器函数就可以读取其配置参数
  *
  * @param {*} scope
  * @param {*} activeLanguage
@@ -1071,15 +989,14 @@ function wrapperFormatters(scope, activeLanguage, formatters) {
 	addDefaultFormatters(formatters);
 	for (let [name, args] of formatters) {
 		let fn = getFormatter(scope, activeLanguage, name);
-		let formatter;
-		// 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
-		// 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
-		if (isFunction$4(fn)) {
-			formatter = (value, config) =>
-				fn.call(scope, value, ...args, config);
+		let formatter;		
+		if (isFunction$5(fn)) {
+			formatter = (value, config) =>fn.call(scope.activeFormatterConfig, value, ...args, config);
 		} else {
+            // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
+		    // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
 			formatter = (value) => {
-				if (isFunction$4(value[name])) {
+				if (isFunction$5(value[name])) {
 					return value[name](...args);
 				} else {
 					return value;
@@ -1146,7 +1063,7 @@ function replaceInterpolatedVars$2(template, ...args) {
 	if (args.length === 0 || !hasInterpolation(template)) return template;
 
 	// ****************************变量插值****************************
-	if (args.length === 1 && isPlainObject$4(args[0])) {
+	if (args.length === 1 && isPlainObject$3(args[0])) {
 		// 读取模板字符串中的插值变量列表
 		// [[var1,[formatter,formatter,...],match],[var2,[formatter,formatter,...],match],...}
 		let varValues = args[0];
@@ -1177,6 +1094,396 @@ var interpolate = {
 	forEachInterpolatedVars,				// 遍历插值变量并替换
 	getInterpolatedVars: getInterpolatedVars$1, 					// 获取指定字符串中的插件值变量列表
 	replaceInterpolatedVars: replaceInterpolatedVars$2					// 替换插值变量
+};
+
+/**
+
+处理日期时间相关
+
+*/
+
+const { isFunction: isFunction$4,replaceAll,toDate: toDate$1 } = utils;
+const  { Formatter: Formatter$4 } = formatter$1;
+
+/**
+ * 获取一天中的时间段
+ * @param {*} hour        小时，取值0-23
+ * @param {*} options 
+ * @returns 
+ */
+function getTimeSlot(hour,caseStyle = 0){
+    if(hour<0 && hour>23) hour = 0;
+    const timeSlots = this.timeSlots;
+    const slots = [0,...timeSlots.slots,24];
+    let slotIndex = slots.findIndex(v=>v>hour) - 1; 
+    return caseStyle == 0 ? timeSlots.lowerCases[slotIndex] :  timeSlots.upperCases[slotIndex]
+}
+
+/**
+ * 根据模板格式化日期时间
+ * 
+
+    YY	18	年，两位数
+    YYYY	2018	年，四位数
+    M	1-12	月，从1开始
+    MM	01-12	月，两位数字
+    MMM	Jan-Dec	月，英文缩写
+    D	1-31	日
+    DD	01-31	日，两位数
+    H	0-23	24小时
+    HH	00-23	24小时，两位数
+    h	1-12	12小时
+    hh	01-12	12小时，两位数
+    m	0-59	分钟
+    mm	00-59	分钟，两位数
+    s	0-59	秒
+    ss	00-59	秒，两位数
+    S	0-9	毫秒（百），一位数
+    SS	00-99	毫秒（十），两位数
+    SSS	000-999	毫秒，三位数
+    Z	-05:00	UTC偏移
+    ZZ	-0500	UTC偏移，两位数
+    A	AM / PM	上/下午，大写
+    a	am / pm	上/下午，小写
+    Do	1st... 31st	月份的日期与序号
+    t   小写时间段，如am,pm
+    T   大写时间段段，如上午、中午、下午
+
+
+ * 重点： this-->当前格化器的配置参数
+ * 
+ * 因此可以通过this.month.long来读取长格式模板
+ * 
+ * 
+ * @param {*} value 
+ * @param {*} template 
+ * @param {Boolean} onlyTime 仅格式化时间
+ * @param {*} options   = {month:[<短月份名称>,<短月份名称>],timeSlots:{}}
+ * @returns 
+ */
+function formatDatetime(value,template="YYYY/MM/DD HH:mm:ss",onlyTime=false){
+    const $config = this.datetime;// this->指向的是当前语言的格式化化器配置
+    const v = toDate$1(value);
+    const hour = v.getHours(),Hour = String(hour).padStart(2, "0");
+    const hour12 =  hour > 12 ? hour - 12 : hour ,Hour12 = String(hour12).padStart(2, "0");
+    const minute = String(v.getMinutes()),second = String(v.getSeconds()),millisecond=String(v.getMilliseconds());    
+    let vars = [        
+        ["HH", Hour],                                                   // 00-23	24小时，两位数
+        ["H", hour],                                                    // 0-23	24小时
+        ["hh", Hour12],                                                 // 01-12	12小时，两位数
+        ["h", hour12],                                                  // 1-12	12小时
+        ["mm", minute.padStart(2, "0")],                                // 00-59	分钟，两位数
+        ["m", minute],                                                  // 0-59	分钟
+        ["ss", second.padStart(2, "0")],                                // 00-59	秒，两位数
+        ["s", second],                                                  // 0-59	秒
+        ["SSS", millisecond],                                           // 000-999	毫秒，三位数
+        ["A",  hour > 12 ? "PM" : "AM"],                                // AM / PM	上/下午，大写
+        ["a", hour > 12 ? "pm" : "am"],                                 // am / pm	上/下午，小写
+        ["t",  getTimeSlot.call($config,hour,0)],                       // 小写时间段，如上午、中午、下午
+        ["T",  getTimeSlot.call($config,hour,1)],                       // 大写时间段，如上午、中午、下午
+    ];
+    if(!onlyTime){
+        const year =String(v.getFullYear()),month = v.getMonth(),weekday=v.getDay(),day=String(v.getDate());
+        vars.push(...[
+            ["YYYY", year],                                              // 2018	年，四位数
+            ["YY", year.substring(2)],                                   // 18年，两位数        
+            ["MMM", $config.month.short[month]],                         // Jan-Dec月，缩写
+            ["MM", String(month+1).padStart(2, "0")],                      // 01-12月，两位数字
+            ["M", month+1],                                              // 1-12	月，从1开始
+            ["DD", day.padStart(2, "0")],                                // 01-31	日，两位数
+            ["D", day],                                                  // 1-31	日
+            ["d",weekday],                                               // 0-6	一周中的一天，星期天是 0
+            ["dd",$config.weekday.short[weekday]],                       //	Su-Sa	最简写的星期几
+            ["ddd",$config.weekday.short[weekday]],                      //	Sun-Sat	简写的星期几
+            ["dddd",$config.weekday.long[weekday]],                      //	Sunday-Saturday	星期几，英文全称
+        ]);
+    }
+    let result = template;
+    vars.forEach(([k,v])=>result = replaceAll(result,k,v));
+    return result
+}
+/**
+ * 只格式化时间
+ * @param {*} value 
+ * @param {*} template 
+ * @returns 
+ */
+function formatTime(value,template="HH:mm:ss"){    
+    return formatDatetime.call(this,value,template,true)
+}
+
+
+/**
+ *   该类型的格式化器具有以下特点：
+ *  
+ *   1. 接受一个format参数，
+ *   2. format参数取值可以是若干预设的值，如long,short等，也可能是一个模板字符串
+ *   3. 当format值时，如果定义在$config[configKey]里面，代表了$config[configKey][format]是一个模板字符串
+ *   4. 如果!(format in $config[configKey])，则代表format值是一个模板字符串 
+ *   5. 如果format in presets, 则要求presets[format ]是一个(value)=>{....}，直接返回
+ * 
+  **/ 
+function createDateTimeFormatter(options={},transformer){
+    let opts = Object.assign({presets:{}},options);
+    return Formatter$4(function(value,format,$config){
+        if((format in opts.presets) && isFunction$4(opts.presets[format])){
+            return opts.presets[format](value)
+        }else if((format in $config)){
+            format = $config[format];
+        }else if(format == "number"){
+            return value
+        }
+        try{// this指向的是activeFormatter.$config
+            return format==null ? value : transformer.call(this,value,format)
+        }catch(e){
+            return value
+        }        
+    },opts)
+}
+
+
+/**
+ * 日期格式化器
+ *  - format取值：local,long,short,iso,gmt,utc,<模板字符串>
+ *  - 默认值由$config.datetime.date.format指定
+ */
+ const dateFormatter$1 = createDateTimeFormatter({
+    normalize: toDate$1,
+    params   : ["format"],
+    configKey: "datetime.date",
+    presets  : {
+        local: value=>value.toLocaleString(),
+        iso  : value=>value.toISOString(),
+        utc  : value=>value.toUTCString(),
+        gmt  : value=>value.toGMTString()
+    }
+},formatDatetime);
+
+
+/**
+ *  季度格式化器
+ *  - format: long,short,number
+ *  - 默认值是 short
+ */
+const quarterFormatter$1 = createDateTimeFormatter({
+    normalize : value=>{
+        const month = value.getMonth() + 1; 
+        return Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
+    },
+    params   : ["format"],
+    configKey: "datetime.quarter"
+},(quarter,format)=>format[quarter-1]); 
+
+/**
+ *  月份格式化器
+ *  - format: long,short,number
+ *  - 默认值是 short
+ */
+const monthFormatter$1 = createDateTimeFormatter({
+    normalize: value=> value.getMonth() + 1, 
+    params   : ["format"],
+    configKey: "datetime.month"
+},(month,format)=>format[month-1]); 
+
+/**
+ *  周格式化器
+ *  - format: long,short,number
+ *  - 默认值是 long
+ */
+const weekdayFormatter$1 = createDateTimeFormatter({
+    normalize: value=> value.getDay(), 
+    params   : ["format"],
+    configKey: "datetime.weekday"
+},(day,format)=>format[day]); 
+
+/**
+ * 时间格式化器
+ *  - format取值：local,long,short,timestamp,<模板字符串>
+ *  - 默认值由$config.datetime.time.format指定
+ */
+ const timeFormatter$1 = createDateTimeFormatter({
+    normalize    : toDate$1,
+    params       : ["format"],
+    configKey    : "datetime.time",
+    presets      : {
+        local    : value=>value.toLocaleTimeString(), 
+        timestamp: value=>value.getTime()
+    }
+},formatTime); 
+
+/**
+ * 返回相对于rel的时间
+ * @param {*} value 
+ * @param {*} baseTime  基准时间，默认是相对现在
+ */
+// 对应:秒,分钟,小时,天,周,月,年的毫秒数,月取30天，年取365天概数
+const TIME_SECTIONS = [1000,60000,3600000,86400000,604800000,2592000000,31536000000,Number.MAX_SAFE_INTEGER];
+const relativeTimeFormatter$1 = Formatter$4((value,baseTime,$config)=>{    
+    const { units,now,before,base = Date.now() , after } = $config;
+    let ms = value.getTime();
+    let msBase = (baseTime instanceof Date) ? baseTime.getTime() : toDate$1(base).getTime();
+    let msDiff = ms - msBase;
+    let msIndex = TIME_SECTIONS.findIndex(x=>Math.abs(msDiff) <  x) - 1;   
+    if(msIndex < 0) msIndex = 0;
+    if(msIndex > TIME_SECTIONS.length-1 ) msIndex = TIME_SECTIONS.length-1;
+    if(msDiff==0){
+        return now
+    }else if(msDiff<0){// 之前
+        let result = parseInt(Math.abs(msDiff) / TIME_SECTIONS[msIndex]);
+        return before.replace("{value}",result).replace("{unit}",units[msIndex])
+    }else {// 之后
+        let result = parseInt(Math.abs(msDiff) / TIME_SECTIONS[msIndex]);
+        return after.replace("{value}",result).replace("{unit}",units[msIndex])
+    }
+},{
+    normalize:toDate$1,
+    params:["base"],
+    configKey:"datetime.relativeTime"
+});
+
+var datetime = {
+    toDate: toDate$1,
+    formatTime,
+    formatDatetime,
+    createDateTimeFormatter,
+    relativeTimeFormatter: relativeTimeFormatter$1,
+    dateFormatter: dateFormatter$1,
+    quarterFormatter: quarterFormatter$1,
+    monthFormatter: monthFormatter$1,
+    weekdayFormatter: weekdayFormatter$1,
+    timeFormatter: timeFormatter$1
+};
+
+/***
+ * 
+ * 处理货币相关
+ * 
+ */
+
+const { isNumber: isNumber$4, toNumber: toNumber$3, getByPath: getByPath$1 } = utils;
+const { FlexFormatter: FlexFormatter$2 } = formatter$1;
+
+/**
+ * 为字符串按bits位添加一个,
+ * @param {*} str 
+ * @param {*} bits 
+ * @returns 
+ */
+function addSplitChars(str,bits=3){
+   let regexp =  new RegExp(String.raw`(?!^)(?=(\d{${bits}})+$)`,"g");
+   let r = str.replace(regexp,",");
+   if(r.startsWith(",")) r = r.substring(1);
+   if(r.endsWith(",")) r = r.substring(0,r.length-2);
+   return r
+}
+
+
+/**
+ * 转换为货币格式
+ * 
+ * @param {*} value      可以是数字也可以是字符串
+ * @param {*} division    分割符号位数,3代表每3个数字添加一个,号  
+ * @param {*} prefix      前缀
+ * @param {*} suffix      后缀
+ * @param {*} precision   小数点精确到几位，0-自动
+ * @param {*} format      格式模块板字符串
+ * @returns 
+ */
+ function toCurrency$1(value,params={},$config={}){
+    let {symbol="",division=3,prefix="",precision=2,suffix="",unit=0,radix=3,format="{symbol}{value}{unit}"}  = params;
+
+    // 1. 分离出整数和小数部分
+    let [wholeDigits,decimalDigits] = String(value).split(".");
+    // 2. 转换数制单位   比如将元转换到万元单位
+    // 如果指定了unit单位，0-代表默认，1-N代表将小数点字向后移动radix*unit位
+    // 比如 123456789.88   
+    // 当unit=1,radix=3时，   == [123456,78988]  // [整数,小数]
+    // 当unit=2,radix=3时，   == [123,45678988]  // [整数,小数]
+    if(unit>0 && radix>0){
+        // 不足位数时补零
+        if(wholeDigits.length<radix*unit) wholeDigits = new Array(radix*unit-wholeDigits.length+1).fill(0).join("")+ wholeDigits;    
+        // 将整数的最后radix*unit字符移到小数部分前面
+        decimalDigits=wholeDigits.substring(wholeDigits,wholeDigits.length-radix*unit)+decimalDigits;        
+        wholeDigits  = wholeDigits.substring(0,wholeDigits.length-radix*unit);
+        if(wholeDigits=="") wholeDigits = "0";      
+    } 
+    // 3. 添加分割符号
+    let result = [];
+    result.push(addSplitChars(wholeDigits,division));
+
+    // 4. 处理保留小数位数，即精度
+    if(decimalDigits){
+        // 如果precision是一个数字，则进行四舍五入处理
+        if(isNumber$4(precision) && precision>0){// 四舍五入处理
+            let finalBits = decimalDigits.length;  // 四舍五入前的位数
+            decimalDigits = String(parseFloat(`0.${decimalDigits}`).toFixed(precision)).split(".")[1];
+            //如果经过四舍五入处理后的位数小于，代表精度进行舍去，则未尾显示+符号
+            if(finalBits > decimalDigits.length) decimalDigits+="+";
+        }
+        result.push(`.${decimalDigits}`);
+    } 
+    // 5. 模板替换 
+    const unitName =  getByPath$1($config,`units`,[])[unit] || "";
+    return format.replace("{value}",result.join(""))
+                    .replace("{symbol}",symbol)
+                    .replace("{prefix}",prefix)
+                    .replace("{suffix}",suffix)
+                    .replace("{unit}",unitName)
+}
+const currencyFormatter$1 = FlexFormatter$2((value,params={},$config)=>{
+    params.unit = parseInt(params.unit) || 0;
+    if(params.unit>$config.units.length-1) params.unit = $config.units.length-1;
+    if(params.unit<0) params.unit = 0;
+    // 当指定unit大于0时取消小数点精度控制
+    // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
+    // 将params.precision=0取消精度限制就可以显示1234.567899万，从而保证完整的精度
+    // 除非显式将precision设置为>2的值
+    if(params.unit>0 && params.precision==2){
+        params.precision = 0;
+    }
+    return toCurrency$1(value,params,$config)
+},{
+    normalize: toNumber$3,
+    params : ["format","unit","precision","prefix","suffix","division","symbol","radix"],
+    configKey: "currency"
+},{
+    format:"default",
+    unit:0              // 小数点精度控制,0代表不控制
+});
+
+
+var currency = {
+    toCurrency: toCurrency$1,
+    currencyFormatter: currencyFormatter$1
+};
+
+/***
+ * 
+ * 处理数字相关
+ * 
+ * { value | number }
+ * { value | number('default') }
+ * { value | number('regular') }
+ * { value | number('big') }
+ * 
+ */
+
+const { isNumber: isNumber$3,toNumber: toNumber$2 } = utils;
+const { Formatter: Formatter$3 } = formatter$1;
+const { toCurrency } = currency;
+
+const numberFormartter$1 = Formatter$3(function(value,precision,division,$config){
+    return toCurrency(value, { division, precision},$config)
+},{
+    normalize: toNumber$2,
+    params:["precision","division"],
+    configKey: "number"
+});
+
+
+
+var numeric = { 
+    numberFormartter: numberFormartter$1
 };
 
 /**
@@ -1216,119 +1523,11 @@ var eventemitter = class EventEmitter{
  *   日期时间格式化器
  * 
  */
-
-const { toDate,toCurrency,toNumber: toNumber$1,isPlainObject: isPlainObject$3,formatDatetime,formatTime } = utils;
- const { Formatter: Formatter$1 } = formatter$1;
-
-/**
- * 日期格式化器
- *  format取值：
- *  0-local,1-long,2-short,3-iso,4-gmt,5-UTC
- *  或者日期模板字符串
- *   默认值是local
- */
-const dateFormatter = Formatter$1((value,format,$config)=>{
-    const optionals = ["local","long","short","iso","gmt","utc"];
-    // 处理参数：同时支持大小写名称和数字
-    const optionIndex = optionals.findIndex((v,i)=>{
-        if(typeof(format)=="string"){
-            return v==format || v== format.toUpperCase()
-        }else if(typeof(format)=="number"){
-            return format === i
-        }
-    });
-    switch(optionIndex){
-        case 0: // local
-            return value.toLocaleString()
-        case 1: // long
-            return formatDatetime(value,$config.long) 
-        case 2: // short
-            return formatDatetime(value,$config.short) 
-        case 3: // ISO
-            return value.toISOString()
-        case 4: // GMT
-            return value.toGMTString()
-        case 5: // UTC
-            return value.toUTCString()
-        default:
-            return formatDatetime(value,format) 
-    }  
-},{  
-    normalize: toDate,                       // 转换输入为Date类型
-    params   : ['format'],
-    configKey: "datetime.date"
-});
-// 季度格式化器 format= 0=短格式  1=长格式    1=数字  
-const quarterFormatter = Formatter$1((value,format,$config)=>{
-    const month = value.getMonth() + 1; 
-    const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ));
-    if(typeof(format)==='string'){ 
-        format = ['short','long','number'].indexOf(format);        
-    }
-    if(format<0 && format>2) format = 0;
-    return format==0 ? $config.short[quarter] : (format==1 ? $config.long[quarter] : quarter)
-},{  
-    normalize: toDate,                      
-    params   : ['format'],
-    configKey: "datetime.quarter"
-});
-
-// 月份格式化器 format可以取值0,1,2，也可以取字符串long,short,number
-const monthFormatter = Formatter$1((value,format,$config)=>{
-    const month = value.getMonth(); 
-    if(typeof(format)==='string'){ 
-        format = ['long','short','number'].indexOf(format);        
-    }
-    if(format<0 && format>2) format = 0;
-    return format==0 ? $config.long[month] : (format==1 ? $config.short[month] : month+1)
-},{  
-    normalize: toDate,                      
-    params   : ['format'],
-    configKey: "datetime.month"
-});
-
-// 星期x格式化器  format可以取值0,1,2，也可以取字符串long,short,number
-const weekdayFormatter = Formatter$1((value,format,$config)=>{
-    const day = value.getDay();
-    if(typeof(format)==='string'){ 
-        format = ['long','short','number'].indexOf(format);        
-    }
-    if(format<0 && format>2) format = 0;
-    return format==0 ? $config.long[day] : (format==1 ? $config.short[day] : day)
-},{  
-    normalize: toDate,                       
-    params   : ['format'],
-    configKey: "datetime.weekday"
-});
+const { dateFormatter,quarterFormatter,monthFormatter,weekdayFormatter,timeFormatter,relativeTimeFormatter } = datetime;
+const { numberFormartter } = numeric;
+const { currencyFormatter } = currency;
 
 
-// 时间格式化器 format可以取值0-local(默认),1-long,2-short,3-timestamp,也可以是一个插值表达式
-const timeFormatter = Formatter$1((value,format,$config)=>{
-    const optionals = ['local','long','short','timestamp'];      
-    const optionIndex = optionals.findIndex((v,i)=>{
-        if(typeof(format)=="string"){
-            return v==format || v== format.toUpperCase()
-        }else if(typeof(format)=="number"){
-            return format === i
-        }
-    });
-    switch(optionIndex){
-        case 0: // local : toLocaleTimeString
-            return value.toLocaleTimeString()
-        case 1: // long
-            return formatTime(value,$config.long) 
-        case 2: // short
-            return formatTime(value,$config.short) 
-        case 3: // timestamp
-            return value.getTime()
-        default:
-            return formatTime(value,format) 
-    }  
-},{  
-    normalize: toDate,                       
-    params   : ['format'],
-    configKey: "datetime.time"
-});
 
 // 货币格式化器, CNY $13,456.00 
 /**
@@ -1338,56 +1537,55 @@ const timeFormatter = Formatter$1((value,format,$config)=>{
  * { value | currency('long',2) }  亿元
  * { value | currency({symbol,unit,prefix,precision,suffix}) }
  */
-const currencyFormatter = Formatter$1((value,...args) =>{
-    // 1. 最后一个参数是格式化器的参数,不同语言不一样
-    let $config = args[args.length-1];
-    // 2. 从语言配置中读取默认参数
-    let params = {  
-        unit          : 0,         
-        radix         : $config.radix,                          // 进制，取值,0-4,
-        symbol        : $config.symbol,                         // 符号,即三位一进制，中文是是4位一进
-        prefix        : $config.prefix,                         // 前缀
-        suffix        : $config.suffix,                         // 后缀
-        division      : $config.division,                       // ,分割位
-        precision     : $config.precision,                      // 精度     
-        format        : $config.format,                         // 模板字符串
-    };   
-    // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
-    if(args.length==1) {   // 无参调用
-        Object.assign(params,{format:'default'});
-    }else if(args.length==2 && isPlainObject$3(args[0])){       // 一个参数且是{}
-        Object.assign(params,{format:$config.custom},args[0]);
-    }else if(args.length==2){            
-        // 一个字符串参数，只能是default,long,short, 或者是一个模板字符串，如"{symbol}{value}{unit}"
-        Object.assign(params,{format:args[0]});            
-    }else if(args.length==3){// 2个参数，分别是format,unit
-        Object.assign(params,{format:args[0],unit:args[1]});
-    }else if(args.length==4){// 2个参数，分别是format,unit,precision
-        Object.assign(params,{format:args[0],unit:args[1],precision:args[2]});
-    }   
-    // 4. 检查参数正确性
-    params.unit = parseInt(params.unit) || 0;
-    if(params.unit>4) params.unit = 4;
-    if(params.unit<0) params.unit = 0;
-    // 当指定unit大于0时取消小数点精度控制
-    // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
-    // 将params.precision=0取消精度限制就可以显示1234.567899万，从而保证完整的精度
-    // 除非显示将precision设置为>2的值
-    if(params.unit>0 && params.precision==2){
-        params.precision = 0;
-    }
+// const currencyFormatter = Formatter((value,...args) =>{
+//     // 1. 最后一个参数是格式化器的参数,不同语言不一样
+//     let $config = args[args.length-1]
+//     // 2. 从语言配置中读取默认参数
+//     let params = {  
+//         unit          : 0,         
+//         radix         : $config.radix,                          // 进制，取值,0-4,
+//         symbol        : $config.symbol,                         // 符号,即三位一进制，中文是是4位一进
+//         prefix        : $config.prefix,                         // 前缀
+//         suffix        : $config.suffix,                         // 后缀
+//         division      : $config.division,                       // ,分割位
+//         precision     : $config.precision,                      // 精度     
+//         format        : $config.format,                         // 模板字符串
+//     }   
+//     // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
+//     if(args.length==1) {   // 无参调用
+//         Object.assign(params,{format:'default'})
+//     }else if(args.length==2 && isPlainObject(args[0])){       // 一个参数且是{}
+//         Object.assign(params,{format:$config.custom},args[0])
+//     }else if(args.length==2){            
+//         // 一个字符串参数，只能是default,long,short, 或者是一个模板字符串，如"{symbol}{value}{unit}"
+//         Object.assign(params,{format:args[0]})            
+//     }else if(args.length==3){// 2个参数，分别是format,unit
+//         Object.assign(params,{format:args[0],unit:args[1]})
+//     }else if(args.length==4){// 3个参数，分别是format,unit,precision
+//         Object.assign(params,{format:args[0],unit:args[1],precision:args[2]})
+//     }   
+//     // 4. 检查参数正确性
+//     params.unit = parseInt(params.unit) || 0
+//     if(params.unit>4) params.unit = 4
+//     if(params.unit<0) params.unit = 0
+//     // 当指定unit大于0时取消小数点精度控制
+//     // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
+//     // 将params.precision=0取消精度限制就可以显示1234.567899万，从而保证完整的精度
+//     // 除非显示将precision设置为>2的值
+//     if(params.unit>0 && params.precision==2){
+//         params.precision = 0
+//     }
 
-    // 模板字符串
-    if(params.format in $config){
-        params.format = $config[params.format];
-    }     
-    params.unitName =(Array.isArray($config.units) && params.unit> 0 && params.unit<$config.units.length) ? $config.units[params.unit] : "";
-    return toCurrency(value,params)
-},{
-    normalize: toNumber$1, 
-    configKey: "currency"
-}); 
-
+//     // 模板字符串
+//     if(params.format in $config){
+//         params.format = $config[params.format]
+//     }     
+//     params.unitName =(Array.isArray($config.units) && params.unit> 0 && params.unit<$config.units.length) ? $config.units[params.unit] : ""
+//     return toCurrency(value,params)
+// },{
+//     normalize: toNumber, 
+//     configKey: "currency"
+// }) 
 
 
 var en =   {
@@ -1408,37 +1606,49 @@ var en =   {
             month:{
                 long        : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
                 short       : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-                format      : 0           // 0-长名称，1-短名称，2-数字
+                format      : "long"           // 0-长名称，1-短名称，2-数字
             },
             weekday:{
                 long        : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                 short       : ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"],
-                format      : 0,            // 0-长名称，1-短名称，2-数字   
+                format      : "long",            // 0-长名称，1-短名称，2-数字   
             },       
             time            : {
                 long        : "HH:mm:ss",
                 short       : "HH:mm:ss",
                 format      : 'local'
-            },   
+            },
+            timeSlots       : {
+                slots       : [12],
+                lowerCases  : ["am","pm"],
+                upperCases  : ["AM","PM"]
+            }, 
+            relativeTime    : {
+                units       : ["seconds","minutes","hours","days","weeks","months","years"],
+                now         : "Now",
+                before      : "{value} {unit} ago",
+                after       : "after {value} {unit}"
+            }
         },
         currency          : {
             default       : "{symbol}{value}{unit}",
             long          : "{prefix} {symbol}{value}{unit}{suffix}", 
             short         : "{symbol}{value}{unit}",
             custom        : "{prefix} {symbol}{value}{unit}{suffix}", 
+            format        : "default",
             //--
             units         : [""," thousands"," millions"," billions"," trillions"],    //千,百万,十亿,万亿
-            radix         : 3,                       // 进制，即三位一进制，中文是是4位一进
+            radix         : 3,                       // 进制，即三位一进，中文是4位一进
             symbol        : "$",                     // 符号
             prefix        : "USD",                   // 前缀
             suffix        : "",                      // 后缀
             division      : 3,                       // ,分割位
-            precision     : 2,                    // 精度            
+            precision     : 2,                       // 精度 
             
         },
         number            : {
-            division      : 3,
-            precision     : 2
+            division      : 3,                      // , 分割位，3代表每3位添加一个, 
+            precision     : 0                      // 精度，即保留小数点位置,0代表不限 
         },
         empty:{
             //values        : [],                   // 可选，定义空值，如果想让0,''也为空值，可以指定values=[0,'']
@@ -1451,40 +1661,33 @@ var en =   {
             next          : 'break'                 // 当出错时下一步的行为: break=中止;skip=忽略
         },
         fileSize:{
-            //brief: ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
-            //whole:["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
-            //precision: 2 // 小数精度
+            brief: ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
+            whole:["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
+            precision: 2 // 小数精度
         }
     },
     // 默认数据类型的格式化器
     $types: {
         Date     : dateFormatter,
-        //value => { const d = toDate(value); return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}` },
         Null     : value =>"",
         Undefined: value =>"",
         Error    : value => "ERROR",
-        Boolean  : value =>value ? "True":"False"                
+        Boolean  : value =>value ? "True":"False",
+        Number   : numberFormartter           
     },
     // 以下是格式化定义
     // ******************* 日期 *******************
     date          : dateFormatter,
-    time          : timeFormatter,
-    year          : value => toDate(value).getFullYear(),
     quarter       : quarterFormatter,
     month         : monthFormatter,
     weekday       : weekdayFormatter,
-    day           : value => toDate(value).getDate(),
     // ******************* 时间 *******************
-    hour          : value => toDate(value).getHours(),
-    hour12        : value => {const hour = toDate(value).getHours(); return hour > 12 ? hour - 12 : thour},
-    minute        : value => toDate(value).getMinutes(),
-    second        : value => toDate(value).getSeconds(),
-    millisecond   : value => toDate(value).getMilliseconds(),
-    timestamp     : value => toDate(value).getTime(),
+    time          : timeFormatter,
+    relativeTime  : relativeTimeFormatter,
     // ******************* 货币 ******************* 
     currency     : currencyFormatter,
-    // 数字,如，使用分割符
-    number       : (value, division = 3,precision = 0) => toCurrency(value, { division, precision})
+    // ******************* 数字 ******************* 
+    number       : numberFormartter
 };
 
 /**
@@ -1494,105 +1697,127 @@ var en =   {
  */
 
 const { isNumber: isNumber$2 } = utils;
+const { FlexFormatter: FlexFormatter$1,Formatter: Formatter$2 } = formatter$1;
 
 const CN_DATETIME_UNITS$1 =  ["年","季度","月","周","日","小时","分钟","秒","毫秒","微秒"];
 const CN_WEEK_DAYS$1 = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
-const CN_SHORT_WEEK_DAYS$1  =["日","一","二","三","四","五","六"];
+const CN_SHORT_WEEK_DAYS$1  =["周日","周一","周二","周三","周四","周五","周六"];
 const CN_MONTH_NAMES$1=  ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
-const CN_SHORT_MONTH_NAMES$1 = ["一","二","三","四","五","六","七","八","九","十","十一","十二"];
+const CN_SHORT_MONTH_NAMES$1 = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 
- const CN_NUMBER_DIGITS     = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
- const CN_NUMBER_UNITS      = ['', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '兆', '十', '百', '千', '京', '十', '百', '千', '垓'];
- const CN_NUMBER_BIG_DIGITS = ["零", '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖'];
- const CN_NUMBER_BIG_UNITS  = ['', '拾', '佰', '仟', '萬', '拾', '佰', '仟', '億', '拾', '佰', '仟', '兆', '拾', '佰', '仟', '京', '拾', '佰', '仟', '垓'];
- 
-
- /**
- * 
-  * 将数字转换为中文数字
-  * 
-  * 注意会忽略掉小数点后面的数字
-  * 
-  * @param {*} value  数字
-  * @param {*} isBig 是否大写数字 
-  * @returns 
-  */
-function toChineseNumber$1(value,isBig) {   
-     if(!isNumber$2(value)) return value;
-     let [wholeValue,decimalValue] = String(value).split("."); // 处理小数点     
-     const DIGITS = isBig ? CN_NUMBER_BIG_DIGITS : CN_NUMBER_DIGITS;
-     const UNITS = isBig ? CN_NUMBER_BIG_UNITS : CN_NUMBER_UNITS; 
-     let result = '';
-     if(wholeValue.length==1) return DIGITS[parseInt(wholeValue)]
-     for(let i=wholeValue.length-1; i>=0; i--){
-         let bit = parseInt(wholeValue[i]);
-         let digit = DIGITS[bit];
-         let unit = UNITS[wholeValue.length-i-1];
-         if(bit==0){
-             let preBit =i< wholeValue.length ? parseInt(wholeValue[i+1]) : null;// 上一位
-             let isKeyBits = ((wholeValue.length-i-1) % 4)==0;
-             if(preBit && preBit!=0 && !isKeyBits) result =  "零" + result;
-             if(isKeyBits) result = UNITS[wholeValue.length-i-1] + result;
-         }else {
-             result=`${digit}${unit}` + result;
-         }        
-     } 
-     if(isBig){
-         result = result.replace("垓京","垓")
-                     .replace("京兆","京")
-                     .replace("兆億","兆")
-                     .replace("億萬","億")
-                     .replace("萬仟","萬"); 
-     }else {
-         result = result.replace("垓京","垓")
-                     .replace("京兆","京")
-                     .replace("兆亿","兆")
-                     .replace("亿万","亿")
-                     .replace("万千","万"); 
-         if(result.startsWith("一十")) result=result.substring(1);
-     }    
-     return result    // 中文数字忽略小数部分
- } 
+const CN_NUMBER_DIGITS     = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+const CN_NUMBER_UNITS      = ['', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '兆', '十', '百', '千', '京', '十', '百', '千', '垓'];
+const CN_NUMBER_BIG_DIGITS = ["零", '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖'];
+const CN_NUMBER_BIG_UNITS  = ['', '拾', '佰', '仟', '萬', '拾', '佰', '仟', '億', '拾', '佰', '仟', '兆', '拾', '佰', '仟', '京', '拾', '佰', '仟', '垓'];
   
- function toChineseBigNumber(value) {
-    return toChineseNumber$1(value,true)
- }
- /**
-  * 转换为中文大写货币
-  * @param {*} value 
-  * @param {*} division    分割符号位数,3代表每3个数字添加一个,号  
-  * @param {*} prefix      前缀 
-  * @param {*} suffix      后缀
-  * @param {*} precision   小数点精确到几位
-  */
-function toChineseCurrency$1(value,{big=false,prefix="",unit="元",suffix=""}={}){
-    let [wholeValue,decimalValue] = String(value).split(".");
-    let result; 
-    if(big){
-        result = toChineseBigNumber(wholeValue)+unit;
-    }else {
-        result = toChineseNumber$1(wholeValue)+unit;
-    }    
-    if(decimalValue){
-        if(decimalValue[0]) result =result+  CN_NUMBER_DIGITS[parseInt(decimalValue[0])]+"角";
-        if(decimalValue[1]) result =result+  CN_NUMBER_DIGITS[parseInt(decimalValue[1])]+"分";        
-    }
-    return prefix+result+suffix
+/**
+ * 
+ * 将数字转换为中文数字
+ * 
+ * 注意会忽略掉小数点后面的数字
+ * 
+ * @param {*} value  数字
+ * @param {*} isBig 是否大写数字 
+ * @returns 
+ */
+ function toChineseNumber(value,isBig) {   
+      if(!isNumber$2(value)) return value;
+      let [wholeValue,decimalValue] = String(value).split("."); // 处理小数点     
+      const DIGITS = isBig ? CN_NUMBER_BIG_DIGITS : CN_NUMBER_DIGITS;
+      const UNITS = isBig ? CN_NUMBER_BIG_UNITS : CN_NUMBER_UNITS; 
+      let result = '';
+      if(wholeValue.length==1) return DIGITS[parseInt(wholeValue)]
+      for(let i=wholeValue.length-1; i>=0; i--){
+          let bit = parseInt(wholeValue[i]);
+          let digit = DIGITS[bit];
+          let unit = UNITS[wholeValue.length-i-1];
+          if(bit==0){
+              let preBit =i< wholeValue.length ? parseInt(wholeValue[i+1]) : null;// 上一位
+              let isKeyBits = ((wholeValue.length-i-1) % 4)==0;
+              if(preBit && preBit!=0 && !isKeyBits) result =  "零" + result;
+              if(isKeyBits) result = UNITS[wholeValue.length-i-1] + result;
+          }else {
+              result=`${digit}${unit}` + result;
+          }        
+      } 
+      if(isBig){
+          result = result.replace("垓京","垓")
+                      .replace("京兆","京")
+                      .replace("兆億","兆")
+                      .replace("億萬","億")
+                      .replace("萬仟","萬"); 
+      }else {
+          result = result.replace("垓京","垓")
+                      .replace("京兆","京")
+                      .replace("兆亿","兆")
+                      .replace("亿万","亿")
+                      .replace("万千","万"); 
+          if(result.startsWith("一十")) result=result.substring(1);
+      }    
+      return result    // 中文数字忽略小数部分
+  } 
+   
+function toChineseBigNumber(value) {
+     return toChineseNumber(value,true)
 }
 
- var cnutils ={ 
-    toChineseCurrency: toChineseCurrency$1,
-    toChineseNumber: toChineseNumber$1,
-    toChineseBigNumber,
-    CN_DATETIME_UNITS: CN_DATETIME_UNITS$1,
-    CN_WEEK_DAYS: CN_WEEK_DAYS$1,
-    CN_SHORT_WEEK_DAYS: CN_SHORT_WEEK_DAYS$1,
-    CN_MONTH_NAMES: CN_MONTH_NAMES$1,
-    CN_SHORT_MONTH_NAMES: CN_SHORT_MONTH_NAMES$1,
-    CN_NUMBER_DIGITS,
-    CN_NUMBER_UNITS,
-    CN_NUMBER_BIG_DIGITS,
-    CN_NUMBER_BIG_UNITS
+const chineseNumberFormatter$1 = Formatter$2((value,isBig,$config)=>{
+    return toChineseNumber(value,isBig)
+ },{
+    params:["isBig"]    
+});
+
+  /**
+   * 转换为中文大写货币
+   * @param {*} value 
+   * @param {*} division    分割符号位数,3代表每3个数字添加一个,号  
+   * @param {*} prefix      前缀 
+   * @param {*} suffix      后缀
+   * @param {*} showWhole   显示
+   */
+function toChineseCurrency(value,{big,prefix,unit,suffix}={},$config){
+     let [wholeValue,decimalValue] = String(value).split(".");
+     let result; 
+     if(big){
+         result = toChineseBigNumber(wholeValue)+unit;
+     }else {
+         result = toChineseNumber(wholeValue)+unit;
+     }    
+     if(decimalValue){
+         if(decimalValue[0]) {
+            let bit0 = parseInt(decimalValue[0]);
+            result =result+ (big ? CN_NUMBER_BIG_DIGITS[bit0] :  CN_NUMBER_DIGITS[bit0])+"角";
+        }
+         if(decimalValue[1]){
+            let bit1 = parseInt(decimalValue[1]);
+            result =result+  (big ? CN_NUMBER_BIG_DIGITS[bit1] :  CN_NUMBER_DIGITS[bit1])+"分";        
+        }        
+     }
+     return prefix+result+suffix
+}
+
+const rmbFormater$1 = FlexFormatter$1((value,params,$config)=>{
+    return toChineseCurrency(value,params)
+},{
+    params:["big","prefix","unit","suffix"],
+    configKey:"rmb"
+});
+
+var chinese ={ 
+     toChineseCurrency,
+     toChineseNumber,
+     toChineseBigNumber,
+     rmbFormater: rmbFormater$1,
+     chineseNumberFormatter: chineseNumberFormatter$1,
+     CN_DATETIME_UNITS: CN_DATETIME_UNITS$1,
+     CN_WEEK_DAYS: CN_WEEK_DAYS$1,
+     CN_SHORT_WEEK_DAYS: CN_SHORT_WEEK_DAYS$1,
+     CN_MONTH_NAMES: CN_MONTH_NAMES$1,
+     CN_SHORT_MONTH_NAMES: CN_SHORT_MONTH_NAMES$1,
+     CN_NUMBER_DIGITS,
+     CN_NUMBER_UNITS,
+     CN_NUMBER_BIG_DIGITS,
+     CN_NUMBER_BIG_UNITS
 };
 
 /**
@@ -1600,8 +1825,11 @@ function toChineseCurrency$1(value,{big=false,prefix="",unit="元",suffix=""}={}
  * 
  */
 
-const { toChineseCurrency,toChineseNumber,CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES} = cnutils; 
- 
+const { 
+    CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES,
+    chineseNumberFormatter,rmbFormater
+} = chinese; 
+
 var zh = {
     // 配置参数: 格式化器函数的最后一个参数就是该配置参数
     $config:{
@@ -1618,22 +1846,32 @@ var zh = {
                 format      : "short"          // 0-短格式,1-长格式,2-数字
             },
             month:{
-                long       : CN_MONTH_NAMES,
+                long        : CN_MONTH_NAMES,
                 short       : CN_SHORT_MONTH_NAMES,
-                format      : 0,           // 0-长名称，1-短名称，2-数字
+                format      : "long",           // 0-长名称，1-短名称，2-数字
             },
             weekday:{
-                short       : CN_WEEK_DAYS,
-                long        : CN_SHORT_WEEK_DAYS,
-                format      : 0,            // 0-长名称，1-短名称，2-数字   
+                long        : CN_WEEK_DAYS,
+                short       : CN_SHORT_WEEK_DAYS,
+                format      : "long",            // 0-长名称，1-短名称，2-数字   
             },
             time:{
                 long        : "HH点mm分ss秒",
                 short       : "HH:mm:ss",
                 format      : 'local'
+            },
+            timeSlots       : {
+                slots       : [6,9,11,13,18],
+                lowerCases  : ["凌晨","早上","上午","中午","下午","晚上"],
+                upperCases  : ["凌晨","早上","上午","中午","下午","晚上"]
+            },
+            relativeTime    : {
+                units       : ["秒","分钟","小时","天","周","月","年"],
+                now         : "现在",
+                before      : "{value}{unit}前",
+                after       : "{value}{unit}后"
             }
         },
-
         currency          : {
             units         : ["","万","亿","万亿","万万亿"],
             radix         : 4,                       // 进制，即三位一进制，中文是是4位一进
@@ -1644,58 +1882,44 @@ var zh = {
             precision     : 2            
         },
         number            : {
-            division      : 3,
-            precision     : 2
-        }
+            division      : 4,
+            precision     : 0
+        },
+        rmb                 :{
+            big             : false,
+            prefix          : "",
+            unit            : "元",
+            suffix          : ""
+        }        
     },
     $types: {
         Boolean  : value =>value ? "是":"否"
     },
     // 中文货币，big=true代表大写形式
-    rmb     :   (value,big,unit="元",prefix,suffix)=>toChineseCurrency(value,{big,prefix,suffix,unit}),
-    // 中文数字,如一千二百三十一
-    number  :(value,isBig)=>toChineseNumber(value,isBig)
+    rmb     :   rmbFormater,
+    // // 中文数字,如一千二百三十一，或大写数字
+    chineseNumber  : chineseNumberFormatter
 };
 
-const { toNumber,isFunction: isFunction$3 } = utils;
-
+const { toNumber: toNumber$1,isFunction: isFunction$3 } = utils;
+const { Formatter: Formatter$1 } = formatter$1;
 
 /**
-  *   字典格式化器
-  *   根据输入data的值，返回后续参数匹配的结果
-  *   dict(data,<value1>,<result1>,<value2>,<result1>,<value3>,<result1>,...)
-  *   
+  *  字典格式化器
   * 
-  *   dict(1,1,"one",2,"two",3,"three"，4,"four") == "one"
-  *   dict(2,1,"one",2,"two",3,"three"，4,"four") == "two"
-  *   dict(3,1,"one",2,"two",3,"three"，4,"four") == "three"
-  *   dict(4,1,"one",2,"two",3,"three"，4,"four") == "four"
-  *   // 无匹配时返回原始值
-  *   dict(5,1,"one",2,"two",3,"three"，4,"four") == 5  
-  *   // 无匹配时并且后续参数个数是奇数，则返回最后一个参数
-  *   dict(5,1,"one",2,"two",3,"three"，4,"four","more") == "more"  
-  * 
-  *   在翻译中使用
-  *   I have { value | dict(1,"one",2,"two",3,"three",4,"four")} apples
-  * 
-  *  为什么不使用 {value | dict({1:"one",2:"two",3:"three",4:"four"})}的形式更加自然？
-  * 
-  *  因为我们是采用正则表达式来对格式化器的语法进行解释的，目前无法支持复杂的数据类型，只能支持简单的形式
-  * 
-  * 
+  *  {value | dict({1:"one",2:"two",3:"three",4:"four"})}
+
   * @param {*} value 
   * @param  {...any} args 
   * @returns 
   */
- function dict(value, ...args) {
-     for (let i = 0; i < args.length; i += 2) {
-         if (args[i] === value) {
-             return args[i + 1]
-         }
-     }
-     if (args.length > 0 && (args.length % 2 !== 0)) return args[args.length - 1]
-     return value
- }
+ function dict(key, values) { 
+    if(key in values){
+        return values[key]
+    }else {
+        return ("default" in values) ? values[key] : value
+    }
+}
  
 /**
  * 
@@ -1716,8 +1940,8 @@ const { toNumber,isFunction: isFunction$3 } = utils;
  * @paran {String} next 下一步行为，取值true/false,break,skip,默认是break
  * @param {*} config 
  */
- function empty(value,escapeValue,next,config) {
-    let opts = Object.assign({escape:"",next:'break',values:[]},config.empty || {});             
+const empty = Formatter$1(function(value,escapeValue,next,$config){
+    let opts = Object.assign({escape:"",next:'break',values:[]},$config);             
     if(escapeValue!=undefined) opts.escape = escapeValue;
     let emptyValues = [undefined,null];
     if(Array.isArray(opts.values)) emptyValues.push(...opts.values);    
@@ -1726,8 +1950,11 @@ const { toNumber,isFunction: isFunction$3 } = utils;
     }else {
         return value
     }
-}
-empty.paramCount = 2; 
+},{
+    params:["escape","next"],
+    configKey: "empty"
+});
+
 
 /**
 * 当执行格式化器出错时的显示内容.
@@ -1740,18 +1967,18 @@ empty.paramCount = 2;
 { value | error('ERROR:{ error}',) }     == 显示error.constructor.name
 
 
+
+
  * @param {*} value 
  * @param {*} escapeValue 
  * @param {*} next   下一步的行为，取值，break,ignore
  * @param {*} config 格式化器的全局配置参数
  * @returns 
  */
-function error(value,escapeValue,next,config) {    
+const error = Formatter$1(function(value,escapeValue,next,$config){
     if(value instanceof Error){     
-        if(scope.debug) console.error(`Error while execute formatter<${value.formatter}>:`,e);
-        const scope = this;
         try{
-            let opts = Object.assign({escape:null,next:'break'},config.error || {});
+            let opts = Object.assign({escape:null,next:'break'},$config);
             if(escapeValue!=undefined) opts.escape = escapeValue;
             if(next!=undefined) opts.next = next;
             return {
@@ -1759,14 +1986,16 @@ function error(value,escapeValue,next,config) {
                 next  : opts.next
             }
         }catch(e){
-            if(scope.debug) console.error(`Error while execute formatter:`,e.message);
+           
         } 
         return value
     }else {
         return value
     }
-}
-error.paramCount = 2;            // 声明该格式化器支持两个参数 
+},{
+    params:["escape","next"],
+    configKey: "error"
+});
 
 /**
  * 添加前缀
@@ -1801,7 +2030,6 @@ function suffix(value,suffix="") {
     1.2676506002282294e+30
   ];
 const FILE_SIZE_BRIEF_UNITS = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"]; 
-const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"];
 
 /**
  * 输出文件大小
@@ -1812,16 +2040,11 @@ const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "
  * 
  * @param {*} value 
  * @param {*} unit   单位，未指定时采用自动方式，即<1024用字节，1024<v<1024*1024显示KB,...
- * @param {*} brief 
+ * @param {*} brief  是否采用简称单位
  * @param {*} options 
  */
-function filesize(value,unit,brief=true,options={}){
-    let opts = Object.assign({
-        precision: 2,
-        brief    : FILE_SIZE_BRIEF_UNITS,
-        whole    : FILE_SIZE_WHOLE_UNITS
-    },options.fileSize || {});
-    let v = toNumber(value);
+ const filesize= Formatter$1((value,unit,brief=true,$config)=>{
+    let v = toNumber$1(value);
     let unitIndex;
     if(unit==undefined || unit=="auto"){
         unitIndex = FILE_SIZE_SECTIONS.findIndex(x=>v<x) - 1;
@@ -1830,16 +2053,17 @@ function filesize(value,unit,brief=true,options={}){
         unitIndex =["B","BYTE","BYTES"].includes(unit) ? 0 : FILE_SIZE_BRIEF_UNITS.indexOf(unit);
     }
     if(unitIndex<0 || unitIndex>=FILE_SIZE_BRIEF_UNITS.length) unitIndex= 0;
-    let result = (unitIndex == 0 ? v : v / FILE_SIZE_SECTIONS[unitIndex]).toFixed(opts.precision);
+    let result = (unitIndex == 0 ? v : v / FILE_SIZE_SECTIONS[unitIndex]).toFixed($config.precision);
     if( unitIndex>0 && (v % FILE_SIZE_SECTIONS[unitIndex])!==0) result = result+"+"; 
     // 去除尾部的0
     while(["0","."].includes(result[result.length-1])){
         result = result.substring(0, result.length-2); 
     } 
-    return  brief ? `${result} ${opts.brief[unitIndex]}` : `${result} ${opts.brief[whole]}`
-}
-filesize.paramCount = 2; 
-
+    return  brief ? `${result} ${$config.brief[unitIndex]}` : `${result} ${$config.whole[unitIndex]}`
+},{
+    params:["unit","brief"],
+    configKey:"fileSize"
+});
 
 
 
@@ -1869,22 +2093,7 @@ var formatters = {
     zh:zhFormatters
 };
 
-const { isPlainObject: isPlainObject$2, isFunction: isFunction$2, getByPath, deepMixin: deepMixin$1,deepClone } = utils;
-
-const DataTypes$1 = [
-	"String",
-	"Number",
-	"Boolean",
-	"Object",
-	"Array",
-	"Function",
-	"Null",
-	"Undefined",
-	"Symbol",
-	"Date",
-	"RegExp",
-	"Error",
-];
+const { DataTypes: DataTypes$1,isPlainObject: isPlainObject$2, isFunction: isFunction$2, getByPath, deepMixin: deepMixin$1,deepClone } = utils;
 
 var scope = class i18nScope {
 	constructor(options = {}, callback) {
@@ -2352,17 +2561,17 @@ var translate_1 = {
     translate: translate$1
 };
 
-const {getDataTypeName,isNumber,isPlainObject,isFunction,isNothing,deepMerge,deepMixin} = utils;
+const {DataTypes,getDataTypeName,isPlainObject,isFunction,isNumber,isNothing,deepMerge,deepMixin} = utils;
 const {getInterpolatedVars,replaceInterpolatedVars} = interpolate;
-const {createFormatter,Formatter} = formatter$1;
+const {createFormatter,Formatter,FlexFormatter,createFlexFormatter} = formatter$1;
+const { toDate } = datetime;
+const { toNumber } = numeric;
+
 const EventEmitter = eventemitter;
 const inlineFormatters = formatters;         
 const i18nScope = scope;
 const { translate } = translate_1;
 
-
-const DataTypes =  ["String","Number","Boolean","Object","Array","Function","Error","Symbol","RegExp","Date","Null","Undefined","Set","Map","WeakSet","WeakMap"];
- 
 // 默认语言配置
 const defaultLanguageSettings = {  
     debug          : true,
@@ -2513,6 +2722,14 @@ const defaultLanguageSettings = {
 } 
 
 var runtime ={
+    isNumber,
+    isNothing,
+    isPlainObject,
+    isFunction,
+    toDate,
+    toNumber,
+    deepMerge,
+    deepMixin,
     getInterpolatedVars,
     replaceInterpolatedVars,
     I18nManager,
@@ -2520,13 +2737,9 @@ var runtime ={
     i18nScope,
     createFormatter,
     Formatter,
-    getDataTypeName,
-    isNumber,
-    isNothing,
-    isPlainObject,
-    isFunction,
-    deepMerge,
-    deepMixin
+    createFlexFormatter,
+    FlexFormatter,
+    getDataTypeName
 };
 
 module.exports = runtime;
