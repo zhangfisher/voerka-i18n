@@ -118,7 +118,7 @@ t("{ value | date('YYYY-MM-DD') }",1661084229790)
 - **配置文件**：`languages/formatters/<语言名称>.js`
 - **配置位置**： `$config.datetime.date`
 - **配置参数**：
-    ```javascript 
+    ```javascript  | pure
     export default {
         $config:{ 
             datetime:{
@@ -191,7 +191,7 @@ t("{ value | time('HH:mms:ss') }",1661084229790)
 - **配置文件**：`languages/formatters/<语言名称>.js`
 - **配置位置**： `$config.datetime.time`
 - **配置参数**：
-    ```javascript 
+    ```javascript  | pure
     export default {
         $config:{ 
             datetime:{
@@ -242,7 +242,7 @@ t("{ value | quarter('number') }","2022/12/9 09:12:36")
 - **配置文件**：`languages/formatters/<语言名称>.js`
 - **配置位置**： `$config.datetime.quarter`
 - **配置参数**：
-    ```javascript 
+    ```javascript  | pure
     export default {
         $config:{ 
             datetime:{
@@ -303,7 +303,7 @@ t("{ value | month('number') }","2022/12/9 09:12:36")
 - **配置文件**：`languages/formatters/<语言名称>.js`
 - **配置位置**： `$config.datetime.month`
 - **配置参数**：
-    ```javascript 
+    ```javascript  | pure
     export default {
         $config:{ 
             datetime:{
@@ -355,7 +355,7 @@ t("{ value | weekday('number') }","2022/12/9 09:12:36")
 - **配置文件**：`languages/formatters/<语言名称>.js`
 - **配置位置**： `$config.datetime.weekday`
 - **配置参数**：
-    ```javascript 
+    ```javascript  | pure
     export default {
         $config:{ 
             datetime:{
@@ -410,7 +410,7 @@ t("{value | relativeTime }",NOW)
 - **配置文件**：`languages/formatters/<语言名称>.js`
 - **配置位置**： `$config.datetime.relativeTime`
 - **配置参数**：
-    ```javascript 
+    ```javascript  | pure
     export default {
         $config:{ 
             datetime:{
