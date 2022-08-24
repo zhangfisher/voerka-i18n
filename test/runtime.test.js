@@ -490,10 +490,40 @@ describe("翻译函数",()=>{
         expect(enTranslatedResults).toStrictEqual(expectEnDatetimes)
     })
 
+    test("相对时间格式化",async ()=>{    
+        //const NOW =  new Date("2022/08/12 10:12:36")
+        let times = [
+            // Before
+            "2022/08/12 10:12:30", 
+            "2022/08/12 10:2:36",
+            "2022/08/12 8:12:36",
+            "2022/08/08 8:12:36",
+            "2022/07/12 10:12:36",
+            "2018/08/12 10:12:36",
+            // After
+            "2022/08/12 10:12:45",
+            "2022/08/12 10:18:36",
+            "2022/08/12 12:12:36",
+            "2022/08/13 10:12:36", 
+        ]
+        let expectCNTimes = [
+            "6秒前","10分钟前","2小时前","4天前","1月前","4年前",
+            "9秒后","6分钟后","2小时后","1天后"
+        ]
+        let expectENTimes = [
+            "6 seconds ago","10 minutes ago","2 hours ago","4 days ago","1 months ago","4 years ago",
+            "after 9 seconds","after 6 minutes","after 2 hours","after 1 days"
+        ]
+        scope.activeFormatterConfig.datetime.relativeTime.base = NOW
+        let relTimes = times.map(v=>t("{value | relativeTime }",v))
+        expect(relTimes).toStrictEqual(expectCNTimes)
+        await scope.change("en")
+        scope.activeFormatterConfig.datetime.relativeTime.base = NOW
+        let relEnTimes = times.map(v=>t("{value | relativeTime }",v))
+        expect(relEnTimes).toStrictEqual(expectENTimes)
 
+    })
     test("货币格式化",async ()=>{     
-        const v= t("商品价格: { value | currency({symbol:'￥￥',prefix:'人民币:'})}",MONEY)                 // 长格式: 万元
-
         let zhMoneysResults =  zhMoneys.map(v=>t(v,MONEY))
         const p = diffArray(zhMoneysResults,expectZhMoneys)
         expect(zhMoneysResults).toStrictEqual(expectZhMoneys)
@@ -519,6 +549,103 @@ describe("翻译函数",()=>{
         expect(t("{value | number }",123456789.8888)).toBe("123,456,789.8888")
         expect(t("{value | number(3) }",123456789.8888)).toBe("123,456,789.889+")
         expect(t("{value | number(3,2) }",123456789.8888)).toBe("1,23,45,67,89.889+")
+    })
+
+    test("中文数字格式化",(done)=>{     
+        let cnNumbers = [
+            1,
+            12,
+            123,
+            1234,
+            12345,
+            123456,
+            1234567,
+            12345678,
+            123456789,
+        ]
+        let expectCNumbers = [
+            "一",
+            "十二",
+            "一百二十三",
+            "一千二百三十四",
+            "一万二千三百四十五",
+            "十二万三千四百五十六",
+            "一百二十三万四千五百六十七",
+            "一千二百三十四万五千六百七十八",
+            "一亿二千三百四十五万六千七百八十九"
+        ]
+        let expectCNBigumbers=[
+            "壹",
+            "壹拾貳",
+            "壹佰貳拾參",
+            "壹仟貳佰參拾肆",
+            "壹萬貳仟參佰肆拾伍",
+            "壹拾貳萬參仟肆佰伍拾陸",
+            "壹佰貳拾參萬肆仟伍佰陸拾柒",
+            "壹仟貳佰參拾肆萬伍仟陸佰柒拾捌",
+            "壹億貳仟參佰肆拾伍萬陸仟柒佰捌拾玖"
+        ]
+        let cnTanslated = cnNumbers.map(n=>t("{value |chineseNumber}",n))
+        expect(cnTanslated).toStrictEqual(expectCNumbers)
+        let cnBigTanslated = cnNumbers.map(n=>t("{value |chineseNumber(true)}",n))
+        expect(cnBigTanslated).toStrictEqual(expectCNBigumbers)
+        done()
+    })
+
+    test("中文货币格式化",(done)=>{     
+        let cnNumbers = [
+            1.88,
+            12.88,
+            123.88,
+            1234.88,
+            12345.88,
+            123456.88,
+            1234567.88,
+            12345678.88,
+            123456789.88,
+        ]
+        let expectCNumbers = [
+            "一元八角八分",
+            "十二元八角八分",
+            "一百二十三元八角八分",
+            "一千二百三十四元八角八分",
+            "一万二千三百四十五元八角八分",
+            "十二万三千四百五十六元八角八分",
+            "一百二十三万四千五百六十七元八角八分",
+            "一千二百三十四万五千六百七十八元八角八分",
+            "一亿二千三百四十五万六千七百八十九元八角八分",
+        ]
+        let expectCNBigumbers=[
+            "壹元捌角捌分",
+            "壹拾貳元捌角捌分",
+            "壹佰貳拾參元捌角捌分",
+            "壹仟貳佰參拾肆元捌角捌分",
+            "壹萬貳仟參佰肆拾伍元捌角捌分",
+            "壹拾貳萬參仟肆佰伍拾陸元捌角捌分",
+            "壹佰貳拾參萬肆仟伍佰陸拾柒元捌角捌分",
+            "壹仟貳佰參拾肆萬伍仟陸佰柒拾捌元捌角捌分",
+            "壹億貳仟參佰肆拾伍萬陸仟柒佰捌拾玖元捌角捌分",
+        ]
+        let expectCNBigumbers2=[
+            "人民币:壹元捌角捌分整",
+            "人民币:壹拾貳元捌角捌分整",
+            "人民币:壹佰貳拾參元捌角捌分整",
+            "人民币:壹仟貳佰參拾肆元捌角捌分整",
+            "人民币:壹萬貳仟參佰肆拾伍元捌角捌分整",
+            "人民币:壹拾貳萬參仟肆佰伍拾陸元捌角捌分整",
+            "人民币:壹佰貳拾參萬肆仟伍佰陸拾柒元捌角捌分整",
+            "人民币:壹仟貳佰參拾肆萬伍仟陸佰柒拾捌元捌角捌分整",
+            "人民币:壹億貳仟參佰肆拾伍萬陸仟柒佰捌拾玖元捌角捌分整",
+        ]
+
+        let cnTanslated = cnNumbers.map(n=>t("{value |rmb }",n))
+        expect(cnTanslated).toStrictEqual(expectCNumbers)
+        let cnBigTanslated = cnNumbers.map(n=>t("{value |rmb(true)}",n))
+        expect(cnBigTanslated).toStrictEqual(expectCNBigumbers)
+
+        let cnBigTanslated2 = cnNumbers.map(n=>t("{value |rmb({big:true,prefix:'人民币:', unit:'元',suffix:'整'})}",n))
+        expect(cnBigTanslated2).toStrictEqual(expectCNBigumbers2)
+        done()
     })
 
 

@@ -323,12 +323,12 @@ const Formatter = createFormatter
  * @param {*} defaultParams 
  */
 const createFlexFormatter = function(fn,options={},defaultParams={}){
-    const $formatter =  Formatter(function(value,...args){
+    const $flexFormatter =  Formatter(function(value,...args){
         // 1. 最后一个参数是格式化器的参数,不同语言不一样
         let $config = args[args.length-1]
         // 2. 从语言配置中读取默认参数
         let finalParams = options.params.reduce((r,name) =>{
-            r[name] = $config[name] || defaultParams[name]
+            r[name] = $config[name]==undefined ? defaultParams[name] : $config[name]
             return r
         } ,{})
         // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
@@ -345,7 +345,7 @@ const createFlexFormatter = function(fn,options={},defaultParams={}){
 
         return fn.call(this,value,finalParams,$config)
     },{...options,params:null})  // 变参工式化器需要指定params=null
-    return $formatter 
+    return $flexFormatter 
 }
 
 

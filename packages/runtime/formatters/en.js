@@ -5,7 +5,7 @@
 
 const { isFunction,isPlainObject} = require("../utils")
 const { Formatter } = require("../formatter")
-const { dateFormatter,quarterFormatter,monthFormatter,weekdayFormatter,timeFormatter } = require("../datatypes/datetime")
+const { dateFormatter,quarterFormatter,monthFormatter,weekdayFormatter,timeFormatter,relativeTimeFormatter } = require("../datatypes/datetime")
 const { numberFormartter } = require("../datatypes/numeric")
 const { currencyFormatter } = require("../datatypes/currency")
 
@@ -102,8 +102,14 @@ module.exports =   {
             },
             timeSlots       : {
                 slots       : [12],
-                lowerCases   : ["am","pm"],
-                upperCases   : ["AM","PM"]
+                lowerCases  : ["am","pm"],
+                upperCases  : ["AM","PM"]
+            }, 
+            relativeTime    : {
+                units       : ["seconds","minutes","hours","days","weeks","months","years"],
+                now         : "Now",
+                before      : "{value} {unit} ago",
+                after       : "after {value} {unit}"
             }
         },
         currency          : {
@@ -159,6 +165,7 @@ module.exports =   {
     weekday       : weekdayFormatter,
     // ******************* 时间 *******************
     time          : timeFormatter,
+    relativeTime  : relativeTimeFormatter,
     // ******************* 货币 ******************* 
     currency     : currencyFormatter,
     // ******************* 数字 ******************* 

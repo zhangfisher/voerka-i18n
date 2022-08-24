@@ -3,30 +3,31 @@
  * 处理中文数字和货币相关
  * 
  */
- const { FlexFormatter } = require('../dist/index.cjs')
-const { isNumber } = require('./utils')
-
- const CN_DATETIME_UNITS =  ["年","季度","月","周","日","小时","分钟","秒","毫秒","微秒"]
- const CN_WEEK_DAYS = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
- const CN_SHORT_WEEK_DAYS  =["周日","周一","周二","周三","周四","周五","周六"]
- const CN_MONTH_NAMES=  ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
- const CN_SHORT_MONTH_NAMES = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
  
-  const CN_NUMBER_DIGITS     = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"]
-  const CN_NUMBER_UNITS      = ['', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '兆', '十', '百', '千', '京', '十', '百', '千', '垓']
-  const CN_NUMBER_BIG_DIGITS = ["零", '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖']
-  const CN_NUMBER_BIG_UNITS  = ['', '拾', '佰', '仟', '萬', '拾', '佰', '仟', '億', '拾', '佰', '仟', '兆', '拾', '佰', '仟', '京', '拾', '佰', '仟', '垓']
+const { isNumber } = require('../utils')
+const { FlexFormatter,Formatter } = require('../formatter')
+
+const CN_DATETIME_UNITS =  ["年","季度","月","周","日","小时","分钟","秒","毫秒","微秒"]
+const CN_WEEK_DAYS = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
+const CN_SHORT_WEEK_DAYS  =["周日","周一","周二","周三","周四","周五","周六"]
+const CN_MONTH_NAMES=  ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+const CN_SHORT_MONTH_NAMES = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
+
+const CN_NUMBER_DIGITS     = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"]
+const CN_NUMBER_UNITS      = ['', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '兆', '十', '百', '千', '京', '十', '百', '千', '垓']
+const CN_NUMBER_BIG_DIGITS = ["零", '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖']
+const CN_NUMBER_BIG_UNITS  = ['', '拾', '佰', '仟', '萬', '拾', '佰', '仟', '億', '拾', '佰', '仟', '兆', '拾', '佰', '仟', '京', '拾', '佰', '仟', '垓']
   
-  /**
-  * 
-   * 将数字转换为中文数字
-   * 
-   * 注意会忽略掉小数点后面的数字
-   * 
-   * @param {*} value  数字
-   * @param {*} isBig 是否大写数字 
-   * @returns 
-   */
+/**
+ * 
+ * 将数字转换为中文数字
+ * 
+ * 注意会忽略掉小数点后面的数字
+ * 
+ * @param {*} value  数字
+ * @param {*} isBig 是否大写数字 
+ * @returns 
+ */
  function toChineseNumber(value,isBig) {   
       if(!isNumber(value)) return value;
       let [wholeValue,decimalValue] = String(value).split(".") // 处理小数点     
@@ -64,9 +65,16 @@ const { isNumber } = require('./utils')
       return result    // 中文数字忽略小数部分
   } 
    
-  function toChineseBigNumber(value) {
+function toChineseBigNumber(value) {
      return toChineseNumber(value,true)
-  }
+}
+
+const chineseNumberFormatter = Formatter((value,isBig,$config)=>{
+    return toChineseNumber(value,isBig,$config)
+ },{
+    params:["isBig"]    
+})
+
   /**
    * 转换为中文大写货币
    * @param {*} value 
@@ -74,9 +82,8 @@ const { isNumber } = require('./utils')
    * @param {*} prefix      前缀 
    * @param {*} suffix      后缀
    * @param {*} showWhole   显示
-   * @param {*} precision   小数点精确到几位
    */
-function toChineseCurrency(value,{big=false,prefix="",unit="元",suffix="",precision=2,showWhole=true}={}){
+function toChineseCurrency(value,{big,prefix,unit,suffix}={},$config){
      let [wholeValue,decimalValue] = String(value).split(".")
      let result 
      if(big){
@@ -85,8 +92,14 @@ function toChineseCurrency(value,{big=false,prefix="",unit="元",suffix="",preci
          result = toChineseNumber(wholeValue)+unit
      }    
      if(decimalValue){
-         if(decimalValue[0]) result =result+  CN_NUMBER_DIGITS[parseInt(decimalValue[0])]+"角"
-         if(decimalValue[1]) result =result+  CN_NUMBER_DIGITS[parseInt(decimalValue[1])]+"分"        
+         if(decimalValue[0]) {
+            let bit0 = parseInt(decimalValue[0])
+            result =result+ (big ? CN_NUMBER_BIG_DIGITS[bit0] :  CN_NUMBER_DIGITS[bit0])+"角"
+        }
+         if(decimalValue[1]){
+            let bit1 = parseInt(decimalValue[1])
+            result =result+  (big ? CN_NUMBER_BIG_DIGITS[bit1] :  CN_NUMBER_DIGITS[bit1])+"分"        
+        }        
      }
      return prefix+result+suffix
 }
@@ -94,7 +107,7 @@ function toChineseCurrency(value,{big=false,prefix="",unit="元",suffix="",preci
 const rmbFormater = FlexFormatter((value,params,$config)=>{
     return toChineseCurrency(value,params,$config)
 },{
-    params:["big","prefix","unit","suffix","precision","showWhole"],
+    params:["big","prefix","unit","suffix"],
     configKey:"rmb"
 })
 
@@ -103,6 +116,7 @@ module.exports ={
      toChineseNumber,
      toChineseBigNumber,
      rmbFormater,
+     chineseNumberFormatter,
      CN_DATETIME_UNITS,
      CN_WEEK_DAYS,
      CN_SHORT_WEEK_DAYS,

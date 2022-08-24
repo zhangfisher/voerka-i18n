@@ -3,7 +3,10 @@
  * 
  */
 
-const { toChineseCurrency,toChineseNumber,CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES} = require("../cnutils") 
+const { 
+    CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES,
+    chineseNumberFormatter,rmbFormater
+} = require("../datatypes/chinese") 
 
 module.exports = {
     // 配置参数: 格式化器函数的最后一个参数就是该配置参数
@@ -39,6 +42,12 @@ module.exports = {
                 slots       : [6,9,11,13,18],
                 lowerCases  : ["凌晨","早上","上午","中午","下午","晚上"],
                 upperCases  : ["凌晨","早上","上午","中午","下午","晚上"]
+            },
+            relativeTime    : {
+                units       : ["秒","分钟","小时","天","周","月","年"],
+                now         : "现在",
+                before      : "{value}{unit}前",
+                after       : "{value}{unit}后"
             }
         },
         currency          : {
@@ -53,13 +62,19 @@ module.exports = {
         number            : {
             division      : 4,
             precision     : 0
-        }
+        },
+        rmb                 :{
+            big             : false,
+            prefix          : "",
+            unit            : "元",
+            suffix          : ""
+        }        
     },
     $types: {
         Boolean  : value =>value ? "是":"否"
     },
     // 中文货币，big=true代表大写形式
-    rmb     :   (value,big,unit="元",prefix,suffix)=>toChineseCurrency(value,{big,prefix,suffix,unit}),
-    // // 中文数字,如一千二百三十一
-    chineseNumber  :(value,isBig)=>toChineseNumber(value,isBig)
+    rmb     :   rmbFormater,
+    // // 中文数字,如一千二百三十一，或大写数字
+    chineseNumber  : chineseNumberFormatter
 } 

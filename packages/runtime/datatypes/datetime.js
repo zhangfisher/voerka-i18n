@@ -212,12 +212,42 @@ const weekdayFormatter = createDateTimeFormatter({
     }
 },formatTime) 
 
+/**
+ * 返回相对于rel的时间
+ * @param {*} value 
+ * @param {*} baseTime  基准时间，默认是相对现在
+ */
+// 对应:秒,分钟,小时,天,周,月,年的毫秒数,月取30天，年取365天概数
+const TIME_SECTIONS = [1000,60000,3600000,86400000,604800000,2592000000,31536000000,Number.MAX_SAFE_INTEGER]
+const relativeTimeFormatter = Formatter((value,baseTime,$config)=>{    
+    const { units,now,before,base = Date.now() , after } = $config
+    let ms = value.getTime()
+    let msBase = (baseTime instanceof Date) ? baseTime.getTime() : toDate(base).getTime()
+    let msDiff = ms - msBase
+    let msIndex = TIME_SECTIONS.findIndex(x=>Math.abs(msDiff) <  x) - 1   
+    if(msIndex < 0) msIndex = 0
+    if(msIndex > TIME_SECTIONS.length-1 ) msIndex = TIME_SECTIONS.length-1
+    if(msDiff==0){
+        return now
+    }else if(msDiff<0){// 之前
+        let result = parseInt(Math.abs(msDiff) / TIME_SECTIONS[msIndex])
+        return before.replace("{value}",result).replace("{unit}",units[msIndex])
+    }else{// 之后
+        let result = parseInt(Math.abs(msDiff) / TIME_SECTIONS[msIndex])
+        return after.replace("{value}",result).replace("{unit}",units[msIndex])
+    }
+},{
+    normalize:toDate,
+    params:["base"],
+    configKey:"datetime.relativeTime"
+})
 
 module.exports = {
     toDate,
     formatTime,
     formatDatetime,
     createDateTimeFormatter,
+    relativeTimeFormatter,
     dateFormatter,
     quarterFormatter,
     monthFormatter,
