@@ -2,7 +2,6 @@
 import messageIds from "./idMap.js"                                             // 语言ID映射文件
 import  runtime from "./runtime.js"                           // 运行时
 const { translate,i18nScope  } = runtime
-import globalFormatters from "./formatters/global.js"             // 注册到全局的格式化器
 import defaultFormatters from "./formatters/zh.js"             // 默认语言格式化器
 const activeFormatters = defaultFormatters                 // 激活语言格式化器
 
@@ -31,7 +30,6 @@ const scopeSettings = {
     "namespaces": {}
 }
 const formatters = {
-    "*"  : globalFormatters,
     'zh' :  defaultFormatters,
     'en' : ()=>import("./formatters/en.js"),
 	'de' : ()=>import("./formatters/de.js")

@@ -21,6 +21,7 @@ module.exports = class i18nScope {
 			typedFormatters: {},
 			formatters     : {},
 		};
+        this._initiLanguages()
 		// 如果不存在全局VoerkaI18n实例，说明当前Scope是唯一或第一个加载的作用域，则自动创建全局VoerkaI18n实例
 		if (!globalThis.VoerkaI18n) {
 			const { I18nManager } = require("./");
@@ -50,6 +51,16 @@ module.exports = class i18nScope {
 	get formatters() {	return this._formatters;}                       // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
 	get activeFormatters() {return this._activeFormatters}              // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
     get activeFormatterConfig(){return this._activeFormatterConfig}     // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
+
+    /**
+     * 对输入的语言配置进行处理
+     * - 将en配置为默认回退语言
+     */
+    _initiLanguages(){
+        Object.entries(this._languages).forEach(([name,language])=>{
+            if(!language.fallback) language.fallback = "en"
+        })
+    }
 
 	/**
 	 * 在全局注册作用域当前作用域
@@ -107,46 +118,23 @@ module.exports = class i18nScope {
             })            
         }) 
     }
-	/**
-	 * 注册默认文本信息加载器
-	 * @param {Function} 必须是异步函数或者是返回Promise
-	 */
-	registerDefaultLoader(fn) {
-		this.global.registerDefaultLoader(fn);
-	}
-	/**
-	 * 获取指定语言信息
-	 * @param {*} language
-	 * @returns
-	 */
-	getLanguage(language) {
-		let index = this._languages.findIndex((lng) => lng.name == language);
-		if (index !== -1) return this._languages[index];
-	}
-	/**
-	 * 返回是否存在指定的语言
-	 * @param {*} language 语言名称
-	 * @returns
-	 */
-	hasLanguage(language) {
-		return this._languages.indexOf((lang) => lang.name == language) !== -1;
-	}
-	/**
-	 * 回退到默认语言
-	 */
-	_fallback() {
-		this._messages = this._default;
-		this._activeLanguage = this.defaultLanguage;
-	}
     /**
      * 初始化格式化器
      * 激活和默认语言的格式化器采用静态导入的形式，而没有采用异步块的形式，这是为了确保首次加载时的能马上读取，而不能采用延迟加载方式
      * _activeFormatters={$config:{...},$types:{...},[格式化器名称]:()=>{...},[格式化器名称]:()=>{...},...}}
      */
-    _initFormatters(newLanguage){
+     _initFormatters(newLanguage){
+        // 全局格式化器，用来注册到全局
+        Object.entries(this._formatters).forEach(([langName,formatters])=>{
+            if(formatters.global===true){
+                this.registerFormatters({[langName]:formatters},true)
+            }else if(isPlainObject(formatters.global)){
+                this.registerFormatters({[langName]:formatters.global},true)
+            }
+        })
         this._activeFormatters = {}
 		try {
-			if (newLanguage in this._formatters) {
+			if (newLanguage in this._formatters) {                
 				this._activeFormatters = this._formatters[newLanguage];
 			} else {
 				if (this._debug) console.warn(`Not initialize <${newLanguage}> formatters.`);
@@ -205,6 +193,39 @@ module.exports = class i18nScope {
         }        
         return this._activeFormatterConfig = options
     }
+
+	/**
+	 * 注册默认文本信息加载器
+	 * @param {Function} 必须是异步函数或者是返回Promise
+	 */
+	registerDefaultLoader(fn) {
+		this.global.registerDefaultLoader(fn);
+	}
+	/**
+	 * 获取指定语言信息
+	 * @param {*} language
+	 * @returns
+	 */
+	getLanguage(language) {
+		let index = this._languages.findIndex((lng) => lng.name == language);
+		if (index !== -1) return this._languages[index];
+	}
+	/**
+	 * 返回是否存在指定的语言
+	 * @param {*} language 语言名称
+	 * @returns
+	 */
+	hasLanguage(language) {
+		return this._languages.indexOf((lang) => lang.name == language) !== -1;
+	}
+	/**
+	 * 回退到默认语言
+	 */
+	_fallback() {
+		this._messages = this._default;
+		this._activeLanguage = this.defaultLanguage;
+	}
+    
 	/**
 	 * 刷新当前语言包
 	 * @param {*} newLanguage

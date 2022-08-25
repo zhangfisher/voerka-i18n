@@ -1,7 +1,5 @@
 /**
  
-    {{comments}}
-
     格式化器用来对翻译文本内容中的插值变量进行处理
 
     如何编写格式器请参阅官网！
@@ -11,7 +9,16 @@
 {{if moduleType === "esm"}}
 // import { Formatter,FlexFormatter } from "./runtime"
 export default{{else}}//const { Formatter,FlexFormatter } = require("./runtime")
-module.exports = {{/if}} {
+module.exports = {{/if}} {    
+    // global   : true,     // 简单地设置为true,代表当前所有格式化器均注册到全局，false只在当前scope生效        
+    // global   : { // 仅将里面的格式化器注册到全局
+        // $config:{... }
+        // xxxx        : value => { ... }, 
+        // xxxx        : (value,$config) => { ... }, 
+        // xxxx        : (value,...args,$config) => { ... }, 
+        // xxxx        : Formatter(value,...args,$config) => { ... }, 
+        // xxxx        : FlexFormatter(value,params,$config) => { ... }, 
+    //},       // 是否注册到全局，false只在当前scope生效
     // 直接对内置格式化器进行配置，请参阅官网文档
     // $config:{
     //     datetime            : {

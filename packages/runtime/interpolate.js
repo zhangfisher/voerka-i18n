@@ -209,6 +209,7 @@ function getFormatter(scope, activeLanguage, name) {
 		scope.activeFormatters,
 		scope.formatters[fallbackLanguage], // 如果指定了回退语言时,也在该回退语言中查找
 		scope.global.formatters[activeLanguage], // 适用于activeLanguage全局格式化器
+        scope.global.formatters[fallbackLanguage],
 		scope.global.formatters["*"], // 适用于所有语言的格式化器
 	];
 	for (const formatters of range) {

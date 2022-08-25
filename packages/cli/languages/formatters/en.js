@@ -1,7 +1,5 @@
 /**
  
-    
-
     格式化器用来对翻译文本内容中的插值变量进行处理
 
     如何编写格式器请参阅官网！
@@ -11,6 +9,7 @@
 
 // import { Formatter,FlexFormatter } from "./runtime"
 export default {
+    // global   : true,       // 是否注册到全局，false只在当前scope生效
     // 直接对内置格式化器进行配置，请参阅官网文档
     // $config:{
     //     datetime            : {

@@ -171,10 +171,8 @@ module.exports =async  function compile(langFolder,opts={}){
         // 为每一个语言生成一个对应的式化器
         languages.forEach(lang=>{
             generateFormatterFile(lang.name,{formattersFolder,templateContext,moduleType}) 
-        })
-        templateContext.comments = "注册到全局的格式化器"
-        generateFormatterFile("global",{formattersFolder,templateContext,moduleType}) 
-
+        }) 
+        
         // 6. 生成编译后的访问入口文件
         const entryFile = path.join(langFolder,"index.js")
         const entryContent = artTemplate(path.join(__dirname,"templates","entry.js"), templateContext )
