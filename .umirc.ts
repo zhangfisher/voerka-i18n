@@ -3,13 +3,13 @@ import { defineConfig } from 'dumi';
 // more config: https://d.umijs.org/config
 
 export default defineConfig({
-    title: 'VoerkaI18n全流程国际化解决方案',
-    base:"/voerka-i18n/",
-    publicPath:"/voerka-i18n/",
-    mode: 'site',
-    logo: "/voerka-i18n/images/i18n.png",
-    outputPath:"docs/dist",
-    resolve:{
+    title     : 'VoerkaI18n全流程国际化解决方案',
+    base      : "/voerka-i18n/",
+    publicPath: "/voerka-i18n/",
+    mode      : 'site',
+    logo      : "/voerka-i18n/images/i18n.png",
+    outputPath: "docs/dist",
+    resolve   : {
         includes:["docs/src"]
     },
     locales: [['zh-CN', '中文']],
@@ -20,7 +20,8 @@ export default defineConfig({
     ul.__dumi-default-layout-toc > li[data-depth=2] { 
         font-weight: bold; 
     }
-    `],
+    `], 
+    mfsu:{},
     scripts:[`
     var _hmt = _hmt || [];
     (function() {

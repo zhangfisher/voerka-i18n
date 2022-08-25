@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * 判断是否是JSON对象
  * @param {*} obj 
@@ -1661,8 +1659,8 @@ var en =   {
             next          : 'break'                 // 当出错时下一步的行为: break=中止;skip=忽略
         },
         fileSize:{
-            brief: ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
-            whole:["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
+            brief    : ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
+            whole    : ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
             precision: 2 // 小数精度
         }
     },
@@ -1967,8 +1965,6 @@ const empty = Formatter$1(function(value,escapeValue,next,$config){
 { value | error('ERROR:{ error}',) }     == 显示error.constructor.name
 
 
-
-
  * @param {*} value 
  * @param {*} escapeValue 
  * @param {*} next   下一步的行为，取值，break,ignore
@@ -2175,11 +2171,7 @@ var scope = class i18nScope {
 		if (!isFunction$2(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
-		language = Array.isArray(language)
-			? language
-			: language
-			? language.split(",")
-			: [];
+		language = Array.isArray(language) ? language: language	? language.split(","): [];
 		if (asGlobal) {
 			this.global.registerFormatter(name, formatter, { language });
 		} else {
@@ -2742,5 +2734,5 @@ var runtime ={
     getDataTypeName
 };
 
-module.exports = runtime;
-//# sourceMappingURL=runtime.cjs.map
+export { runtime as default };
+//# sourceMappingURL=runtime.mjs.map

@@ -66,8 +66,6 @@ const empty = Formatter(function(value,escapeValue,next,$config){
 { value | error('ERROR:{ error}',) }     == 显示error.constructor.name
 
 
-
-
  * @param {*} value 
  * @param {*} escapeValue 
  * @param {*} next   下一步的行为，取值，break,ignore

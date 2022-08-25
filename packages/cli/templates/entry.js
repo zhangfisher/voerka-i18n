@@ -2,6 +2,7 @@
 import messageIds from "./idMap.js"                                             // 语言ID映射文件
 {{if inlineRuntime }}import  runtime from "./runtime.js"                           // 运行时
 const { translate,i18nScope  } = runtime
+import globalFormatters from "./formatters/global.js"             // 注册到全局的格式化器
 import defaultFormatters from "./formatters/{{defaultLanguage}}.js"             // 默认语言格式化器
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}import activeFormatters from "./formatters/{{activeLanguage}}.js"{{/if}}                 // 激活语言格式化器
 {{else}}import { translate,i18nScope  } from "@voerkai18n/runtime"
@@ -12,6 +13,7 @@ import defaultMessages from "./{{defaultLanguage}}.js"
 {{else}}
 const messageIds = require("./idMap")
 {{if inlineRuntime }}const { translate,i18nScope  } =  require("./runtime.js")
+const globalFormatters = require("./formatters/global.js")            // 注册到全局的格式化器
 const defaultFormatters = require("./formatters/{{defaultLanguage}}.js")
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}const activeFormatters = require("./formatters/{{activeLanguage}}.js"){{/if}}
 {{else}}const { translate,i18nScope  } =  require("@voerkai18n/runtime")
@@ -23,8 +25,8 @@ const defaultMessages =  require("./{{defaultLanguage}}.js")        // 默认语
  
 // 语言配置文件
 const scopeSettings = {{@ settings}}
-// 格式化器
 const formatters = {
+    "*"  : globalFormatters,
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultFormatters{{if $index !== languages.length - 1}},{{/if}}
     {{else if $value.name == activeLanguage}}{{if defaultLanguage !== activeLanguage}}'{{activeLanguage}}':activeFormatters{{/if}}{{if $index !== languages.length - 1}},{{/if}}
     {{else}}'{{$value.name}}' : ()=>import("./formatters/{{$value.name}}.js"){{if $index !== languages.length - 1}},{{'\n\t'}}{{/if}}{{/if}}{{/each}}

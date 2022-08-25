@@ -80,11 +80,7 @@ module.exports = class i18nScope {
 		if (!isFunction(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
-		language = Array.isArray(language)
-			? language
-			: language
-			? language.split(",")
-			: [];
+		language = Array.isArray(language) ? language: language	? language.split(","): [];
 		if (asGlobal) {
 			this.global.registerFormatter(name, formatter, { language });
 		} else {

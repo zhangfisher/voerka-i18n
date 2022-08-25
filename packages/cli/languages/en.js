@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     "1": "Supported languages\t: {}",
     "2": "Default language\t: {}",
     "3": "Active language\t\t: {}",

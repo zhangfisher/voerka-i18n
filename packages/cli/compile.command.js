@@ -42,6 +42,27 @@ function normalizeCompileOptions(opts={}) {
     return options;
 }
 
+function generateFormatterFile(langName,{formattersFolder,templateContext,moduleType}={}){
+    const formattersFile =  path.join(formattersFolder,`${langName}.js`) 
+    if(!fs.existsSync(formattersFile)){
+        const formattersContent = artTemplate(path.join(__dirname,"templates","formatters.js"), templateContext )
+        fs.writeFileSync(formattersFile,formattersContent)
+        logger.log(t(" - 格式化器:{}"),path.basename(formattersFile))
+    }else{ // 格式化器如果存在，则需要更改对应的模块类型
+        let formattersContent = fs.readFileSync(formattersFile,"utf8").toString()
+        if(moduleType == "esm"){
+                formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\s*\=/gm,"export default ")
+                formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\./gm,"export ")
+        }else{
+            formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*default\s*/gm,"module.exports = ")
+            formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*/gm,"module.exports.")
+        }
+        fs.writeFileSync(formattersFile,formattersContent)
+        logger.log(t(" - 更新格式化器:{}"),path.basename(formattersFile))
+    }
+}
+
+
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
     let { moduleType,inlineRuntime } = options; 
@@ -144,49 +165,15 @@ module.exports =async  function compile(langFolder,opts={}){
             JSON,
             settings:JSON.stringify(langSettings,null,4)
         }
-
         // 5 . 生成编译后的格式化函数文件
-        // const formattersFile =  path.join(langFolder,"formatters.js") 
-        // if(!fs.existsSync(formattersFile)){
-        //     const formattersContent = artTemplate(path.join(__dirname,"templates","formatters.js"), templateContext )
-        //     fs.writeFileSync(formattersFile,formattersContent)
-        //     logger.log(t(" - 格式化器:{}"),path.basename(formattersFile))
-        // }else{ // 格式化器如果存在，则需要更改对应的模块类型
-        //     let formattersContent = fs.readFileSync(formattersFile,"utf8").toString()
-        //     if(moduleType == "esm"){
-        //          formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\s*\=/gm,"export default ")
-        //          formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\./gm,"export ")
-        //     }else{
-        //         formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*default\s*/gm,"module.exports = ")
-        //         formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*/gm,"module.exports.")
-        //     }
-        //     fs.writeFileSync(formattersFile,formattersContent)
-        //     logger.log(t(" - 更新格式化器:{}"),path.basename(formattersFile))
-        // }
-
         const formattersFolder =  path.join(langFolder,"formatters") 
         if(!fs.existsSync(formattersFolder)) fs.mkdirSync(formattersFolder)
         // 为每一个语言生成一个对应的式化器
         languages.forEach(lang=>{
-            const formattersFile =  path.join(formattersFolder,`${lang.name}.js`) 
-            if(!fs.existsSync(formattersFile)){
-                const formattersContent = artTemplate(path.join(__dirname,"templates","formatters.js"), templateContext )
-                fs.writeFileSync(formattersFile,formattersContent)
-                logger.log(t(" - 格式化器:{}"),path.basename(formattersFile))
-            }else{ // 格式化器如果存在，则需要更改对应的模块类型
-                let formattersContent = fs.readFileSync(formattersFile,"utf8").toString()
-                if(moduleType == "esm"){
-                     formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\s*\=/gm,"export default ")
-                     formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\./gm,"export ")
-                }else{
-                    formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*default\s*/gm,"module.exports = ")
-                    formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*/gm,"module.exports.")
-                }
-                fs.writeFileSync(formattersFile,formattersContent)
-                logger.log(t(" - 更新格式化器:{}"),path.basename(formattersFile))
-            }
+            generateFormatterFile(lang.name,{formattersFolder,templateContext,moduleType}) 
         })
-
+        templateContext.comments = "注册到全局的格式化器"
+        generateFormatterFile("global",{formattersFolder,templateContext,moduleType}) 
 
         // 6. 生成编译后的访问入口文件
         const entryFile = path.join(langFolder,"index.js")
