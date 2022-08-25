@@ -46,7 +46,7 @@ export default defineConfig({
         },
         {
             title:"源代码",
-            path: "https://gitee.com/zhangfisher/voerka-i18n"
+            path: "https://github.com/zhangfisher/voerka-i18n"
         }
     ],
     menus: {

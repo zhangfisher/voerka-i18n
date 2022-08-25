@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 判断是否是JSON对象
  * @param {*} obj 
@@ -849,6 +851,7 @@ function getFormatter(scope, activeLanguage, name) {
 		scope.activeFormatters,
 		scope.formatters[fallbackLanguage], // 如果指定了回退语言时,也在该回退语言中查找
 		scope.global.formatters[activeLanguage], // 适用于activeLanguage全局格式化器
+        scope.global.formatters[fallbackLanguage],
 		scope.global.formatters["*"], // 适用于所有语言的格式化器
 	];
 	for (const formatters of range) {
@@ -1659,8 +1662,8 @@ var en =   {
             next          : 'break'                 // 当出错时下一步的行为: break=中止;skip=忽略
         },
         fileSize:{
-            brief: ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
-            whole:["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
+            brief    : ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
+            whole    : ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
             precision: 2 // 小数精度
         }
     },
@@ -1965,8 +1968,6 @@ const empty = Formatter$1(function(value,escapeValue,next,$config){
 { value | error('ERROR:{ error}',) }     == 显示error.constructor.name
 
 
-
-
  * @param {*} value 
  * @param {*} escapeValue 
  * @param {*} next   下一步的行为，取值，break,ignore
@@ -2114,6 +2115,7 @@ var scope = class i18nScope {
 			typedFormatters: {},
 			formatters     : {},
 		};
+        this._initiLanguages();
 		// 如果不存在全局VoerkaI18n实例，说明当前Scope是唯一或第一个加载的作用域，则自动创建全局VoerkaI18n实例
 		if (!globalThis.VoerkaI18n) {
 			const { I18nManager } = runtime;
@@ -2144,6 +2146,16 @@ var scope = class i18nScope {
 	get activeFormatters() {return this._activeFormatters}              // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
     get activeFormatterConfig(){return this._activeFormatterConfig}     // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
 
+    /**
+     * 对输入的语言配置进行处理
+     * - 将en配置为默认回退语言
+     */
+    _initiLanguages(){
+        Object.entries(this._languages).forEach(([name,language])=>{
+            if(!language.fallback) language.fallback = "en";
+        });
+    }
+
 	/**
 	 * 在全局注册作用域当前作用域
 	 * @param {*} callback   注册成功后的回调
@@ -2173,11 +2185,7 @@ var scope = class i18nScope {
 		if (!isFunction$2(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
-		language = Array.isArray(language)
-			? language
-			: language
-			? language.split(",")
-			: [];
+		language = Array.isArray(language) ? language: language	? language.split(","): [];
 		if (asGlobal) {
 			this.global.registerFormatter(name, formatter, { language });
 		} else {
@@ -2204,46 +2212,23 @@ var scope = class i18nScope {
             });            
         }); 
     }
-	/**
-	 * 注册默认文本信息加载器
-	 * @param {Function} 必须是异步函数或者是返回Promise
-	 */
-	registerDefaultLoader(fn) {
-		this.global.registerDefaultLoader(fn);
-	}
-	/**
-	 * 获取指定语言信息
-	 * @param {*} language
-	 * @returns
-	 */
-	getLanguage(language) {
-		let index = this._languages.findIndex((lng) => lng.name == language);
-		if (index !== -1) return this._languages[index];
-	}
-	/**
-	 * 返回是否存在指定的语言
-	 * @param {*} language 语言名称
-	 * @returns
-	 */
-	hasLanguage(language) {
-		return this._languages.indexOf((lang) => lang.name == language) !== -1;
-	}
-	/**
-	 * 回退到默认语言
-	 */
-	_fallback() {
-		this._messages = this._default;
-		this._activeLanguage = this.defaultLanguage;
-	}
     /**
      * 初始化格式化器
      * 激活和默认语言的格式化器采用静态导入的形式，而没有采用异步块的形式，这是为了确保首次加载时的能马上读取，而不能采用延迟加载方式
      * _activeFormatters={$config:{...},$types:{...},[格式化器名称]:()=>{...},[格式化器名称]:()=>{...},...}}
      */
-    _initFormatters(newLanguage){
+     _initFormatters(newLanguage){
+        // 全局格式化器，用来注册到全局
+        Object.entries(this._formatters).forEach(([langName,formatters])=>{
+            if(formatters.global===true){
+                this.registerFormatters({[langName]:formatters},true);
+            }else if(isPlainObject$2(formatters.global)){
+                this.registerFormatters({[langName]:formatters.global},true);
+            }
+        });
         this._activeFormatters = {};
 		try {
-			if (newLanguage in this._formatters) {
+			if (newLanguage in this._formatters) {                
 				this._activeFormatters = this._formatters[newLanguage];
 			} else {
 				if (this._debug) console.warn(`Not initialize <${newLanguage}> formatters.`);
@@ -2302,6 +2287,39 @@ var scope = class i18nScope {
         }        
         return this._activeFormatterConfig = options
     }
+
+	/**
+	 * 注册默认文本信息加载器
+	 * @param {Function} 必须是异步函数或者是返回Promise
+	 */
+	registerDefaultLoader(fn) {
+		this.global.registerDefaultLoader(fn);
+	}
+	/**
+	 * 获取指定语言信息
+	 * @param {*} language
+	 * @returns
+	 */
+	getLanguage(language) {
+		let index = this._languages.findIndex((lng) => lng.name == language);
+		if (index !== -1) return this._languages[index];
+	}
+	/**
+	 * 返回是否存在指定的语言
+	 * @param {*} language 语言名称
+	 * @returns
+	 */
+	hasLanguage(language) {
+		return this._languages.indexOf((lang) => lang.name == language) !== -1;
+	}
+	/**
+	 * 回退到默认语言
+	 */
+	_fallback() {
+		this._messages = this._default;
+		this._activeLanguage = this.defaultLanguage;
+	}
+    
 	/**
 	 * 刷新当前语言包
 	 * @param {*} newLanguage
@@ -2740,5 +2758,5 @@ var runtime ={
     getDataTypeName
 };
 
-export { runtime as default };
-//# sourceMappingURL=runtime.mjs.map
+module.exports = runtime;
+//# sourceMappingURL=runtime.cjs.map

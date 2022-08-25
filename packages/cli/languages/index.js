@@ -1,13 +1,11 @@
 
-import messageIds from "./idMap.js"                                             // 语言ID映射文件
-import  runtime from "./runtime.js"                           // 运行时
-const { translate,i18nScope  } = runtime
-import defaultFormatters from "./formatters/zh.js"             // 默认语言格式化器
-const activeFormatters = defaultFormatters                 // 激活语言格式化器
+const messageIds = require("./idMap")
+const { translate,i18nScope  } =  require("./runtime.js")
+const defaultFormatters = require("./formatters/zh.js")
+const activeFormatters = defaultFormatters
 
-import defaultMessages from "./zh.js"  
-const activeMessages = defaultMessages
- 
+const defaultMessages =  require("./zh.js")        // 默认语言包
+const activeMessages = defaultMessages  
  
 // 语言配置文件
 const scopeSettings = {
@@ -54,8 +52,6 @@ const scope = new i18nScope({
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 
 
-export { 
-    scopedTtranslate as t, 
-    scope as i18nScope
-}
+module.exports.t = scopedTtranslate
+module.exports.i18nScope = scope 
 

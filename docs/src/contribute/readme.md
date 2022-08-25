@@ -8,7 +8,7 @@ sidebar: heading
 
 ## 获取源码
 
-`voerkai18n`在Github和[Gitee](https://gitee.com/zhangfisher/voerka-i18n)上面开源。
+`voerkai18n`在[Github](https://github.com/zhangfisher/voerka-i18n)和[Gitee](https://gitee.com/zhangfisher/voerka-i18n)上面同步开源。
 
 ### 拉取源码
 

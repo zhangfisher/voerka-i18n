@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     "支持的语言\t: {}": 1,
     "默认语言\t: {}": 2,
     "激活语言\t: {}": 3,
