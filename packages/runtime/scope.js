@@ -96,6 +96,7 @@ module.exports = class i18nScope {
 			this.global.registerFormatter(name, formatter, { language });
 		} else {
 			language.forEach((lng) => {
+                if(!(lng in this._formatters)) this._formatters[lng] = {}
 				if (DataTypes.includes(name)) {
 					this._formatters[lng].$types[name] = formatter;
 				} else {
@@ -182,16 +183,25 @@ module.exports = class i18nScope {
      *  - scope.activeFormatters.$config   当前优先
      */
     _generateFormatterConfig(language){
-        let options 
         try{
-            options = deepClone(getByPath(this._global.formatters,`*.$config`,{}))
-            deepMixin(options,getByPath(this._global.formatters,`${language}.$config`,{}))
-            deepMixin(options,getByPath(this._activeFormatters,"$config",{}))
+            const fallbackLanguage = this.getLanguage(language).fallback;
+            let configSources = [                
+                getByPath(this._global.formatters,`${fallbackLanguage}.$config`,{}),
+                getByPath(this._global.formatters,"*.$config",{}),
+                getByPath(this._formatters,`${fallbackLanguage}.$config`,{}), 
+                getByPath(this._formatter,"*.$config",{}),
+                getByPath(this._global.formatters,`${language}.$config`,{}),
+                getByPath(this._activeFormatters,"$config",{})
+            ]
+            return this._activeFormatterConfig = configSources.reduce((finalConfig, config)=>{
+                if(isPlainObject(config)) deepMixin(finalConfig,config)
+                return finalConfig
+            },deepClone(getByPath(this._global.formatters,`*.$config`,{})))
+
         }catch(e){
             if(this.debug) console.error(`Error while generate <${language}> formatter options: `,e)
-            if(!options) options = this._activeFormatters.$config || {}
+            return this._activeFormatters.$config || {}
         }        
-        return this._activeFormatterConfig = options
     }
 
 	/**

@@ -125,8 +125,7 @@ module.exports =   {
             prefix        : "USD",                   // 前缀
             suffix        : "",                      // 后缀
             division      : 3,                       // ,分割位
-            precision     : 2,                       // 精度 
-            
+            precision     : 2,                       // 精度             
         },
         number            : {
             division      : 3,                      // , 分割位，3代表每3位添加一个, 

@@ -297,7 +297,7 @@ const formatterNestingParamsRegex = String.raw`((([\'\"])(.*?)\3))|__TAG_REGEXP_
         }        
         return fn.call(this,finalValue,...finalArgs,formatterConfig)
     }
-    $formatter.configurable = true       //  当函数是可配置时才在最后一个参数中传入$config
+    $formatter.configurable = true     
     return $formatter
 }
 
@@ -339,10 +339,6 @@ const createFlexFormatter = function(fn,options={},defaultParams={}){
                 if(args[i]!==undefined) finalParams[options.params[i]] = args[i]
             }
         }   
-        if(finalParams.format in $config){
-            finalParams.format = $config[finalParams.format]
-        }
-
         return fn.call(this,value,finalParams,$config)
     },{...options,params:null})  // 变参工式化器需要指定params=null
     return $flexFormatter 

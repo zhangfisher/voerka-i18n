@@ -75,6 +75,10 @@ function addSplitChars(str,bits=3){
                     .replace("{unit}",unitName)
 }
 const currencyFormatter = FlexFormatter((value,params={},$config)=>{
+    // format可以取预设值的名称，如long,short等    
+    if(params.format in $config){
+        params.format = $config[params.format]
+    }
     params.unit = parseInt(params.unit) || 0
     if(params.unit>$config.units.length-1) params.unit = $config.units.length-1
     if(params.unit<0) params.unit = 0

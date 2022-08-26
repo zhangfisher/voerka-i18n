@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "description": "核心运行时",
     "main": "./dist/index.cjs",
     "module": "dist/index.esm.js",
@@ -36,5 +36,5 @@
         "rollup-plugin-clear": "^2.0.7",
         "rollup-plugin-terser": "^7.0.2"
     },
-    "lastPublish": "2022-08-25T22:07:01+08:00"
+    "lastPublish": "2022-08-26T17:39:39+08:00"
 }
