@@ -576,7 +576,7 @@ const formatterNestingParamsRegex = String.raw`((([\'\"])(.*?)\3))|__TAG_REGEXP_
         }        
         return fn.call(this,finalValue,...finalArgs,formatterConfig)
     };
-    $formatter.configurable = true;       //  当函数是可配置时才在最后一个参数中传入$config
+    $formatter.configurable = true;     
     return $formatter
 }
 
@@ -618,10 +618,6 @@ const createFlexFormatter$1 = function(fn,options={},defaultParams={}){
                 if(args[i]!==undefined) finalParams[options.params[i]] = args[i];
             }
         }   
-        if(finalParams.format in $config){
-            finalParams.format = $config[finalParams.format];
-        }
-
         return fn.call(this,value,finalParams,$config)
     },{...options,params:null});  // 变参工式化器需要指定params=null
     return $flexFormatter 
@@ -850,6 +846,7 @@ function getFormatter(scope, activeLanguage, name) {
 	const range = [
 		scope.activeFormatters,
 		scope.formatters[fallbackLanguage], // 如果指定了回退语言时,也在该回退语言中查找
+        scope.formatters["*"],
 		scope.global.formatters[activeLanguage], // 适用于activeLanguage全局格式化器
         scope.global.formatters[fallbackLanguage],
 		scope.global.formatters["*"], // 适用于所有语言的格式化器
@@ -1432,6 +1429,10 @@ function addSplitChars(str,bits=3){
                     .replace("{unit}",unitName)
 }
 const currencyFormatter$1 = FlexFormatter$2((value,params={},$config)=>{
+    // format可以取预设值的名称，如long,short等    
+    if(params.format in $config){
+        params.format = $config[params.format];
+    }
     params.unit = parseInt(params.unit) || 0;
     if(params.unit>$config.units.length-1) params.unit = $config.units.length-1;
     if(params.unit<0) params.unit = 0;
@@ -1644,8 +1645,7 @@ var en =   {
             prefix        : "USD",                   // 前缀
             suffix        : "",                      // 后缀
             division      : 3,                       // ,分割位
-            precision     : 2,                       // 精度 
-            
+            precision     : 2,                       // 精度             
         },
         number            : {
             division      : 3,                      // , 分割位，3代表每3位添加一个, 
@@ -2190,6 +2190,7 @@ var scope = class i18nScope {
 			this.global.registerFormatter(name, formatter, { language });
 		} else {
 			language.forEach((lng) => {
+                if(!(lng in this._formatters)) this._formatters[lng] = {};
 				if (DataTypes$1.includes(name)) {
 					this._formatters[lng].$types[name] = formatter;
 				} else {
@@ -2276,16 +2277,25 @@ var scope = class i18nScope {
      *  - scope.activeFormatters.$config   当前优先
      */
     _generateFormatterConfig(language){
-        let options; 
         try{
-            options = deepClone(getByPath(this._global.formatters,`*.$config`,{}));
-            deepMixin$1(options,getByPath(this._global.formatters,`${language}.$config`,{}));
-            deepMixin$1(options,getByPath(this._activeFormatters,"$config",{}));
+            const fallbackLanguage = this.getLanguage(language).fallback;
+            let configSources = [                
+                getByPath(this._global.formatters,`${fallbackLanguage}.$config`,{}),
+                getByPath(this._global.formatters,"*.$config",{}),
+                getByPath(this._formatters,`${fallbackLanguage}.$config`,{}), 
+                getByPath(this._formatter,"*.$config",{}),
+                getByPath(this._global.formatters,`${language}.$config`,{}),
+                getByPath(this._activeFormatters,"$config",{})
+            ];
+            return this._activeFormatterConfig = configSources.reduce((finalConfig, config)=>{
+                if(isPlainObject$2(config)) deepMixin$1(finalConfig,config);
+                return finalConfig
+            },deepClone(getByPath(this._global.formatters,`*.$config`,{})))
+
         }catch(e){
             if(this.debug) console.error(`Error while generate <${language}> formatter options: `,e);
-            if(!options) options = this._activeFormatters.$config || {};
+            return this._activeFormatters.$config || {}
         }        
-        return this._activeFormatterConfig = options
     }
 
 	/**

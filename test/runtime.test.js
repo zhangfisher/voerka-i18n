@@ -280,7 +280,7 @@ const formatters = {
         book:(v)=>`《${v}》`,
     },
     en:{
-        $config:{},
+        $config:{a:1},
         $types:{ },
         book:(v)=>`<${v}>`,
     },
@@ -483,7 +483,7 @@ describe("翻译函数",()=>{
     })
     test("日期时间格式化",async ()=>{      
         let zhTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))    
-        let p = diffArray(zhTranslatedResults,expectZhDatetimes)
+        // let p = diffArray(zhTranslatedResults,expectZhDatetimes)
         expect(zhTranslatedResults).toStrictEqual(expectZhDatetimes)
         await scope.change("en")
         let enTranslatedResults =  zhDatetimes.map(v=>t(v,NOW))
@@ -646,6 +646,28 @@ describe("翻译函数",()=>{
         let cnBigTanslated2 = cnNumbers.map(n=>t("{value |rmb({big:true,prefix:'人民币:', unit:'元',suffix:'整'})}",n))
         expect(cnBigTanslated2).toStrictEqual(expectCNBigumbers2)
         done()
+    })
+
+
+    test("注册普通格式化器",async ()=>{
+        const f1 = (value,$config) => value + 1 
+        scope.registerFormatter("f1",f1)
+        expect(t("{value | f1}",1)).toBe("2")
+        expect(t("{value | f1}","1")).toBe("11")
+        
+        const f2 = (value,arg,$config) => value + arg 
+        scope.registerFormatter("f2",f2)
+        expect(t("{value | f2('*')}","1")).toBe("1*")
+
+        const f3 = (value,args,$config) => value + args.name 
+
+        scope.registerFormatter("f3",f3)
+        expect(t("{value | f3({name:'x'})}","1")).toBe("1x")
+        
+        const f4 = (value,$config) => value + 1 
+        scope.registerFormatter("f4",f4,{languages:"en"})
+        expect(t("{value | f4(1)}",1)).toBe("2") 
+
     })
 
 
