@@ -64,9 +64,9 @@ features:
     desc: 从扫描提取/编译/自动翻译/语言补丁一健国际化
     link: 
 
-  - title: 复数支持
+  - title: 90%+测试覆盖率
     icon: images/n.png
-    desc: 灵活而强大的复数机制
+    desc: 核心运行时超过90%的测试覆盖率
     link: 
 
 

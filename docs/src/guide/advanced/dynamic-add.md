@@ -55,7 +55,7 @@ const scope = new i18nScope({
 当注册了一个默认的语言包加载器后,如果切换到一个未注册的语言时，会调用默认的语言包加载器来获取语言包。
 利用此特性就可以实现随时动态为应用增加语言支持的特性。
 
-首先需要在应用中(例如`app.js`或`main.js`等)导入`i18nScope`实例，然后注册一个默认的语言加载器。
+首先需要在应用中(例如`app.js`或`main.js`等)导入`i18nScope`实例，或者直接在`languages/index.js`注册一个默认的语言加载器。
 
 ```javascript | pure
 
