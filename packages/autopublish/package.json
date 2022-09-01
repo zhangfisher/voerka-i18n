@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/autopublish",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "自动发布工作区的包",
     "main": "index.js",
     "scripts": {
