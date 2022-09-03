@@ -12,6 +12,16 @@ export default defineConfig({
     resolve   : {
         includes:["docs/src"]
     },
+    metas: [
+        {
+          name: 'keywords',
+          content: 'vue-i18n,i18n,国际化,多语言开发,react-intl,fbt,i18next,kiwi,Lingui,fbt,react-i18next',
+        },
+        {
+          name: 'description',
+          content: 'nodejs/vue/react国际化全流程解决方案',
+        }
+    ],
     locales: [['zh-CN', '中文']],
     theme:{
         "@c-heading": "#4569d4"
