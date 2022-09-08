@@ -1,33 +1,33 @@
 {
-  "name": "vueapp",
-  "private": true,
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "dev:clean":"vite --force",
-    "build": "vite build",
-    "preview": "vite preview",
-    "go":"pnpm voerkai18n extract && pnpm voerkai18n compile && vite"
-  },
-  "dependencies": {
-    "@voerkai18n/cli": "workspace:^1.0.11",
-    "@voerkai18n/vite": "workspace:^1.0.7",
-    "@voerkai18n/vue": "workspace:^1.0.0",
-    "vue": "^3.2.37"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.8",
-    "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/runtime": "^7.17.8",
-    "@babel/runtime-corejs3": "^7.17.8",
-    "@rollup/plugin-babel": "^5.3.1",
-    "@vitejs/plugin-legacy": "^1.7.1",
-    "@vitejs/plugin-vue": "^2.2.4",
-    "@voerkai18n/babel": "workspace:^1.0.0",
-    "babel-preset-env": "^1.7.0",
-    "core-js": "^3.21.1",
-    "vite": "^2.9.14",
-    "vite-plugin-inspect": "^0.4.3"
-  }
+    "name": "vueapp",
+    "private": true,
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "dev:clean": "vite --force",
+        "build": "vite build",
+        "preview": "vite preview",
+        "go": "pnpm voerkai18n extract && pnpm voerkai18n compile && vite"
+    },
+    "dependencies": {
+        "@voerkai18n/cli": "workspace:^1.0.11",
+        "@voerkai18n/vite": "workspace:^1.0.7",
+        "@voerkai18n/vue": "workspace:^1.0.0",
+        "vue": "^3.2.37"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.17.6",
+        "@babel/core": "^7.17.8",
+        "@babel/plugin-transform-runtime": "^7.17.0",
+        "@babel/runtime": "^7.17.8",
+        "@babel/runtime-corejs3": "^7.17.8",
+        "@rollup/plugin-babel": "^5.3.1",
+        "@vitejs/plugin-legacy": "^1.7.1",
+        "@vitejs/plugin-vue": "^2.2.4",
+        "@voerkai18n/babel": "workspace:^1.0.0",
+        "babel-preset-env": "^1.7.0",
+        "core-js": "^3.21.1",
+        "vite": "^2.9.14",
+        "vite-plugin-inspect": "^0.4.3"
+    }
 }

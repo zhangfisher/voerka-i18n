@@ -1,22 +1,22 @@
 {
-  "name": "reactapp",
-  "private": true,
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@voerkai18n/react": "workspace:^1.0.0",
-    "@voerkai18n/vite": "workspace:^1.0.7",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^1.0.7",
-    "@voerkai18n/cli": "workspace:^1.0.11",
-    "vite": "^2.9.0",
-    "vite-plugin-inspect": "^0.4.3"
-  }
+    "name": "reactapp",
+    "private": true,
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@voerkai18n/react": "workspace:^1.0.0",
+        "@voerkai18n/vite": "workspace:^1.0.7",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^1.0.7",
+        "@voerkai18n/cli": "workspace:^1.0.11",
+        "vite": "^2.9.0",
+        "vite-plugin-inspect": "^0.4.3"
+    }
 }
