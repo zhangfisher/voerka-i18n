@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/formatters",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "格式化器，提供对要翻译文本的转换功能",
     "main": "index.js",
     "scripts": {
@@ -19,5 +19,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-15T17:44:37+08:00"
+    "lastPublish": "2022-09-09T16:55:43+08:00"
 }
