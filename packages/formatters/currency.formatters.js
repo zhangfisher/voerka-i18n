@@ -13,7 +13,7 @@ if(globalThis.VoerkaI18n){
     
     VoerkaI18n.registerFormatters({
         {
-            currency
+            currency:1
         }
         
     })
