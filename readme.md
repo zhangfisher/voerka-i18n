@@ -24,11 +24,12 @@
 - 符合直觉，不需要手动定义文本`Key`映射。
 - 强大的插值变量`格式化器`机制，可以扩展出强大的多语言特性。
 - 支持`babel`插件自动导入`t`翻译函数。
-- 支持`nodejs`、浏览器(`vue`/`react`)前端环境。
+- 支持`nodejs`、浏览器(`vue`/`react`/`solid`)等、`React Native`等任意JS场景
 - 采用`工具链`与`运行时`分开设计，发布时只需要集成很小的运行时。
 - 高度可扩展的`复数`、`货币`、`数字`等常用的多语言处理机制。
 - 翻译过程内，提取文本可以自动进行同步，并保留已翻译的内容。
 - 可以动态在线添加支持的语言
+- 支持发布后的在线打语言包补丁，修复翻译错误
 - 支持调用在线自动翻译对提取文本进行翻译。
 - 核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率
 
@@ -40,4 +41,4 @@
 - **`Logsets`**: [命令行应用增强输出库](https://zhangfisher.github.io/logsets/)
 - **`AutoPub`**:  [基于pnpm/monorepo的自动发包工具](https://zhangfisher.github.io/autopub/)
 - **`FlexDecorators`**:  [JavaScript/TypeScript装饰器开发](https://zhangfisher.github.io/flex-decorators/)
-- **`FlexState`**:  [有限状态机实现]](https://zhangfisher.github.io/flexstate/)
+- **`FlexState`**:  [有限状态机实现](https://zhangfisher.github.io/flexstate/)
