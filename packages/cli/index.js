@@ -6,7 +6,7 @@ const path = require("path")
 const fs = require("fs-extra")
 const logger = createLogger()
 const { i18nScope ,t }  = require("./i18nProxy")
-const { getProjectSourceFolder }  = require("@voerkai18n/utils"); 
+const { getProjectSourceFolder,isTypeScriptProject }  = require("@voerkai18n/utils"); 
  
 logger.use(bannerPluin)
 
@@ -100,6 +100,7 @@ program
     })
     .action(async (location,options) => { 
         location = getProjectSourceFolder(location)
+        options.isTypeScript = isTypeScriptProject()
         const langFolder = path.join(location,"languages")
         if(!fs.existsSync(langFolder)){
             logger.error(t("语言包文件夹<{}>不存在",langFolder))

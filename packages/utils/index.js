@@ -1,6 +1,6 @@
 const path = require("path")
 const shelljs = require("shelljs")
-const fs = require("fs-extra") 
+const fs = require("fs-extra")  
 
 /**
  *  
@@ -128,6 +128,14 @@ function getProjectRootFolder(folder="./",exclueCurrent=false){
     }
 }
 
+function fileIsExists(filename){
+    try{
+        fs.statSync(filename)
+        return true
+    }catch(e){
+        return false
+    }
+}
 
 /**
  * 自动获取当前项目的languages
@@ -203,6 +211,19 @@ function getProjectRootFolder(folder="./",exclueCurrent=false){
 }
 
 /**
+ * 判断当前是否是Typescript工程
+ * 
+ * 
+ */
+function isTypeScriptProject(){
+    let projectFolder = getProjectRootFolder(process.cwd(),false)
+    if(projectFolder){
+       return fileIsExists(path.join(projectFolder,"tsconfig.json"))
+             || fileIsExists(path.join(projectFolder,"Src","tsconfig.json"))
+    }
+}
+
+/**
  * 
  * 返回当前项目的模块类型
  * 
@@ -228,7 +249,7 @@ function getProjectRootFolder(folder="./",exclueCurrent=false){
 function isInstallDependent(url){
     try{
         // 简单判断是否存在该文件夹node_modules/@voerkai18n/runtime
-        let projectFolder =  getCurrentProjectRootFolder(process.cwd())
+        let projectFolder =  getProjectRootFolder(process.cwd())
         if(fs.existsSync(path.join(projectFolder,"node_modules","@voerkai18n/runtime"))){
             return true
         }
@@ -377,7 +398,7 @@ function deepMerge(toObj,formObj,options={}){
  * @param {*} opts 
  */
  function installVoerkai18nRuntime(srcPath){
-    const projectFolder =  getCurrentProjectRootFolder(srcPath || process.cwd())
+    const projectFolder =  getProjectRootFolder(srcPath || process.cwd())
     if(fs.existsSync("pnpm-lock.yaml")){
         shelljs.exec("pnpm add @voerkai18n/runtime")
     }else if(fs.existsSync("yarn.lock")){
@@ -392,14 +413,14 @@ function deepMerge(toObj,formObj,options={}){
  * @param {*} opts 
  */
 function updateVoerkai18nRuntime(srcPath){
-    const projectFolder =  getCurrentProjectRootFolder(srcPath || process.cwd())
-    if(fs.existsSync("pnpm-lock.yaml")){
-        shelljs.exec("pnpm update --latest @voerkai18n/runtime")
+    const projectFolder =  getProjectRootFolder(srcPath || process.cwd())
+    if(fs.existsSync("pnpm-lock.yaml")){        
+        shelljs.exec("pnpm upgrade --latest @voerkai18n/runtime")        
     }else if(fs.existsSync("yarn.lock")){
         shelljs.exec("yarn upgrade @voerkai18n/runtime")
     }else{
-        shelljs.exec("npm update --save @voerkai18n/runtime")
-    }
+        shelljs.exec("npm update --save @voerkai18n/runtime") 
+    } 
 }   
 
 
@@ -442,4 +463,6 @@ module.exports = {
     deepMerge,                              // 深度合并对象
     getDataTypeName,                        // 获取指定变量类型名称
     isGitRepo,                              // 判断当前工程是否是git工程
+    fileIsExists,
+    isTypeScriptProject
 }

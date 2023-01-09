@@ -33,7 +33,8 @@ const artTemplate = require("art-template")
  
 function normalizeCompileOptions(opts={}) {
     let options = Object.assign({
-        moduleType:"auto"                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
+        moduleType:"auto",                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
+        isTypeScript:false
     }, opts)
     options.moduleType = options.moduleType.trim()
     if(options.moduleType==="es") options.moduleType = "esm"
@@ -42,15 +43,15 @@ function normalizeCompileOptions(opts={}) {
     return options;
 }
 
-function generateFormatterFile(langName,{formattersFolder,templateContext,moduleType}={}){
-    const formattersFile =  path.join(formattersFolder,`${langName}.js`) 
+function generateFormatterFile(langName,{isTypeScript,formattersFolder,templateContext,moduleType}={}){
+    const formattersFile =  path.join(formattersFolder,`${langName}.${isTypeScript ? 'ts' : 'js'}`) 
     if(!fs.existsSync(formattersFile)){
-        const formattersContent = artTemplate(path.join(__dirname,"templates","formatters.js"), templateContext )
+        const formattersContent = artTemplate(path.join(__dirname,"templates",`formatters.${isTypeScript ? 'ts' : 'js'}`), templateContext )
         fs.writeFileSync(formattersFile,formattersContent)
         logger.log(t(" - 格式化器:{}"),path.basename(formattersFile))
     }else{ // 格式化器如果存在，则需要更改对应的模块类型
         let formattersContent = fs.readFileSync(formattersFile,"utf8").toString()
-        if(moduleType == "esm"){
+        if(moduleType == "esm" || isTypeScript){
                 formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\s*\=/gm,"export default ")
                 formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*module.exports\./gm,"export ")
         }else{
@@ -65,7 +66,7 @@ function generateFormatterFile(langName,{formattersFolder,templateContext,module
 
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
-    let { moduleType,inlineRuntime } = options; 
+    let { moduleType,inlineRuntime,isTypeScript } = options; 
     // 如果自动则会从当前项目读取，如果没有指定则会是esm
     if(moduleType==="auto"){
         moduleType = findModuleType(langFolder)
@@ -85,6 +86,7 @@ module.exports =async  function compile(langFolder,opts={}){
         logger.log(t("激活语言\t: {}"),activeLanguage)
         logger.log(t("名称空间\t: {}"),Object.keys(namespaces).join(","))
         logger.log(t("模块类型\t: {}"),moduleType)
+        logger.log(t("TypeScript\t: {}"),isTypeScript)
         logger.log("")
         logger.log(t("编译结果输出至：{}"),langFolder)
 
@@ -118,9 +120,9 @@ module.exports =async  function compile(langFolder,opts={}){
             Object.entries(messages).forEach(([message,translatedMsgs])=>{ 
                 langMessages[translatedMsgs.$id] = lang.name in translatedMsgs ? translatedMsgs[lang.name] : message
             })
-            const langFile = path.join(langFolder,`${lang.name}.js`)
+            const langFile = path.join(langFolder,`${lang.name}.${isTypeScript ? 'ts' : 'js'}`)
             // 为每一种语言生成一个语言文件
-            if(moduleType==="esm"){
+            if(moduleType==="esm" || isTypeScript){
                 fs.writeFileSync(langFile,`export default ${JSON.stringify(langMessages,null,4)}`)
             }else{
                 fs.writeFileSync(langFile,`module.exports = ${JSON.stringify(langMessages,null,4)}`)
@@ -129,16 +131,15 @@ module.exports =async  function compile(langFolder,opts={}){
         })
         
         // 4. 生成id映射文件
-        const idMapFile = path.join(langFolder,"idMap.js")
-        if(moduleType==="esm"){
+        const idMapFile = path.join(langFolder,`idMap.${isTypeScript ? 'ts' : 'js'}`)
+        if(moduleType==="esm" || isTypeScript){
             fs.writeFileSync(idMapFile,`export default ${JSON.stringify(messageIds,null,4)}`)
         }else{
             fs.writeFileSync(idMapFile,`module.exports = ${JSON.stringify(messageIds,null,4)}`)
         }
         logger.log(t(" - idMap文件: {}"),path.basename(idMapFile))
-        
         // 嵌入运行时源码
-        if(inlineRuntime){
+        if(inlineRuntime && !isTypeScript ){
             const runtimeSourceFolder = path.join(require.resolve("@voerkai18n/runtime"),"../..")
             fs.copyFileSync(
                 path.join(runtimeSourceFolder,"dist",`runtime.${moduleType === 'esm' ? 'mjs' : 'cjs'}`),
@@ -153,7 +154,8 @@ module.exports =async  function compile(langFolder,opts={}){
                 updateVoerkai18nRuntime(langFolder)
                 logger.log(t(" - 更新运行时：{}"),"@voerkai18n/runtime")
             }            
-        }          
+        }           
+
         const templateContext = {
             scopeId:projectPackageJson.name,
             inlineRuntime,
@@ -162,6 +164,7 @@ module.exports =async  function compile(langFolder,opts={}){
             activeLanguage,
             namespaces,
             moduleType,
+            isTypeScript,
             JSON,
             settings:JSON.stringify(langSettings,null,4)
         }
@@ -170,16 +173,16 @@ module.exports =async  function compile(langFolder,opts={}){
         if(!fs.existsSync(formattersFolder)) fs.mkdirSync(formattersFolder)
         // 为每一个语言生成一个对应的式化器
         languages.forEach(lang=>{
-            generateFormatterFile(lang.name,{formattersFolder,templateContext,moduleType}) 
+            generateFormatterFile(lang.name,{isTypeScript,formattersFolder,templateContext,moduleType}) 
         }) 
         
         // 6. 生成编译后的访问入口文件
-        const entryFile = path.join(langFolder,"index.js")
-        const entryContent = artTemplate(path.join(__dirname,"templates","entry.js"), templateContext )
+        const entryFile = path.join(langFolder,`index.${isTypeScript ? 'ts' : 'js'}`)
+        const entryContent = artTemplate(path.join(__dirname,"templates",`entry.${isTypeScript ? 'ts' : 'js'}`), templateContext )
         fs.writeFileSync(entryFile,entryContent)
         logger.log(t(" - 访问入口文件: {}"),path.basename(entryFile))
 
     }catch(e){ 
-        logger.log(t("加载多语言配置文件<{}>失败: {} "),settingsFile,e.message)
+        logger.log(t("加载多语言配置文件<{}>失败: {} "),settingsFile,e.stack)
     }
 }

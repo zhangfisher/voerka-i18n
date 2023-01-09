@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "autopub": {
+      "signature": "473bffdd0f6747c0e15c60b82fac98cf",
+      "link": true,
+      "replaced": "file:.yalc/autopub"
+    }
+  }
+}
