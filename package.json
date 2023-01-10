@@ -47,8 +47,5 @@
             "apps"
         ],
         "includeDescendants": false
-    },
-    "dependencies": {
-        "autopub": "link:.yalc\\autopub"
-    }
+    } 
 }

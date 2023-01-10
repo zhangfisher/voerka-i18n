@@ -1,5 +1,11 @@
 # 更新日志
 
+## 2023/1/10
+
+- 添加`typescript`类型支持
+- 移除`@voerkai18n/runtime`的源码依赖方式
+- 支持生成`languages`文件夹下的`typescript`文件
+
 ## 2022/8/24
 
 - 全新灵活的格式化机制

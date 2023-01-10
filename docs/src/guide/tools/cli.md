@@ -233,7 +233,7 @@ Arguments:
 Options:
   -D, --debug               输出调试信息
   -m, --moduleType [types]  输出模块类型,取值auto,esm,cjs (default: "esm")
-  --no-inline-runtime       不嵌入运行时源码
+  -t, --typescript          生成`typescript`文件
   -h, --help                display help for command
 ```
 
@@ -256,4 +256,3 @@ myapp
 - 在当前工程目录下，一般不需要指定参数就可以反复多次进行编译。
 - 您每次修改了源码并`extract`后，均应该再次运行`compile`命令。
 - 如果您修改了`formatters.js`，执行`compile`命令不会重新生成和修改该文件。
-- `--no-inline-runtime `参数用来指示如何引用运行时。默认会将运行时代码生成保存在`languages/runtime.js`，应用以源码形式引用。当启用`--no-inline-runtime `参数时会采用`require("@voerkai18n/runtime")`的方式。
