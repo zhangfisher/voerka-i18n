@@ -100,7 +100,8 @@ export default defineConfig({
                    "/guide/advanced/framework.md",
                    "/guide/advanced/dynamic-add.md",
                    "/guide/advanced/lngpatch.md",
-                   "/guide/advanced/langedit.md"
+                   "/guide/advanced/langedit.md",
+                   "/guide/advanced/typescript.md"                   
                 ],
             },
             {
