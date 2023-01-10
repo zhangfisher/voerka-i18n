@@ -10,7 +10,7 @@ importers:
       '@rollup/plugin-babel': ^5.3.1
       '@rollup/plugin-commonjs': ^21.0.2
       '@vuepress/client': ^2.0.0-beta.49
-      autopub: link:.yalc\autopub
+      autopub: ^1.0.2
       commander: ^9.0.0
       cross-env: ^7.0.3
       dayjs: ^1.11.0
@@ -32,8 +32,6 @@ importers:
       vinyl: ^2.2.1
       yalc: 1.0.0-pre.53
       yorkie: ^2.0.0
-    dependencies:
-      autopub: link:.yalc/autopub
     devDependencies:
       '@babel/core': 7.18.10
       '@babel/plugin-transform-runtime': 7.18.10_@babel+core@7.18.10
@@ -41,6 +39,7 @@ importers:
       '@rollup/plugin-babel': 5.3.1_tui6liyexu3zy4m5r2rytc7ixu
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
       '@vuepress/client': 2.0.0-beta.49
+      autopub: 1.0.2
       commander: 9.4.0
       cross-env: 7.0.3
       dayjs: 1.11.4
@@ -3034,6 +3033,20 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
+  /autopub/1.0.2:
+    resolution: {integrity: sha512-TrwUD4HSZqb15iv97eKzjG8HSFhKmp6MwC8QC9aCx9Sd6Y8+LJ6zGOW5hBK57GcUMu1CL/QkHrYXR+uT7qTDvQ==}
+    hasBin: true
+    dependencies:
+      commander: 9.4.0
+      dayjs: 1.11.7
+      enquirer: 2.3.6
+      fast-glob: 3.2.11
+      fs-extra: 10.1.0
+      logsets: 1.0.20
+      semver: 7.3.7
+      shelljs: 0.8.5
+    dev: true
+
   /axios/0.18.1:
     resolution: {integrity: sha512-0BfJq4NSfQXd+SkFdrvFbG7addhYSBA2mQwISr46pD6E5iqkWg02RAs8vyTT/j0RTnoYmeXauBuSv1qKwR179g==}
     deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
@@ -4674,6 +4687,10 @@ packages:
 
   /dayjs/1.11.4:
     resolution: {integrity: sha512-Zj/lPM5hOvQ1Bf7uAvewDaUcsJoI6JmNqmHhHl3nyumwe0XHwt8sWdOVAPACJzCebL8gQCi+K49w7iKWnGwX9g==}
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
+    dev: true
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/react",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "React支持,提供语言切换等功能",
     "main": "index.js",
     "typings": "index.d.ts",
@@ -16,5 +16,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-04-16T01:12:43.670Z"
+    "lastPublish": "2023-01-10T17:31:25+08:00"
 }

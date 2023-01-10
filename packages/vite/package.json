@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vite",
-    "version": "1.0.14",
+    "version": "1.0.15",
     "description": "Vite插件,提供自动插入翻译函数和文本映射等功能",
     "main": "index.js",
     "scripts": {
@@ -15,5 +15,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2023-01-10T15:04:07+08:00"
+    "lastPublish": "2023-01-10T17:30:34+08:00"
 }
