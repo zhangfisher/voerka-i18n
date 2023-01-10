@@ -4,12 +4,12 @@
     "description": "核心运行时",
     "main": "./dist/index.cjs",
     "module": "./dist/index.esm.js",
-    "types":"./index.d.ts",
+    "typings":"./index.d.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://gitee.com/zhangfisher/voerka-i18n.git"
-    },
+    }, 
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "rollup -c",

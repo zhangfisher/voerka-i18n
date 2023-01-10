@@ -1,6 +1,6 @@
 const { DataTypes,isPlainObject, isFunction, getByPath, deepMixin,deepClone } = require("./utils");
 
-module.exports = class i18nScope {
+module.exports = class VoerkaI18nScope {
 	constructor(options = {}, callback) {
 		this._id              = options.id || Date.now().toString() + parseInt(Math.random() * 1000);
 		this._debug           = options.debug == undefined ? process && process.env && process.env.NODE_ENV === "development" : options.debug; 		// 当出错时是否在控制台台输出错误信息
@@ -24,8 +24,8 @@ module.exports = class i18nScope {
         this._initiLanguages()
 		// 如果不存在全局VoerkaI18n实例，说明当前Scope是唯一或第一个加载的作用域，则自动创建全局VoerkaI18n实例
 		if (!globalThis.VoerkaI18n) {
-			const { I18nManager } = require("./");
-			globalThis.VoerkaI18n = new I18nManager({
+			const { VoerkaI18nManager } = require("./");
+			globalThis.VoerkaI18n = new VoerkaI18nManager({
 				debug          : this._debug,
 				defaultLanguage: this._defaultLanguage,
 				activeLanguage : this._activeLanguage,

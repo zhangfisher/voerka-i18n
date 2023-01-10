@@ -32,25 +32,25 @@ export default  [
             terser()
         ],
         external:["@babel/runtime"]
-    },
-    {
-        input:  './index.js', 
-        output: [
-            {
-                file: 'dist/runtime.cjs', 
-                exports:"auto", 
-                format:"cjs",
-                sourcemap:true
-            },
-            {
-                file: 'dist/runtime.mjs', 
-                exports:"default", 
-                format:"esm",
-                sourcemap:true
-            }
-        ],
-        plugins:[
-            commonjs() 
-        ] 
     }
+    // {
+    //     input:  './index.js', 
+    //     output: [
+    //         {
+    //             file: 'dist/runtime.cjs', 
+    //             exports:"auto", 
+    //             format:"cjs",
+    //             sourcemap:true
+    //         },
+    //         {
+    //             file: 'dist/runtime.mjs', 
+    //             exports:"default", 
+    //             format:"esm",
+    //             sourcemap:true
+    //         }
+    //     ],
+    //     plugins:[
+    //         commonjs() 
+    //     ] 
+    // }
 ]

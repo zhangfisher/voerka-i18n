@@ -66,7 +66,7 @@ function generateFormatterFile(langName,{isTypeScript,formattersFolder,templateC
 
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
-    let { moduleType,inlineRuntime,isTypeScript } = options; 
+    let { moduleType,isTypeScript } = options; 
     // 如果自动则会从当前项目读取，如果没有指定则会是esm
     if(moduleType==="auto"){
         moduleType = findModuleType(langFolder)
@@ -139,26 +139,17 @@ module.exports =async  function compile(langFolder,opts={}){
         }
         logger.log(t(" - idMap文件: {}"),path.basename(idMapFile))
         // 嵌入运行时源码
-        if(inlineRuntime && !isTypeScript ){
-            const runtimeSourceFolder = path.join(require.resolve("@voerkai18n/runtime"),"../..")
-            fs.copyFileSync(
-                path.join(runtimeSourceFolder,"dist",`runtime.${moduleType === 'esm' ? 'mjs' : 'cjs'}`),
-                path.join(langFolder,"runtime.js")
-            )
-            logger.log(t(" - 运行时: {}"),"runtime.js")
-        }else{//如果不嵌入则需要安装运行时依赖
-            if(!isInstallDependent("@voerkai18n/runtime")){
-                installVoerkai18nRuntime(langFolder)
-                logger.log(t(" - 安装运行时: {}"),"@voerkai18n/runtime")
-            }else{
-                updateVoerkai18nRuntime(langFolder)
-                logger.log(t(" - 更新运行时：{}"),"@voerkai18n/runtime")
-            }            
-        }           
+
+        if(!isInstallDependent("@voerkai18n/runtime")){
+            installVoerkai18nRuntime(langFolder)
+            logger.log(t(" - 安装运行时: {}"),"@voerkai18n/runtime")
+        }else{
+            updateVoerkai18nRuntime(langFolder)
+            logger.log(t(" - 更新运行时：{}"),"@voerkai18n/runtime")
+        }          
 
         const templateContext = {
             scopeId:projectPackageJson.name,
-            inlineRuntime,
             languages,
             defaultLanguage,
             activeLanguage,

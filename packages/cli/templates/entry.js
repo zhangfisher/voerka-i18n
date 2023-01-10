@@ -1,25 +1,17 @@
 {{if moduleType === "esm"}}
 import messageIds from "./idMap.js"                                             // 语言ID映射文件
-{{if inlineRuntime }}import  runtime from "./runtime.js"                           // 运行时
-const { translate,i18nScope  } = runtime
-import defaultFormatters from "./formatters/{{defaultLanguage}}.js"             // 默认语言格式化器
-{{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}import activeFormatters from "./formatters/{{activeLanguage}}.js"{{/if}}                 // 激活语言格式化器
-{{else}}import { translate,i18nScope  } from "@voerkai18n/runtime"
+import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}import activeFormatters from "@voerkai18n/runtime/formatters/{{activeLanguage}}.js"{{/if}}
-{{/if}}
 import defaultMessages from "./{{defaultLanguage}}.js"  
 {{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages{{else}}import activeMessages  from "./{{activeLanguage}}.js"{{/if}}
 {{else}}
 const messageIds = require("./idMap")
-{{if inlineRuntime }}const { translate,i18nScope  } =  require("./runtime.js")
-const defaultFormatters = require("./formatters/{{defaultLanguage}}.js")
-{{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}const activeFormatters = require("./formatters/{{activeLanguage}}.js"){{/if}}
-{{else}}const { translate,i18nScope  } =  require("@voerkai18n/runtime")
+const { translate,i18nScope  } =  require("@voerkai18n/runtime")
 const defaultFormatters = require("@voerkai18n/runtime/formatters/{{defaultLanguage}}.js")
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}const activeFormatters = require("@voerkai18n/runtime/formatters/{{activeLanguage}}.js"){{/if}}
-{{/if}}
 const defaultMessages =  require("./{{defaultLanguage}}.js")        // 默认语言包
-{{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages{{else}}const activeMessages = require("./{{activeLanguage}}.js"){{/if}} {{/if}} 
+{{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages{{else}}const activeMessages = require("./{{activeLanguage}}.js"){{/if}} 
+{{/if}} 
  
 // 语言配置文件
 const scopeSettings = {{@ settings}}
@@ -34,7 +26,7 @@ const loaders = { {{each languages}}{{if $value.name !== defaultLanguage}}
 }
 
 // 语言作用域
-const scope = new i18nScope({
+const scope = new VoerkaI18nScope({
     ...scopeSettings,                               // languages,defaultLanguage,activeLanguage,namespaces,formatters
     id          : "{{scopeId}}",                    // 当前作用域的id，自动取当前工程的package.json的name
     debug       : false,                            // 是否在控制台输出高度信息

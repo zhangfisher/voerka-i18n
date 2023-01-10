@@ -1,12 +1,7 @@
 import messageIds from "./idMap"                                             // 语言ID映射文件
-{{if inlineRuntime && !isTypeScript }}import  runtime from "./runtime"                           // 运行时
-const { translate,i18nScope  } = runtime
-import defaultFormatters from "./formatters/{{defaultLanguage}}"             // 默认语言格式化器
-{{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}import activeFormatters from "./formatters/{{activeLanguage}}"{{/if}}                 // 激活语言格式化器
-{{else}}import { translate,i18nScope  } from "@voerkai18n/runtime"
+import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
 import defaultFormatters from "./formatters/{{defaultLanguage}}"             // 默认语言格式化器
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}import activeFormatters from "@voerkai18n/runtime/formatters/{{activeLanguage}}"{{/if}}
-{{/if}}
 import defaultMessages from "./{{defaultLanguage}}"  
 {{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages{{else}}import activeMessages  from "./{{activeLanguage}}"{{/if}}
  
@@ -23,7 +18,7 @@ const loaders = { {{each languages}}{{if $value.name !== defaultLanguage}}
 }
 
 // 语言作用域
-const scope = new i18nScope({
+const scope = new VoerkaI18nScope({
     ...scopeSettings,                               // languages,defaultLanguage,activeLanguage,namespaces,formatters
     id          : "{{scopeId}}",                    // 当前作用域的id，自动取当前工程的package.json的name
     debug       : false,                            // 是否在控制台输出高度信息

@@ -414,9 +414,9 @@ function deepMerge(toObj,formObj,options={}){
  */
 function updateVoerkai18nRuntime(srcPath){
     const projectFolder =  getProjectRootFolder(srcPath || process.cwd())
-    if(fs.existsSync("pnpm-lock.yaml")){        
+    if(fs.existsSync(path.join(projectFolder,"pnpm-lock.yaml"))){        
         shelljs.exec("pnpm upgrade --latest @voerkai18n/runtime")        
-    }else if(fs.existsSync("yarn.lock")){
+    }else if(fs.existsSync(path.join(projectFolder,"yarn.lock"))){
         shelljs.exec("yarn upgrade @voerkai18n/runtime")
     }else{
         shelljs.exec("npm update --save @voerkai18n/runtime") 

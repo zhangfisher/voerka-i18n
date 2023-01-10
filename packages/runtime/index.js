@@ -1,12 +1,10 @@
-const {DataTypes,getDataTypeName,isPlainObject,isFunction,isNumber,isNothing,deepMerge,deepMixin} = require("./utils")
-const {getInterpolatedVars,replaceInterpolatedVars} = require("./interpolate")
+const {DataTypes,getDataTypeName,isFunction,deepMerge,toBoolean} = require("./utils")
 const {createFormatter,Formatter,FlexFormatter,createFlexFormatter} = require("./formatter")
 const { toDate } = require("./datatypes/datetime")
 const { toNumber } = require("./datatypes/numeric")
-
 const EventEmitter = require("./eventemitter")
 const inlineFormatters = require("./formatters")         
-const i18nScope = require("./scope")
+const VoerkaI18nScope = require("./scope")
 const { translate } = require("./translate")
 
 // 默认语言配置
@@ -36,19 +34,19 @@ const defaultLanguageSettings = {
  * VoerkaI18n.off("change",(language)=>{}) 
  * 
  * */ 
- class I18nManager extends EventEmitter{
+ class VoerkaI18nManager extends EventEmitter{
     constructor(settings={}){
         super()
-        if(I18nManager.instance!=null){
-            return I18nManager.instance;
+        if(VoerkaI18nManager.instance!=null){
+            return VoerkaI18nManager.instance;
         }
-        I18nManager.instance = this;
+        VoerkaI18nManager.instance = this;
         this._settings = deepMerge(defaultLanguageSettings,settings)
-        this._scopes=[]                     // 保存i18nScope实例
+        this._scopes=[]                     // 保存VoerkaI18nScope实例
         this._defaultMessageLoader = null   // 默认语言包加载器
     }
     get settings(){ return this._settings }                         // 配置参数
-    get scopes(){ return this._scopes }                             // 注册的报有i18nScope实例q   
+    get scopes(){ return this._scopes }                             // 注册的报有VoerkaI18nScope实例q   
     get activeLanguage(){ return this._settings.activeLanguage}     // 当前激活语言    名称
     get defaultLanguage(){ return this._settings.defaultLanguage}   // 默认语言名称    
     get languages(){ return this._settings.languages}               // 支持的语言列表    
@@ -100,8 +98,8 @@ const defaultLanguageSettings = {
      * @param {*} scope 
      */
     async register(scope){
-        if(!(scope instanceof i18nScope)){
-            throw new TypeError("Scope must be an instance of I18nScope")
+        if(!(scope instanceof VoerkaI18nScope)){
+            throw new TypeError("Scope must be an instance of VoerkaI18nScope")
         }
         this._scopes.push(scope) 
         await scope.refresh(this.activeLanguage) 
@@ -158,20 +156,14 @@ const defaultLanguageSettings = {
 
 } 
 
-module.exports ={
-    isNumber,
-    isNothing,
-    isPlainObject,
-    isFunction,
+module.exports ={ 
     toDate,
     toNumber,
-    deepMerge,
-    deepMixin,
-    getInterpolatedVars,
-    replaceInterpolatedVars,
-    I18nManager,
+    toBoolean,
+    deepMerge, 
+    VoerkaI18nManager,
     translate,
-    i18nScope,
+    VoerkaI18nScope,
     createFormatter,
     Formatter,
     createFlexFormatter,

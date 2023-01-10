@@ -91,7 +91,7 @@ program
     .command('compile')
     .description(t('编译指定项目的语言包'))
     .option('-D, --debug', t('输出调试信息')) 
-    .option('--no-inline-runtime', t('不嵌入运行时源码')) 
+    .option('-t, --typescript') 
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .argument('[location]',  t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){
@@ -100,7 +100,7 @@ program
     })
     .action(async (location,options) => { 
         location = getProjectSourceFolder(location)
-        options.isTypeScript = isTypeScriptProject()
+        options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
         const langFolder = path.join(location,"languages")
         if(!fs.existsSync(langFolder)){
             logger.error(t("语言包文件夹<{}>不存在",langFolder))
