@@ -7,12 +7,9 @@
         "test": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js ",
         "test:app": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js -- app",
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
-        "publish:auto": "node --inspect -- ./node_modules/autopub/src/index.js",
-        "publish:mock": "node ./node_modules/flexpub/src/index.js",
-        "list:package": "node ./packages/autopublish/index.js list",
-        "autopublish": "node ./packages/autopublish/index.js -a --no-ask",
         "docs:build": " dumi build",
-        "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev "
+        "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
+        "auto-pub": "autopub"
     },
     "author": "",
     "license": "ISC",
@@ -52,6 +49,6 @@
         "includeDescendants": false
     },
     "dependencies": {
-        "autopub": "link:.yalc/autopub"
+        "autopub": "link:.yalc\\autopub"
     }
 }

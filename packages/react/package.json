@@ -3,6 +3,7 @@
     "version": "1.0.4",
     "description": "React支持,提供语言切换等功能",
     "main": "index.js",
+    "typings": "index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "release": "pnpm autopublish"

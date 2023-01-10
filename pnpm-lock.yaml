@@ -10,7 +10,7 @@ importers:
       '@rollup/plugin-babel': ^5.3.1
       '@rollup/plugin-commonjs': ^21.0.2
       '@vuepress/client': ^2.0.0-beta.49
-      autopub: link:.yalc/autopub
+      autopub: link:.yalc\autopub
       commander: ^9.0.0
       cross-env: ^7.0.3
       dayjs: ^1.11.0
@@ -5779,7 +5779,7 @@ packages:
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
-      nan: 2.16.0
+      nan: 2.17.0
     optional: true
 
   /fsevents/2.3.2:
@@ -8315,8 +8315,8 @@ packages:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
     dev: true
 
-  /nan/2.16.0:
-    resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+  /nan/2.17.0:
+    resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
     requiresBuild: true
     optional: true
 
