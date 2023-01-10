@@ -1,11 +1,11 @@
 
 const messageIds = require("./idMap")
-const { translate,i18nScope  } =  require("./runtime.js")
-const defaultFormatters = require("./formatters/zh.js")
+const { translate,i18nScope  } =  require("@voerkai18n/runtime")
+const defaultFormatters = require("@voerkai18n/runtime/formatters/zh.js")
 const activeFormatters = defaultFormatters
-
 const defaultMessages =  require("./zh.js")        // 默认语言包
-const activeMessages = defaultMessages  
+const activeMessages = defaultMessages 
+ 
  
 // 语言配置文件
 const scopeSettings = {
@@ -39,7 +39,7 @@ const loaders = {
 }
 
 // 语言作用域
-const scope = new i18nScope({
+const scope = new VoerkaI18nScope({
     ...scopeSettings,                               // languages,defaultLanguage,activeLanguage,namespaces,formatters
     id          : "@voerkai18n/cli",                    // 当前作用域的id，自动取当前工程的package.json的name
     debug       : false,                            // 是否在控制台输出高度信息

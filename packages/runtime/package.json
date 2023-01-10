@@ -1,15 +1,15 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "description": "核心运行时",
     "main": "./dist/index.cjs",
     "module": "./dist/index.esm.js",
-    "typings":"./index.d.ts",
+    "typings": "./index.d.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://gitee.com/zhangfisher/voerka-i18n.git"
-    }, 
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "rollup -c",
@@ -37,5 +37,5 @@
         "rollup-plugin-clear": "^2.0.7",
         "rollup-plugin-terser": "^7.0.2"
     },
-    "lastPublish": "2022-08-26T09:47:21.472Z"
+    "lastPublish": "2023-01-10T15:03:14+08:00"
 }

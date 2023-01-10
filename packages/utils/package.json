@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/utils",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "description": "公共工具库",
     "main": "index.js",
     "scripts": {
@@ -16,5 +16,5 @@
     "devDependencies": {
         "@voerkai18n/autopublish": "workspace:^1.0.2"
     },
-    "lastPublish": "2022-08-20T12:54:15.135Z"
+    "lastPublish": "2023-01-10T15:02:50+08:00"
 }
