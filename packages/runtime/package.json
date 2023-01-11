@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "1.1.9",
+    "version": "1.1.10",
     "description": "核心运行时",
     "main": "./dist/index.cjs",
     "module": "./dist/index.esm.js",
@@ -21,11 +21,10 @@
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
-        "@babel/runtime-corejs3":"latest",
-        "core-js":"3.21",
-        "@babel/runtime":"^7.17.8"
+        "@babel/runtime-corejs3": "latest",
+        "core-js": "3.21",
+        "@babel/runtime": "^7.17.8"
     },
-    
     "devDependencies": {
         "@babel/cli": "^7.17.6",
         "@babel/core": "^7.17.5",
@@ -41,5 +40,5 @@
         "rollup-plugin-clear": "^2.0.7",
         "rollup-plugin-terser": "^7.0.2"
     },
-    "lastPublish": "2023-01-10T17:25:34+08:00"
+    "lastPublish": "2023-01-11T21:50:59+08:00"
 }

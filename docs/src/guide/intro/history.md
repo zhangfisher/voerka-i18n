@@ -1,5 +1,10 @@
 # 更新日志
 
+## 2023/1/11
+
+- 重构`@voerkai18n/react`，支持自动重新渲染
+- 修复`@voerkai18n/vite`插件在转码`jsx`组件时存在的idMap错误
+
 ## 2023/1/10
 
 - 添加`typescript`类型支持

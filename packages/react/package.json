@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/react",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "React支持,提供语言切换等功能",
     "main": "index.jsx",
     "typings": "index.d.ts",
@@ -11,13 +11,11 @@
     "author": "wxzhang",
     "license": "ISC",
     "dependencies": {
-        "@voerkai18n/runtime": "latest"        
+        "@voerkai18n/runtime": "latest"
     },
-    "devDependencies": {
-         
-    },
+    "devDependencies": {},
     "peerDependencies": {
         "react": "^17.0.2"
     },
-    "lastPublish": "2023-01-10T17:31:25+08:00"
+    "lastPublish": "2023-01-11T21:51:18+08:00"
 }
