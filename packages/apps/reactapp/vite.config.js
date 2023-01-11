@@ -7,7 +7,7 @@ import Voerkai18nPlugin from "@voerkai18n/vite"
 export default defineConfig({
     plugins: [
         Inspect(),  // localhost:3000/__inspect/ 
-        // Voerkai18nPlugin({ debug: true }),
+         Voerkai18nPlugin({ debug: true }),
         react()
     ]
 })

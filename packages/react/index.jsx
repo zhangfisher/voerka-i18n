@@ -3,6 +3,7 @@ import React, { useState, useEffect,useContext,useCallback} from 'react';
 export const VoerkaI18nContext = React.createContext({
     languages:null,
     language:'zh',
+    defaultLanguage:null,
     changeLanguage:() => {},
     t:()=>{}
 })
@@ -30,6 +31,7 @@ export function VoerkaI18nProvider(props){
         <VoerkaI18nContext.Provider value={{
             language,
             changeLanguage,
+            defaultLanguage:VoerkaI18n.defaultLanguage,
             languages:VoerkaI18n.languages,
             t:scope.t
         }}>

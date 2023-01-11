@@ -4,6 +4,7 @@ import type React  from "react"
 export type useVoerkaI18n = ()=>{
     language:string
     changeLanguage:(newLanguage:string)=>Promise<void>
+    defaultLanguage:string,  // 默认语言
     languages:VoerkaI18nSupportedLanguages,
     t:VoerkaI18nTranslate
 }

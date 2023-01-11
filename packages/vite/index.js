@@ -59,11 +59,12 @@ const importTRegex = /^[^\w\r\n]*import\s*\{(.*)\bt\b(.*)\}\sfrom/gm
 
 function replaceCode(code, idmap) {
     return code.replaceAll(TranslateRegex, (message) => {
-    if(message in idmap) {
-          return idmap[message]
-      }else{
-          return message
-      }
+        if(message in idmap) {
+            return idmap[message]
+        }else{
+            const msg = unescape(message.replaceAll("\\u","%u"))
+            return msg in idmap ? idmap[msg] : message
+        }
     })
 }
  
@@ -94,6 +95,7 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
             /\.vue(\?.*)?/,                                         // 所有vue文件
             "!(?<!.jsx\?.*).(css|json|scss|less|sass)$", 
             /\.jsx(\?.*)?/, 
+            /\.ts(\?.*)?/, 
         ]                              // 提取范围
     },opts)
     
@@ -103,7 +105,7 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
     let languageFolder = getProjectLanguageFolder(projectRoot)        
 
     if(!fs.existsSync(languageFolder)){
-        console.warn(`Voerkai18n语言文件夹不存在，@voerkai18n/vite未启用`)
+        console.warn(`Voerkai18n语言文件夹不存在,@voerkai18n/vite未启用`)
     }
     if(debug){
         console.log("Project root: ",projectRoot)
@@ -141,8 +143,9 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
                                 importSource = "./" + importSource
                             }
                             importSource=importSource.replace("\\","/")
+                            const extName = path.extname(id)
                             // 转换Vue文件
-                            if(path.extname(id)==".vue"){
+                            if(extName==".vue"){
                                 // 优先在<script setup></script>中导入
                                 const setupScriptRegex = /(^\s*\<script.*\s*setup\s*.*\>)/gmi
                                 if(setupScriptRegex.test(code)){
@@ -150,7 +153,7 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
                                 }else{// 如果没有<script setup>则在<script></script>中导入
                                     code = code.replace(/(^\s*\<script.*\>)/gmi,`$1\nimport { t } from '${importSource}';`)
                                 }
-                            }else{// 普通js文件需要添加到最前面
+                            }else if(['.js','.ts'].includes(extName)){// 普通js/ts文件需要添加到最前面
                                 code = code = `import { t } from '${importSource}';\n${code}`
                             }                            
                         }
