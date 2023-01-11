@@ -1,4 +1,5 @@
 const { DataTypes,isPlainObject, isFunction, getByPath, deepMixin,deepClone } = require("./utils");
+const { translate } = require("./translate")
 
 module.exports = class VoerkaI18nScope {
 	constructor(options = {}, callback) {
@@ -32,6 +33,7 @@ module.exports = class VoerkaI18nScope {
 				languages      : options.languages,
 			});
 		}
+        this._t = translate.bind(this)
 		this._global = globalThis.VoerkaI18n;        
         this._initFormatters(this.activeLanguage)                       // 初始化活动的格式化器        
 		this._mergePatchedMessages();                                   // 从本地缓存中读取并合并补丁语言包
@@ -51,7 +53,8 @@ module.exports = class VoerkaI18nScope {
 	get formatters() {	return this._formatters;}                       // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
 	get activeFormatters() {return this._activeFormatters}              // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
     get activeFormatterConfig(){return this._activeFormatterConfig}     // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
-
+    get translate(){return this._t}  
+    get t(){return this._t}  
     /**
      * 对输入的语言配置进行处理
      * - 将en配置为默认回退语言

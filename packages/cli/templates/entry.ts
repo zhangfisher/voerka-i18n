@@ -1,5 +1,6 @@
 import messageIds from "./idMap"                                             // 语言ID映射文件
-import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
+import runtime from "@voerkai18n/runtime"
+const { translate,VoerkaI18nScope  } = runtime
 import defaultFormatters from "./formatters/{{defaultLanguage}}"             // 默认语言格式化器
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}import activeFormatters from "@voerkai18n/runtime/formatters/{{activeLanguage}}"{{/if}}
 import defaultMessages from "./{{defaultLanguage}}"  

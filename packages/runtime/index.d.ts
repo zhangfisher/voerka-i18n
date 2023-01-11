@@ -38,9 +38,7 @@ declare global {
         fallback?: string
     }
 
-    export interface VoerkaI18nSupportedLanguages {
-        [key: string]: VoerkaI18nLanguage
-    }
+
 
     export type VoerkI18nFormatter = (value: string, ...args: any[]) => string
     export type VoerkI18nFormatterConfigs = Record<string, any>
@@ -73,7 +71,13 @@ declare global {
     export var VoerkaI18n: VoerkaI18nManager
 }
 
-
+export interface VoerkaI18nTranslate {
+    (message: string, ...args: (string | Function)[]): string
+    (message: string, vars?: Record<string, any>): string
+}
+export interface VoerkaI18nSupportedLanguages {
+    [key: string]: VoerkaI18nLanguage
+}
 export class VoerkaI18nScope {
     constructor(options: VoerkaVoerkaI18nScopeOptions, callback?: Function)
     get id(): string                                                            // 作用域唯一id	
@@ -89,7 +93,8 @@ export class VoerkaI18nScope {
     get formatters(): VoerkI18nFormatters                                       // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
     get activeFormatters(): VoerkI18nFormatters                                 // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
     get activeFormatterConfig(): VoerkI18nFormatterConfigs                      // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
-
+    get t(): VoerkaI18nTranslate
+    get translate(): VoerkaI18nTranslate
     /**
      * 在全局注册作用域当前作用域
      * @param {*} callback   注册成功后的回调
@@ -149,8 +154,8 @@ export var Formatter: CreateFormatterType
 export type CreateFlexFormatterType = (fn: Function, options: CreateFormatterOptions, defaultParams: Record<string, any>) => FormatterDefine
 export var createFlexFormatter: CreateFlexFormatterType
 export var FlexFormatter: CreateFlexFormatterType
-export var getDataTypeName:(value:any) => string
+export var getDataTypeName: (value: any) => string
 export var toDate: (value: any) => Date | number
-export var toNumber: (value: any,defaultValue:number) => number
+export var toNumber: (value: any, defaultValue: number) => number
 export var toBoolean: (value: any) => boolean
 

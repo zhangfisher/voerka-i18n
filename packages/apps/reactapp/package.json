@@ -8,8 +8,11 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@babel/runtime-corejs3": "^7.20.7",
         "@voerkai18n/react": "workspace:^1.0.0",
+        "@voerkai18n/runtime": "workspace:^1.1.9",
         "@voerkai18n/vite": "workspace:^1.0.7",
+        "core-js": "^3.27.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2"
     },

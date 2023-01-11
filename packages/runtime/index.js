@@ -66,6 +66,7 @@ const defaultLanguageSettings = {
             await this._refreshScopes(language)                        // 通知所有作用域刷新到对应的语言包
             this._settings.activeLanguage = language            
             await this.emit(language)                                  // 触发语言切换事件
+            return language
         }else{
             throw new Error("Not supported language:"+language)
         }

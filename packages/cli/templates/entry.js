@@ -1,6 +1,8 @@
 {{if moduleType === "esm"}}
 import messageIds from "./idMap.js"                                             // 语言ID映射文件
-import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
+import runtime from "@voerkai18n/runtime"
+const { translate,VoerkaI18nScope  } = runtime
+import defaultFormatters from "./formatters/{{defaultLanguage}}"
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}import activeFormatters from "@voerkai18n/runtime/formatters/{{activeLanguage}}.js"{{/if}}
 import defaultMessages from "./{{defaultLanguage}}.js"  
 {{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages{{else}}import activeMessages  from "./{{activeLanguage}}.js"{{/if}}

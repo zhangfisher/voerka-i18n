@@ -12,6 +12,8 @@ export default  [
             {
                 file: 'dist/index.esm.js', 
                 format:"esm",
+                exports:"default", 
+                esModule:"if-default-prop",
                 sourcemap:true
             },
             {
@@ -29,28 +31,8 @@ export default  [
                 exclude: 'node_modules/**'
             }),
             clear({targets:["dist"]}),
-            terser()
+           // terser()
         ],
         external:["@babel/runtime"]
-    }
-    // {
-    //     input:  './index.js', 
-    //     output: [
-    //         {
-    //             file: 'dist/runtime.cjs', 
-    //             exports:"auto", 
-    //             format:"cjs",
-    //             sourcemap:true
-    //         },
-    //         {
-    //             file: 'dist/runtime.mjs', 
-    //             exports:"default", 
-    //             format:"esm",
-    //             sourcemap:true
-    //         }
-    //     ],
-    //     plugins:[
-    //         commonjs() 
-    //     ] 
-    // }
+    } 
 ]

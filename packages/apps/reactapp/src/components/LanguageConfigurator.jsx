@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useVoerkaI18n } from "@voerkai18n/react"
 
 function LanguageConfigurator(props) {
-	const { activeLanguage, changeLanguage, languages } = useVoerkaI18n();
-	return (
+	const { language, changeLanguage, languages,t } = useVoerkaI18n();
+    return (
 		<div>
-			<div>{t("当前语言")}：{ activeLanguage }</div>
+			<div>{t("当前语言")}：{ language }</div>
 			<div>
 				{languages.map((lang) => {
 					return (

@@ -2,7 +2,7 @@
     "name": "@voerkai18n/react",
     "version": "1.0.5",
     "description": "React支持,提供语言切换等功能",
-    "main": "index.js",
+    "main": "index.jsx",
     "typings": "index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,10 +11,13 @@
     "author": "wxzhang",
     "license": "ISC",
     "dependencies": {
-        "react": "^17.0.2"
+        "@voerkai18n/runtime": "latest"        
     },
     "devDependencies": {
-        "@voerkai18n/autopublish": "workspace:^1.0.2"
+         
+    },
+    "peerDependencies": {
+        "react": "^17.0.2"
     },
     "lastPublish": "2023-01-10T17:31:25+08:00"
 }

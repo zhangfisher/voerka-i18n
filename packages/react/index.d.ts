@@ -1,7 +1,14 @@
+import type {VoerkaI18nSupportedLanguages,VoerkaI18nTranslate,VoerkaI18nScope} from "@voerkai18n/runtime"
+import type React  from "react"
 
-
-export var useVoerkaI18n:()=>{
-    activeLanguage:string
+export type useVoerkaI18n = ()=>{
+    language:string
     changeLanguage:(newLanguage:string)=>Promise<void>
-    languages:VoerkaI18nSupportedLanguages
+    languages:VoerkaI18nSupportedLanguages,
+    t:VoerkaI18nTranslate
 }
+
+
+export type VoerkaI18nProvider = React.FC<React.PropsWithChildren & { 
+    scope:VoerkaI18nScope
+}>
