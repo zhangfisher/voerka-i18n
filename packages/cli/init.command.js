@@ -10,6 +10,7 @@ const { t } = require("./i18nProxy")
 const createLogger = require("logsets")
 const logger = createLogger() 
 const { installPackage } = require("@voerkai18n/utils")
+const artTemplate = require("art-template")
 
 function getLanguageList(langs,defaultLanguage){
     try{
@@ -38,16 +39,17 @@ function getLanguageList(langs,defaultLanguage){
 }
 
 
-module.exports = function(srcPath,{debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false,installRuntime=true}={}){
-    
+module.exports = function(srcPath,{moduleType='cjs',isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
+    let settings = {}
     let tasks = logger.tasklist("初始化VoerkaI18n工程")
+    const  langFolderName = "languages"
+    // 查找当前项目的语言包类型路径
+    const lngPath = path.join(srcPath,langFolderName)
 
     // 语言文件夹名称
     try{
         tasks.add("创建语言包文件夹")
-        const  langPath = "languages"
-        // 查找当前项目的语言包类型路径
-        const lngPath = path.join(srcPath,langPath)
+
         if(!fs.existsSync(lngPath)){
             fs.mkdirSync(lngPath)
             if(debug) logger.log(t("创建语言包文件夹: {}"),lngPath)
@@ -63,9 +65,10 @@ module.exports = function(srcPath,{debug = true,languages=["zh","en"],defaultLan
         const settingsFile = path.join(lngPath,"settings.json")
         if(fs.existsSync(settingsFile) && !reset){
             if(debug) logger.log(t("语言配置文件{}文件已存在，跳过创建。\n使用{}可以重新覆盖创建"),settingsFile,"-r")
+            tasks.skip()
             return 
         }
-        const settings = {
+        settings = {
             languages:getLanguageList(languages,defaultLanguage),
             defaultLanguage,
             activeLanguage,
@@ -78,12 +81,26 @@ module.exports = function(srcPath,{debug = true,languages=["zh","en"],defaultLan
         tasks.error(e.message)
     }    
     
+    // 生成一个语言初始化文件,该文件在执行extract/compile前提供访问t函数的能力
+    try{
+        tasks.add("初始化语言上下文")
+        const templateContext = {
+            moduleType
+        }
+        const entryContent = artTemplate(path.join(__dirname,"templates",`init-entry.${isTypeScript ? 'ts' : 'js'}`), templateContext )
+        fs.writeFileSync(path.join(lngPath,`index.${isTypeScript ? 'ts' : 'js'}`),entryContent)
+        tasks.complete()
+    }catch(e){
+        tasks.error(e.message)
+    } 
+
     try{
         tasks.add(t("安装运行时依赖@voerkai18n/runtime"))
         installPackage('@voerkai18n/runtime')
         tasks.complete()
     }catch(e){
         tasks.error(e.message)
+        console.error(e.stack)
     } 
         
     if(debug) {

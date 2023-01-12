@@ -409,7 +409,7 @@ function deepMerge(toObj,formObj,options={}){
 }   
 
 function getPackageTool(){
-    const projectFolder =  getProjectRootFolder(srcPath || process.cwd())
+    const projectFolder =  getProjectRootFolder(process.cwd())
     if(fs.existsSync(path.join(projectFolder,"pnpm-lock.yaml"))){        
         return 'pnpm'
     }else if(fs.existsSync(path.join(projectFolder,"yarn.lock"))){

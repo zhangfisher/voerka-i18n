@@ -1,6 +1,5 @@
 const { Command } = require('commander');
 const createLogger =  require("logsets")
-const bannerPluin = require("logsets/plugins/banner")
 
 const path = require("path")
 const fs = require("fs-extra")
@@ -8,7 +7,6 @@ const logger = createLogger()
 const { i18nScope ,t }  = require("./i18nProxy")
 const { getProjectSourceFolder,isTypeScriptProject }  = require("@voerkai18n/utils"); 
  
-logger.use(bannerPluin)
 
 const program = new Command();
 program
@@ -30,6 +28,7 @@ program
     .argument('[location]', t('工程项目所在目录'))
     .description(t('初始化项目国际化配置'))
     .option('-D, --debug', t('输出调试信息'))
+    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
     .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['zh','en'])     
     .option('-d, --defaultLanguage <name>', t('默认语言'), 'zh')  
@@ -39,6 +38,7 @@ program
         await i18nScope.change(lang)     
     })
     .action((location,options) => { 
+        options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
         location = getProjectSourceFolder(location)
         logger.log(t("工程目录：{}"),location)
         //

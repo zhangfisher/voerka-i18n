@@ -30,9 +30,7 @@ const fs = require("fs-extra")
 const { glob } = require("glob")
 const { default: axios } = require("axios")
 const logger = createLogger() 
-const TaskListPlugin = require("logsets/plugins/tasklist")
 const { deepMerge } = require("@voerkai18n/utils")
-logger.use(TaskListPlugin)
   
 const delay = async (t) => new Promise(resolve=>setTimeout(resolve,t))
 

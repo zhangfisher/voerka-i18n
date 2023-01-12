@@ -25,7 +25,7 @@
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { findModuleType,getCurrentPackageJson,installVoerkai18nRuntime,isInstallDependent,updateVoerkai18nRuntime} = require("@voerkai18n/utils")
+const { findModuleType,getCurrentPackageJson} = require("@voerkai18n/utils")
 const { t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const logger = createLogger() 

@@ -4,28 +4,28 @@ importers:
 
   .:
     specifiers:
-      '@babel/core': ^7.17.8
-      '@babel/plugin-transform-runtime': ^7.17.0
-      '@babel/preset-env': ^7.16.11
+      '@babel/core': ^7.18.10
+      '@babel/plugin-transform-runtime': ^7.18.10
+      '@babel/preset-env': ^7.18.10
       '@rollup/plugin-babel': ^5.3.1
-      '@rollup/plugin-commonjs': ^21.0.2
-      '@vuepress/client': ^2.0.0-beta.49
+      '@rollup/plugin-commonjs': ^21.1.0
+      '@vuepress/client': 2.0.0-beta.49
       autopub: ^1.0.2
-      commander: ^9.0.0
+      commander: ^9.4.0
       cross-env: ^7.0.3
-      dayjs: ^1.11.0
+      dayjs: ^1.11.4
       deepmerge: ^4.2.2
       dumi: ^1.1.47
       enquirer: ^2.3.6
       fast-glob: ^3.2.11
       fs-extra: ^10.1.0
       gulp: ^4.0.2
-      inquirer: ^8.2.2
+      inquirer: ^8.2.4
       jest: ^27.5.1
       logsets: ^1.0.20
-      pnpm: ^7.8.0
-      prettier: ^2.2.1
-      rollup: ^2.70.1
+      pnpm: ^7.9.0
+      prettier: ^2.7.1
+      rollup: ^2.77.2
       rollup-plugin-clear: ^2.0.7
       semver: ^7.3.7
       shelljs: ^0.8.5
@@ -69,6 +69,15 @@ importers:
     dependencies:
       '@voerkai18n/cli': link:../../cli
       '@voerkai18n/runtime': link:../../runtime
+
+  packages/apps/lib1:
+    specifiers:
+      '@voerkai18n/cli': workspace:^1.0.41
+      '@voerkai18n/runtime': workspace:^1.1.10
+    dependencies:
+      '@voerkai18n/runtime': link:../../runtime
+    devDependencies:
+      '@voerkai18n/cli': link:../../cli
 
   packages/apps/reactapp:
     specifiers:
@@ -157,7 +166,6 @@ importers:
     specifiers:
       '@babel/cli': ^7.17.6
       '@babel/core': ^7.17.5
-      '@voerkai18n/autopublish': workspace:^1.0.2
       '@voerkai18n/runtime': workspace:^1.0.14
       '@voerkai18n/utils': workspace:^1.0.6
       art-template: ^4.13.2
@@ -168,7 +176,7 @@ importers:
       fs-extra: ^10.0.1
       glob: ^7.2.0
       gulp: ^4.0.2
-      logsets: ^1.0.8
+      logsets: ^1.0.20
       md5: ^2.3.0
       qs: ^6.10.3
       shelljs: ^0.8.5
@@ -187,14 +195,12 @@ importers:
       fs-extra: 10.1.0
       glob: 7.2.3
       gulp: 4.0.2
-      logsets: 1.0.12
+      logsets: 1.0.20
       md5: 2.3.0
       qs: 6.11.0
       shelljs: 0.8.5
       through2: 4.0.2
       vinyl: 2.2.1
-    devDependencies:
-      '@voerkai18n/autopublish': link:../autopublish
 
   packages/formatters:
     specifiers:
@@ -7786,15 +7792,6 @@ packages:
       is-unicode-supported: 0.1.0
     dev: true
 
-  /logsets/1.0.12:
-    resolution: {integrity: sha512-0sIHPbyhHDKZll7j6XnTq91pe8QTBshapB2BDVD6lOqKuyitukK2Grt7iEbUF432kaBt+xDvYiU3DadaUyowog==}
-    dependencies:
-      '@babel/runtime-corejs3': 7.18.9
-      ansicolor: 1.1.100
-      core-js: 3.24.1
-      deepmerge: 4.2.2
-    dev: false
-
   /logsets/1.0.20:
     resolution: {integrity: sha512-2ch4+TSciSTFAkkIv9tL7xOMe0Tg+XYsR//EAcMW2227bWjscReAoz2GLkjIMJMACHVZIyXmKrohtiV9z6M1iQ==}
     dependencies:
@@ -7802,7 +7799,6 @@ packages:
       ansicolor: 1.1.100
       core-js: 3.24.1
       deepmerge: 4.2.2
-    dev: true
 
   /longest-streak/2.0.4:
     resolution: {integrity: sha512-vM6rUVCVUJJt33bnmHiZEvr7wPT78ztX7rojL+LW51bHtLh6HTjx84LA5W4+oa6aKEJA7jJu5LR6vQRBpA5DVg==}
