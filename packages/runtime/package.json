@@ -22,8 +22,8 @@
     "license": "MIT",
     "dependencies": {
         "@babel/runtime-corejs3": "latest",
-        "core-js": "3.21",
-        "@babel/runtime": "^7.17.8"
+        "core-js": "^3.27.1",
+        "@babel/runtime": "^7.20.7"
     },
     "devDependencies": {
         "@babel/cli": "^7.17.6",

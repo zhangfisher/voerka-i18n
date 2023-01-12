@@ -7,7 +7,7 @@ module.exports = {
           "debug": false,
           "modules": false,
           "corejs":{
-            "version":"3.21",
+            "version":"3.27.1",
             "proposals": true 
           } 
         }   
