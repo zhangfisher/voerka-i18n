@@ -11,7 +11,7 @@
     "author": "wxzhang",
     "license": "ISC",
     "dependencies": {
-        "@voerkai18n/runtime": "latest"
+        "@voerkai18n/runtime": "workspace:latest"
     },
     "devDependencies": {},
     "peerDependencies": {

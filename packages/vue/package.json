@@ -8,9 +8,6 @@
         "release": "pnpm autopublish"
     },
     "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@voerkai18n/autopublish": "workspace:^1.0.2"
-    },
+    "license": "ISC", 
     "lastPublish": "2023-01-12T11:37:12+08:00"
 }

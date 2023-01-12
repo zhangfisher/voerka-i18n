@@ -10,10 +10,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@voerkai18n/utils": "workspace:^1.0.10"
-    },
-    "devDependencies": {
-        "@voerkai18n/autopublish": "workspace:^1.0.2"
-    },
+        "@voerkai18n/utils": "workspace:latest"
+    }, 
     "lastPublish": "2023-01-12T11:37:06+08:00"
 }

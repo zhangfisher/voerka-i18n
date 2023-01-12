@@ -30,8 +30,8 @@
     "dependencies": {
         "@babel/cli": "^7.17.6",
         "@babel/core": "^7.17.5",
-        "@voerkai18n/runtime": "workspace:^1.0.14",
-        "@voerkai18n/utils": "workspace:^1.0.6",
+        "@voerkai18n/runtime": "workspace:latest",
+        "@voerkai18n/utils": "workspace:latest",
         "art-template": "^4.13.2",
         "axios": "^0.26.1",
         "commander": "^9.0.0",
