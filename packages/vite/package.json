@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vite",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "description": "Vite插件,提供自动插入翻译函数和文本映射等功能",
     "main": "index.js",
     "scripts": {
@@ -11,6 +11,6 @@
     "license": "ISC",
     "dependencies": {
         "@voerkai18n/utils": "workspace:latest"
-    }, 
-    "lastPublish": "2023-01-12T11:37:06+08:00"
+    },
+    "lastPublish": "2023-01-12T11:54:32+08:00"
 }

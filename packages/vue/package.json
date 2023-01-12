@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vue",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "Vue3插件,提供自动插件翻译函数和语言切换功能",
     "main": "index.js",
     "scripts": {
@@ -8,6 +8,6 @@
         "release": "pnpm autopublish"
     },
     "author": "",
-    "license": "ISC", 
-    "lastPublish": "2023-01-12T11:37:12+08:00"
+    "license": "ISC",
+    "lastPublish": "2023-01-12T11:54:39+08:00"
 }
