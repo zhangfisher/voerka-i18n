@@ -33,7 +33,6 @@ program
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
     .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['zh','en'])     
     .option('-d, --defaultLanguage <name>', t('默认语言'), 'zh')  
-    // .option('-i, --installRuntime', t('自动安装默认语言'),true)  
     .option('-a, --activeLanguage <name>', t('激活语言'), 'zh')  
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE || "zh"

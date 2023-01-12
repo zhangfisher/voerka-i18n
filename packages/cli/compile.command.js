@@ -138,16 +138,7 @@ module.exports =async  function compile(langFolder,opts={}){
             fs.writeFileSync(idMapFile,`module.exports = ${JSON.stringify(messageIds,null,4)}`)
         }
         logger.log(t(" - idMap文件: {}"),path.basename(idMapFile))
-        // 嵌入运行时源码
-
-        if(!isInstallDependent("@voerkai18n/runtime")){
-            installVoerkai18nRuntime(langFolder)
-            logger.log(t(" - 安装运行时: {}"),"@voerkai18n/runtime")
-        }else{
-            updateVoerkai18nRuntime(langFolder)
-            logger.log(t(" - 更新运行时：{}"),"@voerkai18n/runtime")
-        }          
-
+   
         const templateContext = {
             scopeId:projectPackageJson.name,
             languages,

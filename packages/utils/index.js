@@ -407,6 +407,19 @@ function deepMerge(toObj,formObj,options={}){
         shelljs.exec("npm install @voerkai18n/runtime")
     }
 }   
+
+function getPackageTool(){
+    const projectFolder =  getProjectRootFolder(srcPath || process.cwd())
+    if(fs.existsSync(path.join(projectFolder,"pnpm-lock.yaml"))){        
+        return 'pnpm'
+    }else if(fs.existsSync(path.join(projectFolder,"yarn.lock"))){
+        return 'yarn'
+    }else{
+        return 'npm'
+    } 
+}   
+
+
 /**
  * 在当前工程升级@voerkai18n/runtime
  * @param {*} srcPath 
@@ -447,6 +460,22 @@ function createPackageJsonFile(targetPath,moduleType="auto"){
 }
 
 
+function installPackage(packageName){
+    const packageTool = getPackageTool()
+    try{
+        if(packageTool=='pnpm'){
+            shelljs.exec(`pnpm add ${packageName}`)        
+        }else if(packageTool=='yarn'){
+            shelljs.exec(`yarn add ${packageName}`)        
+        }else{
+            shelljs.exec(`npm install ${packageName}`)        
+        }
+    }catch{
+        shelljs.exec(`npm install ${packageName}`)        
+    }    
+}
+
+
 module.exports = {
     fileMatcher,                            // 文件名称匹配器
     getProjectRootFolder,                   // 查找获取项目根目录
@@ -464,5 +493,7 @@ module.exports = {
     getDataTypeName,                        // 获取指定变量类型名称
     isGitRepo,                              // 判断当前工程是否是git工程
     fileIsExists,
-    isTypeScriptProject
+    isTypeScriptProject,
+    getPackageTool,
+    installPackage
 }
