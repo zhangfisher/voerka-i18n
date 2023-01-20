@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@voerkai18n/cli": "workspace:^1.0.11",
+        "@voerkai18n/runtime": "workspace:^1.1.16",
         "@voerkai18n/vite": "workspace:^1.0.7",
         "@voerkai18n/vue": "workspace:^1.0.0",
         "vue": "^3.2.37"
@@ -27,7 +28,7 @@
         "@voerkai18n/babel": "workspace:^1.0.0",
         "babel-preset-env": "^1.7.0",
         "core-js": "^3.21.1",
-        "vite": "^2.9.14",
-        "vite-plugin-inspect": "^0.4.3"
+        "vite": "^4.0.4",
+        "vite-plugin-inspect": "^0.7.14"
     }
 }

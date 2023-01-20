@@ -7,7 +7,7 @@ const { fileMatcher,getProjectRootFolder,getProjectLanguageFolder } = require("@
 const TranslateRegex =/(?<=\bt\(\s*("|'){1})(?<text>[^\1]*?)(?=(\1\s*\))|(\1\s*\,))/gm
 
 // 匹配正则表达式
-const importTRegex = /^[^\w\r\n]*import\s*\{(.*)\bt\b(.*)\}\sfrom/gm
+const importTRegex = /^[^\w\r\n\s]*import\s*\{(.*)\bt\b(.*)\}\s*from/gm
 
 
 /**
@@ -28,11 +28,19 @@ const importTRegex = /^[^\w\r\n]*import\s*\{(.*)\bt\b(.*)\}\sfrom/gm
     searchIdMapFiles.push(path.join(location,"languages/idMap.js"))
     searchIdMapFiles.push(path.join(location,"idMap.js"))
 
+    searchIdMapFiles.push(path.join(location,"src","languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(location,"languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(location,"idMap.ts"))
+
     let projectRoot = getProjectRootFolder(location)        
     searchIdMapFiles.push(path.join(projectRoot,"src","languages/idMap.js"))
     searchIdMapFiles.push(path.join(projectRoot,"languages/idMap.js"))
     searchIdMapFiles.push(path.join(projectRoot,"idMap.js"))
         
+    searchIdMapFiles.push(path.join(projectRoot,"src","languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(projectRoot,"languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(projectRoot,"idMap.ts"))
+
     let idMapFile
     for( idMapFile of searchIdMapFiles){
         // 如果不存在idMap文件，则尝试从location/languages/中导入

@@ -1,27 +1,21 @@
-
-import messageIds from "./idMap.js"                                             // 语言ID映射文件
+import messageIds from "./idMap"                                             // 语言ID映射文件
 import runtime from "@voerkai18n/runtime"
 const { translate,VoerkaI18nScope  } = runtime
-import defaultFormatters from "./formatters/zh"
+import defaultFormatters from "./formatters/zh"             // 默认语言格式化器
 const activeFormatters = defaultFormatters
-import defaultMessages from "./zh.js"  
+import defaultMessages from "./zh"  
 const activeMessages = defaultMessages
- 
  
 // 语言配置文件
 const scopeSettings = {
     "languages": [
         {
             "name": "zh",
-            "title": "中文"
+            "title": "zh"
         },
         {
             "name": "en",
-            "title": "英文"
-        },
-        {
-            "name": "de",
-            "title": "德语"
+            "title": "en"
         }
     ],
     "defaultLanguage": "zh",
@@ -30,19 +24,17 @@ const scopeSettings = {
 }
 const formatters = {
     'zh' :  defaultFormatters,
-    'en' : ()=>import("./formatters/en.js"),
-	'de' : ()=>import("./formatters/de.js")
+    'en' : ()=>import("./formatters/en")
 }
 // 语言包加载器
 const loaders = { 
-    "en" : ()=>import("./en.js"),
-    "de" : ()=>import("./de.js") 
+    "en" : ()=>import("./en") 
 }
 
 // 语言作用域
 const scope = new VoerkaI18nScope({
     ...scopeSettings,                               // languages,defaultLanguage,activeLanguage,namespaces,formatters
-    id          : "vueapp",                    // 当前作用域的id，自动取当前工程的package.json的name
+    id          : "vue-ts-app",                    // 当前作用域的id，自动取当前工程的package.json的name
     debug       : false,                            // 是否在控制台输出高度信息
     default     : defaultMessages,                  // 默认语言包
     messages    : activeMessages,                   // 当前语言包
@@ -52,9 +44,7 @@ const scope = new VoerkaI18nScope({
 }) 
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 
-
 export { 
     scopedTtranslate as t, 
     scope as i18nScope
 }
-

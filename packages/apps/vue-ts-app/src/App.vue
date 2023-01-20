@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
+import { VoerkaI18nProvider,VoerkaI18nProviderType,injectVoerkaI18n } from "@voerkai18n/vue"
 import { reactive } from 'vue'
 import { t } from "./languages"
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import China from './components/china.vue'
 import Formatters from './components/formatters.vue'
-
+     
 let messages = reactive({
     name: t('VoerkaI18n多语言解决方案 ')
 })
@@ -13,48 +14,55 @@ let messages = reactive({
 console.log("App=", messages.name)
  
 setTimeout(() => {
-    messages.name = 'Vue App 2'
+    messages.name = 'Vue App 3'
 }, 5000)
 
 console.log(t("Hello world!"))
-</script>  
-<script>
-import { reactive } from 'vue'
-export default {
-    inject: ['i18n'],
-    data() {
+
+const i18n = injectVoerkaI18n()
+
+
+</script>
+<script lang="ts"> 
+
+export default {  
+    data() { 
         return {
-            language: this.i18n.activeLanguage,
-            tabIndex:0
+            tabIndex:0,
+            a:this.a
         }
     },
     watch: {
 
     },
     methods: {
-        async changeLanguage(value) {
+        async changeLanguage(this:any,value:string) {
+            
             this.i18n.activeLanguage = value
+            console.log("change language =",this.i18n.activeLanguage ,value)
             //this.activeLanguage = value
             // await this.i18n.change(this.language)
         }
     }
 }
+
 </script>  
+ 
+
 <template>
     <div>
         <h1 class="navbar" id="title">
             VoerkaI18n多语言解决方案 - {{ $activeLanguage }}
             <div class="menu" >
                 <button class="menuitem" :key="lng.name" v-for="lng of i18n.languages" @click="i18n.activeLanguage = lng.name"
-                :style="{ 'outline': lng.name === i18n.activeLanguage.value ? '2px red solid' : '' }">{{ lng.title
-                }}</button>
+                :style="{ 'outline': lng.name === i18n.activeLanguage ? '2px red solid' : '' }">{{ lng.title  }}</button>
             <!-- <button class="menuitem"  @click="i18n.activeLanguage = 'de'"
                 :style="{ 'outline': i18n.activeLanguage.value === 'de' ? '2px red solid' : '' }">德语</button>
             <button class="menuitem"  @click="i18n.activeLanguage = 'jp'"
                 :style="{ 'outline': i18n.activeLanguage.value === 'jp' ? '2px red solid' : '' }">日语</button> -->
             </div>
         </h1>
-        <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage.value }}</span>       
+        <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>       
         <div class="tabs">
             <div class="tab" title="" >
                 <h3>1.{{t("Hello world!")}}</h3>
@@ -64,7 +72,7 @@ export default {
                 <China :title="t('中华人民共和国')" />
             </div>
             <div class="tab" style="flex:2;font-size:small">
-                <Formatters />
+                <Formatters/>
             </div> 
         </div>
         
@@ -80,7 +88,7 @@ export default {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50; 
-    margin-top:80px; 
+    font-size: 10px;
 }
 .navbar{
     position: fixed;

@@ -11,39 +11,44 @@
 
  */
 
-import { computed,reactive,ref } from "vue"
+import { computed,reactive,ref,inject} from "vue"
 
-function forceUpdate(app){
-    function updateComponent(inst){
-        if(!inst) return
-        if(inst.update) inst.update()
-        if(inst.subTree){
-            if(inst.subTree.children){
-                inst.subTree.children.forEach( vnode=>{
-                    if(vnode && vnode.component) updateComponent(vnode.component)
-                })  
-            }         
-            if(inst.subTree.dynamicChildren){
-                inst.subTree.dynamicChildren.forEach( vnode=>{
-                    if(vnode && vnode.component) updateComponent(vnode.component)
-                })  
-            }         
-        }
-    }
-    try{
-        updateComponent(app._instance.root)
-    }catch(e){
-        console.warn("forceUpdate error: ",e.message)
-    }    
+
+export const VoerkaI18nProvider = Symbol('VoerkaI18nProvider')
+
+
+const defaultInject ={
+    activeLanguage:"",
+    languages:[],
+    defaultLanguage:""
 }
 
+
+export function injectVoerkaI18n(){
+    return inject(VoerkaI18nProvider,defaultInject)
+}
+
+
+export function useVoerkaI18n(){
+    let activeLanguage = ref(VoerkaI18n.activeLanguage)
+     
+    
+    VoerkaI18n.on((newLanguage)=>{
+        activeLanguage.value = newLanguage
+    })
+
+    return {
+        t:VoerkaI18n.t
+
+    }
+}
+ 
 export default {
     install: (app, opts={}) => {
         let options = Object.assign({
             i18nScope:null,                 // 当前作用域实例
-            forceUpdate:true,               // 当语言切换时是否强制重新渲染
         }, opts)               
-
+        
         let i18nScope = options.i18nScope
         if(i18nScope===null){
             console.warn("@voerkai18n/vue: i18nScope is not provided, use default i18nScope")
@@ -53,30 +58,40 @@ export default {
         // 插件只需要安装一次实例
         if(app.voerkai18n){
             return
-        }
-        
-        let activeLanguage = ref(i18nScope.global.activeLanguage)        
-        
-        // 当语言包发生变化时，强制重新渲染组件树
-        i18nScope.global.on((newLanguage)=>{
-            app._instance.update()
-            activeLanguage.value = newLanguage
-        })      
+        } 
+        app.voerkai18n =  i18nScope.global
 
-        // 全局i18n对象
-        app.voerkai18n = options.i18nScope.global
-        app.provide('i18n', reactive({
+        let activeLanguage = ref(i18nScope.global.activeLanguage)        
+
+        app.mixin({
+            computed:{
+                $activeLanguage:{
+                    get: () =>activeLanguage.value,
+                    set: (value) =>i18nScope.change(value).then((newLanguage)=>activeLanguage.value=newLanguage)
+                }        
+            }
+        })
+
+        // 注入一个全局可用的t方法
+        app.config.globalProperties.t = function(...args){
+            // 通过访问计算属性activeLanguage来实现当activeLanguage变更时的重新渲染
+            // 有没有更好的办法？
+            this.$activeLanguage
+            return i18nScope.t(...args)
+        } 
+
+        
+
+        app.provide(VoerkaI18nProvider, reactive({
             activeLanguage: computed({
                 get: () => activeLanguage,
                 set: (value) => i18nScope.global.change(value).then(()=>{
-                    if(options.forceUpdate){
-                        //app._instance.update()
-                        forceUpdate(app)
-                    }
+                    activeLanguage.value = value 
                 })
             }),
             languages:i18nScope.global.languages,
             defaultLanguage:i18nScope.global.defaultLanguage,
         })) 
+
      }
   }

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 defineProps({
     title: String
 })
@@ -6,7 +6,7 @@ defineProps({
 
 
 </script>
-<script>
+<script lang="ts">
 import China from './china.vue'
 export default {
     components: { China },
@@ -38,7 +38,7 @@ export default {
                 </td></tr>
                 <tr><td colspan="2" ><b>日期</b></td></tr>
                 <tr><td>默认</td><td>{{ t("现在是{ value  }", NOW) }}</td></tr>
-                <!-- <tr><td>date</td><td>{{ t("现在是{ value | date }", datetime) }}</td></tr>
+                <tr><td>date</td><td>{{ t("现在是{ value | date }", datetime) }}</td></tr>
                 <tr><td>date|empty</td><td>{{ t("现在是{ value | date | empty }", datetime) }}</td></tr>
                 <tr><td>date|empty('无')</td><td>{{ t("现在是{ value | date | empty('无') }", datetime) }}</td></tr>
                 <tr><td>shortdate</td><td>{{ t("现在是{ value | shortdate }", NOW) }}</td></tr>
@@ -59,7 +59,7 @@ export default {
                 <tr><td>second</td><td>{{ t("现在是{ value | second }", NOW) }}</td></tr>
                 <tr><td>millisecond</td><td>{{ t("现在是{ value | millisecond }", NOW) }}</td></tr>
                 <tr><td>timestamp</td><td>{{ t("现在是{ value | timestamp }", NOW) }}</td></tr>
-                <tr><td colspan="2" ><b>货币</b></td></tr> -->
+                <tr><td colspan="2" ><b>货币</b></td></tr>
                 <tr><td>currency-cny</td><td>{{ t("商品价格：{ value | currency('CNY','元整',3)}", 788741) }}</td></tr>
                 <tr><td>currency</td><td>{{ t("商品价格：{ value | currency }", 788741) }}</td></tr>
                 <tr><td>capitalizeCurrency</td><td>{{ t("商品价格：{ value | capitalizeCurrency }", 788741) }}</td></tr>

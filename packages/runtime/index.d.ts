@@ -71,9 +71,10 @@ declare global {
     export var VoerkaI18n: VoerkaI18nManager
 }
 
+export type TranslateMessageVars = number | boolean | string | Function
 export interface VoerkaI18nTranslate {
-    (message: string, ...args: (string | Function)[]): string
-    (message: string, vars?: Record<string, any>): string
+    (message: string, ...args: TranslateMessageVars[]): string
+    (message: string, vars?: Record<string, TranslateMessageVars>): string
 }
 export interface VoerkaI18nSupportedLanguages {
     [key: string]: VoerkaI18nLanguage

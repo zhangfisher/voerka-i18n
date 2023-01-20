@@ -12,12 +12,20 @@ export default defineConfig({
         //legacy(),
         //babel(),
         Inspect(),  // localhost:3000/__inspect/ 
-        Voerkai18nPlugin({debug:true}),
+        Voerkai18nPlugin({
+            debug:true,
+            autoImport:false
+        }), 
         vue()
     ],
     resolve:{
         alias:{
             "voerkai18n":"./languages/index.js"
         }
-    } 
+    },
+    build:{
+        rollupOptions:{
+            include:["@voerkai18n/vue"]
+        }
+    }
 })
