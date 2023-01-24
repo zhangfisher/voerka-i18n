@@ -37,28 +37,19 @@ export default {
                     </select>    
                 </td></tr>
                 <tr><td colspan="2" ><b>日期</b></td></tr>
-                <tr><td>默认</td><td>{{ t("现在是{ value  }", NOW) }}</td></tr>
-                <tr><td>date</td><td>{{ t("现在是{ value | date }", datetime) }}</td></tr>
-                <tr><td>date|empty</td><td>{{ t("现在是{ value | date | empty }", datetime) }}</td></tr>
-                <tr><td>date|empty('无')</td><td>{{ t("现在是{ value | date | empty('无') }", datetime) }}</td></tr>
-                <tr><td>shortdate</td><td>{{ t("现在是{ value | shortdate }", NOW) }}</td></tr>
-                <tr><td>time</td><td>{{ t("现在是{ value | time }", NOW) }}</td></tr>
-                <tr><td>shorttime</td><td>{{ t("现在是{ value | shorttime }", NOW) }}</td></tr>
-                <tr><td>year</td><td>{{ t("现在是{ value | year }", NOW) }}</td></tr>
-                <tr><td>month</td><td>{{ t("现在是{ value | month }", NOW) }}</td></tr>
-                <tr><td>day</td><td>{{ t("现在是{ value | day }", NOW) }}</td></tr>
-                <tr><td>weekdayValue</td><td>{{ t("现在是{ value | weekdayValue }", NOW) }}</td></tr>
-                <tr><td>weekday</td><td>{{ t("现在是{ value | weekday }", NOW) }}</td></tr>
-                <tr><td>shortWeekday</td><td>{{ t("现在是{ value | shortWeekday }", NOW) }}</td></tr>
-                <tr><td>monthName</td><td>{{ t("现在是{ value | monthName }", NOW) }}</td></tr>
-                <tr><td>shorMonthName</td><td>{{ t("现在是{ value | shorMonthName }", NOW) }}</td></tr>
-                <tr><td colspan="2" ><b>时间</b></td></tr>
-                <tr><td>hour</td><td>{{ t("现在是{ value | hour }", NOW) }}</td></tr>
-                <tr><td>hour12</td><td>{{ t("现在是{ value | hour12 }", NOW) }}</td></tr>
-                <tr><td>minute</td><td>{{ t("现在是{ value | minute }", NOW) }}</td></tr>
-                <tr><td>second</td><td>{{ t("现在是{ value | second }", NOW) }}</td></tr>
-                <tr><td>millisecond</td><td>{{ t("现在是{ value | millisecond }", NOW) }}</td></tr>
-                <tr><td>timestamp</td><td>{{ t("现在是{ value | timestamp }", NOW) }}</td></tr>
+                <tr><td colspan="2">
+                    {{t("现在是{ value | date }",new Date()) }}<br>
+                    {{t("现在是{ value | date }","2022/12/9 09:12:36")      }}<br>
+                    {{t("现在是{ value | date }",1661084229790)}}<br>
+                    {{t("现在是{ value | date('long') }",new Date())}}<br>
+                    {{t("现在是{ value | date('short') }","2022/12/9 09:12:36")      }}<br>
+                    {{t("现在是{ value | date('local') }",1661084229790)}}<br>
+                    {{t("现在是{ value | date('iso') }",1661084229790)}}<br>
+                    {{t("现在是{ value | date('gmt') }",1661084229790)}}<br>
+                    {{t("现在是{ value | date('utc') }",1661084229790)}}<br>
+                    {{t("现在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }",1661084229790)}}<br>
+                    {{t("现在是{ value | date('YYYY-MM-DD') }",1661084229790)}}
+                </td></tr>
                 <tr><td colspan="2" ><b>货币</b></td></tr>
                 <tr><td>currency-cny</td><td>{{ t("商品价格：{ value | currency('CNY','元整',3)}", 788741) }}</td></tr>
                 <tr><td>currency</td><td>{{ t("商品价格：{ value | currency }", 788741) }}</td></tr>

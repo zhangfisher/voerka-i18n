@@ -19,7 +19,7 @@ import { t } from "../../../languages"
 
 为此，我们提供了插件可以来自动完成翻译函数的自动导入，包括：
 
-- (Babel插件)[../tools/babel]
-- (Vite插件)[../tools/vite]
+- [Babel插件](../tools/babel)
+- [Vite插件](../tools/vite)
 
 当启用了`babel/vite`插件后，就会在编译时自动导入`t`函数。关于插件如何使用请参阅文档。

@@ -95,7 +95,7 @@ function hasImportTranslateFunction(code){
 module.exports = function VoerkaI18nPlugin(opts={}) {
     let options = Object.assign({
         location: "./",                                 // 指定当前工程目录
-        autoImport: true,                               // 是否自动导入t函数
+        autoImport: false,                               // 是否自动导入t函数
         debug:false,                                    // 是否输出调试信息，当=true时，在控制台输出转换匹配的文件清单
         patterns:[
             "!\.(svg|css|json|scss|less|sass)$", 

@@ -1,9 +1,15 @@
 # 更新日志
 
+## 2023/1/24
+
+- `@voerkai18n/vite`默认不自动导入`t`函数 
+- 重构`@voerkai18n/vue`，详见`指南`介绍 
+- 新增`typescript`的`vue`例子
+
 ## 2023/1/11
 
 - 重构`@voerkai18n/react`，支持自动重新渲染
-- 修复`@voerkai18n/vite`插件在转码`jsx`组件时存在的idMap错误
+- 修复`@voerkai18n/vite`插件在转码`jsx`组件时存在的`idMap`错误
 
 ## 2023/1/10
 

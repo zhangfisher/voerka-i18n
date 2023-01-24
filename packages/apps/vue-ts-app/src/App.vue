@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VoerkaI18nProvider,VoerkaI18nProviderType,injectVoerkaI18n } from "@voerkai18n/vue"
+import { injectVoerkaI18n } from "@voerkai18n/vue"
 import { reactive } from 'vue'
 import { t } from "./languages"
 // This starter template is using Vue 3 <script setup> SFCs
@@ -10,7 +10,7 @@ import Formatters from './components/formatters.vue'
 let messages = reactive({
     name: t('VoerkaI18n多语言解决方案 ')
 })
-
+ 
 console.log("App=", messages.name)
  
 setTimeout(() => {
@@ -27,6 +27,7 @@ const i18n = injectVoerkaI18n()
 
 export default {  
     data() { 
+        console.log(t("data： Hello world!"))
         return {
             tabIndex:0,
             a:this.a
@@ -51,8 +52,8 @@ export default {
 
 <template>
     <div>
-        <h1 class="navbar" id="title">
-            VoerkaI18n多语言解决方案 - {{ $activeLanguage }}
+        <h1 class="navbar">
+            <div class="title">VoerkaI18n多语言解决方案 - {{ $activeLanguage }}</div>
             <div class="menu" >
                 <button class="menuitem" :key="lng.name" v-for="lng of i18n.languages" @click="i18n.activeLanguage = lng.name"
                 :style="{ 'outline': lng.name === i18n.activeLanguage ? '2px red solid' : '' }">{{ lng.title  }}</button>
@@ -62,22 +63,21 @@ export default {
                 :style="{ 'outline': i18n.activeLanguage.value === 'jp' ? '2px red solid' : '' }">日语</button> -->
             </div>
         </h1>
-        <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>       
-        <div class="tabs">
-            <div class="tab" title="" >
-                <h3>1.{{t("Hello world!")}}</h3>
-                <h3>2.{{ t("中华人民共和国") }} </h3>
-                <h3>3.{{ t("迎接中华民族的伟大复兴") }} </h3>
-
-                <China :title="t('中华人民共和国')" />
+        <div class="content">
+            <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>       
+            <div class="tabs">
+                <div class="tab">
+                    <h3>1.{{t("Hello world!")}}</h3>
+                    <h3>2.{{ t("中华人民共和国") }} </h3>
+                    <h3>3.{{ t("迎接中华民族的伟大复兴") }} </h3>
+                    <China :title="t('中华人民共和国')" />
+                </div>
+                <div class="tab" style="flex:2;font-size:small">
+                    <Formatters/>
+                </div> 
             </div>
-            <div class="tab" style="flex:2;font-size:small">
-                <Formatters/>
-            </div> 
         </div>
         
-    
-         
     </div>
 </template>
 
@@ -89,26 +89,47 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50; 
     font-size: 10px;
-}
-.navbar{
+    display: flex;
     position: fixed;
-    margin:0;
     top:0;
     left:0;
+    width:100%;
+    height:100%;
+}
+#app>div{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+}
+#app>div>.content{
+    flex-grow: 1;    
+}
+
+.navbar{
+    margin:0;
     width: 100%;
     height: 48px;
     background: #298df1;
+    display: flex;
+    flex-direction: row;
     padding: 12px;
     color:white;
     text-align: left ;
 }
+.navbar>.title{
+    flex-grow: 1;
+}
 .navbar>.menu{
-    float:right;
     top:0;
     margin:0px;
-    padding-right:20px;
+    padding-right:20px;   
+    display: flex;
+    align-items: center;
 }
-
 .navbar>.menu>.menuitem{
     padding:8px;
     margin:8px;
