@@ -5,8 +5,8 @@ hero:
   actions:
     - text: 快速入门
       link: https://zhangfisher.github.io/voerka-i18n/guide/intro/get-started 
-    - text: 交流QQ群 
-      link: https://qm.qq.com/cgi-bin/qm/qr?k=jKyZR9KupT9Ith5ZsulB-i04OaJDkCwe&jump_from=webapi       
+    - text: 微信群 
+      link: ./guide/intro/support       
 features:
   - title: 全流程支持
     icon: images/flow.png
