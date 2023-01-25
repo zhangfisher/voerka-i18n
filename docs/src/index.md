@@ -59,9 +59,9 @@ features:
     desc: 可以在应用上线后动态增加语种支持
     link:  
 
-  - title: 一健国际化
+  - title: TypeScript支持
     icon: images/edit.png
-    desc: 从扫描提取/编译/自动翻译/语言补丁一健国际化
+    desc: 内置支持TypeScript类型以及生成TypeScript运行环境
     link: 
 
   - title: 90%+测试覆盖率
