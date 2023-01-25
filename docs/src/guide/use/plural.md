@@ -8,7 +8,7 @@ title: 复数
 ## 启用复数处理机制
 假设在`index.html`文件中具有一个翻译内容
 ```javascript | pure
-    t("我{}一辆车")
+    t("我有{}一辆车")
 ```
 经过`extract`命令提取为翻译文件后，如下：
 ```json

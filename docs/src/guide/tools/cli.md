@@ -244,7 +244,10 @@ myapp
   |--- langauges
     |-- index.js              // 当前作用域的源码
     |-- idMap.js              // 翻译文本与id的映射文件
-    |-- formatters.js         // 自定义格式化器
+    |-- formatters            // 自定义格式化器
+        |-- zh.js             // 中文格式化器定义
+        |-- en.js       	  // 英文格式化器定义
+        |-- xx.js             // 其他语言格式化器定义
     |-- zh.js                 // 中文语言包
     |-- en.js       	      // 英文语言包 
     |-- xx.js           	  // 其他语言包
@@ -256,3 +259,4 @@ myapp
 - 在当前工程目录下，一般不需要指定参数就可以反复多次进行编译。
 - 您每次修改了源码并`extract`后，均应该再次运行`compile`命令。
 - 如果您修改了`formatters.js`，执行`compile`命令不会重新生成和修改该文件。
+- 默认情况下，`compile`命令当发现当前工程存在`ts.config.ts`时，会生成`languages/**/*.ts`。也可以显式指定`voerkai18n compile --typescript`来生成`ts`源码，或者显式指定`voerkai18n compile --typescript=false`来禁用生成`ts`源码。
