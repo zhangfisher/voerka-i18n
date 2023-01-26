@@ -49,13 +49,19 @@ export default defineConfig({
         {
             title:"参考",
             path: "/reference"
-        },
+        }, 
         {
-            title:"贡献源码",
-            path: "/contribute"
-        },
+            title:"开源推荐",
+            children:[
+                {title:"FlexDecorators",path:"https://zhangfisher.github.io/flex-decorators/"},
+                {title:"FlexState",path:"https://zhangfisher.github.io/flexstate/"},
+                {title:"FlexTools",path:"https://zhangfisher.github.io/flex-tools/"},
+                {title:"Logsets",path:"https://zhangfisher.github.io/logsets/"},
+                {title:"AutoPub",path:"https://zhangfisher.github.io/autopub/"}      
+            ] 
+        }, 
         {
-            title:"源代码",
+            title:"GitHub",
             path: "https://github.com/zhangfisher/voerka-i18n"
         }
     ],
