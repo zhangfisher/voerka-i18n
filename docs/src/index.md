@@ -1,4 +1,5 @@
 ---
+title: VoerkaI18n 
 hero:
   title: VoerkaI18n
   desc: 适用于Nodejs/React/Vue/Svelte/Javascript的国际化解决方案
