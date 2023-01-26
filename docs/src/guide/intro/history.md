@@ -1,5 +1,9 @@
 # 更新日志
 
+## 2023/1/26
+
+- 修复`@voerkai18n/cli`的`linux`下的脚本执行错误。感谢`cjahv`[PR#6](https://github.com/zhangfisher/voerka-i18n/pull/6)
+
 ## 2023/1/24
 
 - `@voerkai18n/vite`默认不自动导入`t`函数 
