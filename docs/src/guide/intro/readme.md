@@ -10,13 +10,10 @@
 
 - 大部份国际化框架均将中文视为二等公民，大部份情况下您应该采用英文作为第一语言，虽然这不是太大的问题，但是既然要再造一个轮子，为什么不将中文提升到一等公民呢。
 
-  
-
   基于此就开始造出`VoerkaI18n`这个**全新的国际化多语言解决方案**，主要特性包括：
+ 
 
-  
-
-- 全面工程化解决方案，提供初始化、提取文本、自动翻译、编译等工具链支持。
+- 全面一键工程化解决方案，提供初始化、提取文本、自动翻译、编译等工具链支持。
 
 - 符合直觉，不需要手动定义文本`Key`映射。
 
@@ -37,4 +34,13 @@
 - 支持调用在线自动翻译对提取文本进行翻译。
 
 - 核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率
+
+
+**开源项目推荐**
+
+- **`FlexDecorators`**:  [JavaScript/TypeScript装饰器开发库](https://zhangfisher.github.io/flex-decorators/)
+- **`FlexState`**:  [有限状态机](https://zhangfisher.github.io/flexstate/)
+- **`FlexTools`**:  [实用工具函数库](https://zhangfisher.github.io/flex-tools/)
+- **`Logsets`**: [命令行应用增强输出库](https://zhangfisher.github.io/logsets/)
+- **`AutoPub`**:  [基于pnpm/monorepo的自动发包工具](https://zhangfisher.github.io/autopub/)
 

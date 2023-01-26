@@ -4,7 +4,7 @@ hero:
   desc: 适用于Nodejs/React/Vue/Svelte/Javascript的国际化解决方案
   actions:
     - text: 快速入门
-      link: https://zhangfisher.github.io/voerka-i18n/guide/intro/get-started 
+      link: /guide/intro/get-started 
     - text: 微信群 
       link: ./guide/intro/support       
 features:
@@ -26,6 +26,11 @@ features:
   - title: 自动提取文本
     icon: images/extract.png
     desc: 提供扫描提取工具对源码文件中需要翻译的文本进行提取
+    link: 
+
+  - title: TypeScript支持
+    icon: images/typescript.png
+    desc: 内置支持TypeScript类型以及生成TypeScript源码
     link: 
 
   - title: 适用性
@@ -58,11 +63,6 @@ features:
     icon: images/dadd.png
     desc: 可以在应用上线后动态增加语种支持
     link:  
-
-  - title: TypeScript支持
-    icon: images/edit.png
-    desc: 内置支持TypeScript类型以及生成TypeScript运行环境
-    link: 
 
   - title: 90%+测试覆盖率
     icon: images/n.png

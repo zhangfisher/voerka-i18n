@@ -14,10 +14,9 @@
 - 要能够比较友好地支持多库多包`monorepo`场景下的国际化协作，当主程序切换语言时，其他包或库也可以自动切换，并且在开发上每个包或库均可以独立地进行开发，集成到主程序时能无缝集成。这点在现有方案上没有找到比较理想的解决方案。
 
 - 大部份国际化框架均将中文视为二等公民，大部份情况下您应该采用英文作为第一语言，虽然这不是太大的问题，但是既然要再造一个轮子，为什么不将中文提升到一等公民呢。
-
   
 
-  **基于此就开始打造`VoerkaI18n`国际化多语言解决方案，主要特性包括：**
+**基于此就开始打造`VoerkaI18n`国际化多语言解决方案，主要特性包括：**
  
 
 - 全面工程化解决方案，提供初始化、提取文本、自动翻译、编译等工具链支持。
@@ -32,6 +31,8 @@
 - 支持发布后的在线打语言包补丁，修复翻译错误
 - 支持调用在线自动翻译对提取文本进行翻译。
 - 核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率
+- 支持`TypeScript`开发
+
 
   
 
@@ -42,3 +43,4 @@
 - **`AutoPub`**:  [基于pnpm/monorepo的自动发包工具](https://zhangfisher.github.io/autopub/)
 - **`FlexDecorators`**:  [JavaScript/TypeScript装饰器开发](https://zhangfisher.github.io/flex-decorators/)
 - **`FlexState`**:  [有限状态机实现](https://zhangfisher.github.io/flexstate/)
+- **`FlexTools`**:  [实用工具函数库](https://zhangfisher.github.io/flex-tools/)
