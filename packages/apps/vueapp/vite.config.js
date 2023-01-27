@@ -14,7 +14,7 @@ export default defineConfig({
         Inspect(),  // localhost:3000/__inspect/ 
         Voerkai18nPlugin({
             debug:true,
-            autoImport:false
+            autoImport:[".js"]
         }), 
         vue()
     ],

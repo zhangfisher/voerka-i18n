@@ -10,8 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "loader-runner": "^4.3.0",
-    "loader-utils": "^3.2.1"
+    "loader-runner": "^4.3.0"
   },
   "dependencies": {
     "@voerkai18n/utils": "workspace:^1.0.21"

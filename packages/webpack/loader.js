@@ -29,9 +29,7 @@ function voerkaI18nLoader(content, map, meta) {
         const idMap = readIdMapFile(projectPath)        
         return replaceTranslateText(content,idMap)     
     }catch(e){
-        if(debug){
-            console.error("[voerkai18n-loader]",this.resourcePath,e.stack)
-        }
+        console.error("[voerkai18n-loader]",this.resourcePath,e.stack)
     }
     return content
 }

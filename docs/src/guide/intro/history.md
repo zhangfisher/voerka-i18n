@@ -1,5 +1,11 @@
 # 更新日志
+## 2023/1/27
 
+- 修复`voerkai18n init`生成的初始文件不完整的问题
+- 新增加`voerkai18n-loader for webpack`，可以用在`Create React App`或`React Native`中实现自动导入和`idMap`自动替换翻译文本内容。
+- 升级`@voerkai18n/utils`，增加`readIdMapFile`,`replaceTranslateText`,`hasImportTranslateFunction`,`importTranslateFunction`等工具函数。
+- 增加`CRA`创建的`React`样例
+- `@voerkai18n/vite`的`autoImport`支持在指定扩展名中进行自动导入。
 ## 2023/1/26
 
 - 修复`@voerkai18n/cli`的`linux`下的脚本执行错误。感谢`cjahv`[PR#6](https://github.com/zhangfisher/voerka-i18n/pull/6)

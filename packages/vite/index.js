@@ -19,6 +19,10 @@ const {
    } 
   
  */
+//const TranslateRegex = /\bt\(\s*("|'){1}(?:((?<namespace>\w+)::))?(?<text>[^\1]*?)(?=(\1\s*\))|(\1\s*\,))/gm
+// 匹配t('xxxx')的正则表达式
+const TranslateRegex =/(?<=\bt\(\s*("|'){1})(?<text>[^\1]*?)(?=(\1\s*\))|(\1\s*\,))/gm
+
 module.exports = function VoerkaI18nPlugin(opts={}) {
     let options = Object.assign({
         location: "./",                                 // 指定当前工程目录
@@ -35,6 +39,8 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
     },opts)
     
     let { debug,patterns,autoImport } = options
+
+
 
     let projectRoot = getProjectRootFolder(options.location)
     let languageFolder = getProjectLanguageFolder(projectRoot)        
@@ -63,6 +69,15 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
         name: 'voerkai18n',    
         async transform(src, id) {
             let [isMatched,pattern] = debug ? matcher.test(id) : [matcher.test(id),null]
+
+            let extName = path.extname(id)
+            // 当autoImport=true或者autoImport=[".js"]时需要自动导入
+            let needImport = typeof(autoImport)=='boolean' ? autoImport : (
+                Array.isArray(autoImport) ? (
+                    autoImport.includes(extName) || autoImport.includes(`.${extName}`)
+                ) : false
+            )
+
             if(isMatched){
                 if(debug){
                     console.log(`[VoerkaI18n] File=${path.relative(projectRoot,id)}, pattern=[${pattern}], import from "${path.relative(path.dirname(id),languageFolder)}"`)            
@@ -72,7 +87,7 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
                     if(TranslateRegex.test(src)){
                         let code = replaceTranslateText(src,idMap)
                         // 如果没有导入t函数，则尝试自动导入
-                        if(autoImport && !hasImportTranslateFunction(code)){       
+                        if(needImport && !hasImportTranslateFunction(code)){       
                             code = importTranslateFunction(code,id,languageFolder)                  
                         }                        
                         return {

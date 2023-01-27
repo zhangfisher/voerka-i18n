@@ -1,27 +1,29 @@
 <script setup>
+import { injectVoerkaI18n } from "@voerkai18n/vue"
 import { reactive } from 'vue'
 import { t } from "./languages"
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import China from './components/china.vue'
 import Formatters from './components/formatters.vue'
-
+     
 let messages = reactive({
     name: t('VoerkaI18n多语言解决方案 ')
 })
-
+ 
 console.log("App=", messages.name)
  
 setTimeout(() => {
-    messages.name = 'Vue App 2'
+    messages.name = 'Vue App 3'
 }, 5000)
 
 console.log(t("Hello world!"))
+
+const i18n = injectVoerkaI18n()
 </script>  
 <script>
 import { reactive } from 'vue'
 export default {
-    inject: ['i18n'],
     data() {
         return {
             language: this.i18n.activeLanguage,

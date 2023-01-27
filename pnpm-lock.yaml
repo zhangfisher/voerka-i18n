@@ -292,12 +292,10 @@ importers:
     specifiers:
       '@voerkai18n/utils': workspace:^1.0.21
       loader-runner: ^4.3.0
-      loader-utils: ^3.2.1
     dependencies:
       '@voerkai18n/utils': link:../utils
     devDependencies:
       loader-runner: 4.3.0
-      loader-utils: 3.2.1
 
 packages:
 
@@ -8191,11 +8189,6 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 1.0.1
-    dev: true
-
-  /loader-utils/3.2.1:
-    resolution: {integrity: sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==}
-    engines: {node: '>= 12.13.0'}
     dev: true
 
   /locate-path/5.0.0:

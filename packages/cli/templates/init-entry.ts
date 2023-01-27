@@ -17,6 +17,8 @@ const scope = new VoerkaI18nScope({
     idMap       : {},                               // 消息id映射列表    
     formatters  : {},                               // 扩展自定义格式化器    
     loaders     : {},                               // 语言包加载器
+    defaultLanguage: 'zh',                          // 默认语言名称                         
+    activeLanguage: 'zh',                           // 当前语言名称
     languages: [
         {
             name: "zh",
