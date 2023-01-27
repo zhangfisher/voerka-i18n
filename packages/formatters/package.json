@@ -1,8 +1,13 @@
 {
     "name": "@voerkai18n/formatters",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "description": "格式化器，提供对要翻译文本的转换功能",
     "main": "index.js",
+    "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zhangfisher/voerka-i18n"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -15,5 +20,5 @@
     "dependencies": {
         "dayjs": "^1.11.0"
     },
-    "lastPublish": "2023-01-26T21:26:47+08:00"
+    "lastPublish": "2023-01-27T20:54:24+08:00"
 }

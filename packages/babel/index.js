@@ -107,12 +107,20 @@ function readIdMapFile(options){
         searchIdMapFiles.push(pathobj.join(location,"src","languages/idMap.js"))
         searchIdMapFiles.push(pathobj.join(location,"languages/idMap.js"))
         searchIdMapFiles.push(pathobj.join(location,"idMap.js"))
-    
+
+        searchIdMapFiles.push(pathobj.join(location,"src","languages/idMap.ts"))
+        searchIdMapFiles.push(pathobj.join(location,"languages/idMap.ts"))
+        searchIdMapFiles.push(pathobj.join(location,"idMap.ts"))
+
         let projectRoot = getProjectRootFolder(location)        
         searchIdMapFiles.push(pathobj.join(projectRoot,"src","languages/idMap.js"))
         searchIdMapFiles.push(pathobj.join(projectRoot,"languages/idMap.js"))
         searchIdMapFiles.push(pathobj.join(projectRoot,"idMap.js"))
-         
+
+        searchIdMapFiles.push(pathobj.join(projectRoot,"src","languages/idMap.ts"))
+        searchIdMapFiles.push(pathobj.join(projectRoot,"languages/idMap.ts"))
+        searchIdMapFiles.push(pathobj.join(projectRoot,"idMap.ts"))
+
         let idMapFile
         for( idMapFile of searchIdMapFiles){
             // 如果不存在idMap文件，则尝试从location/languages/中导入

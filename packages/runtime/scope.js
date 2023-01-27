@@ -60,7 +60,7 @@ module.exports = class VoerkaI18nScope {
      * - 将en配置为默认回退语言
      */
     _initiLanguages(){
-        if(!isPlainObject(this._languages)){
+        if(!Array.isArray(this._languages)){
             console.warn("[VoerkaI18n] 无效的语言配置")
             this._languages = [
                 {

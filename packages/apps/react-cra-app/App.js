@@ -17,7 +17,7 @@ function App() {
         >
           Learn React
         </a>
-        <div>
+          <div>
             t("中国")<br/>
             t("中华人民共和国")<br/>
             t('中国')<br/>

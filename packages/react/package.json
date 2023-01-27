@@ -1,9 +1,14 @@
 {
     "name": "@voerkai18n/react",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "description": "React支持,提供语言切换等功能",
     "main": "index.jsx",
     "typings": "index.d.ts",
+    "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zhangfisher/voerka-i18n"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "release": "pnpm autopublish"
@@ -17,5 +22,5 @@
     "peerDependencies": {
         "react": "^17.0.2"
     },
-    "lastPublish": "2023-01-26T21:26:56+08:00"
+    "lastPublish": "2023-01-27T20:54:45+08:00"
 }
