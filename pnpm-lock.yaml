@@ -247,7 +247,7 @@ importers:
       rollup-plugin-terser: ^7.0.2
     dependencies:
       '@babel/runtime': 7.20.7
-      '@babel/runtime-corejs3': 7.20.7
+      '@babel/runtime-corejs3': 7.20.13
       core-js: 3.27.1
     devDependencies:
       '@babel/cli': 7.18.10_@babel+core@7.18.10
@@ -287,6 +287,17 @@ importers:
     dependencies:
       '@voerkai18n/runtime': link:../runtime
       vue: 3.2.45
+
+  packages/webpack:
+    specifiers:
+      '@voerkai18n/utils': workspace:^1.0.21
+      loader-runner: ^4.3.0
+      loader-utils: ^3.2.1
+    dependencies:
+      '@voerkai18n/utils': link:../utils
+    devDependencies:
+      loader-runner: 4.3.0
+      loader-utils: 3.2.1
 
 packages:
 
@@ -1503,6 +1514,14 @@ packages:
     dependencies:
       core-js-pure: 3.24.1
       regenerator-runtime: 0.13.9
+
+  /@babel/runtime-corejs3/7.20.13:
+    resolution: {integrity: sha512-p39/6rmY9uvlzRiLZBIB3G9/EBr66LBMcYm7fIDeSBNdRjF2AGD3rFZucUyAgGHC2N+7DdLvVi33uTjSE44FIw==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      core-js-pure: 3.27.1
+      regenerator-runtime: 0.13.11
+    dev: false
 
   /@babel/runtime-corejs3/7.20.7:
     resolution: {integrity: sha512-jr9lCZ4RbRQmCR28Q8U8Fu49zvFqLxTY9AMOUz+iyMohMoAgpEcVxY+wJNay99oXOpOcCTODkk70NDN2aaJEeg==}
@@ -8160,6 +8179,11 @@ packages:
       pinkie-promise: 2.0.1
       strip-bom: 2.0.0
 
+  /loader-runner/4.3.0:
+    resolution: {integrity: sha512-3R/1M+yS3j5ou80Me59j7F9IMs4PXs3VqRrm0TU3AbKPxlmpoY1TNscJV/oGJXo8qCatFGTfDbY6W6ipGOYXfg==}
+    engines: {node: '>=6.11.5'}
+    dev: true
+
   /loader-utils/1.4.0:
     resolution: {integrity: sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==}
     engines: {node: '>=4.0.0'}
@@ -8167,6 +8191,11 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 1.0.1
+    dev: true
+
+  /loader-utils/3.2.1:
+    resolution: {integrity: sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==}
+    engines: {node: '>= 12.13.0'}
     dev: true
 
   /locate-path/5.0.0:

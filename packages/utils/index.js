@@ -476,6 +476,123 @@ function installPackage(packageName){
 }
 
 
+/**
+ * 读取当前工程下languages/idMap.(js|ts)文件 
+ * 
+ * @param {*} location  项目根文件夹或者当前项目下的任意一个文件夹 
+ * @returns 
+ */
+function readIdMapFile(location="./"){
+    let searchIdMapFiles = []
+    if(!path.isAbsolute(location)){
+        location =  path.join(process.cwd(),location)
+    }
+    searchIdMapFiles.push(path.join(location,"src","languages/idMap.js"))
+    searchIdMapFiles.push(path.join(location,"languages/idMap.js"))
+    searchIdMapFiles.push(path.join(location,"idMap.js"))
+
+    searchIdMapFiles.push(path.join(location,"src","languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(location,"languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(location,"idMap.ts"))
+
+    let projectRoot = getProjectRootFolder(location)        
+    searchIdMapFiles.push(path.join(projectRoot,"src","languages/idMap.js"))
+    searchIdMapFiles.push(path.join(projectRoot,"languages/idMap.js"))
+    searchIdMapFiles.push(path.join(projectRoot,"idMap.js"))
+        
+    searchIdMapFiles.push(path.join(projectRoot,"src","languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(projectRoot,"languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(projectRoot,"idMap.ts"))
+
+    let idMapFile
+    for( idMapFile of searchIdMapFiles){
+        // 如果不存在idMap文件，则尝试从location/languages/中导入
+        if(fs.existsSync(idMapFile)){ 
+            try{
+                // 由于idMap.js可能是esm或cjs，并且babel插件不支持异步
+                // 当require(idMap.js)失败时，对esm模块尝试采用直接读取的方式
+                return require(idMapFile)
+            }catch(e){
+                // 出错原因可能是因为无效require esm模块，由于idMap.js文件格式相对简单，因此尝试直接读取解析
+                try{
+                    let idMapContent = fs.readFileSync(idMapFile).toString()
+                    idMapContent = idMapContent.trim().replace(/^\s*export\s*default\s/g,"")
+                    return JSON.parse(idMapContent)
+                }catch{ }                        
+            }
+        }
+    }
+    throw new Error(`${idMapFile}文件不存在,无法对翻译文本进行转换。`)
+    return {}
+}
+
+
+//const TranslateRegex = /\bt\(\s*("|'){1}(?:((?<namespace>\w+)::))?(?<text>[^\1]*?)(?=(\1\s*\))|(\1\s*\,))/gm
+// 匹配t('xxxx')的正则表达式
+const TranslateRegex =/(?<=\bt\(\s*("|'){1})(?<text>[^\1]*?)(?=(\1\s*\))|(\1\s*\,))/gm
+
+/**
+ * 将code中的t("xxxx")使用idMap进行映射为t("1"),t("2")的形式
+ * 
+ * @param {*} code 
+ * @param {*} idmap 
+ */
+function replaceTranslateText(code, idmap) {
+    return code.replaceAll(TranslateRegex, (message) => {
+        if(message in idmap) {
+            return idmap[message]
+        }else{
+            let result
+            // 为什么要decodeURIComponent/unescape?  一些vite插件会将中文编码转义导致无法进行替换,所以要解码一下
+            try{
+                result = decodeURIComponent(message.replaceAll("\\u","%u"))
+                return result in idmap ? idmap[result] : message
+            }catch{
+                return message
+            }            
+        }
+    })
+    // decodeURI 或 decodeURIComponent 对特殊字符进行转义序列编码和解码。
+}
+
+// 匹配 import {t } from 的正则表达式
+const importTRegex = /^[^\w\r\n\s]*import\s*\{(.*)\bt\b(.*)\}\s*from/gm
+
+ 
+/**
+ * 判定代码中是否导入了Translate函数
+ * @param {*} code 
+ * @returns 
+ */
+function hasImportTranslateFunction(code){
+    return importTRegex.test(code)
+}
+
+
+function importTranslateFunction(code,sourceFile,langPath){
+    let importSource = path.relative(path.dirname(sourceFile),langPath)
+    if(!importSource.startsWith(".")){
+        importSource = "./" + importSource
+    }
+    importSource= importSource.replaceAll("\\","/")
+    const extName = path.extname(sourceFile)
+    // Vue文件 
+    if(extName==".vue"){
+        // 优先在<script setup></script>中导入
+        const setupScriptRegex = /(^\s*\<script.*\s*setup\s*.*\>)/gmi
+        if(setupScriptRegex.test(code)){
+            code = code.replace(setupScriptRegex,`$1\nimport { t } from '${importSource}';`)
+        }else{// 如果没有<script setup>则在<script></script>中导入
+            code = code.replace(/(^\s*\<script.*\>)/gmi,`$1\nimport { t } from '${importSource}';`)
+        }
+    }else if(['.jsx','.js','.ts','.tsx'].includes(extName)){  
+        // 普通js/ts文件直接添加到最前面
+        code = code = `import { t } from '${importSource}';\n${code}`
+    }   
+    return code                         
+}
+
+
 module.exports = {
     fileMatcher,                            // 文件名称匹配器
     getProjectRootFolder,                   // 查找获取项目根目录
@@ -492,8 +609,12 @@ module.exports = {
     deepMerge,                              // 深度合并对象
     getDataTypeName,                        // 获取指定变量类型名称
     isGitRepo,                              // 判断当前工程是否是git工程
-    fileIsExists,
-    isTypeScriptProject,
-    getPackageTool,
-    installPackage
+    fileIsExists,                           // 检查文件是否存在
+    isTypeScriptProject,                    // 当前是否是TypeScript工程
+    getPackageTool,                         // 获取当前工程使用的包工具，如pnpm,yarn,npm
+    installPackage,                         // 安装指定的包
+    readIdMapFile,                          // 读取当前工程下的idMap文件
+    replaceTranslateText,
+    hasImportTranslateFunction,
+    importTranslateFunction                 // 在代码中导入t函数  
 }

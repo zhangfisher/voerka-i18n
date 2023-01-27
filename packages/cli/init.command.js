@@ -95,6 +95,15 @@ module.exports = function(srcPath,{moduleType='cjs',isTypeScript,debug = true,la
     } 
 
     try{
+        tasks.add("生成IdMap文件")
+        const entryContent = isTypeScript ? "export default {}" : (moduleType=='cjs' ? "module.exports={}" :"export default {}")
+        fs.writeFileSync(path.join(lngPath,`idMap.${isTypeScript ? 'ts' : 'js'}`),entryContent)
+        tasks.complete()
+    }catch(e){
+        tasks.error(e.message)
+    } 
+ 
+    try{
         tasks.add(t("安装运行时依赖@voerkai18n/runtime"))
         installPackage('@voerkai18n/runtime')
         tasks.complete()

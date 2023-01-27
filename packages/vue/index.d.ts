@@ -1,4 +1,3 @@
-export {}
 import type { VoerkaI18nSupportedLanguages, VoerkaI18nTranslate } from "@Voerkai18n/runtime"
 import type { InjectionKey,Plugin } from "vue"
 

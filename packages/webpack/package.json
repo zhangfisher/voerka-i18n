@@ -1,0 +1,19 @@
+{
+  "name": "voerkai18n-loader",
+  "version": "1.0.0",
+  "description": "voerkai18n loader for webpack",
+  "main": "loader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "loader-runner": "^4.3.0",
+    "loader-utils": "^3.2.1"
+  },
+  "dependencies": {
+    "@voerkai18n/utils": "workspace:^1.0.21"
+  }
+}
