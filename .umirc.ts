@@ -116,7 +116,8 @@ export default defineConfig({
                    "/guide/tools/cli.md",
                    "/guide/tools/babel.md",
                    "/guide/tools/vite.md",
-                   "/guide/tools/vue.md"
+                   "/guide/tools/vue.md",
+                   "/guide/tools/webpack.md"
                 ],
             },
         ],

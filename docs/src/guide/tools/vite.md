@@ -69,7 +69,9 @@ export default defineConfig({
         Inspect(),  										// 可选的
         Voerkai18nPlugin({
             location: "./",                                 // 可选的，指定当前工程目录
-            autoImport: false,                               // 是否自动导入t函数
+            autoImport: false,                              // 不自动导入t函数
+            // autoImport: true,                            // 自动导入t函数
+            // autoImport: [".js"],                         // 仅在js文件中自动导入t函数
             debug:false,                                    // 是否输出调试信息，当=true时，在控制台输出转换匹配的文件清单
             patterns:[
                 "!(?<!.vue\?.*).(css|json|scss|less|sass)$",          // 排除所有css文件
@@ -83,7 +85,8 @@ export default defineConfig({
 
 - `location`：可选的，用来指定当前工程目录，一般情况是不需要配置的，会自动取当前文件夹。并且假设`languages`文件夹在`<location>/src/languages`文件夹下。
 
-- `autoImport`：可选的，默认`false`，用来配置是否自动导入`t`函数。当vue文件没有指定导入时才会自动导入，并且根据当前vue文件的路径处理好导入位置。
+- `autoImport`：可选的，用来配置是否自动导入`t`函数。默认`false`代表不自动导入`t`函数。`true`代表自动导入`t`函数。`autoImport=[".<扩展名>",".<扩展名>"]`列出源码扩展名列表，代表仅仅在这些扩展名文件中自动导入`t`函数，如`autoImport=[".js"]`代表仅在js源文件中自动导入`t`函数。
+由于在`typescript`下自动导入`t`函数会导致类型错误提示，所以一般仅建议在`nodejs`下使用。
 
 - `debug`：可选的，开启后会在控制台输出一些调试信息，对一般用户没有用。
 

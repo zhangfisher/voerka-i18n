@@ -1,13 +1,14 @@
 {
     "name": "voerkai18n-loader",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "voerkai18n loader for webpack",
     "main": "loader.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
-    },    "scripts": {
+    },
+    "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -19,5 +20,5 @@
     "dependencies": {
         "@voerkai18n/utils": "workspace:^1.0.21"
     },
-    "lastPublish": "2023-01-27T20:55:54+08:00"
+    "lastPublish": "2023-01-27T21:06:05+08:00"
 }
