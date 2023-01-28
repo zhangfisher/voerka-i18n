@@ -1,3 +1,6 @@
+/**
+ * 注意：执行compile命令会生新后成本文件，所以请不要修改本文件
+ */
 {{if moduleType === "esm"}}
 import messageIds from "./idMap.js"                                             // 语言ID映射文件
 import runtime from "@voerkai18n/runtime"

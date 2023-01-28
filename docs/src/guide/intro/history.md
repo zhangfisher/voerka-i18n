@@ -1,4 +1,11 @@
 # 更新日志
+## 2023/1/28
+
+- 修复`voerkai18n init`生成`index.js`时的`i18nScope`拼写错误
+- `voerkai18n init`添加`--typescript`参数支持
+- 修复`voerkai18n init`的`moduleType=auto`时生成文件类型的问题
+- 更新文档
+
 ## 2023/1/27
 
 - 修复`voerkai18n init`生成的初始文件不完整的问题

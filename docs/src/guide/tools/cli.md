@@ -49,7 +49,9 @@ Arguments:
 Options:
   -D, --debug                        输出调试信息
   -r, --reset                        重新生成当前项目的语言配置
+  -m, --moduleType [types]           输出模块类型,取值auto(默认),esm,cjs
   -lngs, --languages <languages...>  支持的语言列表 (default: ["zh","en"])
+  -t, --typescript                   输出typescript代码
   -d, --defaultLanguage              默认语言
   -a, --activeLanguage               激活语言
   -h, --help                         display help for command
@@ -72,7 +74,9 @@ Options:
           languages
           <small>多语言目录</small>
           <ul>
-            <li>settings.json</li>>
+            <li>settings.json</li>
+            <li>index.(js|ts)</li>
+            <li>idMap.(js|ts)</li>
           </ul>
         </li>
         <li>index.md</li>
@@ -107,20 +111,20 @@ module.exports = {
 
 **说明：**
 
-- 您也可以手动自行创建`languages/settings.json`文件。这样就不需运行`voerkai18n init`命令了。
-
 - 如果你的源码放在`src`文件夹，则`init`命令会自动在在`src`文件夹下创建`languages`文件夹。
 
-- `voerkai18n init`是可选的，直接使用`extract`时也会自动创建相应的文件。
-
 - `-m`参数用来指定生成的`settings.json`的模块类型：
-  - 当`-m=auto`时，会自动读取前工程`package.json`中的`type`字段
+  - 当`-m=auto`时，会自动根据前工程`package.json`中的`type`字段等信息来决定源码的模块类型
   - 当`-m=esm`时，会生成`ESM`模块类型的`settings.json`。
   - 当`-m=cjs`时，会生成`commonjs`模块类型的`settings.json`。
   
 - `location`参数是可选的，如果没有指定则采用当前目录。
+- `voerkai18n init`能识别当前是否是`typescript`工程，方法是通过检查是否存在`tsconfig.json`来判断。也可以显式指定`voerkai18n init --typescript`来生成对应的`typescript`源码。
 
   如果你想将`languages`安装在`src/languages`下，则可以指定`voerkai18n init ./src`
+
+- 生成在`idMap`文件是一个空文件，后续会自动更新，不需要修改。
+- `index.(js|ts)`也是一个占位文件，后续执行`compile`时会覆盖重新生成
 
 ## 提取文本 - extract
 
@@ -239,20 +243,33 @@ Options:
 
 `voerkai18n compile`执行后会在`langauges`文件夹下输出：
 
-```javascript | pure
-myapp
-  |--- langauges
-    |-- index.js              // 当前作用域的源码
-    |-- idMap.js              // 翻译文本与id的映射文件
-    |-- formatters            // 自定义格式化器
-        |-- zh.js             // 中文格式化器定义
-        |-- en.js       	  // 英文格式化器定义
-        |-- xx.js             // 其他语言格式化器定义
-    |-- zh.js                 // 中文语言包
-    |-- en.js       	      // 英文语言包 
-    |-- xx.js           	  // 其他语言包
-    |-- ...
-```
+<Tree title="myapp"> 
+  <ul> 
+        <li>
+          languages<small>多语言目录</small>
+          <ul>
+            <li>settings.json</li>
+            <li>index.(js|ts)</li>
+            <li>idMap.(js|ts)</li>
+            <li>zh.(js|ts)</li>
+            <li>en.(js|ts)</li>
+            <li>xx.(js|ts)</li>
+            <li>
+                formatters<small>格式化器</small>
+                <ul>
+                    <li>zh.(js|ts)</li>
+                    <li>en.(js|ts)</li>
+                    <li>xx.(js|ts)</li>
+                </ul>
+            </li>
+          </ul>
+        </li>
+        <li>index.md</li>
+        <li>package.json</li>
+        <li>...</li>  
+  </ul>
+</Tree>
+
 
 **说明：**
 
@@ -260,3 +277,4 @@ myapp
 - 您每次修改了源码并`extract`后，均应该再次运行`compile`命令。
 - 如果您修改了`formatters.js`，执行`compile`命令不会重新生成和修改该文件。
 - 默认情况下，`compile`命令当发现当前工程存在`ts.config.ts`时，会生成`languages/**/*.ts`。也可以显式指定`voerkai18n compile --typescript`来生成`ts`源码，或者显式指定`voerkai18n compile --typescript=false`来禁用生成`ts`源码。
+- **注意**，`compile`命令会重新覆盖`languages/index.(js|ts)`。

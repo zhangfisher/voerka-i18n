@@ -1,3 +1,6 @@
+/**
+ * 注意：执行compile命令会生新后成本文件，所以请不要修改本文件
+ */
 import messageIds from "./idMap"                                             // 语言ID映射文件
 import runtime from "@voerkai18n/runtime"
 const { translate,VoerkaI18nScope  } = runtime

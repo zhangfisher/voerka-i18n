@@ -1,9 +1,9 @@
 /**
  * 初始化入口
- * 
- * 本文件仅供在执行voerkai18n extract&compile前提供t函数引用
- * 
- */
+* 
+* 注意：执行compile命令会生新后成本文件，所以请不要修改本文件
+* 本文件仅供在执行voerkai18n extract&compile前提供t函数占位引用 
+*/
 {{if moduleType === "esm"}}
 import runtime from "@voerkai18n/runtime"
 const { translate,VoerkaI18nScope  } = runtime

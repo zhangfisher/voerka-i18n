@@ -29,6 +29,7 @@ program
     .option('-D, --debug', t('输出调试信息'))
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
+    .option('-t, --typescript',t("输出typescript代码")) 
     .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['zh','en'])     
     .option('-d, --defaultLanguage <name>', t('默认语言'), 'zh')  
     .option('-a, --activeLanguage <name>', t('激活语言'), 'zh')  
@@ -89,7 +90,7 @@ program
     .command('compile')
     .description(t('编译指定项目的语言包'))
     .option('-D, --debug', t('输出调试信息')) 
-    .option('-t, --typescript') 
+    .option('-t, --typescript',t("输出typescript代码")) 
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .argument('[location]',  t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){
@@ -133,6 +134,4 @@ program
 
 
 program.parseAsync(process.argv);
-
-const options = program.opts(); 
  
