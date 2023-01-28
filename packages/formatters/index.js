@@ -1,8 +1,8 @@
 /**
  * 通用格式化器
  */
-import './datetime.formatters.js';
-import './currency.formatters.js';
+export * from './datetime.formatters.js';
+export * from './currency.formatters.js';
    
 
   
