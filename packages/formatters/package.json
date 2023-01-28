@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/formatters",
-    "version": "1.0.25",
+    "version": "1.0.26",
     "description": "格式化器，提供对要翻译文本的转换功能",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -20,5 +20,5 @@
     "dependencies": {
         "dayjs": "^1.11.0"
     },
-    "lastPublish": "2023-01-28T16:38:53+08:00"
+    "lastPublish": "2023-01-28T16:49:30+08:00"
 }
