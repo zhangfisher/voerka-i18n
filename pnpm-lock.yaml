@@ -10,7 +10,7 @@ importers:
       '@rollup/plugin-babel': ^5.3.1
       '@rollup/plugin-commonjs': ^21.1.0
       '@vuepress/client': 2.0.0-beta.49
-      autopub: ^1.0.11
+      autopub: ^1.0.12
       commander: ^9.4.0
       cross-env: ^7.0.3
       dayjs: ^1.11.4
@@ -39,7 +39,7 @@ importers:
       '@rollup/plugin-babel': 5.3.1_tui6liyexu3zy4m5r2rytc7ixu
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
       '@vuepress/client': 2.0.0-beta.49
-      autopub: 1.0.11
+      autopub: 1.0.12
       commander: 9.4.0
       cross-env: 7.0.3
       dayjs: 1.11.4
@@ -4657,8 +4657,8 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
-  /autopub/1.0.11:
-    resolution: {integrity: sha512-NLQDEL78H9F3TF3EaGvB4xZKIrKV0HCYZammYroxsXzVhU3p46uZeLAfHwer0P5sYByW4fesuweZOnj8sF7sBA==}
+  /autopub/1.0.12:
+    resolution: {integrity: sha512-P7sMC4U4zqadeFdX70NnL/JQ9ZXqUAvZjTdi7pxoSbF07uek06/lZhfEhTOLZHciYikJkf5JyhZ0oQhF42ouqA==}
     hasBin: true
     dependencies:
       commander: 9.4.0

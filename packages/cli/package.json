@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/cli",
-    "version": "1.0.56",
+    "version": "1.0.57",
     "description": "命令行工具,用来初始化/提取/编译/自动翻译等工具链",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -47,5 +47,5 @@
         "through2": "^4.0.2",
         "vinyl": "^2.2.1"
     },
-    "lastPublish": "2023-01-28T16:30:50+08:00"
+    "lastPublish": "2023-01-28T16:39:21+08:00"
 }
