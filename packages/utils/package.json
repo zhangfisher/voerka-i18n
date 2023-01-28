@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/utils",
-    "version": "1.0.28",
+    "version": "1.0.29",
     "description": "公共工具库",
     "main": "index.js",
     "scripts": {
@@ -13,5 +13,5 @@
         "fs-extra": "^10.0.1",
         "shelljs": "^0.8.5"
     },
-    "lastPublish": "2023-01-28T15:58:52+08:00"
+    "lastPublish": "2023-01-28T16:30:08+08:00"
 }
