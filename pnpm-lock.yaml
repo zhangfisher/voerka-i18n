@@ -22,7 +22,7 @@ importers:
       gulp: ^4.0.2
       inquirer: ^8.2.4
       jest: ^27.5.1
-      logsets: ^1.0.20
+      logsets: ^1.0.21
       pnpm: ^7.9.0
       prettier: ^2.7.1
       rollup: ^2.77.2
@@ -51,7 +51,7 @@ importers:
       gulp: 4.0.2
       inquirer: 8.2.4
       jest: 27.5.1
-      logsets: 1.0.20
+      logsets: 1.0.21
       pnpm: 7.9.0
       prettier: 2.7.1
       rollup: 2.77.2
@@ -219,7 +219,7 @@ importers:
       fs-extra: ^10.0.1
       glob: ^7.2.0
       gulp: ^4.0.2
-      logsets: ^1.0.20
+      logsets: ^1.0.21
       md5: ^2.3.0
       qs: ^6.10.3
       shelljs: ^0.8.5
@@ -238,7 +238,7 @@ importers:
       fs-extra: 10.1.0
       glob: 7.2.3
       gulp: 4.0.2
-      logsets: 1.0.20
+      logsets: 1.0.21
       md5: 2.3.0
       qs: 6.11.0
       shelljs: 0.8.5
@@ -4666,7 +4666,7 @@ packages:
       enquirer: 2.3.6
       fast-glob: 3.2.11
       fs-extra: 10.1.0
-      logsets: 1.0.20
+      logsets: 1.0.21
       semver: 7.3.7
       shelljs: 0.8.5
     dev: true
@@ -11201,8 +11201,8 @@ packages:
       is-unicode-supported: 0.1.0
     dev: true
 
-  /logsets/1.0.20:
-    resolution: {integrity: sha512-2ch4+TSciSTFAkkIv9tL7xOMe0Tg+XYsR//EAcMW2227bWjscReAoz2GLkjIMJMACHVZIyXmKrohtiV9z6M1iQ==}
+  /logsets/1.0.21:
+    resolution: {integrity: sha512-H9QS4CjAszUvY3QjprOT2+HHcdfSKVaYvdXR68MDMcMK18zMc1GsAlOq12uJ4K72ImJcjTMj8NvhQ0WXe42+7w==}
     dependencies:
       '@babel/runtime-corejs3': 7.18.9
       ansicolor: 1.1.100

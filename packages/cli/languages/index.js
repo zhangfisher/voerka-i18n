@@ -1,3 +1,6 @@
+/**
+ * 注意：执行compile命令会生新后成本文件，所以请不要修改本文件
+ */
 
 const messageIds = require("./idMap")
 const { translate,i18nScope  } =  require("@voerkai18n/runtime")

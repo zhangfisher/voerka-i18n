@@ -10,7 +10,8 @@
         "docs:build": " dumi build",
         "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
         "publish:auto": "autopub --all",
-        "publish:all": "autopub"
+        "publish:all": "autopub",
+        "publish:test": "autopub --test"
     },
     "author": "",
     "license": "ISC",
@@ -33,7 +34,7 @@
         "gulp": "^4.0.2",
         "inquirer": "^8.2.4",
         "jest": "^27.5.1",
-        "logsets": "^1.0.20",
+        "logsets": "^1.0.21",
         "pnpm": "^7.9.0",
         "prettier": "^2.7.1",
         "rollup": "^2.77.2",

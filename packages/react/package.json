@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/react",
-    "version": "1.0.14",
+    "version": "1.0.15",
     "description": "React支持,提供语言切换等功能",
     "main": "index.jsx",
     "typings": "index.d.ts",
@@ -22,5 +22,5 @@
     "peerDependencies": {
         "react": "^17.0.2"
     },
-    "lastPublish": "2023-01-27T22:16:30+08:00"
+    "lastPublish": "2023-01-28T10:16:33+08:00"
 }
