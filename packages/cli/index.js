@@ -22,14 +22,12 @@ program
         banner.add("版本号：",`${require("./package.json").version}`,{style:["","yellow"]})
         banner.render()
     })
-
-
 program
     .command('init')
     .argument('[location]', t('工程项目所在目录'))
     .description(t('初始化项目国际化配置'))
     .option('-D, --debug', t('输出调试信息'))
-    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
+    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
     .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['zh','en'])     
     .option('-d, --defaultLanguage <name>', t('默认语言'), 'zh')  

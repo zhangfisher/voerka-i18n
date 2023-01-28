@@ -9,7 +9,7 @@ const fs = require("fs")
 const { t } = require("./i18nProxy")
 const createLogger = require("logsets")
 const logger = createLogger() 
-const { installPackage } = require("@voerkai18n/utils")
+const { installPackage,getCurrentPackageJson } = require("@voerkai18n/utils")
 const artTemplate = require("art-template")
 
 function getLanguageList(langs,defaultLanguage){
@@ -38,9 +38,51 @@ function getLanguageList(langs,defaultLanguage){
     }
 }
 
+/**
+ * 获取当前项目的模块类型
+ * 
+ * 1. <package.json>.type="module"
+ * 2. 当前工程的index.(js|ts)是否包含了import  xx from 
+ * 3. 检查是否是typescript工程
+ * 
+ * 
+ */
 
-module.exports = function(srcPath,{moduleType='cjs',isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
+function getProjectModuleType(srcPath,isTypeScript){
+
+    // <package.json>.type="module"
+    try{
+        let packageJson = getCurrentPackageJson(srcPath)
+        if(packageJson.type=="module") return "esm"
+    }catch{}
+
+    // 检查入口文件
+    const importRegex = /import\s*.*\s*from\s*(["']).*\1/gm
+    const extryFiels = [
+        path.join(srcPath,"index.js"),
+        path.join(srcPath,"src","index.js"),
+        path.join(srcPath,"main.js"),
+        path.join(srcPath,"src","main.js"),
+    ]
+
+    for(let file of extryFiels){
+        try{
+            const source = fs.readFileSync(file)
+            if(importRegex.test(source)){
+                return 'esm'
+            }            
+        }catch{}
+    }
+    return isTypeScript ? 'esm' : 'cjs'       
+}
+
+module.exports = function(srcPath,{moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
     let settings = {}
+    // 检查当前项目的模块类型
+    if(!['esm',"cjs"].includes(moduleType)){
+        moduleType = getProjectModuleType(srcPath)
+    } 
+
     let tasks = logger.tasklist("初始化VoerkaI18n工程")
     const  langFolderName = "languages"
     // 查找当前项目的语言包类型路径

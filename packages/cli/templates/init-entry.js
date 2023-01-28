@@ -8,7 +8,7 @@
 import runtime from "@voerkai18n/runtime"
 const { translate,VoerkaI18nScope  } = runtime
 {{else}}
-const { translate,i18nScope  } =  require("@voerkai18n/runtime")
+const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
 {{/if}} 
  
 
