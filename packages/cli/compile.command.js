@@ -25,12 +25,19 @@
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { findModuleType,getCurrentPackageJson, getInstalledPackageInfo, getPackageReleaseInfo} = require("@voerkai18n/utils")
 const { t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const logger = createLogger() 
 const artTemplate = require("art-template")
 const semver = require("semver")
+const { 
+    findModuleType,
+    getCurrentPackageJson, 
+    getInstalledPackageInfo, 
+    getPackageReleaseInfo,
+    upgradePackage
+} = require("@voerkai18n/utils")
+
 
 function normalizeCompileOptions(opts={}) {
     let options = Object.assign({
@@ -68,13 +75,22 @@ function generateFormatterFile(langName,{isTypeScript,formattersFolder,templateC
  * 将@voerkai18n/runtime更新到最新版本
  */
 async function updateRuntime(){
-    const curVersion = getInstalledPackageInfo("@voerkai18n/runtime").version
-    const latestVersion = (await getPackageReleaseInfo("@voerkai18n/runtime")).lastVersion
-    if(semver.gt(latestVersion, curVersion)){
-        await upgradePackage("@voerkai18n/runtime")
-    }
+    const task = logger.task(t("更新@voerkai18n/runtime运行时"))
+    try{
+        const packageName = "@voerkai18n/runtime"
+        const curVersion = getInstalledPackageInfo(packageName).version
+        const latestVersion = (await getPackageReleaseInfo(packageName)).lastVersion
+        if(semver.gt(latestVersion, curVersion)){
+            await upgradePackage(packageName)
+            task.complete(t("Updated:{}",latestVersion))
+            return 
+        }        
+        task.complete(t("已经是最新的"))
+    }catch(e){        
+        logger.log(t("更新@voerkai18n/runtime失败,请手动更新!"))
+        task.error(e.message)        
+    }    
 }
-
 
 module.exports =async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);

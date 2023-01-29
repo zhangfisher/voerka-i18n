@@ -5,7 +5,7 @@ const semver = require('semver')
 const path = require("path")
 const fs = require("fs-extra")
 const logger = createLogger()
-const { i18nScope ,t }  = require("./i18nProxy")
+const { VoerkaI18nScope ,t }  = require("./i18nProxy")
 const { getProjectSourceFolder,isTypeScriptProject, getPackageReleaseInfo,getInstalledPackageInfo }  = require("@voerkai18n/utils"); 
  
 
@@ -22,45 +22,10 @@ program
         banner.add("VoerkaI18n command line interactive tools",{style:"darkGray"})
         banner.add() 
         banner.add("installed: ",currentVersion,"  latest: ",newVersion,{style:["","yellow","","yellow"]})
-        banner.render()
-
-        const tasks = logger.tasklist("检测VoerkaI18n最新版本")   
-        const packages = [
-            "@voerkai18n/cli",
-            "@voerkai18n/runtime",
-            "@voerkai18n/vue",
-            "@voerkai18n/react",
-            "@voerkai18n/vite",
-            "@voerkai18n/babel",
-            "voerkai18n-loader"
-        ]
-        let needUpgrades = []
-        for(let package of packages){
-            try{
-                let info = getInstalledPackageInfo(package)
-                tasks.add(`${package}(${info ? info.version : logger.colors.red('未安装')})`)
-                let newInfo = await getPackageReleaseInfo(package)
-                if(info){
-                    if(semver.gt(newInfo.latestVersion,info.version)){
-                        needUpgrades.push(package)
-                        tasks.fail(info.version)
-                    }else if(newInfo.version == info.version){
-                        tasks.complete("NEWEST")
-                    }else{
-                        tasks.skip("UNKNOWN")
-                    }                
-                }else{
-                    tasks.fail(newInfo.version)
-                }                
-            }catch(e) {
-                tasks.error(e.stack)
-            }        
+        if(semver.gt(newVersion,currentVersion)){
+            banner.add("Run ","npm upgrade @voerkai18n/cli"," to upgrade!",{style:["","yellow",""]})
         }
-        // 
-        if(needUpgrades.length>0){
-            logger.log(logger.colors.red("\n请将{}升级到最新版本！",needUpgrades.join(","))) 
-        }
-        
+        banner.render() 
     })
 program
     .command('init')
@@ -75,7 +40,7 @@ program
     .option('-a, --activeLanguage <name>', t('激活语言'), 'zh')  
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE || "zh"
-        await i18nScope.change(lang)     
+        await VoerkaI18nScope.change(lang)     
     })
     .action((location,options) => { 
         options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
@@ -104,7 +69,7 @@ program
     .argument('[location]', t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE || "zh"
-         await i18nScope.change(lang)     
+         await VoerkaI18nScope.change(lang)     
     })
     .action(async (location,options) => {
         location = getProjectSourceFolder(location)
@@ -135,7 +100,7 @@ program
     .argument('[location]',  t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE || "zh"
-         await i18nScope.change(lang)      
+         await VoerkaI18nScope.change(lang)      
     })
     .action(async (location,options) => { 
         location = getProjectSourceFolder(location)
@@ -162,7 +127,7 @@ program
     .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), 1)  
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE || "zh"
-        await i18nScope.change(lang)     
+        await VoerkaI18nScope.change(lang)     
     })
     .action((location,options) => { 
         location = getProjectSourceFolder(location)

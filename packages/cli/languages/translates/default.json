@@ -1,36 +1,4 @@
 {
-    "支持的语言\t: {}": {
-        "en": "Supported languages\t: {}",
-        "$file": [
-            "compile.command.js",
-            "extract.plugin.js"
-        ],
-        "de": "支持的语言\t: {}"
-    },
-    "默认语言\t: {}": {
-        "en": "Default language\t: {}",
-        "$file": [
-            "compile.command.js",
-            "extract.plugin.js"
-        ],
-        "de": "默认语言\t: {}"
-    },
-    "激活语言\t: {}": {
-        "en": "Active language\t\t: {}",
-        "$file": [
-            "compile.command.js",
-            "extract.plugin.js"
-        ],
-        "de": "激活语言\t: {}"
-    },
-    "名称空间\t: {}": {
-        "en": "Namespaces\t\t: {}",
-        "$file": [
-            "compile.command.js",
-            "extract.plugin.js"
-        ],
-        "de": "名称空间\t: {}"
-    },
     " - 更新格式化器:{}": {
         "en": " - Update formatters:{}",
         "$file": [
@@ -192,13 +160,6 @@
         ],
         "de": "语言包文件夹<{}>不存在"
     },
-    "语言配置文件{}文件已存在，跳过创建。\n使用{}可以重新覆盖创建": {
-        "en": "Language configuration {} file already exists, skipping creation\n use {} to overwrite the creation",
-        "$file": [
-            "init.command.js"
-        ],
-        "de": "语言配置文件{}文件已存在，跳过创建。\n使用{}可以重新覆盖创建"
-    },
     "生成语言配置文件:{}": {
         "en": "Generate language configuration: {}",
         "$file": [
@@ -248,13 +209,6 @@
         ],
         "de": "创建语言包文件夹: {}"
     },
-    "模块类型\t: {}": {
-        "en": "Type of module\t\t: {}",
-        "$file": [
-            "compile.command.js"
-        ],
-        "de": "模块类型\t: {}"
-    },
     "编译结果输出至：{}": {
         "en": "Compile to：{}",
         "$file": [
@@ -296,42 +250,6 @@
             "compile.command.js"
         ],
         "de": " - 共合成{}条文本"
-    },
-    " - 运行时: {}": {
-        "en": " - Runtime: {}",
-        "$file": [
-            "compile.command.js"
-        ],
-        "de": " - 运行时: {}"
-    },
-    "自动安装默认语言": {
-        "en": "Auto install default language",
-        "$file": [
-            "index.js"
-        ],
-        "de": "自动安装默认语言",
-        "zh": "自动安装默认语言"
-    },
-    "不嵌入运行时源码": {
-        "en": "Not inline runtime source",
-        "$file": [
-            "index.js"
-        ],
-        "de": "不嵌入运行时源码"
-    },
-    " - 安装运行时: {}": {
-        "en": " - Install runtime: {}",
-        "$file": [
-            "compile.command.js"
-        ],
-        "de": " - 安装运行时: {}"
-    },
-    " - 更新运行时：{}": {
-        "en": " - Update runtime：{}",
-        "$file": [
-            "compile.command.js"
-        ],
-        "de": " - 更新运行时：{}"
     },
     "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务": {
         "en": "Call the API translation language package of the online translation service provider, eg:baidu translation service",
@@ -394,6 +312,122 @@
         "de": " - 翻译 -> {}",
         "$file": [
             "translate.command.js"
+        ]
+    },
+    "更新@voerkai18n/runtime运行时": {
+        "en": "更新@voerkai18n/runtime运行时",
+        "de": "更新@voerkai18n/runtime运行时",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "Updated:{}": {
+        "en": "Updated:{}",
+        "de": "Updated:{}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "已经是最新的": {
+        "en": "已经是最新的",
+        "de": "已经是最新的",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "更新@voerkai18n/runtime失败,请手动更新!": {
+        "en": "更新@voerkai18n/runtime失败,请手动更新!",
+        "de": "更新@voerkai18n/runtime失败,请手动更新!",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "支持的语言\\t: {}": {
+        "en": "支持的语言\\t: {}",
+        "de": "支持的语言\\t: {}",
+        "$file": [
+            "compile.command.js",
+            "extract.plugin.js"
+        ]
+    },
+    "默认语言\\t: {}": {
+        "en": "默认语言\\t: {}",
+        "de": "默认语言\\t: {}",
+        "$file": [
+            "compile.command.js",
+            "extract.plugin.js"
+        ]
+    },
+    "激活语言\\t: {}": {
+        "en": "激活语言\\t: {}",
+        "de": "激活语言\\t: {}",
+        "$file": [
+            "compile.command.js",
+            "extract.plugin.js"
+        ]
+    },
+    "名称空间\\t: {}": {
+        "en": "名称空间\\t: {}",
+        "de": "名称空间\\t: {}",
+        "$file": [
+            "compile.command.js",
+            "extract.plugin.js"
+        ]
+    },
+    "模块类型\\t: {}": {
+        "en": "模块类型\\t: {}",
+        "de": "模块类型\\t: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "TypeScript\\t: {}": {
+        "en": "TypeScript\\t: {}",
+        "de": "TypeScript\\t: {}",
+        "$file": [
+            "compile.command.js"
+        ]
+    },
+    "输出typescript代码": {
+        "en": "输出typescript代码",
+        "de": "输出typescript代码",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "备份原始文件": {
+        "en": "备份原始文件",
+        "de": "备份原始文件",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译": {
+        "en": "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译",
+        "de": "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译",
+        "$file": [
+            "index.js"
+        ]
+    },
+    "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建": {
+        "en": "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建",
+        "de": "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建",
+        "$file": [
+            "init.command.js"
+        ]
+    },
+    "安装运行时依赖@voerkai18n/runtime": {
+        "en": "安装运行时依赖@voerkai18n/runtime",
+        "de": "安装运行时依赖@voerkai18n/runtime",
+        "$file": [
+            "init.command.js"
+        ]
+    },
+    "已安装运行时:{}": {
+        "en": "已安装运行时:{}",
+        "de": "已安装运行时:{}",
+        "$file": [
+            "init.command.js"
         ]
     }
 }
