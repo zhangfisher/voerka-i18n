@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/utils",
-    "version": "1.0.31",
+    "version": "1.0.32",
     "description": "公共工具库",
     "main": "index.js",
     "scripts": {
@@ -14,5 +14,5 @@
         "semver": "^7.3.7",
         "shelljs": "^0.8.5"
     },
-    "lastPublish": "2023-01-28T16:49:11+08:00"
+    "lastPublish": "2023-01-29T17:40:07+08:00"
 }
