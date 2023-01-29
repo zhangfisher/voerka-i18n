@@ -535,6 +535,20 @@ function installPackage(packageName){
         shelljs.exec(`npm install ${packageName}`)        
     }    
 }
+function upgradePackage(packageName){
+    const packageTool = getPackageTool()
+    try{
+        if(packageTool=='pnpm'){
+            shelljs.exec(`pnpm update ${packageName}`)        
+        }else if(packageTool=='yarn'){
+            shelljs.exec(`yarn upgrade ${packageName}`)        
+        }else{
+            shelljs.exec(`npm upgrade ${packageName}`)        
+        }
+    }catch{
+        shelljs.exec(`npm upgrade ${packageName}`)        
+    }    
+}
 
 
 /**
@@ -716,5 +730,6 @@ module.exports = {
     importTranslateFunction,                // 在代码中导入t函数  
     asyncExecShellScript,                   // 异步执行一段脚本并返回结果
     getPackageReleaseInfo,                  // 从npm上读取指定包的信息
-    getInstalledPackageInfo                 // 返回当前工程已安装的包信息，主要是版本号
+    getInstalledPackageInfo,                // 返回当前工程已安装的包信息，主要是版本号
+    upgradePackage                          // 升级包
 }

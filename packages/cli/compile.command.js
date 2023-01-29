@@ -25,12 +25,13 @@
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { findModuleType,getCurrentPackageJson} = require("@voerkai18n/utils")
+const { findModuleType,getCurrentPackageJson, getInstalledPackageInfo, getPackageReleaseInfo} = require("@voerkai18n/utils")
 const { t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const logger = createLogger() 
 const artTemplate = require("art-template")
- 
+const semver = require("semver")
+
 function normalizeCompileOptions(opts={}) {
     let options = Object.assign({
         moduleType:"auto",                               // 指定编译后的语言文件的模块类型，取值common,cjs,esm,es
@@ -60,6 +61,17 @@ function generateFormatterFile(langName,{isTypeScript,formattersFolder,templateC
         }
         fs.writeFileSync(formattersFile,formattersContent)
         logger.log(t(" - 更新格式化器:{}"),path.basename(formattersFile))
+    }
+}
+
+/**
+ * 将@voerkai18n/runtime更新到最新版本
+ */
+async function updateRuntime(){
+    const curVersion = getInstalledPackageInfo("@voerkai18n/runtime").version
+    const latestVersion = (await getPackageReleaseInfo("@voerkai18n/runtime")).lastVersion
+    if(semver.gt(latestVersion, curVersion)){
+        await upgradePackage("@voerkai18n/runtime")
     }
 }
 
