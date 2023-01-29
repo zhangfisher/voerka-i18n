@@ -1,6 +1,7 @@
 const path = require("path")
 const shelljs = require("shelljs")
 const fs = require("fs-extra")  
+const semver = require('semver')
 
 /**
  *  
@@ -418,6 +419,66 @@ function getPackageTool(){
         return 'npm'
     } 
 }   
+/**
+ * 异步执行脚本并返回输出结果
+ * @param {*} script 
+ * @param {*} options 
+ * @returns 
+ */
+ async function asyncExecShellScript(script,options={}){
+    const { silent=true} = options
+    return new Promise((resolve,reject)=>{
+        shelljs.exec(script,{silent,...options,async:true},(code,stdout)=>{
+            if(code>0){
+                reject(new Error(`执行<${script}>失败: ${stdout.trim()}`))
+            }else{
+                resolve(stdout.trim())
+            }
+        })   
+    }) 
+}
+/**
+ * 从NPM获取包最近发布的版本信息
+ * {
+    tags: { latest: '1.1.30' },
+    license: 'MIT',
+    author: 'wxzhang',
+    version: '1.1.30-latest',
+    latestVersion: '1.1.30',
+    firstCreated: '2022-03-24T09:32:51.748Z',
+    lastPublish: '2023-01-28T08:49:33.139Z',
+    size: 888125
+    }
+ * @param {*} packageName 
+ */
+ async function getPackageReleaseInfo(packageName) {
+    try{
+        let results = await asyncExecShellScript.call(this,`npm info ${packageName} --json`,{silent:true})
+        const info = JSON.parse(results)
+        const distTags = info["dist-tags"]
+        // 取得最新版本的版本号，不是latest
+        let lastVersion = Object.entries(distTags).reduce((result,[tag,value])=>{
+            if(semver.gt(value, result.value)){
+                result = {tag,value}
+            }
+            return result
+        },{tag:'latest',value:info["version"]})
+
+        return {
+            tags         : distTags, 
+            license      : info["license"], 
+            author       : info["author"],
+            version      : `${lastVersion.value}-${lastVersion.tag}`,
+            latestVersion: info["version"],
+            firstCreated : info.time["created"],
+            lastPublish  : info.time["modified"],
+            size         : info.dist["unpackedSize"] 
+        }
+    }catch(e){
+        console.error(`ERROR: 执行npm info ${packageName}出错: ${e.stack}`)
+        return null;        
+    }    
+}
 
 
 /**
@@ -592,6 +653,42 @@ function importTranslateFunction(code,sourceFile,langPath){
     return code                         
 }
 
+/**
+ * 检测当前环境是否已经安装了指定的包
+ * 如果已安装则返回
+ * {
+ *    version:"<版本号>",
+ *    path:"<安装路径>"
+ * }
+ * 如果未安装则返回null
+ * @param {*} packageName 
+ */
+function getInstalledPackageInfo(packageName,fields=[]){
+    try{
+        const packagePath = path.dirname(require.resolve(packageName))
+        const pkgInfo = fs.readJSONSync(path.join(packagePath,"package.json"))
+        let results = {
+            version: pkgInfo.version,
+            path: packagePath,
+        }
+        for(let field in fields){
+            if(field in pkgInfo){
+                results[field] = pkgInfo[field]
+            }else{
+                results[field] = null
+            }
+        }
+        return results
+    }catch(e){
+        return null
+        // if(e instanceof Error && e.code=="MODULE_NOT_FOUND"){
+        //     return null;
+        // }else{
+
+        // }
+    }    
+
+}
 
 module.exports = {
     fileMatcher,                            // 文件名称匹配器
@@ -614,7 +711,10 @@ module.exports = {
     getPackageTool,                         // 获取当前工程使用的包工具，如pnpm,yarn,npm
     installPackage,                         // 安装指定的包
     readIdMapFile,                          // 读取当前工程下的idMap文件
-    replaceTranslateText,
-    hasImportTranslateFunction,
-    importTranslateFunction                 // 在代码中导入t函数  
+    replaceTranslateText,                   //    
+    hasImportTranslateFunction,             // 检测代码中是否具有import { t } from "xxxx"
+    importTranslateFunction,                // 在代码中导入t函数  
+    asyncExecShellScript,                   // 异步执行一段脚本并返回结果
+    getPackageReleaseInfo,                  // 从npm上读取指定包的信息
+    getInstalledPackageInfo                 // 返回当前工程已安装的包信息，主要是版本号
 }

@@ -222,6 +222,7 @@ importers:
       logsets: ^1.0.21
       md5: ^2.3.0
       qs: ^6.10.3
+      semver: ^7.3.7
       shelljs: ^0.8.5
       through2: ^4.0.2
       vinyl: ^2.2.1
@@ -241,6 +242,7 @@ importers:
       logsets: 1.0.21
       md5: 2.3.0
       qs: 6.11.0
+      semver: 7.3.8
       shelljs: 0.8.5
       through2: 4.0.2
       vinyl: 2.2.1
@@ -295,9 +297,11 @@ importers:
   packages/utils:
     specifiers:
       fs-extra: ^10.0.1
+      semver: ^7.3.7
       shelljs: ^0.8.5
     dependencies:
       fs-extra: 10.1.0
+      semver: 7.3.8
       shelljs: 0.8.5
 
   packages/vite:
@@ -4667,7 +4671,7 @@ packages:
       fast-glob: 3.2.11
       fs-extra: 10.1.0
       logsets: 1.0.21
-      semver: 7.3.7
+      semver: 7.3.8
       shelljs: 0.8.5
     dev: true
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 const { Command } = require('commander');
 const createLogger =  require("logsets")
-
+const semver = require('semver')
 const path = require("path")
 const fs = require("fs-extra")
 const logger = createLogger()
 const { i18nScope ,t }  = require("./i18nProxy")
-const { getProjectSourceFolder,isTypeScriptProject }  = require("@voerkai18n/utils"); 
+const { getProjectSourceFolder,isTypeScriptProject, getPackageReleaseInfo,getInstalledPackageInfo }  = require("@voerkai18n/utils"); 
  
 
 const program = new Command();
@@ -14,13 +14,53 @@ program
     .name("voerkai18n")
     .option("-v, --version", "当前版本号")
     .helpOption('-h, --help', '显示帮助')
-    .action((options) => {
+    .action(async (options) => {
+        const currentVersion = require("./package.json").version
+        const newVersion = (await getPackageReleaseInfo("@voerkai18n/cli")).latestVersion
         const banner = logger.banner()
-        banner.add("VoerkaI18n CLI")
+        banner.add("VoerkaI18n")
         banner.add("VoerkaI18n command line interactive tools",{style:"darkGray"})
-        banner.add()
-        banner.add("版本号：",`${require("./package.json").version}`,{style:["","yellow"]})
+        banner.add() 
+        banner.add("installed: ",currentVersion,"  latest: ",newVersion,{style:["","yellow","","yellow"]})
         banner.render()
+
+        const tasks = logger.tasklist("检测VoerkaI18n最新版本")   
+        const packages = [
+            "@voerkai18n/cli",
+            "@voerkai18n/runtime",
+            "@voerkai18n/vue",
+            "@voerkai18n/react",
+            "@voerkai18n/vite",
+            "@voerkai18n/babel",
+            "voerkai18n-loader"
+        ]
+        let needUpgrades = []
+        for(let package of packages){
+            try{
+                let info = getInstalledPackageInfo(package)
+                tasks.add(`${package}(${info ? info.version : logger.colors.red('未安装')})`)
+                let newInfo = await getPackageReleaseInfo(package)
+                if(info){
+                    if(semver.gt(newInfo.latestVersion,info.version)){
+                        needUpgrades.push(package)
+                        tasks.fail(info.version)
+                    }else if(newInfo.version == info.version){
+                        tasks.complete("NEWEST")
+                    }else{
+                        tasks.skip("UNKNOWN")
+                    }                
+                }else{
+                    tasks.fail(newInfo.version)
+                }                
+            }catch(e) {
+                tasks.error(e.stack)
+            }        
+        }
+        // 
+        if(needUpgrades.length>0){
+            logger.log(logger.colors.red("\n请将{}升级到最新版本！",needUpgrades.join(","))) 
+        }
+        
     })
 program
     .command('init')
@@ -129,9 +169,6 @@ program
         const translate = require("./translate.command")
         translate(location,options)
     });
-
-
-
-
+ 
 program.parseAsync(process.argv);
  

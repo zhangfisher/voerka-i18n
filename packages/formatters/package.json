@@ -3,6 +3,7 @@
     "version": "1.0.27",
     "description": "格式化器，提供对要翻译文本的转换功能",
     "main": "index.js",
+    "private":true,
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",

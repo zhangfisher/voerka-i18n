@@ -24,11 +24,7 @@ pnpm add -g @voerkai18n/cli
 npm install --save @voerkai18n/runtime
 yarn add @voerkai18n/runtime
 pnpm add @voerkai18n/runtime
-```
-
-## **@voerkai18/formatters**
-
-**可选的**，一些额外的格式化器，可以按需进行安装到`dependencies`中，用来扩展翻译时对插值变量的额外处理。
+``` 
 
 ## **@voerkai18/babel**
 
@@ -45,3 +41,7 @@ pnpm add @voerkai18n/runtime
 ## **@voerkai18/vite**
 
 可选的`vite`插件，用来为`vite`应用提供自动导入翻译函数和翻译文本映射自动替换。
+
+## **@voerkai18/webpack**
+
+可选的`voerkai18n-loader for webpack`，用来实现自动导入翻译函数和翻译文本映射自动替换，当使用`webpack`作为打包构建工具时使用，比如`react-native`应用。

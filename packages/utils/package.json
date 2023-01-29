@@ -11,6 +11,7 @@
     "license": "ISC",
     "dependencies": {
         "fs-extra": "^10.0.1",
+        "semver": "^7.3.7",
         "shelljs": "^0.8.5"
     },
     "lastPublish": "2023-01-28T16:49:11+08:00"
