@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * 将extract插件扫描的文件编译为语言文件
  * 
@@ -21,19 +22,21 @@
  * 
  * @param {*} opts 
  */
-
+const { Command } = require('commander');
 const glob  = require("glob")
 const createLogger = require("logsets") 
 const path = require("path")
-const { t } = require("./i18nProxy")
+const { i18nScope,t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const logger = createLogger() 
 const artTemplate = require("art-template")
-const semver = require("semver")
+const semver = require("semver") 
 const { 
     findModuleType,
+    getProjectSourceFolder,
     getCurrentPackageJson, 
     getInstalledPackageInfo, 
+    isTypeScriptProject,
     getPackageReleaseInfo,
     upgradePackage
 } = require("@voerkai18n/utils")
@@ -79,10 +82,10 @@ async function updateRuntime(){
     try{
         const packageName = "@voerkai18n/runtime"
         const curVersion = getInstalledPackageInfo(packageName).version
-        const latestVersion = (await getPackageReleaseInfo(packageName)).lastVersion
+        const latestVersion = (await getPackageReleaseInfo(packageName)).latestVersion
         if(semver.gt(latestVersion, curVersion)){
             await upgradePackage(packageName)
-            task.complete(t("Updated:{}",latestVersion))
+            task.complete(t("Updated:{}",[latestVersion]))
             return 
         }        
         task.complete(t("已经是最新的"))
@@ -92,9 +95,14 @@ async function updateRuntime(){
     }    
 }
 
-module.exports =async  function compile(langFolder,opts={}){
+async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
-    let { moduleType,isTypeScript } = options; 
+    let { moduleType,isTypeScript,updateRuntime:isUpdateRuntime } = options; 
+
+    if(isUpdateRuntime){
+        await updateRuntime()
+    }    
+
     // 如果自动则会从当前项目读取，如果没有指定则会是esm
     if(moduleType==="auto"){
         moduleType = findModuleType(langFolder)
@@ -196,3 +204,30 @@ module.exports =async  function compile(langFolder,opts={}){
         logger.log(t("加载多语言配置文件<{}>失败: {} "),settingsFile,e.stack)
     }
 }
+
+const program = new Command();
+
+program
+    .description(t('编译指定项目的语言包'))
+    .option('-D, --debug', t('输出调试信息')) 
+    .option('-t, --typescript',t("输出typescript代码")) 
+    .option('-u, --update-runtime',t("自动更新runtime")) 
+    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
+    .argument('[location]',  t('工程项目所在目录'),"./")
+    .hook("preAction",async function(location){
+        const lang= process.env.LANGUAGE || "zh"
+         await i18nScope.change(lang)      
+    })
+    .action(async (location,options) => { 
+        location = getProjectSourceFolder(location)
+        options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
+        const langFolder = path.join(location,"languages")
+        if(!fs.existsSync(langFolder)){
+            logger.error(t("语言包文件夹<{}>不存在",langFolder))
+            return
+        }         
+        compile(langFolder,options)
+    });
+ 
+program.parseAsync(process.argv);
+ 

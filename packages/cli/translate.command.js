@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 /**
  * 将extract插件扫描的文件编译为语言文件
@@ -25,13 +26,13 @@
 
 const createLogger = require("logsets") 
 const path = require("path")
-const { t } = require("./i18nProxy")
+const { i18nScope,t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const { glob } = require("glob")
-const { default: axios } = require("axios")
 const logger = createLogger() 
-const { deepMerge } = require("@voerkai18n/utils")
-  
+const { deepMerge,getProjectSourceFolder } = require("@voerkai18n/utils")
+const { Command } = require('commander');
+
 const delay = async (t) => new Promise(resolve=>setTimeout(resolve,t))
 
 function normalizeTranslateOptions(opts={}) {
@@ -162,7 +163,7 @@ async function translateMessageFile(file,langSettings,options={}){
  
 
 
-module.exports =async function translate(srcFolder,opts={}){
+async function translate(srcFolder,opts={}){
     const options = normalizeTranslateOptions(opts);
     let {   backup, appkey,appid,provider="baidu",qps=1 } = options;
     if(!provider && !(appkey && appid) ) throw new Error(t("需要指定翻译脚本或者appkey和appid"))
@@ -185,7 +186,30 @@ module.exports =async function translate(srcFolder,opts={}){
             fs.copyFileSync(file,backupFile)
         }
         // 翻译文件
-        let results = await translateMessageFile.call(context,file,langSettings,options)
-
+        await translateMessageFile.call(context,file,langSettings,options)
     }
 }
+
+const program = new Command();
+
+program
+    .argument('[location]', t('工程项目所在目录'))
+    .description(t('调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务'))
+    .option('--no-backup', t('备份原始文件'))
+    .option('--mode', t('翻译模式，取值auto=仅翻译未翻译的,full=全部翻译'), 'auto')
+    .option('-p, --provider <value>', t('在线翻译服务提供者名称或翻译脚本文件'), 'baidu')
+    .option('-m, --max-package-size <value>', t('将多个文本合并提交的最大包字节数'), 200)
+    .option('--appid [id]', t('API ID'))
+    .option('--appkey [key]', t('API密钥'))
+    .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), 1)  
+    .hook("preAction",async function(location){
+        const lang= process.env.LANGUAGE || "zh"
+        await i18nScope.change(lang)     
+    })
+    .action((location,options) => { 
+        location = getProjectSourceFolder(location)
+        translate(location,options)
+    });
+
+program.parseAsync(process.argv);
+ 

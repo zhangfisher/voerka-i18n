@@ -18,3 +18,4 @@ dist
 /.yalc
 /versions.md
 autopub.log
+/versions.test.md

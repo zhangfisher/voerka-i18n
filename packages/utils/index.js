@@ -521,20 +521,21 @@ function createPackageJsonFile(targetPath,moduleType="auto"){
 }
 
 
-function installPackage(packageName){
+async function installPackage(packageName,{silent}={silent:true}){
     const packageTool = getPackageTool()
     try{
         if(packageTool=='pnpm'){
-            shelljs.exec(`pnpm add ${packageName}`)        
+            await asyncExecShellScript(`pnpm add ${packageName}`,{silent}) 
         }else if(packageTool=='yarn'){
-            shelljs.exec(`yarn add ${packageName}`)        
+            await asyncExecShellScript(`yarn add ${packageName}`,{silent})        
         }else{
-            shelljs.exec(`npm install ${packageName}`)        
+            await asyncExecShellScript(`npm install ${packageName}`,{silent})        
         }
     }catch{
-        shelljs.exec(`npm install ${packageName}`)        
-    }    
-}
+        await asyncExecShellScript(`npm install ${packageName}`,{silent})        
+    }      
+} 
+
 function upgradePackage(packageName){
     const packageTool = getPackageTool()
     try{
@@ -679,7 +680,7 @@ function importTranslateFunction(code,sourceFile,langPath){
  */
 function getInstalledPackageInfo(packageName,fields=[]){
     try{
-        const packagePath = path.dirname(require.resolve(packageName))
+        const packagePath = getProjectRootFolder(path.dirname(require.resolve(packageName)))
         const pkgInfo = fs.readJSONSync(path.join(packagePath,"package.json"))
         let results = {
             version: pkgInfo.version,

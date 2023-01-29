@@ -1,4 +1,4 @@
-
+#!/usr/bin/env node
 /**
  * 初始化指定项目的语言包
  */
@@ -9,8 +9,9 @@ const fs = require("fs")
 const { t } = require("./i18nProxy")
 const createLogger = require("logsets")
 const logger = createLogger() 
-const { installPackage,getCurrentPackageJson } = require("@voerkai18n/utils")
+const { installPackage,getCurrentPackageJson,getProjectSourceFolder } = require("@voerkai18n/utils")
 const artTemplate = require("art-template")
+const { Command } = require('commander');
 
 function getLanguageList(langs,defaultLanguage){
     try{
@@ -76,14 +77,14 @@ function getProjectModuleType(srcPath,isTypeScript){
     return isTypeScript ? 'esm' : 'cjs'       
 }
 
-module.exports = function(srcPath,{moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
+async function initializer(srcPath,{moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
     let settings = {}
     // 检查当前项目的模块类型
     if(!['esm',"cjs"].includes(moduleType)){
         moduleType = getProjectModuleType(srcPath)
     } 
 
-    let tasks = logger.tasklist("初始化VoerkaI18n工程")
+    let tasks = logger.tasklist("初始化VoerkaI18n多语言支持")
     const  langFolderName = "languages"
     // 查找当前项目的语言包类型路径
     const lngPath = path.join(srcPath,langFolderName)
@@ -137,7 +138,7 @@ module.exports = function(srcPath,{moduleType,isTypeScript,debug = true,language
     } 
 
     try{
-        tasks.add("生成IdMap文件")
+        tasks.add(t("生成IdMap文件"))
         const entryContent = isTypeScript ? "export default {}" : (moduleType=='cjs' ? "module.exports={}" :"export default {}")
         fs.writeFileSync(path.join(lngPath,`idMap.${isTypeScript ? 'ts' : 'js'}`),entryContent)
         tasks.complete()
@@ -146,21 +147,50 @@ module.exports = function(srcPath,{moduleType,isTypeScript,debug = true,language
     } 
  
     try{
-        tasks.add(t("安装运行时依赖@voerkai18n/runtime"))
-        installPackage('@voerkai18n/runtime')
+        tasks.add(t("安装@voerkai18n/runtime"))
+        await installPackage.call(this,'@voerkai18n/runtime')
         tasks.complete()
     }catch(e){
         tasks.error(e.message)
-        console.error(e.stack)
     } 
         
-    if(debug) {
-        logger.log(t("生成语言配置文件:{}"),"./languages/settings.json")
-        logger.log(t("拟支持的语言：{}"),settings.languages.map(l=>l.name).join(","))
-        logger.log(t("已安装运行时:{}"),'@voerkai18n/runtime')
-        logger.log(t("初始化成功,下一步："))
-        logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),"languages/settings.json")
-        logger.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
-        logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
-    } 
+    logger.log(t("生成语言配置文件:{}"),"./languages/settings.json")
+    logger.log(t("拟支持的语言：{}"),settings.languages.map(l=>l.name).join(","))
+    logger.log(t("已安装运行时:{}"),'@voerkai18n/runtime')
+    logger.log(t("初始化成功,下一步："))
+    logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),"languages/settings.json")
+    logger.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
+    logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
 } 
+
+const program = new Command();
+
+program
+    .argument('[location]', t('工程项目所在目录'))
+    .description(t('初始化项目国际化配置'))
+    .option('-D, --debug', t('输出调试信息'))
+    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
+    .option('-r, --reset', t('重新生成当前项目的语言配置'))
+    .option('-t, --typescript',t("输出typescript代码")) 
+    .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['zh','en'])     
+    .option('-d, --defaultLanguage <name>', t('默认语言'), 'zh')  
+    .option('-a, --activeLanguage <name>', t('激活语言'), 'zh')  
+    .hook("preAction",async function(location){
+        const lang= process.env.LANGUAGE || "zh"
+        await VoerkaI18nScope.change(lang)     
+    })
+    .action(async (location,options) => { 
+        options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
+        location = getProjectSourceFolder(location)
+        logger.log(t("工程目录：{}"),location)
+        //
+        if(options.debug){
+            logger.format(options,{compact:true})
+        }
+        await initializer.call(options,location,options)
+    });
+
+
+
+program.parseAsync(process.argv);
+ 

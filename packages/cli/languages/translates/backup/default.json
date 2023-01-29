@@ -4,379 +4,379 @@
         "$file": [
             "compile.command.js"
         ],
-        "de": "-Formatierer aktualisieren: {}"
+        "de": " - 更新格式化器:{}"
     },
     " - 访问入口文件: {}": {
         "en": " - Entry of language: {}",
         "$file": [
             "compile.command.js"
         ],
-        "de": "-Zugriffsdatei: {}"
+        "de": " - 访问入口文件: {}"
     },
     "加载多语言配置文件<{}>失败: {} ": {
         "en": "Failed to load multilingual configuration file <{}>: {}",
         "$file": [
             "compile.command.js"
         ],
-        "de": "Laden der mehrsprachigen Konfigurationsdatei fehlgeschlagen<{}>: {}"
+        "de": "加载多语言配置文件<{}>失败: {} "
     },
     "目标文件夹<{}>不存在": {
         "en": "The destination folder < {} > does not exist",
         "$file": [
             "extract.command.js"
         ],
-        "de": "Der Zielordner<{}>existiert nicht"
+        "de": "目标文件夹<{}>不存在"
     },
     "扫描提取范围：": {
         "en": "Scan for：",
         "$file": [
             "extract.command.js"
         ],
-        "de": "Scanextraktionsbereich:"
+        "de": "扫描提取范围："
     },
     "工程项目所在目录": {
         "en": "Project directory",
         "$file": [
             "index.js"
         ],
-        "de": "Projektverzeichnis"
+        "de": "工程项目所在目录"
     },
     "初始化项目国际化配置": {
         "en": "Initialize project i18n configuration",
         "$file": [
             "index.js"
         ],
-        "de": "Konfiguration der Projektinternationalisierung initialisieren"
+        "de": "初始化项目国际化配置"
     },
     "输出调试信息": {
         "en": "Output debug information",
         "$file": [
             "index.js"
         ],
-        "de": "Debugging-Informationen ausgeben"
+        "de": "输出调试信息"
     },
     "重新生成当前项目的语言配置": {
         "en": "Regenerate the language configuration of the current project",
         "$file": [
             "index.js"
         ],
-        "de": "Die Sprachkonfiguration des aktuellen Projekts neu erstellen"
+        "de": "重新生成当前项目的语言配置"
     },
     "支持的语言列表": {
         "en": "Supported languages",
         "$file": [
             "index.js"
         ],
-        "de": "Liste der unterstützten Sprachen"
+        "de": "支持的语言列表"
     },
     "工程目录：{}": {
         "en": "Folder of project：{}",
         "$file": [
             "index.js"
         ],
-        "de": "Projektverzeichnis: {}"
+        "de": "工程目录：{}"
     },
     "扫描并提取所有待翻译的字符串到<languages/translates>文件夹中": {
         "en": "Scan and extract all strings to be translated into the <languages/translations> folder",
         "$file": [
             "index.js"
         ],
-        "de": "Scannen und extrahieren Sie alle zu übersetzenden Zeichenfolgen in den Ordner <languages/translations>"
+        "de": "扫描并提取所有待翻译的字符串到<languages/translates>文件夹中"
     },
     "支持的语言": {
         "en": "Supported languages",
         "$file": [
             "index.js"
         ],
-        "de": "Unterstützte Sprachen"
+        "de": "支持的语言"
     },
     "默认语言": {
         "en": "Default language",
         "$file": [
             "index.js"
         ],
-        "de": "Standardsprache"
+        "de": "默认语言"
     },
     "激活语言": {
         "en": "Active language",
         "$file": [
             "index.js"
         ],
-        "de": "Sprache aktivieren"
+        "de": "激活语言"
     },
     "翻译名称空间": {
         "en": "Namespaces",
         "$file": [
             "index.js"
         ],
-        "de": "Übersetzungsnamensraum"
+        "de": "翻译名称空间"
     },
     "排除要扫描的文件夹，多个用逗号分隔": {
         "en": "Exclude folders to scan, multiple separated by commas",
         "$file": [
             "index.js"
         ],
-        "de": "Zu scannende Ordner ausschließen, mehrere werden durch Kommas getrennt"
+        "de": "排除要扫描的文件夹，多个用逗号分隔"
     },
     "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并": {
         "en": " strategy of messages merge,with value of sync(default),overwrite,merge",
         "$file": [
             "index.js"
         ],
-        "de": "Die Datenzusammenführungsrichtlinie des extrahierten Inhalts und des vorhandenen Inhalts. Standardwerte sind sync=synchronization, overwrite=überschreiben, merge=merge"
+        "de": "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并"
     },
     "要扫描的文件类型": {
         "en": "Type of file to scan",
         "$file": [
             "index.js"
         ],
-        "de": "Zu scannender Dateityp"
+        "de": "要扫描的文件类型"
     },
     "语言配置文件<{}>已存在,将优先使用此配置文件中参数来提取文本": {
         "en": "The language configuration file <{}> already exists. It will be used preferentially to extract messages",
         "$file": [
             "index.js"
         ],
-        "de": "Die Sprachkonfigurationsdatei<{}>existiert bereits. Die Parameter in dieser Konfigurationsdatei werden zuerst zum Extrahieren von Text verwendet."
+        "de": "语言配置文件<{}>已存在,将优先使用此配置文件中参数来提取文本"
     },
     "编译指定项目的语言包": {
         "en": "Compiles the language messages for project",
         "$file": [
             "index.js"
         ],
-        "de": "Kompilieren des Sprachpakets für das angegebene Projekt"
+        "de": "编译指定项目的语言包"
     },
     "输出模块类型,取值auto,esm,cjs": {
         "en": "Output module type, values： auto, esm, cjs",
         "$file": [
             "index.js"
         ],
-        "de": "Ausgabemodultyp, Wert auto, esm, cjs"
+        "de": "输出模块类型,取值auto,esm,cjs"
     },
     "语言包文件夹<{}>不存在": {
         "en": "The language messages folder <{}> does not exist",
         "$file": [
             "index.js"
         ],
-        "de": "Der Language Pack Ordner<{}>existiert nicht"
+        "de": "语言包文件夹<{}>不存在"
     },
     "生成语言配置文件:{}": {
         "en": "Generate language configuration: {}",
         "$file": [
             "init.command.js"
         ],
-        "de": "Sprachprofil generieren: {}"
+        "de": "生成语言配置文件:{}"
     },
     "拟支持的语言：{}": {
         "en": "Languages to be supported：{}",
         "$file": [
             "init.command.js"
         ],
-        "de": "Zu unterstützende Sprache: {}"
+        "de": "拟支持的语言：{}"
     },
     "初始化成功,下一步：": {
         "en": "Initialization succeeded, next step：",
         "$file": [
             "init.command.js"
         ],
-        "de": "Initialisierung erfolgreich, nächster Schritt:"
+        "de": "初始化成功,下一步："
     },
     " - 编辑{}确定拟支持的语言种类等参数": {
         "en": " - Edit language parameters in {}",
         "$file": [
             "init.command.js"
         ],
-        "de": "-Edit {} um den Sprachtyp und andere Parameter zu bestimmen, die unterstützt werden sollen"
+        "de": " - 编辑{}确定拟支持的语言种类等参数"
     },
     " - 运行<{}>扫描提取要翻译的文本": {
         "en": " - Run <{}> scan to extract the messages to be translated",
         "$file": [
             "init.command.js"
         ],
-        "de": "Führen Sie den<{}>Scan aus, um den zu übersetzenden Text zu extrahieren"
+        "de": " - 运行<{}>扫描提取要翻译的文本"
     },
     " - 运行<{}>编译语言包": {
         "en": " - Run <{}> compile language messages",
         "$file": [
             "init.command.js"
         ],
-        "de": "-Führen Sie das<{}>Compile Language Pack aus"
+        "de": " - 运行<{}>编译语言包"
     },
     "创建语言包文件夹: {}": {
         "en": "Create <languages> folder: {}",
         "$file": [
             "init.command.js"
         ],
-        "de": "Sprachpaket-Ordner erstellen: {}"
+        "de": "创建语言包文件夹: {}"
     },
     "编译结果输出至：{}": {
         "en": "Compile to：{}",
         "$file": [
             "compile.command.js"
         ],
-        "de": "Die Ergebnisse der Zusammenstellung werden ausgegeben an: {}"
+        "de": "编译结果输出至：{}"
     },
     "读取语言文件{}失败:{}": {
         "en": "Error while read language file{}: {}",
         "$file": [
             "compile.command.js"
         ],
-        "de": "Sprachdatei konnte nicht gelesen werden {}: {}"
+        "de": "读取语言文件{}失败:{}"
     },
     " - 语言包文件: {}": {
         "en": " - Language file: {}",
         "$file": [
             "compile.command.js"
         ],
-        "de": "Sprachpaket-Datei: {}"
+        "de": " - 语言包文件: {}"
     },
     " - idMap文件: {}": {
         "en": " - idMap file: {}",
         "$file": [
             "compile.command.js"
         ],
-        "de": "-IdMap-Datei: {}"
+        "de": " - idMap文件: {}"
     },
     " - 格式化器:{}": {
         "en": " - Formatters: {}",
         "$file": [
             "compile.command.js"
         ],
-        "de": "-Formatierer: {}"
+        "de": " - 格式化器:{}"
     },
     " - 共合成{}条文本": {
         "en": " - Total{} messages",
         "$file": [
             "compile.command.js"
         ],
-        "de": "-{} Text insgesamt"
+        "de": " - 共合成{}条文本"
     },
     "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务": {
         "en": "Call the API translation language package of the online translation service provider, eg:baidu translation service",
         "$file": [
             "index.js"
         ],
-        "de": "Rufen Sie die API des Online-Übersetzungsdienstleisters an, um das Sprachpaket des angegebenen Projekts zu übersetzen, z. B. Baidu Cloud Translation Service"
+        "de": "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务"
     },
     "API密钥": {
-        "en": "API Key",
+        "en": "API密钥",
         "$file": [
             "index.js"
         ],
-        "de": "API-Schlüssel"
+        "de": "API密钥"
     },
     "API ID": {
         "en": "API ID",
         "$file": [
             "index.js"
         ],
-        "de": "API-ID"
+        "de": "API ID"
     },
     "翻译速度限制,即每秒可调用的API次数": {
         "en": "Translation speed limit. API calls per second",
-        "de": "Übersetzungsgeschwindigkeitsbegrenzung, d. h. die Anzahl der API-Aufrufe pro Sekunde",
+        "de": "翻译速度限制,即每秒可调用的API次数",
         "$file": [
             "index.js"
         ]
     },
     "在线翻译服务提供者名称或翻译脚本文件": {
-        "en": "Online translation service provider name or translation script file",
-        "de": "Name des Online-Übersetzungsdienstleisters oder der Übersetzungsskriptdatei",
+        "en": "在线翻译服务提供者名称或翻译脚本文件",
+        "de": "在线翻译服务提供者名称或翻译脚本文件",
         "$file": [
             "index.js"
         ]
     },
     "将多个文本合并提交的最大包字节数": {
-        "en": "The maximum number of packet bytes submitted by merging multiple texts",
-        "de": "Die maximale Anzahl an Paketbytes, die durch Zusammenführen mehrerer Texte gesendet werden",
+        "en": "将多个文本合并提交的最大包字节数",
+        "de": "将多个文本合并提交的最大包字节数",
         "$file": [
             "index.js"
         ]
     },
     "正在翻译文件:{}": {
-        "en": "Translating file: {}",
-        "de": "Datei übersetzen: {}",
+        "en": "正在翻译文件:{}",
+        "de": "正在翻译文件:{}",
         "$file": [
             "translate.command.js"
         ]
     },
     "需要指定翻译脚本或者appkey和appid": {
-        "en": "You need to specify the translation script or appkey and appid",
-        "de": "Sie müssen das Übersetzungsskript oder appkey und appid angeben",
+        "en": "需要指定翻译脚本或者appkey和appid",
+        "de": "需要指定翻译脚本或者appkey和appid",
         "$file": [
             "translate.command.js"
         ]
     },
     " - 翻译 -> {}": {
-        "en": "-Translation ->{}",
-        "de": "-Übersetzung ->{}",
+        "en": " - 翻译 -> {}",
+        "de": " - 翻译 -> {}",
         "$file": [
             "translate.command.js"
         ]
     },
     "更新@voerkai18n/runtime运行时": {
-        "en": "Update @ voerkai18n/runtime runtime",
-        "de": "Update von voerkai18n/runtime runtime",
+        "en": "更新@voerkai18n/runtime运行时",
+        "de": "更新@voerkai18n/runtime运行时",
         "$file": [
             "compile.command.js"
         ]
     },
     "Updated:{}": {
         "en": "Updated:{}",
-        "de": "Aktualisiert:{}",
+        "de": "Updated:{}",
         "$file": [
             "compile.command.js"
         ]
     },
     "已经是最新的": {
-        "en": "It is the latest",
-        "de": "Es ist die neueste",
+        "en": "已经是最新的",
+        "de": "已经是最新的",
         "$file": [
             "compile.command.js"
         ]
     },
     "更新@voerkai18n/runtime失败,请手动更新!": {
-        "en": "Failed to update @ voerkai18n/runtime, please update manually!",
-        "de": "Fehler beim Update von voerkai18n/runtime, bitte manuell aktualisieren!",
+        "en": "更新@voerkai18n/runtime失败,请手动更新!",
+        "de": "更新@voerkai18n/runtime失败,请手动更新!",
         "$file": [
             "compile.command.js"
         ]
     },
     "支持的语言\\t: {}": {
-        "en": "Supported languages  t: {}",
-        "de": "Unterstützte Sprachen t: {}",
+        "en": "支持的语言\\t: {}",
+        "de": "支持的语言\\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ]
     },
     "默认语言\\t: {}": {
-        "en": "Default language  t: {}",
-        "de": "Standardsprache t: {}",
+        "en": "默认语言\\t: {}",
+        "de": "默认语言\\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ]
     },
     "激活语言\\t: {}": {
-        "en": "Activation language  t: {}",
-        "de": "Aktivierungssprache t: {}",
+        "en": "激活语言\\t: {}",
+        "de": "激活语言\\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ]
     },
     "名称空间\\t: {}": {
-        "en": "Namespace  t: {}",
-        "de": "Namensraum t: {}",
+        "en": "名称空间\\t: {}",
+        "de": "名称空间\\t: {}",
         "$file": [
             "compile.command.js",
             "extract.plugin.js"
         ]
     },
     "模块类型\\t: {}": {
-        "en": "Module type  t: {}",
-        "de": "Modultyp t: {}",
+        "en": "模块类型\\t: {}",
+        "de": "模块类型\\t: {}",
         "$file": [
             "compile.command.js"
         ]
@@ -389,64 +389,64 @@
         ]
     },
     "输出typescript代码": {
-        "en": "Output typescript code",
-        "de": "Ausgabetypscript code",
+        "en": "输出typescript代码",
+        "de": "输出typescript代码",
         "$file": [
             "index.js"
         ]
     },
     "备份原始文件": {
-        "en": "Back up original files",
-        "de": "Originaldateien sichern",
+        "en": "备份原始文件",
+        "de": "备份原始文件",
         "$file": [
             "index.js"
         ]
     },
     "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译": {
-        "en": "Translation mode, value auto=translate only untranslated, full=translate all",
-        "de": "Übersetzungsmodus, Wert auto=translate nur unübersetzt, full=translate all",
+        "en": "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译",
+        "de": "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译",
         "$file": [
             "index.js"
         ]
     },
     "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建": {
-        "en": "The language configuration file {} already exists, skipping creation. \\N Use {} to overwrite the creation",
-        "de": "Die Sprachkonfigurationsdatei {} existiert bereits, die Erstellung wird übersprungen. \\N Verwenden Sie {} um die Erstellung zu überschreiben",
+        "en": "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建",
+        "de": "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建",
         "$file": [
             "init.command.js"
         ]
     },
     "安装运行时依赖@voerkai18n/runtime": {
-        "en": "Install runtime dependency @ voerkai18n/runtime",
-        "de": "Runtime dependency=voerkai18n/runtime installieren",
+        "en": "安装运行时依赖@voerkai18n/runtime",
+        "de": "安装运行时依赖@voerkai18n/runtime",
         "$file": [
             "init.command.js"
         ]
     },
     "已安装运行时:{}": {
-        "en": "Runtime installed: {}",
-        "de": "Laufzeit installiert: {}",
+        "en": "已安装运行时:{}",
+        "de": "已安装运行时:{}",
         "$file": [
             "init.command.js"
         ]
     },
     "自动更新runtime": {
-        "en": "Automatically update runtime",
-        "de": "Laufzeit automatisch aktualisieren",
+        "en": "自动更新runtime",
+        "de": "自动更新runtime",
         "$file": [
             "compile.command.js"
         ]
     },
     "扫描并提取待翻译的文本到<languages/translates>": {
-        "en": "Scan and extract the text to be translated to<languages/translations>",
-        "de": "Scannen und extrahieren Sie den zu übersetzenden Text in<languages/translations>",
+        "en": "扫描并提取待翻译的文本到<languages/translates>",
+        "de": "扫描并提取待翻译的文本到<languages/translates>",
         "$file": [
             "index.js"
         ]
     },
     "在线翻译语言包,如使用百度云翻译服务": {
-        "en": "Online translation language packs, such as Baidu Cloud Translation Service",
-        "de": "Sprachpakete für Online-Übersetzungen wie Baidu Cloud Translation Service",
+        "en": "在线翻译语言包,如使用百度云翻译服务",
+        "de": "在线翻译语言包,如使用百度云翻译服务",
         "$file": [
             "index.js"
         ]

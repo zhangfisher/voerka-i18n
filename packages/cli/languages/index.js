@@ -3,8 +3,8 @@
  */
 
 const messageIds = require("./idMap")
-const { translate,i18nScope  } =  require("@voerkai18n/runtime")
-const defaultFormatters = require("@voerkai18n/runtime/formatters/zh.js")
+const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
+const defaultFormatters = require("./formatters/zh.js")
 const activeFormatters = defaultFormatters
 const defaultMessages =  require("./zh.js")        // 默认语言包
 const activeMessages = defaultMessages 

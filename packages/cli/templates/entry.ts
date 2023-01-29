@@ -36,5 +36,5 @@ const scope = new VoerkaI18nScope({
 const scopedTtranslate = translate.bind(scope) 
 export { 
     scopedTtranslate as t, 
-    scope as i18nScope
+    scope as VoerkaI18nScope
 }

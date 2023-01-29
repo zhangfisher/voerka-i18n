@@ -11,8 +11,8 @@ import defaultMessages from "./{{defaultLanguage}}.js"
 {{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages{{else}}import activeMessages  from "./{{activeLanguage}}.js"{{/if}}
 {{else}}
 const messageIds = require("./idMap")
-const { translate,i18nScope  } =  require("@voerkai18n/runtime")
-const defaultFormatters = require("@voerkai18n/runtime/formatters/{{defaultLanguage}}.js")
+const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
+const defaultFormatters = require("./formatters/{{defaultLanguage}}.js")
 {{if defaultLanguage === activeLanguage}}const activeFormatters = defaultFormatters{{else}}const activeFormatters = require("@voerkai18n/runtime/formatters/{{activeLanguage}}.js"){{/if}}
 const defaultMessages =  require("./{{defaultLanguage}}.js")        // 默认语言包
 {{if defaultLanguage === activeLanguage}}const activeMessages = defaultMessages{{else}}const activeMessages = require("./{{activeLanguage}}.js"){{/if}} 

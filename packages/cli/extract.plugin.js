@@ -387,7 +387,7 @@ function updateLanguageFile(newTexts,toLangFile,options){
 
 module.exports = function(options={}){
     options = normalizeLanguageOptions(options)
-    let {debug,outputPath, updateMode,languages} = options
+    let {debug,outputPath} = options
     
     logger.log(t("支持的语言\t: {}"),options.languages.map(item=>`${item.title}(${item.name})`).join(","))
     logger.log(t("默认语言\t: {}"),options.defaultLanguage)
@@ -464,7 +464,7 @@ module.exports = function(options={}){
 
         logger.log("下一步：")
         logger.log(" - 运行<{}>编译语言包","voerkai18n compile")
-        logger.log(" - 在源码中导入编译后的语言包[{}]","import './languages'")
+        logger.log(" - 在源码中从[{}]导入编译后的语言包","./languages")
 
 
         callback()               
