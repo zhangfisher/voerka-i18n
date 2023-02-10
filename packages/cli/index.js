@@ -33,4 +33,4 @@ program
     .command('translate',t('在线翻译语言包,如使用百度云翻译服务'),{executableFile:"./translate.command.js"})
 
 program.parseAsync(process.argv);
- 
+   
