@@ -1,4 +1,9 @@
 # 更新日志
+
+## 2023/2/13
+
+- 修改`@voerkai18n/cli`命令入口文件的换行行为`lf`
+
 ## 2023/1/28
 
 - 修复`voerkai18n init`生成`index.js`时的`i18nScope`拼写错误
