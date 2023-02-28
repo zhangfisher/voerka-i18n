@@ -9,7 +9,7 @@ const fs = require("fs")
 const { t,i18nScope } = require("./i18nProxy")
 const createLogger = require("logsets")
 const logger = createLogger() 
-const { installPackage,getCurrentPackageJson,getProjectSourceFolder } = require("@voerkai18n/utils")
+const { installPackage,isTypeScriptProject,getCurrentPackageJson,getProjectSourceFolder } = require("@voerkai18n/utils")
 const artTemplate = require("art-template")
 const { Command } = require('commander'); 
 
