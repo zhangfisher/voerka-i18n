@@ -177,7 +177,7 @@ program
     .option('-a, --activeLanguage <name>', t('激活语言'), 'zh')  
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE || "zh"
-        await VoerkaI18nScope.change(lang)     
+        await i18nScope.change(lang)     
     })
     .action(async (location,options) => { 
         options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
