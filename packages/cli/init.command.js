@@ -6,12 +6,12 @@
 
 const path = require("path")
 const fs = require("fs")
-const { t } = require("./i18nProxy")
+const { t,i18nScope } = require("./i18nProxy")
 const createLogger = require("logsets")
 const logger = createLogger() 
 const { installPackage,getCurrentPackageJson,getProjectSourceFolder } = require("@voerkai18n/utils")
 const artTemplate = require("art-template")
-const { Command } = require('commander');
+const { Command } = require('commander'); 
 
 function getLanguageList(langs,defaultLanguage){
     try{
