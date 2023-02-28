@@ -7,7 +7,7 @@
         "test": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js ",
         "test:app": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js -- app",
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
-        "docs:build": " dumi build",
+        "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
         "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
         "publish:auto": "autopub --all",
         "publish:all": "autopub",
