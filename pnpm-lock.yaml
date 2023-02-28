@@ -22,7 +22,7 @@ importers:
       gulp: ^4.0.2
       inquirer: ^8.2.4
       jest: ^27.5.1
-      logsets: ^1.0.21
+      logsets: ^1.0.35
       pnpm: ^7.9.0
       prettier: ^2.7.1
       rollup: ^2.77.2
@@ -51,7 +51,7 @@ importers:
       gulp: 4.0.2
       inquirer: 8.2.4
       jest: 27.5.1
-      logsets: 1.0.21
+      logsets: 1.0.35
       pnpm: 7.9.0
       prettier: 2.7.1
       rollup: 2.77.2
@@ -219,7 +219,7 @@ importers:
       fs-extra: ^10.0.1
       glob: ^7.2.0
       gulp: ^4.0.2
-      logsets: ^1.0.21
+      logsets: ^1.0.35
       md5: ^2.3.0
       qs: ^6.10.3
       semver: ^7.3.7
@@ -239,7 +239,7 @@ importers:
       fs-extra: 10.1.0
       glob: 7.2.3
       gulp: 4.0.2
-      logsets: 1.0.21
+      logsets: 1.0.35
       md5: 2.3.0
       qs: 6.11.0
       semver: 7.3.8
@@ -4670,7 +4670,7 @@ packages:
       enquirer: 2.3.6
       fast-glob: 3.2.11
       fs-extra: 10.1.0
-      logsets: 1.0.21
+      logsets: 1.0.35
       semver: 7.3.8
       shelljs: 0.8.5
     dev: true
@@ -8534,6 +8534,11 @@ packages:
     deprecated: flatten is deprecated in favor of utility frameworks such as lodash.
     dev: true
 
+  /flex-tools/1.0.58:
+    resolution: {integrity: sha512-mn/LpPSDS0QcD62Yb0NpYTYWbtxsUA4FdPQOLDTG2GIAEorCHzJ4MkmZvIun/saVSnqju3h3JR0YwOqH/eV2aA==}
+    dependencies:
+      lodash: 4.17.21
+
   /flush-write-stream/1.1.1:
     resolution: {integrity: sha512-3Z4XhFZ3992uIq0XOqb9AreonueSYphE6oYbpt5+3u06JWklbsPkNv3ZKkP9Bz/r+1MWCaMoSQ28P85+1Yc77w==}
     dependencies:
@@ -11205,13 +11210,14 @@ packages:
       is-unicode-supported: 0.1.0
     dev: true
 
-  /logsets/1.0.21:
-    resolution: {integrity: sha512-H9QS4CjAszUvY3QjprOT2+HHcdfSKVaYvdXR68MDMcMK18zMc1GsAlOq12uJ4K72ImJcjTMj8NvhQ0WXe42+7w==}
+  /logsets/1.0.35:
+    resolution: {integrity: sha512-5n7IYZ1yp+fLKemts8CtwQIjsaXAt7bsotcNM5G4+hrkwFUEfk0ku3hY9G6y3YMCjC9PJ5FraALC2MBUOQ56+Q==}
     dependencies:
       '@babel/runtime-corejs3': 7.18.9
       ansicolor: 1.1.100
       core-js: 3.24.1
       deepmerge: 4.2.2
+      flex-tools: 1.0.58
 
   /longest-streak/2.0.4:
     resolution: {integrity: sha512-vM6rUVCVUJJt33bnmHiZEvr7wPT78ztX7rojL+LW51bHtLh6HTjx84LA5W4+oa6aKEJA7jJu5LR6vQRBpA5DVg==}
