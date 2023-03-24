@@ -45,6 +45,7 @@
         "qs": "^6.10.3",
         "semver": "^7.3.7",
         "shelljs": "^0.8.5",
+        "string.prototype.replaceall": "^1.0.7",
         "through2": "^4.0.2",
         "vinyl": "^2.2.1"
     },

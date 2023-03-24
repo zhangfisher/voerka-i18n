@@ -1,5 +1,9 @@
 # 更新日志
 
+## 2023/3/24
+
+- 在`@voerkai18n/cli`中引入`string.prototype.replaceAll`,解决在`nodejs 15`以下无法正常使用的问题
+
 ## 2023/2/13
 
 - 修改`@voerkai18n/cli`命令入口文件的换行行为`lf`
