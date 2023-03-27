@@ -1,5 +1,9 @@
 # 更新日志
 
+## 2023/3/27
+
+- [BUG] 修复`@voerkai18n/cli`命令因为`logsets`依赖问题导致的`RangeError: Invalid array length`错误
+
 ## 2023/2/13
 
 - 修改`@voerkai18n/cli`命令入口文件的换行行为`lf`

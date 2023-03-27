@@ -22,7 +22,7 @@ importers:
       gulp: ^4.0.2
       inquirer: ^8.2.4
       jest: ^27.5.1
-      logsets: ^1.0.35
+      logsets: ^1.0.39
       pnpm: ^7.9.0
       prettier: ^2.7.1
       rollup: ^2.77.2
@@ -51,7 +51,7 @@ importers:
       gulp: 4.0.2
       inquirer: 8.2.4
       jest: 27.5.1
-      logsets: 1.0.35
+      logsets: 1.0.39
       pnpm: 7.9.0
       prettier: 2.7.1
       rollup: 2.77.2
@@ -219,7 +219,7 @@ importers:
       fs-extra: ^10.0.1
       glob: ^7.2.0
       gulp: ^4.0.2
-      logsets: ^1.0.35
+      logsets: ^1.0.39
       md5: ^2.3.0
       qs: ^6.10.3
       semver: ^7.3.7
@@ -239,7 +239,7 @@ importers:
       fs-extra: 10.1.0
       glob: 7.2.3
       gulp: 4.0.2
-      logsets: 1.0.35
+      logsets: 1.0.39
       md5: 2.3.0
       qs: 6.11.0
       semver: 7.3.8
@@ -1684,6 +1684,7 @@ packages:
     dependencies:
       core-js-pure: 3.24.1
       regenerator-runtime: 0.13.9
+    dev: true
 
   /@babel/runtime-corejs3/7.20.13:
     resolution: {integrity: sha512-p39/6rmY9uvlzRiLZBIB3G9/EBr66LBMcYm7fIDeSBNdRjF2AGD3rFZucUyAgGHC2N+7DdLvVi33uTjSE44FIw==}
@@ -1691,7 +1692,6 @@ packages:
     dependencies:
       core-js-pure: 3.27.1
       regenerator-runtime: 0.13.11
-    dev: false
 
   /@babel/runtime-corejs3/7.20.7:
     resolution: {integrity: sha512-jr9lCZ4RbRQmCR28Q8U8Fu49zvFqLxTY9AMOUz+iyMohMoAgpEcVxY+wJNay99oXOpOcCTODkk70NDN2aaJEeg==}
@@ -4670,7 +4670,7 @@ packages:
       enquirer: 2.3.6
       fast-glob: 3.2.11
       fs-extra: 10.1.0
-      logsets: 1.0.35
+      logsets: 1.0.39
       semver: 7.3.8
       shelljs: 0.8.5
     dev: true
@@ -6322,6 +6322,7 @@ packages:
   /core-js-pure/3.24.1:
     resolution: {integrity: sha512-r1nJk41QLLPyozHUUPmILCEMtMw24NG4oWK6RbsDdjzQgg9ZvrUsPBj1MnG0wXXp1DCDU6j+wUvEmBSrtRbLXg==}
     requiresBuild: true
+    dev: true
 
   /core-js-pure/3.27.1:
     resolution: {integrity: sha512-BS2NHgwwUppfeoqOXqi08mUqS5FiZpuRuJJpKsaME7kJz0xxuk0xkhDdfMIlP/zLa80krBqss1LtD7f889heAw==}
@@ -6336,6 +6337,7 @@ packages:
   /core-js/3.24.1:
     resolution: {integrity: sha512-0QTBSYSUZ6Gq21utGzkfITDylE8jWC9Ne1D2MrhvlsZBI1x39OdDIVbzSqtgMndIy6BlHxBXpMGqzZmnztg2rg==}
     requiresBuild: true
+    dev: true
 
   /core-js/3.27.1:
     resolution: {integrity: sha512-GutwJLBChfGCpwwhbYoqfv03LAfmiz7e7D/BNxzeMxwQf10GRSzqiOjx7AmtEk+heiD/JWmBuyBPgFtx0Sg1ww==}
@@ -11210,12 +11212,12 @@ packages:
       is-unicode-supported: 0.1.0
     dev: true
 
-  /logsets/1.0.35:
-    resolution: {integrity: sha512-5n7IYZ1yp+fLKemts8CtwQIjsaXAt7bsotcNM5G4+hrkwFUEfk0ku3hY9G6y3YMCjC9PJ5FraALC2MBUOQ56+Q==}
+  /logsets/1.0.39:
+    resolution: {integrity: sha512-/AL9mc3MOEhCMmRP6mh9BpwqMVjR9OA8ULxiYKPha7Za8DBWGnDvGNuk7LC3fmhSZm2GWy2EVE7ayLq3rLsYnA==}
     dependencies:
-      '@babel/runtime-corejs3': 7.18.9
+      '@babel/runtime-corejs3': 7.20.13
       ansicolor: 1.1.100
-      core-js: 3.24.1
+      core-js: 3.27.1
       deepmerge: 4.2.2
       flex-tools: 1.0.58
 
@@ -14587,6 +14589,7 @@ packages:
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+    dev: true
 
   /regenerator-transform/0.10.1:
     resolution: {integrity: sha512-PJepbvDbuK1xgIgnau7Y90cwaAmO/LCLMI2mPvaXq2heGMR3aWW5/BQvYrhJ8jgmQjXewXvBjzfqKcVOmhjZ6Q==}

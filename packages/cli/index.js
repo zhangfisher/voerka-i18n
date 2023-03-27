@@ -20,9 +20,9 @@ program
         banner.add("VoerkaI18n command line interactive tools",{style:"darkGray"})
         banner.add() 
         banner.add("installed: {} latest: {}",[currentVersion,newVersion])
-        if(!semver.gt(newVersion,currentVersion)){
+        //if(!semver.gt(newVersion,currentVersion)){
             banner.add("Run <{#yellow}> to upgrade","npm upgrade -g @voerkai18n/cli")
-        }
+        //}
         banner.render() 
     })
 
