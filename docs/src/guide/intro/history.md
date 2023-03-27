@@ -2,7 +2,11 @@
 
 ## 2023/3/27
 
-- [BUG] 修复`@voerkai18n/cli`命令因为`logsets`依赖问题导致的`RangeError: Invalid array length`错误
+- [BUG] 修复`@voerkai18n/cli`命令因为`logsets`依赖升级后导致的`RangeError: Invalid array length`错误
+
+## 2023/3/24
+
+- 在`@voerkai18n/cli`中引入`string.prototype.replaceAll`,解决在`nodejs 15`以下无法正常使用的问题
 
 ## 2023/2/13
 

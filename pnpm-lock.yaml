@@ -224,6 +224,7 @@ importers:
       qs: ^6.10.3
       semver: ^7.3.7
       shelljs: ^0.8.5
+      string.prototype.replaceall: ^1.0.7
       through2: ^4.0.2
       vinyl: ^2.2.1
     dependencies:
@@ -244,6 +245,7 @@ importers:
       qs: 6.11.0
       semver: 7.3.8
       shelljs: 0.8.5
+      string.prototype.replaceall: 1.0.7
       through2: 4.0.2
       vinyl: 2.2.1
 
@@ -15734,6 +15736,17 @@ packages:
       internal-slot: 1.0.4
       regexp.prototype.flags: 1.4.3
       side-channel: 1.0.4
+
+  /string.prototype.replaceall/1.0.7:
+    resolution: {integrity: sha512-xB2WV2GlSCSJT5dMGdhdH1noMPiAB91guiepwTYyWY9/0Vq/TZ7RPmnOSUGAEvry08QIK7EMr28aAii+9jC6kw==}
+    dependencies:
+      call-bind: 1.0.2
+      define-properties: 1.1.4
+      es-abstract: 1.21.1
+      get-intrinsic: 1.2.0
+      has-symbols: 1.0.3
+      is-regex: 1.1.4
+    dev: false
 
   /string.prototype.trimend/1.0.6:
     resolution: {integrity: sha512-JySq+4mrPf9EsDBEDYMOb/lM7XQLulwg5R/m1r0PXEFqrV0qHvl58sdTilSXtKOflCsK2E8jxf+GKC0T07RWwQ==}
