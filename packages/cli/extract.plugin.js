@@ -47,7 +47,7 @@ function removeComments(content,filetype="js"){
     Object.entries(commentRegexs).forEach(([filetype,regexps])=>{
         if(filetype.split(",").includes(filetype)){
             regexps.forEach(regex=>{
-                content = content.replaceAll(regex,"")
+                 content = content.replaceAll(regex,"")
             })
         }
     })

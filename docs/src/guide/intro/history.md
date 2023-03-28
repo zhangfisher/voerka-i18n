@@ -1,7 +1,7 @@
 # 更新日志
-
 ## 2023/3/27
 
+- [BUG] 修复`@voerkai18n/cli extract`在`nodejs < 15`版本下由于缺少`replaceAll`而导致出错的问题，现在在`nodejs >=12`时也可以运行
 - [BUG] 修复`@voerkai18n/cli`命令因为`logsets`依赖升级后导致的`RangeError: Invalid array length`错误
 
 ## 2023/3/24
