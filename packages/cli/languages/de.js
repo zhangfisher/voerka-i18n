@@ -58,9 +58,10 @@ module.exports = {
     "57": "Originaldateien sichern",
     "58": "Übersetzungsmodus, Wert auto=translate nur unübersetzt, full=translate all",
     "59": "Die Sprachkonfigurationsdatei {} existiert bereits, die Erstellung wird übersprungen. \\N Verwenden Sie {} um die Erstellung zu überschreiben",
-    "60": "Runtime dependency=voerkai18n/runtime installieren",
-    "61": "Laufzeit installiert: {}",
-    "62": "Laufzeit automatisch aktualisieren",
-    "63": "Scannen und extrahieren Sie den zu übersetzenden Text in<languages/translations>",
-    "64": "Sprachpakete für Online-Übersetzungen wie Baidu Cloud Translation Service"
+    "60": "Laufzeit installiert: {}",
+    "61": "Laufzeit automatisch aktualisieren",
+    "62": "Scannen und extrahieren Sie den zu übersetzenden Text in<languages/translations>",
+    "63": "Sprachpakete für Online-Übersetzungen wie Baidu Cloud Translation Service",
+    "64": "生成IdMap文件",
+    "65": "安装@voerkai18n/runtime"
 }

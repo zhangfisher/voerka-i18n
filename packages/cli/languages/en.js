@@ -58,9 +58,10 @@ module.exports = {
     "57": "Back up original files",
     "58": "Translation mode, value auto=translate only untranslated, full=translate all",
     "59": "The language configuration file {} already exists, skipping creation. \\N Use {} to overwrite the creation",
-    "60": "Install runtime dependency @ voerkai18n/runtime",
-    "61": "Runtime installed: {}",
-    "62": "Automatically update runtime",
-    "63": "Scan and extract the text to be translated to<languages/translations>",
-    "64": "Online translation language packs, such as Baidu Cloud Translation Service"
+    "60": "Runtime installed: {}",
+    "61": "Automatically update runtime",
+    "62": "Scan and extract the text to be translated to<languages/translations>",
+    "63": "Online translation language packs, such as Baidu Cloud Translation Service",
+    "64": "生成IdMap文件",
+    "65": "安装@voerkai18n/runtime"
 }

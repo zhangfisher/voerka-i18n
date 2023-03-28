@@ -416,13 +416,6 @@
             "init.command.js"
         ]
     },
-    "安装运行时依赖@voerkai18n/runtime": {
-        "en": "Install runtime dependency @ voerkai18n/runtime",
-        "de": "Runtime dependency=voerkai18n/runtime installieren",
-        "$file": [
-            "init.command.js"
-        ]
-    },
     "已安装运行时:{}": {
         "en": "Runtime installed: {}",
         "de": "Laufzeit installiert: {}",
@@ -449,6 +442,20 @@
         "de": "Sprachpakete für Online-Übersetzungen wie Baidu Cloud Translation Service",
         "$file": [
             "index.js"
+        ]
+    },
+    "生成IdMap文件": {
+        "en": "生成IdMap文件",
+        "de": "生成IdMap文件",
+        "$file": [
+            "init.command.js"
+        ]
+    },
+    "安装@voerkai18n/runtime": {
+        "en": "安装@voerkai18n/runtime",
+        "de": "安装@voerkai18n/runtime",
+        "$file": [
+            "init.command.js"
         ]
     }
 }
