@@ -11,7 +11,8 @@ const path = require('path')
 const fs = require('fs-extra')
 const createLogger = require("logsets") 
 const { t } = require("./i18nProxy") 
-
+const replaceAll = require('string.prototype.replaceall');
+replaceAll.shim()
 
 const logger = createLogger() 
 
