@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vite",
-    "version": "1.0.35",
+    "version": "1.0.36",
     "description": "Vite插件,提供自动插入翻译函数和文本映射等功能",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
@@ -18,7 +18,7 @@
     "dependencies": {
         "@voerkai18n/utils": "workspace:latest"
     },
-    "lastPublish": "2023-02-13T11:14:02+08:00",
+    "lastPublish": "2023-03-29T17:37:31+08:00",
     "devDependencies": {
         "vite": "^4.0.4"
     }
