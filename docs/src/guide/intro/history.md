@@ -1,7 +1,15 @@
 # 更新日志
+## 2023/3/29
+
+- **fix(runtime)** 在由于一些js引擎(如react-native Hermes )不支持正则表达式命名捕获组而导致运行时不能使用，所以本次更新移除命名捕获组，解决在`react-native`中出错的问题。
+
+- **fix(utils)** 引入`string.prototype.replaceAll`,解决在`nodejs 15`以下无法正常使用的问题
+
+- **test** 增加`pacakges/apps/nodejs`演示程序用于调试使用。
+
 ## 2023/3/27
 
-- [BUG] 修复`@voerkai18n/cli extract`在`nodejs < 15`版本下由于缺少`replaceAll`而导致出错的问题，现在在`nodejs >=12`时也可以运行
+- [Fix] 修复`@voerkai18n/cli extract`在`nodejs < 15`版本下由于缺少`replaceAll`而导致出错的问题，现在在`nodejs >=12`时也可以运行
 - [BUG] 修复`@voerkai18n/cli`命令因为`logsets`依赖升级后导致的`RangeError: Invalid array length`错误
 
 ## 2023/3/24
