@@ -1,0 +1,7 @@
+{
+    "name": "@voerkai18n/testapp",
+    "main": "./index.js",
+    "scripts": {
+        "release": "pnpm autopublish"
+    }
+}
