@@ -33,7 +33,10 @@ const { parseFormatters } = require("./formatter")
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
 // 支持参数： { var | formatter(x,x,..) | formatter }
-let varWithPipeRegexp =	/\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
+// v1 采用命名捕获组
+//let varWithPipeRegexp =	/\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
+// v2: 由于一些js引擎(如react-native Hermes )不支持命名捕获组而导致运行时不能使用，所以此处移除命名捕获组
+let varWithPipeRegexp =	/\{\s*(\w+)?((\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
 
 /**
  * 考虑到通过正则表达式进行插值的替换可能较慢
@@ -102,9 +105,9 @@ function forEachInterpolatedVars(str, replacer, options = {}) {
 	let opts = Object.assign({replaceAll: true },options);
 	varWithPipeRegexp.lastIndex = 0;
 	while ((matched = varWithPipeRegexp.exec(result)) !== null) {
-		const varname = matched.groups.varname || "";
+        const varname = matched[1] || "";
 		// 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
-		const formatters = parseFormatters(matched.groups.formatters);
+		const formatters = parseFormatters(matched[2] || "");
 		if (isFunction(replacer)) {
 			try {
 				const finalValue = replacer(varname, formatters, matched[0]);
