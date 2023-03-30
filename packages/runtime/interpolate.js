@@ -105,6 +105,10 @@ function forEachInterpolatedVars(str, replacer, options = {}) {
 	let opts = Object.assign({replaceAll: true },options);
 	varWithPipeRegexp.lastIndex = 0;
 	while ((matched = varWithPipeRegexp.exec(result)) !== null) {
+        // 这对于避免零宽度匹配的无限循环是必要的
+        if (matched.index === varWithPipeRegexp.lastIndex) {
+            varWithPipeRegexp.lastIndex++;
+        }        
         const varname = matched[1] || "";
 		// 解析格式化器和参数 = [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
 		const formatters = parseFormatters(matched[2] || "");
