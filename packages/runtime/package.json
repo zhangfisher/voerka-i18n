@@ -21,9 +21,11 @@
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
+        "@babel/runtime": "^7.20.7",
         "@babel/runtime-corejs3": "latest",
         "core-js": "^3.27.1",
-        "@babel/runtime": "^7.20.7"
+        "flex-tools": "^1.0.72",
+        "string.prototype.replaceall": "^1.0.7"
     },
     "devDependencies": {
         "@babel/cli": "^7.17.6",
@@ -38,7 +40,8 @@
         "jest": "^27.5.1",
         "rollup": "^2.69.0",
         "rollup-plugin-clear": "^2.0.7",
-        "rollup-plugin-terser": "^7.0.2"
+        "rollup-plugin-terser": "^7.0.2",
+        "vitest": "^0.29.8"
     },
     "lastPublish": "2023-03-30T08:53:24+08:00"
 }

@@ -20,8 +20,4 @@ const numberFormartter = Formatter(function(value,precision,division,$config){
     configKey: "number"
 })
 
-
-
-module.exports = { 
-    numberFormartter
-}
+ 

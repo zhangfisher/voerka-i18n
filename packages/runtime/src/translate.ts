@@ -1,5 +1,10 @@
-const {isNumber,isPlainObject,isFunction} = require("./utils")
-const { replaceInterpolatedVars } = require("./interpolate")
+import { isNumber } from "flex-tools/typecheck/isNumber"
+import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
+import { isFunction } from "flex-tools/typecheck/isFunction"
+import { replaceInterpolatedVars } from "./interpolate"
+import type { VoerkaI18nScope } from "./scope"
+
+
 /**
  *  当传入的翻译内容不是一个字符串时，进行默认的转换
  * 
@@ -10,7 +15,7 @@ const { replaceInterpolatedVars } = require("./interpolate")
  * @param {*} value 
  * @returns 
  */
- function transformToString(value){
+ function transformToString(value:any){
     let result  = value
     try{
         if(isFunction(result)) result = value()
@@ -34,7 +39,7 @@ const { replaceInterpolatedVars } = require("./interpolate")
  * @param {*} content 
  * @returns 
  */
- function isMessageId(content){
+ function isMessageId(content:string){
     return isNumber(content)
 }
 /**
@@ -43,7 +48,7 @@ const { replaceInterpolatedVars } = require("./interpolate")
  * @param {*} messages  复数形式的文本内容 = [<=0时的内容>，<=1时的内容>，<=2时的内容>,...]
  * @param {*} value 
  */
-function getPluraMessage(messages,value){
+function getPluraMessage(messages:any,value:number){
     try{
         if(Array.isArray(messages)){
             return messages.length > value ? messages[value] : messages[messages.length-1]
@@ -67,27 +72,28 @@ function getPluraMessage(messages,value){
  * this===scope  当前绑定的scope
  * 
  */
-function translate(message) { 
+export function translate(this:VoerkaI18nScope,message:string,...args:any[]) { 
     const scope = this
     const activeLanguage = scope.global.activeLanguage 
-    let content = message
+    let content:string = message
     let vars=[]                 // 插值变量列表
     let pluralVars= []          // 复数变量
     let pluraValue = null       // 复数值
-    if(!typeof(message)==="string") return message
+    if(!(typeof(message)==="string")) return message
     try{
         // 1. 预处理变量:  复数变量保存至pluralVars中 , 变量如果是Function则调用 
         if(arguments.length === 2 && isPlainObject(arguments[1])){
+            const dictVars:Record<string,any>={}
             Object.entries(arguments[1]).forEach(([name,value])=>{
-                if(isFunction(value)){
+                if(typeof(value)=="function"){
                     try{
-                        vars[name] = value()
+                        dictVars[name] = value()
                     }catch(e){
-                        vars[name] = value
+                        dictVars[name] = value
                     }
                 } 
                 // 以$开头的视为复数变量
-                if(name.startsWith("$") && typeof(vars[name])==="number")  pluralVars.push(name)
+                if(name.startsWith("$") && typeof(dictVars[name])==="number")  pluralVars.push(name)
             })
             vars = [arguments[1]]
         }else if(arguments.length >= 2){
@@ -141,9 +147,4 @@ function translate(message) {
         return content       // 出错则返回原始文本
     } 
 }
- 
-
-
-module.exports = {
-    translate
-}
+  

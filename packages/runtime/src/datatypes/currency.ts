@@ -4,8 +4,11 @@
  * 
  */
 
-const { isNumber, toNumber, getByPath } = require('../utils')
-const { FlexFormatter } = require("../formatter")
+import { toNumber } from '../utils'
+import { get as getByPath } from "flex-tools/object/get"
+import { isNumber } from "flex-tools/typecheck/isNumber"
+import { FlexFormatter }  from "../formatter"
+
 
 /**
  * 为字符串按bits位添加一个,
@@ -13,7 +16,7 @@ const { FlexFormatter } = require("../formatter")
  * @param {*} bits 
  * @returns 
  */
-function addSplitChars(str,bits=3){
+function addSplitChars(str:string,bits:number=3){
    let regexp =  new RegExp(String.raw`(?!^)(?=(\d{${bits}})+$)`,"g")
    let r = str.replace(regexp,",")
    if(r.startsWith(",")) r = r.substring(1)
@@ -33,7 +36,7 @@ function addSplitChars(str,bits=3){
  * @param {*} format      格式模块板字符串
  * @returns 
  */
- function toCurrency(value,params={},$config={}){
+export function toCurrency(value:string|number ,params:Record<string,any>={},$config={}){
     let {symbol="",division=3,prefix="",precision=2,suffix="",unit=0,radix=3,format="{symbol}{value}{unit}"}  = params
 
     // 1. 分离出整数和小数部分
@@ -47,7 +50,7 @@ function addSplitChars(str,bits=3){
         // 不足位数时补零
         if(wholeDigits.length<radix*unit) wholeDigits = new Array(radix*unit-wholeDigits.length+1).fill(0).join("")+ wholeDigits    
         // 将整数的最后radix*unit字符移到小数部分前面
-        decimalDigits=wholeDigits.substring(wholeDigits,wholeDigits.length-radix*unit)+decimalDigits        
+        decimalDigits=wholeDigits.substring(Number(wholeDigits),wholeDigits.length-radix*unit)+decimalDigits        
         wholeDigits  = wholeDigits.substring(0,wholeDigits.length-radix*unit)
         if(wholeDigits=="") wholeDigits = "0"      
     } 
@@ -67,14 +70,18 @@ function addSplitChars(str,bits=3){
         result.push(`.${decimalDigits}`)
     } 
     // 5. 模板替换 
-    const unitName =  getByPath($config,`units`,[])[unit] || ""
+    const unitName =  getByPath($config,`units`,{defaultValue:[]})[unit] || ""
     return format.replace("{value}",result.join(""))
                     .replace("{symbol}",symbol)
                     .replace("{prefix}",prefix)
                     .replace("{suffix}",suffix)
                     .replace("{unit}",unitName)
 }
-const currencyFormatter = FlexFormatter((value,params={},$config)=>{
+
+/**
+ * 货币格式化器
+ */
+export const currencyFormatter = FlexFormatter((value:string | number,params:Record<string,any>={},$config:any)=>{
     // format可以取预设值的名称，如long,short等    
     if(params.format in $config){
         params.format = $config[params.format]
@@ -99,8 +106,4 @@ const currencyFormatter = FlexFormatter((value,params={},$config)=>{
     unit:0              // 小数点精度控制,0代表不控制
 })
 
-
-module.exports = {
-    toCurrency,
-    currencyFormatter
-}
+ 

@@ -1,11 +1,10 @@
-const {DataTypes,getDataTypeName,isFunction,deepMerge,toBoolean} = require("./utils")
-const {createFormatter,Formatter,FlexFormatter,createFlexFormatter} = require("./formatter")
-const { toDate } = require("./datatypes/datetime")
-const { toNumber } = require("./datatypes/numeric")
-const EventEmitter = require("./eventemitter")
-const inlineFormatters = require("./formatters")         
-const VoerkaI18nScope = require("./scope")
-const { translate } = require("./translate")
+import { isFunction } from "flex-tools/typecheck/isFunction"
+import { deepMerge } from "flex-tools/object/deepMerge"
+import {DataTypes} from "./utils"
+import { EventEmitter } from "./eventemitter"
+import inlineFormatters from "./formatters"         
+import { VoerkaI18nLanguage, VoerkaI18nScope, VoerkaI18nFormatters, VoerkI18nMessageLoader, VoerkaI18nFormatter } from "./scope"
+
 
 // 默认语言配置
 const defaultLanguageSettings = {  
@@ -17,8 +16,15 @@ const defaultLanguageSettings = {
         {name:"zh",title:"中文",default:true},
         {name:"en",title:"英文"}
     ]
-}
+} as VoerkaI18nManagerOptions
 
+export interface VoerkaI18nManagerOptions {
+    debug?: boolean
+    defaultLanguage: string
+    activeLanguage: string
+    formatters: VoerkaI18nFormatters
+    languages: VoerkaI18nLanguage[]
+}
 /** 
  * 多语言管理类
  * 
@@ -34,37 +40,43 @@ const defaultLanguageSettings = {
  * VoerkaI18n.off("change",(language)=>{}) 
  * 
  * */ 
- class VoerkaI18nManager extends EventEmitter{
-    constructor(settings={}){
+
+export class VoerkaI18nManager extends EventEmitter{
+    static instance?:VoerkaI18nManager
+    #options?:Required<VoerkaI18nManagerOptions>  
+    #scopes:VoerkaI18nScope[] = []
+    #defaultMessageLoader?:VoerkI18nMessageLoader
+    constructor(options?:VoerkaI18nManagerOptions){
         super()
-        if(VoerkaI18nManager.instance!=null){
+        if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }
         VoerkaI18nManager.instance = this;
-        this._settings = deepMerge(defaultLanguageSettings,settings)
-        this._scopes=[]                     // 保存VoerkaI18nScope实例
-        this._defaultMessageLoader = null   // 默认语言包加载器
+        this.#options = deepMerge(defaultLanguageSettings,options) as Required<VoerkaI18nManagerOptions>
+        this.#scopes=[]                     // 保存VoerkaI18nScope实例
     }
-    get settings(){ return this._settings }                         // 配置参数
-    get scopes(){ return this._scopes }                             // 注册的报有VoerkaI18nScope实例q   
-    get activeLanguage(){ return this._settings.activeLanguage}     // 当前激活语言    名称
-    get defaultLanguage(){ return this._settings.defaultLanguage}   // 默认语言名称    
-    get languages(){ return this._settings.languages}               // 支持的语言列表    
-    get formatters(){ return this._settings.formatters }            // 内置格式化器{*:{$config,$types,...},zh:{$config,$types,...},en:{$config,$types,...}}
-    get defaultMessageLoader(){ return this._defaultMessageLoader}  // 默认语言包加载器
+    get debug(){return this.#options!.debug}
+    get options(){ return this.#options! }                          // 配置参数
+    get scopes(){ return this.#scopes }                             // 注册的报有VoerkaI18nScope实例q   
+    get activeLanguage(){ return this.#options!.activeLanguage}     // 当前激活语言    名称
+    get defaultLanguage(){ return this.#options!.defaultLanguage}   // 默认语言名称    
+    get languages(){ return this.#options!.languages}               // 支持的语言列表    
+    get formatters(){ return this.#options!.formatters }            // 内置格式化器{*:{$config,$types,...},zh:{$config,$types,...},en:{$config,$types,...}}
+    get defaultMessageLoader(){ return this.#defaultMessageLoader}  // 默认语言包加载器
 
     // 通过默认加载器加载文件
-    async loadMessagesFromDefaultLoader(newLanguage,scope){
-        if(!isFunction(this._defaultMessageLoader))  return //throw new Error("No default message loader specified")
-        return  await this._defaultMessageLoader.call(scope,newLanguage,scope)        
+    async loadMessagesFromDefaultLoader(newLanguage:string,scope:VoerkaI18nScope){
+        if(this.#defaultMessageLoader && isFunction(this.#defaultMessageLoader)){
+            return  await this.#defaultMessageLoader.call(scope,newLanguage,scope)        
+        }
     }
     /**
      *  切换语言
      */
-    async change(language){
-        if(this.languages.findIndex(lang=>lang.name === language)!==-1 || isFunction(this._defaultMessageLoader)){
+    async change(language:string){
+        if(this.languages.findIndex(lang=>lang.name === language)!==-1 || isFunction(this.#defaultMessageLoader)){
             await this._refreshScopes(language)                        // 通知所有作用域刷新到对应的语言包
-            this._settings.activeLanguage = language            
+            this.#options!.activeLanguage = language            
             await this.emit(language)                                  // 触发语言切换事件
             return language
         }else{
@@ -75,9 +87,9 @@ const defaultLanguageSettings = {
      * 当切换语言时调用此方法来加载更新语言包
      * @param {*} newLanguage 
      */
-    async _refreshScopes(newLanguage){ 
+    async _refreshScopes(newLanguage:string){ 
         try{
-            const scopeRefreshers = this._scopes.map(scope=>{
+            const scopeRefreshers = this.#scopes.map(scope=>{
                 return scope.refresh(newLanguage)
             })
             if(Promise.allSettled){
@@ -85,7 +97,7 @@ const defaultLanguageSettings = {
             }else{
                 await Promise.all(scopeRefreshers)
             } 
-        }catch(e){
+        }catch(e:any){
             console.warn("Error while refreshing i18n scopes:",e.message)
         }          
     }
@@ -98,11 +110,11 @@ const defaultLanguageSettings = {
      * 
      * @param {*} scope 
      */
-    async register(scope){
+    async register(scope:VoerkaI18nScope){
         if(!(scope instanceof VoerkaI18nScope)){
             throw new TypeError("Scope must be an instance of VoerkaI18nScope")
         }
-        this._scopes.push(scope) 
+        this.#scopes.push(scope) 
         await scope.refresh(this.activeLanguage) 
     }
     /**
@@ -119,16 +131,15 @@ const defaultLanguageSettings = {
      
      * @param {*} formatter 
         language : 声明该格式化器适用语言
-        isGlobal : 注册到全局
      */
-    registerFormatter(name,formatter,{language="*"}={}){
+    registerFormatter(name:string,formatter:VoerkaI18nFormatter,{language="*"}:{language:string | string[] | '*'}){
         if(!isFunction(formatter) || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
         }                
         language = Array.isArray(language) ? language : (language ? language.split(",") : [])
         language.forEach(lng=>{
             if(DataTypes.includes(name)){
-                this.formatters[lng].$types[name] = formatter
+                this.formatters[lng].$types![name] = formatter
             }else{
                 this.formatters[lng][name] = formatter
             }  
@@ -137,37 +148,23 @@ const defaultLanguageSettings = {
     /**
     * 注册默认文本信息加载器
     */
-    registerDefaultLoader(fn){
+    registerDefaultLoader(fn:VoerkI18nMessageLoader){
         if(!isFunction(fn)) throw new Error("The default loader must be a async function or promise returned")
-        this._defaultMessageLoader = fn
+        this.#defaultMessageLoader = fn
         this.refresh()
     } 
     async refresh(){
         try{
-            let requests = this._scopes.map(scope=>scope.refresh())
+            let requests = this.#scopes.map(scope=>scope.refresh())
             if(Promise.allSettled){
                 await Promise.allSettled(requests)
             }else{
                 await Promise.all(requests)
             }
-        }catch(e){
-            if(this._debug) console.error(`Error while refresh voerkai18n scopes:${e.message}`) 
+        }catch(e:any){
+            if(this.debug) console.error(`Error while refresh voerkai18n scopes:${e.message}`) 
         }
     }
 
 } 
-
-module.exports ={ 
-    toDate,
-    toNumber,
-    toBoolean,
-    deepMerge, 
-    VoerkaI18nManager,
-    translate,
-    VoerkaI18nScope,
-    createFormatter,
-    Formatter,
-    createFlexFormatter,
-    FlexFormatter,
-    getDataTypeName
-}
+ 

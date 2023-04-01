@@ -28,8 +28,12 @@
  *
  */
 
-const { getDataTypeName,isPlainObject,isFunction,replaceAll } = require("./utils");
-const { parseFormatters } = require("./formatter")
+import { getDataTypeName } from "./utils"
+import { isNumber } from "flex-tools/typecheck/isNumber"
+import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
+import { isFunction } from "flex-tools/typecheck/isFunction"
+import { parseFormatters } from "./formatter"
+import { VoerkaI18nScope } from "./scope"
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
 // 支持参数： { var | formatter(x,x,..) | formatter }
@@ -100,7 +104,7 @@ function getInterpolatedVars(str) {
  * @param {Boolean} replaceAll   是否替换所有插值变量，当使用命名插值时应置为true，当使用位置插值时应置为false
  * @returns  返回替换后的字符串
  */
-function forEachInterpolatedVars(str, replacer, options = {}) {
+function forEachInterpolatedVars(str:string, replacer, options = {}) {
 	let result = str, matched;
 	let opts = Object.assign({replaceAll: true },options);
 	varWithPipeRegexp.lastIndex = 0;
@@ -134,7 +138,7 @@ function forEachInterpolatedVars(str, replacer, options = {}) {
  * @param {*} scope
  * @param {*} activeLanguage
  */
-function resetScopeCache(scope, activeLanguage = null) {
+function resetScopeCache(scope:VoerkaI18nScope, activeLanguage:string | null) {
 	scope.$cache = { activeLanguage, typedFormatters: {}, formatters: {} };
 }
 
@@ -201,7 +205,7 @@ function getDataTypeDefaultFormatter(scope, activeLanguage, dataType) {
  * @param {*} name                  格式化器名称
  * @returns  {Function}             格式化函数
  */
-function getFormatter(scope, activeLanguage, name) {
+function getFormatter(scope:VoerkaI18nScope, activeLanguage:string, name:string) {
 	// 1. 从缓存中直接读取： 缓存格式化器引用，避免重复检索
 	if (!scope.$cache) resetScopeCache(scope);
 	if (scope.$cache.activeLanguage === activeLanguage) {
@@ -422,7 +426,7 @@ function getFormattedValue(scope, activeLanguage, formatters, value, template) {
  * @param {*} template 
  * @returns 
  */
-function replaceInterpolatedVars(template, ...args) {
+export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ...args:any[]) {
 	const scope = this;
 	// 当前激活语言
 	const activeLanguage = scope.global.activeLanguage;

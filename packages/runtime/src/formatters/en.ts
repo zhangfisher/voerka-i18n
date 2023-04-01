@@ -2,12 +2,12 @@
  *   日期时间格式化器
  * 
  */
+ 
 
-const { isFunction,isPlainObject} = require("../utils")
-const { Formatter } = require("../formatter")
-const { dateFormatter,quarterFormatter,monthFormatter,weekdayFormatter,timeFormatter,relativeTimeFormatter } = require("../datatypes/datetime")
-const { numberFormartter } = require("../datatypes/numeric")
-const { currencyFormatter } = require("../datatypes/currency")
+import { Formatter } fom "../formatter"
+import { dateFormatter,quarterFormatter,monthFormatter,weekdayFormatter,timeFormatter,relativeTimeFormatter } from "../datatypes/datetime"
+import { numberFormartter } from "../datatypes/numeric"
+import { currencyFormatter } from "../datatypes/currency"
 
 
 
@@ -70,7 +70,7 @@ const { currencyFormatter } = require("../datatypes/currency")
 // }) 
 
 
-module.exports =   {
+export default {
     // 配置参数
     $config:{
         datetime            : {
