@@ -7,19 +7,33 @@ import { translate } from "./translate"
 import { deepMerge } from "flex-tools/object/deepMerge"
 import { assignObject } from "flex-tools/object/assignObject"
 import type {VoerkaI18nManager } from "./manager"
-import type { VoerkaI18nFormatterConfigs, VoerkaI18nFormatters, Voerkai18nIdMap, VoerkaI18nLanguage, VoerkaI18nLanguageMessages, VoerkaI18nLanguagePack, VoerkaI18nScopeCache, VoerkaI18nTranslate, VoerkI18nLoaders } from "./types"
+import type { 
+    VoerkaI18nFormatterConfigs,
+    VoerkaI18nDefaultMessageLoader,
+    VoerkaI18nFormatter,
+    VoerkaI18nFormatters, 
+    Voerkai18nIdMap, 
+    VoerkaI18nLanguage, 
+    VoerkaI18nLanguageMessages, 
+    VoerkaI18nLanguagePack, 
+    VoerkaI18nScopeCache, 
+    VoerkaI18nTranslate, 
+    VoerkaI18nLoaders, 
+VoerkaI18nTypesFormatters,
+VoerkaI18nLanguageFormatters
+} from "./types"
 
 export interface VoerkaI18nScopeOptions {
     id?: string
     debug?: boolean
-    languages: VoerkaI18nLanguage[]                               // 当前作用域支持的语言列表
-    defaultLanguage: string                                       // 默认语言名称                         
-    activeLanguage: string                                        // 当前语言名称
+    languages: VoerkaI18nLanguage[]                              // 当前作用域支持的语言列表
+    defaultLanguage: string                                      // 默认语言名称                         
+    activeLanguage: string                                       // 当前语言名称
     default: VoerkaI18nLanguageMessages                          // 默认语言包
     messages: VoerkaI18nLanguageMessages                         // 当前语言包
-    idMap: Voerkai18nIdMap                                        // 消息id映射列表
-    formatters: VoerkaI18nFormatters                               // 当前作用域的格式化函数列表{<lang>: {$types,$config,[格式化器名称]: () => {},[格式化器名称]: () => {}}}
-    loaders: VoerkI18nLoaders;                                    // 异步加载语言文件的函数列表
+    idMap: Voerkai18nIdMap                                       // 消息id映射列表
+    formatters: VoerkaI18nLanguageFormatters                             // 当前作用域的格式化函数列表{<lang>: {$types,$config,[格式化器名称]: () => {},[格式化器名称]: () => {}}}
+    loaders: VoerkaI18nLoaders;                                  // 异步加载语言文件的函数列表
 }
 
 export class VoerkaI18nScope {
@@ -28,11 +42,11 @@ export class VoerkaI18nScope {
     #refreshing:boolean = false
     #patchMessages:VoerkaI18nLanguagePack = {}
     #t:VoerkaI18nTranslate
-    #activeFormatters:VoerkaI18nFormatters ={}
+    #activeFormatters:VoerkaI18nLanguageFormatters = {}
     #activeFormatterConfig: VoerkaI18nFormatterConfigs={}
-    #cache:VoerkaI18nScopeCache ={}
-    #messages:VoerkaI18nLanguageMessages
-	constructor(options:VoerkaI18nScopeOptions, callback:Function) {
+    #cache:VoerkaI18nScopeCache  
+    #messages:VoerkaI18nLanguageMessages = {}
+	constructor(options:VoerkaI18nScopeOptions, callback:(e?:Error)=>void) {
         this.#options = assignObject({
             id             : Date.now().toString() + parseInt(String(Math.random() * 1000)),
             debug          : false,
@@ -50,7 +64,7 @@ export class VoerkaI18nScope {
 		this.#refreshing      = false;		                                // 正在加载语言包标识
         // 用来缓存格式化器的引用，当使用格式化器时可以直接引用，减少检索遍历
 		this.#cache = {
-			activeLanguage : null,
+			activeLanguage : this.#options.activeLanguage,
 			typedFormatters: {},
 			formatters     : {},
 		};
@@ -86,6 +100,7 @@ export class VoerkaI18nScope {
 	get activeFormatters() {return this.#activeFormatters}              // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
     get activeFormatterConfig(){return this.#activeFormatterConfig}     // 当前格式化器合并后的配置参数，参数已经合并了全局格式化器中的参数
     get cache(){return this.#cache }
+    set cache(value:VoerkaI18nScopeCache){ this.#cache=value }
     get translate(){return this.#t}  
     get t(){return this.#t}  
 
@@ -100,8 +115,9 @@ export class VoerkaI18nScope {
                 {name: "zh",title: "中文"},
                 {name: "en",title: "英文"}
             ]
-        }
-        Object.entries(this.languages).forEach(([name,language])=>{
+        }        
+        // 将en配置为默认回退语言
+        this.languages.forEach(language=>{
             if(!language.fallback) language.fallback = "en"
         })
     }
@@ -110,9 +126,9 @@ export class VoerkaI18nScope {
 	 * 在全局注册作用域当前作用域
 	 * @param {*} callback   注册成功后的回调
 	 */
-	register(callback:Function) {
+	register(callback:(e?:Error)=>void) {
 		if (!isFunction(callback)) callback = () => {};
-		this.global.register(this).then(callback).catch(callback);
+		this.global.register(this).then(()=>callback()).catch((e)=>callback(e));
 	}
 	/**
      * 注册格式化器
@@ -131,35 +147,35 @@ export class VoerkaI18nScope {
            语言名称，语言名称数组，或者使用,分割的语言名称字符串
         asGlobal : 注册到全局
      */
-	registerFormatter(name:string, formatter:VoerkaI18nFormatter, { language = "*", global : asGlobal } = {}) {
+	registerFormatter(name:string, formatter:VoerkaI18nFormatter, {language = "*", asGlobal= true}:{ language:  string | string[] | "*", asGlobal :boolean } ) {
 		if (!isFunction(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
-		language = Array.isArray(language) ? language: language	? language.split(","): [];
+		const languages = Array.isArray(language) ? language: language	? language.split(","): [];
 		if (asGlobal) {
 			this.global.registerFormatter(name, formatter, { language });
 		} else {
-			language.forEach((lng) => {
-                if(!(lng in this._formatters)) this._formatters[lng] = {}
+			languages.forEach((lng) => {
+                if(!(lng in this.formatters)) this.formatters[lng] = {}
 				if (DataTypes.includes(name)) {
-					this._formatters[lng].$types[name] = formatter;
+                    (this.formatters[lng].$types as VoerkaI18nTypesFormatters)[name] = formatter
 				} else {
-					this._formatters[lng][name] = formatter;
+					this.formatters[lng][name] = formatter;
 				}
 			});
 		}
 	}
     /**
      * 注册多种格式化器
-     * registerFormatters(={"*",zh:{...},en:{...}})
-     *  registerFormatters(={"*",zh:{...},en:{...}},true) 在全局注册
-     * @param {*} formatters ={"*",zh:{...},en:{...}}
+     * registerFormatters({"*":{...},zh:{...},en:{...}})
+     *  registerFormatters({"*":{...},zh:{...},en:{...}},true) 在全局注册
+     * @param {*} formatters ={"*":{...},zh:{...},en:{...}}
      * @returns 
      */
     registerFormatters(formatters:VoerkaI18nFormatters,asGlobal=false) {
         Object.entries(formatters).forEach(([language,fns])=>{
             Object.entries(fns).forEach(([name,formatter])=>{
-                this.registerFormatter(name,formatter,{language,global:asGlobal})
+                this.registerFormatter(name,formatter,{language,asGlobal})
             })            
         }) 
     }
@@ -174,13 +190,12 @@ export class VoerkaI18nScope {
             if(formatters.global===true){
                 this.registerFormatters({[langName]:formatters},true)
             }else if(isPlainObject(formatters.global)){
-                this.registerFormatters({[langName]:formatters.global},true)
+                this.registerFormatters({[langName]:formatters.global as any},true)
             }
-        })
-        this.activeFormatters = {}
+        }) 
 		try {
-			if (newLanguage in this._formatters) {                
-				this.#activeFormatters = this._formatters[newLanguage];
+			if (newLanguage in this.formatters) {                
+				this.#activeFormatters = this.formatters[newLanguage];
 			} else {
 				if (this.debug) console.warn(`Not initialize <${newLanguage}> formatters.`);
 			}
@@ -252,7 +267,7 @@ export class VoerkaI18nScope {
 	 * 注册默认文本信息加载器
 	 * @param {Function} 必须是异步函数或者是返回Promise
 	 */
-	registerDefaultLoader(fn:Function) {
+	registerDefaultLoader(fn:VoerkaI18nDefaultMessageLoader) {
 		this.global.registerDefaultLoader(fn);
 	}
 	/**
@@ -260,7 +275,7 @@ export class VoerkaI18nScope {
 	 * @param {*} language
 	 * @returns
 	 */
-	getLanguage(language:string) {
+	getLanguage(language:string):VoerkaI18nLanguage | undefined{
 		let index = this.languages.findIndex((lng) => lng.name == language);
 		if (index !== -1) return this.languages[index];
 	}

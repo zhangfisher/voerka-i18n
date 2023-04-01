@@ -3,8 +3,9 @@ import { deepMerge } from "flex-tools/object/deepMerge"
 import {DataTypes} from "./utils"
 import { EventEmitter } from "./eventemitter"
 import inlineFormatters from "./formatters"         
-import { VoerkaI18nLanguage, VoerkaI18nScope, VoerkaI18nFormatters, VoerkI18nMessageLoader, VoerkaI18nFormatter } from "./scope"
-
+import {  VoerkaI18nScope } from "./scope"
+import type { VoerkaI18nLanguage, VoerkaI18nFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters }  from "./types"
+import { SupportedDateTypes } from './types';
 
 // 默认语言配置
 const defaultLanguageSettings = {  
@@ -45,7 +46,7 @@ export class VoerkaI18nManager extends EventEmitter{
     static instance?:VoerkaI18nManager
     #options?:Required<VoerkaI18nManagerOptions>  
     #scopes:VoerkaI18nScope[] = []
-    #defaultMessageLoader?:VoerkI18nMessageLoader
+    #defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
     constructor(options?:VoerkaI18nManagerOptions){
         super()
         if(VoerkaI18nManager.instance){
@@ -115,7 +116,7 @@ export class VoerkaI18nManager extends EventEmitter{
             throw new TypeError("Scope must be an instance of VoerkaI18nScope")
         }
         this.#scopes.push(scope) 
-        await scope.refresh(this.activeLanguage) 
+        return await scope.refresh(this.activeLanguage) 
     }
     /**
      * 注册全局格式化器
@@ -136,10 +137,10 @@ export class VoerkaI18nManager extends EventEmitter{
         if(!isFunction(formatter) || typeof(name)!=="string"){
             throw new TypeError("Formatter must be a function")
         }                
-        language = Array.isArray(language) ? language : (language ? language.split(",") : [])
-        language.forEach(lng=>{
+        const languages = Array.isArray(language) ? language : (language ? language.split(",") : [])
+        languages.forEach((lng:string)=>{
             if(DataTypes.includes(name)){
-                this.formatters[lng].$types![name] = formatter
+                (this.formatters[lng].$types as VoerkaI18nTypesFormatters)[name] = formatter
             }else{
                 this.formatters[lng][name] = formatter
             }  
@@ -148,7 +149,7 @@ export class VoerkaI18nManager extends EventEmitter{
     /**
     * 注册默认文本信息加载器
     */
-    registerDefaultLoader(fn:VoerkI18nMessageLoader){
+    registerDefaultLoader(fn:VoerkaI18nDefaultMessageLoader){
         if(!isFunction(fn)) throw new Error("The default loader must be a async function or promise returned")
         this.#defaultMessageLoader = fn
         this.refresh()

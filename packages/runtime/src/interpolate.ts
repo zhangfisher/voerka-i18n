@@ -34,13 +34,14 @@ import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { isFunction } from "flex-tools/typecheck/isFunction"
 import { parseFormatters } from "./formatter"
 import { VoerkaI18nScope } from "./scope"
+import { SupportedDateTypes } from "./types"
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
 // 支持参数： { var | formatter(x,x,..) | formatter }
 // v1 采用命名捕获组
 //let varWithPipeRegexp =	/\{\s*(?<varname>\w+)?(?<formatters>(\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
 // v2: 由于一些js引擎(如react-native Hermes )不支持命名捕获组而导致运行时不能使用，所以此处移除命名捕获组
-let varWithPipeRegexp =	/\{\s*(\w+)?((\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
+const varWithPipeRegexp =	/\{\s*(\w+)?((\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
 
 /**
  * 考虑到通过正则表达式进行插值的替换可能较慢
@@ -51,7 +52,7 @@ let varWithPipeRegexp =	/\{\s*(\w+)?((\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
  * @param {*} str
  * @returns {boolean}  true=可能包含插值变量
  */
-function hasInterpolation(str) {
+function hasInterpolation(str:string):boolean {
 	return str.includes("{") && str.includes("}");
 }
 
@@ -80,7 +81,7 @@ function hasInterpolation(str) {
   *  ...
   * ]
   */
-function getInterpolatedVars(str) {
+function getInterpolatedVars(str:string) {
 	let vars = [];
 	forEachInterpolatedVars(str, (varName, formatters, match) => {
 		let varItem = {
@@ -120,7 +121,7 @@ function forEachInterpolatedVars(str:string, replacer, options = {}) {
 			try {
 				const finalValue = replacer(varname, formatters, matched[0]);
 				if (opts.replaceAll) {
-					result = replaceAll(result,matched[0], finalValue);
+					result = (result as any).replaceAll(matched[0], finalValue);
 				} else {
 					result = result.replace(matched[0], finalValue);
 				}
@@ -139,7 +140,7 @@ function forEachInterpolatedVars(str:string, replacer, options = {}) {
  * @param {*} activeLanguage
  */
 function resetScopeCache(scope:VoerkaI18nScope, activeLanguage:string | null) {
-	scope.$cache = { activeLanguage, typedFormatters: {}, formatters: {} };
+	scope.cache = { activeLanguage, typedFormatters: {}, formatters: {} };
 }
 
 /**
@@ -166,30 +167,32 @@ function resetScopeCache(scope:VoerkaI18nScope, activeLanguage:string | null) {
   * @param {*} dataType    数字类型
   * @returns {Function} 格式化函数  
   */
-function getDataTypeDefaultFormatter(scope, activeLanguage, dataType) {
+function getDataTypeDefaultFormatter(scope:VoerkaI18nScope, activeLanguage:string , dataType:SupportedDateTypes) {
 	// 当指定数据类型的的默认格式化器的缓存处理
-	if (!scope.$cache) resetScopeCache(scope);
-	if (scope.$cache.activeLanguage === activeLanguage) {
-		if (dataType in scope.$cache.typedFormatters)
-			return scope.$cache.typedFormatters[dataType];
+	if (!scope.cache) resetScopeCache(scope,activeLanguage);
+	if (scope.cache.activeLanguage === activeLanguage) {
+		if (scope.cache.typedFormatters && dataType in scope.cache.typedFormatters)
+			return scope.cache.typedFormatters[dataType];
 	} else {
 		// 当语言切换时清空缓存
 		resetScopeCache(scope, activeLanguage);
 	}
-	const fallbackLanguage = scope.getLanguage(activeLanguage).fallback;
+	const fallbackLanguage = scope.getLanguage(activeLanguage)?.fallback;
 	// 先在当前作用域中查找，再在全局查找
 	const targets = [
 		scope.activeFormatters,
-		scope.formatters[fallbackLanguage], // 如果指定了回退语言时,也在该回退语言中查找
+		fallbackLanguage ? scope.formatters[fallbackLanguage] : null, // 如果指定了回退语言时,也在该回退语言中查找
 		scope.global.formatters[activeLanguage],
 		scope.global.formatters["*"],
 	];
 	for (const target of targets) {
 		if (!target) continue;
-		if (isPlainObject(target.$types) &&isFunction(target.$types[dataType])) {
-			return (scope.$cache.typedFormatters[dataType] =
-				target.$types[dataType]);
-		}
+        if(target){
+            if (isPlainObject(target.$types) && isFunction(target.$types?.[dataType])) {
+
+                return (scope.cache.typedFormatters[dataType] = target.$types[dataType]);
+            }
+        }		
 	}
 }
 

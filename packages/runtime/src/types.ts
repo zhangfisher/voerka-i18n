@@ -6,7 +6,7 @@ declare global {
 }
 
 
-
+export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 export type VoerkaI18nLanguageMessages = Record<string, string | string[]>       
 export interface VoerkaI18nLanguagePack {
@@ -23,27 +23,40 @@ export interface VoerkaI18nLanguage {
 }
 
 
-export type VoerkaI18nFormatter = (value: string, ...args: any[]) => string
 export type VoerkaI18nFormatterConfigs = Record<string, any>
-
-export type VoerkaI18nFormatters = Record<string, ({
-    $types?: Record<string, VoerkaI18nFormatter>
-    $config?: Record<string, string>
+export type VoerkaI18nFormatter = (value: string, ...args: any[]) => string
+export type VoerkaI18nTypesFormatters=Record<SupportedDateTypes | string, VoerkaI18nFormatter>
+export type VoerkaI18nTypesFormatterConfigs= Record<SupportedDateTypes | string, Record<string,any>>
+// 
+export type VoerkaI18nLanguageFormatters = {
+    global?: true | Exclude<VoerkaI18nFormatters,'global'>                                                // 是否全局格式化器
+    $types?: VoerkaI18nTypesFormatters
+    $config?: VoerkaI18nTypesFormatterConfigs
+} & {
+    [DataTypeName in SupportedDateTypes]?: VoerkaI18nFormatter
 } & {
     [key: string]: VoerkaI18nFormatter
-})> //| (() => Promise<any>)>
-
-export type VoerkI18nLoader = () => Awaited<Promise<any>>
-export interface VoerkI18nLoaders {
-    [key: string]: VoerkI18nLoader
 } 
-export type VoerkI18nMessageLoader = (this:VoerkaI18nScope,newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages>
+// 包括语言的{"*":{...},zh:{...},en:{...}} 
+// 声明格式化器
+export type VoerkaI18nFormatters =  Record<string,VoerkaI18nLanguageFormatters>
+
+
+
+// 
+export type VoerkaI18nLoader = () => Awaited<Promise<any>>
+export interface VoerkaI18nLoaders {
+    [key: string]: VoerkaI18nLoader
+} 
+
+export type VoerkaI18nDefaultMessageLoader = (this:VoerkaI18nScope,newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages>
 
 export interface VoerkaI18nScopeCache{
-    activeLanguage? : null,
-    typedFormatters?: {},
-    formatters?     : {},
+    activeLanguage :string | null,
+    typedFormatters: VoerkaI18nFormatters,
+    formatters     : VoerkaI18nFormatters,
 }
+
 export type TranslateMessageVars = number | boolean | string | Function | Date
 export interface VoerkaI18nTranslate {
     (message: string, ...args: TranslateMessageVars[]): string
@@ -64,7 +77,7 @@ export interface VoerkaI18nSupportedLanguages {
 //     get messages(): VoerkaI18nLanguageMessages                                      // 当前语言包	
 //     get idMap(): Voerkai18nIdMap                                                // 消息id映射列表	
 //     get languages(): VoerkaI18nSupportedLanguages                               // 当前作用域支持的语言列表[{name,title,fallback}]	
-//     get loaders(): VoerkI18nLoaders                                             // 异步加载语言文件的函数列表	
+//     get loaders(): VoerkaI18nLoaders                                             // 异步加载语言文件的函数列表	
 //     get global(): VoerkaI18nManager                                                   // 引用全局VoerkaI18n配置，注册后自动引用    
 //     get formatters(): VoerkI18nFormatters                                       // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
 //     get activeFormatters(): VoerkI18nFormatters                                 // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
