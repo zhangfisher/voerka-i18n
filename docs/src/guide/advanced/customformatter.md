@@ -530,6 +530,7 @@ export default  {
 - 指定`global=true`将该文件声明的所有格式化器均注册到全局中
 ```javascript | pure
 export default  {
+    global:true,                    
     $config:{...}, 
     $types:{... },        
     [格式化名称]:(value,...args,$config)=>{.....},
@@ -544,6 +545,7 @@ export default  {
     $config:{...}, 
     $types:{... },        
     [格式化名称]:(value,...args,$config)=>{.....},
+    // 以下全部注册到全局`VoerkaI18n`实例中
     global:{
         $config:{...}, 
         $types:{... },        

@@ -3,10 +3,9 @@
  * 
  */
 
-const { 
-    CN_DATETIME_UNITS,CN_WEEK_DAYS,CN_SHORT_WEEK_DAYS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES,
-    chineseNumberFormatter,rmbFormater
-} = require("../datatypes/chinese") 
+import { chineseNumberFormatter,rmbFormater } from "../datatypes/chinese"
+
+
 
 module.exports = {
     // 配置参数: 格式化器函数的最后一个参数就是该配置参数
@@ -71,7 +70,7 @@ module.exports = {
         }        
     },
     $types: {
-        Boolean  : value =>value ? "是":"否"
+        Boolean  : (value:any) =>value ? "是":"否"
     },
     // 中文货币，big=true代表大写形式
     rmb     :   rmbFormater,

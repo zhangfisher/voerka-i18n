@@ -306,7 +306,7 @@ function executeFormatter(value, formatters, scope, template) {
 	for (let formatter of formatters) {
 		try {
             result = formatter(result, scope.activeFormatterConfig);		
-		} catch (e) {
+		} catch (e:any) {
 			e.formatter = formatter.$name;
 			if (scope.debug)
 				console.error(`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} `);
@@ -462,10 +462,4 @@ export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ..
 			{ replaceAll: false }
 		);
 	} 
-}
-
-module.exports = {
-	forEachInterpolatedVars,				// 遍历插值变量并替换
-	getInterpolatedVars, 					// 获取指定字符串中的插件值变量列表
-	replaceInterpolatedVars					// 替换插值变量
-};
+} 

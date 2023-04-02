@@ -4,8 +4,9 @@ import {DataTypes} from "./utils"
 import { EventEmitter } from "./eventemitter"
 import inlineFormatters from "./formatters"         
 import {  VoerkaI18nScope } from "./scope"
-import type { VoerkaI18nLanguage, VoerkaI18nFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters }  from "./types"
+import type { VoerkaI18nLanguageDefine, VoerkaI18nLanguageFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters }  from "./types"
 import { SupportedDateTypes } from './types';
+import { VoerkaI18nFormatterRegistry } from "./formatterRegistry"
 
 // 默认语言配置
 const defaultLanguageSettings = {  
@@ -23,8 +24,8 @@ export interface VoerkaI18nManagerOptions {
     debug?: boolean
     defaultLanguage: string
     activeLanguage: string
-    formatters: VoerkaI18nFormatters
-    languages: VoerkaI18nLanguage[]
+    formatters: VoerkaI18nLanguageFormatters
+    languages: VoerkaI18nLanguageDefine[]
 }
 /** 
  * 多语言管理类
@@ -47,6 +48,7 @@ export class VoerkaI18nManager extends EventEmitter{
     #options?:Required<VoerkaI18nManagerOptions>  
     #scopes:VoerkaI18nScope[] = []
     #defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
+    #formatterRegistry!:VoerkaI18nFormatterRegistry 
     constructor(options?:VoerkaI18nManagerOptions){
         super()
         if(VoerkaI18nManager.instance){
@@ -54,6 +56,8 @@ export class VoerkaI18nManager extends EventEmitter{
         }
         VoerkaI18nManager.instance = this;
         this.#options = deepMerge(defaultLanguageSettings,options) as Required<VoerkaI18nManagerOptions>
+        this.#formatterRegistry = new VoerkaI18nFormatterRegistry()        
+        this.loadInitialFormatters()                                    // 加载初始格式化器
         this.#scopes=[]                     // 保存VoerkaI18nScope实例
     }
     get debug(){return this.#options!.debug}
@@ -62,8 +66,18 @@ export class VoerkaI18nManager extends EventEmitter{
     get activeLanguage(){ return this.#options!.activeLanguage}     // 当前激活语言    名称
     get defaultLanguage(){ return this.#options!.defaultLanguage}   // 默认语言名称    
     get languages(){ return this.#options!.languages}               // 支持的语言列表    
-    get formatters(){ return this.#options!.formatters }            // 内置格式化器{*:{$config,$types,...},zh:{$config,$types,...},en:{$config,$types,...}}
     get defaultMessageLoader(){ return this.#defaultMessageLoader}  // 默认语言包加载器
+    get formatters(){return this.#formatterRegistry!}
+
+    /**
+     * 初始加载格式化器
+     */
+    private loadInitialFormatters(){
+        if(this.#options?.formatters){
+            this.#formatterRegistry.loadInitials(this.#options!.formatters)
+            delete (this.#options as any).formatters
+        }
+    }
 
     // 通过默认加载器加载文件
     async loadMessagesFromDefaultLoader(newLanguage:string,scope:VoerkaI18nScope){
@@ -134,17 +148,7 @@ export class VoerkaI18nManager extends EventEmitter{
         language : 声明该格式化器适用语言
      */
     registerFormatter(name:string,formatter:VoerkaI18nFormatter,{language="*"}:{language:string | string[] | '*'}){
-        if(!isFunction(formatter) || typeof(name)!=="string"){
-            throw new TypeError("Formatter must be a function")
-        }                
-        const languages = Array.isArray(language) ? language : (language ? language.split(",") : [])
-        languages.forEach((lng:string)=>{
-            if(DataTypes.includes(name)){
-                (this.formatters[lng].$types as VoerkaI18nTypesFormatters)[name] = formatter
-            }else{
-                this.formatters[lng][name] = formatter
-            }  
-        })
+        this.#formatterRegistry.register(name,formatter,{language})
     }
     /**
     * 注册默认文本信息加载器

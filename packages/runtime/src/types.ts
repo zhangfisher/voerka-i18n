@@ -8,14 +8,19 @@ declare global {
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
-export type VoerkaI18nLanguageMessages = Record<string, string | string[]>       
+export type VoerkaI18nLanguageMessages = Record<string, string | string[]> & {
+    $config?: VoerkaI18nTypesFormatterConfigs
+}       
+export type VoerkaI18nDynamicLanguageMessages = Record<string, string | string[]> & {
+    $config?: VoerkaI18nTypesFormatterConfigs
+}   
 export interface VoerkaI18nLanguagePack {
     [language: string]: VoerkaI18nLanguageMessages
 }
 
 export type Voerkai18nIdMap = Record<string, number>
 
-export interface VoerkaI18nLanguage {
+export interface VoerkaI18nLanguageDefine {
     name: string
     title?: string
     default?: boolean
@@ -24,22 +29,25 @@ export interface VoerkaI18nLanguage {
 
 
 export type VoerkaI18nFormatterConfigs = Record<string, any>
-export type VoerkaI18nFormatter = (value: string, ...args: any[]) => string
+export type VoerkaI18nFormatter = (value: string,args: any[],$config:VoerkI18nFormatterConfigs) => string
 export type VoerkaI18nTypesFormatters=Record<SupportedDateTypes | string, VoerkaI18nFormatter>
 export type VoerkaI18nTypesFormatterConfigs= Record<SupportedDateTypes | string, Record<string,any>>
-// 
-export type VoerkaI18nLanguageFormatters = {
-    global?: true | Exclude<VoerkaI18nFormatters,'global'>                                                // 是否全局格式化器
-    $types?: VoerkaI18nTypesFormatters
+export type VoerkaI18nFormattersLoader =  (()=>Promise<VoerkaI18nFormatters>)
+// 每一个语言的格式化器定义={$types:{...},$config:{...},[格式化器名称]: () => {},[格式化器名称]: () => {}
+// 在formatters/xxxx.ts里面进行配置
+export type VoerkaI18nFormatters = ({
+    global?: boolean | Omit<VoerkaI18nFormatters,'global'>                                                // 是否全局格式化器
+    $types?:VoerkaI18nTypesFormatters
     $config?: VoerkaI18nTypesFormatterConfigs
 } & {
     [DataTypeName in SupportedDateTypes]?: VoerkaI18nFormatter
 } & {
     [key: string]: VoerkaI18nFormatter
-} 
+}) 
+
 // 包括语言的{"*":{...},zh:{...},en:{...}} 
 // 声明格式化器
-export type VoerkaI18nFormatters =  Record<string,VoerkaI18nLanguageFormatters>
+export type VoerkaI18nLanguageFormatters =  Record<string,VoerkaI18nFormatters | VoerkaI18nFormattersLoader>
 
 
 
@@ -53,8 +61,8 @@ export type VoerkaI18nDefaultMessageLoader = (this:VoerkaI18nScope,newLanguage:s
 
 export interface VoerkaI18nScopeCache{
     activeLanguage :string | null,
-    typedFormatters: VoerkaI18nFormatters,
-    formatters     : VoerkaI18nFormatters,
+    typedFormatters: VoerkaI18nLanguageFormatters,
+    formatters     : VoerkaI18nLanguageFormatters,
 }
 
 export type TranslateMessageVars = number | boolean | string | Function | Date
@@ -63,7 +71,7 @@ export interface VoerkaI18nTranslate {
     (message: string, vars?: Record<string, TranslateMessageVars>): string
 }
 export interface VoerkaI18nSupportedLanguages {
-    [key: string]: VoerkaI18nLanguage
+    [key: string]: VoerkaI18nLanguageDefine
 }
 
 
