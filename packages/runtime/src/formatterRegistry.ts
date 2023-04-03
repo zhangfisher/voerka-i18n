@@ -24,6 +24,7 @@ const EmptyFormatters:any = {
     $config:{},
     $types:{}
 }
+
 export class VoerkaI18nFormatterRegistry{
     // 由于语言的格式化器集合允许是一个异步加载块，所以需要一个ready标志
     // 当语言格式化器集合加载完成后，ready标志才会变为true
@@ -102,6 +103,36 @@ export class VoerkaI18nFormatterRegistry{
         return language ? getByPath(this.#formatters,`${language}.$config`,{defaultValue:{}}) : {}                
     }
     /**
+     获取指定语言中为每个数据类型指定的格式化器
+     */
+    getTypes(language?:string){
+        return language ? getByPath(this.#formatters,`${language}.$types`,{defaultValue:{}}) : {}                
+    }
+    /**
+     获取指定语言中为每个数据类型指定的格式化器
+     */
+    getFormatters(language?:string){
+        return language ? getByPath(this.#formatters,language,{defaultValue:{}}) : {}                
+    }
+    /**
+     * 更新指定语言的格式化器配置参数
+     * @param language 
+     * @param config 
+     */
+    updateConfig(language:string,config:VoerkaI18nFormatterConfigs){
+        if(language in this.#formatters){
+            const formatters = this.#formatters[language]
+            if(typeof(formatters)=='function'){
+                throw new FormattersNotLoadedError(language)
+            }else{ 
+                if(!formatters.$config){
+                    formatters.$config = {}
+                }
+                Object.assign(formatters.$config,config)
+            }
+        }        
+    }
+    /**
      * 返回指定语言是否具有格式化器集合
      * @param language 
      */
@@ -151,4 +182,13 @@ export class VoerkaI18nFormatterRegistry{
         if(!this.#ready) throw new FormattersNotLoadedError(this.#language)
         return (this.#formatters[this.#language] as VoerkaI18nFormatters).$config as VoerkaI18nFormatterConfigs
     }
+    get types(){
+        if(!this.#ready) throw new FormattersNotLoadedError(this.#language)
+        return (this.#formatters[this.#language] as VoerkaI18nFormatters).$types as VoerkaI18nFormatterConfigs
+    }
+    get items(){
+        if(!this.#ready) throw new FormattersNotLoadedError(this.#language)
+        return this.#formatters[this.#language]  as VoerkaI18nFormatterConfigs
+    }  
+
 }

@@ -19,12 +19,12 @@ import type {
     VoerkaI18nScopeCache, 
     VoerkaI18nTranslate, 
     VoerkaI18nLoaders, 
-VoerkaI18nTypesFormatters,
-VoerkaI18nFormatters,
-VoerkaI18nDynamicLanguageMessages,
-VoerkaI18nTypesFormatterConfigs
+    VoerkaI18nTypesFormatters,
+    VoerkaI18nFormatters,
+    VoerkaI18nDynamicLanguageMessages,
 } from "./types" 
 import { VoerkaI18nFormatterRegistry } from './formatterRegistry';
+import { InvalidLanguageError } from "./errors"
 
 export interface VoerkaI18nScopeOptions {
     id?: string
@@ -292,7 +292,7 @@ export class VoerkaI18nScope {
 	 * @param {*} language
 	 * @returns
 	 */
-	private getLanguage(language:string):VoerkaI18nLanguageDefine | undefined{
+	getLanguage(language:string):VoerkaI18nLanguageDefine | undefined{
 		let index = this.languages.findIndex((lng) => lng.name == language);
 		if (index !== -1) return this.languages[index];
 	}
@@ -311,7 +311,42 @@ export class VoerkaI18nScope {
 		this.#options.messages = this.default;
 		this.#options.activeLanguage = this.defaultLanguage;
 	}
-    
+    /**
+     *  语言信息包可以是:
+     *   - 简单的对象{}
+     *   - 或者是一个返回Promise<VoerkaI18nLanguageMessages>的异步函数
+     *  
+     * 
+     * 
+     * @param language 语言名称
+     * @returns 
+     */
+    private async loadLanguageMessages(language:string):Promise<VoerkaI18nLanguageMessages>{
+        if(!this.hasLanguage(language)) throw new InvalidLanguageError(`Not found language <${language}>`)
+        // 非默认语言可以是：语言包对象，也可以是一个异步加载语言包文件,加载器是一个异步函数
+		// 如果没有加载器，则无法加载语言包，因此回退到默认语言
+		let loader = this.loaders[language];
+        let messages:VoerkaI18nLanguageMessages = {}
+        if (isPlainObject(loader)) {                // 静态语言包
+            messages = loader as unknown as VoerkaI18nLanguageMessages;
+        } else if (isFunction(loader)) {            // 语言包异步chunk
+            messages = (await loader()).default;
+        } else if (isFunction(this.global.defaultMessageLoader)) { 
+            // 从远程加载语言包:如果该语言没有指定加载器，则使用全局配置的默认加载器
+            const loadedMessages = (await this.global.loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nDynamicLanguageMessages;
+            if(isPlainObject(loadedMessages)){
+                // 需要保存动态语言包中的$config，合并到对应语言的格式化器配置
+                if(isPlainObject(loadedMessages.$config)){           
+                    this.formatters.updateConfig(language,loadedMessages.$config!) 
+                    delete loadedMessages.$config
+                }
+                messages = Object.assign({
+                    $remote : true          // 添加一个标识，表示该语言包是从远程加载的
+                },this.default,loadedMessages); // 合并默认语言包和动态语言包,这样就可以局部覆盖默认语言包
+            }
+        } 
+        return messages
+    }
 	/**
 	 * 刷新当前语言包
 	 * @param {*} newLanguage
@@ -324,50 +359,31 @@ export class VoerkaI18nScope {
 			this.#options.messages = this.default;
 			await this._patch(this.#options.messages, newLanguage); // 异步补丁
 			await this._changeFormatters(newLanguage);
+            this.#refreshing = false
 			return;
-		}
-		// 非默认语言需要异步加载语言包文件,加载器是一个异步函数
-		// 如果没有加载器，则无法加载语言包，因此回退到默认语言
-		let loader = this.loaders[newLanguage];
-		try {
-            let newMessages, useRemote =false;
-			if (isPlainObject(loader)) {                // 静态语言包
-				newMessages = loader;
-			} else if (isFunction(loader)) {            // 语言包异步chunk
-				newMessages = (await loader()).default;
-			} else if (isFunction(this.global.defaultMessageLoader)) { // 从远程加载语言包:如果该语言没有指定加载器，则使用全局配置的默认加载器
-				const loadedMessages = (await this.global.loadMessagesFromDefaultLoader(newLanguage,this)) as unknown as VoerkaI18nDynamicLanguageMessages;
-                if(isPlainObject(loadedMessages)){
-                    useRemote = true
-                    // 需要保存动态语言包中的$config，合并到对应语言的格式化器配置
-                    if(isPlainObject(loadedMessages.$config)){                        
-                        this.formatters[newLanguage] = {
-                            $config  : loadedMessages.$config as any
-                        }
-                        delete loadedMessages.$config
+		}else{ // 非默认语言可以是静态语言包也可以是异步加载语言包
+            try{
+                let messages = await this.loadLanguageMessages(newLanguage)
+                if(messages){
+                    this.#options.messages = messages
+                    this.#options.activeLanguage = newLanguage;       
+                    // 打语言包补丁, 如果是从远程加载语言包则不需要再打补丁了
+                    // 因为远程加载的语言包已经是补丁过的了
+                    if(!messages.$remote) {
+                        await this._patch(this.#options.messages, newLanguage);                    
                     }
-                    newMessages = Object.assign({},this.default,loadedMessages);
+                    // 切换到对应语言的格式化器
+                    await this._changeFormatters(newLanguage);        
+                }else{
+                    this._fallback();
                 }
-			} 
-            if(newMessages){
-                this.#options.messages = newMessages
-                this.#options.activeLanguage = newLanguage;       
-                // 打语言包补丁, 如果是从远程加载语言包则不需要再打补丁了
-                if(!useRemote) {
-                    await this._patch(this.#options.messages, newLanguage);                    
-                }
-                // 切换到对应语言的格式化器
-			    await this._changeFormatters(newLanguage);        
-            }else{
+            }catch(e:any){
+                if (this.debug) console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`);
                 this._fallback();
-            }
-
-		} catch (e) {
-			if (this.debug) console.warn(`Error while loading language <${newLanguage}> on i18nScope(${this.id}): ${e.message}`);
-			this._fallback();
-		} finally {
-			this.#refreshing = false;
-		}
+            } finally {
+                this.#refreshing = false;
+            }  
+        } 
 	}
 	/**
 	 * 当指定了默认语言包加载器后，会从服务加载语言补丁包来更新本地的语言包
@@ -386,8 +402,8 @@ export class VoerkaI18nScope {
 				Object.assign(messages, pachedMessages);
 				this._savePatchedMessages(pachedMessages, newLanguage);
 			}
-		} catch (e) {
-			if (this.debug) console.error(`Error while loading <${newLanguage}> patch messages from remote:`,e);
+		} catch (e:any) {
+			if (this.debug) console.error(`Error while loading <${newLanguage}> patch messages from remote:`,e.message);
 		}
 	}
 	/**

@@ -173,23 +173,24 @@ function getDataTypeDefaultFormatter(scope:VoerkaI18nScope, activeLanguage:strin
 	if (scope.cache.activeLanguage === activeLanguage) {
 		if (scope.cache.typedFormatters && dataType in scope.cache.typedFormatters)
 			return scope.cache.typedFormatters[dataType];
-	} else {
-		// 当语言切换时清空缓存
-		resetScopeCache(scope, activeLanguage);
+	} else {		
+		resetScopeCache(scope, activeLanguage);   // 当语言切换时清空缓存
 	}
 	const fallbackLanguage = scope.getLanguage(activeLanguage)?.fallback;
 	// 先在当前作用域中查找，再在全局查找
 	const targets = [
-		scope.activeFormatters,
-		fallbackLanguage ? scope.formatters[fallbackLanguage] : null, // 如果指定了回退语言时,也在该回退语言中查找
-		scope.global.formatters[activeLanguage],
-		scope.global.formatters["*"],
+		scope.formatters.types,
+        scope.formatters.getTypes(fallbackLanguage),
+        scope.formatters.getTypes("*"),       
+        scope.global.formatters.types,
+        scope.global.formatters.getTypes(fallbackLanguage),
+        scope.global.formatters.getTypes("*"),    
 	];
+
 	for (const target of targets) {
 		if (!target) continue;
         if(target){
             if (isPlainObject(target.$types) && isFunction(target.$types?.[dataType])) {
-
                 return (scope.cache.typedFormatters[dataType] = target.$types[dataType]);
             }
         }		
@@ -201,6 +202,9 @@ function getDataTypeDefaultFormatter(scope:VoerkaI18nScope, activeLanguage:strin
  *
  * 查找逻辑
  *  - 在当前作用域中查找
+ *      - 当前语言
+ *      - 回退语言
+ *      - 全局语言      
  *  - 在全局作用域中查找
  *
  * @param {*} scope
@@ -210,30 +214,32 @@ function getDataTypeDefaultFormatter(scope:VoerkaI18nScope, activeLanguage:strin
  */
 function getFormatter(scope:VoerkaI18nScope, activeLanguage:string, name:string) {
 	// 1. 从缓存中直接读取： 缓存格式化器引用，避免重复检索
-	if (!scope.$cache) resetScopeCache(scope);
-	if (scope.$cache.activeLanguage === activeLanguage) {
-		if (name in scope.$cache.formatters)
-			return scope.$cache.formatters[name];
+	if (!scope.cache) resetScopeCache(scope,activeLanguage);
+	if (scope.cache.activeLanguage === activeLanguage) {
+		if (name in scope.cache.formatters)
+			return scope.cache.formatters[name];
 	} else {		// 当语言切换时清空缓存
 		resetScopeCache(scope, activeLanguage);
 	}
-	const fallbackLanguage = scope.getLanguage(activeLanguage).fallback;
+	const fallbackLanguage = scope.getLanguage(activeLanguage)?.fallback;
 	// 2. 先在当前作用域中查找，再在全局查找 formatters={$types,$config,[格式化器名称]:()=>{},[格式化器名称]:()=>{}}
 	const range = [
-		scope.activeFormatters,
-		scope.formatters[fallbackLanguage], // 如果指定了回退语言时,也在该回退语言中查找
-        scope.formatters["*"],
-		scope.global.formatters[activeLanguage], // 适用于activeLanguage全局格式化器
-        scope.global.formatters[fallbackLanguage],
-		scope.global.formatters["*"], // 适用于所有语言的格式化器
+		scope.formatters.formatters,
+        scope.formatters.getFormatters(fallbackLanguage),
+        scope.formatters.getFormatters('*'),
+        
+        scope.global.formatters.formatters,
+        scope.global.formatters.getFormatters(fallbackLanguage),
+        scope.global.formatters.getFormatters('*'),
 	];
 	for (const formatters of range) {
 		if (!formatters) continue;
 		if (isFunction(formatters[name])) {
-			return (scope.$cache.formatters[name] = formatters[name]);
+			return (scope.cache.formatters[name] = formatters[name]);
 		}
 	}
 }
+
 /**
  * Checker是一种特殊的格式化器，会在特定的时间执行
  *
@@ -441,7 +447,7 @@ export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ..
 		// 读取模板字符串中的插值变量列表
 		// [[var1,[formatter,formatter,...],match],[var2,[formatter,formatter,...],match],...}
 		let varValues = args[0];
-		return forEachInterpolatedVars(template,(varname, formatters, match) => {
+		return forEachInterpolatedVars(template,(varname:string, formatters, match) => {
 				let value = varname in varValues ? varValues[varname] : "";
 				return getFormattedValue(scope,activeLanguage,formatters,value,template);
 			}
@@ -452,7 +458,7 @@ export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ..
 		const params =args.length === 1 && Array.isArray(args[0]) ? [...args[0]] : args;
 		if (params.length === 0) return template; // 没有变量则不需要进行插值处理，返回原字符串
 		let i = 0;
-		return forEachInterpolatedVars(template,(varname, formatters, match) => {
+		return forEachInterpolatedVars(template,(varname:string, formatters, match) => {
 				if (params.length > i) {
 					return getFormattedValue(scope,activeLanguage,formatters,params[i++],template);
 				} else {
