@@ -43,8 +43,8 @@ formatters="| aaa(1,1,"dddd") | bbb "
 */
 
 //@returns  [ [<格式化器名称>,[<参数>,<参数>,...],[<格式化器名称>,[<参数>,<参数>,...]],...]
-export type FormatterDefines = ([string, string[]])[]
-export function parseFormatters(formatters: string): FormatterDefines {
+export type FormatterDefineChain = ([string, string[]])[]
+export function parseFormatters(formatters: string): FormatterDefineChain {
     if (!formatters) return [];
     // 1. 先解析为 ["aaa()","bbb"]形式
     let result = formatters.trim().substring(1).trim().split("|").map((r) => r.trim());
@@ -63,7 +63,7 @@ export function parseFormatters(formatters: string): FormatterDefines {
         } else { // 不带参数的格式化器               
             return [formatter, []];
         }
-    }).filter((formatter) => Array.isArray(formatter)) as FormatterDefines
+    }).filter((formatter) => Array.isArray(formatter)) as FormatterDefineChain
 }
 
 

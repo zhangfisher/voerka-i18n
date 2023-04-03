@@ -1,4 +1,5 @@
 import { isNumber } from "flex-tools/typecheck/isNumber"
+import { SupportedDateTypes } from './types';
 
 /**
  * 获取指定变量类型名称
@@ -12,9 +13,9 @@ import { isNumber } from "flex-tools/typecheck/isNumber"
  * @param {*} v 
  * @returns 
  */
-export function getDataTypeName(v:any):string{
+export function getDataTypeName(v:any):SupportedDateTypes{
 	if (v === null)  return 'Null' 
-	if (v === undefined) return 'Undefined'   
+	if (v === undefined) return  'Undefined'   
     if(typeof(v)==="function")  return "Function"
 	return v.constructor && v.constructor.name;
 };

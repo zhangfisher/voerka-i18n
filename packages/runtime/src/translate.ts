@@ -72,7 +72,7 @@ function getPluraMessage(messages:any,value:number){
  * this===scope  当前绑定的scope
  * 
  */
-export function translate(this:VoerkaI18nScope,message:string,...args:any[]) { 
+export function translate(this:VoerkaI18nScope,message:string,...args:any[]):string { 
     const scope = this
     const activeLanguage = scope.global.activeLanguage 
     // 如果内容是复数，则其值是一个数组，数组中的每个元素是从1-N数量形式的文本内容
@@ -141,12 +141,12 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]) {
         }         
         // 进行插值处理
         if(vars.length==0){
-            return result
+            return result as string
         }else{
             return replaceInterpolatedVars.call(scope,result as string,...vars)
         }        
     }catch(e){
-        return result       // 出错则返回原始文本
+        return result as any      // 出错则返回原始文本
     } 
 }
   

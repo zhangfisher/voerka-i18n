@@ -32,9 +32,9 @@ import { getDataTypeName } from "./utils"
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { isFunction } from "flex-tools/typecheck/isFunction"
-import { parseFormatters } from "./formatter"
+import { FormatterDefineChain, parseFormatters } from "./formatter"
 import { VoerkaI18nScope } from "./scope"
-import { SupportedDateTypes } from "./types"
+import { SupportedDateTypes, VoerkaI18nFormatter, VoerkaI18nFormatterConfigs } from './types';
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
 // 支持参数： { var | formatter(x,x,..) | formatter }
@@ -56,48 +56,12 @@ function hasInterpolation(str:string):boolean {
 	return str.includes("{") && str.includes("}");
 }
 
-/**
- *  解析格式化器的参数
- *
-/**  
-  * 提取字符串中的插值变量
-  *  [
-     //   {  
-         name:<变量名称>,formatters:[{name:<格式化器名称>,args:[<参数>,<参数>,....]]｝],<匹配字符串>],
-     //   ....
-     // 
-  * @param {*} str 
-  * @param {*} isFull   =true 保留所有插值变量 =false 进行去重
-  * @returns {Array} 
-  * [
-  *  {
-  *      name:"<变量名称>",
-  *      formatters:[
-  *          {name:"<格式化器名称>",args:[<参数>,<参数>,....]},
-  *          {name:"<格式化器名称>",args:[<参数>,<参数>,....]},
-  *      ],
-  *      match:"<匹配字符串>"
-  *  },
-  *  ...
-  * ]
-  */
-function getInterpolatedVars(str:string) {
-	let vars = [];
-	forEachInterpolatedVars(str, (varName, formatters, match) => {
-		let varItem = {
-			name: varName,
-			formatters: formatters.map(([formatter, args]) => {
-				return {name: formatter,args: args	};
-			}),
-			match: match,
-		};
-		if (vars.findIndex((varDef) =>varDef.name === varItem.name &&	varItem.formatters.toString() ==varDef.formatters.toString()) === -1){
-			vars.push(varItem);
-		}
-		return "";
-	});
-	return vars;
-}
+
+
+export type InterpolatedVarReplacer = (varname:string,formatters:FormatterDefineChain,matched:string)=>string;
+// [<formatterName>,[<formatterName>,[<arg>,<arg>,...]]]
+export type VarFormatters = [string,[string,any[]]];
+
 /**
  * 遍历str中的所有插值变量传递给callback，将callback返回的结果替换到str中对应的位置
  * @param {*} str
@@ -105,7 +69,7 @@ function getInterpolatedVars(str:string) {
  * @param {Boolean} replaceAll   是否替换所有插值变量，当使用命名插值时应置为true，当使用位置插值时应置为false
  * @returns  返回替换后的字符串
  */
-function forEachInterpolatedVars(str:string, replacer, options = {}) {
+function forEachInterpolatedVars(str:string, replacer:InterpolatedVarReplacer, options = {}) {
 	let result = str, matched;
 	let opts = Object.assign({replaceAll: true },options);
 	varWithPipeRegexp.lastIndex = 0;
@@ -239,6 +203,7 @@ function getFormatter(scope:VoerkaI18nScope, activeLanguage:string, name:string)
 		}
 	}
 }
+export type FormatterChecker = (value:any,config?:VoerkaI18nFormatterConfigs)=>any;
 
 /**
  * Checker是一种特殊的格式化器，会在特定的时间执行
@@ -250,7 +215,7 @@ function getFormatter(scope:VoerkaI18nScope, activeLanguage:string, name:string)
  * @param {*} value
  * @returns
  */
-function executeChecker(checker, value,scope) {
+function executeChecker(checker:FormatterChecker, value:any,scope:VoerkaI18nScope) {
 	let result = { value, next: "skip" };
 	if (!isFunction(checker)) return result;
 	try {
@@ -261,7 +226,7 @@ function executeChecker(checker, value,scope) {
 			result.value = r;
 		}
 		if (!["break", "skip"].includes(result.next)) result.next = "break";
-	} catch (e) {
+	} catch (e:any) {
         if(scope.debug) console.error("Error while  execute VoerkaI18n checker :"+e.message)
     }
 	return result;
@@ -274,17 +239,16 @@ function executeChecker(checker, value,scope) {
  * 这样格式化器可以读取$config
  *
  * @param {*} value
- * @param {Array[Function]} formatters  多个格式化器函数(经过包装过的)顺序执行，前一个输出作为下一个格式化器的输入
+ * @param {FormatterDefineChain} formatters  经过解析过的格式化器参数链 ，多个格式化器函数(经过包装过的)顺序执行，前一个输出作为下一个格式化器的输入
+ *  formatters [ [<格式化器名称>,[<参数>,<参数>,...],[<格式化器名称>,[<参数>,<参数>,...]],...]
  */
-function executeFormatter(value, formatters, scope, template) {
+function executeFormatter(value:any, formatters:FormatterDefineChain, scope:VoerkaI18nScope, template:string) {
 	if (formatters.length === 0) return value;
 	let result = value;
 	// 1. 空值检查
-	const emptyCheckerIndex = formatters.findIndex(
-		(func) => func.$name === "empty"
-	);
+	const emptyCheckerIndex:number = formatters.findIndex((func) => (func as any).$name === "empty") 
 	if (emptyCheckerIndex != -1) {
-		const emptyChecker = formatters.splice(emptyCheckerIndex, 1)[0];
+		const emptyChecker = formatters.splice(emptyCheckerIndex, 1)[0] as unknown as FormatterChecker
 		const { value, next } = executeChecker(emptyChecker, result,scope);
 		if (next == "break") {
 			return value;
@@ -293,10 +257,10 @@ function executeFormatter(value, formatters, scope, template) {
 		}
 	}
 	// 2. 错误检查
-	const errorCheckerIndex = formatters.findIndex((func) => func.$name === "error"	);
+	const errorCheckerIndex = formatters.findIndex((func) => (func as any).$name === "error"	);
 	let errorChecker;
 	if (errorCheckerIndex != -1) {
-		errorChecker = formatters.splice(errorCheckerIndex, 1)[0];
+		errorChecker = formatters.splice(errorCheckerIndex, 1)[0] as unknown as FormatterChecker
 		if (result instanceof Error) {
 			result.formatter = formatter.$name;
 			const { value, next } = executeChecker(errorChecker, result,scope);
@@ -337,7 +301,7 @@ function executeFormatter(value, formatters, scope, template) {
  *
  * @param {*} formatters
  */
-function addDefaultFormatters(formatters) {
+function addDefaultFormatters(formatters:FormatterDefineChain) {
 	// 默认的空值处理逻辑： 转换为"",然后继续执行接下来的逻辑
 	if (formatters.findIndex(([name]) => name == "empty") === -1) {
 		formatters.push(["empty", []]);
@@ -364,18 +328,18 @@ function addDefaultFormatters(formatters) {
  * @returns {Array}   [(v)=>{...},(v)=>{...},(v)=>{...}]
  *
  */
-function wrapperFormatters(scope, activeLanguage, formatters) {
+function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain) {
 	let wrappedFormatters = [];
 	addDefaultFormatters(formatters);
 	for (let [name, args] of formatters) {
 		let fn = getFormatter(scope, activeLanguage, name);
 		let formatter;		
 		if (isFunction(fn)) {
-			formatter = (value, config) =>fn.call(scope.activeFormatterConfig, value, ...args, config);
+			formatter = (value:any, config:VoerkaI18nFormatterConfigs) =>fn.call(scope.activeFormatterConfig, value, args, config);
 		} else {
             // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
 		    // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
-			formatter = (value) => {
+			formatter = (value:any) => {
 				if (isFunction(value[name])) {
 					return value[name](...args);
 				} else {
@@ -383,7 +347,8 @@ function wrapperFormatters(scope, activeLanguage, formatters) {
 				}
 			};
 		}
-		formatter.$name = name;
+        // 为格式化器函数添加一个$name属性，用来标识当前格式化器的名称
+		(formatter as any).$name = name;
 		wrappedFormatters.push(formatter);
 	}
 	return wrappedFormatters;
@@ -393,11 +358,11 @@ function wrapperFormatters(scope, activeLanguage, formatters) {
  *  将value经过格式化器处理后返回的结果
  * @param {*} scope
  * @param {*} activeLanguage
- * @param {*} formatters
+ * @param {*} formatters     
  * @param {*} value
  * @returns
  */
-function getFormattedValue(scope, activeLanguage, formatters, value, template) {
+function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain, value, template) {
 	// 1. 取得格式化器函数列表，然后经过包装以传入当前格式化器的配置参数
 	const formatterFuncs = wrapperFormatters(scope, activeLanguage, formatters);
 	// 3. 执行格式化器
@@ -469,3 +434,49 @@ export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ..
 		);
 	} 
 } 
+
+
+
+
+// /**
+//  *  解析格式化器的参数
+//  *
+// /**  
+//   * 提取字符串中的插值变量
+//   *  [
+//      //   {  
+//          name:<变量名称>,formatters:[{name:<格式化器名称>,args:[<参数>,<参数>,....]]｝],<匹配字符串>],
+//      //   ....
+//      // 
+//   * @param {*} str 
+//   * @param {*} isFull   =true 保留所有插值变量 =false 进行去重
+//   * @returns {Array} 
+//   * [
+//   *  {
+//   *      name:"<变量名称>",
+//   *      formatters:[
+//   *          {name:"<格式化器名称>",args:[<参数>,<参数>,....]},
+//   *          {name:"<格式化器名称>",args:[<参数>,<参数>,....]},
+//   *      ],
+//   *      match:"<匹配字符串>"
+//   *  },
+//   *  ...
+//   * ]
+//   */
+//      function getInterpolatedVars(str:string) {
+//         let vars = [];
+//         forEachInterpolatedVars(str, (varName, formatters, match) => {
+//             let varItem = {
+//                 name: varName,
+//                 formatters: formatters.map(([formatter, args]) => {
+//                     return {name: formatter,args: args	};
+//                 }),
+//                 match: match,
+//             };
+//             if (vars.findIndex((varDef) =>varDef.name === varItem.name &&	varItem.formatters.toString() ==varDef.formatters.toString()) === -1){
+//                 vars.push(varItem);
+//             }
+//             return "";
+//         });
+//         return vars;
+//     }
