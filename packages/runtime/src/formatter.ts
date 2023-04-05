@@ -271,8 +271,8 @@ function parseFormaterParams(strParams: string): any[] {
  */
 export type Formatter = (this: any, value: string, ...args: any[]) => string
 export interface FormatterOptions {
-    normalize?: (value: string) => string         // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
-    params?: Record<string, any>,         // 可选的，声明参数顺序，如果是变参的，则需要传入null
+    normalize?: (value: string) => any         // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
+    params?: Record<string, any> | null,         // 可选的，声明参数顺序，如果是变参的，则需要传入null
     configKey?: string          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
 }
 
@@ -285,7 +285,7 @@ export function createFormatter(fn: Formatter, options?: FormatterOptions, defau
 
     // 最后一个参数是传入activeFormatterConfig参数
     // 并且格式化器的this指向的是activeFormatterConfig
-    const $formatter = function (this: any, value: string, ...args: any[]) {
+    const $formatter = function (this: any, value: string, args: any[],$config:Record<string,any>) {
         let finalValue = value
         // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
         if (isFunction(opts.normalize)) {
@@ -312,7 +312,7 @@ export function createFormatter(fn: Formatter, options?: FormatterOptions, defau
                 if (args[i] !== undefined) finalArgs[i] = args[i]
             }
         }
-        return fn.call(this, finalValue, ...finalArgs, formatterConfig)
+        return fn.call(this, finalValue, finalArgs, formatterConfig)
     }
     $formatter.configurable = true
     return $formatter
@@ -339,9 +339,7 @@ export const createFlexFormatter = function (fn: Formatter, options: FormatterOp
     const opts = assignObject({
         params: {}
     }, options)
-    const $flexFormatter = Formatter(function (this: any, value: string, ...args: string[]) {
-        // 1. 最后一个参数总是代表格式化器的参数,不同语言不一样
-        let $config = args[args.length - 1] as unknown as Record<string, any>
+    const $flexFormatter = Formatter(function (this: any, value: string,args: string[],$config:Record<string,any> ) {
         // 2. 从语言配置中读取默认参数
         let finalParams = (options.params || {}).reduce((r: Record<string, any>, name: string) => {
             r[name] = $config[name] == undefined ? (defaultParams || {})[name] : $config[name]
@@ -361,6 +359,7 @@ export const createFlexFormatter = function (fn: Formatter, options: FormatterOp
 }
 
 
+export const Formatter = createFormatter
 
 export const FlexFormatter = createFlexFormatter
 

@@ -1,11 +1,9 @@
 import { isFunction } from "flex-tools/typecheck/isFunction"
 import { deepMerge } from "flex-tools/object/deepMerge"
-import {DataTypes} from "./utils"
 import { EventEmitter } from "./eventemitter"
 import inlineFormatters from "./formatters"         
-import {  VoerkaI18nScope } from "./scope"
+import type {  VoerkaI18nScope } from "./scope"
 import type { VoerkaI18nLanguageDefine, VoerkaI18nLanguageFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters }  from "./types"
-import { SupportedDateTypes } from './types';
 import { VoerkaI18nFormatterRegistry } from "./formatterRegistry"
 
 // 默认语言配置
@@ -24,7 +22,7 @@ export interface VoerkaI18nManagerOptions {
     debug?: boolean
     defaultLanguage: string
     activeLanguage: string
-    formatters: VoerkaI18nLanguageFormatters
+    formatters?: VoerkaI18nLanguageFormatters
     languages: VoerkaI18nLanguageDefine[]
 }
 /** 
@@ -126,9 +124,9 @@ export class VoerkaI18nManager extends EventEmitter{
      * @param {*} scope 
      */
     async register(scope:VoerkaI18nScope){
-        if(!(scope instanceof VoerkaI18nScope)){
-            throw new TypeError("Scope must be an instance of VoerkaI18nScope")
-        }
+        // if(!(scope instanceof VoerkaI18nScope)){
+        //     throw new TypeError("Scope must be an instance of VoerkaI18nScope")
+        // }
         this.#scopes.push(scope) 
         return await scope.refresh(this.activeLanguage) 
     }

@@ -8,16 +8,17 @@
  * { value | number('big') }
  * 
  */
-const { isNumber,toNumber } = require("../utils")
-const { Formatter } = require("../formatter")
-const { toCurrency } = require("./currency")
+import { toNumber } from "../utils"
+import { Formatter } from "../formatter"
+import { toCurrency } from "./currency"
+import { VoerkaI18nFormatter } from '../types';
 
-const numberFormartter = Formatter(function(value,precision,division,$config){
+export const numberFormartter = Formatter(function(value:any,[precision,division]:[number,number],$config:any){
     return toCurrency(value, { division, precision},$config)
 },{
     normalize: toNumber,
     params:["precision","division"],
     configKey: "number"
-})
+}) as VoerkaI18nFormatter
 
  

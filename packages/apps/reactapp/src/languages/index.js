@@ -36,7 +36,7 @@ const loaders = {
 // 语言作用域
 const scope = new VoerkaI18nScope({
     ...scopeSettings,                               // languages,defaultLanguage,activeLanguage,namespaces,formatters
-    id          : "reactapp",                    // 当前作用域的id，自动取当前工程的package.json的name
+    id          : "reactapp",                      // 当前作用域的id，自动取当前工程的package.json的name
     debug       : false,                            // 是否在控制台输出高度信息
     default     : defaultMessages,                  // 默认语言包
     messages    : activeMessages,                   // 当前语言包

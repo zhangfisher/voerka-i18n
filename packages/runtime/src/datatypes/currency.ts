@@ -98,7 +98,7 @@ export const currencyFormatter = FlexFormatter((value:string | number,params:Rec
     }
     return toCurrency(value,params,$config)
 },{
-    normalize: toNumber,
+    normalize: (value:string)=>toNumber(value),
     params : ["format","unit","precision","prefix","suffix","division","symbol","radix"],
     configKey: "currency"
 },{

@@ -203,7 +203,9 @@ function getFormatter(scope:VoerkaI18nScope, activeLanguage:string, name:string)
 		}
 	}
 }
-export type FormatterChecker = (value:any,config?:VoerkaI18nFormatterConfigs)=>any;
+export type FormatterChecker = ((value:any,config?:VoerkaI18nFormatterConfigs)=>any) & {
+    $name:string
+}  
 
 /**
  * Checker是一种特殊的格式化器，会在特定的时间执行
@@ -242,7 +244,7 @@ function executeChecker(checker:FormatterChecker, value:any,scope:VoerkaI18nScop
  * @param {FormatterDefineChain} formatters  经过解析过的格式化器参数链 ，多个格式化器函数(经过包装过的)顺序执行，前一个输出作为下一个格式化器的输入
  *  formatters [ [<格式化器名称>,[<参数>,<参数>,...],[<格式化器名称>,[<参数>,<参数>,...]],...]
  */
-function executeFormatter(value:any, formatters:FormatterDefineChain, scope:VoerkaI18nScope, template:string) {
+function executeFormatter(value:any, formatters:VoerkaI18nFormatter[], scope:VoerkaI18nScope, template:string) {
 	if (formatters.length === 0) return value;
 	let result = value;
 	// 1. 空值检查
@@ -258,11 +260,11 @@ function executeFormatter(value:any, formatters:FormatterDefineChain, scope:Voer
 	}
 	// 2. 错误检查
 	const errorCheckerIndex = formatters.findIndex((func) => (func as any).$name === "error"	);
-	let errorChecker;
+	let errorChecker:FormatterChecker;
 	if (errorCheckerIndex != -1) {
 		errorChecker = formatters.splice(errorCheckerIndex, 1)[0] as unknown as FormatterChecker
 		if (result instanceof Error) {
-			result.formatter = formatter.$name;
+			(result as any).formatter = errorChecker.$name;
 			const { value, next } = executeChecker(errorChecker, result,scope);
 			if (next == "break") {
 				return value;
@@ -275,13 +277,13 @@ function executeFormatter(value:any, formatters:FormatterDefineChain, scope:Voer
 	// 3. 分别执行格式化器函数
 	for (let formatter of formatters) {
 		try {
-            result = formatter(result, scope.activeFormatterConfig);		
+            result = formatter(result, [result],scope.activeFormatterConfig);		
 		} catch (e:any) {
-			e.formatter = formatter.$name;
+			e.formatter = (formatter as any).$name;
 			if (scope.debug)
-				console.error(`Error while execute i18n formatter<${formatter.$name}> for ${template}: ${e.message} `);
-			if (isFunction(errorChecker)) {
-				const { value, next } = executeChecker(errorChecker, result);
+				console.error(`Error while execute i18n formatter<${(formatter as any).$name}> for ${template}: ${e.message} `);
+			if (isFunction(errorChecker!)) {
+				const { value, next } = executeChecker(errorChecker!, result,scope);
 				if (next == "break") {
 					if (value !== undefined) result = value;
 					break;
@@ -329,13 +331,13 @@ function addDefaultFormatters(formatters:FormatterDefineChain) {
  *
  */
 function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain) {
-	let wrappedFormatters = [];
+	let wrappedFormatters:VoerkaI18nFormatter[] = [];
 	addDefaultFormatters(formatters);
 	for (let [name, args] of formatters) {
 		let fn = getFormatter(scope, activeLanguage, name);
 		let formatter;		
 		if (isFunction(fn)) {
-			formatter = (value:any, config:VoerkaI18nFormatterConfigs) =>fn.call(scope.activeFormatterConfig, value, args, config);
+			formatter = (value:any, args?:any[],config?:VoerkaI18nFormatterConfigs) =>fn.call(scope.activeFormatterConfig, value, args, config);
 		} else {
             // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
 		    // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
@@ -362,7 +364,7 @@ function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatt
  * @param {*} value
  * @returns
  */
-function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain, value, template) {
+function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain, value:any, template:string) {
 	// 1. 取得格式化器函数列表，然后经过包装以传入当前格式化器的配置参数
 	const formatterFuncs = wrapperFormatters(scope, activeLanguage, formatters);
 	// 3. 执行格式化器

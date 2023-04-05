@@ -4,7 +4,6 @@
  */
  
 
-import { Formatter } fom "../formatter"
 import { dateFormatter,quarterFormatter,monthFormatter,weekdayFormatter,timeFormatter,relativeTimeFormatter } from "../datatypes/datetime"
 import { numberFormartter } from "../datatypes/numeric"
 import { currencyFormatter } from "../datatypes/currency"
@@ -149,11 +148,11 @@ export default {
     },
     // 默认数据类型的格式化器
     $types: {
-        Date     : dateFormatter,
-        Null     : value =>"",
-        Undefined: value =>"",
-        Error    : value => "ERROR",
-        Boolean  : value =>value ? "True":"False",
+        // Date     : dateFormatter,
+        Null     : (value: any) =>"",
+        Undefined: (value: any) =>"",
+        Error    : (value: any) => "ERROR",
+        Boolean  : (value: any) =>value ? "True":"False",
         Number   : numberFormartter           
     },
     // 以下是格式化定义

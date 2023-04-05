@@ -4,9 +4,10 @@
  * 
  * 
  */
-import { VoerkaI18nFormatter, VoerkaI18nFormatters, VoerkaI18nFormattersLoader, VoerkaI18nLanguageFormatters, SupportedDateTypes, VoerkaI18nFormatterConfigs, Formatter } from './types';
+import { VoerkaI18nFormatter, VoerkaI18nFormatters, VoerkaI18nFormattersLoader, VoerkaI18nLanguageFormatters, SupportedDateTypes, VoerkaI18nFormatterConfigs  } from './types';
 import { DataTypes } from './utils';
 import { get as getByPath } from "flex-tools/object/get" 
+import { isFunction } from 'flex-tools/typecheck/isFunction';
  
 
 export interface VoerkaI18nScopeCache{
@@ -41,7 +42,7 @@ export class VoerkaI18nFormatterRegistry{
     set language(language:string){
         this.#language = language        
         if(!(language in this.formatters)){
-            (this.formatters[language] as any) = Object.assign({},EmptyFormatters)
+            (this.#formatters[language] as any) = Object.assign({},EmptyFormatters)
         }
         this.#ready = typeof(this.#formatters[language]) != 'function'
     }    
@@ -63,7 +64,7 @@ export class VoerkaI18nFormatterRegistry{
         *代表适用于所有语言
         语言名称，语言名称数组，或者使用,分割的语言名称字符串
     */
-	register(name:string, formatter:VoerkaI18nFormatter, {language = "*"}:{ language:  string | string[] } ) {
+	register(name:string | SupportedDateTypes, formatter:VoerkaI18nFormatter, {language = "*"}:{ language:  string | string[] } ) {
 		if (!isFunction(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
@@ -73,7 +74,7 @@ export class VoerkaI18nFormatterRegistry{
                 this.#formatters[lngName] = {                 }
             }
             if(typeof(this.#formatters[lngName])!="function"){
-                let lngFormatters = this.#formatters[lngName] as VoerkaI18nFormatters
+                let lngFormatters = this.#formatters[lngName] as any
                 if (DataTypes.includes(name)) {                    
                     if(!lngFormatters.$types){
                         lngFormatters.$types = {}
@@ -168,7 +169,7 @@ export class VoerkaI18nFormatterRegistry{
      */
     get(name:string,dataType?:SupportedDateTypes):VoerkaI18nFormatter | undefined{
         if(!this.#ready) throw new FormattersNotLoadedError(this.#language)
-        const lngFormatters = this.#formatters[this.#language] as VoerkaI18nFormatters
+        const lngFormatters = this.#formatters[this.#language] as any
         if(dataType && (dataType in lngFormatters.$types!)){
             return lngFormatters.$types![dataType]
         }else if(name in lngFormatters){

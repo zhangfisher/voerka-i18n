@@ -1,5 +1,7 @@
-const { toNumber,isFunction } = require("../utils")
-const { Formatter } = require("../formatter")
+import { assignObject } from 'flex-tools/object/assignObject';
+import { VoerkaI18nFormatterConfigs } from '../types';
+import { toNumber } from "../utils"
+import { Formatter } from "../formatter"
 
 /**
   *  字典格式化器
@@ -10,11 +12,11 @@ const { Formatter } = require("../formatter")
   * @param  {...any} args 
   * @returns 
   */
- function dict(key, values) { 
+function dict(key:string, values:any)  { 
     if(key in values){
         return values[key]
     }else{
-        return ("default" in values) ? values[key] : value
+        return ("default" in values) ? values[key] : values
     }
 }
  
@@ -37,10 +39,8 @@ const { Formatter } = require("../formatter")
  * @paran {String} next 下一步行为，取值true/false,break,skip,默认是break
  * @param {*} config 
  */
-const empty = Formatter(function(value,escapeValue,next,$config){
-    if(next===false) next = 'break'
-    if(next===true) next = 'skip'
-    let opts = Object.assign({escape:"",next:'break',values:[]},$config)             
+const empty = Formatter(function(value:any,escapeValue:any,next: 'break' | 'ignore',$config:VoerkaI18nFormatterConfigs){
+    let opts = assignObject({escape:"",next:'break',values:[]},$config)             
     if(escapeValue!=undefined) opts.escape = escapeValue
     let emptyValues = [undefined,null]
     if(Array.isArray(opts.values)) emptyValues.push(...opts.values)    
@@ -72,10 +72,10 @@ const empty = Formatter(function(value,escapeValue,next,$config){
  * @param {*} config 格式化器的全局配置参数
  * @returns 
  */
-const error = Formatter(function(value,escapeValue,next,$config){
+const error = Formatter(function(value:any,escapeValue:any,next:'break' | 'ignore',$config:VoerkaI18nFormatterConfigs){
     if(value instanceof Error){     
         try{
-            let opts = Object.assign({escape:null,next:'break'},$config)
+            let opts = assignObject({escape:null,next:'break'},$config)
             if(escapeValue!=undefined) opts.escape = escapeValue
             if(next!=undefined) opts.next = next
             return {
@@ -100,7 +100,7 @@ const error = Formatter(function(value,escapeValue,next,$config){
  * @param {*} prefix 
  * @returns 
  */
-function prefix(value,prefix="") {
+export function prefix(value:any,prefix:string="") {
     return prefix ?  `${prefix}${value}` : value
 }
 /**
@@ -109,7 +109,7 @@ function prefix(value,prefix="") {
  * @param {*} suffix 
  * @returns 
  */
-function suffix(value,suffix="") {
+export function suffix(value:any,suffix:string="") {
     return suffix ?  `${value}${suffix}` : value
 }
 
@@ -141,7 +141,7 @@ const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "
  * @param {*} brief  是否采用简称单位
  * @param {*} options 
  */
- const filesize= Formatter((value,unit,brief=true,$config)=>{
+ export const filesize= Formatter((value:any,unit:string,brief:boolean=true,$config:VoerkaI18nFormatterConfigs)=>{
     let v = toNumber(value)
     let unitIndex
     if(unit==undefined || unit=="auto"){
@@ -164,13 +164,11 @@ const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "
 })
 
 
-
-module.exports = {
+export default {
     dict,
+    empty,
+    error,
     prefix,
     suffix,
-    filesize,
-    error,
-    empty
+    filesize    
 }
-

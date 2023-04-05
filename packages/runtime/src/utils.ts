@@ -44,12 +44,12 @@ export const DataTypes =  ["String","Number","Boolean","Object","Array","Functio
 /**
  * 转换为数字类型
  */
-export  function toNumber(value:any,defualt=0):number {
+export  function toNumber(value:any):number {
     try {
         if (isNumber(value)) {
             return parseFloat(value)
         } else {
-            return defualt
+            return 0
         }
     } catch {
         return value 

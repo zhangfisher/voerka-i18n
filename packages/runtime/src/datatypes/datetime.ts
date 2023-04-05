@@ -3,18 +3,16 @@
 处理日期时间相关
 
 */
-const { isFunction,replaceAll,toDate } = require('../utils')
-const  { Formatter } = require('../formatter');
+import { toDate } from '../utils'
+import { Formatter } from '../formatter';
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 import { relativeTime } from "flex-tools/misc/relativeTime"
 import { assignObject } from "flex-tools/object/assignObject"
-
+import { isFunction } from "flex-tools/typecheck/isFunction"
 
  
 function formatTime(value:number ,template="HH:mm:ss"){    
-    return formatDateTime(value,template,{
-
-    })
+    return formatDateTime(value,template,{})
 }
 
 
@@ -29,9 +27,10 @@ function formatTime(value:number ,template="HH:mm:ss"){
  * 
   **/ 
 export type FormatterTransformer = (value:any,format:string)=>string
+
 export function createDateTimeFormatter(options={},transformer:FormatterTransformer){
     let opts = assignObject({presets:{}},options)
-    return Formatter(function(value,format,$config){
+    return Formatter(function(this:any,value:any,[format]:any[],$config:Record<string,any>){
         if((format in opts.presets) && isFunction(opts.presets[format])){
             return opts.presets[format](value)
         }else if((format in $config)){
@@ -53,17 +52,17 @@ export function createDateTimeFormatter(options={},transformer:FormatterTransfor
  *  - format取值：local,long,short,iso,gmt,utc,<模板字符串>
  *  - 默认值由$config.datetime.date.format指定
  */
- const dateFormatter = createDateTimeFormatter({
+ export const dateFormatter = createDateTimeFormatter({
     normalize: toDate,
     params   : ["format"],
     configKey: "datetime.date",
     presets  : {
-        local: value=>value.toLocaleString(),
-        iso  : value=>value.toISOString(),
-        utc  : value=>value.toUTCString(),
-        gmt  : value=>value.toGMTString()
+        local: (value:any)=>value.toLocaleString(),
+        iso  : (value:any)=>value.toISOString(),
+        utc  : (value:any)=>value.toUTCString(),
+        gmt  : (value:any)=>value.toGMTString()
     }
-},formatDatetime)
+},formatDateTime)
 
 
 /**
@@ -71,8 +70,8 @@ export function createDateTimeFormatter(options={},transformer:FormatterTransfor
  *  - format: long,short,number
  *  - 默认值是 short
  */
-const quarterFormatter = createDateTimeFormatter({
-    normalize : value=>{
+export const quarterFormatter = createDateTimeFormatter({
+    normalize : (value:any)=>{
         const month = value.getMonth() + 1 
         return Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
     },
@@ -85,7 +84,7 @@ const quarterFormatter = createDateTimeFormatter({
  *  - format: long,short,number
  *  - 默认值是 short
  */
-const monthFormatter = createDateTimeFormatter({
+export const monthFormatter = createDateTimeFormatter({
     normalize: (value:Date)=> value.getMonth() + 1, 
     params   : ["format"],
     configKey: "datetime.month"
@@ -96,7 +95,7 @@ const monthFormatter = createDateTimeFormatter({
  *  - format: long,short,number
  *  - 默认值是 long
  */
-const weekdayFormatter = createDateTimeFormatter({
+export const weekdayFormatter = createDateTimeFormatter({
     normalize: (value:Date)=> value.getDay(), 
     params   : ["format"],
     configKey: "datetime.weekday"
@@ -107,7 +106,7 @@ const weekdayFormatter = createDateTimeFormatter({
  *  - format取值：local,long,short,timestamp,<模板字符串>
  *  - 默认值由$config.datetime.time.format指定
  */
- const timeFormatter = createDateTimeFormatter({
+export const timeFormatter = createDateTimeFormatter({
     normalize    : toDate,
     params       : ["format"],
     configKey    : "datetime.time",
@@ -122,7 +121,7 @@ const weekdayFormatter = createDateTimeFormatter({
  * @param {*} value 
  * @param {*} baseTime  基准时间，默认是相对现在
  */
-const relativeTimeFormatter = Formatter((value:Date,baseTime:Date,$config:any)=>{    
+export const relativeTimeFormatter = Formatter((value:any,[baseTime]:[Date],$config:any)=>{    
     //const { units,now,before,base = Date.now() , after } = $config
     return relativeTime(value, $config)
 },{

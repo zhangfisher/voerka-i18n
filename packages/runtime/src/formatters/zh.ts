@@ -5,9 +5,10 @@
 
 import { chineseNumberFormatter,rmbFormater } from "../datatypes/chinese"
 
+import {CN_DATETIME_UNITS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES, CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/chinese/consts"
 
 
-module.exports = {
+export default  {
     // 配置参数: 格式化器函数的最后一个参数就是该配置参数
     $config:{
         datetime          : {
