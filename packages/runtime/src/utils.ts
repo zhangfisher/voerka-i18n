@@ -71,3 +71,8 @@ export  function toDate(value:any) {
 export function toBoolean(value:any){
     return !!value
 }
+
+
+export function randomId():string{
+    return Date.now().toString() + parseInt(String(Math.random() * 1000))
+}

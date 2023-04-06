@@ -9,8 +9,9 @@ declare global {
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 // 语言包
-export type VoerkaI18nLanguageMessages = Record<string, string | string[]> & {
+export type VoerkaI18nLanguageMessages = Record<string, string | string[]> | {
     $config?: VoerkaI18nTypesFormatterConfigs
+    $remote?: boolean
 }       
 
 export type VoerkaI18nLanguageMessagePack = Record<string, VoerkaI18nLanguageMessages | VoerkaI18nMessageLoader> 

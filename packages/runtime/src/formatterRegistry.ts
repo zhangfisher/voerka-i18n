@@ -32,8 +32,8 @@ export class VoerkaI18nFormatterRegistry{
     #ready:boolean = false
     #formatters:VoerkaI18nLanguageFormatters = {}
     #language:string = 'zh'
-    constructor(formatters?:VoerkaI18nLanguageFormatters){ 
-        this.#formatters = formatters || {}
+    constructor(){ 
+        
     }
     /**
      * 当前语言
@@ -65,20 +65,16 @@ export class VoerkaI18nFormatterRegistry{
         语言名称，语言名称数组，或者使用,分割的语言名称字符串
     */
 	register(name:string | SupportedDateTypes, formatter:VoerkaI18nFormatter, {language = "*"}:{ language:  string | string[] } ) {
-		if (!isFunction(formatter) || typeof name !== "string") {
+        if (!isFunction(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
 		const languages = Array.isArray(language) ? language: language	? language.split(","): [];
         languages.forEach((lngName:string) => {             
-            if(!(lngName in this.#formatters)) {
-                this.#formatters[lngName] = {                 }
-            }
+            if(!(lngName in this.#formatters))  this.#formatters[lngName] = {}
             if(typeof(this.#formatters[lngName])!="function"){
                 let lngFormatters = this.#formatters[lngName] as any
                 if (DataTypes.includes(name)) {                    
-                    if(!lngFormatters.$types){
-                        lngFormatters.$types = {}
-                    }
+                    if(!lngFormatters.$types) lngFormatters.$types = {}
                     lngFormatters.$types![name] = formatter                    
                 } else {
                     lngFormatters[name] = formatter;
@@ -187,9 +183,5 @@ export class VoerkaI18nFormatterRegistry{
         if(!this.#ready) throw new FormattersNotLoadedError(this.#language)
         return (this.#formatters[this.#language] as VoerkaI18nFormatters).$types as VoerkaI18nFormatterConfigs
     }
-    get items(){
-        if(!this.#ready) throw new FormattersNotLoadedError(this.#language)
-        return this.#formatters[this.#language]  as VoerkaI18nFormatterConfigs
-    }  
 
 }

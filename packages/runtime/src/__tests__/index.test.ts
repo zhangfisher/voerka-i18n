@@ -4,13 +4,20 @@ import {test,vi,describe,expect,afterAll,beforeAll} from 'vitest'
 import { VoerkaI18nScope } from '../scope'
 import zhFormatters from '../formatters/zh';
 import enFormatters from '../formatters/en';
+import { VoerkaI18nManager } from '../manager';
+import { VoerkaI18nFormatterRegistry } from '../formatterRegistry';
+import { VoerkaI18nLanguageMessages } from '../types';
 
 
-const zhMessages={
+const zhMessages:VoerkaI18nLanguageMessages = {
+    $config:{
+        x:{a:1},
+        y:{b:1}
+    },
     "1": "你好",
     "2": "你好，{name}",
     "3": "中国",
-    "4": ["我有一部车","我有很多部车"]   
+    "4": ["我有一部车","我有很多部车"]  ,
 }
 const enMessages={
     "1": "hello",
@@ -37,7 +44,8 @@ const languages = [
 
 const formatters ={
     zh:zhFormatters,
-    en:enFormatters
+    en:enFormatters,
+    jp:()=>{}
 }
 
 describe("VoerkaI18nScope", () => {
@@ -56,7 +64,18 @@ describe("VoerkaI18nScope", () => {
         expect(scope.default).toEqual(zhMessages)
         expect(scope.current).toEqual(zhMessages)
         expect(scope.idMap).toEqual(idMap)
+        // 格式化器配置
+        expect(scope.formatters).toBeInstanceOf(VoerkaI18nFormatterRegistry)
+        expect(scope.formatters.language).toBe("zh")
+        expect(scope.formatters.formatters).toEqual(formatters)
+        expect(scope.formatters.config).toBe(zhFormatters.$config)
+        expect(scope.formatters.types).toBe(zhFormatters.$types)
+        
+ 
+        // 全局管理器
+        expect(scope.global).toBeInstanceOf(VoerkaI18nManager)
     })
+
 
 })
 
