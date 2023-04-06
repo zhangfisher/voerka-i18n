@@ -4,6 +4,8 @@
  * 
  * 
  */
+import  { FormatterStore } from './formatterStore';
+import type { VoerkaI18nScope } from './scope';
 import { VoerkaI18nFormatter, VoerkaI18nFormatters, VoerkaI18nFormattersLoader, VoerkaI18nLanguageFormatters, SupportedDateTypes, VoerkaI18nFormatterConfigs  } from './types';
 import { DataTypes } from './utils';
 import { get as getByPath } from "flex-tools/object/get" 
@@ -26,14 +28,13 @@ const EmptyFormatters:any = {
     $types:{}
 }
 
-export class VoerkaI18nFormatterRegistry{
+export class VoerkaI18nFormatterRegistry extends FormatterStore{
     // 由于语言的格式化器集合允许是一个异步加载块，所以需要一个ready标志
     // 当语言格式化器集合加载完成后，ready标志才会变为true
     #ready:boolean = false
-    #formatters:VoerkaI18nLanguageFormatters = {}
     #language:string = 'zh'
-    constructor(){ 
-        
+    constructor(scope:VoerkaI18nScope){ 
+        super()
     }
     /**
      * 当前语言
@@ -45,43 +46,7 @@ export class VoerkaI18nFormatterRegistry{
             (this.#formatters[language] as any) = Object.assign({},EmptyFormatters)
         }
         this.#ready = typeof(this.#formatters[language]) != 'function'
-    }    
-    
-    /**
-     * 注册格式化器
-      
-     格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
-      
-    register(name,value=>{...})                                 // 注册到所有语言
-    register(name,value=>{...},{langauge:"zh"})                 // 注册到zh语言
-    register(name,value=>{...},{langauge:"en"})                 // 注册到en语言 
-    register("Date",value=>{...},{langauge:"en"})               // 注册到en语言的默认数据类型格式化器
-    register(name,value=>{...},{langauge:["zh","cht"]})         // 注册到zh和cht语言
-    register(name,value=>{...},{langauge:"zh,cht"})
-    @param {*} formatter            格式化器
-    @param language : 字符串或数组，声明该格式化器适用语言
-
-        *代表适用于所有语言
-        语言名称，语言名称数组，或者使用,分割的语言名称字符串
-    */
-	register(name:string | SupportedDateTypes, formatter:VoerkaI18nFormatter, {language = "*"}:{ language:  string | string[] } ) {
-        if (!isFunction(formatter) || typeof name !== "string") {
-			throw new TypeError("Formatter must be a function");
-		}
-		const languages = Array.isArray(language) ? language: language	? language.split(","): [];
-        languages.forEach((lngName:string) => {             
-            if(!(lngName in this.#formatters))  this.#formatters[lngName] = {}
-            if(typeof(this.#formatters[lngName])!="function"){
-                let lngFormatters = this.#formatters[lngName] as any
-                if (DataTypes.includes(name)) {                    
-                    if(!lngFormatters.$types) lngFormatters.$types = {}
-                    lngFormatters.$types![name] = formatter                    
-                } else {
-                    lngFormatters[name] = formatter;
-                }
-            }                
-        });
-	} 
+    }     
     registerLanguageFormatters(language:string,formatters:VoerkaI18nFormatters | VoerkaI18nFormattersLoader){
         this.#formatters[language] = formatters
     }
