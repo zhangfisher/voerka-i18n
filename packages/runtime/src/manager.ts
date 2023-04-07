@@ -47,7 +47,7 @@ export class VoerkaI18nManager extends EventEmitter{
     #options?:Required<VoerkaI18nManagerOptions>  
     #scopes:VoerkaI18nScope[] = []
     #defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
-    #formatters:VoerkaI18nLanguageFormatters = {}
+    #formatters:VoerkaI18nFormatterRegistry = new VoerkaI18nFormatterRegistry()
     constructor(options?:VoerkaI18nManagerOptions){
         super()
         if(VoerkaI18nManager.instance){
@@ -72,7 +72,7 @@ export class VoerkaI18nManager extends EventEmitter{
      */
     private loadInitialFormatters(){
         if(this.#options?.formatters){
-            this.#formatters = this.#options!.formatters
+            this.#formatters.loadInitials(this.#options.formatters)
             delete (this.#options as any).formatters
         }
     }
@@ -149,19 +149,7 @@ export class VoerkaI18nManager extends EventEmitter{
         if (!isFunction(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
-		const languages = Array.isArray(language) ? language: language	? language.split(","): [];
-        languages.forEach((lngName:string) => {             
-            if(!(lngName in this.#formatters))  this.#formatters[lngName] = {}
-            if(typeof(this.#formatters[lngName])!="function"){
-                let lngFormatters = this.#formatters[lngName] as any
-                if (DataTypes.includes(name)) {                    
-                    if(!lngFormatters.$types) lngFormatters.$types = {}
-                    lngFormatters.$types![name] = formatter                    
-                } else {
-                    lngFormatters[name] = formatter;
-                }
-            }
-        });
+        this.#formatters.register(name,formatter,{language})
     }
     /**
     * 注册默认文本信息加载器
@@ -171,6 +159,9 @@ export class VoerkaI18nManager extends EventEmitter{
         this.#defaultMessageLoader = fn
         this.refresh()
     } 
+    /**
+     * 刷新所有作用域
+     */
     async refresh(){
         try{
             let requests = this.#scopes.map(scope=>scope.refresh())

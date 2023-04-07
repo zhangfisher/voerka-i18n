@@ -62,12 +62,6 @@ export interface VoerkaI18nMessageLoaders {
 
 export type VoerkaI18nDefaultMessageLoader = (this:VoerkaI18nScope,newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages>
 
-export interface VoerkaI18nScopeCache{
-    activeLanguage :string | null,
-    typedFormatters: VoerkaI18nLanguageFormatters,
-    formatters     : VoerkaI18nLanguageFormatters,
-}
-
 export type TranslateMessageVars = number | boolean | string | Function | Date
 export interface VoerkaI18nTranslate {
     (message: string, ...args: TranslateMessageVars[]): string

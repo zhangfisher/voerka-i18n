@@ -98,111 +98,8 @@ function forEachInterpolatedVars(str:string, replacer:InterpolatedVarReplacer, o
 	return result;
 }
 
-/**
- * 清空指定语言的缓存
- * @param {*} scope
- * @param {*} activeLanguage
- */
-function resetScopeCache(scope:VoerkaI18nScope, activeLanguage:string | null) {
-	scope.cache = { activeLanguage, typedFormatters: {}, formatters: {} };
-}
-
-/**
-  *   取得指定数据类型的默认格式化器 
-  *   
-  *   可以为每一个数据类型指定一个默认的格式化器,当传入插值变量时，
-  *   会自动调用该格式化器来对值进行格式化转换 
-     const formatters =  {   
-         "*":{
-             $types:{...}                                    // 在所有语言下只作用于特定数据类型的格式化器
-         },                                                  // 在所有语言下生效的格式化器    
-         zh:{            
-             $types:{         
-                 [数据类型]:(value)=>{...}                  // 默认    
-             }, 
-             [格式化器名称]:(value)=>{...},
-             [格式化器名称]:(value)=>{...},
-             [格式化器名称]:(value)=>{...},
-         },
-         en:{.....}
-     }
-  * @param {*} scope 
-  * @param {*} activeLanguage 
-  * @param {*} dataType    数字类型
-  * @returns {Function} 格式化函数  
-  */
-function getDataTypeDefaultFormatter(scope:VoerkaI18nScope, activeLanguage:string , dataType:SupportedDateTypes) {
-	// 当指定数据类型的的默认格式化器的缓存处理
-	if (!scope.cache) resetScopeCache(scope,activeLanguage);
-	if (scope.cache.activeLanguage === activeLanguage) {
-		if (scope.cache.typedFormatters && dataType in scope.cache.typedFormatters)
-			return scope.cache.typedFormatters[dataType];
-	} else {		
-		resetScopeCache(scope, activeLanguage);   // 当语言切换时清空缓存
-	}
-	const fallbackLanguage = scope.getLanguage(activeLanguage)?.fallback;
-	// 先在当前作用域中查找，再在全局查找
-	const targets = [
-		scope.formatters.types,
-        scope.formatters.getTypes(fallbackLanguage),
-        scope.formatters.getTypes("*"),       
-        scope.global.formatters.types,
-        scope.global.formatters.getTypes(fallbackLanguage),
-        scope.global.formatters.getTypes("*"),    
-	];
-
-	for (const target of targets) {
-		if (!target) continue;
-        if(target){
-            if (isPlainObject(target.$types) && isFunction(target.$types?.[dataType])) {
-                return (scope.cache.typedFormatters[dataType] = target.$types[dataType]);
-            }
-        }		
-	}
-}
-
-/**
- * 获取指定名称的格式化器函数
- *
- * 查找逻辑
- *  - 在当前作用域中查找
- *      - 当前语言
- *      - 回退语言
- *      - 全局语言      
- *  - 在全局作用域中查找
- *
- * @param {*} scope
- * @param {*} activeLanguage        当前激活语言名称
- * @param {*} name                  格式化器名称
- * @returns  {Function}             格式化函数
- */
-function getFormatter(scope:VoerkaI18nScope, activeLanguage:string, name:string) {
-	// 1. 从缓存中直接读取： 缓存格式化器引用，避免重复检索
-	if (!scope.cache) resetScopeCache(scope,activeLanguage);
-	if (scope.cache.activeLanguage === activeLanguage) {
-		if (name in scope.cache.formatters)
-			return scope.cache.formatters[name];
-	} else {		// 当语言切换时清空缓存
-		resetScopeCache(scope, activeLanguage);
-	}
-	const fallbackLanguage = scope.getLanguage(activeLanguage)?.fallback;
-	// 2. 先在当前作用域中查找，再在全局查找 formatters={$types,$config,[格式化器名称]:()=>{},[格式化器名称]:()=>{}}
-	const range = [
-		scope.formatters.formatters,
-        scope.formatters.getFormatters(fallbackLanguage),
-        scope.formatters.getFormatters('*'),
-        
-        scope.global.formatters.formatters,
-        scope.global.formatters.getFormatters(fallbackLanguage),
-        scope.global.formatters.getFormatters('*'),
-	];
-	for (const formatters of range) {
-		if (!formatters) continue;
-		if (isFunction(formatters[name])) {
-			return (scope.cache.formatters[name] = formatters[name]);
-		}
-	}
-}
+ 
+ 
 export type FormatterChecker = ((value:any,config?:VoerkaI18nFormatterConfigs)=>any) & {
     $name:string
 }  
@@ -334,7 +231,7 @@ function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatt
 	let wrappedFormatters:VoerkaI18nFormatter[] = [];
 	addDefaultFormatters(formatters);
 	for (let [name, args] of formatters) {
-		let fn = getFormatter(scope, activeLanguage, name);
+		let fn = scope.formatters.get(name,{on:'scope'}) 
 		let formatter;		
 		if (isFunction(fn)) {
 			formatter = (value:any, args?:any[],config?:VoerkaI18nFormatterConfigs) =>fn.call(scope.activeFormatterConfig, value, args, config);
@@ -371,11 +268,7 @@ function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatt
 	// EMPTY和ERROR是默认两个格式化器，如果只有两个则说明在t(...)中没有指定格式化器
 	if (formatterFuncs.length == 2) {
 		// 当没有格式化器时，查询是否指定了默认数据类型的格式化器，如果有则执行
-		const defaultFormatter = getDataTypeDefaultFormatter(
-			scope,
-			activeLanguage,
-			getDataTypeName(value)
-		);
+		const defaultFormatter = scope.formatters.get(getDataTypeName(value),{on:'types'}) 
 		if (defaultFormatter) {
 			return executeFormatter(value, [defaultFormatter], scope, template);
 		}
