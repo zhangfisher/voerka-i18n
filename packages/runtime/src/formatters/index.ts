@@ -8,9 +8,7 @@ import zhFormatters  from "./zh"
 import defaultFormatters from "./default"
 
 export default {
-    "*":{
-        ...enFormatters,
-        ...defaultFormatters
-    },
+    "*":defaultFormatters,
+    en:enFormatters,
     zh:zhFormatters
 }

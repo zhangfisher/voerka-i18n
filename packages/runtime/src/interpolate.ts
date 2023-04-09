@@ -118,7 +118,7 @@ function executeChecker(checker:FormatterChecker, value:any,scope:VoerkaI18nScop
 	let result = { value, next: "skip" };
 	if (!isFunction(checker)) return result;
 	try {
-		const r = checker(value,scope.activeFormatterConfig);
+		const r = checker(value,scope.formatters.config);
 		if (isPlainObject(r) && ("next" in r)  &&  ("value" in r)) {
 			Object.assign(result, r);
 		} else {
@@ -174,7 +174,7 @@ function executeFormatter(value:any, formatters:VoerkaI18nFormatter[], scope:Voe
 	// 3. 分别执行格式化器函数
 	for (let formatter of formatters) {
 		try {
-            result = formatter(result, [result],scope.activeFormatterConfig);		
+            result = formatter(result, [result],scope.formatters.config);		
 		} catch (e:any) {
 			e.formatter = (formatter as any).$name;
 			if (scope.debug)
@@ -234,7 +234,9 @@ function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatt
 		let fn = scope.formatters.get(name,{on:'scope'}) 
 		let formatter;		
 		if (isFunction(fn)) {
-			formatter = (value:any, args?:any[],config?:VoerkaI18nFormatterConfigs) =>fn.call(scope.activeFormatterConfig, value, args, config);
+			formatter = (value:any, args?:any[],config?:VoerkaI18nFormatterConfigs) =>{
+                return (fn as Function).call(scope.formatters.config, value, args, config);
+            }
 		} else {
             // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
 		    // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
@@ -264,7 +266,7 @@ function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatt
 function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain, value:any, template:string) {
 	// 1. 取得格式化器函数列表，然后经过包装以传入当前格式化器的配置参数
 	const formatterFuncs = wrapperFormatters(scope, activeLanguage, formatters);
-	// 3. 执行格式化器
+	// 2. 执行格式化器
 	// EMPTY和ERROR是默认两个格式化器，如果只有两个则说明在t(...)中没有指定格式化器
 	if (formatterFuncs.length == 2) {
 		// 当没有格式化器时，查询是否指定了默认数据类型的格式化器，如果有则执行

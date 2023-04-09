@@ -4,8 +4,7 @@ import { EventEmitter } from "./eventemitter"
 import inlineFormatters from "./formatters"         
 import type {  VoerkaI18nScope } from "./scope"
 import type { VoerkaI18nLanguageDefine, VoerkaI18nLanguageFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters }  from "./types"
-import { VoerkaI18nFormatterRegistry } from "./formatterRegistry"
-import { DataTypes } from "./utils"
+import { VoerkaI18nFormatterRegistry } from "./formatterRegistry" 
 
 // 默认语言配置
 const defaultLanguageSettings = {  

@@ -119,13 +119,13 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
             // 当源文件运用了babel插件后会将原始文本内容转换为msgId
             // 如果是msgId则从scope.default中读取,scope.default=默认语言包={<id>:<message>}
             if(isMessageId(result)){
-                result = scope.default[result] || message
+                result = (scope.default as any)[result] || message
             }
         }else{ 
             // 2.2 从当前语言包中取得翻译文本模板字符串
             // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
             let msgId = isMessageId(result) ? result :  scope.idMap[result]  
-            result = scope.current[msgId] || result
+            result = (scope.current as any)[msgId] || result
         }
          // 2. 处理复数
         // 经过上面的处理，content可能是字符串或者数组
