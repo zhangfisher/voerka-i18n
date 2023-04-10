@@ -69,8 +69,8 @@ export class VoerkaI18nFormatterRegistry{
      */
     async change(language:string){
         try {            
-			if (language in this.   formatters) {
-				this.#language = language
+			if (language in this.formatters) {
+				
                 const formatters = this.formatters[language]  
                 if(isFunction(formatters)){                    
                     this.#activeFormatters =  await (formatters as Function)()    // 如果格式化器集合是异步加载，则需要等待加载完成
@@ -78,9 +78,9 @@ export class VoerkaI18nFormatterRegistry{
                     this.#activeFormatters = formatters as VoerkaI18nFormatters
                 }
                 // 合并生成格式化器的配置参数,当执行格式化器时该参数将被传递给格式化器
-                this.generateFormattersConfigs(language)
-                // 清空缓存
                 this.#formatterCache = {typedFormatters:{},formatters:{}}  
+                this.generateFormattersConfigs(language)
+                this.#language = language
 			} else {
 				if (this.scope?.debug) console.warn(`Not configured <${language}> formatters.`);
 			}
@@ -93,12 +93,10 @@ export class VoerkaI18nFormatterRegistry{
             const configSources = [ ]   
             const fallbackLanguage = this.scope?.getLanguage(language)?.fallback ;
             if(this.scope){  // 从全局Scope读取
-                configSources.push(this.scope.global.formatters.getConfig('*'))
                 if(fallbackLanguage) configSources.push(this.scope.global.formatters.getConfig(fallbackLanguage))
                 configSources.push(this.scope.global.formatters.getConfig(language))
             }
             // 从当前Scope读取
-            configSources.push(this.getConfig('*'))
             if(fallbackLanguage) configSources.push(this.getConfig(fallbackLanguage))
             configSources.push(this.getConfig(language))
             // 合并当前语言的格式化器配置参数

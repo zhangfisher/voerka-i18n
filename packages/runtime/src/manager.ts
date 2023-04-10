@@ -5,6 +5,7 @@ import inlineFormatters from "./formatters"
 import type {  VoerkaI18nScope } from "./scope"
 import type { VoerkaI18nLanguageDefine, VoerkaI18nLanguageFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters }  from "./types"
 import { VoerkaI18nFormatterRegistry } from "./formatterRegistry" 
+import { InvalidLanguageError } from './errors';
 
 // 默认语言配置
 const defaultLanguageSettings = {  
@@ -92,7 +93,7 @@ export class VoerkaI18nManager extends EventEmitter{
             await this.emit(language)                                  // 触发语言切换事件
             return language
         }else{
-            throw new Error("Not supported language:"+language)
+            throw new InvalidLanguageError()
         }
     }
     /**

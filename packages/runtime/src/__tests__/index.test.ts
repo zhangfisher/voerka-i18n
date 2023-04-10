@@ -1,6 +1,6 @@
 
 
-import {test,vi,describe,expect,afterAll,beforeAll} from 'vitest'
+import {test,vi,describe,expect,afterAll,beforeAll, beforeEach} from 'vitest'
 import { VoerkaI18nScope } from '../scope'
 import zhFormatters from '../formatters/zh';
 import enFormatters from '../formatters/en';
@@ -10,6 +10,7 @@ import { VoerkaI18nLanguageMessages, VoerkaI18nFormatterConfigs } from '../types
 import { deepMerge } from 'flex-tools/object/deepMerge';
 import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
 import { default as inlineFormatters } from '../formatters';
+import { InvalidLanguageError } from '../errors';
 
 function mergeFormattersConfigs(configSources:any[]){        
     return configSources.reduce((finalConfig, curConfig)=>{
@@ -79,23 +80,26 @@ const formatters ={
     },
     jp:()=>{}
 }
+let scope:VoerkaI18nScope;
+beforeAll(async ()=>{
+    return new Promise((resolve)=>{
+        scope = new VoerkaI18nScope({
+            id: "test",
+            languages,
+            idMap,
+            messages,
+            formatters,
+            callback:()=>{
+                resolve()
+            }
+        })
+    })        
+})
+beforeEach(async ()=>{
+    await scope.change("zh")
+})
 
 describe("VoerkaI18nScope", () => {    
-    let scope:VoerkaI18nScope;
-    beforeAll(async ()=>{
-        return new Promise((resolve)=>{
-            scope = new VoerkaI18nScope({
-                id: "test",
-                languages,
-                idMap,
-                messages,
-                formatters,
-                callback:()=>{
-                    resolve()
-                }
-            })
-        })        
-    })
     test("成功创建实例", () => {
         expect(scope).toBeInstanceOf(VoerkaI18nScope)
         expect(scope.activeLanguage).toBe("zh")
@@ -107,28 +111,53 @@ describe("VoerkaI18nScope", () => {
         // 全局管理器
         expect(scope.global).toBeInstanceOf(VoerkaI18nManager)
     })
+    test("切换语言", () => {
+        return new Promise<void>((resolve)=>{
+            scope.on((language:string) => {
+                expect(language).toBe("en")
+                expect(scope.activeLanguage).toBe("en")
+                expect(scope.defaultLanguage).toBe("zh")
+                expect(scope.messages).toEqual(messages)
+                expect(scope.default).toEqual(zhMessages)
+                expect(scope.current).toEqual(enMessages)
+                expect(scope.idMap).toEqual(idMap) 
+                resolve()
+            })
+            scope.change("en")
+        })        
+    })
 
-    test("格式化器配置", async () => {        
+    test("切换到不存在的语言", async () => {
+        try{
+            await scope.change("xn")
+        }catch(e){
+            expect(e).toBeInstanceOf(InvalidLanguageError)
+        }        
+    })
+    
+
+})
+describe("格式化化配置与参数", () => {    
+
+    test("格式化器参数", async () => {        
         expect(scope.formatters).toBeInstanceOf(VoerkaI18nFormatterRegistry)
         expect(scope.formatters.activeLanguage).toBe("zh")
         expect(scope.formatters.formatters).toEqual(formatters)
-        expect(scope.formatters.config).toBe(zhFormatters.$config)
         expect(scope.formatters.types).toBe(zhFormatters.$types)
     })
+
     test("查找格式化器", async () => {        
         expect(scope.formatters.get("add")).toBe(formatters['*'].add)
         expect(scope.formatters.get("first")).toBe(formatters.zh.first)
         await scope.change("en")
         expect(scope.formatters.get("first")).toBe(formatters.en.first)        
     })
-    test("格式化器配置", async () => {         
+    test("合并后的格式化器配置", async () => {         
         let fallbackLanguage = scope.getLanguage(scope.activeLanguage)?.fallback
         const globalFormatters = inlineFormatters
         let scopeConfig = mergeFormattersConfigs([
-            globalFormatters['*'].$config,
             (fallbackLanguage! in globalFormatters) ? (globalFormatters as any)?.[fallbackLanguage!].$config:{},
             globalFormatters.zh.$config,
-            formatters['*'].$config,
             (fallbackLanguage! in formatters) ? (formatters as any)?.[fallbackLanguage!]?.$config:{},
             formatters.zh.$config
         ])
@@ -137,17 +166,17 @@ describe("VoerkaI18nScope", () => {
         await scope.change("en")
         fallbackLanguage = scope.getLanguage(scope.activeLanguage)?.fallback
         scopeConfig = mergeFormattersConfigs([
-            globalFormatters['*'].$config,
             (fallbackLanguage! in globalFormatters) ? (globalFormatters as any)?.[fallbackLanguage!].$config:{},
-            // globalFormatters.zh.$config,
-            formatters['*'].$config,
+            globalFormatters.en.$config,
             (fallbackLanguage! in formatters) ? (formatters as any)?.[fallbackLanguage!]?.$config:{},
             formatters.en.$config
         ])
-        expect(scope.formatters.config).toEqual(scopeConfig)
-        
+        expect(scope.formatters.config).toEqual(scopeConfig)        
     })
 })
 
-test('translate', () => {})
+describe('翻译函数', () => {
+
+
+})
 
