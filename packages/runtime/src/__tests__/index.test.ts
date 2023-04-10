@@ -80,7 +80,10 @@ const formatters ={
     },
     jp:()=>{}
 }
+
 let scope:VoerkaI18nScope;
+
+
 beforeAll(async ()=>{
     return new Promise((resolve)=>{
         scope = new VoerkaI18nScope({
@@ -133,6 +136,61 @@ describe("VoerkaI18nScope", () => {
         }catch(e){
             expect(e).toBeInstanceOf(InvalidLanguageError)
         }        
+    })
+    test("指定了默认信息加载器时，切换到不存在的语言时从远程加载", async () => {
+        scope.global.registerDefaultLoader(async function(newLanguage:string,curScope){
+            expect(newLanguage).toBe("de")
+            expect(curScope).toBe(scope)
+            return {
+                hello:"[DE]hello"
+            }
+        })
+        await scope.change("de")
+        expect((scope.current as any)['hello']).toEqual("[DE]hello")
+    })
+
+    test("全局切换语言", () => {
+        return new Promise<void>((resolve)=>{
+            let event = 0 
+            scope.on((language:string) => {
+                expect(language).toBe("en")
+                expect(scope.activeLanguage).toBe("en")
+                expect(scope.defaultLanguage).toBe("zh")
+                expect(scope.messages).toEqual(messages)
+                expect(scope.default).toEqual(zhMessages)
+                expect(scope.current).toEqual(enMessages)
+                expect(scope.idMap).toEqual(idMap) 
+                event++
+                if(event==2) resolve()
+            })
+            VoerkaI18n.on((language:string) => {
+                expect(language).toBe("en")                
+                expect(VoerkaI18n.activeLanguage).toBe("en")
+                expect(VoerkaI18n.defaultLanguage).toBe("zh") 
+                event++
+                if(event==2) resolve()
+            })
+            VoerkaI18n.change("en")
+        })
+    })
+
+    test("多个Scope", async () => {    
+        let scope1 = new VoerkaI18nScope({
+            languages,
+            idMap: {},
+            messages: {},
+            formatters: {},
+        })
+        let scope2 = new VoerkaI18nScope({
+            languages,
+            idMap: {},
+            messages: {},
+            formatters: {},
+        })
+
+
+
+
     })
     
 
