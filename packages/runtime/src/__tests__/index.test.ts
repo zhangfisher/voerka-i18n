@@ -6,7 +6,7 @@ import zhFormatters from '../formatters/zh';
 import enFormatters from '../formatters/en';
 import { VoerkaI18nManager } from '../manager';
 import { VoerkaI18nFormatterRegistry } from '../formatterRegistry';
-import { VoerkaI18nLanguageMessages, VoerkaI18nFormatterConfigs } from '../types';
+import { VoerkaI18nLanguageMessages, VoerkaI18nFormatterConfigs, VoerkaI18nTranslate } from '../types';
 import { deepMerge } from 'flex-tools/object/deepMerge';
 import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
 import { default as inlineFormatters } from '../formatters';
@@ -26,13 +26,13 @@ const zhMessages:VoerkaI18nLanguageMessages = {
     "1": "你好",
     "2": "你好，{name}",
     "3": "中国",
-    "4": ["我有一部车","我有很多部车"]  ,
+    "4": ["我没有车","我有一部车","我有两部车","我有{}部车"]  ,
 }
 const enMessages={
     "1": "hello",
     "2": "hello,{name}",
     "3": "china",
-    "4": "I have {} cars"
+    "4": ["I don't have car","I have a car","I have two cars","I have {} cars"]
 }
 
 const messages = {
@@ -234,7 +234,27 @@ describe("格式化化配置与参数", () => {
 })
 
 describe('翻译函数', () => {
+    let t:VoerkaI18nTranslate
+    beforeAll(() => {
+        t = scope.t
+    })
 
+    test('基本翻译',async () => {
+        expect(t("你好")).toBe("你好")
+        expect(t("你好，{name}","张三")).toBe("你好，张三")
+        expect(t("中国")).toBe("中国")
+        expect(t("我有{}部车",0)).toBe("我没有车")
+        expect(t("我有{}部车",1)).toBe("我有一部车")
+        expect(t("我有{}部车",1)).toBe("我有两部车")
+        expect(t("我有{}部车",3)).toBe("我有3部车")
+        await scope.change("en")
+        expect(t("你好")).toBe("hello")
+        expect(t("你好，{name}","张三")).toBe("hello，张三")
+        expect(t("中国")).toBe("china")
+        expect(t("我有{}部车",0)).toBe("I have 0 cars")
+        expect(t("我有{}部车",1)).toBe("I have 1 cars")
+        expect(t("我有{}部车",2)).toBe("I have many cars")
+    })
 
 })
 
