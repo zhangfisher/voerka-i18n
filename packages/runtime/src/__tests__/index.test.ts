@@ -18,21 +18,24 @@ function mergeFormattersConfigs(configSources:any[]){
             return finalConfig
         },{})                      
 }
+
 const zhMessages:VoerkaI18nLanguageMessages = {
     $config:{
         add:{a:1},
         dec:{b:1}
     },
-    "1": "你好",
-    "2": "你好，{name}",
-    "3": "中国",
-    "4": ["我没有车","我有一部车","我有两部车","我有{}部车"]  ,
+    "你好": "你好",
+    "我叫{name},今年{age}岁": "我叫{name},今年{age}岁",
+    "中国": "中国",
+    "我有{}部车": ["我没有车","我有一部车","我有两部车","我有{}部车"]  ,
+    "我的工资是每月{}元":"我的工资是每月{}元"
 }
 const enMessages={
-    "1": "hello",
-    "2": "hello,{name}",
-    "3": "china",
-    "4": ["I don't have car","I have a car","I have two cars","I have {} cars"]
+    "你好": "hello",
+    "我叫{name},今年{age}岁": "My name is {name},Now {age} years old year",
+    "中国": "china",
+    "我有{}部车": ["I don't have car","I have a car","I have two cars","I have {} cars"],
+    "我的工资是每月{}元":"My salary is {} yuan per month"
 }
 
 const messages = {
@@ -42,7 +45,7 @@ const messages = {
 
 const idMap={
     "你好":1,
-    "你好，{name}":2,
+    "你好,{name}":2,
     "中国":3,
     "我有{}部车":4
 }
@@ -67,16 +70,16 @@ const formatters ={
             x:{g:1},
             y:{g:1},
             g:{g1:1,g2:2}
-        },
-        add:(value:any,args?:any[],$config?:VoerkaI18nFormatterConfigs)=>'*'+ value+1,
+        }
     },
     zh:{
+        $config:{},
+        prefix:(value:any,args:any[],config?:VoerkaI18nFormatterConfigs)=>config?.chars+value,
         first:(value:any)=>'ZH'+value[0],
-        ...zhFormatters
     },
     en:{ 
+        $config:{},
         first:(value:any)=>'EN'+value[0],
-        ...enFormatters,
     },
     jp:()=>{}
 }
@@ -88,8 +91,7 @@ beforeAll(async ()=>{
     return new Promise((resolve)=>{
         scope = new VoerkaI18nScope({
             id: "test",
-            languages,
-            idMap,
+            languages, 
             messages,
             formatters,
             callback:()=>{
@@ -238,23 +240,79 @@ describe('翻译函数', () => {
     beforeAll(() => {
         t = scope.t
     })
-
     test('基本翻译',async () => {
         expect(t("你好")).toBe("你好")
-        expect(t("你好，{name}","张三")).toBe("你好，张三")
-        expect(t("中国")).toBe("中国")
-        expect(t("我有{}部车",0)).toBe("我没有车")
-        expect(t("我有{}部车",1)).toBe("我有一部车")
-        expect(t("我有{}部车",1)).toBe("我有两部车")
-        expect(t("我有{}部车",3)).toBe("我有3部车")
+        expect(t("我叫{name},今年{age}岁","张三",12)).toBe("我叫张三,今年12岁") 
+        expect(t("我叫{name},今年{age}岁",["张三",12])).toBe("我叫张三,今年12岁") 
+        expect(t("我叫{name},今年{age}岁",{name:"张三",age:12})).toBe("我叫张三,今年12岁") 
         await scope.change("en")
         expect(t("你好")).toBe("hello")
-        expect(t("你好，{name}","张三")).toBe("hello，张三")
+        expect(t("我叫{name},今年{age}岁","tom",12)).toBe("My name is tom,Now 12 years old year") 
+        expect(t("我叫{name},今年{age}岁",["tom",12])).toBe("My name is tom,Now 12 years old year") 
+        expect(t("我叫{name},今年{age}岁",{name:"tom",age:12})).toBe("My name is tom,Now 12 years old year") 
         expect(t("中国")).toBe("china")
-        expect(t("我有{}部车",0)).toBe("I have 0 cars")
-        expect(t("我有{}部车",1)).toBe("I have 1 cars")
-        expect(t("我有{}部车",2)).toBe("I have many cars")
     })
-
+    test('基本复数翻译',async () => {
+        expect(t("我有{}部车",0)).toBe("我没有车")
+        expect(t("我有{}部车",1)).toBe("我有一部车")
+        expect(t("我有{}部车",2)).toBe("我有两部车")
+        expect(t("我有{}部车",3)).toBe("我有3部车")
+        expect(t("我有{}部车",100)).toBe("我有100部车")
+        await scope.change("en")
+        expect(t("我有{}部车",0)).toBe("I don't have car")
+        expect(t("我有{}部车",1)).toBe("I have a car")
+        expect(t("我有{}部车",2)).toBe("I have two cars")
+        expect(t("我有{}部车",3)).toBe("I have 3 cars")
+        expect(t("我有{}部车",100)).toBe("I have 100 cars")
+    })
 })
 
+
+describe('插值变量格式化器', () => {
+    let t:VoerkaI18nTranslate
+    
+
+    beforeAll(() => {
+        t = scope.t
+        // 注册格式化器，注册为所有语言
+        scope.registerFormatter("add", (value,args,config) => {
+                return String(Number(value) + (Number(args.length==0 ? 1 : args[0])))
+        });
+        scope.formatters.updateConfig("zh",{
+            bookname:{        
+                beginChar:"《",
+                endChar:"》"
+            }
+        });
+        scope.formatters.updateConfig("en",{
+            bookname:{        
+                beginChar:"<",
+                endChar:">"
+            }
+        });
+        // 注册格式化器，注册为所有语言
+        scope.registerFormatter("bookname", (value,args,config) => {
+            let { beginChar = "<",endChar=">" } = Object.assign({},(config as any)?.bookname)            
+            if(args.length==1){
+                beginChar = endChar = args[0]
+            }else if(args.length>=2){
+                beginChar = args[0]
+                endChar = args[1]
+            }
+            return beginChar  + value + endChar
+    })
+    })
+    test('格式化器',async () => {
+        expect(t("我的工资是每月{|add}元",1000)).toBe("我的工资是每月1001元")
+        expect(t("我的工资是每月{|add()}元",1000)).toBe("我的工资是每月1001元")
+        expect(t("我的工资是每月{|add(2)}元",1000)).toBe("我的工资是每月1002元")
+        expect(t("我的工资是每月{|add|add()|add(2)}元",1000)).toBe("我的工资是每月1004元")
+    })
+    test('bookname式化器',async () => {
+        expect(t("hello {|bookname}","tom")).toBe("hello 《tom》")
+        expect(t("hello {|bookname('#')}","tom")).toBe("hello #tom#")
+        expect(t("hello {|bookname('#','!')}","tom")).toBe("hello #tom!")
+        await scope.change("en")
+        expect(t("hello {|bookname}","tom")).toBe("hello <tom>")        
+    })
+})

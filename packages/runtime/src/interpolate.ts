@@ -43,6 +43,9 @@ import { SupportedDateTypes, VoerkaI18nFormatter, VoerkaI18nFormatterConfigs } f
 // v2: 由于一些js引擎(如react-native Hermes )不支持命名捕获组而导致运行时不能使用，所以此处移除命名捕获组
 const varWithPipeRegexp =	/\{\s*(\w+)?((\s*\|\s*\w*(\(.*\)){0,1}\s*)*)\s*\}/g;
 
+// 
+type WrapperedVoerkaI18nFormatter = (value:string,config:VoerkaI18nFormatterConfigs)=>string;
+
 /**
  * 考虑到通过正则表达式进行插值的替换可能较慢
  * 因此提供一个简单方法来过滤掉那些不需要进行插值处理的字符串
@@ -141,7 +144,7 @@ function executeChecker(checker:FormatterChecker, value:any,scope:VoerkaI18nScop
  * @param {FormatterDefineChain} formatters  经过解析过的格式化器参数链 ，多个格式化器函数(经过包装过的)顺序执行，前一个输出作为下一个格式化器的输入
  *  formatters [ [<格式化器名称>,[<参数>,<参数>,...],[<格式化器名称>,[<参数>,<参数>,...]],...]
  */
-function executeFormatter(value:any, formatters:VoerkaI18nFormatter[], scope:VoerkaI18nScope, template:string) {
+function executeFormatter(value:any, formatters:WrapperedVoerkaI18nFormatter[], scope:VoerkaI18nScope, template:string) {
 	if (formatters.length === 0) return value;
 	let result = value;
 	// 1. 空值检查
@@ -174,7 +177,7 @@ function executeFormatter(value:any, formatters:VoerkaI18nFormatter[], scope:Voe
 	// 3. 分别执行格式化器函数
 	for (let formatter of formatters) {
 		try {
-            result = formatter(result, [result],scope.formatters.config);		
+            result = formatter(result, scope.formatters.config);		
 		} catch (e:any) {
 			e.formatter = (formatter as any).$name;
 			if (scope.debug)
@@ -228,23 +231,23 @@ function addDefaultFormatters(formatters:FormatterDefineChain) {
  *
  */
 function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain) {
-	let wrappedFormatters:VoerkaI18nFormatter[] = [];
+	let wrappedFormatters:WrapperedVoerkaI18nFormatter[] = [];
 	addDefaultFormatters(formatters);
 	for (let [name, args] of formatters) {
 		let fn = scope.formatters.get(name,{on:'scope'}) 
 		let formatter;		
 		if (isFunction(fn)) {
-			formatter = (value:any, args?:any[],config?:VoerkaI18nFormatterConfigs) =>{
-                return (fn as Function).call(scope.formatters.config, value, args, config);
+			formatter = (value:string,config:VoerkaI18nFormatterConfigs) =>{
+                return String((fn as Function).call(scope.formatters.config, value, args, config))
             }
 		} else {
             // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
 		    // 比如padStart格式化器是String的原型方法，不需要配置就可以直接作为格式化器调用
 			formatter = (value:any) => {
 				if (isFunction(value[name])) {
-					return value[name](...args);
+					return String(value[name](...args));
 				} else {
-					return value;
+					return String(value)
 				}
 			};
 		}
@@ -271,8 +274,10 @@ function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatt
 	if (formatterFuncs.length == 2) {
 		// 当没有格式化器时，查询是否指定了默认数据类型的格式化器，如果有则执行
 		const defaultFormatter = scope.formatters.get(getDataTypeName(value),{on:'types'}) 
-		if (defaultFormatter) {
-			return executeFormatter(value, [defaultFormatter], scope, template);
+		if (defaultFormatter) {            
+			return executeFormatter(value, [
+                (value:string,config)=>defaultFormatter.call(config, value, [], config),
+            ], scope, template);
 		}
 	} else {
 		value = executeFormatter(value, formatterFuncs, scope, template);

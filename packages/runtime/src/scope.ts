@@ -28,7 +28,7 @@ export interface VoerkaI18nScopeOptions {
     defaultLanguage?: string                                    // 默认语言名称                         
     activeLanguage?: string                                     // 当前语言名称
     messages: VoerkaI18nLanguageMessagePack                     // 当前语言包
-    idMap: Voerkai18nIdMap                                      // 消息id映射列表
+    idMap?: Voerkai18nIdMap                                      // 消息id映射列表
     formatters: VoerkaI18nLanguageFormatters                    // 当前作用域的格式化函数列表{<lang>: {$types,$config,[格式化器名称]: () => {},[格式化器名称]: () => {}}}
     callback?:(e?:Error)=>void                                  // 当注册到全局管理器后的回调函数
 }
@@ -173,7 +173,8 @@ export class VoerkaI18nScope {
            语言名称，语言名称数组，或者使用,分割的语言名称字符串
         asGlobal : 注册到全局
      */
-	registerFormatter(name:string, formatter:VoerkaI18nFormatter, {language = "*", asGlobal= true}:{ language:  string | string[] | "*", asGlobal :boolean } ) {
+	registerFormatter(name:string, formatter:VoerkaI18nFormatter, options?:{ language?:  string | string[] | "*", asGlobal?:boolean } ) {
+        const {language = "*", asGlobal= true} = options || {} 
 		if(asGlobal){
             this.global.registerFormatter(name, formatter, {language});
         }else{

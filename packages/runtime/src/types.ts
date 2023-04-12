@@ -35,7 +35,7 @@ export interface VoerkaI18nLanguageDefine {
 
 
 export type VoerkaI18nFormatterConfigs = Record<string, any>
-export type VoerkaI18nFormatter = ((value: string,args?: any[],$config?:VoerkI18nFormatterConfigs) => string) 
+export type VoerkaI18nFormatter = ((value: string,args: any[],config: VoerkI18nFormatterConfigs) => string) 
 export type VoerkaI18nTypesFormatters=Partial<Record<SupportedDateTypes, VoerkaI18nFormatter>>
 export type VoerkaI18nTypesFormatterConfig= Partial<Record<string, any>>
 export type VoerkaI18nTypesFormatterConfigs= Partial<Record<SupportedDateTypes | string, Record<string,any>>>
@@ -64,7 +64,8 @@ export type VoerkaI18nDefaultMessageLoader = (this:VoerkaI18nScope,newLanguage:s
 
 export type TranslateMessageVars = number | boolean | string | Function | Date
 export interface VoerkaI18nTranslate {
-    (message: string, ...args: TranslateMessageVars[]): string
+    (message: string, ...vars: TranslateMessageVars[]): string
+    (message: string, vars: TranslateMessageVars[]): string
     (message: string, vars?: Record<string, TranslateMessageVars>): string
 }
 export interface VoerkaI18nSupportedLanguages {

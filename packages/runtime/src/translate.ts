@@ -6,35 +6,6 @@ import type { VoerkaI18nScope } from "./scope"
 
 
 /**
- *  当传入的翻译内容不是一个字符串时，进行默认的转换
- * 
- *  - 对函数则执行并取返回结果()
- *  - 对Array和Object使用JSON.stringify
- *  - 其他类型使用toString
- * 
- * @param {*} value 
- * @returns 
- */
- function transformToString(value:any){
-    let result  = value
-    try{
-        if(isFunction(result)) result = value()
-        if(!(typeof(result)==="string")){
-            if(Array.isArray(result) || isPlainObject(result)){
-                result = JSON.stringify(result)
-            }else{
-                result = result.toString()
-            }
-        }else{
-            return value
-        }
-    }catch{
-        result = result.toString()
-    }
-    return result
-}
-
-/**
  * 文本id必须是一个数字
  * @param {*} content 
  * @returns 
@@ -113,20 +84,28 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
         }
 
         // 3. 取得翻译文本模板字符串
-        if(activeLanguage === scope.defaultLanguage){
-            // 2.1 从默认语言中取得翻译文本模板字符串
-            // 如果当前语言就是默认语言，不需要查询加载，只需要做插值变换即可
-            // 当源文件运用了babel插件后会将原始文本内容转换为msgId
-            // 如果是msgId则从scope.default中读取,scope.default=默认语言包={<id>:<message>}
-            if(isMessageId(result)){
-                result = (scope.default as any)[result] || message
-            }
-        }else{ 
-            // 2.2 从当前语言包中取得翻译文本模板字符串
-            // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
-            let msgId = isMessageId(result) ? result :  scope.idMap[result]  
-            result = (scope.current as any)[msgId] || result
+        // if(activeLanguage === scope.defaultLanguage){
+        //     // 2.1 从默认语言中取得翻译文本模板字符串
+        //     // 如果当前语言就是默认语言，不需要查询加载，只需要做插值变换即可
+        //     // 当源文件运用了babel插件后会将原始文本内容转换为msgId
+        //     // 如果是msgId则从scope.default中读取,scope.default=默认语言包={<id>:<message>}
+        //     if(isMessageId(result)){
+        //         result = (scope.default as any)[result] || message
+        //     }
+        // }else{ 
+        //     // 2.2 从当前语言包中取得翻译文本模板字符串
+        //     // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
+        //     let msgId = isMessageId(result) ? result :  scope.idMap[result]  
+        //     result = (scope.current as any)[msgId] || result
+        // }
+
+        if(isMessageId(message)){
+            const msgId = scope.idMap[message]  
+            result = (scope.current as any)[msgId] || message
+        }else{
+            result = (scope.current as any)[message] || message
         }
+
          // 2. 处理复数
         // 经过上面的处理，content可能是字符串或者数组
         // content = "原始文本内容" || 复数形式["原始文本内容","原始文本内容"....]

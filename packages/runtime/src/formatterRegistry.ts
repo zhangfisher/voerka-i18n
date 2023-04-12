@@ -101,7 +101,7 @@ export class VoerkaI18nFormatterRegistry{
             configSources.push(this.getConfig(language))
             // 合并当前语言的格式化器配置参数
             this.#activeFormattersConfigs = configSources.reduce((finalConfig, curConfig)=>{
-                if(isPlainObject(curConfig)) deepMerge(finalConfig,curConfig,{newObject:false,array:'replace'})
+                if(isPlainObject(curConfig)) finalConfig = deepMerge(finalConfig,curConfig,{array:'replace'})
                 return finalConfig
             },{})
         }catch(e){
@@ -113,7 +113,7 @@ export class VoerkaI18nFormatterRegistry{
         if(language in this.#formatters ){
             let formatters  = this.#formatters[language] as VoerkaI18nFormatters
             if(!("$config" in formatters)) formatters.$config = {}
-             assignObject(formatters.$config as object ,config)
+             assignObject(formatters.$config as any ,config)
         }
         if(language === this.#language){
             this.generateFormattersConfigs(language)
@@ -142,7 +142,8 @@ export class VoerkaI18nFormatterRegistry{
     *                 也可以指定将格式化器注册到多个语言
     * 
     */
-    register(name:string | SupportedDateTypes, formatter:VoerkaI18nFormatter, {language = "*"}:{ language:  string | string[] } ) {
+    register(name:string | SupportedDateTypes, formatter:VoerkaI18nFormatter,options?:{ language?:  string | string[] } ) {
+        const { language='*' } = options || {};
         if (!isFunction(formatter) || typeof name !== "string") {
             throw new TypeError("Formatter must be a function");
         }
@@ -166,21 +167,18 @@ export class VoerkaI18nFormatterRegistry{
      * @param language 
      */
     getConfig(language?:string){
-        if(language== this.#language) return this.#activeFormattersConfigs
         return language ? getByPath(this.#formatters,`${language}.$config`,{defaultValue:{}}) : {}                
     }
     /**
      获取指定语言中为每个数据类型指定的格式化器
      */
     getTypes(language?:string){
-        if(language== this.#language) return this.activeFormatters.$types
         return language ? getByPath(this.#formatters,`${language}.$types`,{defaultValue:{}}) : {}                
     }
     /**
      获取指定语言中为每个数据类型指定的格式化器
      */
     getFormatters(language?:string){
-        if(language== this.#language) return this.activeFormatters
         return language ? getByPath(this.#formatters,language,{defaultValue:{}}) : {}                
     } 
 

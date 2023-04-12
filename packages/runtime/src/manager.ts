@@ -145,7 +145,8 @@ export class VoerkaI18nManager extends EventEmitter{
      * @param {*} formatter 
         language : 声明该格式化器适用语言
      */
-    registerFormatter(name:string,formatter:VoerkaI18nFormatter,{language="*"}:{language:string | string[] | '*'}){
+    registerFormatter(name:string,formatter:VoerkaI18nFormatter,options?:{language?:string | string[] | '*'}){
+        const {language = "*"} = options || {}
         if (!isFunction(formatter) || typeof name !== "string") {
 			throw new TypeError("Formatter must be a function");
 		}
