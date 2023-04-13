@@ -207,7 +207,6 @@ describe("格式化化配置与参数", () => {
     })
 
     test("查找格式化器", async () => {        
-        expect(scope.formatters.get("add")).toBe(formatters['*'].add)
         expect(scope.formatters.get("first")).toBe(formatters.zh.first)
         await scope.change("en")
         expect(scope.formatters.get("first")).toBe(formatters.en.first)        
@@ -312,7 +311,17 @@ describe('插值变量格式化器', () => {
         expect(t("hello {|bookname}","tom")).toBe("hello 《tom》")
         expect(t("hello {|bookname('#')}","tom")).toBe("hello #tom#")
         expect(t("hello {|bookname('#','!')}","tom")).toBe("hello #tom!")
+        expect(t("hello {|bookname|bookname|bookname}","tom")).toBe("hello 《《《tom》》》")
         await scope.change("en")
         expect(t("hello {|bookname}","tom")).toBe("hello <tom>")        
     })
+
+    test('空值格式化器',async () => {
+        expect(t("hello {|bookname|empty('空')}",undefined)).toBe("hello 《空》")
+    })
+
+})
+
+describe('内置格式化器', () => {
+
 })

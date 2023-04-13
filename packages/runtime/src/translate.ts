@@ -83,22 +83,6 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
             })            
         }
 
-        // 3. 取得翻译文本模板字符串
-        // if(activeLanguage === scope.defaultLanguage){
-        //     // 2.1 从默认语言中取得翻译文本模板字符串
-        //     // 如果当前语言就是默认语言，不需要查询加载，只需要做插值变换即可
-        //     // 当源文件运用了babel插件后会将原始文本内容转换为msgId
-        //     // 如果是msgId则从scope.default中读取,scope.default=默认语言包={<id>:<message>}
-        //     if(isMessageId(result)){
-        //         result = (scope.default as any)[result] || message
-        //     }
-        // }else{ 
-        //     // 2.2 从当前语言包中取得翻译文本模板字符串
-        //     // 如果没有启用babel插件将源文本转换为msgId，需要先将文本内容转换为msgId
-        //     let msgId = isMessageId(result) ? result :  scope.idMap[result]  
-        //     result = (scope.current as any)[msgId] || result
-        // }
-
         if(isMessageId(message)){
             const msgId = scope.idMap[message]  
             result = (scope.current as any)[msgId] || message
@@ -119,11 +103,7 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
             }
         }         
         // 进行插值处理
-        if(vars.length==0){
-            return result as string
-        }else{
-            return replaceInterpolatedVars.call(scope,result as string,...vars)
-        }        
+        return replaceInterpolatedVars.call(scope,result as string,...vars)
     }catch(e){
         return result as any      // 出错则返回原始文本
     } 

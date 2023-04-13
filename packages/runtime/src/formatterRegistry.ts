@@ -151,6 +151,7 @@ export class VoerkaI18nFormatterRegistry{
         languages.forEach((lngName:string) => {             
             if(!(lngName in this.#formatters))  this.#formatters[lngName] = {}
             if(typeof(this.#formatters[lngName])!="function"){
+                if(!this.#formatters[lngName]) this.#formatters[lngName] = {}
                 let lngFormatters = this.#formatters[lngName] as any
                 if (DataTypes.includes(name)) {                    
                     if(!lngFormatters.$types) lngFormatters.$types = {}

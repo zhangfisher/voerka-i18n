@@ -76,3 +76,13 @@ export function toBoolean(value:any){
 export function randomId():string{
     return Date.now().toString() + parseInt(String(Math.random() * 1000))
 }
+// const varRegexp = /\{([^\}]*)\}/gm
+// /**
+//  * 返回字符串中变量的数量
+//  * @param str 
+//  */
+// export function getVarCount(str:string){
+//     const matches = str.match(varRegexp)
+//     return matches ? matches.length : 0
+// }
+ 

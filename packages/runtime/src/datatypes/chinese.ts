@@ -5,7 +5,7 @@
  */
 
 
-import { FlexFormatter, Formatter } from '../formatter'
+import { FlexFormatter, IFormatter } from '../formatter'
 import { toChineseNumber } from "flex-tools/chinese/toChineseNumber"
 import { toChineseCurrency } from "flex-tools/chinese/toChineseCurrency"
 

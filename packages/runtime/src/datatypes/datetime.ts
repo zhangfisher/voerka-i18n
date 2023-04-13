@@ -4,7 +4,7 @@
 
 */
 import { toDate } from '../utils'
-import { Formatter } from '../formatter';
+import { IFormatter } from '../formatter';
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 import { relativeTime } from "flex-tools/misc/relativeTime"
 import { assignObject } from "flex-tools/object/assignObject"

@@ -9,7 +9,7 @@
  * 
  */
 import { toNumber } from "../utils"
-import { Formatter } from "../formatter"
+import { IFormatter } from "../formatter"
 import { toCurrency } from "./currency"
 import { VoerkaI18nFormatter } from '../types';
 
