@@ -4,14 +4,14 @@
 
 */
 import { toDate } from '../utils'
-import { IFormatter } from '../formatter';
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 import { relativeTime } from "flex-tools/misc/relativeTime"
 import { assignObject } from "flex-tools/object/assignObject"
 import { isFunction } from "flex-tools/typecheck/isFunction"
+import { Formatter } from '../formatter'
 
  
-function formatTime(value:number ,template="HH:mm:ss"){    
+function formatTime(value:number ,[template]="HH:mm:ss"){    
     return formatDateTime(value,template,{})
 }
 
@@ -21,8 +21,8 @@ function formatTime(value:number ,template="HH:mm:ss"){
  *  
  *   1. 接受一个format参数，
  *   2. format参数取值可以是若干预设的值，如long,short等，也可能是一个模板字符串
- *   3. 当format值时，如果定义在$config[configKey]里面，代表了$config[configKey][format]是一个模板字符串
- *   4. 如果!(format in $config[configKey])，则代表format值是一个模板字符串 
+ *   3. 当format值时，如果定义在config[configKey]里面，代表了config[configKey][format]是一个模板字符串
+ *   4. 如果!(format in config[configKey])，则代表format值是一个模板字符串 
  *   5. 如果format in presets, 则要求presets[format ]是一个(value)=>{....}，直接返回
  * 
   **/ 
@@ -30,15 +30,15 @@ export type FormatterTransformer = (value:any,format:string)=>string
 
 export function createDateTimeFormatter(options={},transformer:FormatterTransformer){
     let opts = assignObject({presets:{}},options)
-    return Formatter(function(this:any,value:any,[format]:any[],$config:Record<string,any>){
+    return Formatter(function(this:any,value:any,[format]:any[],config:Record<string,any>){
         if((format in opts.presets) && isFunction(opts.presets[format])){
             return opts.presets[format](value)
-        }else if((format in $config)){
-            format = $config[format]
+        }else if((format in config)){
+            format = config[format]
         }else if(format == "number"){
             return value
         }
-        try{// this指向的是activeFormatter.$config
+        try{// this指向的是activeFormatter.config
             return format==null ? value : transformer.call(this,value,format)
         }catch(e){
             return value
@@ -50,7 +50,7 @@ export function createDateTimeFormatter(options={},transformer:FormatterTransfor
 /**
  * 日期格式化器
  *  - format取值：local,long,short,iso,gmt,utc,<模板字符串>
- *  - 默认值由$config.datetime.date.format指定
+ *  - 默认值由config.datetime.date.format指定
  */
  export const dateFormatter = createDateTimeFormatter({
     normalize: toDate,
@@ -104,7 +104,7 @@ export const weekdayFormatter = createDateTimeFormatter({
 /**
  * 时间格式化器
  *  - format取值：local,long,short,timestamp,<模板字符串>
- *  - 默认值由$config.datetime.time.format指定
+ *  - 默认值由config.datetime.time.format指定
  */
 export const timeFormatter = createDateTimeFormatter({
     normalize    : toDate,
@@ -121,9 +121,9 @@ export const timeFormatter = createDateTimeFormatter({
  * @param {*} value 
  * @param {*} baseTime  基准时间，默认是相对现在
  */
-export const relativeTimeFormatter = Formatter((value:any,[baseTime]:[Date],$config:any)=>{    
-    //const { units,now,before,base = Date.now() , after } = $config
-    return relativeTime(value, $config)
+export const relativeTimeFormatter = Formatter<any,[Date]>((value:any,[baseTime],config:any)=>{    
+    //const { units,now,before,base = Date.now() , after } = config
+    return relativeTime(value,baseTime,config)
 },{
     normalize:toDate,
     params:["base"],

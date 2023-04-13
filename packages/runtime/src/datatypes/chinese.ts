@@ -5,12 +5,12 @@
  */
 
 
-import { FlexFormatter, IFormatter } from '../formatter'
+import { FlexFormatter, Formatter } from '../formatter'
 import { toChineseNumber } from "flex-tools/chinese/toChineseNumber"
 import { toChineseCurrency } from "flex-tools/chinese/toChineseCurrency"
 
 
-export const chineseNumberFormatter = Formatter((value: any, [isBig]:[isBig: boolean], $config) => {
+export const chineseNumberFormatter = Formatter<any,[isBig: boolean]>((value: any, [isBig], config: any) => {
     return toChineseNumber(value, isBig) as string
 }, {
     params: ["isBig"]

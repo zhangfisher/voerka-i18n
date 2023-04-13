@@ -16,7 +16,7 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { safeParseJson } from "flex-tools/object/safeParseJson"
 import { assignObject } from "flex-tools/object/assignObject"
-import { VoerkaI18nFormatterConfigs } from './types';
+import { VoerkaI18nFormatterConfigs, VoerkaI18nFormatter, Primitive } from './types';
 
 /**
 使用正则表达式对原始文本内容进行解析匹配后得到的便以处理的数组
@@ -271,18 +271,14 @@ function parseFormaterParams(strParams: string): any[] {
  * @returns 
  */
 
-export type VarValueType = string | Error | undefined | null
 
-export type IFormatter = (this: any, value: VarValueType, args: any[],config:VoerkaI18nFormatterConfigs) => string
-
-
-export interface FormatterOptions {
-    normalize?: (value: string) => any         // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
-    params?: Record<string, any> | null,         // 可选的，声明参数顺序，如果是变参的，则需要传入null
-    configKey?: string          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
+export interface CreateFormatterOptions {
+    normalize?: (value: string) => any          // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
+    params?: Record<string, any> | null,        // 可选的，声明参数顺序，如果是变参的，则需要传入null
+    configKey?: string                          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
 }
 
-export function createFormatter(fn: IFormatter, options?: FormatterOptions, defaultParams?: Record<string, any>) {
+export function createFormatter<Value=any,Args extends any[] = any[],Return=any>(fn: VoerkaI18nFormatter, options?: CreateFormatterOptions, defaultParams?: Record<string, any>) {
     let opts = assignObject({
         normalize: null,                // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
         params: null,                   // 可选的，声明参数顺序，如果是变参的，则需要传入null
@@ -291,7 +287,7 @@ export function createFormatter(fn: IFormatter, options?: FormatterOptions, defa
 
     // 最后一个参数是传入activeFormatterConfig参数
     // 并且格式化器的this指向的是activeFormatterConfig
-    const $formatter = function (this: any, value: string, args: any[],$config:Record<string,any>) {
+    const $formatter = function (this: any, value: Value, args: Args,config:Record<string,any>):Return {
         let finalValue = value
         // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
         if (isFunction(opts.normalize)) {
@@ -312,7 +308,6 @@ export function createFormatter(fn: IFormatter, options?: FormatterOptions, defa
             })
             // 4. 将翻译函数执行格式化器时传入的参数覆盖默认参数     
             for (let i = 0; i < finalArgs.length; i++) {
-                if (i == args.length - 1) break // 最后一参数是配置
                 if (args[i] !== undefined) finalArgs[i] = args[i]
             }
         }
@@ -339,14 +334,14 @@ export function createFormatter(fn: IFormatter, options?: FormatterOptions, defa
  * @param {*} options 
  * @param {*} defaultParams 
  */
-export const createFlexFormatter = function (fn: IFormatter, options: FormatterOptions, defaultParams?: Record<string, any>) {
+export const createFlexFormatter = function<Value=any,Args extends any[]=any[],Return=any>(fn: VoerkaI18nFormatter, options: CreateFormatterOptions, defaultParams?: Record<string, any>) {
     const opts = assignObject({
         params: {}
     }, options)
-    const $flexFormatter = Formatter(function (this: any, value: VarValueType,args: string[],$config:Record<string,any> ) {
+    const $flexFormatter = Formatter<Value,Args,Return>(function (this: any, value: any,args,config:Record<string,any> ) {
         // 2. 从语言配置中读取默认参数
         let finalParams = (options.params || {}).reduce((r: Record<string, any>, name: string) => {
-            r[name] = $config[name] == undefined ? (defaultParams || {})[name] : $config[name]
+            r[name] = config[name] == undefined ? (defaultParams || {})[name] : config[name]
             return r
         }, {})
         // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
@@ -357,13 +352,12 @@ export const createFlexFormatter = function (fn: IFormatter, options: FormatterO
                 if (args[i] !== undefined) finalParams[opts.params[i]] = args[i]
             }
         }
-        return fn.call(this, value, finalParams, $config)
+        return fn.call(this, value, finalParams, config)
     }, { ...options, params: null })  // 变参工式化器需要指定params=null
     return $flexFormatter
 }
 
 
 export const Formatter = createFormatter
-
 export const FlexFormatter = createFlexFormatter
 

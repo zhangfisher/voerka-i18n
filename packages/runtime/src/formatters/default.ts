@@ -1,7 +1,7 @@
 import { assignObject } from 'flex-tools/object/assignObject';
 import { VoerkaI18nFormatterConfigs } from '../types';
 import { toNumber } from "../utils"
-import { IFormatter, VarValueType,Formatter } from "../formatter"
+import { Formatter } from "../formatter"
 
 /**
   *  字典格式化器
@@ -39,7 +39,7 @@ export function dict(key:string, values:any)  {
  * @paran {String} next 下一步行为，取值true/false,break,skip,默认是break
  * @param {*} config 
  */
-export const empty = Formatter(function(value:VarValueType,[escapeValue,next]:[escapeValue:any,next: 'break' | 'ignore'],config:VoerkaI18nFormatterConfigs){
+export const empty = Formatter<any,[escapeValue:any,next: 'break' | 'ignore']>(function(value:any,[escapeValue,next],config:VoerkaI18nFormatterConfigs){
     let opts = assignObject({escape:"",next:'break',values:[]},config)             
     if(escapeValue!=undefined) opts.escape = escapeValue
     let emptyValues = [undefined,null]
@@ -72,10 +72,10 @@ export const empty = Formatter(function(value:VarValueType,[escapeValue,next]:[e
  * @param {*} config 格式化器的全局配置参数
  * @returns 
  */
-export const error = Formatter(function(value:string,escapeValue:any,next:'break' | 'ignore',$config:VoerkaI18nFormatterConfigs){
+export const error = Formatter<any,[escapeValue:any,next:'break' | 'ignore']>(function(value,[escapeValue,next],config:VoerkaI18nFormatterConfigs){
     if(typeof(value)=='object' && (value instanceof Error)){     
         try{
-            let opts = assignObject({escape:null,next:'break'},$config)
+            let opts = assignObject({escape:null,next:'break'},config)
             if(escapeValue!=undefined) opts.escape = escapeValue
             if(next!=undefined) opts.next = next
             return {
@@ -141,7 +141,7 @@ const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "
  * @param {*} brief  是否采用简称单位
  * @param {*} options 
  */
- export const filesize= Formatter((value:string,unit:string,brief:boolean=true,$config:VoerkaI18nFormatterConfigs)=>{
+ export const filesize= Formatter<any,[unit:string,brief:boolean]>((value:string,[unit,brief],config:VoerkaI18nFormatterConfigs)=>{
     let v = toNumber(value)
     let unitIndex
     if(unit==undefined || unit=="auto"){
@@ -151,13 +151,13 @@ const FILE_SIZE_WHOLE_UNITS = ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "
         unitIndex =["B","BYTE","BYTES"].includes(unit) ? 0 : FILE_SIZE_BRIEF_UNITS.indexOf(unit)
     }
     if(unitIndex<0 || unitIndex>=FILE_SIZE_BRIEF_UNITS.length) unitIndex= 0
-    let result = (unitIndex == 0 ? v : v / FILE_SIZE_SECTIONS[unitIndex]).toFixed($config.precision)
+    let result = (unitIndex == 0 ? v : v / FILE_SIZE_SECTIONS[unitIndex]).toFixed(config.precision)
     if( unitIndex>0 && (v % FILE_SIZE_SECTIONS[unitIndex])!==0) result = result+"+" 
     // 去除尾部的0
     while(["0","."].includes(result[result.length-1])){
         result = result.substring(0, result.length-2) 
     } 
-    return  brief ? `${result} ${$config.brief[unitIndex]}` : `${result} ${$config.whole[unitIndex]}`
+    return  brief ? `${result} ${config.brief[unitIndex]}` : `${result} ${config.whole[unitIndex]}`
 },{
     params:["unit","brief"],
     configKey:"fileSize"

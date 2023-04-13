@@ -5,7 +5,7 @@
 
 import enFormatters  from "./en" 
 import zhFormatters  from "./zh" 
-import defaultFormatters from "./default"
+import * as defaultFormatters from "./default"
 
 export default {
     "*":defaultFormatters,
