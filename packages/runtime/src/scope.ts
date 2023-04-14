@@ -17,7 +17,6 @@ import type {
     VoerkaI18nMessageLoader,
 } from "./types" 
 import { VoerkaI18nFormatterRegistry } from './formatterRegistry';
-import { InvalidLanguageError } from "./errors"
 import { randomId } from "./utils"
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from './consts';
 
@@ -30,7 +29,7 @@ export interface VoerkaI18nScopeOptions {
     messages: VoerkaI18nLanguageMessagePack                     // 当前语言包
     idMap?: Voerkai18nIdMap                                      // 消息id映射列表
     formatters: VoerkaI18nLanguageFormatters                    // 当前作用域的格式化函数列表{<lang>: {$types,$config,[格式化器名称]: () => {},[格式化器名称]: () => {}}}
-    callback?:(e?:Error)=>void                                  // 当注册到全局管理器后的回调函数
+    ready?:(e?:Error)=>void                                     // 当注册到全局管理器并切换到语言后的回调函数
 }
 
 export class VoerkaI18nScope {
@@ -140,8 +139,8 @@ export class VoerkaI18nScope {
      * 当注册到Manager后，执行注册后的操作
      */
     private onRegisterSuccess(){
-        if(typeof(this.#options.callback)=='function'){
-            this.#options.callback.call(this)
+        if(typeof(this.#options.ready)=='function'){
+            this.#options.ready.call(this)
         }
         // 从本地缓存中读取并合并补丁语言包
         this._mergePatchedMessages();  
@@ -152,8 +151,8 @@ export class VoerkaI18nScope {
      * 当注册到Manager失败时，执行注册失败后的操作
      */
     private onRegisterFail(e:any){
-        if(typeof(this.#options.callback)=='function'){
-            this.#options.callback.call(this,e)
+        if(typeof(this.#options.ready)=='function'){
+            this.#options.ready.call(this,e)
         }
     }
 	/**
