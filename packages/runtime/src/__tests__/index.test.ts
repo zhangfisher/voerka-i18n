@@ -3,14 +3,13 @@
 import {test,vi,describe,expect,afterAll,beforeAll, beforeEach} from 'vitest'
 import { VoerkaI18nScope } from '../scope' 
 import { VoerkaI18nManager } from '../manager';
-import {  VoerkaI18nTranslate } from '../types';
 import { InvalidLanguageError } from '../errors';
 import { createI18nScope } from './utils';
 import { messages,zhMessages,enMessages } from './utils/testData';
 
 let scope:VoerkaI18nScope;
 
-describe("所有测试", () => {
+describe("VoerkaI18n实例与语言切换", () => {
     beforeAll(async ()=>{
         return new Promise((resolve)=>{
             scope = createI18nScope({
@@ -33,7 +32,7 @@ describe("所有测试", () => {
     })
     test("切换语言", () => {
         return new Promise<void>((resolve)=>{
-            scope.on((language:string) => {
+            scope.once((language:string) => {
                 expect(language).toBe("en")
                 expect(scope.activeLanguage).toBe("en")
                 expect(scope.defaultLanguage).toBe("zh")
@@ -67,21 +66,21 @@ describe("所有测试", () => {
 
     test("全局切换语言", () => {
         return new Promise<void>((resolve)=>{
-            let event = 0 
-            scope.on((language:string) => {
-                expect(language).toBe("en")
-                expect(scope.activeLanguage).toBe("en")
-                expect(scope.defaultLanguage).toBe("zh")
-                expect(scope.messages).toEqual(messages)
-                    expect(scope.default).toEqual(zhMessages)
-                    expect(scope.current).toEqual(enMessages)
-                    event++
-                    if(event==2) resolve()
-                })
-                VoerkaI18n.on((language:string) => {
+                let event = 0 
+                VoerkaI18n.once((language:string) => {
                     expect(language).toBe("en")                
                     expect(VoerkaI18n.activeLanguage).toBe("en")
                     expect(VoerkaI18n.defaultLanguage).toBe("zh") 
+                    event++
+                    if(event==2) resolve()
+                })
+                scope.once((language:string) => {
+                    expect(language).toBe("en")
+                    expect(scope.activeLanguage).toBe("en")
+                    expect(scope.defaultLanguage).toBe("zh")
+                    expect(scope.messages).toEqual(messages)
+                    expect(scope.default).toEqual(zhMessages)
+                    expect(scope.current).toEqual(enMessages)
                     event++
                     if(event==2) resolve()
                 })

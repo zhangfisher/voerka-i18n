@@ -238,7 +238,7 @@ function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatt
 		let formatter;		
 		if (isFunction(fn)) {
 			formatter = (value:string,config:VoerkaI18nFormatterConfigs) =>{
-                return String((fn as Function).call(scope.formatters.config, value, args, config))
+                return (fn as Function).call(scope.formatters.config, value, args, config)
             }
 		} else {
             // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
@@ -307,7 +307,7 @@ export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ..
 	// 当前激活语言
 	const activeLanguage = scope.global.activeLanguage;
 	// 没有变量插值则的返回原字符串
-	if (args.length === 0 || !hasInterpolation(template)) return template;
+	// if (args.length === 0 || !hasInterpolation(template)) return template;
 
 	// ****************************变量插值****************************
 	if (args.length === 1 && isPlainObject(args[0])) {
@@ -323,14 +323,10 @@ export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ..
 		// ****************************位置插值****************************
 		// 如果只有一个Array参数，则认为是位置变量列表，进行展开
 		const params =args.length === 1 && Array.isArray(args[0]) ? [...args[0]] : args;
-		if (params.length === 0) return template; // 没有变量则不需要进行插值处理，返回原字符串
+		//if (params.length === 0) return template; // 没有变量则不需要进行插值处理，返回原字符串
 		let i = 0;
 		return forEachInterpolatedVars(template,(varname:string, formatters, match) => {
-				if (params.length > i) {
-					return getFormattedValue(scope,activeLanguage,formatters,params[i++],template);
-				} else {
-					throw new Error(); // 抛出异常，停止插值处理
-				}
+    			return getFormattedValue(scope,activeLanguage,formatters,params.length > i ? params[i++] : undefined,template);
 			},
 			{ replaceAll: false }
 		);

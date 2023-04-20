@@ -60,6 +60,9 @@ export const formatters ={
     },
     zh:{
         $config:{},
+        // $types:{
+        //     Boolean:(value:any)=>value?'是':'否',
+        // },
         prefix:(value:any,args:any[],config?:VoerkaI18nFormatterConfigs)=>config?.chars+value,
         first:(value:any)=>'ZH'+value[0],
     },

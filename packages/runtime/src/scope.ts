@@ -393,6 +393,7 @@ export class VoerkaI18nScope {
 	}
 	// 以下方法引用全局VoerkaI18n实例的方法
 	on(callback:Function) {return this.#global.on(callback);	}
+    once(callback:Function) {return this.#global.once(callback);	}
 	off(callback:Function) {return this.#global.off(callback); }
 	offAll() {return this.#global.offAll();}
 

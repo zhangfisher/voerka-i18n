@@ -4,17 +4,25 @@
 * 
 */
 export class EventEmitter{
-    #callbacks:Function[]
+    #callbacks:[Function,number][]
     constructor(){
         this.#callbacks = []
     }
-    on(callback:Function){
-        if(this.#callbacks.includes(callback)) return
-        this.#callbacks.push(callback)
+    on(callback:Function):Function{
+        this.#callbacks.push([callback,0])
+        return ()=>this.off(callback)
+    }    
+    /**
+     * 只订阅一次
+     * @param callback 
+     */
+    once(callback:Function){
+        this.#callbacks.push([callback,1])
+        return ()=>this.off(callback)
     }
     off(callback:Function){
         for(let i=0;i<this.#callbacks.length;i++){
-            if(this.#callbacks[i]===callback ){
+            if(this.#callbacks[i][0]===callback ){
                 this.#callbacks.splice(i,1)
             }
         }
@@ -24,9 +32,10 @@ export class EventEmitter{
     }
     async emit(...args:any[]){
         if(Promise.allSettled){
-            await Promise.allSettled(this.#callbacks.map(cb=>cb(...args)))
+            await Promise.allSettled(this.#callbacks.map(([cb])=>cb(...args)))
         }else{
-            await Promise.all(this.#callbacks.map(cb=>cb(...args)))
+            await Promise.all(this.#callbacks.map(([cb])=>cb(...args)))
         }
+        this.#callbacks=this.#callbacks.filter(([cb,count])=>count!==1)
     }    
 }
