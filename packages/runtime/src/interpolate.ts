@@ -147,7 +147,7 @@ function executeChecker(checker:FormatterChecker, value:any,scope:VoerkaI18nScop
 function executeFormatter(value:any, formatters:WrapperedVoerkaI18nFormatter[], scope:VoerkaI18nScope, template:string) {
 	if (formatters.length === 0) return value;
 	let result = value;
-	// 1. 空值检查
+	// 1. 默认的空值检查
 	const emptyCheckerIndex:number = formatters.findIndex((func) => (func as any).$name === "empty") 
 	if (emptyCheckerIndex != -1) {
 		const emptyChecker = formatters.splice(emptyCheckerIndex, 1)[0] as unknown as FormatterChecker
@@ -158,7 +158,7 @@ function executeFormatter(value:any, formatters:WrapperedVoerkaI18nFormatter[], 
 			result = value;
 		}
 	}
-	// 2. 错误检查
+	// 2. 默认的错误检查
 	const errorCheckerIndex = formatters.findIndex((func) => (func as any).$name === "error"	);
 	let errorChecker:FormatterChecker;
 	if (errorCheckerIndex != -1) {

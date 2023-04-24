@@ -126,11 +126,11 @@ export var translate: {
     (message: string, ...args: (string | Function)[]): string
     (message: string, vars?: Record<string, any>): string
 }
-export interface CreateFormatterOptions {
-    normalize?: (value: any) => any          // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
-    params?: string[] | null            // 可选的，声明参数顺序，如果是变参的，则需要传入null
-    configKey?: string                      // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
-}
+// export interface CreateFormatterOptions {
+//     normalize?: (value: any) => any          // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
+//     params?: string[] | null            // 可选的，声明参数顺序，如果是变参的，则需要传入null
+//     configKey?: string                      // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
+// }
 
 export type Primitive = string | number | boolean | null | undefined
 
@@ -142,11 +142,11 @@ export interface FormatterDefine {
     configurable?: boolean
 }
 // 创建格式化器
-export type CreateFormatterType = (fn: Function, options: CreateFormatterOptions, defaultParams: Record<string, any>) => FormatterDefine
+//export type CreateFormatterType = (fn: Function, options: CreateFormatterOptions, defaultParams: Record<string, any>) => FormatterDefine
 // export var createFormatter: CreateFormatterType
 // export var Formatter: CreateFormatterType
 
-export type CreateFlexFormatterType = (fn: Function, options: CreateFormatterOptions, defaultParams: Record<string, any>) => FormatterDefine
+//export type CreateFlexFormatterType = (fn: Function, options: CreateFormatterOptions, defaultParams: Record<string, any>) => FormatterDefine
 // export var createFlexFormatter: CreateFlexFormatterType
 // export var FlexFormatter: CreateFlexFormatterType
 // export var getDataTypeName: (value: any) => string

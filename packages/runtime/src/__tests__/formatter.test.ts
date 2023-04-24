@@ -1,12 +1,10 @@
+/**
+ * 格式化器基本功能测试
+ */
 import {test,vi,describe,expect,afterAll,beforeAll, beforeEach} from 'vitest'
 import { VoerkaI18nScope } from '../scope'
-import zhFormatters from '../formatters/zh';
-import enFormatters from '../formatters/en';
-import { VoerkaI18nManager } from '../manager';
 import { VoerkaI18nFormatterRegistry } from '../formatterRegistry';
-import {  VoerkaI18nTranslate } from '../types';
 import { default as inlineFormatters } from '../formatters';
-import { InvalidLanguageError } from '../errors';
 import { createI18nScope, mergeFormattersConfigs } from './utils';
 import { messages,zhMessages,enMessages,formatters } from './utils/testData';
 
