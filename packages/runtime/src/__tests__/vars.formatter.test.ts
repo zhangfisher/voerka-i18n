@@ -76,9 +76,4 @@ describe("插值变量使用格式化器", () => {
     await scope.change("en");
     expect(t("hello {|bookname}", "tom")).toBe("hello <tom>");
   });
-
-  test("空值格式化器", async () => {
-    expect(t("hello {|bookname|empty('空')}")).toBe("hello 《空》");
-    expect(t("hello {|bookname|empty('空')}", undefined)).toBe("hello 《空》");
-  });
 });

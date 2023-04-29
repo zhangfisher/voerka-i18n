@@ -29,12 +29,11 @@
  */
 
 import { getDataTypeName } from "./utils"
-import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { isFunction } from "flex-tools/typecheck/isFunction"
 import { FormatterDefineChain, parseFormatters } from "./formatter"
 import { VoerkaI18nScope } from "./scope"
-import { SupportedDateTypes, VoerkaI18nFormatter, VoerkaI18nFormatterConfigs } from './types';
+import {   VoerkaI18nFormatterConfigs } from './types';
 
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
 // 支持参数： { var | formatter(x,x,..) | formatter }
@@ -107,32 +106,7 @@ export type FormatterChecker = ((value:any,config?:VoerkaI18nFormatterConfigs)=>
     $name:string
 }  
 
-/**
- * Checker是一种特殊的格式化器，会在特定的时间执行
- *
- * Checker应该返回{value,next}用来决定如何执行下一个格式化器函数
- *
- *
- * @param {*} checker
- * @param {*} value
- * @returns
- */
-function executeChecker(checker:FormatterChecker, value:any,scope:VoerkaI18nScope) {
-	let result = { value, next: "skip" };
-	if (!isFunction(checker)) return result;
-	try {
-		const r = checker(value,scope.formatters.config);
-		if (isPlainObject(r) && ("next" in r)  &&  ("value" in r)) {
-			Object.assign(result, r);
-		} else {
-			result.value = r;
-		}
-		if (!["break", "skip"].includes(result.next)) result.next = "break";
-	} catch (e:any) {
-        if(scope.debug) console.error("Error while  execute VoerkaI18n checker :"+e.message)
-    }
-	return result;
-}
+
 /**
  * 执行格式化器并返回结果
  *
@@ -147,72 +121,22 @@ function executeChecker(checker:FormatterChecker, value:any,scope:VoerkaI18nScop
 function executeFormatter(value:any, formatters:WrapperedVoerkaI18nFormatter[], scope:VoerkaI18nScope, template:string) {
 	if (formatters.length === 0) return value;
 	let result = value;
-	// 1. 默认的空值检查
-	const emptyCheckerIndex:number = formatters.findIndex((func) => (func as any).$name === "empty") 
-	if (emptyCheckerIndex != -1) {
-		const emptyChecker = formatters.splice(emptyCheckerIndex, 1)[0] as unknown as FormatterChecker
-		const { value, next } = executeChecker(emptyChecker, result,scope);
-		if (next == "break") {
-			return value;
-		} else {
-			result = value;
-		}
-	}
-	// 2. 默认的错误检查
-	const errorCheckerIndex = formatters.findIndex((func) => (func as any).$name === "error"	);
-	let errorChecker:FormatterChecker;
-	if (errorCheckerIndex != -1) {
-		errorChecker = formatters.splice(errorCheckerIndex, 1)[0] as unknown as FormatterChecker
-		if (result instanceof Error) {
-			(result as any).formatter = errorChecker.$name;
-			const { value, next } = executeChecker(errorChecker, result,scope);
-			if (next == "break") {
-				return value;
-			} else {
-				result = value;
-			}
-		}
-	}
-
 	// 3. 分别执行格式化器函数
 	for (let formatter of formatters) {
 		try {
             result = formatter(result, scope.formatters.config);		
 		} catch (e:any) {
+            // 出错时直接忽略，不影响后续的格式化器执行
 			e.formatter = (formatter as any).$name;
-			if (scope.debug)
-				console.error(`Error while execute i18n formatter<${(formatter as any).$name}> for ${template}: ${e.message} `);
-			if (isFunction(errorChecker!)) {
-				const { value, next } = executeChecker(errorChecker!, result,scope);
-				if (next == "break") {
-					if (value !== undefined) result = value;
-					break;
-				} else if (next == "skip") {
-					continue;
-				}
-			}
+			if (scope.debug){
+                console.error(`Error while execute i18n formatter<${(formatter as any).$name}> for ${template}: ${e.message} `);
+            }
 		}
 	}
 	return result;
 }
 
-/**
- * 添加默认的empty和error格式化器，用来提供默认的空值和错误处理逻辑
- *
- * empty和error格式化器有且只能有一个，其他无效
- *
- * @param {*} formatters
- */
-function addDefaultFormatters(formatters:FormatterDefineChain) {
-	// 默认的空值处理逻辑： 转换为"",然后继续执行接下来的逻辑
-	if (formatters.findIndex(([name]) => name == "empty") === -1) {
-		formatters.push(["empty", []]);
-	}
-	// 默认的错误处理逻辑:  开启DEBUG时会显示ERROR:message；关闭DEBUG时会保持最近值不变然后中止后续执行
-	if (formatters.findIndex(([name]) => name == "error") === -1) {
-		formatters.push(["error", []]);
-	}
-}
+
 
 /**
  *
@@ -232,7 +156,6 @@ function addDefaultFormatters(formatters:FormatterDefineChain) {
  */
 function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain) {
 	let wrappedFormatters:WrapperedVoerkaI18nFormatter[] = [];
-	addDefaultFormatters(formatters);
 	for (let [name, args] of formatters) {
 		let fn = scope.formatters.get(name,{on:'scope'}) 
 		let formatter;		
@@ -267,22 +190,16 @@ function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatt
  * @returns
  */
 function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain, value:any, template:string) {
-	// 1. 取得格式化器函数列表，然后经过包装以传入当前格式化器的配置参数
+	let result = value
+    // 1. 取得格式化器函数列表，然后经过包装以传入当前格式化器的配置参数
 	const formatterFuncs = wrapperFormatters(scope, activeLanguage, formatters);
-	// 2. 执行格式化器
-	// EMPTY和ERROR是默认两个格式化器，如果只有两个则说明在t(...)中没有指定格式化器
-	if (formatterFuncs.length == 2) {
-		// 当没有格式化器时，查询是否指定了默认数据类型的格式化器，如果有则执行
-		const defaultFormatter = scope.formatters.get(getDataTypeName(value),{on:'types'}) 
-		if (defaultFormatter) {            
-			return executeFormatter(value, [
-                (value:string,config)=>defaultFormatter.call(config, value, [], config),
-            ], scope, template);
-		}
-	} else {
-		value = executeFormatter(value, formatterFuncs, scope, template);
-	}
-	return value;
+	// 2. 优先指定指定数据类型的格式化器
+    const dataTypeFormatter = scope.formatters.get(getDataTypeName(value),{on:'types'}) 
+    if (dataTypeFormatter) {            
+        formatterFuncs.splice(0,0,(value:any,config)=>dataTypeFormatter.call(config, value, [], config));
+    }
+    // 3. 执行格式化器链
+	return executeFormatter(result, formatterFuncs, scope, template);
 }
 
 /**
@@ -378,3 +295,72 @@ export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ..
 //         });
 //         return vars;
 //     }
+	// 1. 默认的空值检查
+	// const emptyCheckerIndex:number = formatters.findIndex((func) => (func as any).$name === "empty") 
+	// if (emptyCheckerIndex != -1) {
+	// 	const emptyChecker = formatters.splice(emptyCheckerIndex, 1)[0] as unknown as FormatterChecker
+	// 	const { value, next } = executeChecker(emptyChecker, result,scope);
+	// 	if (next == "break") {
+	// 		return value;
+	// 	} else {
+	// 		result = value;
+	// 	}
+	// }
+	// // 2. 默认的错误检查
+	// const errorCheckerIndex = formatters.findIndex((func) => (func as any).$name === "error"	);
+	// let errorChecker:FormatterChecker;
+	// if (errorCheckerIndex != -1) {
+	// 	errorChecker = formatters.splice(errorCheckerIndex, 1)[0] as unknown as FormatterChecker
+	// 	if (result instanceof Error) {
+	// 		(result as any).formatter = errorChecker.$name;
+	// 		const { value, next } = executeChecker(errorChecker, result,scope);
+	// 		if (next == "break") {
+	// 			return value;
+	// 		} else {
+	// 			result = value;
+	// 		}
+	// 	}
+	// }
+// /**
+//  * Checker是一种特殊的格式化器，会在特定的时间执行
+//  *
+//  * Checker应该返回{value,next}用来决定如何执行下一个格式化器函数
+//  *
+//  *
+//  * @param {*} checker
+//  * @param {*} value
+//  * @returns
+//  */
+// function executeChecker(checker:FormatterChecker, value:any,scope:VoerkaI18nScope) {
+// 	let result = { value, next: "skip" };
+// 	if (!isFunction(checker)) return result;
+// 	try {
+// 		const r = checker(value,scope.formatters.config);
+// 		if (isPlainObject(r) && ("next" in r)  &&  ("value" in r)) {
+// 			Object.assign(result, r);
+// 		} else {
+// 			result.value = r;
+// 		}
+// 		if (!["break", "skip"].includes(result.next)) result.next = "break";
+// 	} catch (e:any) {
+//         if(scope.debug) console.error("Error while  execute VoerkaI18n checker :"+e.message)
+//     }
+// 	return result;
+// }
+/**
+//  * 添加默认的empty和error格式化器，用来提供默认的空值和错误处理逻辑
+//  *
+//  * empty和error格式化器有且只能有一个，其他无效
+//  *
+//  * @param {*} formatters
+//  */
+// function addDefaultFormatters(formatters:FormatterDefineChain) {
+// 	// 默认的空值处理逻辑： 转换为"",然后继续执行接下来的逻辑
+// 	if (formatters.findIndex(([name]) => name == "empty") === -1) {
+// 		formatters.push(["empty", []]);
+// 	}
+// 	// 默认的错误处理逻辑:  开启DEBUG时会显示ERROR:message；关闭DEBUG时会保持最近值不变然后中止后续执行
+// 	if (formatters.findIndex(([name]) => name == "error") === -1) {
+// 		formatters.push(["error", []]);
+// 	}
+// }

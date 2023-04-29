@@ -128,17 +128,7 @@ export default {
         },
         number            : {
             division      : 3,                      // , 分割位，3代表每3位添加一个, 
-            precision     : 0                      // 精度，即保留小数点位置,0代表不限 
-        },
-        empty:{
-            //values        : [],                   // 可选，定义空值，如果想让0,''也为空值，可以指定values=[0,'']
-            escape        : "",                     // 当空值时显示的备用值
-            next          : 'skip'                 // 当空值时下一步的行为: break=中止;skip=跳过
-        },
-        error             : {
-            //当错误时显示的内容，支持的插值变量有message=错误信息,error=错误类名,也可以是一个返回上面内容的同步函数
-            escape        : null,                   // 默认当错误时显示空内容
-            next          : 'skip'                 // 当出错时下一步的行为: break=中止;skip=忽略
+            precision     : -1                      // 精度，即保留小数点位置,-1代表保留所有小数位数 
         },
         fileSize:{
             brief    : ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
@@ -148,12 +138,10 @@ export default {
     },
     // 默认数据类型的格式化器
     $types: {
-        // Date     : dateFormatter,
         Null     : (value: any) =>"",
         Undefined: (value: any) =>"",
         Error    : (value: any) => "ERROR",
         Boolean  : (value: any) =>value ? "True":"False",
-        Number   : numberFormartter           
     },
     // 以下是格式化定义
     // ******************* 日期 *******************

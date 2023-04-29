@@ -278,7 +278,7 @@ export interface CreateFormatterOptions {
     configKey?: string                          // 声明该格式化器在$config中的路径，支持简单的使用.的路径语法
 }
 
-export function createFormatter<Value=any,Args extends any[] = any[],Return=any>(fn: VoerkaI18nFormatter, options?: CreateFormatterOptions, defaultParams?: Record<string, any>) {
+export function createFormatter<Value=any,Args extends any[] = any[]>(fn: VoerkaI18nFormatter, options?: CreateFormatterOptions, defaultParams?: Record<string, any>) {
     let opts = assignObject({
         normalize: null,                // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
         params: null,                   // 可选的，声明参数顺序，如果是变参的，则需要传入null
@@ -287,20 +287,18 @@ export function createFormatter<Value=any,Args extends any[] = any[],Return=any>
 
     // 最后一个参数是传入activeFormatterConfig参数
     // 并且格式化器的this指向的是activeFormatterConfig
-    const $formatter = function (this: any, value: Value, args: Args,config:Record<string,any>):Return {
+    const $formatter = function (this: any, value: Value, args: Args,config:Record<string,any>):string {
         let finalValue = value
         // 1. 输入值规范处理，主要是进行类型转换，确保输入的数据类型及相关格式的正确性，提高数据容错性
         if (isFunction(opts.normalize)) {
             try {finalValue = opts.normalize(finalValue)} catch { }
         }
         // 2. 读取activeFormatterConfig
-        let activeFormatterConfigs = args.length > 0 ? args[args.length - 1] : {}
-        if (!isPlainObject(activeFormatterConfigs)) activeFormatterConfigs = {}
         // 3. 从当前语言的激活语言中读取配置参数
-        const formatterConfig = assignObject({}, defaultParams, getByPath(activeFormatterConfigs, opts.configKey, { defaultValue: {} }))
+        const formatterConfig = assignObject({}, defaultParams, getByPath(config, opts.configKey, { defaultValue: {} }))
         let finalArgs
         if (opts.params == null) {// 如果格式化器支持变参，则需要指定params=null
-            finalArgs = args.slice(0, args.length - 1)
+            finalArgs = args
         } else {  // 具有固定的参数个数
             finalArgs = opts.params.map((param: string) => {
                 let paramValue = getByPath(formatterConfig, param, undefined)
@@ -313,6 +311,7 @@ export function createFormatter<Value=any,Args extends any[] = any[],Return=any>
         }
         return fn.call(this, finalValue, finalArgs, formatterConfig)
     }
+    $formatter.$name= options?.configKey
     $formatter.configurable = true
     return $formatter
 }
@@ -338,21 +337,21 @@ export const createFlexFormatter = function<Value=any,Args extends any[]=any[],R
     const opts = assignObject({
         params: {}
     }, options)
-    const $flexFormatter = Formatter<Value,Args,Return>(function (this: any, value: any,args,config:Record<string,any> ) {
+    const $flexFormatter = Formatter<Value,Args>(function (this: any, value: any,args,config:Record<string,any> ) {
         // 2. 从语言配置中读取默认参数
-        let finalParams = (options.params || {}).reduce((r: Record<string, any>, name: string) => {
+        let finalArgs = (options.params || {}).reduce((r: Record<string, any>, name: string) => {
             r[name] = config[name] == undefined ? (defaultParams || {})[name] : config[name]
             return r
         }, {})
         // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
-        if (args.length == 2 && isPlainObject(args[0])) {       // 一个参数且是{}
-            Object.assign(finalParams, { format: "custom" }, args[0])
+        if (args.length == 1 && isPlainObject(args[0])) {       // 一个参数且是{}
+            Object.assign(finalArgs, { format: "custom" }, args[0])
         } else {   // 位置参数,如果是空则代表
-            for (let i = 0; i < args.length - 1; i++) {
-                if (args[i] !== undefined) finalParams[opts.params[i]] = args[i]
+            for (let i = 0; i < args.length ; i++) {
+                if (args[i] !== undefined) finalArgs[opts.params[i]] = args[i]
             }
         }
-        return fn.call(this, value, finalParams, config)
+        return fn.call(this, value, finalArgs, config)
     }, { ...options, params: null })  // 变参工式化器需要指定params=null
     return $flexFormatter
 }

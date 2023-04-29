@@ -32,7 +32,7 @@ function addSplitChars(str:string,bits:number=3){
  * @param {*} division    分割符号位数,3代表每3个数字添加一个,号  
  * @param {*} prefix      前缀
  * @param {*} suffix      后缀
- * @param {*} precision   小数点精确到几位，0-自动
+ * @param {*} precision   小数点精确到几位，-1-保留原始位数
  * @param {*} format      格式模块板字符串
  * @returns 
  */
@@ -59,15 +59,21 @@ export function toCurrency(value:string|number ,params:Record<string,any>={},$co
     result.push(addSplitChars(wholeDigits,division))
 
     // 4. 处理保留小数位数，即精度
-    if(decimalDigits){
-        // 如果precision是一个数字，则进行四舍五入处理
-        if(isNumber(precision) && precision>0){// 四舍五入处理
+    if(decimalDigits && isNumber(precision) && precision!=0){        
+        if(precision==0){                
+        }else if(precision==-1){
+            result.push(`.${decimalDigits}`)
+        }else if(precision>0){
             let finalBits = decimalDigits.length  // 四舍五入前的位数
-            decimalDigits = String(parseFloat(`0.${decimalDigits}`).toFixed(precision)).split(".")[1]
-            //如果经过四舍五入处理后的位数小于，代表精度进行舍去，则未尾显示+符号
-            if(finalBits > decimalDigits.length) decimalDigits+="+"
-        }
-        result.push(`.${decimalDigits}`)
+            if(precision<0){//-1代表保留原始位数
+                decimalDigits = String(parseFloat(`0.${decimalDigits}`))
+            }else{  // 否则按指定位数进行四舍五入处理
+                decimalDigits = String(parseFloat(`0.${decimalDigits}`).toFixed(precision)).split(".")[1]
+                //如果经过四舍五入处理后的位数小于，代表精度进行舍去，则未尾显示+符号
+                //if(finalBits > decimalDigits.length) decimalDigits+="+"
+            }                        
+            result.push(`.${decimalDigits}`)
+        }                   
     } 
     // 5. 模板替换 
     const unitName =  getByPath($config,`units`,{defaultValue:[]})[unit] || ""
@@ -91,10 +97,10 @@ export const currencyFormatter = FlexFormatter((value:string | number,params:Rec
     if(params.unit<0) params.unit = 0
     // 当指定unit大于0时取消小数点精度控制
     // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
-    // 将params.precision=0取消精度限制就可以显示1234.567899万，从而保证完整的精度
+    // 将params.precision=-1取消精度限制就可以显示1234.567899万，从而保证完整的精度
     // 除非显式将precision设置为>2的值
     if(params.unit>0 && params.precision==2){
-        params.precision = 0
+        params.precision = -1
     }
     return toCurrency(value,params,$config)
 },{

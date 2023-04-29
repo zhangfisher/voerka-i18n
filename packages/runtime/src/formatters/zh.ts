@@ -61,7 +61,7 @@ export default  {
         },
         number            : {
             division      : 4,
-            precision     : 0
+            precision     : -1
         },
         rmb                 :{
             big             : false,
@@ -71,6 +71,8 @@ export default  {
         }        
     },
     $types: {
+        Null     : (value: any) =>"",
+        Undefined: (value: any) =>"",
         Boolean  : (value:any) =>value ? "是":"否"
     },
     // 中文货币，big=true代表大写形式

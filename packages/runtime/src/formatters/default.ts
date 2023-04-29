@@ -26,72 +26,27 @@ export function dict(key:string, values:any)  {
  * 
  * 当输入空值时的处理逻辑
  * 
- * { value | empty }  ==  转换显示为''，并且忽略
+ * { value | empty }  ==  转换显示为'空'或者''，由不同语言的翻译文件定义
  * { value | empty('无') }  == 无
- * { value | unit('KB') | empty('0') } ==  0KB     
+ * { value | empty('0')  | unit('KB')} ==  0KB     
  * 
  * 有时在处理其他类型时，可能希望将0或者''也视为空值 
  * { value | empty('没钱了') } == 
  * 
  * 
  * @param {*} value 
- * @param {String} escapeValue
- * @paran {String} next 下一步行为，取值true/false,break,skip,默认是break
+ * @param {String} escapeValue 
  * @param {*} config 
  */
-export const empty = Formatter<any,[escapeValue:any,next: 'break' | 'ignore']>(function(value:any,[escapeValue,next],config:VoerkaI18nFormatterConfigs){
-    let opts = assignObject({escape:"",next:'break',values:[]},config)             
+export const empty = Formatter<any,[escapeValue:any]>(function(value:any,[escapeValue],config:VoerkaI18nFormatterConfigs){
+    let opts = assignObject({escape:"",values:[]},config)             
     if(escapeValue!=undefined) opts.escape = escapeValue
-    let emptyValues = [undefined,null]
+    let emptyValues = [undefined,null,'']
     if(Array.isArray(opts.values)) emptyValues.push(...opts.values)    
-    if(emptyValues.includes(value)){                  
-        return {value:opts.escape,next: opts.next}
-    }else{
-        return value
-    }
+    return emptyValues.includes(value) ? opts.escape : value
 },{
-    params:["escape","next"],
+    params:["escape"],
     configKey: "empty"
-})
-
-
-/**
-* 当执行格式化器出错时的显示内容.
-
-{ value | error }                       ==  默认
-{ value | error('') }                   == 显示空字符串
-{ value | error('ERROR') }              == 显示ERROR字样
-{ value | error('ERROR:{ message}') }   == 显示error.message
-{ value | error('ERROR:{ error}') }     == 显示error.constructor.name
-{ value | error('ERROR:{ error}',) }     == 显示error.constructor.name
-
-
- * @param {*} value 
- * @param {*} escapeValue 
- * @param {*} next   下一步的行为，取值，break,ignore
- * @param {*} config 格式化器的全局配置参数
- * @returns 
- */
-export const error = Formatter<any,[escapeValue:any,next:'break' | 'ignore']>(function(value,[escapeValue,next],config:VoerkaI18nFormatterConfigs){
-    if(typeof(value)=='object' && (value instanceof Error)){     
-        try{
-            let opts = assignObject({escape:null,next:'break'},config)
-            if(escapeValue!=undefined) opts.escape = escapeValue
-            if(next!=undefined) opts.next = next
-            return {
-                value : opts.escape ? String(opts.escape).replace(/\{\s*message\s*\}/g,value.message).replace(/\{\s*error\s*\}/g,value.constructor.name) : null,
-                next  : opts.next
-            }
-        }catch(e){
-           
-        } 
-        return value
-    }else{
-        return value
-    }
-},{
-    params:["escape","next"],
-    configKey: "error"
 })
 
 /**
