@@ -45,7 +45,7 @@ export default  {
             },
             relativeTime    : {
                 units       : ["秒","分钟","小时","天","周","月","年"],
-                now         : "现在",
+                now         : "刚刚",
                 before      : "{value}{unit}前",
                 after       : "{value}{unit}后"
             }

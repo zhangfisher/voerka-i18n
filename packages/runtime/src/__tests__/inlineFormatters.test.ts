@@ -159,7 +159,7 @@ describe("内置格式化器", () => {
     expect(t("{ value | relativeTime }",now-1000*60*60)).toBe("1小时前")
     expect(t("{ value | relativeTime }",now-1000*60*60*24)).toBe("1天前")
     expect(t("{ value | relativeTime }",now-1000*60*60*24*30)).toBe("1个月前")
-    expect(t("{ value | relativeTime }",now-1000*60*60*24*30*12)).toBe("1年前")
+    expect(t("{ value | relativeTime }",now-1000*60*60*24*365)).toBe("1年前")
     expect(t("{ value | relativeTime }",now+1000)).toBe("1秒后")
     expect(t("{ value | relativeTime }",now+1000*60)).toBe("1分钟后")
     expect(t("{ value | relativeTime }",now+1000*60*60)).toBe("1小时后")
@@ -167,7 +167,7 @@ describe("内置格式化器", () => {
     expect(t("{ value | relativeTime }",now+1000*60*60*24*30)).toBe("1个月后")
     expect(t("{ value | relativeTime }",now+1000*60*60*24*30*12)).toBe("1年后")
     await scope.change("en");
-    expect(t("{ value | relativeTime }",now)).toBe("just now")
+    expect(t("{ value | relativeTime }",now)).toBe("Just now")
     expect(t("{ value | relativeTime }",now-1000)).toBe("1 seconds ago")
     expect(t("{ value | relativeTime }",now-1000*60)).toBe("1 minutes ago")
     expect(t("{ value | relativeTime }",now-1000*60*60)).toBe("1 hours ago")
@@ -179,7 +179,7 @@ describe("内置格式化器", () => {
     expect(t("{ value | relativeTime }",now+1000*60*60)).toBe("after 1 hours")
     expect(t("{ value | relativeTime }",now+1000*60*60*24)).toBe("after 1 days")
     expect(t("{ value | relativeTime }",now+1000*60*60*24*30)).toBe("after 1 months")
-    expect(t("{ value | relativeTime }",now+1000*60*60*24*30*12)).toBe("after 1 years")
+    expect(t("{ value | relativeTime }",now+1000*60*60*24*365)).toBe("after 1 years")
 
 
   });

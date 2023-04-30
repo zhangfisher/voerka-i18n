@@ -106,7 +106,7 @@ export default {
             }, 
             relativeTime    : {
                 units       : ["seconds","minutes","hours","days","weeks","months","years"],
-                now         : "Now",
+                now         : "Just now",
                 before      : "{value} {unit} ago",
                 after       : "after {value} {unit}"
             }
