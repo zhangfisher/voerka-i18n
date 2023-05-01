@@ -83,10 +83,8 @@ export default {
 ```javascript | pure
 import { i18nScope } from './languages'
 app.use(i18nPlugin,{ 
-    i18nScope,				// 重点，需要引入当前作用域的i18nScope
-    forceUpdate:true		// 当语言切换时是否强制重新渲染
+    i18nScope,				// 重点，需要引入当前作用域的i18nScope 
 })   
 
 ```
-
-- 当`forceUpdate=true`时，`@voerkai18n/vue`插件在切换语言时会调用`app._instance.update()`对整个应用进行强制重新渲染。大部分情况下，切换语言时强制对整个应用进行重新渲染的行为是符合预期的。您也可以能够通过设`forceUpdate=false`来禁用强制重新渲染，此时，界面就不会马上看到语言的切换，需要您自己控制进行重新渲染。
+ 

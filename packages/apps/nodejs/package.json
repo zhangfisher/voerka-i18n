@@ -1,7 +1,13 @@
 {
-    "name": "@voerkai18n/testapp",
-    "main": "./index.js",
-    "scripts": {
-        "release": "pnpm autopublish"
+    "name": "voerkai18n-nodejs",
+    "dependencies": {
+        "@voerkai18n/cli": "workspace:^1.0.6",
+        "@voerkai18n/runtime": "workspace:^1.0.0"
+    },
+    "scripts": {     
+        "voerkai18n:help":"node ../../cli/index.js -h",
+        "voerkai18n:init":"node ../../cli/index.js extract",
+        "voerkai18n:extract":"node ../../cli/index.js extract",
+        "voerkai18n:compile":"node ../../cli/index.js compile"
     }
 }

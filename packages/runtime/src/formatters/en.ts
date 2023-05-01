@@ -129,11 +129,6 @@ export default {
         number            : {
             division      : 3,                      // , 分割位，3代表每3位添加一个, 
             precision     : -1                      // 精度，即保留小数点位置,-1代表保留所有小数位数 
-        },
-        fileSize:{
-            brief    : ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
-            whole    : ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
-            precision: 2 // 小数精度
         }
     },
     // 默认数据类型的格式化器

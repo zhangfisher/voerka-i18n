@@ -55,12 +55,12 @@ export class VoerkaI18nManager extends EventEmitter{
         }
         VoerkaI18nManager.instance = this;
         this.#options = deepMerge(defaultLanguageSettings,options) as Required<VoerkaI18nManagerOptions>
-        this.loadInitialFormatters()                                    // 加载初始格式化器
-        this.#scopes=[]                     // 保存VoerkaI18nScope实例
+        this.loadInitialFormatters()                                // 加载初始格式化器
+        this.#scopes=[]                                             // 保存VoerkaI18nScope实例
     }
     get debug(){return this.#options!.debug}
     get options(){ return this.#options! }                          // 配置参数
-    get scopes(){ return this.#scopes }                             // 注册的报有VoerkaI18nScope实例q   
+    get scopes(){ return this.#scopes }                             // 注册的报有VoerkaI18nScope实例
     get activeLanguage(){ return this.#options!.activeLanguage}     // 当前激活语言    名称
     get defaultLanguage(){ return this.#options!.defaultLanguage}   // 默认语言名称    
     get languages(){ return this.#options!.languages}               // 支持的语言列表    
@@ -75,8 +75,19 @@ export class VoerkaI18nManager extends EventEmitter{
             this.#formatters.loadInitials(this.#options.formatters)
             delete (this.#options as any).formatters
         }
+        this.#formatters.change(this.#options!.activeLanguage)
     }
-
+    /**
+     * 初始化语言环境
+     * @param language 
+     */
+    private initLanguage(){
+        let curLanguage:string | null = this.#options!.activeLanguage
+        if(globalThis.localStorage){
+            curLanguage = globalThis.localStorage.getItem("voerkai18n_language")
+        }
+        this.change(curLanguage!)
+    }
     // 通过默认加载器加载文件
     async loadMessagesFromDefaultLoader(newLanguage:string,scope:VoerkaI18nScope){
         if(this.#defaultMessageLoader && isFunction(this.#defaultMessageLoader)){
@@ -88,7 +99,10 @@ export class VoerkaI18nManager extends EventEmitter{
      */
     async change(language:string){
         if(this.languages.findIndex(lang=>lang.name === language)!==-1 || isFunction(this.#defaultMessageLoader)){
-            await this._refreshScopes(language)                        // 通知所有作用域刷新到对应的语言包
+            // 切换全局格式化器上下文
+            this.#formatters.change(language)                          
+            // 通知所有作用域刷新到对应的语言包
+            await this._refreshScopes(language)                        
             this.#options!.activeLanguage = language            
             await this.emit(language)                                  // 触发语言切换事件
             return language

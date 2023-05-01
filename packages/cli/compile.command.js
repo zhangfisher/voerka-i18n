@@ -196,7 +196,8 @@ async  function compile(langFolder,opts={}){
         
         // 6. 生成编译后的访问入口文件
         const entryFile = path.join(langFolder,`index.${isTypeScript ? 'ts' : 'js'}`)
-        const entryContent = artTemplate(path.join(__dirname,"templates",`entry.${isTypeScript ? 'ts' : 'js'}`), templateContext )
+        const tmpFile = path.join(__dirname,"templates",isTypeScript ? "entry.ts" : (moduleType==="esm" ? "entry.mjs" : "entry.cjs"))
+        const entryContent = artTemplate(tmpFile, templateContext )
         fs.writeFileSync(entryFile,entryContent)
         logger.log(t(" - 访问入口文件: {}"),path.basename(entryFile))
 

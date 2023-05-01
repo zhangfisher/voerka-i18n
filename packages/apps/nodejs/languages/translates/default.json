@@ -1,227 +1,219 @@
 {
-    "VoerkaI18n多语言解决方案 ": {
-        "en": "VoerkaI18n多语言解决方案 ",
-        "de": "VoerkaI18n multilingual solution ",
+    "a": {
+        "en": "a",
         "$file": [
-            "App.vue"
+            "index.js"
         ]
     },
-    "Hello world!": {
-        "en": "EN Hello world!",
-        "de": "DE Hello world!",
+    "b": {
+        "en": "b",
         "$file": [
-            "App.vue",
-            "components\\formatters.vue"
+            "index.js"
         ]
     },
-    "中华人民共和国": {
-        "en": "The People's Republic of China",
-        "de": "中华人民共和国",
+    "c": {
+        "en": "c",
         "$file": [
-            "App.vue"
+            "index.js"
         ]
     },
-    "迎接中华民族的伟大复兴": {
-        "en": "Welcome the great rejuvenation of the Chinese nation",
-        "de": "迎接中华民族的伟大复兴",
+    "d": {
+        "en": "d",
         "$file": [
-            "App.vue"
+            "index.js"
         ]
     },
-    "成立于{}年": {
-        "en": "Founded in {}",
-        "de": "成立于{}年",
+    "e": {
+        "en": "e",
         "$file": [
-            "components\\china.vue"
+            "index.js"
         ]
     },
-    "首都：北京": {
-        "en": "Capital: Beijing",
-        "de": "首都：北京",
+    "一{}": {
+        "en": "一{}",
         "$file": [
-            "components\\china.vue"
+            "index.js"
         ]
     },
-    "商品价格：{ value | currency }": {
-        "en": "Price：{ value | currency }",
-        "de": "DE Price：{ value | currency }",
+    "二": {
+        "en": "二",
         "$file": [
-            "components\\formatters.vue"
+            "index.js"
         ]
     },
-    "商品价格：{ value | capitalizeCurrency }": {
-        "en": "Price：{ value | capitalizeCurrency }",
-        "de": "商品价格：{ value | capitalizeCurrency }",
+    "三": {
+        "en": "三",
         "$file": [
-            "components\\formatters.vue"
+            "index.js"
         ]
     },
-    "商品价格：{ value | capitalizeCurrency(true) }": {
-        "en": "Price：{ value | capitalizeCurrency(true) }",
-        "de": "商品价格：{ value | capitalizeCurrency(true) }",
+    "四": {
+        "en": "四",
         "$file": [
-            "components\\formatters.vue"
+            "index.js"
         ]
     },
-    "商品数量：{ value | number }": {
-        "en": "Count：{ value | number }",
-        "de": "商品数量：{ value | number }",
+    "五": {
+        "en": "五",
         "$file": [
-            "components\\formatters.vue"
+            "index.js"
         ]
     },
-    "现在是{ value  }": {
-        "en": "Now is { value  }",
-        "de": "D现在是{ value  }",
+    "这是一个测试:{a}+{b | x}={c}": {
+        "en": "这是一个测试:{a}+{b | x}={c}",
         "$file": [
-            "components\\formatters.vue"
+            "index.js"
         ]
     },
-    "现在是{ value | date }": {
-        "en": "Now is { value | date }",
-        "de": "D现在是{ value | date }",
+    "请输入旧密码:": {
+        "en": "请输入旧密码:",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\changepassword.js"
         ]
     },
-    "现在是{ value | date | empty }": {
-        "en": "Now is { value | date | empty }",
-        "de": "D现在是{ value | date | empty }",
+    "请再次输入旧密码:": {
+        "en": "请再次输入旧密码:",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\changepassword.js"
         ]
     },
-    "现在是{ value | date | empty('无') }": {
-        "en": "Now is { value | date | empty('无') }",
-        "de": "D现在是{ value | date | empty('无') }",
+    "请输入新密码:": {
+        "en": "请输入新密码:",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\changepassword.js"
         ]
     },
-    "现在是{ value | shortdate }": {
-        "en": "Now is { value | shortdate }",
-        "de": "D现在是{ value | shortdate }",
+    "请再次输入新密码:": {
+        "en": "请再次输入新密码:",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\changepassword.js"
         ]
     },
-    "现在是{ value | time }": {
-        "en": "Now is { value | time }",
-        "de": "D现在是{ value | time }",
+    "密码至少需要6位，并且至少包含数字、字符或特殊符号中的两种": {
+        "en": "密码至少需要6位，并且至少包含数字、字符或特殊符号中的两种",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\changepassword.js"
         ]
     },
-    "现在是{ value | shorttime }": {
-        "en": "Now is { value | shorttime }",
-        "de": "D现在是{ value | shorttime }",
+    "密码强度: {strength}": {
+        "en": "密码强度: {strength}",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\changepassword.js"
         ]
     },
-    "现在是{ value | year }": {
-        "en": "Now is { value | year }",
-        "de": "D现在是{ value | year }",
+    "用户名或密码错误": {
+        "en": "用户名或密码错误",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\login.js"
         ]
     },
-    "现在是{ value | month }": {
-        "en": "Now is { value | month }",
-        "de": "D现在是{ value | month }",
+    "请输入用户名:": {
+        "en": "请输入用户名:",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\login.js",
+            "auth\\login.html"
         ]
     },
-    "现在是{ value | day }": {
-        "en": "Now is { value | day }",
-        "de": "D现在是{ value | day }",
+    "请输入密码：": {
+        "en": "请输入密码：",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\login.js"
         ]
     },
-    "现在是{ value | weekdayValue }": {
-        "en": "Now is { value | weekdayValue }",
-        "de": "D现在是{ value | weekdayValue }",
+    "欢迎您: {}": {
+        "en": "欢迎您: {}",
         "$file": [
-            "components\\formatters.vue"
+            "auth\\login.js"
         ]
     },
-    "现在是{ value | weekday }": {
-        "en": "Now is { value | weekday }",
-        "de": "D现在是{ value | weekday }",
+    "数据库类型：{}、{}、{}": {
+        "en": "数据库类型：{}、{}、{}",
         "$file": [
-            "components\\formatters.vue"
+            "db\\index.js"
         ]
     },
-    "现在是{ value | shortWeekday }": {
-        "en": "Now is { value | shortWeekday }",
-        "de": "D现在是{ value | shortWeekday }",
+    "数据库密码:{pwd}": {
+        "en": "数据库密码:{pwd}",
         "$file": [
-            "components\\formatters.vue"
+            "db\\index.js"
         ]
     },
-    "现在是{ value | monthName }": {
-        "en": "Now is { value | monthName }",
-        "de": "D现在是{ value | monthName }",
+    "数据库地址:{url}": {
+        "en": "数据库地址:{url}",
         "$file": [
-            "components\\formatters.vue"
+            "db\\index.js"
         ]
     },
-    "现在是{ value | shorMonthName }": {
-        "en": "Now is { value | shorMonthName }",
-        "de": "D现在是{ value | shorMonthName }",
+    "编码:{encode}": {
+        "en": "编码:{encode}",
         "$file": [
-            "components\\formatters.vue"
+            "db\\index.js"
         ]
     },
-    "现在是{ value | hour }": {
-        "en": "Now is { value | hour }",
-        "de": "D现在是{ value | hour }",
+    "编码": {
+        "en": "编码",
         "$file": [
-            "components\\formatters.vue"
+            "db\\models.js"
         ]
     },
-    "现在是{ value | hour12 }": {
-        "en": "Now is { value | hour12 }",
-        "de": "D现在是{ value | hour12 }",
+    "名称": {
+        "en": "名称",
         "$file": [
-            "components\\formatters.vue"
+            "db\\models.js"
         ]
     },
-    "现在是{ value | minute }": {
-        "en": "Now is { value | minute }",
-        "de": "D现在是{ value | minute }",
+    "描述": {
+        "en": "描述",
         "$file": [
-            "components\\formatters.vue"
+            "db\\models.js"
         ]
     },
-    "现在是{ value | second }": {
-        "en": "Now is { value | second }",
-        "de": "D现在是{ value | second }",
+    "文件名称": {
+        "en": "文件名称",
         "$file": [
-            "components\\formatters.vue"
+            "db\\models.js"
         ]
     },
-    "现在是{ value | millisecond }": {
-        "en": "Now is { value | millisecond }",
-        "de": "D现在是{ value | millisecond }",
+    "您有{}条未读消息": {
+        "en": "您有{}条未读消息",
         "$file": [
-            "components\\formatters.vue"
+            "messages\\index.js"
         ]
     },
-    "现在是{ value | timestamp }": {
-        "en": "Now is { value | timestamp }",
-        "de": "D现在是{ value | timestamp }",
+    "消息总数:{$count}": {
+        "en": "消息总数:{$count}",
         "$file": [
-            "components\\formatters.vue"
+            "messages\\index.js"
         ]
     },
-    "商品价格：{ value | currency('CNY','元整',3)}": {
-        "en": "Price：{ value | currency('CNY','元整',3)}",
-        "de": "D商品价格：{ value | currency('CNY','元整',3)}",
+    "消息类型:{type}": {
+        "en": "消息类型:{type}",
         "$file": [
-            "components\\formatters.vue"
+            "messages\\index.js"
+        ]
+    },
+    "登录": {
+        "en": "登录",
+        "$file": [
+            "auth\\login.html"
+        ]
+    },
+    "请输入密码:": {
+        "en": "请输入密码:",
+        "$file": [
+            "auth\\login.html"
+        ]
+    },
+    "头像": {
+        "en": "头像",
+        "$file": [
+            "auth\\login.html"
+        ]
+    },
+    "相片": {
+        "en": "相片",
+        "$file": [
+            "auth\\login.html"
         ]
     }
 }

@@ -46,6 +46,10 @@ describe("翻译函数", () => {
         expect(t("我有{}部车",2)).toBe("我有两部车")
         expect(t("我有{}部车",3)).toBe("我有3部车")
         expect(t("我有{}部车",100)).toBe("我有100部车")
+        expect(t("我有{count}部车",{count:3})).toBe("我有3部车")
+        expect(t("我有{count}部车",{count:()=>3})).toBe("我有3部车")
+        expect(t("我有{}部车",[100])).toBe("我有100部车")
+
         await scope.change("en")
         expect(t("我有{}部车",0)).toBe("I don't have car")
         expect(t("我有{}部车",1)).toBe("I have a car")

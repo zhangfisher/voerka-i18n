@@ -11,7 +11,7 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { Formatter } from '../formatter'
 
  
-function formatTime(value:number ,[template]="HH:mm:ss"){    
+function formatTime(value:number ,template="HH:mm:ss"){    
     return formatDateTime(value,template,{})
 }
 
@@ -122,7 +122,6 @@ export const timeFormatter = createDateTimeFormatter({
  * @param {*} baseTime  基准时间，默认是相对现在
  */
 export const relativeTimeFormatter = Formatter<any,[Date]>((value:any,[baseTime],config:any)=>{    
-    //const { units,now,before,base = Date.now() , after } = config
     return relativeTime(value,baseTime,config)
 },{
     normalize:toDate,

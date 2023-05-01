@@ -333,7 +333,7 @@ export function createFormatter<Value=any,Args extends any[] = any[]>(fn: Voerka
  * @param {*} options 
  * @param {*} defaultParams 
  */
-export const createFlexFormatter = function<Value=any,Args extends any[]=any[],Return=any>(fn: VoerkaI18nFormatter, options: CreateFormatterOptions, defaultParams?: Record<string, any>) {
+export const createFlexFormatter = function<Value=any,Args extends any[]=any[]>(fn: VoerkaI18nFormatter, options: CreateFormatterOptions, defaultParams?: Record<string, any>) {
     const opts = assignObject({
         params: {}
     }, options)

@@ -19,3 +19,4 @@ dist
 /versions.md
 autopub.log
 /versions.test.md
+coverage

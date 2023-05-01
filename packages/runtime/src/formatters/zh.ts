@@ -3,8 +3,6 @@
  * 
  */
 
-import { chineseNumberFormatter,rmbFormater } from "../datatypes/chinese"
-
 import {CN_DATETIME_UNITS, CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES, CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/chinese/consts"
 
 
@@ -44,7 +42,7 @@ export default  {
                 upperCases  : ["凌晨","早上","上午","中午","下午","晚上"]
             },
             relativeTime    : {
-                units       : ["秒","分钟","小时","天","周","月","年"],
+                units       : ["秒","分钟","小时","天","周","个月","年"],
                 now         : "刚刚",
                 before      : "{value}{unit}前",
                 after       : "{value}{unit}后"
@@ -62,21 +60,11 @@ export default  {
         number            : {
             division      : 4,
             precision     : -1
-        },
-        rmb                 :{
-            big             : false,
-            prefix          : "",
-            unit            : "元",
-            suffix          : ""
-        }        
+        }
     },
     $types: {
         Null     : (value: any) =>"",
         Undefined: (value: any) =>"",
         Boolean  : (value:any) =>value ? "是":"否"
-    },
-    // 中文货币，big=true代表大写形式
-    rmb     :   rmbFormater,
-    // // 中文数字,如一千二百三十一，或大写数字
-    chineseNumber  : chineseNumberFormatter
+    }
 } 

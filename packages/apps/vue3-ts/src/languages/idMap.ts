@@ -1,0 +1,23 @@
+export default {
+    "VoerkaI18n多语言解决方案 ": 1,
+    "Hello world!": 2,
+    "data： Hello world!": 3,
+    "中华人民共和国": 4,
+    "迎接中华民族的伟大复兴": 5,
+    "成立于{}年": 6,
+    "首都：北京": 7,
+    "现在是{ value | date }": 8,
+    "现在是{ value | date('long') }": 9,
+    "现在是{ value | date('short') }": 10,
+    "现在是{ value | date('local') }": 11,
+    "现在是{ value | date('iso') }": 12,
+    "现在是{ value | date('gmt') }": 13,
+    "现在是{ value | date('utc') }": 14,
+    "现在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }": 15,
+    "现在是{ value | date('YYYY-MM-DD') }": 16,
+    "商品价格：{ value | currency('CNY','元整',3)}": 17,
+    "商品价格：{ value | currency }": 18,
+    "商品价格：{ value | capitalizeCurrency }": 19,
+    "商品价格：{ value | capitalizeCurrency(true) }": 20,
+    "商品数量：{ value | number }": 21
+}
