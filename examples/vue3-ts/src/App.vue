@@ -109,14 +109,16 @@ export default {
 
 .navbar{
     margin:0;
+    box-sizing: content-box;
     width: 100%;
     height: 48px;
-    background: #298df1;
+    background: hwb(210 2% 38%);
     display: flex;
     flex-direction: row;
     padding: 12px;
     color:white;
     text-align: left ;
+    align-items: center;
     padding-right: 24px;
 }
 
@@ -124,15 +126,20 @@ export default {
     flex-grow: 1;
 }
 .navbar>.menu{
+    flex-grow: 1;
     top:0;
     margin:0px;
     padding-right:20px;   
     display: flex;
-    align-items: center;
+    align-items: left;
+    justify-content: center;
+    flex-direction: row;
 }
 .navbar>.menu>.menuitem{
+    
     padding:8px;
     margin:8px;
+    font-size: 14px;
     cursor:pointer;
 }
 .tabs{
