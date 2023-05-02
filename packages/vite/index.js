@@ -31,9 +31,9 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
         patterns:[
             "!\.(svg|css|json|scss|less|sass)$", 
             "!(?<!.vue\?.*).(css|json|scss|less|sass)$",            // 排除所有css文件
-            /\.vue(\?.*)?/,                                         // 所有vue文件
-            "!(?<!.jsx\?.*).(css|json|scss|less|sass)$", 
-            /\.jsx(\?.*)?/, 
+            // /\.vue(\?.*)?/,                                         // 所有vue文件
+            //"!(?<!.jsx\?.*).(css|json|scss|less|sass)$", 
+            ///\.jsx(\?.*)?/, 
             /\.ts(\?.*)?/, 
         ]                              // 提取范围
     },opts)

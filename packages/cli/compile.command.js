@@ -55,9 +55,10 @@ function normalizeCompileOptions(opts={}) {
 }
 
 function generateFormatterFile(langName,{isTypeScript,formattersFolder,templateContext,moduleType}={}){
+
     const formattersFile =  path.join(formattersFolder,`${langName}.${isTypeScript ? 'ts' : 'js'}`) 
     if(!fs.existsSync(formattersFile)){
-        const formattersContent = artTemplate(path.join(__dirname,"templates",`formatters.${isTypeScript ? 'ts' : 'js'}`), templateContext )
+        const formattersContent = artTemplate(path.join(__dirname,"templates",`formatters.${isTypeScript ? 'ts' : (moduleType=='esm' ? 'mjs' : 'cjs')}`), templateContext )
         fs.writeFileSync(formattersFile,formattersContent)
         logger.log(t(" - 格式化器:{}"),path.basename(formattersFile))
     }else{ // 格式化器如果存在，则需要更改对应的模块类型

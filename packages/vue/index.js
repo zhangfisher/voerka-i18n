@@ -30,26 +30,22 @@ export function injectVoerkaI18n(){
 
 
 export function useVoerkaI18n(){
-    let activeLanguage = ref(VoerkaI18n.activeLanguage)
-     
-    
+    let activeLanguage = ref(VoerkaI18n.activeLanguage)  
     VoerkaI18n.on((newLanguage)=>{
         activeLanguage.value = newLanguage
     })
-
     return {
         t:VoerkaI18n.t
-
     }
 }
  
 export default {
     install: (app, opts={}) => {
-        let options = Object.assign({
+        const options = Object.assign({
             i18nScope:null,                 // 当前作用域实例
         }, opts)               
         
-        let i18nScope = options.i18nScope
+        const i18nScope = options.i18nScope
         if(i18nScope===null){
             console.warn("@voerkai18n/vue: i18nScope is not provided, use default i18nScope")
             i18nScope = {change:()=>{}}
@@ -58,16 +54,23 @@ export default {
         // 插件只需要安装一次实例
         if(app.voerkai18n){
             return
-        } 
+        }         
         app.voerkai18n =  i18nScope.global
-
+        // i18nScope.on("change",(newLanguage)=>{
+        //     console.log("event change:",newLanguage)
+        // })
+        // i18nScope.on("patched",({language,scope})=>{
+        //     console.log("event patched:",language,scope,app)
+        // })
         let activeLanguage = ref(i18nScope.global.activeLanguage)        
 
         app.mixin({
             computed:{
                 $activeLanguage:{
                     get: () =>activeLanguage.value,
-                    set: (value) =>i18nScope.change(value).then((newLanguage)=>activeLanguage.value=newLanguage)
+                    set: (value) =>{
+                        i18nScope.change(value).then((newLanguage)=>activeLanguage.value=newLanguage)
+                    }
                 }        
             }
         })

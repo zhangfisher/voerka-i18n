@@ -238,7 +238,7 @@ function isTypeScriptProject(){
  function findModuleType(folder){
     let packageJson = getCurrentPackageJson(folder)
     try{ 
-        return packageJson.type || "commonjs"
+        return packageJson.type=='module' ? 'esm' : "cjs"
     }catch(e){
         return "esm"
     }

@@ -10,11 +10,9 @@ const { translate,VoerkaI18nScope  } = runtime
 const scope = new VoerkaI18nScope({
     id          : "{{scopeId}}",                    // 当前作用域的id，自动取当前工程的package.json的name
     debug       : false,                            // 是否在控制台输出高度信息
-    default     : {},                               // 默认语言包
     messages    : {},                               // 当前语言包
     idMap       : {},                               // 消息id映射列表    
     formatters  : {},                               // 扩展自定义格式化器    
-    loaders     : {},                               // 语言包加载器
     defaultLanguage: 'zh',                          // 默认语言名称                         
     activeLanguage: 'zh',                           // 当前语言名称
     languages: [

@@ -1,0 +1,16 @@
+{
+    "name": "voerkai18n-nodejs",
+    "dependencies": {
+        "@voerkai18n/cli": "workspace:^1.0.6",
+        "@voerkai18n/runtime": "workspace:^"
+    },
+    "devDependencies": {
+        "ts-node": "latest"
+    },
+    "scripts": {
+        "help": "node ../../packages/cli/index.js -h",
+        "init": "node ../../packages/cli/index.js init",
+        "extract": "node ../../packages/cli/index.js extract",
+        "compile": "node ../../packages/cli/index.js compile"
+    }
+}

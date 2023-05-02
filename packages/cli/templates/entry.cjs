@@ -10,13 +10,13 @@ const defaultMessages =  require("./{{defaultLanguage}}.js")
 const formatters = {
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultFormatters{{if $index !== languages.length - 1}},{{/if}}
     {{else if $value.name == activeLanguage}}{{if defaultLanguage !== activeLanguage}}'{{activeLanguage}}':activeFormatters{{/if}}{{if $index !== languages.length - 1}},{{/if}}
-    {{else}}'{{$value.name}}' : ()=>import("./formatters/{{$value.name}}.js"){{if $index !== languages.length - 1}},{{'\n\t'}}{{/if}}{{/if}}{{/each}}
+    {{else}}'{{$value.name}}' : ()=>require("./formatters/{{$value.name}}.js"){{if $index !== languages.length - 1}},{{'\n\t'}}{{/if}}{{/if}}{{/each}}
 }
  
 const messages = {
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultMessages{{if $index !== languages.length - 1}},{{/if}}
     {{else if $value.name == activeLanguage}}{{if defaultLanguage !== activeLanguage}}'{{activeLanguage}}':activeFormatters{{/if}}{{if $index !== languages.length - 1}},{{/if}}
-    {{else}}'{{$value.name}}' : ()=>import("./{{$value.name}}.js"){{if $index !== languages.length - 1}},{{'\n\t'}}{{/if}}{{/if}}{{/each}}
+    {{else}}'{{$value.name}}' : ()=>require("./{{$value.name}}.js"){{if $index !== languages.length - 1}},{{'\n\t'}}{{/if}}{{/if}}{{/each}}
 }
  
 

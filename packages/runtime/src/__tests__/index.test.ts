@@ -32,7 +32,7 @@ describe("VoerkaI18n实例与语言切换", () => {
     })
     test("切换语言", () => {
         return new Promise<void>((resolve)=>{
-            scope.once((language:string) => {
+            scope.once("change",(language:string) => {
                 expect(language).toBe("en")
                 expect(scope.activeLanguage).toBe("en")
                 expect(scope.defaultLanguage).toBe("zh")
@@ -67,14 +67,14 @@ describe("VoerkaI18n实例与语言切换", () => {
     test("全局切换语言", () => {
         return new Promise<void>((resolve)=>{
                 let event = 0 
-                VoerkaI18n.once((language:string) => {
+                VoerkaI18n.once("change",(language:string) => {
                     expect(language).toBe("en")                
                     expect(VoerkaI18n.activeLanguage).toBe("en")
                     expect(VoerkaI18n.defaultLanguage).toBe("zh") 
                     event++
                     if(event==2) resolve()
                 })
-                scope.once((language:string) => {
+                scope.once("change",(language:string) => {
                     expect(language).toBe("en")
                     expect(scope.activeLanguage).toBe("en")
                     expect(scope.defaultLanguage).toBe("zh")

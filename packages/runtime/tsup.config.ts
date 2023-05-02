@@ -7,11 +7,11 @@ export default defineConfig({
     ],
     format: ['esm','cjs'],
     dts: true,
-    splitting: true,
+    splitting: false,
     sourcemap: true,
     clean: true,
-    treeshake:true,  
-    minify: true,
+    treeshake:false,  
+    minify: false,
     banner: {
         js: `/***        
 *   ---=== VoerkaI18n Runtime ===---

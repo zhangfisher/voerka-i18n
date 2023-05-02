@@ -1,0 +1,43 @@
+export default {
+    "1": "This is:{a}+{b | x}={c}",
+    "2": "Hello",
+    "3": "My Name is {name},Now {age} years old year",
+    "4": "China",
+    "5": [
+        "I don't have car",
+        "I have a car",
+        "I have two cars",
+        "I have {} cars"
+    ],
+    "6": [
+        "I don't have car",
+        "I have a car",
+        "I have two cars",
+        "I have {count} cars"
+    ],
+    "7": "Please enter old password:",
+    "8": "Please re-enter the old password:",
+    "9": "Please enter new password:",
+    "10": "Please re-enter new password:",
+    "11": "密码至少需要6位，并且至少包含数字、字符或特殊符号中的两种",
+    "12": "密码强度: {strength}",
+    "13": "用户名或密码错误",
+    "14": "请输入用户名:",
+    "15": "请输入密码：",
+    "16": "欢迎您: {}",
+    "17": "数据库类型：{}、{}、{}",
+    "18": "数据库密码:{pwd}",
+    "19": "数据库地址:{url}",
+    "20": "Encode:{encode}",
+    "21": "Encode",
+    "22": "name",
+    "23": "description",
+    "24": "Filename",
+    "25": "You have {} unread messages",
+    "26": "Count:{$count}",
+    "27": "Message type:{type}",
+    "28": "Login",
+    "29": "Please enter password:",
+    "30": "Avatar",
+    "31": "Photo"
+}

@@ -1,0 +1,23 @@
+export default {
+    "1": "VoerkaI18n multilingual solutions",
+    "2": "Hello world!",
+    "3": "data： Hello world!",
+    "4": "the People's Republic of China",
+    "5": "Welcoming the Great Revival of the Chinese Nation",
+    "6": "Established in {}",
+    "7": "首都：北京",
+    "8": "Now is { value | date }",
+    "9": "Now is { value | date('long') }",
+    "10": "Now is { value | date('short') }",
+    "11": "Now is { value | date('local') }",
+    "12": "Now is { value | date('iso') }",
+    "13": "Now is { value | date('gmt') }",
+    "14": "Now is { value | date('utc') }",
+    "15": "现在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }",
+    "16": "Now is { value | date('YYYY-MM-DD') }",
+    "17": "Price：{ value | currency('CNY','元整',3)}",
+    "18": "Price：{ value | currency }",
+    "19": "Price：{ value | capitalizeCurrency }",
+    "20": "Price: { value | capitalizeCurrency(true) }",
+    "21": "Count：{ value | number }"
+}

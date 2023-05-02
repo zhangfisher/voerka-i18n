@@ -82,12 +82,13 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
                 return arg   
             })            
         }
-
-        if(isMessageId(message)){
-            const msgId = scope.idMap[message]  
-            result = (scope.current as any)[msgId] || message
-        }else{
+        
+        if(isMessageId(message)){ // 如果是数字id,
             result = (scope.current as any)[message] || message
+        }else{
+            const msgId = scope.idMap[message]  
+            // 语言包可能是使用idMap映射过的，则需要转换
+            result = (scope.current as any)[msgId] || message
         }
 
          // 2. 处理复数

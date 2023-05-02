@@ -1,11 +1,11 @@
 import { isFunction } from "flex-tools/typecheck/isFunction"
 import { deepMerge } from "flex-tools/object/deepMerge"
-import { EventEmitter } from "./eventemitter"
 import inlineFormatters from "./formatters"         
 import type {  VoerkaI18nScope } from "./scope"
 import type { VoerkaI18nLanguageDefine, VoerkaI18nLanguageFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters }  from "./types"
 import { VoerkaI18nFormatterRegistry } from "./formatterRegistry" 
 import { InvalidLanguageError } from './errors';
+import { FlexEvent, FlexEventOptions } from "flex-tools/events/flexevent"
 
 // 默认语言配置
 const defaultLanguageSettings = {  
@@ -42,28 +42,26 @@ export interface VoerkaI18nManagerOptions {
  * 
  * */ 
 
-export class VoerkaI18nManager extends EventEmitter{
-    static instance?:VoerkaI18nManager
-    #options?:Required<VoerkaI18nManagerOptions>  
+export class VoerkaI18nManager extends FlexEvent{
+    static instance?:VoerkaI18nManager  
     #scopes:VoerkaI18nScope[] = []
     #defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
     #formatters:VoerkaI18nFormatterRegistry = new VoerkaI18nFormatterRegistry()
     constructor(options?:VoerkaI18nManagerOptions){
-        super()
+        super(deepMerge(defaultLanguageSettings,options,{array:'replace'}) as FlexEventOptions)
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }
         VoerkaI18nManager.instance = this;
-        this.#options = deepMerge(defaultLanguageSettings,options) as Required<VoerkaI18nManagerOptions>
         this.loadInitialFormatters()                                // 加载初始格式化器
         this.#scopes=[]                                             // 保存VoerkaI18nScope实例
     }
-    get debug(){return this.#options!.debug}
-    get options(){ return this.#options! }                          // 配置参数
+    get debug(){return this.options.debug }
+    get options(){ return super.options as Required<VoerkaI18nManagerOptions & FlexEventOptions>   }                          // 配置参数
     get scopes(){ return this.#scopes }                             // 注册的报有VoerkaI18nScope实例
-    get activeLanguage(){ return this.#options!.activeLanguage}     // 当前激活语言    名称
-    get defaultLanguage(){ return this.#options!.defaultLanguage}   // 默认语言名称    
-    get languages(){ return this.#options!.languages}               // 支持的语言列表    
+    get activeLanguage(){ return this.options!.activeLanguage}     // 当前激活语言    名称
+    get defaultLanguage(){ return this.options!.defaultLanguage}   // 默认语言名称    
+    get languages(){ return this.options!.languages}               // 支持的语言列表    
     get defaultMessageLoader(){ return this.#defaultMessageLoader}  // 默认语言包加载器
     get formatters(){return this.#formatters!}
 
@@ -71,18 +69,18 @@ export class VoerkaI18nManager extends EventEmitter{
      * 初始加载格式化器
      */
     private loadInitialFormatters(){
-        if(this.#options?.formatters){
-            this.#formatters.loadInitials(this.#options.formatters)
-            delete (this.#options as any).formatters
+        if(this.options?.formatters){
+            this.#formatters.loadInitials(this.options.formatters)
+            delete (this.options as any).formatters
         }
-        this.#formatters.change(this.#options!.activeLanguage)
+        this.#formatters.change(this.options!.activeLanguage)
     }
     /**
      * 初始化语言环境
      * @param language 
      */
     private initLanguage(){
-        let curLanguage:string | null = this.#options!.activeLanguage
+        let curLanguage:string | null = this.options!.activeLanguage
         if(globalThis.localStorage){
             curLanguage = globalThis.localStorage.getItem("voerkai18n_language")
         }
@@ -103,8 +101,8 @@ export class VoerkaI18nManager extends EventEmitter{
             this.#formatters.change(language)                          
             // 通知所有作用域刷新到对应的语言包
             await this._refreshScopes(language)                        
-            this.#options!.activeLanguage = language            
-            await this.emit(language)                                  // 触发语言切换事件
+            this.options!.activeLanguage = language            
+            this.emit("change",language,true)                                  // 触发语言切换事件
             return language
         }else{
             throw new InvalidLanguageError()
@@ -172,7 +170,7 @@ export class VoerkaI18nManager extends EventEmitter{
     registerDefaultLoader(fn:VoerkaI18nDefaultMessageLoader){
         if(!isFunction(fn)) throw new Error("The default loader must be a async function or promise returned")
         this.#defaultMessageLoader = fn
-        this.refresh()
+        //this.refresh()
     } 
     /**
      * 刷新所有作用域
@@ -188,6 +186,12 @@ export class VoerkaI18nManager extends EventEmitter{
         }catch(e:any){
             if(this.debug) console.error(`Error while refresh voerkai18n scopes:${e.message}`) 
         }
+    }
+    /**
+     * 清除所有作用域的翻译补丁信息
+     */
+    clearPatchedMessages(){
+        this.#scopes.forEach(scope=>scope.clearPatchedMessages())
     }
 
 } 

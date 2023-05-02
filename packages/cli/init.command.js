@@ -130,7 +130,7 @@ async function initializer(srcPath,{moduleType,isTypeScript,debug = true,languag
         const templateContext = {
             moduleType
         }
-        const entryContent = artTemplate(path.join(__dirname,"templates",`init-entry.${isTypeScript ? 'ts' : 'js'}`), templateContext )
+        const entryContent = artTemplate(path.join(__dirname,"templates",`init-entry.${isTypeScript ? 'ts' : (moduleType=='esm' ? 'mjs' :  'cjs')}`), templateContext )
         fs.writeFileSync(path.join(lngPath,`index.${isTypeScript ? 'ts' : 'js'}`),entryContent)
         tasks.complete()
     }catch(e){
