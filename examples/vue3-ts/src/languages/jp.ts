@@ -1,0 +1,23 @@
+export default {
+    "1": "VoerkaI 18 n多言語ソリューション",
+    "2": "Hello world!",
+    "3": "data： Hello world!",
+    "4": "中華人民共和国",
+    "5": "中華民族の偉大な復興を迎える",
+    "6": "年に設立",
+    "7": "首都：北京",
+    "8": "現在は{value｜date}",
+    "9": "今は{value｜date('long')}",
+    "10": "今は{value｜date('short')}",
+    "11": "現在は{value｜date('local')}",
+    "12": "今は{value｜date('iso')}",
+    "13": "今は{value｜date('gmt')}",
+    "14": "現在は{value｜date('utc')}",
+    "15": "現在は{value｜date('YYYY年MM月DD日HH点mm分ss秒')}",
+    "16": "現在は{value｜date('YYYY-MM-DD')}",
+    "17": "商品価格：{value｜currency('CNY'，'metal'，3)}",
+    "18": "商品価格：{value｜currency}",
+    "19": "商品価格：{value｜capitalizeCurrency}",
+    "20": "商品価格：{value｜capitalizeCurrency（true）}",
+    "21": "商品数：{value｜number}"
+}

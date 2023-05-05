@@ -8,12 +8,16 @@ import defaultMessages from "./zh"
 
 const messages = {
     'zh' :  defaultMessages,
-    'en' : ()=>import("./en")
+    'en' : ()=>import("./en"),
+	'jp' : ()=>import("./jp"),
+	'cht' : ()=>import("./cht")
 }
 
 const formatters = {
     'zh' :  defaultFormatters,
-    'en' : ()=>import("./formatters/en")
+    'en' : ()=>import("./formatters/en"),
+	'jp' : ()=>import("./formatters/jp"),
+	'cht' : ()=>import("./formatters/cht")
 }
 
 // 语言配置文件
@@ -26,6 +30,16 @@ const scopeSettings = {
         {
             "name": "en",
             "title": "英文"
+        },
+        {
+            "name": "jp",
+            "title": "德文",
+            "fallback": "en"
+        },
+        {
+            "name": "cht",
+            "title": "繁体中文",
+            "fallback": "zh"
         }
     ],
     "defaultLanguage": "zh",
