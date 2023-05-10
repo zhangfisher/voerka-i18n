@@ -5,7 +5,7 @@ const idMap = require("./idMap")
 const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
 const defaultFormatters = require("./formatters/{{defaultLanguage}}.js")
 const defaultMessages =  require("./{{defaultLanguage}}.js")      
-
+const storage = require("./storage.js")
 
 const formatters = {
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultFormatters{{if $index !== languages.length - 1}},{{/if}}
@@ -30,6 +30,7 @@ const scope = new VoerkaI18nScope({
     messages,                                       // 当前语言包
     idMap ,                                         // 消息id映射列表    
     formatters,                                     // 扩展自定义格式化器    
+    storage,                                        // 语言配置存储器
     ...scopeSettings                             
 }) 
 // 翻译函数

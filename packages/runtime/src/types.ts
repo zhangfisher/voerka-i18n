@@ -50,6 +50,12 @@ export type VoerkaI18nFormatters = {
     [key: string]: VoerkaI18nFormatter
 }
 
+// 提供一个简单的KV存储接口,用来加载相关的存储
+export interface IVoerkaI18nStorage{
+    get(key:string):any
+    set(key:string,value:any):void
+}
+
 // 包括语言的{"*":{...},zh:{...},en:{...}} 
 // 声明格式化器
 export type VoerkaI18nLanguageFormatters =  Record<string,VoerkaI18nFormatters | VoerkaI18nMessageLoader>

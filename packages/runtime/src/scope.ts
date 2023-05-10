@@ -14,6 +14,7 @@ import type {
     VoerkaI18nTranslate,  
     VoerkaI18nDynamicLanguageMessages,
     VoerkaI18nLanguageMessagePack,
+IVoerkaI18nStorage,
 } from "./types" 
 import { VoerkaI18nFormatterRegistry } from './formatterRegistry';
 import { randomId } from "./utils"
@@ -23,11 +24,13 @@ import { FlexEventListener } from "flex-tools/events/flexEvent"
 export interface VoerkaI18nScopeOptions {
     id?: string
     debug?: boolean
+    library?:boolean                                            // 当使用在库中时应该置为true
     languages: VoerkaI18nLanguageDefine[]                       // 当前作用域支持的语言列表
     defaultLanguage?: string                                    // 默认语言名称                         
     activeLanguage?: string                                     // 当前语言名称
     messages: VoerkaI18nLanguageMessagePack                     // 当前语言包
     idMap?: Voerkai18nIdMap                                      // 消息id映射列表
+    storage?:IVoerkaI18nStorage                                 // 语言包存储器
     formatters: VoerkaI18nLanguageFormatters                    // 当前作用域的格式化函数列表{<lang>: {$types,$config,[格式化器名称]: () => {},[格式化器名称]: () => {}}}
     ready?:(e?:Error)=>void                                     // 当注册到全局管理器并切换到语言后的回调函数
 }
@@ -126,6 +129,7 @@ export class VoerkaI18nScope {
 				defaultLanguage: this.#defaultLanguage,
 				activeLanguage : this.#activeLanguage,
 				languages      : this.#options.languages,
+                storage        : this.#options.storage
 			});
 		}     
         this.#global = globalThis.VoerkaI18n as unknown as VoerkaI18nManager;

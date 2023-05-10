@@ -2,10 +2,11 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { deepMerge } from "flex-tools/object/deepMerge"
 import inlineFormatters from "./formatters"         
 import type {  VoerkaI18nScope } from "./scope"
-import type { VoerkaI18nLanguageDefine, VoerkaI18nLanguageFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters }  from "./types"
+import type { VoerkaI18nLanguageDefine, VoerkaI18nLanguageFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters, IVoerkaI18nStorage }  from "./types"
 import { VoerkaI18nFormatterRegistry } from "./formatterRegistry" 
 import { InvalidLanguageError } from './errors';
 import { FlexEvent, FlexEventOptions } from "flex-tools/events/flexevent"
+import defaultStoage from "./storage"
 
 // 默认语言配置
 const defaultLanguageSettings = {  
@@ -13,6 +14,7 @@ const defaultLanguageSettings = {
     defaultLanguage: "zh",
     activeLanguage : "zh",
     formatters     : inlineFormatters,
+    storage        : defaultStoage,
     languages      : [
         {name:"zh",title:"中文",default:true},
         {name:"en",title:"英文"}
@@ -25,6 +27,7 @@ export interface VoerkaI18nManagerOptions {
     activeLanguage: string
     formatters?: VoerkaI18nLanguageFormatters
     languages: VoerkaI18nLanguageDefine[]
+    storage?:IVoerkaI18nStorage                                 // 语言包存储器
 }
 /** 
  * 多语言管理类
@@ -48,23 +51,47 @@ export class VoerkaI18nManager extends FlexEvent{
     #defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
     #formatters:VoerkaI18nFormatterRegistry = new VoerkaI18nFormatterRegistry()
     constructor(options?:VoerkaI18nManagerOptions){
-        super(deepMerge(defaultLanguageSettings,options,{array:'replace'}) as FlexEventOptions)
+        super(deepMerge(
+            defaultLanguageSettings,
+            options,
+            {
+                array:'replace',
+                ignoreUndefined:true
+        }) as FlexEventOptions)
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }
         VoerkaI18nManager.instance = this;
+        this.loadOptionsFromStorage()                               // 从存储器加载语言包配置
         this.loadInitialFormatters()                                // 加载初始格式化器
         this.#scopes=[]                                             // 保存VoerkaI18nScope实例
     }
     get debug(){return this.options.debug }
     get options(){ return super.options as Required<VoerkaI18nManagerOptions & FlexEventOptions>   }                          // 配置参数
     get scopes(){ return this.#scopes }                             // 注册的报有VoerkaI18nScope实例
-    get activeLanguage(){ return this.options!.activeLanguage}     // 当前激活语言    名称
+    get activeLanguage(){ return this.options!.activeLanguage}     // 当前激活语言名称
     get defaultLanguage(){ return this.options!.defaultLanguage}   // 默认语言名称    
     get languages(){ return this.options!.languages}               // 支持的语言列表    
     get defaultMessageLoader(){ return this.#defaultMessageLoader}  // 默认语言包加载器
     get formatters(){return this.#formatters!}
-
+    /**
+     * 从存储器加载语言包配置
+     */
+    private loadOptionsFromStorage(){
+        if(this.options.storage){
+            const storage = this.options.storage
+            const activeLangauge = storage.get("language")
+            if(activeLangauge){
+                this.options.activeLanguage = activeLangauge
+            }
+        }
+    }
+    private saveOptionsToStorage(){
+        if(this.options.storage){
+            const storage = this.options.storage
+            storage.set("language",this.activeLanguage)
+        }
+    }
     /**
      * 初始加载格式化器
      */
@@ -74,17 +101,6 @@ export class VoerkaI18nManager extends FlexEvent{
             delete (this.options as any).formatters
         }
         this.#formatters.change(this.options!.activeLanguage)
-    }
-    /**
-     * 初始化语言环境
-     * @param language 
-     */
-    private initLanguage(){
-        let curLanguage:string | null = this.options!.activeLanguage
-        if(globalThis.localStorage){
-            curLanguage = globalThis.localStorage.getItem("voerkai18n_language")
-        }
-        this.change(curLanguage!)
     }
     // 通过默认加载器加载文件
     async loadMessagesFromDefaultLoader(newLanguage:string,scope:VoerkaI18nScope){
@@ -102,7 +118,8 @@ export class VoerkaI18nManager extends FlexEvent{
             // 通知所有作用域刷新到对应的语言包
             await this._refreshScopes(language)                        
             this.options!.activeLanguage = language            
-            this.emit("change",language,true)                                  // 触发语言切换事件
+            this.emit("change",language,true)               // 触发语言切换事件
+            this.saveOptionsToStorage()                     // 保存语言配置到存储器
             return language
         }else{
             throw new InvalidLanguageError()
