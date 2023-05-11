@@ -10,7 +10,7 @@ export default defineConfig({
     splitting: false,
     sourcemap: true,
     clean: true,
-    treeshake:false,  
+    treeshake:true,  
     minify: false,
     banner: {
         js: `/***        

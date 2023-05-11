@@ -20,6 +20,7 @@ import { VoerkaI18nFormatterRegistry } from './formatterRegistry';
 import { randomId } from "./utils"
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from './consts';
 import { FlexEventListener } from "flex-tools/events/flexEvent"
+import { ifError } from "assert"
 
 export interface VoerkaI18nScopeOptions {
     id?: string
@@ -52,7 +53,8 @@ export class VoerkaI18nScope {
      */
 	constructor(options:VoerkaI18nScopeOptions) {
         this.#options = assignObject({
-            id             : randomId(),                   // 作用域唯一id
+            id             : randomId(),                  // 作用域唯一id
+            library        : true,                        // 当使用在库中时应该置为true
             debug          : false,
             languages      : {},                          // 当前作用域支持的语言列表
             messages       : {},                          // 所有语言包={[language]:VoerkaI18nLanguageMessages}
@@ -65,6 +67,7 @@ export class VoerkaI18nScope {
 		this.#global = this.registerToManager() 
         this.#t = translate.bind(this)
 	}	
+    get options(){return this.#options}   
 	get id() {return this.#options.id;}                                     // 作用域唯一id	
 	get debug() {return this.#options.debug;}                               // 调试开关	
     get defaultLanguage() {return this.#global.defaultLanguage;}            // 默认语言名称	
@@ -131,7 +134,18 @@ export class VoerkaI18nScope {
 				languages      : this.#options.languages,
                 storage        : this.#options.storage
 			});
-		}     
+		} 
+        // 当前作用域属于应用而不是库时，需要将当前作用域更新到全局配置
+        // 应用配置优先级高于库配置
+        if(!this.#options.library){
+            globalThis.VoerkaI18n.initApp({
+                defaultLanguage : this.#defaultLanguage,
+                activeLanguage : this.#activeLanguage,
+                languages : this.#options.languages,
+                storage : this.#options.storage,
+                debug:this.debug
+            })
+        }
         this.#global = globalThis.VoerkaI18n as unknown as VoerkaI18nManager;
         if (!isFunction(callback)) callback = () => {};
         this.#global.register(this)
@@ -184,21 +198,6 @@ export class VoerkaI18nScope {
             this.formatters!.register(name, formatter, {language});
         }
 	}
-    // /**
-    //  * 注册多种语言的格式化器
-    //  *  '*': 代表适用于所有语言
-    //  * registerFormatters({"*":{...},zh:{...},en:VoerkaI18nFormatters})
-    //  *  registerFormatters({"*":{...},zh:{...},en:{...}},true) 在全局注册
-    //  * @param {*} langformatters ={"*":{...},zh:{...},en:{...}}
-    //  * @returns 
-    //  */
-    // registerFormatters(langformatters:VoerkaI18nLanguageFormatters,asGlobal=false) {
-    //     Object.entries(langformatters).forEach(([langName,formatters])=>{
-    //         if(isPlainObject(formatters)){
-    //             this.#options.formatters[langName] = formatters
-    //         }           
-    //     }) 
-    // }
     /**
      * 初始化格式化器
      * 激活和默认语言的格式化器采用静态导入的形式，而没有采用异步块的形式，这是为了确保首次加载时的能马上读取，而不能采用延迟加载方式
@@ -422,3 +421,4 @@ export class VoerkaI18nScope {
         await this.#global.change(language);
     }
 };
+

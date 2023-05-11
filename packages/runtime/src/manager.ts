@@ -2,18 +2,18 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { deepMerge } from "flex-tools/object/deepMerge"
 import inlineFormatters from "./formatters"         
 import type {  VoerkaI18nScope } from "./scope"
-import type { VoerkaI18nLanguageDefine, VoerkaI18nLanguageFormatters, VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter, VoerkaI18nTypesFormatters, IVoerkaI18nStorage }  from "./types"
+import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter,  IVoerkaI18nStorage }  from "./types"
 import { VoerkaI18nFormatterRegistry } from "./formatterRegistry" 
 import { InvalidLanguageError } from './errors';
 import { FlexEvent, FlexEventOptions } from "flex-tools/events/flexevent"
 import defaultStoage from "./storage"
+import { assignObject } from 'flex-tools/object/assignObject';
 
 // 默认语言配置
 const defaultLanguageSettings = {  
     debug          : true,
     defaultLanguage: "zh",
     activeLanguage : "zh",
-    formatters     : inlineFormatters,
     storage        : defaultStoage,
     languages      : [
         {name:"zh",title:"中文",default:true},
@@ -25,7 +25,6 @@ export interface VoerkaI18nManagerOptions {
     debug?: boolean
     defaultLanguage: string
     activeLanguage: string
-    formatters?: VoerkaI18nLanguageFormatters
     languages: VoerkaI18nLanguageDefine[]
     storage?:IVoerkaI18nStorage                                 // 语言包存储器
 }
@@ -50,6 +49,7 @@ export class VoerkaI18nManager extends FlexEvent{
     #scopes:VoerkaI18nScope[] = []
     #defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
     #formatters:VoerkaI18nFormatterRegistry = new VoerkaI18nFormatterRegistry()
+    #appScopeId?:string
     constructor(options?:VoerkaI18nManagerOptions){
         super(deepMerge(
             defaultLanguageSettings,
@@ -62,18 +62,28 @@ export class VoerkaI18nManager extends FlexEvent{
             return VoerkaI18nManager.instance;
         }
         VoerkaI18nManager.instance = this;
-        this.loadOptionsFromStorage()                               // 从存储器加载语言包配置
-        this.loadInitialFormatters()                                // 加载初始格式化器
-        this.#scopes=[]                                             // 保存VoerkaI18nScope实例
+        this.loadInitialFormatters()                                // 加载初始格式化器        
+        this.loadOptionsFromStorage()                               // 从存储器加载语言包配置        
     }
     get debug(){return this.options.debug }
-    get options(){ return super.options as Required<VoerkaI18nManagerOptions & FlexEventOptions>   }                          // 配置参数
+    get options(){ return super.options as Required<VoerkaI18nManagerOptions & FlexEventOptions>   }                          
     get scopes(){ return this.#scopes }                             // 注册的报有VoerkaI18nScope实例
+    get appScopeId(){ return this.#appScopeId }                    // 应用的scopeId
     get activeLanguage(){ return this.options!.activeLanguage}     // 当前激活语言名称
     get defaultLanguage(){ return this.options!.defaultLanguage}   // 默认语言名称    
     get languages(){ return this.options!.languages}               // 支持的语言列表    
     get defaultMessageLoader(){ return this.#defaultMessageLoader}  // 默认语言包加载器
     get formatters(){return this.#formatters!}
+
+    /**
+     * 本方法供scope.options.library=false，即应用时调用更新配置
+     * 
+     */
+    initApp(appScopeOptions:VoerkaI18nManagerOptions){
+        assignObject(this.options,appScopeOptions)
+        this.loadOptionsFromStorage()                               // 从存储器加载语言包配置
+    }
+    
     /**
      * 从存储器加载语言包配置
      */
@@ -96,10 +106,7 @@ export class VoerkaI18nManager extends FlexEvent{
      * 初始加载格式化器
      */
     private loadInitialFormatters(){
-        if(this.options?.formatters){
-            this.#formatters.loadInitials(this.options.formatters)
-            delete (this.options as any).formatters
-        }
+        this.#formatters.loadInitials(inlineFormatters)
         this.#formatters.change(this.options!.activeLanguage)
     }
     // 通过默认加载器加载文件
@@ -152,11 +159,10 @@ export class VoerkaI18nManager extends FlexEvent{
      * 
      * @param {*} scope 
      */
-    async register(scope:VoerkaI18nScope){
-        // if(!(scope instanceof VoerkaI18nScope)){
-        //     throw new TypeError("Scope must be an instance of VoerkaI18nScope")
-        // }
+    async register(scope:VoerkaI18nScope){ 
         this.#scopes.push(scope) 
+        if(this.#scopes.length===1) this.#appScopeId = scope.id
+        if(scope.options.library===false) this.#appScopeId = scope.id
         return await scope.refresh(this.activeLanguage) 
     }
     /**
