@@ -6,16 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview", 
+    "preview": "vite preview",
     "init": "node ../../packages/cli/index.js init",
     "extract": "node ../../packages/cli/index.js extract",
     "compile": "node ../../packages/cli/index.js compile"
-
   },
   "dependencies": {
     "@voerkai18n/runtime": "workspace:^1.1.16",
     "@voerkai18n/vue": "workspace:^1.0.12",
-    "vue": "^3.2.45"
+    "vue": "^3.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",

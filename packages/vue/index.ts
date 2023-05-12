@@ -11,10 +11,14 @@
 
  */
 
+import type { VoerkaI18nScope } from "@voerkai18n/runtime"
 import { computed,reactive,ref,inject} from "vue"
-
+import type { App } from "vue"
 
 export const VoerkaI18nProvider = Symbol('VoerkaI18nProvider')
+export interface VoerkaI18nVuePluginOptions{
+    i18nScope:VoerkaI18nScope
+}
 
 
 const defaultInject ={
@@ -31,7 +35,7 @@ export function injectVoerkaI18n(){
 
 export function useVoerkaI18n(){
     let activeLanguage = ref(VoerkaI18n.activeLanguage)  
-    VoerkaI18n.on((newLanguage)=>{
+    VoerkaI18n.on("change",(newLanguage:string)=>{
         activeLanguage.value = newLanguage
     })
     return {
@@ -40,47 +44,31 @@ export function useVoerkaI18n(){
 }
  
 export default {
-    install: (app, opts={}) => {
-        const options = Object.assign({
-            i18nScope:null,                 // 当前作用域实例
-        }, opts)               
-        
-        const i18nScope = options.i18nScope
+    install: (app:App, options:VoerkaI18nVuePluginOptions) => {      
+        const i18nScope = options.i18nScope 
         if(i18nScope===null){
-            console.warn("@voerkai18n/vue: i18nScope is not provided, use default i18nScope")
-            i18nScope = {change:()=>{}}
+            console.warn("@voerkai18n/vue: i18nScope is not provided, use default i18nScope") 
         }
-
-        // 插件只需要安装一次实例
-        if(app.voerkai18n){
-            return
-        }         
-        app.voerkai18n =  i18nScope.global
-        // i18nScope.on("change",(newLanguage)=>{
-        //     console.log("event change:",newLanguage)
-        // })
-        // i18nScope.on("patched",({language,scope})=>{
-        //     console.log("event patched:",language,scope,app)
-        // })
+ 
         let activeLanguage = ref(i18nScope.global.activeLanguage)        
 
         app.mixin({
             computed:{
                 $activeLanguage:{
                     get: () =>activeLanguage.value,
-                    set: (value) =>{
-                        i18nScope.change(value).then((newLanguage)=>activeLanguage.value=newLanguage)
+                    set: (value:string) =>{
+                        i18nScope.change(value).then((newLanguage:string)=>activeLanguage.value=newLanguage)
                     }
                 }        
             }
         })
 
         // 注入一个全局可用的t方法
-        app.config.globalProperties.t = function(...args){
+        app.config.globalProperties.t = function(message:string,...args:any[]){
             // 通过访问计算属性activeLanguage来实现当activeLanguage变更时的重新渲染
             // 有没有更好的办法？
             this.$activeLanguage
-            return i18nScope.t(...args)
+            return i18nScope.t(message,...args)
         } 
 
         

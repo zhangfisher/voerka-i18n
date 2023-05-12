@@ -147,10 +147,17 @@ export class VoerkaI18nScope {
             })
         }
         this.#global = globalThis.VoerkaI18n as unknown as VoerkaI18nManager;
-        if (!isFunction(callback)) callback = () => {};
+        
+        //
         this.#global.register(this)
-            .then(this.onRegisterSuccess.bind(this))
-            .catch(this.onRegisterFail.bind(this))
+            .then(()=>{
+                this.onRegisterSuccess.call(this)
+                callback?.call(this)
+            })
+            .catch((e:any)=>{
+                this.onRegisterFail.call(this,e)
+                callback
+            })
         return this.#global
     } 
     /**

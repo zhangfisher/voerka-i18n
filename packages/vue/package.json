@@ -10,13 +10,17 @@
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "types": "index.d.ts",
+    "publishConfig": {
+        "main": "dist/index.js",
+        "types": "dist/index.d.ts"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@voerkai18n/runtime": "workspace:^1.1.16",
+        "@voerkai18n/runtime": "workspace:^",
         "vue": "latest"
     },
     "lastPublish": "2023-03-30T08:53:55+08:00"

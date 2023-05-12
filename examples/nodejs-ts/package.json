@@ -8,6 +8,7 @@
         "ts-node": "latest"
     },
     "scripts": {
+        "dev":"ts-node src/index.ts",
         "help": "node ../../packages/cli/index.js -h",
         "init": "node ../../packages/cli/index.js init",
         "extract": "node ../../packages/cli/index.js extract",

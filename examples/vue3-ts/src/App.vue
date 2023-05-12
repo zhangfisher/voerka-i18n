@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { injectVoerkaI18n } from "@voerkai18n/vue"
-import { reactive } from 'vue' 
+import { reactive } from 'vue'
 import { t } from "./languages"
 import China from './components/china.vue'
 import Formatters from './components/formatters.vue'
-     
+
 let messages = reactive({
     name: t('VoerkaI18n多语言解决方案 ')
 })
- 
+
 console.log("App=", messages.name)
- 
+
 setTimeout(() => {
     messages.name = 'Vue App 3'
 }, 5000)
@@ -21,24 +21,24 @@ const i18n = injectVoerkaI18n()
 
 
 </script>
-<script lang="ts"> 
+<script lang="ts">
 
-export default {  
-    data() { 
+export default {
+    data() {
         console.log(t("data： Hello world!"))
         return {
-            tabIndex:0,
-            a:this.a
+            tabIndex: 0,
+            a: this.a
         }
     },
     watch: {
 
     },
     methods: {
-        async changeLanguage(this:any,value:string) {
-            
+        async changeLanguage(this: any, value: string) {
+
             this.i18n.activeLanguage = value
-            console.log("change language =",this.i18n.activeLanguage ,value)
+            console.log("change language =", this.i18n.activeLanguage, value)
             //this.activeLanguage = value
             // await this.i18n.change(this.language)
         }
@@ -52,30 +52,31 @@ export default {
     <div>
         <h1 class="navbar">
             <div class="title">VoerkaI18n多语言解决方案 - {{ $activeLanguage }}</div>
-            <div class="menu" >
-                <button class="menuitem" :key="lng.name" v-for="lng of i18n.languages" @click="i18n.activeLanguage = lng.name"
-                :style="{ 'outline': lng.name === i18n.activeLanguage ? '2px red solid' : '' }">{{ lng.title  }}</button>
-            <button class="menuitem"  @click="i18n.activeLanguage = 'de'"
-                :style="{ 'outline': i18n.activeLanguage === 'de' ? '2px red solid' : '' }">德语</button>
-            <button class="menuitem"  @click="i18n.activeLanguage = 'jp'"
-                :style="{ 'outline': i18n.activeLanguage === 'jp' ? '2px red solid' : '' }">日语</button>
+            <div class="menu">
+                <button class="menuitem" :key="lng.name" v-for="lng of i18n.languages"
+                    @click="i18n.activeLanguage = lng.name"
+                    :style="{ 'outline': lng.name === i18n.activeLanguage ? '2px red solid' : '' }">{{ lng.title }}</button>
+                <button class="menuitem" @click="i18n.activeLanguage = 'de'"
+                    :style="{ 'outline': i18n.activeLanguage === 'de' ? '2px red solid' : '' }">德语</button>
+                <button class="menuitem" @click="i18n.activeLanguage = 'jp'"
+                    :style="{ 'outline': i18n.activeLanguage === 'jp' ? '2px red solid' : '' }">日语</button>
             </div>
         </h1>
         <div class="content">
-            <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>       
+            <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>
             <div class="tabs">
                 <div class="tab">
-                    <h3>1.{{t("Hello world!")}}</h3>
+                    <h3>1.{{ t("Hello world!") }}</h3>
                     <h3>2.{{ t("中华人民共和国") }} </h3>
                     <h3>3.{{ t("迎接中华民族的伟大复兴") }} </h3>
                     <China :title="t('中华人民共和国')" />
                 </div>
                 <div class="tab" style="flex:2;font-size:small">
-                    <Formatters/>
-                </div> 
+                    <Formatters />
+                </div>
             </div>
         </div>
-        
+
     </div>
 </template>
 
@@ -85,30 +86,32 @@ export default {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50; 
+    color: #2c3e50;
     font-size: 10px;
     display: flex;
     position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
-#app>div{
+
+#app>div {
     position: absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
-#app>div>.content{
-    flex-grow: 1;    
+
+#app>div>.content {
+    flex-grow: 1;
 }
 
-.navbar{
-    margin:0;
+.navbar {
+    margin: 0;
     box-sizing: content-box;
     width: 100%;
     height: 48px;
@@ -116,34 +119,37 @@ export default {
     display: flex;
     flex-direction: row;
     padding: 12px;
-    color:white;
-    text-align: left ;
+    color: white;
+    text-align: left;
     align-items: center;
     padding-right: 24px;
 }
 
-.navbar>.title{
+.navbar>.title {
     flex-grow: 1;
 }
-.navbar>.menu{
+
+.navbar>.menu {
     flex-grow: 1;
-    top:0;
-    margin:0px;
-    padding-right:20px;   
+    top: 0;
+    margin: 0px;
+    padding-right: 20px;
     display: flex;
     align-items: left;
     justify-content: center;
     flex-direction: row;
 }
-.navbar>.menu>.menuitem{
-    
-    padding:8px;
-    margin:8px;
+
+.navbar>.menu>.menuitem {
+
+    padding: 8px;
+    margin: 8px;
     font-size: 14px;
-    cursor:pointer;
+    cursor: pointer;
 }
-.tabs{
-    width:100%;
+
+.tabs {
+    width: 100%;
     padding: 8px;
     position: relative;
     display: flex;
@@ -151,14 +157,14 @@ export default {
     flex-direction: row;
 
 }
-.tabs > .tab{
+
+.tabs>.tab {
     position: relative;
     padding: 8px;
     background: #f3f3f3;
     min-height: 500px;
-    margin:4px;
-    color:rgb(4, 123, 202);
-    flex:1;
+    margin: 4px;
+    color: rgb(4, 123, 202);
+    flex: 1;
     border-radius: 8px;
-}
-</style>
+}</style>
