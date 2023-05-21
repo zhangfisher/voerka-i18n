@@ -33,7 +33,7 @@ const scopeSettings = {
         },
         {
             "name": "jp",
-            "title": "德文",
+            "title": "日文",
             "fallback": "en"
         },
         {

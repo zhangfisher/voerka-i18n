@@ -63,5 +63,6 @@ module.exports = {
     "扫描并提取待翻译的文本到<languages/translates>": 62,
     "在线翻译语言包,如使用百度云翻译服务": 63,
     "生成IdMap文件": 64,
-    "安装@voerkai18n/runtime": 65
+    "安装@voerkai18n/runtime": 65,
+    " - 配置存储文件:{}": 66
 }

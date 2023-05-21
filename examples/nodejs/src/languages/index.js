@@ -5,16 +5,18 @@ const idMap = require("./idMap")
 const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
 const defaultFormatters = require("./formatters/zh.js")
 const defaultMessages =  require("./zh.js")      
-
+const storage = require("./storage.js")
 
 const formatters = {
     'zh' :  defaultFormatters,
-    'en' : ()=>require("./formatters/en.js")
+    'en' : ()=>require("./formatters/en.js"),
+	'jp' : ()=>require("./formatters/jp.js")
 }
  
 const messages = {
     'zh' :  defaultMessages,
-    'en' : ()=>require("./en.js")
+    'en' : ()=>require("./en.js"),
+	'jp' : ()=>require("./jp.js")
 }
  
 
@@ -28,6 +30,10 @@ const scopeSettings = {
         {
             "name": "en",
             "title": "en"
+        },
+        {
+            "name": "jp",
+            "title": "jp"
         }
     ],
     "defaultLanguage": "zh",
@@ -42,6 +48,7 @@ const scope = new VoerkaI18nScope({
     messages,                                       // 当前语言包
     idMap ,                                         // 消息id映射列表    
     formatters,                                     // 扩展自定义格式化器    
+    storage,                                        // 语言配置存储器
     ...scopeSettings                             
 }) 
 // 翻译函数

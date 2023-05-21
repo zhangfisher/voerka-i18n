@@ -128,9 +128,7 @@ function executeFormatter(value:any, formatters:WrapperedVoerkaI18nFormatter[], 
 		} catch (e:any) {
             // 出错时直接忽略，不影响后续的格式化器执行
 			e.formatter = (formatter as any).$name;
-			if (scope.debug){
-                console.error(`Error while execute i18n formatter<${(formatter as any).$name}> for ${template}: ${e.message} `);
-            }
+            scope.logger.error(`当执行格式化器<${(formatter as any).$name}>时出错: ${template},${e.stack}`);
 		}
 	}
 	return result;

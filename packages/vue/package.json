@@ -3,7 +3,6 @@
     "version": "1.0.27",
     "description": "Vue3插件,提供自动插件翻译函数和语言切换功能",
     "main": "index.js",
-    "typings": "index.d.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",

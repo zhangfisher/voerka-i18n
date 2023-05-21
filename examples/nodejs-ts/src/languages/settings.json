@@ -7,6 +7,10 @@
         {
             "name": "en",
             "title": "en"
+        },
+        {
+            "name": "jp",
+            "title": "jp"
         }
     ],
     "defaultLanguage": "zh",

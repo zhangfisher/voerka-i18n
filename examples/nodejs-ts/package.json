@@ -9,6 +9,7 @@
     },
     "scripts": {
         "dev":"ts-node src/index.ts",
+        "translate": "node ../../packages/cli/index.js translate --",
         "help": "node ../../packages/cli/index.js -h",
         "init": "node ../../packages/cli/index.js init",
         "extract": "node ../../packages/cli/index.js extract",

@@ -5,15 +5,18 @@ import idMap from "./idMap"                                             // 语�
 import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
 import defaultFormatters from "./formatters/zh"             // 默认语言格式化器
 import defaultMessages from "./zh"  
+import storage  from "./storage"
 
 const messages = {
     'zh' :  defaultMessages,
-    'en' : ()=>import("./en")
+    'en' : ()=>import("./en"),
+	'jp' : ()=>import("./jp")
 }
 
 const formatters = {
     'zh' :  defaultFormatters,
-    'en' : ()=>import("./formatters/en")
+    'en' : ()=>import("./formatters/en"),
+	'jp' : ()=>import("./formatters/jp")
 }
 
 // 语言配置文件
@@ -26,6 +29,10 @@ const scopeSettings = {
         {
             "name": "en",
             "title": "en"
+        },
+        {
+            "name": "jp",
+            "title": "jp"
         }
     ],
     "defaultLanguage": "zh",
@@ -40,6 +47,7 @@ const scope = new VoerkaI18nScope({
     idMap,                                          // 消息id映射列表    
     messages,                                       // 语言包
     formatters,                                     // 扩展自定义格式化器    
+    storage,                                        // 语言配置存储器
     ...scopeSettings
 }) 
 // 翻译函数

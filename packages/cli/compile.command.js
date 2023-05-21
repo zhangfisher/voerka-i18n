@@ -22,13 +22,13 @@
  * 
  * @param {*} opts 
  */
+
 const { Command } = require('commander');
 const glob  = require("glob")
-const createLogger = require("logsets") 
+const logger = require("logsets") 
 const path = require("path")
 const { i18nScope,t } = require("./i18nProxy")
 const fs = require("fs-extra")
-const logger = createLogger() 
 const artTemplate = require("art-template")
 const semver = require("semver") 
 const { 
@@ -71,7 +71,27 @@ function generateFormatterFile(langName,{isTypeScript,formattersFolder,templateC
             formattersContent = formattersContent.replaceAll(/^[^\n\r\w]*export\s*/gm,"module.exports.")
         }
         fs.writeFileSync(formattersFile,formattersContent)
-        logger.log(t(" - 更新格式化器:{}"),path.basename(formattersFile))
+        logger.log(t(" - 更新格式化器:{}"),`formatters/${path.basename(formattersFile)}`)
+    }
+}
+function generateStorageFile({isTypeScript,langFolder,templateContext,moduleType}={}){
+
+    const storageFile =  path.join(langFolder,`storage.${isTypeScript ? 'ts' : 'js'}`) 
+    if(!fs.existsSync(storageFile)){
+        const storageFileContent = artTemplate(path.join(__dirname,"templates",`storage.${isTypeScript ? 'ts' : (moduleType=='esm' ? 'mjs' : 'cjs')}`), templateContext )
+        fs.writeFileSync(storageFile,storageFileContent)
+        logger.log(t(" - 配置存储文件:{}"),path.basename(storageFile))
+    }else{ // 存储文件如果存在，则需要更改对应的模块类型
+        let storageFileContent = fs.readFileSync(storageFile,"utf8").toString()
+        if(moduleType == "esm" || isTypeScript){
+                storageFileContent = storageFileContent.replaceAll(/^[^\n\r\w]*module.exports\s*\=/gm,"export default ")
+                storageFileContent = storageFileContent.replaceAll(/^[^\n\r\w]*module.exports\./gm,"export ")
+        }else{
+            storageFileContent = storageFileContent.replaceAll(/^[^\n\r\w]*export\s*default\s*/gm,"module.exports = ")
+            storageFileContent = storageFileContent.replaceAll(/^[^\n\r\w]*export\s*/gm,"module.exports.")
+        }
+        fs.writeFileSync(storageFile,storageFileContent)
+        logger.log(t(" - 配置存储文件:{}"),path.basename(storageFile))
     }
 }
 
@@ -190,12 +210,14 @@ async  function compile(langFolder,opts={}){
         // 5 . 生成编译后的格式化函数文件
         const formattersFolder =  path.join(langFolder,"formatters") 
         if(!fs.existsSync(formattersFolder)) fs.mkdirSync(formattersFolder)
-        // 为每一个语言生成一个对应的式化器
+        // 6. 为每一个语言生成一个对应的式化器
         languages.forEach(lang=>{
             generateFormatterFile(lang.name,{isTypeScript,formattersFolder,templateContext,moduleType}) 
         }) 
+        // 7.生成存储配置文件
+        generateStorageFile({isTypeScript,langFolder,templateContext,moduleType}) 
         
-        // 6. 生成编译后的访问入口文件
+        // 8. 生成编译后的访问入口文件
         const entryFile = path.join(langFolder,`index.${isTypeScript ? 'ts' : 'js'}`)
         const tmpFile = path.join(__dirname,"templates",isTypeScript ? "entry.ts" : (moduleType==="esm" ? "entry.mjs" : "entry.cjs"))
         const entryContent = artTemplate(tmpFile, templateContext )

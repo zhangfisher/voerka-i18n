@@ -5,7 +5,7 @@
 * 本文件仅供在执行voerkai18n extract&compile前提供t函数占位引用 
 */
 
-import runtime from "@voerkai18n/runtime"
+import {translate,VoerkaI18nScope} from "@voerkai18n/runtime"
  
 
 // 语言作用域

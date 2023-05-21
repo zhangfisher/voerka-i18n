@@ -69,9 +69,14 @@ export class VoerkaI18nFormatterRegistry{
      */
     async change(language:string){
         try {            
-			if (language in this.formatters) {
-				
-                const formatters = this.formatters[language]  
+            let useLanguage = language
+            if(!(language in this.formatters )){
+                useLanguage = this.scope?.getLanguage(language)?.fallback || "zh"
+                this.scope?.logger.warn(`没有配置<${language}>格式化器，使用后退语言<${useLanguage}>替代.`);
+            }
+            console.log("useLanguage=",useLanguage, "fallback=",this.scope?.getLanguage(language)?.fallback )
+			if (useLanguage){				
+                const formatters = this.formatters[useLanguage]  
                 if(isFunction(formatters)){                    
                     this.#activeFormatters =  await (formatters as Function)()    // 如果格式化器集合是异步加载，则需要等待加载完成
                 }else{
@@ -79,13 +84,13 @@ export class VoerkaI18nFormatterRegistry{
                 }
                 // 合并生成格式化器的配置参数,当执行格式化器时该参数将被传递给格式化器
                 this.#formatterCache = {typedFormatters:{},formatters:{}}  
-                this.generateFormattersConfigs(language)
+                this.generateFormattersConfigs(useLanguage)
                 this.#language = language
 			} else {
-				if (this.scope?.debug) console.warn(`Not configured <${language}> formatters.`);
+                this.scope?.logger.warn(`未指定<${language}>格式化器配置(scope=${this.scope?.id})`); 
 			}
 		} catch (e:any) {
-			if (this.scope?.debug) console.error(`Error loading ${language} formatters: ${e.message}`);
+            this.scope?.logger.error(`当加载<${language}>格式化器时出错(scope=${this.scope?.id}): ${e.stack}`);
 		}
     } 
     private generateFormattersConfigs(language:string){               
@@ -104,8 +109,9 @@ export class VoerkaI18nFormatterRegistry{
                 if(isPlainObject(curConfig)) finalConfig = deepMerge(finalConfig,curConfig,{array:'replace'})
                 return finalConfig
             },{})
-        }catch(e){
-            if(this.scope?.debug) console.error(`Error while generate <${language}> formatter options: `,e)
+            console.log(language,"activeFormattersConfigs=",JSON.stringify(this.#activeFormattersConfigs))
+        }catch(e:any){
+            if(this.scope?.debug) console.error(`当生成<${language}>格式化器配置时出错(scope=${this.scope?.id})：${e.stack}`)
             this.#activeFormattersConfigs = {}
         }                         
     }
@@ -145,7 +151,7 @@ export class VoerkaI18nFormatterRegistry{
     register(name:string | SupportedDateTypes, formatter:VoerkaI18nFormatter,options?:{ language?:  string | string[] } ) {
         const { language='*' } = options || {};
         if (!isFunction(formatter) || typeof name !== "string") {
-            throw new TypeError("Formatter must be a function");
+            throw new TypeError("格式化器必须是一个函数");
         }
         const languages = Array.isArray(language) ? language: language	? language.split(","): [];
         languages.forEach((lngName:string) => {             
@@ -207,7 +213,6 @@ export class VoerkaI18nFormatterRegistry{
      * }
      * 
      */
-
     get(name:string,options?:GetFormatterOptions):VoerkaI18nFormatter | undefined{             
         const {on,inGlobal} = assignObject({        
             on:"scope",

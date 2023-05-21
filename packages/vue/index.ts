@@ -12,50 +12,38 @@
  */
 
 import type { VoerkaI18nScope } from "@voerkai18n/runtime"
-import { computed,reactive,ref,inject} from "vue"
+import { computed,reactive,ref,inject,Plugin} from "vue"
 import type { App } from "vue"
-
-export const VoerkaI18nProvider = Symbol('VoerkaI18nProvider')
-export interface VoerkaI18nVuePluginOptions{
+import type { VoerkaI18nSupportedLanguages, VoerkaI18nTranslate } from "@Voerkai18n/runtime"
+ 
+export const VoerkaI18nProvider = Symbol('VoerkaI18nVueProvider')
+export interface VoerkaI18nPluginOptions{
     i18nScope:VoerkaI18nScope
 }
-
-
-const defaultInject ={
-    activeLanguage:"",
-    languages:[],
-    defaultLanguage:""
+ 
+export interface VoerkaI18nProviderType{
+    activeLanguage:string
+    defaultLanguage:string  // 默认语言
+    languages:VoerkaI18nSupportedLanguages 
 }
-
 
 export function injectVoerkaI18n(){
-    return inject(VoerkaI18nProvider,defaultInject)
+    return inject<VoerkaI18nProviderType>(VoerkaI18nProvider,{activeLanguage:"",defaultLanguage:"",languages:{}})
 }
 
 
-export function useVoerkaI18n(){
-    let activeLanguage = ref(VoerkaI18n.activeLanguage)  
-    VoerkaI18n.on("change",(newLanguage:string)=>{
-        activeLanguage.value = newLanguage
-    })
-    return {
-        t:VoerkaI18n.t
-    }
-}
- 
 export default {
-    install: (app:App, options:VoerkaI18nVuePluginOptions) => {      
+    install: (app:App<any>, options:VoerkaI18nPluginOptions)=> {      
         const i18nScope = options.i18nScope 
         if(i18nScope===null){
             console.warn("@voerkai18n/vue: i18nScope is not provided, use default i18nScope") 
         }
  
         let activeLanguage = ref(i18nScope.global.activeLanguage)        
-
         app.mixin({
             computed:{
                 $activeLanguage:{
-                    get: () =>activeLanguage.value,
+                    get: ():string =>activeLanguage.value,
                     set: (value:string) =>{
                         i18nScope.change(value).then((newLanguage:string)=>activeLanguage.value=newLanguage)
                     }
@@ -63,7 +51,7 @@ export default {
             }
         })
 
-        // 注入一个全局可用的t方法
+        // 注入一个全局可用的t方法，在组件模块中可以直接使用
         app.config.globalProperties.t = function(message:string,...args:any[]){
             // 通过访问计算属性activeLanguage来实现当activeLanguage变更时的重新渲染
             // 有没有更好的办法？
@@ -76,13 +64,14 @@ export default {
         app.provide(VoerkaI18nProvider, reactive({
             activeLanguage: computed({
                 get: () => activeLanguage,
-                set: (value) => i18nScope.global.change(value).then(()=>{
-                    activeLanguage.value = value 
+                set: (value) => i18nScope.global.change(value as unknown as string).then(()=>{
+                    activeLanguage.value = value as any
                 })
             }),
             languages:i18nScope.global.languages,
             defaultLanguage:i18nScope.global.defaultLanguage,
-        })) 
-
+        }))  
      }
-  }
+  } 
+
+  export * from "./types"

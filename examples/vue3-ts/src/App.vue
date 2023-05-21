@@ -1,24 +1,12 @@
 <script setup lang="ts">
 import { injectVoerkaI18n } from "@voerkai18n/vue"
-import { reactive } from 'vue'
 import { t } from "./languages"
 import China from './components/china.vue'
 import Formatters from './components/formatters.vue'
-
-let messages = reactive({
-    name: t('VoerkaI18n多语言解决方案 ')
-})
-
-console.log("App=", messages.name)
-
-setTimeout(() => {
-    messages.name = 'Vue App 3'
-}, 5000)
-
+ 
 console.log(t("Hello world!"))
 
 const i18n = injectVoerkaI18n()
-
 
 </script>
 <script lang="ts">
@@ -56,16 +44,18 @@ export default {
                 <button class="menuitem" :key="lng.name" v-for="lng of i18n.languages"
                     @click="i18n.activeLanguage = lng.name"
                     :style="{ 'outline': lng.name === i18n.activeLanguage ? '2px red solid' : '' }">{{ lng.title }}</button>
-                <button class="menuitem" @click="i18n.activeLanguage = 'de'"
+                <!-- <button class="menuitem" @click="i18n.activeLanguage = 'de'"
                     :style="{ 'outline': i18n.activeLanguage === 'de' ? '2px red solid' : '' }">德语</button>
                 <button class="menuitem" @click="i18n.activeLanguage = 'jp'"
-                    :style="{ 'outline': i18n.activeLanguage === 'jp' ? '2px red solid' : '' }">日语</button>
+                    :style="{ 'outline': i18n.activeLanguage === 'jp' ? '2px red solid' : '' }">日语</button> -->
             </div>
-        </h1>
+        </h1>    
         <div class="content">
             <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>
             <div class="tabs">
                 <div class="tab">
+                    <button class="menuitem" @click="$activeLanguage = 'en'"
+                    :style="{ 'outline': i18n.activeLanguage === 'jp' ? '2px red solid' : '' }">英语</button> 
                     <h3>1.{{ t("Hello world!") }}</h3>
                     <h3>2.{{ t("中华人民共和国") }} </h3>
                     <h3>3.{{ t("迎接中华民族的伟大复兴") }} </h3>

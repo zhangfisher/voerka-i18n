@@ -1,15 +1,25 @@
 /**
- * 注意：执行compile命令会生新后成本文件，所以请不要修改本文件
+ * 注意：执行compile命令会重新生成本文件，所以请不要修改本文件
  */
-
-const messageIds = require("./idMap")
+const idMap = require("./idMap")
 const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
 const defaultFormatters = require("./formatters/zh.js")
-const activeFormatters = defaultFormatters
-const defaultMessages =  require("./zh.js")        // 默认语言包
-const activeMessages = defaultMessages 
+const defaultMessages =  require("./zh.js")      
+const storage = require("./storage.js")
+
+const formatters = {
+    'zh' :  defaultFormatters,
+    'en' : ()=>require("./formatters/en.js"),
+	'de' : ()=>require("./formatters/de.js")
+}
  
+const messages = {
+    'zh' :  defaultMessages,
+    'en' : ()=>require("./en.js"),
+	'de' : ()=>require("./de.js")
+}
  
+
 // 语言配置文件
 const scopeSettings = {
     "languages": [
@@ -30,31 +40,18 @@ const scopeSettings = {
     "activeLanguage": "zh",
     "namespaces": {}
 }
-const formatters = {
-    'zh' :  defaultFormatters,
-    'en' : ()=>import("./formatters/en.js"),
-	'de' : ()=>import("./formatters/de.js")
-}
-// 语言包加载器
-const loaders = { 
-    "en" : ()=>import("./en.js"),
-    "de" : ()=>import("./de.js") 
-}
-
 // 语言作用域
-const scope = new VoerkaI18nScope({
-    ...scopeSettings,                               // languages,defaultLanguage,activeLanguage,namespaces,formatters
-    id          : "@voerkai18n/cli",                    // 当前作用域的id，自动取当前工程的package.json的name
+const scope = new VoerkaI18nScope({    
+    // 当前作用域的id，自动取当前工程的package.json的name
+    id          : "@voerkai18n/cli",                    
     debug       : false,                            // 是否在控制台输出高度信息
-    default     : defaultMessages,                  // 默认语言包
-    messages    : activeMessages,                   // 当前语言包
-    idMap       : messageIds,                       // 消息id映射列表    
+    messages,                                       // 当前语言包
+    idMap ,                                         // 消息id映射列表    
     formatters,                                     // 扩展自定义格式化器    
-    loaders                                         // 语言包加载器
+    storage,                                        // 语言配置存储器
+    ...scopeSettings                             
 }) 
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 
-
 module.exports.t = scopedTtranslate
 module.exports.i18nScope = scope 
-

@@ -457,5 +457,12 @@
         "$file": [
             "init.command.js"
         ]
+    },
+    " - 配置存储文件:{}": {
+        "en": " - 配置存储文件:{}",
+        "de": " - 配置存储文件:{}",
+        "$file": [
+            "compile.command.js"
+        ]
     }
 }

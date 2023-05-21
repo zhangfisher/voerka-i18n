@@ -54,6 +54,7 @@ export type VoerkaI18nFormatters = {
 export interface IVoerkaI18nStorage{
     get(key:string):any
     set(key:string,value:any):void
+    remove(key:string):any
 }
 
 // 包括语言的{"*":{...},zh:{...},en:{...}} 

@@ -63,5 +63,6 @@ module.exports = {
     "62": "Scannen und extrahieren Sie den zu übersetzenden Text in<languages/translations>",
     "63": "Sprachpakete für Online-Übersetzungen wie Baidu Cloud Translation Service",
     "64": "生成IdMap文件",
-    "65": "安装@voerkai18n/runtime"
+    "65": "安装@voerkai18n/runtime",
+    "66": " - 配置存储文件:{}"
 }

@@ -5,6 +5,7 @@ import idMap from "./idMap.js"                                             // �
 import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
 import defaultFormatters from "./formatters/{{defaultLanguage}}.js"             // 默认语言格式化器
 import defaultMessages from "./{{defaultLanguage}}.js"  
+import storage  from "./storage.js"
 
 const messages = {
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultMessages{{if $index !== languages.length - 1}},{{/if}}
@@ -28,6 +29,7 @@ const scope = new VoerkaI18nScope({
     idMap,                                          // 消息id映射列表    
     messages,                                       // 语言包+
     formatters,                                     // 扩展自定义格式化器    
+    storage,                                        // 语言配置存储器
     ...scopeSettings
 }) 
 // 翻译函数

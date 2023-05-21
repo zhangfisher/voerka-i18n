@@ -9,10 +9,5 @@ module.exports = {
         if(globalThis.localStorage){
             globalThis.localStorage.setItem(key,value)
         }
-    },
-    remove(key){
-        if(globalThis.localStorage){
-            globalThis.localStorage.removeItem(key)
-        }
     }
 }
