@@ -20,7 +20,14 @@ export function getDataTypeName(v:any):SupportedDateTypes{
 	return v.constructor && v.constructor.name;
 };
  
-
+export async function loadAsyncModule(context:any,module:Function){
+    const loadResult = (await (module as any).call(context))          
+    if(("__esModule" in loadResult) || (Symbol.toStringTag in loadResult)){
+        return  (loadResult as any).default 
+    }else{
+        return  loadResult
+    }
+}
  /**
   * 当需要采用正则表达式进行字符串替换时，需要对字符串进行转义
   * 

@@ -29,5 +29,6 @@ export default {
     "28": "Login",
     "29": "Please enter password:",
     "30": "Avatar",
-    "31": "Photo"
+    "31": "Photo",
+    "32": "Now is {|date}"
 }

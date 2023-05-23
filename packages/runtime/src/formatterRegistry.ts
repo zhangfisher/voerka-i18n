@@ -6,7 +6,7 @@
  */
 import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
 import type { VoerkaI18nScope } from './scope';
-import { DataTypes } from './utils';
+import { DataTypes, loadAsyncModule } from './utils';
 import { get as getByPath } from "flex-tools/object/get" 
 import { isFunction } from 'flex-tools/typecheck/isFunction';
 import { deepMerge } from 'flex-tools/object/deepMerge';
@@ -74,11 +74,10 @@ export class VoerkaI18nFormatterRegistry{
                 useLanguage = this.scope?.getLanguage(language)?.fallback || "zh"
                 this.scope?.logger.warn(`没有配置<${language}>格式化器，使用后退语言<${useLanguage}>替代.`);
             }
-            console.log("useLanguage=",useLanguage, "fallback=",this.scope?.getLanguage(language)?.fallback )
 			if (useLanguage){				
                 const formatters = this.formatters[useLanguage]  
                 if(isFunction(formatters)){                    
-                    this.#activeFormatters =  await (formatters as Function)()    // 如果格式化器集合是异步加载，则需要等待加载完成
+                    this.#activeFormatters =  await loadAsyncModule(this,formatters as Function)   // 如果格式化器集合是异步加载，则需要等待加载完成
                 }else{
                     this.#activeFormatters = formatters as VoerkaI18nFormatters
                 }
@@ -109,7 +108,6 @@ export class VoerkaI18nFormatterRegistry{
                 if(isPlainObject(curConfig)) finalConfig = deepMerge(finalConfig,curConfig,{array:'replace'})
                 return finalConfig
             },{})
-            console.log(language,"activeFormattersConfigs=",JSON.stringify(this.#activeFormattersConfigs))
         }catch(e:any){
             if(this.scope?.debug) console.error(`当生成<${language}>格式化器配置时出错(scope=${this.scope?.id})：${e.stack}`)
             this.#activeFormattersConfigs = {}

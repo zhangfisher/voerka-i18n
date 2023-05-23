@@ -216,5 +216,12 @@
             "auth\\login.html"
         ],
         "jp": "写真"
+    },
+    "现在是{|date}": {
+        "en": "Now is {|date}",
+        "jp": "今は{|date}",
+        "$file": [
+            "index.ts"
+        ]
     }
 }

@@ -31,11 +31,11 @@ export class EventEmitter{
         this.#callbacks = []
     }
     async emit(...args:any[]){
-        if(Promise.allSettled){
-            await Promise.allSettled(this.#callbacks.map(([cb])=>cb(...args)))
-        }else{
+        try{
             await Promise.all(this.#callbacks.map(([cb])=>cb(...args)))
+            this.#callbacks=this.#callbacks.filter(([cb,count])=>count!==1)
+        }catch(e:any){
+            console.error(`[VoerkaI18n] ${e.stack}`)
         }
-        this.#callbacks=this.#callbacks.filter(([cb,count])=>count!==1)
     }    
 }
