@@ -54,15 +54,14 @@ export default {
             <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>
             <div class="tabs">
                 <div class="tab">
-                    <button class="menuitem" @click="$activeLanguage = 'en'"
-                    :style="{ 'outline': i18n.activeLanguage === 'jp' ? '2px red solid' : '' }">英语</button> 
-                    <h3>1.{{ t("Hello world!") }}</h3>
+                    {{t("现在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }",1661084229790)}}
+                    <!-- <h3>1.{{ t("Hello world!") }}</h3>
                     <h3>2.{{ t("中华人民共和国") }} </h3>
                     <h3>3.{{ t("迎接中华民族的伟大复兴") }} </h3>
-                    <China :title="t('中华人民共和国')" />
+                    <China :title="t('中华人民共和国')" /> -->
                 </div>
                 <div class="tab" style="flex:2;font-size:small">
-                    <Formatters />
+                    <!-- <Formatters /> -->
                 </div>
             </div>
         </div>

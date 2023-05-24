@@ -55,18 +55,58 @@ function getTranslateProvider(options={}){
         return require(provider)(options)
     }
 }
+function hasInterpolation(str) {
+	return str.includes("{") && str.includes("}");
+}
+
 /**
- * 翻译多条文本
- * @param {*} to 
+ * 文本中的插值变量不进行翻译，所以需要进行替换为特殊字符，翻译后再替换回来
+ * 
+ * 如“My name is {},I am {} years old” 先替换为“My name is {#1#},I am {#2#} years old” 
+ * 翻译后再替换回来
+ *  
  * @param {*} messages 
+ */
+function replaceInterpVars(messages){
+    const interpVars = []
+    messages.forEach((key)=>{
+        let i = 0
+        interpVars.push(key.replaceAll(/\{\s*.*?\s*\}/g,()=>`{#${i++}#}`))
+    })
+    return interpVars
+}
+/**
+ * 
+ * @param {*} messages   翻译后的内容
+ * @param {*} interpVars 
+ */
+function restoreInterpVars(messages,interpVars){
+    messages.forEach((key,index)=>{
+        messages[index] = messages[key].replaceAll(/\{\s*.*?\s*\}/g,(matched)=>interpVars[key])
+    })
+    //“My name is {#1#},I am {#2#} years old” 
+    return messages.map((message,index)=>{
+        let i = 0
+        return message.replaceAll(/\{\#[\d]*\#\}/g,(matched)=>`{#${i++}#}`)
+    })
+
+}
+
+/**
+ * 翻译多条单行文本
+ * @param {*} to 
+ * @param {*} messages  保存要翻译的内容
  * @param {*} options 
  * @returns 
  */
 async function translateMessages(messages={},from="zh",to="en",options={}){
-    let { mode,qps=1 } = options
+    let { qps=1 } = options
     if(messages.length===0) return;
     const provider = getTranslateProvider(options)
     await delay(1000/qps)
+   
+
+
     let translatedMessages =await provider.translate(Object.keys(messages),from,to)
     Object.keys(messages).forEach((key,index)=>{
         messages[key][to] = translatedMessages[index]
@@ -99,7 +139,7 @@ async function translateMultiLineMessage(messages=[],from,to,options={}){
 async function translateLanguage(messages,from,to,options={}){
     const { maxPackageSize,mode  } = options;
     let result = {}
-    let lngMessages = {} ,packageSize =0
+    let translatedMessages = {} ,packageSize =0
     for(let [ text,lngs ] of Object.entries(messages)){
         // 如果mode=auto，则当翻译内容已经有变化时，则不再翻译
         if(mode=="auto" && typeof(lngs[to])==="string" && (lngs[to]!=text && lngs[to].trim()!="")){
@@ -112,21 +152,21 @@ async function translateLanguage(messages,from,to,options={}){
             if(!(text in result)) result[text] = {}
             result[text][to] = await translateMultiLineMessage(text.split("\n"),from,to,options)
         }else{            
-            lngMessages[text]={[to]:''}
+            translatedMessages[text]={[to]:''}
             packageSize+=text.length
             // 多个信息合并进行翻译，减少请求次数
-            if(packageSize>=options.maxPackageSize){
-                await translateMessages(lngMessages,from,to,options)
-                result = deepMerge(result,lngMessages)
+            if(packageSize>=maxPackageSize){
+                await translateMessages(translatedMessages,from,to,options)
+                result = deepMerge(result,translatedMessages)
                 packageSize=0
-                lngMessages={}
+                translatedMessages={}
             }
         }            
     }
     // 对剩余的信息进行翻译
-    if(Object.keys(lngMessages).length > 0){
-        await translateMessages(lngMessages,from,to,options)
-        result = deepMerge(result,lngMessages)
+    if(Object.keys(translatedMessages).length > 0){
+        await translateMessages(translatedMessages,from,to,options)
+        result = deepMerge(result,translatedMessages)
     }
 
    return result

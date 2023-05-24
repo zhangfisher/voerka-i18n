@@ -26,6 +26,8 @@ module.exports = function(options={}){
             if(Array.isArray(texts)){
                 texts = texts.join("\n");
             }
+            // 在翻译内容中如果包含|,()等在插值变量里面需要的符号时，百度翻译会将其转成全角符号，这会导致插值变量无法识别，所以需要转回来
+            let isIncludeSensitiveChar = texts.includes("|") || texts.includes(",") || texts.includes("(") || texts.includes(")")
             // saltStep1. 拼接字符串1：
             // 拼接[appid=2015063000000001][q=apple][salt=1435660288][密钥=12345678]得到字符串1：“2015063000000001apple143566028812345678”
             // Step2. 计算签名：（对字符串1做MD5加密）
@@ -47,7 +49,14 @@ module.exports = function(options={}){
                     if(data.error_code){
                         reject(data.error_msg)
                     }else{
-                        resolve(res.data.trans_result.map(item=>item.dst));
+                        resolve(res.data.trans_result.map(item=>{
+                            // 在翻译时会将一些|,等符号转成全角符号，这会导致插值变量无法识别，所以需要转回来                            
+                            if(isIncludeSensitiveChar){
+                                return item.dst.replaceAll("｜","|").replaceAll("，",",").replaceAll("（","(").replaceAll("）",")")
+                            }else{
+                                return item.dst
+                            }                            
+                        }));
                     }                    
                 }).catch(err=>{
                     reject(err);
