@@ -65,29 +65,31 @@ function hasInterpolation(str) {
  * 如“My name is {},I am {} years old” 先替换为“My name is {#1#},I am {#2#} years old” 
  * 翻译后再替换回来
  *  
- * @param {*} messages 
+ * @param {String | Object} messages 
  */
 function replaceInterpVars(messages){
     const interpVars = []
-    messages.forEach((key)=>{
-        let i = 0
-        interpVars.push(key.replaceAll(/\{\s*.*?\s*\}/g,()=>`{#${i++}#}`))
+    const msgs = Array.isArray(messages) ? messages : Object.keys(messages)
+    const replacedMessages = msgs.map((message)=>{
+        let vars=[]
+        let result = message.replaceAll(/\{\s*.*?\s*\}/g,(matched)=>{
+            vars.push(matched)
+            return `{###}`
+        })
+        interpVars.push(vars)
+        return result
     })
-    return interpVars
+    return [replacedMessages,interpVars]
 }
 /**
- * 
- * @param {*} messages   翻译后的内容
+ * 将翻译后的内容还原为插值变量
+ * @param {String[]} messages   翻译后的内容
  * @param {*} interpVars 
  */
-function restoreInterpVars(messages,interpVars){
-    messages.forEach((key,index)=>{
-        messages[index] = messages[key].replaceAll(/\{\s*.*?\s*\}/g,(matched)=>interpVars[key])
-    })
-    //“My name is {#1#},I am {#2#} years old” 
+function restoreInterpVars(messages,interpVars){ 
     return messages.map((message,index)=>{
         let i = 0
-        return message.replaceAll(/\{\#[\d]*\#\}/g,(matched)=>`{#${i++}#}`)
+        return message.replaceAll(/\{\#\#\#\}/g,()=>interpVars[index][i++])
     })
 
 }
@@ -104,10 +106,13 @@ async function translateMessages(messages={},from="zh",to="en",options={}){
     if(messages.length===0) return;
     const provider = getTranslateProvider(options)
     await delay(1000/qps)
-   
+    // 将文本中的插值变量替换为特殊字符，避免翻译时对插值变量进行翻译
+    const [replacedMessages,interpVars] = replaceInterpVars(messages)
 
+    let translatedMessages =await provider.translate(replacedMessages,from,to)
+    
+    translatedMessages = restoreInterpVars(translatedMessages,interpVars)
 
-    let translatedMessages =await provider.translate(Object.keys(messages),from,to)
     Object.keys(messages).forEach((key,index)=>{
         messages[key][to] = translatedMessages[index]
     })
@@ -124,8 +129,13 @@ async function translateMultiLineMessage(messages=[],from,to,options={}){
     const qps = options.qps || 1
     const provider = getTranslateProvider(options)    
     await delay(1000/qps)
-    let result =  await provider.translate(messages,from,to)
-    return result.join("\n")
+    const [replacedMessages,interpVars] = replaceInterpVars(messages)
+
+    let translatedMessages =  await provider.translate(replacedMessages,from,to)
+    
+    translatedMessages = restoreInterpVars(translatedMessages,interpVars)
+
+    return translatedMessages.join("\n")
 }
 
 /**
