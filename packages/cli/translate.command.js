@@ -62,7 +62,7 @@ function hasInterpolation(str) {
 /**
  * 文本中的插值变量不进行翻译，所以需要进行替换为特殊字符，翻译后再替换回来
  * 
- * 如“My name is {},I am {} years old” 先替换为“My name is {#1#},I am {#2#} years old” 
+ * 如“My name is {},I am {} years old” 先替换为“My name is {VVVVV},I am {VVVVV} years old” 
  * 翻译后再替换回来
  *  
  * @param {String | Object} messages 
@@ -74,7 +74,7 @@ function replaceInterpVars(messages){
         let vars=[]
         let result = message.replaceAll(/\{\s*.*?\s*\}/g,(matched)=>{
             vars.push(matched)
-            return `{###}`
+            return `{VARIABLE}`
         })
         interpVars.push(vars)
         return result
@@ -89,7 +89,7 @@ function replaceInterpVars(messages){
 function restoreInterpVars(messages,interpVars){ 
     return messages.map((message,index)=>{
         let i = 0
-        return message.replaceAll(/\{\#\#\#\}/g,()=>interpVars[index][i++])
+        return message.replaceAll(/\{VARIABLE\}/g,()=>interpVars[index][i++])
     })
 
 }

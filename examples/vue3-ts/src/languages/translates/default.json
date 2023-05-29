@@ -17,7 +17,7 @@
         "cht": "Hello world！"
     },
     "data： Hello world!": {
-        "en": "data： Hello world!",
+        "en": "Data: Hello world!",
         "$file": [
             "App.vue"
         ],
@@ -25,7 +25,7 @@
         "cht": "data:Hello world！"
     },
     "中华人民共和国": {
-        "en": "The People's Republic of China",
+        "en": "People's Republic of China",
         "$file": [
             "App.vue"
         ],
@@ -45,7 +45,7 @@
         "$file": [
             "components\\china.vue"
         ],
-        "jp": "{####}年に設立",
+        "jp": "{}年に設立",
         "cht": "成立於{}年"
     },
     "首都：北京": {
@@ -57,115 +57,115 @@
         "cht": "首都：北京"
     },
     "现在是{ value | date }": {
-        "en": "Now it's {}",
+        "en": "Now it's { value | date }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
-        "cht": "現在是{}"
+        "jp": "今は{ value | date }",
+        "cht": "現在是{ value | date }"
     },
     "现在是{ value | date('long') }": {
-        "en": "Now it's {}",
+        "en": "Now it's { value | date('long') }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
-        "cht": "現在是{}"
+        "jp": "今は{ value | date('long') }",
+        "cht": "現在是{ value | date('long') }"
     },
     "现在是{ value | date('short') }": {
-        "en": "Now it's {}",
+        "en": "Now it's { value | date('short') }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
-        "cht": "現在是{}"
+        "jp": "今は{ value | date('short') }",
+        "cht": "現在是{ value | date('short') }"
     },
     "现在是{ value | date('local') }": {
-        "en": "Now it's {}",
+        "en": "Now it's { value | date('local') }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
-        "cht": "現在是{}"
+        "jp": "今は{ value | date('local') }",
+        "cht": "現在是{ value | date('local') }"
     },
     "现在是{ value | date('iso') }": {
-        "en": "Now it's {}",
+        "en": "Now it's { value | date('iso') }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
-        "cht": "現在是{}"
+        "jp": "今は{ value | date('iso') }",
+        "cht": "現在是{ value | date('iso') }"
     },
     "现在是{ value | date('gmt') }": {
         "en": "Now it's { value | date('gmt') }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
+        "jp": "今は{ value | date('gmt') }",
         "cht": "現在是{ value | date('gmt') }"
     },
     "现在是{ value | date('utc') }": {
-        "en": "Now it's { value | date('gmt') }",
+        "en": "Now it's { value | date('utc') }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
-        "cht": "現在是{ value | date('gmt') }"
+        "jp": "今は{ value | date('utc') }",
+        "cht": "現在是{ value | date('utc') }"
     },
     "现在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }": {
-        "en": "Now it's { value | date('gmt') }",
+        "en": "Now it's { value | date('YYYY年MM月DD日 HH点mm分ss秒') }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
-        "cht": "現在是{ value | date('gmt') }"
+        "jp": "今は{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }",
+        "cht": "現在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }"
     },
     "现在是{ value | date('YYYY-MM-DD') }": {
-        "en": "Now it's { value | date('gmt') }",
+        "en": "Now it's { value | date('YYYY-MM-DD') }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "今は{######}",
-        "cht": "現在是{ value | date('gmt') }"
+        "jp": "今は{ value | date('YYYY-MM-DD') }",
+        "cht": "現在是{ value | date('YYYY-MM-DD') }"
     },
     "商品价格：{ value | currency('CNY','元整',3)}": {
-        "en": "Product Price: { value | date('gmt') }",
+        "en": "Product price: { value | currency('CNY','元整',3)}",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "商品価格：",
-        "cht": "商品價格：{ value | date('gmt') }"
+        "jp": "商品価格：{ value | currency('CNY','元整',3)}",
+        "cht": "商品價格：{ value | currency('CNY','元整',3)}"
     },
     "商品价格：{ value | currency }": {
-        "en": "Product Price: { value | date('gmt') }",
+        "en": "Product price: { value | currency }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "商品価格：",
-        "cht": "商品價格：{ value | date('gmt') }"
+        "jp": "商品価格：{ value | currency }",
+        "cht": "商品價格：{ value | currency }"
     },
     "商品价格：{ value | capitalizeCurrency }": {
-        "en": "Product Price: { value | date('gmt') }",
+        "en": "Product price: { value | capitalizeCurrency }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "商品価格：",
-        "cht": "商品價格：{ value | date('gmt') }"
+        "jp": "商品価格：{ value | capitalizeCurrency }",
+        "cht": "商品價格：{ value | capitalizeCurrency }"
     },
     "商品价格：{ value | capitalizeCurrency(true) }": {
-        "en": "Product Price: { value | capitalizeCurrency(true) }",
+        "en": "Product price: { value | capitalizeCurrency(true) }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "商品価格：",
+        "jp": "商品価格：{ value | capitalizeCurrency(true) }",
         "cht": "商品價格：{ value | capitalizeCurrency(true) }"
     },
     "商品数量：{ value | number }": {
-        "en": "Product quantity: { value | capitalizeCurrency(true) }",
+        "en": "Product quantity: { value | number }",
         "$file": [
             "components\\formatters.vue"
         ],
-        "jp": "商品数：",
-        "cht": "商品數量：{ value | capitalizeCurrency(true) }"
+        "jp": "商品数：{ value | number }",
+        "cht": "商品數量：{ value | number }"
     }
 }

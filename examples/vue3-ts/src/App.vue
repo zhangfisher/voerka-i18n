@@ -55,13 +55,13 @@ export default {
             <div class="tabs">
                 <div class="tab">
                     {{t("现在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }",1661084229790)}}
-                    <!-- <h3>1.{{ t("Hello world!") }}</h3>
+                    <h3>1.{{ t("Hello world!") }}</h3>
                     <h3>2.{{ t("中华人民共和国") }} </h3>
                     <h3>3.{{ t("迎接中华民族的伟大复兴") }} </h3>
-                    <China :title="t('中华人民共和国')" /> -->
+                    <China :title="t('中华人民共和国')" />
                 </div>
                 <div class="tab" style="flex:2;font-size:small">
-                    <!-- <Formatters /> -->
+                    <Formatters />
                 </div>
             </div>
         </div>
