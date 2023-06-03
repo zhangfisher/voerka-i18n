@@ -7,7 +7,7 @@ import {languages, messages,formatters} from './testData'
 
 export function mergeFormattersConfigs(configSources:any[]){        
     return configSources.reduce((finalConfig, curConfig)=>{
-        if(isPlainObject(curConfig)) deepMerge(finalConfig,curConfig,{newObject:false,array:'replace'})
+        if(isPlainObject(curConfig)) deepMerge(finalConfig,curConfig,{$merge:'replace'})
         return finalConfig
     },{})                      
 }

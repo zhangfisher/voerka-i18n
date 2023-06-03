@@ -36,24 +36,24 @@ export interface VoerkaI18nScopeOptions {
 }
 
 export class VoerkaI18nScope {
-    #options:Required<VoerkaI18nScopeOptions>
-    #global:VoerkaI18nManager                           // 引用全局VoerkaI18nManager配置，注册后自动引用
-    #refreshing:boolean = false
-    #t:VoerkaI18nTranslate
-    #formatterRegistry?:VoerkaI18nFormatterRegistry 
-    #defaultLanguage:string ='zh'
-    #activeLanguage:string='zh'         
-    #currentMessages:VoerkaI18nLanguageMessages = {}                   // 当前语言包
-    #patchedMessages:VoerkaI18nLanguagePack = {}                       // 补丁语言包
+    private _options:Required<VoerkaI18nScopeOptions>
+    private _global:VoerkaI18nManager                           // 引用全局VoerkaI18nManager配置，注册后自动引用
+    private _refreshing:boolean = false
+    private _t:VoerkaI18nTranslate
+    private _formatterRegistry?:VoerkaI18nFormatterRegistry 
+    private _defaultLanguage:string ='zh'
+    private _activeLanguage:string='zh'         
+    private _currentMessages:VoerkaI18nLanguageMessages = {}                   // 当前语言包
+    private _patchedMessages:VoerkaI18nLanguagePack = {}                       // 补丁语言包
     /**
      * 
      * @param options 
      * @param callback  当前作用域初始化完成后的回调函数 
      */
 	constructor(options:VoerkaI18nScopeOptions) {
-        this.#options = assignObject({
+        this._options = assignObject({
             id             : randomId(),                  // 作用域唯一id
-            library        : true,                        // 当使用在库中时应该置为true
+            library        : false,                        // 当使用在库中时应该置为true
             debug          : false,
             languages      : {},                          // 当前作用域支持的语言列表
             messages       : {},                          // 所有语言包={[language]:VoerkaI18nLanguageMessages}
@@ -63,25 +63,25 @@ export class VoerkaI18nScope {
         // 初始化
         this.init()   
         // 将当前实例注册到全局单例VoerkaI18nManager中
-		this.#global = this.registerToManager() 
-        this.#t = translate.bind(this)
+		this._global = this.registerToManager() 
+        this._t = translate.bind(this)
 	}	
-    get options(){return this.#options}   
-	get id() {return this.#options.id;}                                     // 作用域唯一id	
-    get logger(){return this.#global.logger}                                // 日志记录器
-    get debug() {return this.#options.debug;}                               // 是否开启调试模式
-    get defaultLanguage() {return this.#global.defaultLanguage;}            // 默认语言名称	
-	get activeLanguage() {return this.#global.activeLanguage;}              // 默认语言名称	
+    get options(){return this._options}   
+	get id() {return this._options.id;}                                     // 作用域唯一id	
+    get logger(){return this._global.logger}                                // 日志记录器
+    get debug() {return this._options.debug;}                               // 是否开启调试模式
+    get defaultLanguage() {return this._global.defaultLanguage;}            // 默认语言名称	
+	get activeLanguage() {return this._global.activeLanguage;}              // 默认语言名称	
     // 默认语言包，只能静态语言包，不能是动态语言包
-	get default() {return this.#options.messages[this.#defaultLanguage] as VoerkaI18nLanguageMessages;}     
-    get current() {return this.#currentMessages;}                           // 当前语言包   	
-	get messages() {return this.#options.messages;	}                       // 所有语言包	
-	get idMap() {return this.#options.idMap;}                               // 消息id映射列表	
-	get languages() {return this.#options.languages;}                       // 当前作用域支持的语言列表[{name,title,fallback}]	
-	get global() {	return this.#global;}                                   // 引用全局VoerkaI18n配置，注册后自动引用    
-	get formatters() {	return this.#formatterRegistry!;}                   // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
-	get activeFormatters() {return this.#formatterRegistry!.formatters}     // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
-    get t(){return this.#t}      
+	get default() {return this._options.messages[this._defaultLanguage] as VoerkaI18nLanguageMessages;}     
+    get current() {return this._currentMessages;}                           // 当前语言包   	
+	get messages() {return this._options.messages;	}                       // 所有语言包	
+	get idMap() {return this._options.idMap;}                               // 消息id映射列表	
+	get languages() {return this._options.languages;}                       // 当前作用域支持的语言列表[{name,title,fallback}]	
+	get global() {	return this._global;}                                   // 引用全局VoerkaI18n配置，注册后自动引用    
+	get formatters() {	return this._formatterRegistry!;}                   // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
+	get activeFormatters() {return this._formatterRegistry!.formatters}     // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
+    get t(){return this._t}      
     /**
      * 对输入的语言配置进行处理
      * - 将en配置为默认回退语言
@@ -91,7 +91,7 @@ export class VoerkaI18nScope {
         // 1. 检测语言配置列表是否有效
         if(!Array.isArray(this.languages)){
             this.logger.warn("无效的语言配置，将使用默认语言配置")
-            this.#options.languages =Object.assign([],DefaultLanguageSettings)
+            this._options.languages =Object.assign([],DefaultLanguageSettings)
         }else{
             if(this.languages.length==0){
                 throw new Error("[VoerkaI18n]无效的语言配置，必须提供有效的默认语言和活动语言")
@@ -100,22 +100,22 @@ export class VoerkaI18nScope {
         // 2.为语言配置默认回退语言，并且提取默认语言和活动语言
         this.languages.forEach(language=>{
             if(!language.fallback) language.fallback = DefaultFallbackLanguage
-            if(language.default) this.#defaultLanguage = language.name
-            if(language.active) this.#activeLanguage = language.name
+            if(language.default) this._defaultLanguage = language.name
+            if(language.active) this._activeLanguage = language.name
         })
         // 3. 确保提供了有效的默认语言和活动语言
-        const lanMessages = this.#options.messages
-        if(!(this.#defaultLanguage in lanMessages)) this.#defaultLanguage = Object.keys(lanMessages)[0]
-        if(!(this.#activeLanguage in lanMessages)) this.#activeLanguage = this.#defaultLanguage 
-        if(!(this.#defaultLanguage in lanMessages)){
+        const lanMessages = this._options.messages
+        if(!(this._defaultLanguage in lanMessages)) this._defaultLanguage = Object.keys(lanMessages)[0]
+        if(!(this._activeLanguage in lanMessages)) this._activeLanguage = this._defaultLanguage 
+        if(!(this._defaultLanguage in lanMessages)){
             throw new Error("[VoerkaI18n]无效的语言配置，必须提供有效的默认语言和活动语言.")
         }
         // 初始化时，默认和激活的语言包只能是静态语言包，不能是动态语言包
         // 因为初始化时激活语言需要马上显示，如果是异步语言包，会导致显示延迟
-        if(isFunction(this.messages[this.#defaultLanguage])){
+        if(isFunction(this.messages[this._defaultLanguage])){
             throw new Error("[VoerkaI18n] 默认语言包必须是静态内容,不能使用异步加载的方式.")
         }
-        this.#currentMessages = this.messages[this.#activeLanguage] as VoerkaI18nLanguageMessages
+        this._currentMessages = this.messages[this._activeLanguage] as VoerkaI18nLanguageMessages
         
         // 初始化格式化器
         this.loadInitialFormatters()
@@ -128,28 +128,28 @@ export class VoerkaI18nScope {
 		// 如果不存在全局VoerkaI18n实例，说明当前Scope是唯一或第一个加载的作用域，则自动创建全局VoerkaI18n实例
 		if (!globalThis.VoerkaI18n) {
 			globalThis.VoerkaI18n = new VoerkaI18nManager({
-				debug          : this.#options.debug,
-				defaultLanguage: this.#defaultLanguage,
-				activeLanguage : this.#activeLanguage,
-				languages      : this.#options.languages,
-                storage        : this.#options.storage
+				debug          : this._options.debug,
+				defaultLanguage: this._defaultLanguage,
+				activeLanguage : this._activeLanguage,
+				languages      : this._options.languages,
+                storage        : this._options.storage
 			});
 		} 
         // 当前作用域属于应用而不是库时，需要将当前作用域更新到全局配置
         // 应用配置优先级高于库配置
-        if(!this.#options.library){
+        if(!this._options.library){
             globalThis.VoerkaI18n.initApp({
-                defaultLanguage : this.#defaultLanguage,
-                activeLanguage : this.#activeLanguage,
-                languages : this.#options.languages,
-                storage : this.#options.storage,
-                debug:this.#options.debug
+                defaultLanguage : this._defaultLanguage,
+                activeLanguage : this._activeLanguage,
+                languages : this._options.languages,
+                storage : this._options.storage,
+                debug:this._options.debug
             })
         }
-        this.#global = globalThis.VoerkaI18n as unknown as VoerkaI18nManager;
+        this._global = globalThis.VoerkaI18n as unknown as VoerkaI18nManager;
         
         //
-        this.#global.register(this)
+        this._global.register(this)
             .then(()=>{
                 this.onRegisterSuccess.call(this)
                 callback?.call(this)
@@ -158,27 +158,28 @@ export class VoerkaI18nScope {
                 this.onRegisterFail.call(this,e)
                 callback
             })
-        return this.#global
+        return this._global
     } 
     /**
      * 当注册到Manager后，执行注册后的操作
      */
     private onRegisterSuccess(){
-        if(typeof(this.#options.ready)=='function'){
-            this.#options.ready.call(this)
+        if(typeof(this._options.ready)=='function'){
+            this._options.ready.call(this)
         }
+        this.global.emit("registered",{language:this.activeLanguage,scope:this.id})
         // 1. 先从本地缓存中读取并合并补丁语言包
-        this._restorePatchedMessages(this.#currentMessages,this.activeLanguage);  
+        this._restorePatchedMessages(this._currentMessages,this.activeLanguage);  
         // 2. 从远程延后执行补丁命令，该命令会向远程下载补丁包
-        this._patch(this.#currentMessages, this.activeLanguage);        
+        this._patch(this._currentMessages, this.activeLanguage);     
     }
     /**
      * 当注册到Manager失败时，执行注册失败后的操作
      */
     private onRegisterFail(e:any){
-        if(typeof(this.#options.ready)=='function'){
-            this.#options.ready.call(this,e)
-        }
+        if(typeof(this._options.ready)=='function'){
+            this._options.ready.call(this,e)
+        } 
     }
 	/**
      * 注册格式化器
@@ -218,11 +219,11 @@ export class VoerkaI18nScope {
      * }
      */
     private loadInitialFormatters(){          
-        this.#formatterRegistry= new VoerkaI18nFormatterRegistry(this)
+        this._formatterRegistry= new VoerkaI18nFormatterRegistry(this)
         // 初始化格式化器
-        this.formatters.loadInitials(this.#options.formatters)
+        this.formatters.loadInitials(this._options.formatters)
         // 保存到Registry中，就可以从options中删除了
-        delete (this.#options as any).formatters
+        delete (this._options as any).formatters
     }
 	/**
 	 * 注册默认文本信息加载器
@@ -252,8 +253,8 @@ export class VoerkaI18nScope {
 	 * 回退到默认语言
 	 */
 	private fallbackToDefault() {
-		this.#currentMessages = this.default;
-		this.#activeLanguage = this.#defaultLanguage;
+		this._currentMessages = this.default;
+		this._activeLanguage = this._defaultLanguage;
 	}
     /**
      * 
@@ -275,7 +276,7 @@ export class VoerkaI18nScope {
         let messages:VoerkaI18nLanguageMessages = {}
         if (isPlainObject(loader)) {                // 静态语言包
             messages = loader as unknown as VoerkaI18nLanguageMessages;
-        } else if (isFunction(loader)) {            // 语言包异步chunk
+        } else if (isFunction(loader)) {            // 语言包异步chunk            
             const loadResult = (await (loader as any).call(this))          
             if(("__esModule" in loadResult) || (Symbol.toStringTag in loadResult)){
                 messages = (loadResult as any).default 
@@ -305,31 +306,31 @@ export class VoerkaI18nScope {
 	 * @param {*} newLanguage
 	 */
 	async refresh(newLanguage?:string) {
-		this.#refreshing = true;
+		this._refreshing = true;
 		if (!newLanguage) newLanguage = this.activeLanguage;
 		// 默认语言：由于默认语言采用静态加载方式而不是异步块,因此只需要简单的替换即可
 		if (newLanguage === this.defaultLanguage) {
-			this.#currentMessages = this.default;
-            this._restorePatchedMessages(this.#currentMessages, newLanguage); // 恢复补丁
-			await this._patch(this.#currentMessages, newLanguage); // 异步补丁
+			this._currentMessages = this.default;
+            this._restorePatchedMessages(this._currentMessages, newLanguage); // 恢复补丁
+			await this._patch(this._currentMessages, newLanguage); // 异步补丁
 			await this.formatters.change(newLanguage);
-            this.#refreshing = false            
+            this._refreshing = false            
 			return;
 		}else{ // 非默认语言可以是静态语言包也可以是异步加载语言包
             try{
                 let messages = await this.loadLanguageMessages(newLanguage)
                 if(messages){
-                    this.#currentMessages = messages
-                    this.#activeLanguage = newLanguage;       
-                    this._restorePatchedMessages(this.#currentMessages, newLanguage); // 恢复补丁
+                    this._currentMessages = messages
+                    this._activeLanguage = newLanguage;       
+                    this._restorePatchedMessages(this._currentMessages, newLanguage); // 恢复补丁
                     // 打语言包补丁, 如果是从远程加载语言包则不需要再打补丁了
                     // 因为远程加载的语言包已经是补丁过的了
                     if(!messages.$remote) {
-                        await this._patch(this.#currentMessages, newLanguage);                    
+                        await this._patch(this._currentMessages, newLanguage);                    
                     }
                     // 切换到对应语言的格式化器
                     await this.formatters.change(newLanguage);        
-                }else{
+                }else{                    
                     this.logger.warn(`无法加载语言包<${newLanguage}>(scope=${this.id}),将回退到默认语言`);
                     this.fallbackToDefault();
                 }
@@ -337,7 +338,7 @@ export class VoerkaI18nScope {
                 this.logger.warn(`当加载语言包<${newLanguage}>时出错(scope=${this.id}): ${e.message}`);
                 this.fallbackToDefault();
             } finally {
-                this.#refreshing = false;
+                this._refreshing = false;
             }  
         } 
 	} 
@@ -357,7 +358,7 @@ export class VoerkaI18nScope {
 			if (isPlainObject(pachedMessages)) {
 				Object.assign(messages, pachedMessages);
 				this._savePatchedMessages(pachedMessages, language);
-                this.#global.emit('patched',{language:language,scope:this.id})
+                this._global.emit('patched',{language:language,scope:this.id})
                 this.logger.debug(`已更新了语言补丁包<${language}>(scope=${this.id}),共${Object.keys(pachedMessages).length}条`);
 			}
 		} catch (e:any) {
@@ -371,7 +372,7 @@ export class VoerkaI18nScope {
 		let patchedMessages = this._getPatchedMessages(language);
 		if (isPlainObject(patchedMessages)) {
             Object.assign(messages, patchedMessages);
-            this.#global.emit('restore',{language,scope:this.id})
+            this._global.emit('restore',{language,scope:this.id})
             this.logger.debug(`成功恢复补丁语言包<${language}>(scope=${this.id})`);
 		}
 	}
@@ -425,11 +426,11 @@ export class VoerkaI18nScope {
 		}
 	}
 	// 以下方法引用全局VoerkaI18n实例的方法
-	on(event:string,callback:FlexEventListener) {return this.#global.on(event,callback);	}
-    once(event:string,callback:FlexEventListener) {return this.#global.once(event,callback);}
-	off(event:string,callback:FlexEventListener) {return this.#global.off(event,callback); }
+	on(event:string,callback:FlexEventListener) {return this._global.on(event,callback);	}
+    once(event:string,callback:FlexEventListener) {return this._global.once(event,callback);}
+	off(event:string,callback:FlexEventListener) {return this._global.off(event,callback); }
 	async change(language:string) {
-        return await this.#global.change(language);
+        return await this._global.change(language);
     }
 };
 

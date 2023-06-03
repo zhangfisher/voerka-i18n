@@ -2,7 +2,7 @@
  * 注意：执行compile命令会重新生成本文件，所以请不要修改本文件
  */
 import idMap from "./idMap"                                             // 语言ID映射文件
-import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
+import { translate,VoerkaI18nScope  } from "../../../../packages/runtime/src/index"
 import defaultFormatters from "./formatters/zh"             // 默认语言格式化器
 import defaultMessages from "./zh"  
 import storage  from "./storage"
@@ -10,13 +10,15 @@ import storage  from "./storage"
 const messages = {
     'zh' :  defaultMessages,
     'en' : ()=>import("./en"),
-	'jp' : ()=>import("./jp")
+	'jp' : ()=>import("./jp"),
+	'cht' : ()=>import("./cht")
 }
 
 const formatters = {
     'zh' :  defaultFormatters,
     'en' : ()=>import("./formatters/en"),
-	'jp' : ()=>import("./formatters/jp")
+	'jp' : ()=>import("./formatters/jp"),
+	'cht' : ()=>import("./formatters/cht")
 }
 
 // 语言配置文件
@@ -33,6 +35,11 @@ const scopeSettings = {
         {
             "name": "jp",
             "title": "jp"
+        },
+        {
+            "name": "cht",
+            "title": "繁体中文",
+            "fallback": "zh"
         }
     ],
     "defaultLanguage": "zh",

@@ -172,6 +172,7 @@ program
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
     .option('-t, --typescript',t("输出typescript代码")) 
+    .option('-l, --library',t("开发库模式"),false) 
     .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['zh','en'])     
     .option('-d, --defaultLanguage <name>', t('默认语言'), 'zh')  
     .option('-a, --activeLanguage <name>', t('激活语言'), 'zh')  

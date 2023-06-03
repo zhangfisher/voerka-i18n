@@ -23,7 +23,7 @@
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
-        "flex-tools": "^1.1.2",
+        "flex-tools": "^1.1.19",
         "string.prototype.replaceall": "^1.0.7"
     },
     "devDependencies": {

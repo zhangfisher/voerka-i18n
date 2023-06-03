@@ -118,7 +118,7 @@ async function updateRuntime(){
 
 async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
-    let { moduleType,isTypeScript,updateRuntime:isUpdateRuntime } = options; 
+    let { moduleType,isTypeScript,updateRuntime:isUpdateRuntime,library} = options; 
 
     if(isUpdateRuntime){
         await updateRuntime()
@@ -143,6 +143,7 @@ async  function compile(langFolder,opts={}){
         logger.log(t("激活语言\t: {}"),activeLanguage)
         logger.log(t("名称空间\t: {}"),Object.keys(namespaces).join(","))
         logger.log(t("模块类型\t: {}"),moduleType)
+        logger.log(t("库模式\t: {}"),library)
         logger.log(t("TypeScript\t: {}"),isTypeScript)
         logger.log("")
         logger.log(t("编译结果输出至：{}"),langFolder)
@@ -205,7 +206,8 @@ async  function compile(langFolder,opts={}){
             moduleType,
             isTypeScript,
             JSON,
-            settings:JSON.stringify(langSettings,null,4)
+            settings:JSON.stringify(langSettings,null,4),
+            library
         }
         // 5 . 生成编译后的格式化函数文件
         const formattersFolder =  path.join(langFolder,"formatters") 
@@ -235,6 +237,7 @@ program
     .description(t('编译指定项目的语言包'))
     .option('-D, --debug', t('输出调试信息')) 
     .option('-t, --typescript',t("输出typescript代码")) 
+    .option('-l, --library',t("开发库模式"),false)
     .option('-u, --update-runtime',t("自动更新runtime")) 
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
     .argument('[location]',  t('工程项目所在目录'),"./")

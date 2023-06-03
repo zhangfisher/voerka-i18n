@@ -11,6 +11,7 @@ import { get as getByPath } from "flex-tools/object/get"
 import { isFunction } from 'flex-tools/typecheck/isFunction';
 import { deepMerge } from 'flex-tools/object/deepMerge';
 import { assignObject } from 'flex-tools/object/assignObject';
+import { DefaultFallbackLanguage } from './consts';
 import { VoerkaI18nFormatter, 
         VoerkaI18nFormatters, 
         VoerkaI18nFormattersLoader, 
@@ -48,20 +49,20 @@ export interface VoerkaI18nScopeFormatterCache{
 }
 
 export class VoerkaI18nFormatterRegistry{
-    #formatters:VoerkaI18nLanguageFormatters = {} 
-    #activeFormatters:VoerkaI18nFormatters = {}
-    #activeFormattersConfigs :VoerkaI18nFormatterConfigs = {}
-    #scope?:VoerkaI18nScope
-    #language?:string                                                // 当前语言
-    #formatterCache:VoerkaI18nScopeFormatterCache = {typedFormatters:{},formatters:{}}
+    private _formatters:VoerkaI18nLanguageFormatters = {} 
+    private _activeFormatters:VoerkaI18nFormatters = {}
+    private _activeFormattersConfigs :VoerkaI18nFormatterConfigs = {}
+    private _scope?:VoerkaI18nScope
+    private _language?:string                                                // 当前语言
+    private _formatterCache:VoerkaI18nScopeFormatterCache = {typedFormatters:{},formatters:{}}
     constructor(scope?:VoerkaI18nScope){ 
-        this.#scope = scope        
+        this._scope = scope        
     }
     get activeLanguage(){ 
-        if(!this.#language) this.#language = this.#scope?.activeLanguage || "zh"
-        return this.#language 
+        if(!this._language) this._language = this._scope?.activeLanguage || "zh"
+        return this._language 
     }                   // 当前语言
-    get scope(){ return this.#scope }
+    get scope(){ return this._scope }
     /**
      * 当切换语言时，切换当前语言的格式化器
      * 当切换语言时，如果当前语言的格式化器集合还没有加载，则会自动加载
@@ -77,14 +78,14 @@ export class VoerkaI18nFormatterRegistry{
 			if (useLanguage){				
                 const formatters = this.formatters[useLanguage]  
                 if(isFunction(formatters)){                    
-                    this.#activeFormatters =  await loadAsyncModule(this,formatters as Function)   // 如果格式化器集合是异步加载，则需要等待加载完成
+                    this._activeFormatters =  await loadAsyncModule(this,formatters as Function)   // 如果格式化器集合是异步加载，则需要等待加载完成
                 }else{
-                    this.#activeFormatters = formatters as VoerkaI18nFormatters
+                    this._activeFormatters = formatters as VoerkaI18nFormatters
                 }
                 // 合并生成格式化器的配置参数,当执行格式化器时该参数将被传递给格式化器
-                this.#formatterCache = {typedFormatters:{},formatters:{}}  
+                this._formatterCache = {typedFormatters:{},formatters:{}}  
                 this.generateFormattersConfigs(useLanguage)
-                this.#language = language
+                this._language = language
 			} else {
                 this.scope?.logger.warn(`未指定<${language}>格式化器配置(scope=${this.scope?.id})`); 
 			}
@@ -104,22 +105,22 @@ export class VoerkaI18nFormatterRegistry{
             if(fallbackLanguage) configSources.push(this.getConfig(fallbackLanguage))
             configSources.push(this.getConfig(language))
             // 合并当前语言的格式化器配置参数
-            this.#activeFormattersConfigs = configSources.reduce((finalConfig, curConfig)=>{
-                if(isPlainObject(curConfig)) finalConfig = deepMerge(finalConfig,curConfig,{array:'replace'})
+            this._activeFormattersConfigs = configSources.reduce((finalConfig, curConfig)=>{
+                if(isPlainObject(curConfig)) deepMerge(finalConfig,curConfig,{$merge:'replace'})
                 return finalConfig
             },{})
         }catch(e:any){
             if(this.scope?.debug) console.error(`当生成<${language}>格式化器配置时出错(scope=${this.scope?.id})：${e.stack}`)
-            this.#activeFormattersConfigs = {}
+            this._activeFormattersConfigs = {}
         }                         
     }
     updateConfig(language:string,config:VoerkaI18nFormatterConfigs){
-        if(language in this.#formatters ){
-            let formatters  = this.#formatters[language] as VoerkaI18nFormatters
+        if(language in this._formatters ){
+            let formatters  = this._formatters[language] as VoerkaI18nFormatters
             if(!("$config" in formatters)) formatters.$config = {}
              assignObject(formatters.$config as any ,config)
         }
-        if(language === this.#language){
+        if(language === this._language){
             this.generateFormattersConfigs(language)
         }
     }
@@ -129,14 +130,14 @@ export class VoerkaI18nFormatterRegistry{
      * @param formatters 
      */
     registerLanguageFormatters(language:string,formatters:VoerkaI18nFormatters | VoerkaI18nFormattersLoader){
-        this.#formatters[language] = formatters
+        this._formatters[language] = formatters
     }
     /**
      * 加载所有格式化器
      * @param formatters 
      */
     loadInitials(formatters:VoerkaI18nLanguageFormatters){
-        this.#formatters = formatters
+        this._formatters = formatters
     }
         /**
      * 注册格式化器
@@ -153,10 +154,10 @@ export class VoerkaI18nFormatterRegistry{
         }
         const languages = Array.isArray(language) ? language: language	? language.split(","): [];
         languages.forEach((lngName:string) => {             
-            if(!(lngName in this.#formatters))  this.#formatters[lngName] = {}
-            if(typeof(this.#formatters[lngName])!="function"){
-                if(!this.#formatters[lngName]) this.#formatters[lngName] = {}
-                let lngFormatters = this.#formatters[lngName] as any
+            if(!(lngName in this._formatters))  this._formatters[lngName] = {}
+            if(typeof(this._formatters[lngName])!="function"){
+                if(!this._formatters[lngName]) this._formatters[lngName] = {}
+                let lngFormatters = this._formatters[lngName] as any
                 if (DataTypes.includes(name)) {                    
                     if(!lngFormatters.$types) lngFormatters.$types = {}
                     lngFormatters.$types![name] = formatter                    
@@ -172,33 +173,33 @@ export class VoerkaI18nFormatterRegistry{
      * @param language 
      */
     getConfig(language?:string){
-        return language ? getByPath(this.#formatters,`${language}.$config`,{defaultValue:{}}) : {}                
+        return language ? getByPath(this._formatters,`${language}.$config`,{defaultValue:{}}) : {}                
     }
     /**
      获取指定语言中为每个数据类型指定的格式化器
      */
     getTypes(language?:string){
-        return language ? getByPath(this.#formatters,`${language}.$types`,{defaultValue:{}}) : {}                
+        return language ? getByPath(this._formatters,`${language}.$types`,{defaultValue:{}}) : {}                
     }
     /**
      获取指定语言中为每个数据类型指定的格式化器
      */
     getFormatters(language?:string){
-        return language ? getByPath(this.#formatters,language,{defaultValue:{}}) : {}                
+        return language ? getByPath(this._formatters,language,{defaultValue:{}}) : {}                
     } 
 
     //****************** 以下方法和属性只作用于当前语言 *********************** */
 
-    get formatters(){ return this.#formatters }                     // 所有语言的格式化器集合
-    get activeFormatters(){ return this.#activeFormatters }         // 当前语言的格式化器集合
+    get formatters(){ return this._formatters }                     // 所有语言的格式化器集合
+    get activeFormatters(){ return this._activeFormatters }         // 当前语言的格式化器集合
     /**
      * 当前语言的格式化器配置
      */
     get config(){
-        return this.#activeFormattersConfigs 
+        return this._activeFormattersConfigs 
     }
     get types(){
-        return (this.#activeFormatters  as VoerkaI18nFormatters).$types as VoerkaI18nFormatterConfigs
+        return (this._activeFormatters  as VoerkaI18nFormatters).$types as VoerkaI18nFormatterConfigs
     }
     /**
      * 返回当前语言的的指定名称格式化器
@@ -206,8 +207,10 @@ export class VoerkaI18nFormatterRegistry{
      *  
      * @param options = {
      *      inGlobal: true, // 是否从全局作用域中查找
-     *      inTypes: true, // 是否从全局作用域中查找数据类型的格式化器
-     *      inScope: true, // 是否从当前作用域中查找
+     *      on: 
+     *          scope    在当前作用域中查找
+     *          types    在当前语言的数据类型格式化器中查找
+     *  
      * }
      * 
      */
@@ -218,44 +221,48 @@ export class VoerkaI18nFormatterRegistry{
         },options)
 
         // 直接从缓存中获取
-        if(on=="types" && name in this.#formatterCache.typedFormatters) return this.#formatterCache.typedFormatters[name as SupportedDateTypes]
-        if(on=="scope" && name in this.#formatterCache.formatters) return this.#formatterCache.formatters[name]
+        if(on=="types" && name in this._formatterCache.typedFormatters) return this._formatterCache.typedFormatters[name as SupportedDateTypes]
+        if(on=="scope" && name in this._formatterCache.formatters) return this._formatterCache.formatters[name]
 
         const fallbackLanguage = this.scope?.getLanguage(this.activeLanguage)?.fallback  
         
         // 先在当前作用域中查找，再在全局查找
         const targets =[]
-
         if(on=="types"){
             targets.push(this.types)
             if(fallbackLanguage) targets.push(this.getTypes(fallbackLanguage))
+            if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.getTypes(DefaultFallbackLanguage))
             targets.push(this.getTypes("*"))       
             if(inGlobal){
                 targets.push(this.scope?.global.formatters.types)
                 if(fallbackLanguage) targets.push(this.scope?.global.formatters.getTypes(fallbackLanguage))
+                if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.scope?.global.formatters.getTypes(DefaultFallbackLanguage))
                 targets.push(this.scope?.global.formatters.getTypes("*"))        
-            }            
+            }          
+
         }else if(on=='scope'){
-            targets.push(this.#activeFormatters)
+            targets.push(this._activeFormatters)
             if(fallbackLanguage) targets.push(this.getFormatters(fallbackLanguage))
+            if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.getFormatters(DefaultFallbackLanguage))
             targets.push(this.getFormatters("*"))
             if(inGlobal){
                 targets.push(this.scope?.global.formatters.activeFormatters)
                 if(fallbackLanguage) targets.push(this.scope?.global.formatters.getFormatters(fallbackLanguage))
+                if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.scope?.global.formatters.getFormatters(DefaultFallbackLanguage))
                 targets.push(this.scope?.global.formatters.getFormatters("*"))        
             }
         }
         // 查找指定名称的格式化器
         for (const target of targets) {
             if (!target) continue;
-            if(target && name in target){
+            if(isPlainObject(target) && name in target){
                 const formatter = target[name]
                 if (isFunction(formatter)) {
                     // 缓存起来，下次直接返回避免重复查找
                     if(on=="types"){
-                        this.#formatterCache.typedFormatters[name as SupportedDateTypes] = formatter
+                        this._formatterCache.typedFormatters[name as SupportedDateTypes] = formatter
                     }else{
-                        this.#formatterCache.formatters[name] = formatter
+                        this._formatterCache.formatters[name] = formatter
                     }
                     return formatter
                 }

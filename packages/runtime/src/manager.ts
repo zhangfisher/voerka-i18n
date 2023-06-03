@@ -5,10 +5,11 @@ import type {  VoerkaI18nScope } from "./scope"
 import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter,  IVoerkaI18nStorage }  from "./types"
 import { VoerkaI18nFormatterRegistry } from "./formatterRegistry" 
 import { InvalidLanguageError } from './errors';
-import { FlexEvent, FlexEventOptions } from "flex-tools/events/flexevent"
+import { FlexEvent, FlexEventOptions,type FlexEventListener } from "flex-tools/events/flexevent"
 import defaultStoage from "./storage"
 import { assignObject } from 'flex-tools/object/assignObject';
 import { createLogger } from "./logger"
+
 
 // 默认语言配置
 const defaultLanguageSettings = {  
@@ -29,6 +30,20 @@ export interface VoerkaI18nManagerOptions {
     languages: VoerkaI18nLanguageDefine[]
     storage?:IVoerkaI18nStorage                                 // 语言包存储器
 }
+
+export enum VoerkaI18nEvents{    
+    // 当默认语言第一次加载完成后触发，data={language,scope}
+    Ready = "ready",
+    Change = "change",
+    // Change = "change",
+    // 当Scope注册到成功后
+    Registered="registered", 
+    // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
+    Restore  = "restore",               //
+    // 当Scope从远程加载补丁包时，data={language,scope}
+    Patched  = "patched",               
+}
+
 /** 
  * 多语言管理类
  * 
@@ -47,37 +62,38 @@ export interface VoerkaI18nManagerOptions {
 
 export class VoerkaI18nManager extends FlexEvent{
     static instance?:VoerkaI18nManager  
-    #scopes:VoerkaI18nScope[] = []
-    #defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
-    #formatters:VoerkaI18nFormatterRegistry = new VoerkaI18nFormatterRegistry()
-    #appScopeId?:string
-    #logger!:ReturnType<typeof createLogger>
+    private _scopes:VoerkaI18nScope[] = []
+    private _defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
+    private _formatters:VoerkaI18nFormatterRegistry = new VoerkaI18nFormatterRegistry()
+    private _appScopeId?:string
+    _logger!:ReturnType<typeof createLogger>
     constructor(options?:VoerkaI18nManagerOptions){
         super(deepMerge(
             defaultLanguageSettings,
             options,
             {
-                array:'replace',
-                ignoreUndefined:true
+                $merge:'replace',
+                $ignoreUndefined:true
             }) as FlexEventOptions)
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }
-        this.#logger = createLogger(this.options.debug)
+        this._logger = createLogger(this.options.debug)
         VoerkaI18nManager.instance = this;
-        this.loadInitialFormatters()                                // 加载初始格式化器        
-        this.loadOptionsFromStorage()                               // 从存储器加载语言包配置        
+        this.loadInitialFormatters().then(()=>{
+            this.loadOptionsFromStorage()                               // 从存储器加载语言包配置        
+        })                                // 加载初始格式化器        
     }
     get debug(){return this.options.debug }
     get options(){ return super.options as Required<VoerkaI18nManagerOptions & FlexEventOptions>   }  
-    get logger(){ return this.#logger }                            // 日志记录器                        
-    get scopes(){ return this.#scopes }                             // 注册的报有VoerkaI18nScope实例
-    get appScopeId(){ return this.#appScopeId }                    // 应用的scopeId
+    get logger(){ return this._logger }                            // 日志记录器                        
+    get scopes(){ return this._scopes }                             // 注册的报有VoerkaI18nScope实例
+    get appScopeId(){ return this._appScopeId }                    // 应用的scopeId
     get activeLanguage(){ return this.options!.activeLanguage}     // 当前激活语言名称
     get defaultLanguage(){ return this.options!.defaultLanguage}   // 默认语言名称    
     get languages(){ return this.options!.languages}               // 支持的语言列表    
-    get defaultMessageLoader(){ return this.#defaultMessageLoader}  // 默认语言包加载器
-    get formatters(){return this.#formatters!}
+    get defaultMessageLoader(){ return this._defaultMessageLoader}  // 默认语言包加载器
+    get formatters(){return this._formatters!}
     get storage(){return this.options.storage}
 
     /**
@@ -117,28 +133,34 @@ export class VoerkaI18nManager extends FlexEvent{
     /**
      * 初始加载格式化器
      */
-    private loadInitialFormatters(){
-        this.#formatters.loadInitials(inlineFormatters)
-        this.#formatters.change(this.options!.activeLanguage)
+    private async loadInitialFormatters(){
+        this._formatters.loadInitials(inlineFormatters)
+        this._formatters.change(this.options!.activeLanguage)
     }
     // 通过默认加载器加载文件
     async loadMessagesFromDefaultLoader(newLanguage:string,scope:VoerkaI18nScope){
-        if(this.#defaultMessageLoader && isFunction(this.#defaultMessageLoader)){
-            return  await this.#defaultMessageLoader.call(scope,newLanguage,scope)        
+        if(this._defaultMessageLoader && isFunction(this._defaultMessageLoader)){
+            try{
+                return await this._defaultMessageLoader.call(scope,newLanguage,scope)        
+            }catch(e:any){
+                this.logger.debug(`从远程加载语言包${newLanguage}文件出错:${e.stack}`)
+                return {}
+            }            
         }
-    }
+    } 
     /**
      *  切换语言
      */
     async change(language:string){
-        if(this.languages.findIndex(lang=>lang.name === language)!==-1 || isFunction(this.#defaultMessageLoader)){
+        if(this.languages.findIndex(lang=>lang.name === language)!==-1 || isFunction(this._defaultMessageLoader)){
             // 切换全局格式化器上下文
-            this.#formatters.change(language)                          
+            this._formatters.change(language)                          
             // 通知所有作用域刷新到对应的语言包
             await this._refreshScopes(language)                        
             this.options!.activeLanguage = language            
-            this.emit("change",language,true)               // 触发语言切换事件
-            this.saveOptionsToStorage()                     // 保存语言配置到存储器
+            // 触发语言切换事件
+            this.emit(VoerkaI18nEvents.Change,language)     
+            this.saveOptionsToStorage()                         // 保存语言配置到存储器
             this.logger.info("语言已切换为：",language)
             return language
         }else{
@@ -151,7 +173,7 @@ export class VoerkaI18nManager extends FlexEvent{
      */
     private async _refreshScopes(newLanguage:string){ 
         try{
-            const scopeRefreshers = this.#scopes.map(scope=>{
+            const scopeRefreshers = this._scopes.map(scope=>{
                 return scope.refresh(newLanguage)
             })
             if(Promise.allSettled){
@@ -173,11 +195,20 @@ export class VoerkaI18nManager extends FlexEvent{
      * @param {*} scope 
      */
     async register(scope:VoerkaI18nScope){ 
-        this.#scopes.push(scope) 
-        if(this.#scopes.length===1) this.#appScopeId = scope.id
-        if(scope.options.library===false) this.#appScopeId = scope.id
-        return await scope.refresh(this.activeLanguage) 
+        const isInit = this._scopes.length===0 && !scope.options.library
+        this._scopes.push(scope) 
+        if(this._scopes.length===1) this._appScopeId = scope.id
+        if(scope.options.library===false) this._appScopeId = scope.id
+        await scope.refresh(this.activeLanguage) 
+        // 在第一次初始化时触发ready事件
+        if(isInit){
+            this.emit("ready",{language:this.activeLanguage,scope:scope.id},true)
+        }
+    }    
+    async ready(){
+        return await this.waitFor("ready")
     }
+
     /**
      * 注册全局格式化器
      * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
@@ -198,14 +229,14 @@ export class VoerkaI18nManager extends FlexEvent{
         if (!isFunction(formatter) || typeof name !== "string") {
 			throw new TypeError("格式化器必须是一个函数");
 		}
-        this.#formatters.register(name,formatter,{language})
+        this._formatters.register(name,formatter,{language})
     }
     /**
     * 注册默认文本信息加载器
     */
     registerDefaultLoader(fn:VoerkaI18nDefaultMessageLoader){
         if(!isFunction(fn)) throw new Error("默认语言加载器必须是一个函数")
-        this.#defaultMessageLoader = fn 
+        this._defaultMessageLoader = fn 
     } 
     /**
      * 刷新所有作用域
@@ -217,7 +248,7 @@ export class VoerkaI18nManager extends FlexEvent{
      * 清除所有作用域的翻译补丁信息
      */
     clearPatchedMessages(){
-        this.#scopes.forEach(scope=>scope.clearPatchedMessages())
+        this._scopes.forEach(scope=>scope.clearPatchedMessages())
     }
 
 } 

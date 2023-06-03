@@ -51,7 +51,7 @@ const scopeSettings = {
 // 语言作用域
 const scope = new VoerkaI18nScope({    
     id          : "vue-ts-app",                    // 当前作用域的id，自动取当前工程的package.json的name
-    debug       : false,                            // 是否在控制台输出调试信息   
+    debug       : true,                            // 是否在控制台输出调试信息   
     idMap,                                          // 消息id映射列表    
     messages,                                       // 语言包
     formatters,                                     // 扩展自定义格式化器    
