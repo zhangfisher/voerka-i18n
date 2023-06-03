@@ -100,8 +100,8 @@ describe("内置格式化器", () => {
     expect(t("{ value | date('iso') }",now)).toBe("2022-12-09T01:12:36.000Z")
     expect(t("{ value | date('utc') }",now)).toBe("Fri, 09 Dec 2022 01:12:36 GMT")
     expect(t("{ value | date('gmt') }",now)).toBe("Fri, 09 Dec 2022 01:12:36 GMT")
-    expect(t("{ value | date('short') }",now)).toBe("2022/12/09")
-    expect(t("{ value | date('long') }",now)).toBe("2022年12月09日 09点12分36秒")
+    expect(t("{ value | date('short') }",now)).toBe("2022年12月9日")
+    expect(t("{ value | date('long') }",now)).toBe("2022年12月9日 09点12分36秒")
     await scope.change("en");
     expect(t("{ value | date('short') }",now)).toBe("2022/12/09")
     expect(t("{ value | date('long') }",now)).toBe("2022/12/09 09:12:36")

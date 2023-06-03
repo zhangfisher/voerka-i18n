@@ -29,7 +29,7 @@ export const messages = {
     en: enMessages
 }
 
-export const idMap={
+export const idMapData={
     "你好":1,
     "你好,{name}":2,
     "中国":3,

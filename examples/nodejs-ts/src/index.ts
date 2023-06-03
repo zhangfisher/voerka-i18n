@@ -6,6 +6,7 @@ async function main() {
 	await VoerkaI18n.ready()
 	console.log(`--------------${i18nScope.activeLanguage}-----------------`);
 	console.log(t("现在是{|date}",Date.now()))
+	console.log(t("现在是{|date('long')}",Date.now()))
 	console.log(t("这是一个测试:{a}+{b | x}={c}", { a: 1, b: 2, c: 3 }));
 	console.log(t("你好")); //("你好")
 	console.log(t("我叫{name},今年{age}岁", "张三", 12)); //("我叫张三,今年12岁")
@@ -61,6 +62,8 @@ async function main() {
 	console.log(t("我叫{name},今年{age}岁", ["tom", 12])); //("My name is tom,Now 12 years old year")
 	console.log(t("我叫{name},今年{age}岁", { name: "tom", age: 12 })); //("My name is tom,Now 12 years old year")
 	console.log(t("现在是{|date}",Date.now()))
+	console.log(t("现在是{|date('long')}",Date.now()))
+
 }
 
 main()

@@ -12,8 +12,8 @@ export default  {
         datetime          : {
             units         : CN_DATETIME_UNITS,
             date            :{
-                long        : 'YYYY年MM月DD日 HH点mm分ss秒',       
-                short       : "YYYY/MM/DD",                          
+                long        : 'YYYY年M月D日 HH点mm分ss秒',       
+                short       : "YYYY年M月D日",                          
                 format      : 'local'
             },
             quarter         : {

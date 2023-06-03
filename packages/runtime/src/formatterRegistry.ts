@@ -20,6 +20,7 @@ import { VoerkaI18nFormatter,
         VoerkaI18nFormatterConfigs, 
         VoerkaI18nTypesFormatters  
 } from './types'; 
+import { deepClone } from 'flex-tools';
 
 export interface VoerkaI18nScopeCache{
     activeLanguage :string | null,
@@ -106,7 +107,7 @@ export class VoerkaI18nFormatterRegistry{
             configSources.push(this.getConfig(language))
             // 合并当前语言的格式化器配置参数
             this._activeFormattersConfigs = configSources.reduce((finalConfig, curConfig)=>{
-                if(isPlainObject(curConfig)) deepMerge(finalConfig,curConfig,{$merge:'replace'})
+                if(isPlainObject(curConfig)) finalConfig = deepMerge(finalConfig,deepClone(curConfig),{$merge:'replace'})
                 return finalConfig
             },{})
         }catch(e:any){

@@ -2,7 +2,7 @@ import { VoerkaI18nScope } from '../../scope'
 import { deepMerge } from 'flex-tools/object/deepMerge';
 import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
 import { assignObject } from 'flex-tools/object/assignObject';
-import {languages, messages,formatters} from './testData'
+import {languages, messages,formatters, idMapData} from './testData'
 
 
 export function mergeFormattersConfigs(configSources:any[]){        
@@ -15,10 +15,11 @@ export function mergeFormattersConfigs(configSources:any[]){
 
 export interface CreateI18nScopeOptions{
     id?:string,
-    ready?:Function
+    ready?:Function,
+    idMap?:boolean,         // 启用消息id映射
 }
 export function createI18nScope(options?:CreateI18nScopeOptions){
-    const {id,ready} = assignObject({
+    const {id,ready,idMap=false} = assignObject({
         id:"test",
     },options)
     return new VoerkaI18nScope({
@@ -26,6 +27,7 @@ export function createI18nScope(options?:CreateI18nScopeOptions){
         languages, 
         messages,
         formatters,
-        ready
+        ready,
+        idMap: idMap ? idMapData : undefined
     })
 }
