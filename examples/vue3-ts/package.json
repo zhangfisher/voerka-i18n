@@ -13,13 +13,13 @@
     "compile": "node ../../packages/cli/index.js compile"
   },
   "dependencies": {
-    "@voerkai18n/runtime": "workspace:^1.1.16",
-    "@voerkai18n/vue": "workspace:^1.0.12",
+    "@voerkai18n/runtime": "workspace:^2.0.0",
+    "@voerkai18n/vue": "workspace:^2.0.0",
     "vue": "^3.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
-    "@voerkai18n/vite": "workspace:^1.0.19",
+    "@voerkai18n/vite": "workspace:^2.0.0",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
     "vite-plugin-inspect": "^0.7.14",

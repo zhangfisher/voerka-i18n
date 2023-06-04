@@ -2,8 +2,8 @@
     "name": "voerkai18n-nodejs-module",
     "type": "module",
     "dependencies": {
-        "@voerkai18n/cli": "workspace:^1.0.6",
-        "@voerkai18n/runtime": "workspace:^"
+        "@voerkai18n/cli": "workspace:^2.0.0",
+        "@voerkai18n/runtime": "workspace:^2.0.0"
     },
     "scripts": {
         "help": "node ../../packages/cli/index.js -h",

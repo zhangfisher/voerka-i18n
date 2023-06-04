@@ -1,46 +1,50 @@
 {
-    "name": "i18napp",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-      "@testing-library/jest-dom": "^5.16.5",
-      "@testing-library/react": "^13.4.0",
-      "@testing-library/user-event": "^13.5.0",
-      "@voerkai18n/runtime": "^1.1.18",
-      "@voerkai18n/utils": "workspace:^1.0.0",
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0",
-      "react-scripts": "5.0.1",
-      "voerkai18n-loader": "workspace:^1.0.0",
-      "web-vitals": "^2.1.4"
-    },
-    "scripts": {
-      "start": "craco start",
-      "build": "craco build",
-      "test": "craco test",
-      "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-      "extends": [
-        "react-app",
-        "react-app/jest"
-      ]
-    },
-    "browserslist": {
-      "production": [
-        ">0.2%",
-        "not dead",
-        "not op_mini all"
-      ],
-      "development": [
-        "last 1 chrome version",
-        "last 1 firefox version",
-        "last 1 safari version"
-      ]
-    },
-    "devDependencies": {
-      "@craco/craco": "^7.0.0",
-      "loader-utils": "^3.2.1"
-    }
+  "name": "i18napp",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@voerkai18n/react": "workspace:^",
+    "@voerkai18n/runtime": "^2.0.0",
+    "@voerkai18n/utils": "workspace:^2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "voerkai18n-loader": "workspace:^2.0.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "translate": "node ../../packages/cli/index.js translate --",
+    "init": "node ../../packages/cli/index.js init",
+    "extract": "node ../../packages/cli/index.js extract",
+    "compile": "node ../../packages/cli/index.js compile"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.0.0",
+    "loader-utils": "^3.2.1"
   }
-  
+}

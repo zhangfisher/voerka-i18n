@@ -1,7 +1,7 @@
 {
     "name": "voerkai18n-nodejs",
     "dependencies": {
-        "@voerkai18n/cli": "workspace:^1.0.6",
+        "@voerkai18n/cli": "workspace:^2.0.0",
         "@voerkai18n/runtime": "file://../../packages/runtime/src"
     },
     "devDependencies": {

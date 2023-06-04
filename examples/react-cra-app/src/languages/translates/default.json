@@ -1,0 +1,18 @@
+{
+    "中国": {
+        "en": "China",
+        "$file": [
+            "App.js"
+        ],
+        "jp": "中国",
+        "cht": "中國"
+    },
+    "中华人民共和国": {
+        "en": "People's Republic of China",
+        "$file": [
+            "App.js"
+        ],
+        "jp": "中華人民共和国",
+        "cht": "中華人民共和國"
+    }
+}
