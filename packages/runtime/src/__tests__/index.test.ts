@@ -86,6 +86,20 @@ describe("VoerkaI18n实例与语言切换", () => {
                 })
                 VoerkaI18n.change("en")
             })
-        }) 
+    }) 
+    // test("事件监听", () => {
+    //     let results:any[] = [] 
+    //     let events = ["ready","change","patched","restore","registered"]
+    //     let listenerIds:any[]= events.map(event=>VoerkaI18n.on(event,(args) => {
+    //         results.push([event,args])
+    //     }))
+    //     return new Promise<void>(async (resolve)=>{                        
+    //         await VoerkaI18n.change("en")
+    //         // await VoerkaI18n.change("zh")
+    //         // await VoerkaI18n.change("en")
+    //         // await VoerkaI18n.change("zh") 
+    //         listenerIds.forEach(id=>VoerkaI18n.off(id))
+    //     })      
+    // })
   
 })

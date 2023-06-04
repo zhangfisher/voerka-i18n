@@ -7,8 +7,8 @@
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
-    "main": "index.js",
-    "types": "index.d.ts",
+    "main": "src/index.js",
+    "types": "src/index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "release": "pnpm autopublish"

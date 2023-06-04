@@ -3,14 +3,14 @@ import { injectVoerkaI18n } from "@voerkai18n/vue"
 import { t } from "./languages"
 import China from './components/china.vue'
 import Formatters from './components/formatters.vue'
+   
+console.log(t("Hello world!"))    
  
-console.log(t("Hello world!"))
-
 const i18n = injectVoerkaI18n()
-
+console.log("i18n=", i18n)
 </script>
 <script lang="ts">
-
+ 
 export default {
     data() {
         console.log(t("data： Hello world!"))
@@ -20,14 +20,14 @@ export default {
         }
     },
     watch: {
-
+   
     },
     methods: {
         async changeLanguage(this: any, value: string) {
 
             this.i18n.activeLanguage = value
             console.log("change language =", this.i18n.activeLanguage, value)
-            //this.activeLanguage = value
+            //this.activeLanguage = value   
             // await this.i18n.change(this.language)
         }
     }

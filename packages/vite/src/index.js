@@ -61,7 +61,7 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
     try{
         idMap = readIdMapFile(options.location)
     }catch(e){
-        console.warn("读取idMap.js文件失败，@voerkai18n/vite未启用")
+        console.warn("读取idMap.js文件失败,@voerkai18n/vite未启用")
         return
     }    
     

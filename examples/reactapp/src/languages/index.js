@@ -1,13 +1,26 @@
-
-import messageIds from "./idMap.js"                                             // 语言ID映射文件
-import runtime from "@voerkai18n/runtime"
-const { translate,VoerkaI18nScope  } = runtime
-import defaultFormatters from "./formatters/zh"
-const activeFormatters = defaultFormatters
+/**
+ * 注意：执行compile命令会重新生成本文件，所以请不要修改本文件
+ */
+import idMap from "./idMap.js"                                             // 语言ID映射文件
+import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
+import defaultFormatters from "./formatters/zh.js"             // 默认语言格式化器
 import defaultMessages from "./zh.js"  
-const activeMessages = defaultMessages
- 
- 
+import storage  from "./storage.js"
+
+const messages = {
+    'zh' :  defaultMessages,
+    'en' : ()=>import("./en.js"),
+	'jp' : ()=>import("./jp.js"),
+	'cht' : ()=>import("./cht.js")
+}
+
+const formatters = {
+    'zh' :  defaultFormatters,
+    'en' : ()=>import("./formatters/en.js"),
+	'jp' : ()=>import("./formatters/jp.js"),
+	'cht' : ()=>import("./formatters/cht.js")
+}
+
 // 语言配置文件
 const scopeSettings = {
     "languages": [
@@ -18,37 +31,35 @@ const scopeSettings = {
         {
             "name": "en",
             "title": "英语"
+        },
+        {
+            "name": "jp",
+            "title": "日语"
+        },
+        {
+            "name": "cht",
+            "title": "繁体中文"
         }
     ],
     "defaultLanguage": "zh",
     "activeLanguage": "zh",
     "namespaces": {}
 }
-const formatters = {
-    'zh' :  defaultFormatters,
-    'en' : ()=>import("./formatters/en.js")
-}
-// 语言包加载器
-const loaders = { 
-    "en" : ()=>import("./en.js") 
-}
 
 // 语言作用域
-const scope = new VoerkaI18nScope({
-    ...scopeSettings,                               // languages,defaultLanguage,activeLanguage,namespaces,formatters
-    id          : "reactapp",                      // 当前作用域的id，自动取当前工程的package.json的name
-    debug       : false,                            // 是否在控制台输出高度信息
-    default     : defaultMessages,                  // 默认语言包
-    messages    : activeMessages,                   // 当前语言包
-    idMap       : messageIds,                       // 消息id映射列表    
+const scope = new VoerkaI18nScope({    
+    id          : "reactapp",                    // 当前作用域的id，自动取当前工程的package.json的name
+    debug       : false,                            // 是否在控制台输出调试信息   
+    idMap,                                          // 消息id映射列表        
+    library     : false,                      // 开发库时设为true
+    messages,                                       // 语言包+
     formatters,                                     // 扩展自定义格式化器    
-    loaders                                         // 语言包加载器
+    storage,                                        // 语言配置存储器
+    ...scopeSettings
 }) 
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 
-
 export { 
     scopedTtranslate as t, 
     scope as i18nScope
 }
-

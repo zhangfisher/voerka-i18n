@@ -17,9 +17,9 @@ export function VoerkaI18nProvider(props){
         function onChangeLanguage(newLanguage) {
             setLanguage(newLanguage) 
         }        
-        VoerkaI18n.on(onChangeLanguage)
+        const listenerId = VoerkaI18n.on("change",onChangeLanguage)
       return () => {
-        VoerkaI18n.off(onChangeLanguage)
+        VoerkaI18n.off(listenerId)
       };
     });
     const changeLanguage = useCallback((newLanguage) => {

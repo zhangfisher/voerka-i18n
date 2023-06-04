@@ -1,39 +1,51 @@
 {
     "这是一个测试": {
-        "en": "这是一个测试",
+        "en": "This is a test",
         "$file": [
             "main.js",
             "App.jsx"
-        ]
+        ],
+        "jp": "これはテストです。",
+        "cht": "這是一個測試"
     },
     "中华民族伟大复兴": {
-        "en": "中华民族伟大复兴",
+        "en": "The great rejuvenation of the Chinese nation",
         "$file": [
             "modules\\module1.js"
-        ]
+        ],
+        "jp": "中華民族の偉大な復興",
+        "cht": "中華民族偉大復興"
     },
     "犯我中华者，虽远必诛！": {
-        "en": "犯我中华者，虽远必诛！",
+        "en": "Those who offend China will be punished even if they are far away!",
         "$file": [
             "modules\\module2.js"
-        ]
+        ],
+        "jp": "私の中華を犯す者は、遠くても必ず殺す！",
+        "cht": "犯我中華者，雖遠必誅！"
     },
     "Voerkai1n是一个功能强大设计精良的国际化解决方案": {
-        "en": "Voerkai1n是一个功能强大设计精良的国际化解决方案",
+        "en": "Voerkai1n is a powerful and well-designed international solution",
         "$file": [
             "App.jsx"
-        ]
+        ],
+        "jp": "Voerkai 1 nは、強力で洗練されたデザインの国際化ソリューションです",
+        "cht": "Voerkai1n是一個功能强大設計精良的國際化解決方案"
     },
     "一字一世界，一笔一乾坤，汉字是这个星球上最美的语言": {
-        "en": "一字一世界，一笔一乾坤，汉字是这个星球上最美的语言",
+        "en": "Every word in the world, every stroke in the universe, Chinese characters are the most beautiful language on this planet",
         "$file": [
             "components\\Banner.jsx"
-        ]
+        ],
+        "jp": "一字一世界、一筆一筆、漢字はこの星で最も美しい言語である",
+        "cht": "一字一世界，一筆一乾坤，漢字是這個星球上最美的語言"
     },
     "当前语言": {
-        "en": "当前语言",
+        "en": "Current language",
         "$file": [
             "components\\LanguageConfigurator.jsx"
-        ]
+        ],
+        "jp": "現在の言語",
+        "cht": "當前語言"
     }
 }
