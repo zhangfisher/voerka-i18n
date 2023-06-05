@@ -9,7 +9,7 @@ const fs = require("fs")
 const { t,i18nScope } = require("./i18nProxy")
 const createLogger = require("logsets")
 const logger = createLogger() 
-const { installPackage,isTypeScriptProject,getCurrentPackageJson,getProjectSourceFolder } = require("@voerkai18n/utils")
+const { installPackage,isTypeScriptProject,getCurrentPackageJson,getProjectSourceFolder, isInstallDependent } = require("@voerkai18n/utils")
 const artTemplate = require("art-template")
 const { Command } = require('commander'); 
 
@@ -77,12 +77,13 @@ function getProjectModuleType(srcPath,isTypeScript){
     return isTypeScript ? 'esm' : 'cjs'       
 }
 
-async function initializer(srcPath,{moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
+async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
     let settings = {}
     // 检查当前项目的模块类型
     if(!['esm',"cjs"].includes(moduleType)){
         moduleType = getProjectModuleType(srcPath)
     } 
+    const projectPackageJson = getCurrentPackageJson(srcPath)
 
     let tasks = logger.tasklist("初始化VoerkaI18n多语言支持")
     const  langFolderName = "languages"
@@ -128,7 +129,9 @@ async function initializer(srcPath,{moduleType,isTypeScript,debug = true,languag
     try{
         tasks.add("初始化语言上下文")
         const templateContext = {
-            moduleType
+            moduleType,
+            library,
+            scopeId:projectPackageJson.name,
         }
         const entryContent = artTemplate(path.join(__dirname,"templates",`init-entry.${isTypeScript ? 'ts' : (moduleType=='esm' ? 'mjs' :  'cjs')}`), templateContext )
         fs.writeFileSync(path.join(lngPath,`index.${isTypeScript ? 'ts' : 'js'}`),entryContent)
@@ -146,21 +149,31 @@ async function initializer(srcPath,{moduleType,isTypeScript,debug = true,languag
         tasks.error(e.message)
     } 
  
+    
     try{
         tasks.add(t("安装@voerkai18n/runtime"))
-        await installPackage.call(this,'@voerkai18n/runtime')
-        tasks.complete()
+        if(isInstallDependent("@voerkai18n/runtime")){
+            tasks.skip()   
+        }else{
+            await installPackage.call(this,'@voerkai18n/runtime')
+            tasks.complete()
+        }            
     }catch(e){
         tasks.error(e.message)
     } 
+    
+    
         
     logger.log(t("生成语言配置文件:{}"),"./languages/settings.json")
     logger.log(t("拟支持的语言：{}"),settings.languages.map(l=>l.name).join(","))
     logger.log(t("已安装运行时:{}"),'@voerkai18n/runtime')
-    logger.log(t("初始化成功,下一步："))
+    logger.log(t("本工程运行在: {}"),library ? "库模式" : "应用模式")
+    logger.log(t("初始化成功,下一步："))    
     logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),"languages/settings.json")
     logger.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
+    logger.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
     logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
+    
 } 
 
 const program = new Command();

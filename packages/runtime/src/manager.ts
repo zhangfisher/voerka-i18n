@@ -164,7 +164,7 @@ export class VoerkaI18nManager extends FlexEvent{
             this.logger.info("语言已切换为：",language)
             return language
         }else{
-            throw new InvalidLanguageError()
+            throw new InvalidLanguageError(language)
         }
     }
     /**

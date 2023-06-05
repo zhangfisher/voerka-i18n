@@ -9,8 +9,7 @@
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "release": "pnpm autopublish"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
     "license": "ISC",

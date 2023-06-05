@@ -4,8 +4,7 @@
     "description": "公共工具库",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "release": "pnpm autopublish"
+        "test": "echo \"Error: no test specified\" && exit 1" 
     },
     "author": "",
     "license": "ISC",

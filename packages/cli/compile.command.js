@@ -118,7 +118,7 @@ async function updateRuntime(){
 
 async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
-    let { moduleType,isTypeScript,updateRuntime:isUpdateRuntime,library} = options; 
+    let { moduleType,isTypeScript,updateRuntime:isUpdateRuntime,library,skip} = options; 
 
     if(isUpdateRuntime){
         await updateRuntime()
@@ -143,7 +143,7 @@ async  function compile(langFolder,opts={}){
         logger.log(t("激活语言\t: {}"),activeLanguage)
         logger.log(t("名称空间\t: {}"),Object.keys(namespaces).join(","))
         logger.log(t("模块类型\t: {}"),moduleType)
-        logger.log(t("库模式\t: {}"),library)
+        logger.log(t("库模式\t\t: {}"),library)
         logger.log(t("TypeScript\t: {}"),isTypeScript)
         logger.log("")
         logger.log(t("编译结果输出至：{}"),langFolder)
@@ -220,11 +220,16 @@ async  function compile(langFolder,opts={}){
         generateStorageFile({isTypeScript,langFolder,templateContext,moduleType}) 
         
         // 8. 生成编译后的访问入口文件
-        const entryFile = path.join(langFolder,`index.${isTypeScript ? 'ts' : 'js'}`)
-        const tmpFile = path.join(__dirname,"templates",isTypeScript ? "entry.ts" : (moduleType==="esm" ? "entry.mjs" : "entry.cjs"))
-        const entryContent = artTemplate(tmpFile, templateContext )
-        fs.writeFileSync(entryFile,entryContent)
-        logger.log(t(" - 访问入口文件: {}"),path.basename(entryFile))
+        if(skip){
+            logger.log(t(" - 跳过更新访问入口文件: {}"),path.basename(entryFile))
+        }else{
+            const entryFile = path.join(langFolder,`index.${isTypeScript ? 'ts' : 'js'}`)
+            const tmpFile = path.join(__dirname,"templates",isTypeScript ? "entry.ts" : (moduleType==="esm" ? "entry.mjs" : "entry.cjs"))
+            const entryContent = artTemplate(tmpFile, templateContext )
+            fs.writeFileSync(entryFile,entryContent)
+            logger.log(t(" - 访问入口文件: {}"),path.basename(entryFile))
+        }
+        
 
     }catch(e){ 
         logger.log(t("加载多语言配置文件<{}>失败: {} "),settingsFile,e.stack)
@@ -240,6 +245,7 @@ program
     .option('-l, --library',t("开发库模式"),false)
     .option('-u, --update-runtime',t("自动更新runtime")) 
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
+    .option('--skip',t("跳过更新language/index.(ts|js)文件"),false) 
     .argument('[location]',  t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){
         const lang= process.env.LANGUAGE || "zh"

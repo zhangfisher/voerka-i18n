@@ -19,6 +19,5 @@
     },
     "dependencies": {
         "@voerkai18n/utils": "workspace:^2.0.0"
-    },
-    "lastPublish": "2023-03-29T17:37:43+08:00"
+    }
 }

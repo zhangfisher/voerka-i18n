@@ -1,8 +1,11 @@
 {
     "name": "voerkai18n-nodejs",
+    "private": true,
     "dependencies": {
         "@voerkai18n/cli": "workspace:^2.0.0",
-        "@voerkai18n/runtime": "file://../../packages/runtime/src"
+        "@voerkai18n/runtime": "file://../../packages/runtime/src",
+        "lib1": "workspace:^",
+        "lib2": "workspace:^"
     },
     "devDependencies": {
         "ts-node": "latest"

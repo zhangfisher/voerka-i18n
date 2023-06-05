@@ -9,14 +9,12 @@ const storage = require("./storage.js")
 
 const formatters = {
     'zh' :  defaultFormatters,
-    'en' : ()=>require("./formatters/en.js"),
-	'de' : ()=>require("./formatters/de.js")
+    'en' : ()=>require("./formatters/en.js")
 }
  
 const messages = {
     'zh' :  defaultMessages,
-    'en' : ()=>require("./en.js"),
-	'de' : ()=>require("./de.js")
+    'en' : ()=>require("./en.js")
 }
  
 
@@ -29,11 +27,7 @@ const scopeSettings = {
         },
         {
             "name": "en",
-            "title": "英文"
-        },
-        {
-            "name": "de",
-            "title": "德语"
+            "title": "英语"
         }
     ],
     "defaultLanguage": "zh",
@@ -43,7 +37,7 @@ const scopeSettings = {
 // 语言作用域
 const scope = new VoerkaI18nScope({    
     // 当前作用域的id，自动取当前工程的package.json的name
-    id          : "@voerkai18n/cli",                    
+    id          : "lib2",                    
     debug       : false,                            // 是否在控制台输出高度信息
     messages,                                       // 当前语言包
     idMap ,                                         // 消息id映射列表    

@@ -1,11 +1,12 @@
 {
     "name": "voerkai18n-nodejs",
+    "private": true,
     "dependencies": {
         "@voerkai18n/cli": "workspace:^2.0.0",
         "@voerkai18n/runtime": "workspace:^2.0.0"
     },
     "scripts": {
-        "dev":"node src/index.js",
+        "dev": "node src/index.js",
         "help": "node ../../packages/cli/index.js -h",
         "init": "node ../../packages/cli/index.js init",
         "translate": "node ../../packages/cli/index.js translate --",

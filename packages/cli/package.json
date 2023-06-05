@@ -18,9 +18,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "extract": "node ./index.js extract -D -e templates/** ",
         "compile": "node ./index.js compile -m cjs",
-        "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d",
-        "build": "node ./index.js compile -m cjs",
-        "release": "pnpm autopublish"
+        "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d"
     },
     "author": "wxzhang",
     "license": "MIT",

@@ -89,36 +89,60 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
+  examples/lib1:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+
+  examples/lib2:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+
   examples/nodejs:
     dependencies:
       '@voerkai18n/cli':
-        specifier: workspace:^1.0.6
+        specifier: workspace:^2.0.0
         version: link:../../packages/cli
       '@voerkai18n/runtime':
-        specifier: workspace:^
+        specifier: workspace:^2.0.0
         version: link:../../packages/runtime
 
   examples/nodejs-module:
     dependencies:
       '@voerkai18n/cli':
-        specifier: workspace:^1.0.6
+        specifier: workspace:^2.0.0
         version: link:../../packages/cli
       '@voerkai18n/runtime':
-        specifier: workspace:^
+        specifier: workspace:^2.0.0
         version: link:../../packages/runtime
 
   examples/nodejs-ts:
     dependencies:
       '@voerkai18n/cli':
-        specifier: workspace:^1.0.6
+        specifier: workspace:^2.0.0
         version: link:../../packages/cli
       '@voerkai18n/runtime':
         specifier: file://../../packages/runtime/src
         version: file:packages/runtime/src
+      lib1:
+        specifier: workspace:^
+        version: link:../lib1
+      lib2:
+        specifier: workspace:^
+        version: link:../lib2
     devDependencies:
       ts-node:
         specifier: latest
         version: 10.9.1(@types/node@18.16.3)(typescript@4.9.5)
+
+  examples/nodejs-ts/lib1:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: workspace:^
+        version: link:../../../packages/runtime
 
   examples/react-cra-app:
     dependencies:
@@ -131,11 +155,14 @@ importers:
       '@testing-library/user-event':
         specifier: ^13.5.0
         version: 13.5.0(@testing-library/dom@9.3.0)
+      '@voerkai18n/react':
+        specifier: workspace:^
+        version: link:../../packages/react
       '@voerkai18n/runtime':
-        specifier: ^1.1.18
+        specifier: ^2.0.0
         version: link:../../packages/runtime
       '@voerkai18n/utils':
-        specifier: workspace:^1.0.0
+        specifier: workspace:^2.0.0
         version: link:../../packages/utils
       react:
         specifier: ^18.2.0
@@ -147,7 +174,7 @@ importers:
         specifier: 5.0.1
         version: 5.0.1(@babel/plugin-syntax-flow@7.21.4)(@babel/plugin-transform-react-jsx@7.22.3)(eslint@8.41.0)(react@18.2.0)(typescript@4.9.5)
       voerkai18n-loader:
-        specifier: workspace:^1.0.0
+        specifier: workspace:^2.0.0
         version: link:../../packages/webpack
       web-vitals:
         specifier: ^2.1.4
@@ -166,13 +193,13 @@ importers:
         specifier: ^7.20.7
         version: 7.20.7
       '@voerkai18n/react':
-        specifier: workspace:^1.0.0
+        specifier: workspace:^2.0.0
         version: link:../../packages/react
       '@voerkai18n/runtime':
-        specifier: workspace:^1.1.9
+        specifier: workspace:^2.0.0
         version: link:../../packages/runtime
       '@voerkai18n/vite':
-        specifier: workspace:^1.0.7
+        specifier: workspace:^2.0.0
         version: link:../../packages/vite
       core-js:
         specifier: ^3.27.1
@@ -188,7 +215,7 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       '@voerkai18n/cli':
-        specifier: workspace:^1.0.11
+        specifier: workspace:^2.0.0
         version: link:../../packages/cli
       vite:
         specifier: ^2.9.0
@@ -200,10 +227,10 @@ importers:
   examples/vue3-ts:
     dependencies:
       '@voerkai18n/runtime':
-        specifier: workspace:^1.1.16
+        specifier: workspace:^2.0.0
         version: link:../../packages/runtime
       '@voerkai18n/vue':
-        specifier: workspace:^1.0.12
+        specifier: workspace:^2.0.0
         version: link:../../packages/vue
       vue:
         specifier: ^3.3.2
@@ -213,7 +240,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(vite@4.3.3)(vue@3.3.2)
       '@voerkai18n/vite':
-        specifier: workspace:^1.0.19
+        specifier: workspace:^2.0.0
         version: link:../../packages/vite
       typescript:
         specifier: ^4.9.3
@@ -311,6 +338,10 @@ importers:
       react:
         specifier: ^17.0.2
         version: 17.0.2
+    devDependencies:
+      tsup:
+        specifier: ^6.7.0
+        version: 6.7.0(@swc/core@1.3.56)(typescript@4.9.5)
 
   packages/runtime:
     dependencies:
@@ -384,7 +415,7 @@ importers:
   packages/webpack:
     dependencies:
       '@voerkai18n/utils':
-        specifier: workspace:^1.0.21
+        specifier: workspace:^2.0.0
         version: link:../utils
     devDependencies:
       loader-runner:

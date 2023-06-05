@@ -273,8 +273,7 @@ function getInstalledPackages(){
         "@voerkai18n/babel":"未安装",
         "@voerkai18n/vue":"未安装",
         "@voerkai18n/react":"未安装",
-        "@voerkai18n/vite":"未安装",
-        "@voerkai18n/formatters":"未安装"
+        "@voerkai18n/vite":"未安装"
     }
     for(let package of Object.keys(packages)){
         try{

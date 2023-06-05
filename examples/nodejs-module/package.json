@@ -1,6 +1,7 @@
 {
     "name": "voerkai18n-nodejs-module",
     "type": "module",
+    "private": true,
     "dependencies": {
         "@voerkai18n/cli": "workspace:^2.0.0",
         "@voerkai18n/runtime": "workspace:^2.0.0"

@@ -1,6 +1,7 @@
 {
     "name": "voerka-i18n",
-    "version": "1.0.0",
+    "version": "2.0.0",
+    "private":true,
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -9,9 +10,8 @@
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
         "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
         "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
-        "publish:auto": "autopub --all",
-        "publish:all": "autopub",
-        "publish:test": "autopub --test"
+        "build:all":"pnpm -r build ",
+        "publish:all": "pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r publish"
     },
     "author": "",
     "license": "ISC",
