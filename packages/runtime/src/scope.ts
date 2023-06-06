@@ -2,7 +2,7 @@ import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { isFunction } from "flex-tools/typecheck/isFunction" 
 import { translate } from "./translate"
 import { assignObject } from "flex-tools/object/assignObject"
-import {VoerkaI18nManager } from "./manager"
+import {type VoerkaI18nEvents, VoerkaI18nManager } from "./manager"
 import type { 
     VoerkaI18nDefaultMessageLoader,
     VoerkaI18nFormatter,
@@ -19,7 +19,7 @@ IVoerkaI18nStorage,
 import { VoerkaI18nFormatterRegistry } from './formatterRegistry';
 import { randomId } from "./utils"
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from './consts';
-import { FlexEventListener } from "flex-tools/events/flexEvent" 
+import type { FlexEventListener } from "flex-tools/events" 
 
 export interface VoerkaI18nScopeOptions {
     id?: string
@@ -426,9 +426,9 @@ export class VoerkaI18nScope {
 		}
 	}
 	// 以下方法引用全局VoerkaI18n实例的方法
-	on(event:string,callback:FlexEventListener) {return this._global.on(event,callback);	}
-    once(event:string,callback:FlexEventListener) {return this._global.once(event,callback);}
-	off(event:string,callback:FlexEventListener) {return this._global.off(event,callback); }
+	on(event:VoerkaI18nEvents,callback:FlexEventListener) {return this._global.on(event,callback);	}
+    once(event:VoerkaI18nEvents,callback:FlexEventListener) {return this._global.once(event,callback);}
+	off(event:VoerkaI18nEvents,callback:FlexEventListener) {return this._global.off(event,callback); }
 	async change(language:string) {
         return await this._global.change(language);
     }
