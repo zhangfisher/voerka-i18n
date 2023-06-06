@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/react",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "React支持,提供语言切换等功能",
     "main": "src/index.jsx",
     "types": "src/index.d.ts",
@@ -21,7 +21,7 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsup", 
+        "build": "tsup",
         "version:patch": "npm version patch --commit-hooks=false"
     },
     "author": "wxzhang",
