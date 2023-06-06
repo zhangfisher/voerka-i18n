@@ -19,7 +19,7 @@ IVoerkaI18nStorage,
 import { VoerkaI18nFormatterRegistry } from './formatterRegistry';
 import { randomId } from "./utils"
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from './consts';
-import type { FlexEventListener } from "flex-tools/events" 
+import type { FlexEventListener } from "flex-tools/events/types" 
 
 export interface VoerkaI18nScopeOptions {
     id?: string
