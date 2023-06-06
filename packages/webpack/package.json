@@ -9,7 +9,8 @@
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "version:patch": "npm version patch --commit-hooks=false"
     },
     "keywords": [],
     "author": "",
