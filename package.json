@@ -12,8 +12,8 @@
         "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
         "build:all":"pnpm -r --filter \"runtime\" --filter \"react\"  --filter \"vue\" build ",
         "publish:all": "pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r --filter \"./packages/**\" publish",
-        "version:patch": "npm version patch",
-        "publish:all:beta": "pnpm version:patch && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish --tag beta "
+        "version:patch:all": "pnpm -r version:patch --filter \"./packages/**\"",
+        "publish:all:beta": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish --tag beta "
     },
 
     "author": "",
