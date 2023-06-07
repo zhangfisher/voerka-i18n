@@ -1,7 +1,7 @@
 {
     "name": "voerka-i18n",
     "version": "2.0.0",
-    "private":true,
+    "private": true,
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -10,7 +10,7 @@
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
         "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
         "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
-        "build:all":"pnpm -r build ",
+        "build:all": "pnpm -r build ",
         "publish:all": "pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r publish"
     },
     "author": "",
@@ -27,6 +27,7 @@
         "cross-env": "^7.0.3",
         "dayjs": "^1.11.4",
         "deepmerge": "^4.2.2",
+        "docsify": "^4.13.0",
         "dumi": "^1.1.47",
         "enquirer": "^2.3.6",
         "fast-glob": "^3.2.11",
