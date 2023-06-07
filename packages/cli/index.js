@@ -6,7 +6,7 @@ const logger = createLogger()
 const { t }  = require("./i18nProxy")
 const { getPackageReleaseInfo }  = require("@voerkai18n/utils"); 
 const replaceAll = require('string.prototype.replaceall');
-replaceAll.shim()
+replaceAll.shim() 
 
 const program = new Command();
 program
