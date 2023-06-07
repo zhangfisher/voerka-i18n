@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vue",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "description": "Vue3插件,提供自动插件翻译函数和语言切换功能",
     "main": "src/index.ts",
     "types": "index.d.ts",
