@@ -20,7 +20,7 @@ import { VoerkaI18nFormatter,
         VoerkaI18nFormatterConfigs, 
         VoerkaI18nTypesFormatters  
 } from './types'; 
-import { deepClone } from 'flex-tools';
+import { deepClone } from 'flex-tools/object/deepClone';
 
 export interface VoerkaI18nScopeCache{
     activeLanguage :string | null,

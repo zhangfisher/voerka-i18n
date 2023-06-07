@@ -5,7 +5,7 @@ import type {  VoerkaI18nScope } from "./scope"
 import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter,  IVoerkaI18nStorage }  from "./types"
 import { VoerkaI18nFormatterRegistry } from "./formatterRegistry" 
 import { InvalidLanguageError } from './errors';
-import { FlexEvent, FlexEventOptions,type FlexEventListener } from "flex-tools/events/flexevent"
+import { LiteEvent } from "flex-tools/events/liteEvent"
 import defaultStoage from "./storage"
 import { assignObject } from 'flex-tools/object/assignObject';
 import { createLogger } from "./logger"
@@ -60,24 +60,21 @@ export enum VoerkaI18nEvents{
  * 
  * */ 
 
-export class VoerkaI18nManager extends FlexEvent{
+export class VoerkaI18nManager extends LiteEvent{
     static instance?:VoerkaI18nManager  
     private _scopes:VoerkaI18nScope[] = []
     private _defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
     private _formatters:VoerkaI18nFormatterRegistry = new VoerkaI18nFormatterRegistry()
     private _appScopeId?:string
-    _logger!:ReturnType<typeof createLogger>
+    private _options!:Required<VoerkaI18nManagerOptions>  
+    private _logger!:ReturnType<typeof createLogger>
+    private _appInitilized:boolean = false
     constructor(options?:VoerkaI18nManagerOptions){
-        super(deepMerge(
-            defaultLanguageSettings,
-            options,
-            {
-                $merge:'replace',
-                $ignoreUndefined:true
-            }) as FlexEventOptions)
+        super()
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }
+        this._options= deepMerge({},defaultLanguageSettings,options) as Required<VoerkaI18nManagerOptions>
         this._logger = createLogger(this.options.debug)
         VoerkaI18nManager.instance = this;
         this.loadInitialFormatters().then(()=>{
@@ -85,7 +82,7 @@ export class VoerkaI18nManager extends FlexEvent{
         })                                // 加载初始格式化器        
     }
     get debug(){return this.options.debug }
-    get options(){ return super.options as Required<VoerkaI18nManagerOptions & FlexEventOptions>   }  
+    get options(){ return this._options}  
     get logger(){ return this._logger }                            // 日志记录器                        
     get scopes(){ return this._scopes }                             // 注册的报有VoerkaI18nScope实例
     get appScopeId(){ return this._appScopeId }                    // 应用的scopeId
@@ -101,8 +98,13 @@ export class VoerkaI18nManager extends FlexEvent{
      * 
      */
     initApp(appScopeOptions:VoerkaI18nManagerOptions){
+        if(this._appInitilized){
+            this.logger.warn("VoerkaI18n只允许注册一个library=false的i18nScope,请检查是否正确配置了library参数")
+            return
+        }
         assignObject(this.options,appScopeOptions)
         this.loadOptionsFromStorage()                               // 从存储器加载语言包配置
+        this._appInitilized = true
     }
     
     /**

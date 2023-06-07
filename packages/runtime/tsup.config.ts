@@ -11,7 +11,7 @@ export default defineConfig({
     sourcemap: true,
     clean: true,
     treeshake:true,  
-    minify: false,
+    minify: true,
     banner: {
         js: `/***        
 *   ---=== VoerkaI18n Runtime ===---

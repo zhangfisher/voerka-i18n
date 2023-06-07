@@ -10,9 +10,17 @@
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
         "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
         "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
-        "build:all": "pnpm -r build ",
+        "build:all":"pnpm -r --filter \"runtime\" --filter \"react\"  --filter \"vue\" build ",
+<<<<<<< .mine
         "publish:all": "pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r publish"
+
+=======
+        "publish:all": "pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r --filter \"./packages/**\" publish",
+        "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch ",
+>>>>>>> .theirs
+        "publish:all:beta": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish --tag beta "
     },
+
     "author": "",
     "license": "ISC",
     "devDependencies": {

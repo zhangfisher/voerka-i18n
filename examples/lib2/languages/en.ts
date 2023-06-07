@@ -1,3 +1,3 @@
 export default {
-    "1": "Long live the People's Republic of China!"
+    "1": "Welcome the great rejuvenation of the Chinese nation!"
 }

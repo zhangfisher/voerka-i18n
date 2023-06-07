@@ -1,8 +1,8 @@
 {
-    "中华人民共和国万岁！": {
-        "en": "Long live the People's Republic of China!",
+    "迎接中华民族的伟大复兴！": {
+        "en": "Welcome the great rejuvenation of the Chinese nation!",
         "$file": [
-            "index.js"
+            "index.ts"
         ]
     }
 }

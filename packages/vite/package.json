@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vite",
-    "version": "2.0.0",
+    "version": "2.0.3",
     "description": "Vite插件,提供自动插入翻译函数和文本映射等功能",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
@@ -10,7 +10,8 @@
     "main": "src/index.js",
     "types": "src/index.d.ts",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "version:patch": "npm version patch --commit-hooks=false"
     },
     "author": "",
     "license": "ISC",
