@@ -1,4 +1,4 @@
-# 命令行工具
+# 命令行工具<!-- {docsify-ignore-all} -->
 
 `@voerkai18n/cli`命令行工具用来实现工程初始化、扫描提取文本、自动翻译和编译语言等功能。
  
@@ -11,7 +11,7 @@
 
 全局安装`@voerkai18n/cli`工具。
 
-```javascript | pure
+```javascript
 > npm install -g @voerkai18n/cli
 > yarn global add @voerkai18n/cli
 > pnpm add -g @voerkai18n/cli
@@ -19,7 +19,7 @@
 
 然后就可以执行：
 
-```javascript | pure
+```javascript
 > voerkai18n init
 > voerkai18n extract
 > voerkai18n compile
@@ -27,7 +27,7 @@
 
 如果没有全局安装，则需要：
 
-```javascript | pure
+```javascript
 > yarn voerkai18n init
 > yarn voerkai18n extract
 > yarn voerkai18n compile
@@ -61,7 +61,7 @@ Options:
 
 首先需要在工程文件下运行`voerkai18n init`命令对当前工程进行初始化。
 
-```javascript | pure
+```javascript
 //- `lngs`参数用来指定拟支持的语言名称列表
 > voerkai18n init . -lngs zh en jp de -d zh
 ```
@@ -87,7 +87,7 @@ Options:
 
 `settings.json`文件很简单，主要是用来配置要支持的语言等基本信息。
 
-```javascript | pure
+```javascript
 module.exports = {
     // 拟支持的语言列表
     "languages": [
@@ -194,7 +194,7 @@ Options:
 
 - `--provider`用来指定在线翻译服务提供者，内置支持的是百度在线翻译。也可以传入一个js脚本，如下：
 
-  ```javascript | pure
+  ```javascript
   // youdao.js
   module.exports = async function(options){
       let { appkey,appid } = options

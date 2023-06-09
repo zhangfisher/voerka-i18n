@@ -1,10 +1,10 @@
-# Babel插件
+# Babel插件<!-- {docsify-ignore-all} -->
 
 全局安装`@voerkai18n/babel`插件用来进行自动导入`t`函数和自动文本映射。
 
 ## 安装
 
-```javascript | pure
+```javascript
 > npm install -g @voerkai18n/babel
 > yarn global add @voerkai18n/babel
 > pnpm add -g @voerkai18n/babel
@@ -16,7 +16,7 @@
 
 - 在`babel.config.js`中配置插件
 
-```javascript | pure
+```javascript
 const i18nPlugin =  require("@voerkai18n/babel")
 module.expors = {
     plugins: [
@@ -51,7 +51,7 @@ module.expors = {
 
   配置`autoImport`时需要注意的是，为了提供一致的导入路径，视所使用的打包工具或转码插件，如`webpack`、`rollup`等。比如使用`babel-plugin-module-resolver`
 
-  ```javascript | pure
+  ```javascript
   module.expors = {
       plugins: [
           [

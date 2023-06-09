@@ -1,4 +1,4 @@
-# 动态增加语言支持
+# 动态增加语言支持<!-- {docsify-ignore-all} -->
 
 ## 前言
 `voerkaI18n`默认将要翻译的文本内容经编译后保存在当`languages`文件夹下,当打包应用时会与工程一起进行打包进工程源码中。这会带来以下问题：
@@ -16,7 +16,7 @@
 为说明如何利用远程加载语言包的机制为应用动态增加语言支持，我们将假设以下的应用：
 应用`chat`，依赖于`user`、`manager`、`log`等三个库，均使用了`voerkiai18n`作为多语言解决方案
 当执行完`voerkai18n compile`后，项目结构大概如下：
-```javascript | pure
+```javascript
 chat
   |-- languages
   | |-- index.js
@@ -32,7 +32,7 @@ chat
 
 ```
 打开`languages/index.js`,大概如下:
-```javascript | pure
+```javascript
 // ....
 const scope = new i18nScope({
     id: "chat",                          // 当前作用域的id，自动取当前工程的package.json的name
@@ -57,7 +57,7 @@ const scope = new i18nScope({
 
 首先需要在应用中(例如`app.js`或`main.js`等)导入`i18nScope`实例，或者直接在`languages/index.js`注册一个默认的语言加载器。
 
-```javascript | pure
+```javascript
 
 // 从当前工程导入`scope`实例
 import { i18nScope } from "./languages"
@@ -75,7 +75,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 
 然后，我们就可以在此向服务器发起异步请求来读取语言包文件。
 
-```javascript | pure
+```javascript
 
 // 从当前工程导入`scope`实例
 import { i18nScope } from "./languages"
@@ -98,7 +98,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 ### 第三步：将语言包文件保存在服务器
 
 在上一步中，我们通过`fetch(/languages/${scope.id}/${language}.json)`来传递读取语言包（您可以使用任意您喜欢的方式,如`axios`），这意味着我们需要在web服务器上根据此`URL`来组织语言包，以便可以下载到语言包。比如可以这样组织：
-```javascript | pure
+```javascript
 webroot
   |-- languages
     <chat>          
@@ -118,7 +118,7 @@ webroot
 
 在本例中，我们要增加`de`语言，这就需要在服务器上生成一个对应的`de`语言包文件。
 方法很简单，打开`languages/cn.js`文件，该文件大概如下：
-```javascript | pure
+```javascript
 module.exports = {
     "1": "支持的语言",
     "2": "默认语言",
@@ -128,7 +128,7 @@ module.exports = {
 }
 ```
 复制一份修改和更名为`de.json`，内容大概概如下：
-```javascript | pure
+```javascript
 {
     "1": "支持的语言",
     "2": "默认语言",
@@ -152,7 +152,7 @@ module.exports = {
 - 当`i18nScope`注册到全局`VoerkaI18n`时，会调用默认的语言加载器,从服务器加载语言包，然后**合并到本地语言包中**，这样就很轻松地实现了为语言包打补丁的功能。
 
 在本例中，我们假设`chat`应用的中文语言发现翻译错误，需要一个语言包补丁来修复，方法如下：
-```javascript | pure
+```javascript
 webroot
   |-- languages
     <chat>
@@ -161,7 +161,7 @@ webroot
 ```
 按上例说明的方式，在服务器上编辑一个`zh.json`文件，保存到`languages/char/zh.json`，里面内容只需要包括出错的内容修复即可，其会自动合并到目标语言包中，整个过程对用户是无感的。
 
-```javascript | pure
+```javascript
 {
     "4": "名称空间"
 }
@@ -188,7 +188,7 @@ webroot
 | **scope** |语言作用域实例,其中`scope.id`值默认等于`package.json`中的`name`字段。详见[参考](../../reference/i18nscope)。 |
 
 - 典型的语言加载器非常简单，如下：
-```javascript | pure
+```javascript
 import { i18nScope } from "./languages"
 i18nScope.registerDefaultLoader(async (language,scope)=>{
     return await (await fetch(`/languages/${scope.id}/${language}.json`)).json()
@@ -203,7 +203,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 
  当编写语言切换界面时，对未注册的语言是无法枚举出来的，需要应用自行处理逻辑。例如在Vue应用中
 
-```javascript | pure
+```javascript
    	<div>
         <button 
             @click="i18n.activeLanguage=lng.name" 
@@ -252,7 +252,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 
 当切换到动态增加的语言时会从远程服务器加载语言包，取决于语言包的大小，可能会产生延迟，这可能对用户体验造成不良影响。因此，您可以在客户端对语言包进行缓存。
 
-```javascript | pure
+```javascript
 import { i18nScope } from "./languages"
 
 async function loadLanguageMessages(language,scope){

@@ -1,4 +1,4 @@
-# React应用
+# React应用<!-- {docsify-ignore-all} -->
 
 `React`应用一般可以采用`create-react-app`或`Vite+"@vitejs/plugin-react`工具来创建工程。
 
@@ -6,7 +6,7 @@
 
 ## 第一步：引入
 
-```javascript | pure
+```javascript
 // 初始化工程
 > voerka18n init
 // 提取要翻译的文本到src/languages/translates/*.json
@@ -23,7 +23,7 @@
 
 在`vite.config.js`中配置导入安装`@voerkai18n/vite`插件。
 
-```typescript | pure
+```typescript
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import Inspect from 'vite-plugin-inspect'
@@ -54,11 +54,11 @@ export default defineConfig({
 
 只需要从`languages`直接导入`t`函数即可。
 
-```javascript | pure
+```javascript
 import { t } from "./languages"
 ```
 取决于您是从哪一个文件中导入，需要修改导入位置，可能类似这样：
-```javascript | pure
+```javascript
 import { t } from "./languages"
 import { t } from "../languages"
 import { t } from "../../languages"
@@ -78,7 +78,7 @@ console.log(t("中华人民共和国"))
 
 使用`VoerkaI18nProvider`包装应用根组件，本质上是创建了一个`VoerkaI18nContext.Provider`。
 
-```jsx | pure
+```jsx
 
 // 1.当前语言Scope
 import { i18nScope } from "./languages"
@@ -97,7 +97,7 @@ export default App(){
 
 接下来通过`useVoerkaI18n`获取当前作用域的`t`翻译函数。
 
-```jsx | pure
+```jsx
 import { useVoerkaI18n } from "@voerkai18n/react"
 export function MyComponent(){
      const { t } = useVoerkaI18n()
@@ -121,7 +121,7 @@ export function MyComponent(){
 - `languages`: 读取当应用支持的语言列表。
 
 
-```jsx | pure
+```jsx
 
 import { useVoerkaI18n } from "@voerkai18n/react"
 

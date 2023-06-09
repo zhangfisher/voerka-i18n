@@ -1,4 +1,4 @@
-# Vue插件
+# Vue插件<!-- {docsify-ignore-all} -->
 
 
 在`vue3`项目中可以安装`@voerkai18n/vue`来实现`枚举语言`、`变量注入`、`语言切换`等功能。
@@ -7,7 +7,7 @@
 
 将`@voerkai18n/vue`安装为运行时依赖
 
-```javascript | pure
+```javascript
 npm install @voerkai18n/vue
 pnpm add @voerkai18n/vue
 yarn add @voerkai18n/vue
@@ -15,7 +15,7 @@ yarn add @voerkai18n/vue
 
 ## 启用插件
 
-```javascript | pure
+```javascript
     import { createApp } from 'vue'
     import Root from './App.vue'
     import i18nPlugin from '@voerkai18n/vue'
@@ -31,7 +31,7 @@ yarn add @voerkai18n/vue
 
 接下来在组件中按需注入`i18n`实例，可以用来访问当前的`激活语言`、`默认语言`、`切换语言`等。
 
-```javascript | pure
+```javascript
 <script>
 import {reactive } from 'vue'
 export default {
@@ -43,7 +43,7 @@ export default {
 
 声明`inject: ['i18n']`后在当前组件实例中就可以访问`this.i18n`，该实例是一个经过`reactive`封闭的响应式对象，其内容是：
 
-```javascript | pure
+```javascript
 this.i18n = {
   	activeLanguage,					// 当前激活语言，可以通过直接赋值来切换语言
     defaultLanguage,				// 默认语言名称
@@ -55,7 +55,7 @@ this.i18n = {
 
 注入`i18n`实例后就可以在此基础上实现`激活语言`、`默认语言`、`切换语言`等功能。
 
-```javascript | pure
+```javascript
 <script>
 import {reactive } from 'vue'
 export default {
@@ -80,7 +80,7 @@ export default {
 
 `@voerkai18n/vue`插件支持以下参数：
 
-```javascript | pure
+```javascript
 import { i18nScope } from './languages'
 app.use(i18nPlugin,{ 
     i18nScope,				// 重点，需要引入当前作用域的i18nScope 

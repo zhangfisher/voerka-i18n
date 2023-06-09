@@ -4,7 +4,7 @@
 
 ## 启用复数处理机制
 假设在`index.html`文件中具有一个翻译内容
-```javascript | pure
+```javascript
     t("我有{}一辆车")
 ```
 经过`extract`命令提取为翻译文件后，如下：
@@ -42,7 +42,7 @@
 
 - **不存在插值变量且t函数的第2个参数是数字**
 
-```javascript | pure
+```javascript
 
 t("我有一辆车",0)  // ==   "I don't have a car"
 t("我有一辆车",1)  // ==   "I have a car"
@@ -53,7 +53,7 @@ t("我有一辆车",100)  // == "I have 100 cars"
 - **存在插值变量且t函数的第2个参数是数字**
 
 就中文而言，上述没有指定插值变量是比较别扭的，一般可以引入一个位置插值变量更加友好。
-```javascript | pure
+```javascript
 
 t("我有{}辆车",0)  		// ==   "I don't have a car"
 t("我有{}辆车",1)  		// ==   "I have a car"
@@ -68,7 +68,7 @@ t("我有{}辆车",100)  	// == "I have 100 cars"
 **当采用位置变量插值时，`t`函数取第一个数字类型参数作为位置插值复数。**
 
 
-```javascript | pure
+```javascript
 t("{}有{}辆车","张三",0)
 ```
 
@@ -76,13 +76,13 @@ t("{}有{}辆车","张三",0)
 
 下例中，`t`函数根据`$count`值来处理复数。
 
-```javascript | pure
+```javascript
 t("{name}有{$count}辆车",{name:"张三",$count:1})
 ```
 
 ## **示例**
 
-```javascript | pure
+```javascript
 // languages/translates/default.json
 {
     "第{}章":{

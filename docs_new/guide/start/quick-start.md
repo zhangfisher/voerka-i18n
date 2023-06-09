@@ -1,7 +1,9 @@
 # 快速入门<!-- {docsify-ignore-all} -->
 
 
-本节以标准的`Nodejs`应用程序为例，简要介绍`VoerkaI18n`国际化框架的基本使用。其他`vue`或`react`应用的使用也基本相同。
+本节以标准的`Nodejs`应用程序为例，简要介绍`VoerkaI18n`国际化框架的基本使用。
+
+`vue`或`react`应用的使用流程也基本相同，可以参考[Vue集成](../integration/vue)和[React集成](../integration/react)。
 
 ```shell
 myapp
@@ -11,7 +13,7 @@ myapp
 
 在本项目的所有支持的源码文件中均可以使用`t`函数对要翻译的文本进行包装，简单而粗暴。
 
-```javascript | pure
+```javascript 
 // index.js
 console.log(t("中华人民共和国万岁"))
 console.log(t("中华人民共和国成立于{}",1949))
@@ -31,7 +33,7 @@ console.log(t("中华人民共和国成立于{}",1949))
 
 在工程目录中运行`voerkai18n init`命令进行初始化。
 
-```javascript | pure
+```javascript 
 > voerkai18n init 
 ```
 
@@ -65,15 +67,18 @@ console.log(t("中华人民共和国成立于{}",1949))
 
 **注意：**
 
+- 可以修改该文件来配置支持的语言、默认语言、激活语言等。可支持的语言可参阅[语言代码列表](../../reference/lang-code)。
 - `voerkai18n init`是可选的，`voerkai18n extract`也可以实现相同的功能。
 - 一般情况下，您可以手工修改`settings.json`，如定义名称空间。
 - `voerkai18n init`仅仅是创建`languages`文件，并且生成`settings.json`,因此您也可以自己手工创建。
+- 针对`js/typescript`或`react/vue`等不同的应用，`voerkai18n init`可以通过不同的参数来配置生成`ts`文件或`js`文件。
+- 更多的`voerkai18n init`命令的使用请查阅[这里](../tools/cli.md)
 
 ##  第三步：标识翻译内容
 
 接下来在源码文件中，将所有需要翻译的内容使用`t`翻译函数进行包装，例如下：
-```javascript | pure
-import { t } from "<myapp>/languages"
+```javascript 
+import { t } from "./languages"
 // 不含插值变量
 t("中华人民共和国")
 // 位置插值变量
@@ -93,9 +98,9 @@ myapp>voerkai18n extract
 
 执行`voerkai18n extract`命令后，就会在`myapp/languages`通过生成`translates/default.json`、`settings.json`等相关文件。
 
-- **translates/default.json** ： 该文件就是从当前工程扫描提取出来的需要进行翻译的文本信息。
-
-- **settings.json**： 语言环境的基本配置信息，可以进行修改。
+- **translates/default.json** ： 
+    该文件就是从当前工程扫描提取出来的需要进行翻译的文本信息。所有需要翻译的文本内容均会收集到该文件中。
+- **settings.json**： 语言环境的基本配置信息,包含支持的语言、默认语言、激活语言等信息。
 
 最后文件结构如下：
 
@@ -112,19 +117,19 @@ myapp
 
 **如果略过第一步中的`voerkai18n init`，也可以使用以下命令来为创建和更新`settings.json`**
 
-```javascript | pure
+```javascript 
 myapp>voerkai18n extract -D -lngs zh en de jp -d zh -a zh
 ```
 
-以上命令代表：
+**以上命令代表：**
 
 - 扫描当前文件夹下所有源码文件，默认是`js`、`jsx`、`html`、`vue`文件类型。
-- 计划支持`zh`、`en`、`de`、`jp`四种语言
+- 支持`zh`、`en`、`de`、`jp`四种语言
 - 默认语言是中文。（指在源码文件中我们直接使用中文即可）
 - 激活语言是中文（即默认切换到中文）
 - `-D`代表显示扫描调试信息,可以显示从哪些文件提供哪些文本
 
-## 第五步：翻译文本
+## 第五步：人工翻译
 
 接下来就可以分别对`language/translates`文件夹下的所有`JSON`文件进行翻译了。每个`JSON`文件大概如下：
 
@@ -153,17 +158,19 @@ myapp>voerkai18n extract -D -lngs zh en de jp -d zh -a zh
 - 如果文本内容在源代码中已修改了，则会视为新增加的内容。
 - 如果文本内容已经翻译了一部份了，则会保留已翻译的内容。
 
-总之，反复执行`voerkai18n extract`命令是安全的，不会导致进行了一半的翻译内容丢失，可以放心执行。
+**总之，反复执行`voerkai18n extract`命令是安全的，不会导致进行了一半的翻译内容丢失，可以放心执行。**
 
-大部分国际化解决方案至此就需要交给人工进行翻译了，但是`voerkai18n`除了手动翻译外，通过`voerkai18n translate`命令来实现**调用在线翻译服务**进行自动翻译。
+## 第六步：自动翻译
 
-```javascript | pure
->voerkai18n translate --provider baidu --appkey <在百度翻译上申请的密钥> --appid <在百度翻译上申请的appid>
+`voerkai18n`支持通过`voerkai18n translate`命令来实现**调用在线翻译服务**进行自动翻译。
+
+```javascript 
+>voerkai18n translate --appkey <在百度翻译上申请的密钥> --appid <在百度翻译上申请的appid>
 ```
 
- 在项目文件夹下执行上面的语句，将会自动调用`百度的在线翻译API`进行翻译，以现在的翻译水平而言，您只需要进行少量的微调即可。关于`voerkai18n translate`命令的使用请查阅后续介绍。
+在项目文件夹下执行上面的语句，将会自动调用`百度的在线翻译API`进行翻译，以现在的翻译水平而言，您只需要进行少量的微调即可。关于`voerkai18n translate`命令的使用请查阅后续介绍。
 
-## 第六步：编译语言包
+## 第七步：编译语言包
 
 当我们完成`myapp/languages/translates`下的所有`JSON语言文件`的翻译后（如果配置了名称空间后，每一个名称空间会对应生成一个文件，详见后续`名称空间`介绍），接下来需要对翻译后的文件进行编译。
 
@@ -173,12 +180,12 @@ myapp> voerkai18n compile
 
 `compile`命令根据`myapp/languages/translates/*.json`和`myapp/languages/settings.json`文件编译生成以下文件：
 
-```javascript | pure
+```javascript 
   |-- languages
     |-- settings.json                // 语言配置文件
     |-- idMap.js                     // 文本信息id映射表
-    |-- runtime.js                   // 运行时源码
     |-- index.js                     // 包含该应用作用域下的翻译函数等
+    |-- storage.js
     |-- zh.js                        // 语言包
     |-- en.js
     |-- jp.js
@@ -195,23 +202,23 @@ myapp> voerkai18n compile
 
 ```
 
-## 第七步：导入翻译函数
+## 第八步：导入翻译函数
 
 第一步中我们在源文件中直接使用了`t`翻译函数包装要翻译的文本信息，该`t`翻译函数就是在编译环节自动生成并声明在`myapp/languages/index.js`中的。
 
-```javascript | pure
+```javascript 
 import { t } from "./languages"   
 ```
 
 因此，我们需要在需要进行翻译时导入该函数即可。
 
-但是如果源码文件很多，重次重复导入`t`函数也是比较麻烦的，所以我们也提供了一个`babel/vite`等插件来自动导入`t`函数。
+但是如果源码文件很多，重次重复导入`t`函数也是比较麻烦的，所以我们也提供了一个`babel/vite`等插件来自动导入`t`函数，可以根据使用场景进行选择。
 
-## 第八步：切换语言
+## 第九步：切换语言
 
 当需要切换语言时，可以通过调用`change`方法来切换语言。
 
-```javascript | pure
+```javascript 
 import { i18nScope } from "./languages"
 
 // 切换到英文
@@ -224,24 +231,24 @@ await VoerkaI18n.change("en")
 
 一般可能也需要在语言切换后进行界面更新渲染，可以订阅事件来响应语言切换。
 
-```javascript | pure
+```javascript 
 import { i18nScope } from "./languages"
 
 // 切换到英文
-i18nScope.on((newLanguage)=>{
+i18nScope.on("change",(newLanguage)=>{
     // 在此重新渲染界面
     ...
 
 })
 // 
-VoerkaI18n.on((newLanguage)=>{
+VoerkaI18n.on("change",(newLanguage)=>{
      // 在此重新渲染界面
      ...
 })
 ```
-[@voerkai18n/vue](../tools/vue.md)和[@voerkai18n/react](../use/react.md)提供了相对应的插件和库来简化重新界面更新渲染。
+[@voerkai18n/vue](../integration/vue)和[@voerkai18n/react](../integration/react.md)提供了相对应的插件和库来简化重新界面更新渲染。
 
-## 第九步：语言包补丁
+## 第十步：语言包补丁
 
 一般情况下，多语言的工程化过程就结束了，`voerkai18n`在多语言实践考虑得更加人性化。有没有经常发现这样的情况，当项目上线后，才发现：
 - 翻译有误
@@ -254,7 +261,7 @@ VoerkaI18n.on((newLanguage)=>{
 **方法如下：**
 
 1. 注册一个默认的语言包加载器函数，用来从服务器加载语言包文件。
-```javascript | pure
+```javascript 
 import { i18nScope } from "./languages"
 
 i18nScope.registerDefaultLoader(async (language,scope)=>{
@@ -262,10 +269,11 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 })
 ```
 
-2. 将语言包补丁文件保存在服务器上指定的位置`/languages/<应用名称>/<语言名称>.json`即可。
-3. 当应用启动后会自动从服务器上加载语言补丁包合并，从而实现动为语言包打补丁的功能。也可以实现动态增加临时支持一种语言的功能
+2. 将语言包补丁文件保存在Web服务器上指定的位置`/languages/<应用名称>/<语言名称>.json`即可。
+3. 当应用启动后会自动从服务器上加载语言补丁包合并，从而实现动为语言包打补丁的功能。
+4. 利用该特性也可以实现动态增加临时支持一种语言的功能
 
-更完整的说明详见[`动态加载语言包`](../advanced/remote-load.md)和[`语言包补丁`](../advanced/lngpatch.md)功能介绍。
+更完整的说明详见[`动态加载语言包`](../advanced/dynamic-add)和[`语言包补丁`](../advanced/lang-patch)功能介绍。
 
 
  

@@ -1,6 +1,9 @@
-# Vue应用
+# Vue应用<!-- {docsify-ignore-all} -->
 
-创建`Vue`应用一般采用`Vite`或`Vue Cli`来创建工程。在`Vue3`应用中引入`voerkai18n`来添加国际化应用需要由两个插件来简化应用。
+> 本节主要介绍如何在`Vue 3`应用中使用`VoerkaI18n`。
+
+
+创建`Vue 3`应用一般采用`Vite`或`Vue Cli`来创建工程。在`Vue3`应用中引入`voerkai18n`来添加国际化应用需要由两个插件来简化应用。
 
 - **@voerkai18n/vue**
 
@@ -8,18 +11,25 @@
 
 - **@voerkai18n/vite**
 
-  **Vite插件**，在`vite.config.js`中配置，用来实现`自动文本映射`等功能。
+  **Vite插件**，在`vite.config.js`中配置，用来实现`自动文本映射`和`t函数的自动导入`等功能。
 
   
 `@voerkai18n/vue`和`@voerkai18n/vite`两件插件相互配合，安装配置好这两个插件后，就可以在`Vue`文件使用多语言`t`函数。
 
-
-以下介绍当采用`Vite`创建应用时，如何引入`Voerkai18n`。
-
-
 ## 第一步：引入
 
-```javascript | pure
+`Vue`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
+
+- 调用`voerkai18n init`初始化多语言工程
+- 调用`voerkai18n extract`提取要翻译的文本
+- 调用`voerkai18n translate`进行自动翻译或人工翻译
+- 调用`voerkai18n compile`编译语言包
+- 在`Vue`应用中引入`@voerkai18n/vue`和`@voerkai18n/vite`插件
+- 在源码中使用`t`函数进行翻译
+
+完整的工程化流程请参见[工程化](../start/quick-start)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
+
+```javascript
 // 初始化工程
 > voerka18n init
 // 提取要翻译的文本到src/languages/translates/*.json
@@ -30,13 +40,13 @@
 > voerkai18n compile 
 ```
 
-## 第二步：配置`@voerkai18n/vite`插件
+## 第二步：启用`@voerkai18n/vite`插件
 
 `@voerkai18n/vite`插件可以根据`idMap.ts`映射文件将源码中的`t("xxxxx")`转换为`t("<数字>")`的形式，从而实现消除翻译内容的冗余内容。
 
 `@voerkai18n/vite`插件的安装非常简单，只需要在`vite.config.(ts|js)`中添加如下内容：
 
-```javascript | pure
+```javascript
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -45,13 +55,15 @@ import Voerkai18nPlugin from "@voerkai18n/vite"
  
 export default defineConfig({
   plugins: [    
-    Inspect(),  // 可选    
-    Voerkai18nPlugin(), 
-    vue()],
+    Inspect(),                // 可选    
+    Voerkai18nPlugin(),       // 新增加
+    vue()
+  ],
 })
 
 ```
-`@voerkai18n/vite`插件仅在开发和构建阶段作用。事实上，如果不在乎文本内容的冗余，不安装此插件也是可以工作正常的。
+- `@voerkai18n/vite`插件仅在开发和构建阶段作用。事实上，如果不在乎文本内容的冗余，不安装此插件也是可以工作正常的。
+- `vite-plugin-inspect`仅用于调试，可以在`http://localhost:3000/__inspect/`查看当前工程中的`@voerkai18n/vite`是否正确地进行自动导入和`idMap.ts`映射，供开发阶段进行调试使用。
 
 ## 第三步：配置`@voerkai18n/vue`插件
 
@@ -81,7 +93,7 @@ app.mount('#app')
 
 `Vue`应用使用多语言本质是调用`import { t } from 'langauges`导入的`t`函数来进行翻译。
 
-```javascript | pure
+```javascript
 
 // 在setup中需要手动导入t函数
 <Script setup>
@@ -129,7 +141,7 @@ export default {
 
 引入`@voerkai18n/vue`插件来实现切换语言和自动重新渲染的功能。
 
-```vue | pure
+```vue
 
 <script setup lang="ts">
 import { injectVoerkaI18n } from "@voerkai18n/vue"

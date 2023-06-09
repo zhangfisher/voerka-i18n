@@ -1,7 +1,7 @@
 # 货币<!-- {docsify-ignore-all} -->
 ## 概述
 
-`voerkai18n`内置支持`currency`和`rmb`两个货币相关的格式化器，用来输出多语言场景下的货币显示。 
+`voerkai18n`内置支持`currency`格式化器用来进行多语言场景下的货币显示。 
 
 ## 指南
 ### 基本用法
@@ -9,7 +9,7 @@
 当需要对货币本地化显示时，请使用相对应的`currency`格式化器，可以在`t`函数中使用来对`Number`类型进行本地化格式输出。
 
 - **无参数(默认格式)** 
-    ```javascript | pure
+    ```javascript
     t("{ value | currency}",1234.56)    // == ￥1234.56
     await scope.change("en")
     t("{ value | currency}",1234.56)    // == $1,234.56    
@@ -18,7 +18,7 @@
 
     内置支持`default`、`long` 、`short`、`custom`等预定义格式，不同语言其输出格式是不同的。
 
-    ```javascript | pure
+    ```javascript
     t("{ value | currency('long')}",1234.56)    // == 长格式输出： RMB￥1234.56元
     t("{ value | currency('short')}",1234.56)    // ==短格式输出 ￥1234.56
     await scope.change("en")
@@ -29,7 +29,7 @@
     例如：`zh`语言的`long`预定义格式是 `{prefix} {symbol}{value}{unit}{suffix}`
 
 - **指定货币单位** 
-    ```javascript | pure
+    ```javascript
         t("{ value | currency('long',1)}",1234.56)                 // 长格式: 万元
         t("{ value | currency('long',2)}",1234.56)                 // 长格式: 亿
         t("{ value | currency('long',3)}",1234.56)                 // 长格式: 万亿
@@ -44,7 +44,7 @@
 - **指定位置参数** 
     `currency`格式化器支持`format`,`unit`,`precision`,`prefix`,`suffix`,`division`,`symbol`,`radix`等位置参数，可以根据需要依次传入这些参数来控制货币输出。
 
-    ```javascript | pure
+    ```javascript
         // t("{ value | currency(<format>,<unit>,<precision>,<prefix>,<suffix>,<division>,<symbol>,<radix>)}",1234.56)
         t("{ value | currency('long',1)}",1234.56)                 // 长格式: 万元
         t("{ value | currency('long',1,2,'人民币')}",1234.56)                 
@@ -53,18 +53,18 @@
 
 - **指定对象参数**  
    使用位置参数时，只能按顺序输入，如果我们只想为货币输出指定一个后缀，则需要像以下方式来传参:
-   ```javascript | pure
+   ```javascript
         t("{ value | currency('long',1,2,'人民币','元',3,'<后缀>')}",1234.56)                 
         t("{ value | currency('long',,,,,,'<后缀>')}",1234.56)                 
    ```
    `currency`格式化器支持通过对象方式进行传参，像这样：
-   ```javascript | pure
+   ```javascript
         t("{ value | currency({format:'long',suffix:'<后缀>'})}",1234.56)                       
    ```
 
-### **货币组成**
+### 货币组成
 
-为了支持灵活的货币格式输出，`currency`格式化器将一个完整的货币字符串划分为五部分:
+为了支持灵活的货币格式输出，`currency`格式化器将一个**完整的货币字符串**划分为五部分:
 
 | 前缀  |  符号  |  值   | 单位   | 后缀  | 
 | :---: |  :---:  |  :---:   | :---:   | :---:  | 
@@ -100,7 +100,7 @@
     英文中，每3个数字加一个逗号，对应`thousands`,`millions`,`billions`,`trillions`,....。
     而我们中国更加习惯每4个数字进一个位，表达时会习惯使用元、万、亿来表示。
     如用英文表示123,456,789.00，我们要看半天才知道是多少。而如果用四位分割1,2345,6789.00，则我们很容易就看出是1亿...。
-    而`radix`参数就是用来配置多个位一个单位的。
+    而`radix`参数就是用来配置多个位一个单位的。中文时默认是4，英文时默认是3。
 
 -  `division`
     该参数用来指示每`division`个数字加一个逗号,该参数与`radix`的区别在哪里？
@@ -111,9 +111,9 @@
     而中文`radix=4`，就对应`万`、`亿`、`万亿`、...
     也说是说，`radix`参数仅当指定`unit`值`>0`时用来计算出合适的单位使用的。 
 
-### **示例**
+### 示例
 
-  当`activeLanguage='zh'`时,`radix=4`,units = ["","万","亿","万亿","万万亿"] 
+  当`activeLanguage='zh'`时,`radix=4`,units = `["","万","亿","万亿","万万亿"] `
 
 |  value |  radix  | division | unit |  输出 |
 |  ---   |   ---   | ---   |  ---  | ---  |
@@ -126,15 +126,11 @@
 |  123456789.88   |   4   | 3   | 1  |  12,345.6789万  |
 |  123456789.88   |   4   | 3   | 2  |  1.23456789亿  |
 |  123456789.88   |   4   | 3   | 3  |  0.000123456789万亿  |
-
-
-
  
 
-#### 示例
-
 **当`activeLanguage == "zh"`时：**
-```javascript | pure
+
+```javascript
     t("{ value | currency}",123456789.88)                           // ￥1,2345,6789.88
     // long
     t("{ value | currency('long')}",123456789.88)                   // RMB ￥1,2345,6789.88元
@@ -159,7 +155,7 @@
 ```
 **当`activeLanguage == "en"`时：**
 
-```javascript | pure
+```javascript
     t("{ value | currency}",123456789.88)                           // $123,456,789.88
     // long
     t("{ value | currency('long')}",123456789.88)                   // USD $123,456,789.88
@@ -180,7 +176,7 @@
 - **配置文件**：`languages/formatters/<语言名称>.js`
 - **配置位置**： `$config.currency`
 - **配置参数**：
-    ```javascript | pure
+    ```javascript
     export default {
         $config:{ 
             currency          : {
@@ -202,7 +198,8 @@
     }
     ```
 也可以自行配置定义一个预设的格式，如下：
-```javascript | pure
+
+```javascript
 export default {
     $config:{ 
         currency          : {
@@ -216,27 +213,13 @@ t("我有{value | currency('bitcoin') }个比特币",12344354)
 t("我有{value | currency({format:'bitcoin',symbol:'฿') }个比特币",12344354)
 
 ```
-
-### 人民币 - `rmb`
-
-用来输出中文货币，这个格式化器事实上跟国际化关系不大，在其他语言中不存在对应的翻译。
-
-```javascript | pure
-// 中文数字 =   一亿二千三百四十五万六千七百八十九元八角八分
-t("{value |rmb }",123456789.88)   
-// 中文大写数字 =   壹億貳仟參佰肆拾伍萬陸仟柒佰捌拾玖元捌角捌分
-t("{value |rmb(true) }",123456789.88)   
-// 自定义格式 = 人民币:壹億貳仟參佰肆拾伍萬陸仟柒佰捌拾玖元捌角捌分整
-t("{value |rmb({big:true,prefix:'人民币:', unit:'元',suffix:'整'})}",123456789.88) 
-```
-
 ## 扩展配置
 
 `voerkai18n`运行时已经内置了`zh`、`en`两种语言的货币输出的格式化器，主要是`currency`格式式化器，该格式化器被设计为可以进行配置。当以上格式化器不能满足要求，或者缺少某种语言的货币格式化时，可以非常容易地进行扩展。
 
 扩展支持不同语言言的日期时间格式化非常简单，当使用`voerkai18n compile`后，项目结构中会生成`formatters`如下：
 
-```javascript | pure
+```javascript
 <myapp>
    |--src
    |  |-- languages
@@ -263,13 +246,14 @@ t("{value |rmb({big:true,prefix:'人民币:', unit:'元',suffix:'整'})}",123456
 - **自定义预设的规则**
 - **编写货币格式化模板**
 
-###  **修改内置规则**
+###  修改内置规则
 由于`@voerkai18n/runtime`中已经内置了`zh`和`en`两种语言的货币格式化器，大多数情况下，我们会定时更新确保其有效工作，一般情况下，您是不需要修改`zh.js`、`en.js`这两个文件了。
 
 但是如果内置的`zh`和`en`两种语言的货币格式化器不能满足要求，您可以选择性地修改`zh.js`、`en.js`这两个文件，这些文件会覆盖合并到内置的日期和时间格式化规则。
 
 当您第一次打开`languages/formatters/<语言名称>.js`时会发现里面是空的(除了一些注释外)。内容大概如下：
-```javascript | pure
+
+```javascript
 export default {
     $config:{
 
@@ -281,7 +265,7 @@ export default {
 
 - **我们想让`zh`语言的默认格式采用`long`格式，则需要修改：**
 
-```javascript | pure
+```javascript
 export default {
     $config:{
         datetime:{
@@ -294,7 +278,7 @@ export default {
 ```
 - **将修改德国的货币符号为`€`**
 
-```javascript | pure
+```javascript
 export default {
     $config:{
         datetime:{
@@ -308,7 +292,7 @@ export default {
 - **修改中文`long`预设格式**
 
 中文`long`预设格式是`{prefix} {symbol}{value}{unit}{suffix}`,修改为`RMB {symbol}{value}元`.则需要修改`languages/formatters/zh.js`，如下：
-```javascript | pure
+```javascript
 export default {
     $config:{
         datetime:{
@@ -323,14 +307,14 @@ export default {
 
 完整的配置项见下文。
 
-###  **增加格式化规则**
+###  增加格式化规则
 目前，`voerkai18n`只内置了`zh`,`en`两种语言的货币规则支持。其中，`en`语言的货币格式化器被注册到全局。当切换到`zh`,`en`两种语言之外的其他语言时，会使用`en`语言的货币格式化规则。
 
 很明显，`en`语言的日期时间格式化规则并不能适应所有语言的要求，在官方提供该语言支持前,您可以自行配置语言支持。
 
 方法很简单，以`de`语言为例，打开`languages/formatters/de.js`文件。
 
-```javascript | pure
+```javascript
 export default {
     $config:{
         datetime:{
@@ -345,14 +329,15 @@ export default {
 ```
 这样，当切换到`de`语言时，date格式化器就会读取`languages/formatters/de.js`文件中的配置，从而实现符合要求的`de`语言的货币格式化。 
 
-###  **扩展预设规则**
+###  扩展预设规则
 
 除了预设的`long`、`short`、`default`、`custom`等规则外，您可以通过模板字符串来自定义更加灵活的格式化规则。
 您也可以自己定义一个预设格式化规则。
 
 比如可以定义一个`rmb`的规则来显示更加完整的人民币,方法如下：
 在`languages/formatters/zh.json`中，增加一个`rmb`配置项即可。
-```javascript | pure
+
+```javascript
 export default {
     $config: {
         rmb: "人民币: {symbol}{value}元整"

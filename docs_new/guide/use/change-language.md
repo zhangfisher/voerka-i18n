@@ -4,7 +4,7 @@
 
 可以通过全局单例或当前作用域实例的`change`方法来切换语言。
 
-```javascript | pure
+```javascript
 import { i18nScope } from "./languages"
 
 // 切换到英文
@@ -15,15 +15,15 @@ await VoerkaI18n.change("en")
 
 ## 侦听语言切换事件
 
-```javascript | pure
+```javascript
 import { i18nScope } from "./languages"
 
 // 切换到英文
-i18nScope.on((newLanguage)=>{
+i18nScope.on("change",(newLanguage)=>{
     ...
 })
 // 直接在全局单例上调用
-VoerkaI18n.on((newLanguage)=>{
+VoerkaI18n.on("change",(newLanguage)=>{
     ...
 })
 ```

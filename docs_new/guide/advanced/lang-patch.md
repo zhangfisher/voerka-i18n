@@ -1,4 +1,4 @@
-# 语言包补丁
+# 语言包补丁<!-- {docsify-ignore-all} -->
 
 在实际应用中，我们经常会在应用上线后，有没有经常碰到这样的问题：
 - 发现应用中的翻译错误
@@ -19,7 +19,7 @@
 应用`chat`，依赖于`user`、`manager`、`log`等三个库，均使用了`voerkiai18n`作为多语言解决方案。
 其拟支持`zh`、`en`、`de`共三种语言。
 当执行完`voerkai18n compile`后，项目结构大概如下：
-```javascript | pure
+```javascript
 chat
   |-- languages
   | |-- index.js
@@ -39,7 +39,7 @@ chat
 ```
 
 打开`languages/index.js`,大概如下:
-```javascript | pure
+```javascript
 // ....
 const scope = new i18nScope({
     id: "chat",                          // 当前作用域的id，自动取当前工程的package.json的name
@@ -59,7 +59,7 @@ const scope = new i18nScope({
  
 需要在应用中(例如`app.js`或`main.js`等)导入`i18nScope`实例或者直接在`languages/index.js`中并注册一个默认的语言加载器。
 
-```javascript | pure
+```javascript
 
 // 从当前工程导入`scope`实例
 import { i18nScope } from "./languages"
@@ -78,7 +78,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 
 假设我们发现`zh`语言的翻译错误，这就需要在服务器上生成一个对应的`zh`语言包补丁文件。
 方法很简单，打开`languages/zh.js`文件，该文件大概如下：
-```javascript | pure
+```javascript
 module.exports = {
     "1": "支持的语言",
     "2": "默认语言",
@@ -88,7 +88,7 @@ module.exports = {
 }
 ```
 复制一份修改和更名为`zh.json`，其中仅保留需要修复的条目，内容大概如下：
-```javascript | pure
+```javascript
 {
     "1": "支持的语言",       
 }
@@ -99,7 +99,7 @@ module.exports = {
 ### 第三步：组织语言包补丁文件
 在上面中，我们通过`fetch(/languages/${scope.id}/${language}.json)`来读取语言包（您可以使用任意您喜欢的方式,如`axios`），这意味着我们需要在web服务器上根据此`URL`来组织语言包补丁，以便可以下载到语言包补丁。需要将语言包补丁保存在服务器的指定位置，如下：
 
-```javascript | pure
+```javascript
 webroot
   |-- languages
     <chat>          

@@ -1,4 +1,4 @@
-# 格式化器
+# 格式化器<!-- {docsify-ignore-all} -->
 
 ## 概念
 
@@ -25,7 +25,7 @@
 
 **调用方式：**
 
-```javascript | pure
+```javascript
 t("商品价格：{ value | currency }",1234.88)         // 参数调用
 t("商品价格：{ value | currency('long') }",1234.88)   /// 有参调用
 t("商品价格：{ value | currency('long') | prefix('人民币') }",1234.88)   /// 有参调用且链式调用
@@ -38,7 +38,7 @@ t("商品价格：{ value | currency({ symbol:'￥￥',prefix:'人民币:',suffi
 
 比如我们定义对`Boolean`类型格式化器，
 
-```javascript | pure
+```javascript
 //languages/formatters/<语言名称>.js
 export default  {
     // 只作用于特定数据类型的格式化器   
@@ -52,7 +52,7 @@ t("灯状态：{status}",false)  // === 灯状态：OFF
 
 在上例中，如果我们想在不同的语言环境下，翻译为不同的显示文本，则可以为不同的语言指定类型格式化器
 
-```javascript | pure
+```javascript
 //languages/formatters/zh.js
 export default  {
     $types:{
@@ -86,7 +86,7 @@ t("灯状态：{status}",false)  // === 灯状态：OFF
 
 同样的，通用的格式化器定义在`languages/formatters/<语言名称>.js`中。
 
-```javascript | pure
+```javascript
 
 // languages/formatters/zh.js
 export default {
@@ -111,7 +111,7 @@ export default {
 
 格式化器是一个普通的的同步函数，我们只需要针对不同的语言编写相对应的格式化器函数,当切换语言时，就会自动调用相应的格式化器函数进行格式化输出。
 例如：我们开发一个转换数字的格式化器，在中文下显示`一、二、三`，在英文下显示`One、Two、Three`。
-```javascript | pure
+```javascript
 // languages/formatters/zh.js
 export default  { 
     uppercase:(value)=> ["一","二","三"][value-1]
@@ -122,14 +122,14 @@ export default  {
 }
 ```
 上面这个格式化器非常简单，以至于为不同语言编写对应的语言格式化也是非常容易的，比如可以增加`de`语言。
-```javascript | pure
+```javascript
 // languages/formatters/de.js
 export default  { 
     uppercase:(value)=> ["Eins", "zwei", "drei"][value-1]
 } 
 ```
 但是明显上面的格式化器还存在一些瑕疵,比如没有做类型检查，这样容易出错。因此，我们来增加相应的类型检查。
-```javascript | pure
+```javascript
 // languages/formatters/zh.js
 export default  { 
     uppercase:(value)=>{
@@ -155,7 +155,7 @@ export default  {
 **格式化可配置机制**事实上很简单，就是两个关键步骤：
 
 - **第一步：在每个语言格式化器文件，指定`$config`用来保存配置参数**
-```javascript | pure
+```javascript
 
 // languages/formatters/zh.js
 export default  { 
@@ -169,7 +169,7 @@ export default  {
 
 - **第二步：在执行格式化函数时传入$config**
 
-```javascript | pure
+```javascript
 
 // languages/formatters/zh.js
 export default  { 
@@ -187,7 +187,7 @@ export default  {
 
 下面我们来重写`uppercase`格式化器:
 
-```javascript | pure
+```javascript
 // languages/formatters/en.js
 export default  { 
     $config:{
@@ -220,7 +220,7 @@ export default  {
 **当切换语言时，`voerkai18n`会将当前`scope.activeFormaters`切换到对应的`languages/formatters/<语言名称>.js`，这样在执行格式化器函数时，就总是可以得到当前语言的格式化器配置。**
 
 格式化器配置机制还支持配置的合并机制，在上例中，当我们切换到`de`语言时，`voerkai18n`会依次合并:
-```javascript | pure
+```javascript
 const finalConfig = deepMerge(    
     scope.global.formatters["en"].$config,      // 优先级最低
     scope.global.formatters["*"].$config,       
@@ -235,7 +235,7 @@ const finalConfig = deepMerge(
 
 例如:`currency`格式化器的完整配置是：
 
-```javascript | pure
+```javascript
 export default {
     currency:{
         default       : "{symbol}{value}{unit}",
@@ -296,7 +296,7 @@ export default {
 
 **例:** 开发一个转换数字的格式化器，在中文下显示`一、二、三`，在英文下显示`One、Two、Three`
 
-```javascript | pure
+```javascript
 // languages/formatters/zh.js
 export default  { 
     uppercase:(value)=> ["一","二","三"][value-1]
@@ -328,7 +328,7 @@ t("{value | uppercase}",3)  // == Three
 ### 变参格式化器
 
 如果需要格式化器支持变参调用，像这样：
-```javascript | pure
+```javascript
 t("{value | uppercase}",1)  
 t("{value | uppercase(a)}",2)  
 t("{value | uppercase(a,b,c)}",3)  
@@ -336,7 +336,7 @@ t("{value | uppercase(a,b,c)}",3)
 那么就需要自己在格式化函数中处理，一般可以像这样：
 
 
-```javascript | pure
+```javascript
 // languages/formatters/zh.js
 export default  { 
     uppercase:(value,...args)=>{
@@ -352,7 +352,7 @@ export default  {
 
 为简化编写格式化器函数时对输入值进行值检查、变参处理、默认值处理等通用逻辑，`voerkai18n`提供了`createFormater`和`Formatter`函数帮助创建格式化函数。
 
-```javascript | pure
+```javascript
 // languages/formatters/en.js
 import { Formatter } from "../runtime"
 export default  { 
@@ -376,7 +376,7 @@ export default  {
 ```
 以上创建了一个名叫`sum`的格式化器，该格式化器支持3个参数，然后会计算`value`+`a`+`b`+`c`，然后输出`Sum={result}`。
 
-```javascript | pure
+```javascript
 t("{value | sum }",1)    //  a=0,b=0,c=0       
 t("{value | sum(1)}",1)  //  a=1,b=0,c=0    
 t("{value | sum(1,2)}",1)  //  a=1,b=2,c=0    
@@ -404,7 +404,7 @@ t("{value | sum(1,2,3)}",1)  //  a=1,b=2,c=3
 
   利用这个特性，我们就可以为不同语言下格式化器的默认参数。例如`currency`格式化器的`symbol`参数在不同语言下的值。如下：
 
-    ```javascript | pure
+    ```javascript
     // languages/formatters/zh.js
     export default  { 
         $config:{
@@ -433,25 +433,25 @@ t("{value | sum(1,2,3)}",1)  //  a=1,b=2,c=3
 大部份情况下，使用`Formatter`就可以比较方便地创建格式化器了。
 当某个格式化器的可配置参数很多时，如`currency`格式化器，支持`format`,`unit`,`precision`,`prefix`,`suffix`,`division`,`symbol`,`radix`共8个位置参数，用户可以通过以下方式调用：
 
- ```javascript | pure
+ ```javascript
     t("{ value | currency('long',1)}",1234.56)                 // 长格式: 万元
     t("{ value | currency('long',1,2,'人民币')}",1234.56)                 
     t("{ value | currency('long',1,2,'人民币','元',3,'')}",1234.56)               
 ```
 如果我们只需要变更`symbol`参数，由于`symbol`参数是第七个参数，使用位置参数就不得不这样调用。
 
-```javascript | pure          
+```javascript          
     t("{ value | currency(,,,,,,,'￥')}",1234.56)               
 ```
 很丑陋的，因此，我们希望支持像这样：
-```javascript | pure          
+```javascript          
     t("{ value | currency({symbol:'￥')}",1234.56)               
 ```
 也就是说，格式化器即支持可选位置传参，也支持`{...}`传参，基于上述已经介绍的格式化机制，您完全可以自己来处理这样的参数处理功能。
 
 而`FlexFormatter`则封装了这样的功能，其即支持可选位置传参，也支持`{...}`传参。用法如下：
 
-```javascript | pure          
+```javascript          
 // languages/formatters/en.js
 import { FlexFormatter } from "../runtime"
 export default  { 
@@ -473,7 +473,7 @@ export default  {
 }         
 ```
 经过上述改造过，上例中的`sum`格式化器就可以支持以下方式进行调用：
-```javascript | pure          
+```javascript          
 t("{value | sum }",1)    //  a=0,b=0,c=0       
 t("{value | sum(1)}",1)  //  a=1,b=0,c=0    
 t("{value | sum(1,2)}",1)  //  a=1,b=2,c=0    
@@ -489,7 +489,7 @@ t("{value | sum({a:1,b:2,c:3})}",1)  //  a=1,b=2,c=3
 
 当使用`voerkai18n compile`后，项目结构中会生成`formatters`如下：
 
-```javascript | pure
+```javascript
 <myapp>
    |--src
    |  |-- languages 
@@ -505,7 +505,7 @@ t("{value | sum({a:1,b:2,c:3})}",1)  //  a=1,b=2,c=3
 
 打开`languages/formatters/<语言名称>.js`内容大概如下：
 
-```javascript | pure
+```javascript
 export default  {
     $config:{
         // 在此配置各格式化器的参数
@@ -528,7 +528,7 @@ export default  {
 因此，您想注册一个格式化器可以在所有库/包中均可以使用，则需要将格式器注册到全局`VoerkaI18n`实例中。方法有两种是：
 
 - 指定`global=true`将该文件声明的所有格式化器均注册到全局中
-```javascript | pure
+```javascript
 export default  {
     global:true,                    
     $config:{...}, 
@@ -540,7 +540,7 @@ export default  {
 
 - 在`global`对象明中声明的所有全局格式化器
 
-```javascript | pure
+```javascript
 export default  {
     $config:{...}, 
     $types:{... },        

@@ -1,8 +1,8 @@
 # 翻译函数<!-- {docsify-ignore-all} -->
 
-默认提供翻译函数`t`用来进行翻译。一般情况下，`t`函数声明在执行`voerkai18n compile`命令生成在工程目录下的`languages/index.js`文件中。
+默认提供翻译函数`t`用来进行翻译。一般情况下，`t`函数声明在执行`voerkai18n compile`命令生成在工程目录下的`languages/index.(js|ts)`文件中。
 
-```javascript | pure
+```javascript 
 
 // 从当前语言包文件夹index.js中导入翻译函数
 import { t } from "<myapp>/languages"
@@ -32,5 +32,7 @@ t("中华人民共和国成立于{birthday | year}年",{birthday:new Date()})
 
 - 不要使用js的模板字符串来生成翻译内容，如t(`我是中国人，我喜欢%{car}`)是无效的。
 - `voerkai18n`使用正则表达式来提取要翻译的内容，因此`t("")`可以使用在任意地方。
+- `t`函数是一个普通函数，只需要提供执行环境就可以进行翻译,所以在任意`React/Vue/Solid/Svelte`等框架中均可以使用`t`函数来进行翻译。
+- `t`函数对要翻译的内容支持插值变量机制，可以用来实现复数等机制，详见[插值变量](./interpolation)。
 
 

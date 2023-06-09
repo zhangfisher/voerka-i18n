@@ -11,13 +11,13 @@
 
 配置名称空间，需要配置`languages/settings.json`文件。
 
-```javascript | pure
+```javascript
 // 工程目录：d:/code/myapp
 // languages/settings.json
 module.exports = {
     namespaces:{
         //"名称":"相对路径"，
-        “routes”:“routes”,
+        "routes":"routes",
         "auth":"core/auth",
         "admin":"views/admin"
     }

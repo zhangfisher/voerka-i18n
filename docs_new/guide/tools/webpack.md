@@ -1,4 +1,4 @@
-# Webpack Loader
+# Webpack Loader<!-- {docsify-ignore-all} -->
 
 `voerkai18n-loader`是一个标准的`webpack loader`用来实现在`webpack`下实现根据`idMap`文件自动映射翻译内容和自动导入`t`函数。主要功能：
 

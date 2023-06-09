@@ -1,4 +1,4 @@
-# Vite插件
+# Vite插件<!-- {docsify-ignore-all} -->
 
 `@voerkai18n/babel`插件在`vite`应用中不能正常使用，需要使用`@voerkai18n/vite`插件来完成类似的功能，包括自动文本映射和自动导入`t`函数。
 
@@ -6,7 +6,7 @@
 
 `@voerkai18n/vite`只需要作为开发依赖安装即可。
 
-```javascript | pure
+```javascript
 npm install --save-dev @voerkai18n/vite
 yarn add -D @voerkai18n/vite
 pnpm add -D @voerkai18n/vite 
@@ -16,7 +16,7 @@ pnpm add -D @voerkai18n/vite
 
 接下来在`vite.config.js`中配置启用`@voerkai18n/vite`插件。
 
-```javascript | pure
+```javascript
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Inspect from 'vite-plugin-inspect'// 可选的
@@ -43,7 +43,7 @@ export default defineConfig({
 
 针对`js`文件，能通过指定`autoImport=true`来自动导入`t`函数。我们知道本质上翻译就是导入执行`t`函数，这样在一个复杂应用中可能就会存在这样的导入
 
-```javascript | pure
+```javascript
 import { t } from "languages"
 import { t } from "../languages"
 import { t } from "../../languages"
@@ -62,7 +62,7 @@ import { t } from "../../languages"
 
 `vite`插件支持以下参数：
 
-```javascript | pure
+```javascript
 import Voerkai18nPlugin from "@voerkai18n/vite"
 export default defineConfig({
     plugins: [
@@ -92,7 +92,7 @@ export default defineConfig({
 
 - `patterns`：可选的，一些正则表达式匹配规则，用来过滤匹配哪一些文件需要进行扫描和处理。默认的规则：
 
-  ```javascript | pure
+  ```javascript
   const patterns={
      	"!(?<!.vue\?.*).(css|json|scss|less|sass)$",          	// 排除所有css文件
      	/\.vue(\?.*)?/,                                     	// 所有vue文件

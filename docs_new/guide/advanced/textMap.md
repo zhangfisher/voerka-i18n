@@ -1,10 +1,10 @@
-# 文本映射
+# 文本映射<!-- {docsify-ignore-all} -->
 
 虽然`VoerkaI18n`推荐采用`t("中华人民共和国万岁")`形式的符合直觉的翻译形式，而不是采用`t("xxxx.xxx")`这样不符合直觉的形式，但是为什么大部份的国际化方案均采用`t("xxxx.xxx")`形式？
 
 在我们的方案中，`t("中华人民共和国万岁"`)`形式相当于采用原始文本进行查表，语言名形式如下：
 
-```javascript | pure
+```javascript
 // en.js
 {
     "中华人民共和国":"the people's Republic of China"
@@ -17,7 +17,7 @@
 
 很显然，直接使用文本内容作为`key`，虽然符合直觉，但是会造成大量的冗余信息。因此，`voerkai18n compile`会将之编译成如下：
 
-```javascript | pure
+```javascript
 //idMap.js
 {
     "中华人民共和国万岁":"1"
