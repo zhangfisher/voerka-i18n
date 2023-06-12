@@ -36,7 +36,7 @@ chat
 // ....
 const scope = new i18nScope({
     id: "chat",                          // 当前作用域的id，自动取当前工程的package.json的name
-    loaders:{ 
+    messages:{ 
         "en" : ()=>import("./en.js")
     },
     //.....
@@ -138,7 +138,7 @@ module.exports = {
 }
 ```
 然后将`de.json`复制到`languages/chat/de.json`即可。
-同样地，我们也需要对`user`、`manager`、`log`等三个库的语言文件如法泡制，生成语言包文件`languages/user/de.json`,`languages/manager/de.json`,`languages/log/de.json`,这样这三个库也能实现支持`de`语言。
+同样地，我们也需要对`user`、`manager`、`log`等三个库的语言文件如法泡制，生成语言包文件`languages/user/de.json`,`languages/manager/de.json`,`languages/log/de.json`,这样这三个库也能实现扩展支持`de`语言。
 
 ### 第五步：编写语言包补丁
 

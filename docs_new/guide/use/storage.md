@@ -51,9 +51,4 @@ export default {
 
 ## 定制配置
 
-如果开箱即用的自动记住最后切换的语言功能不能满足需求，比如您不想将配置保存到`localStorage`。
-
-当然，如果您不想使用`localStorage`，可以自定义一个存储对象，只需要实现`get`、`set`、`remove`三个方法即可。
-
-其实现原理非常简单，只需要修改`languages/storage.(js|ts)`文件即可。
-
+如果开箱即用的自动记住最后切换的语言功能不能满足需求，比如您不想将配置保存到`localStorage`，可以自定义一个存储对象，修改`languages/storage.(js|ts)`文件即可要实现`get`、`set`、`remove`三个方法即可。

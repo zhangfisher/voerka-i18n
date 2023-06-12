@@ -18,8 +18,8 @@
 
 **每一个格式化器就是一个普通的同步函数**，不支持异步函数，格式化器函数可以支持无参数或有参数。
 
-- 无参数的格式化器：`(value,$config)=>{....返回格式化的结果...}`。
-- 带参数的格式化器：`(value,arg1,...,$config)=>{....返回格式化的结果...}`，其中`value`是上一个格式化器的输出结果。
+- 无参数的格式化器：`(value,args,$config)=>{....返回格式化的结果...}`。
+- 带参数的格式化器：`(value,args,$config)=>{....返回格式化的结果...}`，其中`value`是上一个格式化器的输出结果。
 
 格式化器函数的第一个参数是上一个格式化器的输出，最后一个参数是当前语言的格式化器配置参数`$config`。
 
@@ -92,14 +92,14 @@ t("灯状态：{status}",false)  // === 灯状态：OFF
 export default {
     $config:{...},
     $types:{...},
-    [格式化名称]:(value,$config)=>{.....}
+    [格式化名称]:(value,args,$config)=>{.....}
 }
 // languages/formatters/en.js
 export default {    
     $config:{...},
     $types:{....},
-    [格式化名称]:(value,$config)=>{.....},
-    [格式化名称]:(value,arg,$config)=>{.....}        
+    [格式化名称]:(value,args,$config)=>{.....},
+    [格式化名称]:(value,args,$config)=>{.....}        
 }
 ```
 
@@ -174,12 +174,12 @@ export default  {
 // languages/formatters/zh.js
 export default  { 
     $config:{ .... },
-    [格式化名称]:(value,...args,$config)=>{...}
+    [格式化名称]:(value,args,$config)=>{...}
 }
 // languages/formatters/en.js
 export default  { 
     $config:{ .... }
-    [格式化名称]:(value,...args,$config)=>{...}
+    [格式化名称]:(value,args,$config)=>{...}
 }
 ```
 当执行格式化器函数时，总是**将当前语言激活的格式化器声明中的$config作为最后一个参数传递给执行格式化器函数**。
@@ -193,7 +193,7 @@ export default  {
     $config:{
         values:["One","Two","Three"]
     },
-    uppercase:(value,$config)=>{
+    uppercase:(value,args,$config)=>{
         let index = parentInt(value)
         if(index<0 || index>3 || isNaN(index)) index = 0
          return $config.values[index]
@@ -339,11 +339,8 @@ t("{value | uppercase(a,b,c)}",3)
 ```javascript
 // languages/formatters/zh.js
 export default  { 
-    uppercase:(value,...args)=>{
-        // 最后后一个参数总是$config
-        let $config = args[args.length-1]
-        let params = args.slice(0,args.length-1)
-        //....
+    uppercase:(value,args,$config)=>{
+        
     }
 }
 ```
@@ -364,7 +361,7 @@ export default  {
             format:"Sum={result}"
         },
     },    
-    sum: Formatter((value,a,b,c,$config)=>{
+    sum: Formatter((value,[a,b,c],$config)=>{
         // $config指向的是当前配置的sum
         return $config.format.replace("{result}",value + a + b + c)
     },{
@@ -399,7 +396,7 @@ t("{value | sum(1,2,3)}",1)  //  a=1,b=2,c=3
   - 接收到的参数已经自动填入了从`$config[configKey]`中读取到的默认值。
 
   **当没有指定`params`参数时**:
-  - 格式化器函数接收到的是`(value,...args,$config)`,这就意味着，你需要自己处理变参的情况了。
+  - 格式化器函数接收到的是`(value,args,$config)`,这就意味着，你需要自己处理变参的情况了。
 
 
   利用这个特性，我们就可以为不同语言下格式化器的默认参数。例如`currency`格式化器的`symbol`参数在不同语言下的值。如下：
@@ -424,7 +421,7 @@ t("{value | sum(1,2,3)}",1)  //  a=1,b=2,c=3
     ```
 - **configKey**
 
-`configKey`用来指定当前格式化器函数的配置参数位置，上例中`configKey="sum"`，则`(value,a,b,c,$config)=>{....}`中传入的`$config`就是`scope.activeFormatterConfig.sum`，也就是`languages/formatters/en.js`中的`$config.sum`。
+`configKey`用来指定当前格式化器函数的配置参数位置，上例中`configKey="sum"`，则`(value,[a,b,c],$config)=>{....}`中传入的`$config`就是`scope.activeFormatterConfig.sum`，也就是`languages/formatters/en.js`中的`$config.sum`。
 
 如果没有指定`configKey`，则传入`$config`值就是`scope.activeFormatterConfig`,此时就无法为`a`,`b`,`c`指定默认参数了。
 
@@ -516,9 +513,9 @@ export default  {
         // [数据类型名称]:(value)=>{...},
     },        
     // 自定义的格式化器                 
-    [格式化名称]:(value,...args,$config)=>{.....},
-    [格式化名称]:(value,...args,$config)=>{.....},
-    [格式化名称]:(value,...args,$config)=>{.....},
+    [格式化名称]:(value,args,$config)=>{.....},
+    [格式化名称]:(value,args,$config)=>{.....},
+    [格式化名称]:(value,args,$config)=>{.....},
     //.....更多的格式化器.....
 }
 ```
@@ -533,7 +530,7 @@ export default  {
     global:true,                    
     $config:{...}, 
     $types:{... },        
-    [格式化名称]:(value,...args,$config)=>{.....},
+    [格式化名称]:(value,args,$config)=>{.....},
     //.........
 }
 ```
@@ -544,12 +541,12 @@ export default  {
 export default  {
     $config:{...}, 
     $types:{... },        
-    [格式化名称]:(value,...args,$config)=>{.....},
+    [格式化名称]:(value,args,$config)=>{.....},
     // 以下全部注册到全局`VoerkaI18n`实例中
     global:{
         $config:{...}, 
         $types:{... },        
-        [格式化名称]:(value,...args,$config)=>{.....},
+        [格式化名称]:(value,args,$config)=>{.....},
     }
     //.........
 }

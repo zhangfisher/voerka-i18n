@@ -6,16 +6,17 @@
 
 ## 第一步：引入
 
-```javascript
-// 初始化工程
-> voerka18n init
-// 提取要翻译的文本到src/languages/translates/*.json
-> voerkai18n extract
-// 进行人工翻译或自动翻译(百度)
-> voerkai18n translate --apikey xxxx --apiid xxxxx
-// 编译语言包
-> voerkai18n compile 
-```
+
+`React`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
+
+- 调用`voerkai18n init`初始化多语言工程
+- 调用`voerkai18n extract`提取要翻译的文本
+- 调用`voerkai18n translate`进行自动翻译或人工翻译
+- 调用`voerkai18n compile`编译语言包
+- 在应用中引入`@voerkai18n/vue`和`@voerkai18n/vite`插件
+- 在源码中使用`t`函数进行翻译
+
+完整的工程化流程请参见[工程化](../start/quick-start)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
 
 ## 第二步： 安装`Vite`插件
 
@@ -68,7 +69,8 @@ console.log(t("中华人民共和国"))
 
 ```
 
-导入`t`函数后就可以直接使用了。
+- 导入`t`函数后就可以直接使用了。如果启用了`@voerkai18n/vite`插件的`autoImport`,则会自动导入`t`函数，无需手动导入。
+
 
 ### 在`React`组件中使用
 
@@ -155,4 +157,5 @@ export function MyComponent(){
 - 在普通`ts/js`文件中使用`import { t } from "./languages"`来导入`t`翻译函数
 - `@voerkai18n/vite`插件是可选的，仅仅普通`ts/js`文件使用`t`翻译函数时用来自动导入。
 - 如果使用`Create React App`创建`React`应用，则请参考`voerki18n-loader`
+- 完整示例见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/reactapp)
 

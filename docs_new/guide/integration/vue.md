@@ -2,7 +2,6 @@
 
 > 本节主要介绍如何在`Vue 3`应用中使用`VoerkaI18n`。
 
-
 创建`Vue 3`应用一般采用`Vite`或`Vue Cli`来创建工程。在`Vue3`应用中引入`voerkai18n`来添加国际化应用需要由两个插件来简化应用。
 
 - **@voerkai18n/vue**
@@ -16,7 +15,7 @@
   
 `@voerkai18n/vue`和`@voerkai18n/vite`两件插件相互配合，安装配置好这两个插件后，就可以在`Vue`文件使用多语言`t`函数。
 
-## 第一步：引入
+## 第一步：基本流程
 
 `Vue`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
 
@@ -29,20 +28,12 @@
 
 完整的工程化流程请参见[工程化](../start/quick-start)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
 
-```javascript
-// 初始化工程
-> voerka18n init
-// 提取要翻译的文本到src/languages/translates/*.json
-> voerkai18n extract
-// 可选，进行人工翻译或自动翻译(百度)
-> voerkai18n translate --apikey xxxx --apiid xxxxx
-// 编译语言包
-> voerkai18n compile 
-```
-
 ## 第二步：启用`@voerkai18n/vite`插件
 
-`@voerkai18n/vite`插件可以根据`idMap.ts`映射文件将源码中的`t("xxxxx")`转换为`t("<数字>")`的形式，从而实现消除翻译内容的冗余内容。
+`@voerkai18n/vite`插件作用是：
+
+- 可以根据`idMap.ts`映射文件将源码中的`t("xxxxx")`转换为`t("<数字>")`的形式，从而实现消除翻译内容的冗余内容。
+- 实现自动导入`t`函数的功能，省却手动导入的麻烦。
 
 `@voerkai18n/vite`插件的安装非常简单，只需要在`vite.config.(ts|js)`中添加如下内容：
 
@@ -64,14 +55,15 @@ export default defineConfig({
 ```
 - `@voerkai18n/vite`插件仅在开发和构建阶段作用。事实上，如果不在乎文本内容的冗余，不安装此插件也是可以工作正常的。
 - `vite-plugin-inspect`仅用于调试，可以在`http://localhost:3000/__inspect/`查看当前工程中的`@voerkai18n/vite`是否正确地进行自动导入和`idMap.ts`映射，供开发阶段进行调试使用。
-
+- `@voerkai18n/vite`插件的完整[使用说明](/guide/tools/vite)。
 ## 第三步：配置`@voerkai18n/vue`插件
 
 `@voerkai18n/vue`插件用来自动注入`t`函数、切换语言等功能。
 
+
 安装方法如下：
 
-```javascript pure
+```typescript
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
@@ -82,24 +74,30 @@ import { i18nScope } from './languages'
 
 const app = createApp(App)
 // 应用插件
-app.use(i18nPlugin,{i18nScope})
+app.use<VoerkaI18nPluginOptions>(i18nPlugin as any,{
+    i18nScope
+})
 app.mount('#app')
 
 ```
 
-`@voerkai18n/vue`插件本质上是为每一个Vue组件自动混入`t`函数。
+`@voerkai18n/vue`插件本质上是为**每一个Vue组件自动混入`t`函数**。
 
 ## 第四步：使用`t`翻译函数
 
 `Vue`应用使用多语言本质是调用`import { t } from 'langauges`导入的`t`函数来进行翻译。
 
-```javascript
+```vue
 
-// 在setup中需要手动导入t函数
-<Script setup>
+<script setup>
+// 手动导入t函数
+// 如果启用了@voerkai18n/vite插件，则可以省略此行实现自动导入
 import { t } from "./languages"
 console.log(t("Welcome to VoerkaI18n"))
-</Script>
+
+</script>
+
+
 // 直接使用t函数，不需要导入
 <script>
 export default {
@@ -176,4 +174,6 @@ export default {
 - Vue应用的中普通`js/ts`文件需要手动从`language`中导入`t`函数。
 - 使用`injectVoerkaI18n()`来实现遍历支持的语言和切换语言的功能。
 - 当切换语言时会自动重新渲染组件。
+- `@voerkai18n/vue`插件只能用在`Vue 3`。
+- 完整的示例请见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/vue3-ts)
 

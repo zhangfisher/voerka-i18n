@@ -237,38 +237,29 @@ Arguments:
 Options:
   -D, --debug               输出调试信息
   -m, --moduleType [types]  输出模块类型,取值auto,esm,cjs (default: "esm")
-  -t, --typescript          生成`typescript`文件
+  -l, --library             开发库模式(default:false)
+  -t, --typescript          生成typescript文件
+  -u, --update-runtime      自动更新runtime
+  --skip                    跳过更新language/index.(ts|js)文件(default:false) 
   -h, --help                display help for command
 ```
 
 `voerkai18n compile`执行后会在`langauges`文件夹下输出：
 
-<Tree title="myapp"> 
-  <ul> 
-        <li>
-          languages<small>多语言目录</small>
-          <ul>
-            <li>settings.json</li>
-            <li>index.(js|ts)</li>
-            <li>idMap.(js|ts)</li>
-            <li>zh.(js|ts)</li>
-            <li>en.(js|ts)</li>
-            <li>xx.(js|ts)</li>
-            <li>
-                formatters<small>格式化器</small>
-                <ul>
-                    <li>zh.(js|ts)</li>
-                    <li>en.(js|ts)</li>
-                    <li>xx.(js|ts)</li>
-                </ul>
-            </li>
-          </ul>
-        </li>
-        <li>index.md</li>
-        <li>package.json</li>
-        <li>...</li>  
-  </ul>
-</Tree>
+```typescript
+  languages
+    settings.json
+    index.(js|ts)
+    idMap.(js|ts)
+    zh.(js|ts)
+    en.(js|ts)
+    xx.(js|ts)
+    storage.(js|ts)
+    formatters
+      zh.(js|ts)
+      en.(js|ts)
+      xx.(js|ts)
+```
 
 
 **说明：**
@@ -277,4 +268,4 @@ Options:
 - 您每次修改了源码并`extract`后，均应该再次运行`compile`命令。
 - 如果您修改了`formatters.js`，执行`compile`命令不会重新生成和修改该文件。
 - 默认情况下，`compile`命令当发现当前工程存在`ts.config.ts`时，会生成`languages/**/*.ts`。也可以显式指定`voerkai18n compile --typescript`来生成`ts`源码，或者显式指定`voerkai18n compile --typescript=false`来禁用生成`ts`源码。
-- **注意**，`compile`命令会重新覆盖`languages/index.(js|ts)`。
+- **注意**，`compile`命令会重新覆盖`languages/index.(js|ts)`,如果您修改了该文件，而不希望被覆盖，请指定`--skip`参数。

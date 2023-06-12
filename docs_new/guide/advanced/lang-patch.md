@@ -43,7 +43,7 @@ chat
 // ....
 const scope = new i18nScope({
     id: "chat",                          // 当前作用域的id，自动取当前工程的package.json的name
-    loaders:{ 
+    messages:{ 
         "en" : ()=>import("./en.js"),
         "de" : ()=>import("./de.js")
     },
