@@ -10,8 +10,12 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 
 console.log("main.ts",t('hello'))
 
-const app = createApp(App)
-app.use<VoerkaI18nPluginOptions>(i18nPlugin as any,{
-    i18nScope
+i18nScope.on("ready",()=>{
+    const app = createApp(App)
+    app.use<VoerkaI18nPluginOptions>(i18nPlugin as any,{
+        i18nScope
+    })
+    app.mount('#app') 
+
 })
-app.mount('#app') 
+

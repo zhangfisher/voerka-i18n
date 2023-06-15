@@ -2,9 +2,7 @@
     "name": "@voerkai18n/runtime",
     "version": "2.0.3",
     "description": "runtime of voerkai18n",
-    "main": "./dist/index.js",
-    "module": "./dist/index.mjs",
-    "typings": "./dist/index.d.ts",
+    "main": "./src/index.ts", 
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",

@@ -3,6 +3,7 @@
  */
 import idMap from "./idMap"                                             // 语言ID映射文件
 import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
+// import { translate,VoerkaI18nScope  } from "../../../../packages/runtime/src/index"
 import defaultFormatters from "./formatters/zh"             // 默认语言格式化器
 import defaultMessages from "./zh"  
 import storage  from "./storage"

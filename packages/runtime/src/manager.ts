@@ -114,7 +114,7 @@ export class VoerkaI18nManager extends LiteEvent{
         if(this.options.storage){
             const storage = this.options.storage
             const savedLangauge = storage.get("language")
-            if(savedLangauge && !(savedLangauge in this.languages)) {
+            if(savedLangauge && !this.hasLanguage(savedLangauge)) {
                 this.logger.warn("从存储中读取到未配置的语言名称参数：",savedLangauge)
             }
             if(savedLangauge) this.logger.info("从存储中读取到当前语言名称参数：",savedLangauge)
@@ -252,6 +252,14 @@ export class VoerkaI18nManager extends LiteEvent{
     clearPatchedMessages(){
         this._scopes.forEach(scope=>scope.clearPatchedMessages())
     }
+    /**
+	 * 返回是否存在指定的语言
+	 * @param {*} language 语言名称
+	 * @returns
+	 */
+	hasLanguage(language:string) {
+		return this.languages.findIndex((lang:VoerkaI18nLanguageDefine) => lang.name == language) != -1;
+	}
 
 } 
  

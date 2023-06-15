@@ -247,7 +247,7 @@ export class VoerkaI18nScope {
 	 * @returns
 	 */
 	hasLanguage(language:string) {
-		return this.languages.indexOf((lang:VoerkaI18nLanguageDefine) => lang.name == language) !== -1;
+		return this.languages.findIndex((lang:VoerkaI18nLanguageDefine) => lang.name == language) != -1;
 	}
 	/**
 	 * 回退到默认语言
