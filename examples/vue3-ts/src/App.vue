@@ -34,8 +34,8 @@ export default {
 }
 
 </script>  
- 
-
+      
+  
 <template>
     <div>
         <h1 class="navbar">
@@ -49,7 +49,7 @@ export default {
                 <button class="menuitem" @click="i18n.activeLanguage = 'jp'"
                     :style="{ 'outline': i18n.activeLanguage === 'jp' ? '2px red solid' : '' }">日语</button> -->
             </div>
-        </h1>    
+        </h1>     
         <div class="content">
             <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>
             <div class="tabs">

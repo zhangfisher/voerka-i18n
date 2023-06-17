@@ -634,7 +634,7 @@ function replaceTranslateText(code, idmap) {
 }
 
 // 匹配 import {t } from 的正则表达式
-const importTRegex = /^[^\w\r\n]*import\s*\{(.*)\bt\b(.*)\}\s*from/gm
+const importTRegex = /import\s*\{([^\{t]*)\bt\b(.*)\}\s*from/gm
 
  
 /**
@@ -643,7 +643,7 @@ const importTRegex = /^[^\w\r\n]*import\s*\{(.*)\bt\b(.*)\}\s*from/gm
  * @returns 
  */
 function hasImportTranslateFunction(code){
-    return importTRegex.test(code)
+    return /import\s*\{([^\{t]*)\bt\b(.*)\}\s*from/gm.test(code)
 }
 
 

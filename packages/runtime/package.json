@@ -2,7 +2,7 @@
     "name": "@voerkai18n/runtime",
     "version": "2.0.3",
     "description": "runtime of voerkai18n",
-    "main": "./src/index.ts", 
+    "main": "./src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
@@ -22,7 +22,7 @@
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
-        "flex-tools": "^1.2.5",
+        "flex-tools": "^1.3.11",
         "string.prototype.replaceall": "^1.0.7"
     },
     "devDependencies": {

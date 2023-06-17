@@ -79,17 +79,20 @@ module.exports = function VoerkaI18nPlugin(opts={}) {
             )
 
             if(isMatched){
-                if(debug){
-                    console.log(`[VoerkaI18n] File=${path.relative(projectRoot,id)}, pattern=[${pattern}], import from "${path.relative(path.dirname(id),languageFolder)}"`)            
-                }
+                const relFile = path.relative(projectRoot,id)
                 try{
                     // 判断是否使用了t函数
                     if(TranslateRegex.test(src)){
                         let code = replaceTranslateText(src,idMap)
+                        const hasImported = hasImportTranslateFunction(code)
+                        if(debug){
+                            console.log(`[VoerkaI18n] Matched file=${relFile}, pattern=[${pattern}], import from "${path.relative(path.dirname(id),languageFolder)},hasImported=${hasImported}"`)            
+
+                        }
                         // 如果没有导入t函数，则尝试自动导入
-                        if(needImport && !hasImportTranslateFunction(code)){       
+                        if(needImport && !hasImported){     
                             code = importTranslateFunction(code,id,languageFolder)                  
-                        }                        
+                        }                    
                         return {
                             code,
                             map: null  
