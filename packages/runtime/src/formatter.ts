@@ -345,7 +345,7 @@ export const createFlexFormatter = function<Value=any,Args extends any[]=any[]>(
         }, {})
         // 3. 从格式化器中传入的参数具有最高优先级，覆盖默认参数
         if (args.length == 1 && isPlainObject(args[0])) {       // 一个参数且是{}
-            Object.assign(finalArgs, { format: "custom" }, args[0])
+            Object.assign(finalArgs, args[0]) // { format: "custom" },
         } else {   // 位置参数,如果是空则代表
             for (let i = 0; i < args.length ; i++) {
                 if (args[i] !== undefined) finalArgs[opts.params[i]] = args[i]

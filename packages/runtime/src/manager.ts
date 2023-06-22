@@ -31,18 +31,13 @@ export interface VoerkaI18nManagerOptions {
     storage?:IVoerkaI18nStorage                                 // 语言包存储器
 }
 
-export enum VoerkaI18nEvents{    
-    // 当默认语言第一次加载完成后触发，data={language,scope}
-    Ready = "ready",
-    Change = "change",
-    // Change = "change",
-    // 当Scope注册到成功后
-    Registered="registered", 
-    // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
-    Restore  = "restore",               //
-    // 当Scope从远程加载补丁包时，data={language,scope}
-    Patched  = "patched",               
-}
+export type VoerkaI18nEvents =     
+    "ready"                 // 当默认语言第一次加载完成后触发，data={language,scope}
+    | "change"              // 当语言切换时    data=language
+    | "registered"          // 当Scope注册到成功后    
+    | "restore"             // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
+    | "patched"             // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}               
+
 
 /** 
  * 多语言管理类
@@ -60,7 +55,7 @@ export enum VoerkaI18nEvents{
  * 
  * */ 
 
-export class VoerkaI18nManager extends LiteEvent{
+export class VoerkaI18nManager extends LiteEvent<any,VoerkaI18nEvents>{
     static instance?:VoerkaI18nManager  
     private _scopes:VoerkaI18nScope[] = []
     private _defaultMessageLoader?:VoerkaI18nDefaultMessageLoader
@@ -161,7 +156,7 @@ export class VoerkaI18nManager extends LiteEvent{
             await this._refreshScopes(language)                        
             this.options!.activeLanguage = language            
             // 触发语言切换事件
-            this.emit(VoerkaI18nEvents.Change,language)     
+            this.emit("change",language)     
             this.saveOptionsToStorage()                         // 保存语言配置到存储器
             this.logger.info("语言已切换为：",language)
             return language

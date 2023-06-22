@@ -1,8 +1,4 @@
 <script setup lang="ts">
-defineProps({
-    title: String
-})
-
 
 
 </script>
@@ -14,14 +10,12 @@ export default {
         return {
             NOW: new Date(),
             datetime:null
-
         }
     }
 }
 </script>
 <template>
     <div class="font-size:6px;">
-        {{t("Hello world!")}}
         <table>
             <thead>
                 <tr style="font-weight:bold;">
@@ -51,10 +45,13 @@ export default {
                     {{t("现在是{ value | date('YYYY-MM-DD') }",1661084229790)}}
                 </td></tr>
                 <tr><td colspan="2" ><b>货币</b></td></tr>
-                <tr><td>currency-cny</td><td>{{ t("商品价格：{ value | currency('CNY','元整',3)}", 788741) }}</td></tr>
-                <tr><td>currency</td><td>{{ t("商品价格：{ value | currency }", 788741) }}</td></tr>
-                <tr><td>capitalizeCurrency</td><td>{{ t("商品价格：{ value | capitalizeCurrency }", 788741) }}</td></tr>
-                <tr><td>capitalizeCurrency</td><td>{{ t("商品价格：{ value | capitalizeCurrency(true) }", 788741.35) }}</td></tr>
+                <tr><td colspan="2" >
+            <p>{{t("{ value | currency({symbol:'￥￥'})}",123456789.88)}}</p>
+            <p>{{t("{ value | currency({symbol:'￥￥',prefix:'人民币:'})}",123456789.88)}}</p>
+            <p>{{t("{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整'})}",123456789.88)}}</p>
+            <p>{{t("{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2})}",123456789.88)}}</p>
+            <p>{{t("{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4})}",123456789.88)}}</p>
+            </td></tr>
                 <tr><td colspan="2" ><b>数字</b></td></tr>
                 <tr><td>number</td><td>{{ t("商品数量：{ value | number }", 1875109.987) }}</td></tr>
 

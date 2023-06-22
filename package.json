@@ -10,12 +10,11 @@
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
         "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
         "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
-        "build:all":"pnpm -r --filter \"runtime\" --filter \"react\"  --filter \"vue\" build ",
+        "build:all": "pnpm -r --filter \"runtime\" --filter \"react\"  --filter \"vue\" build ",
         "publish:all": "pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r --filter \"./packages/**\" publish",
         "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch ",
         "publish:all:beta": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish --tag beta "
     },
-
     "author": "",
     "license": "ISC",
     "devDependencies": {
@@ -38,7 +37,7 @@
         "gulp": "^4.0.2",
         "inquirer": "^8.2.4",
         "jest": "^27.5.1",
-        "logsets": "^1.0.39",
+        "logsets": "^1.3.1",
         "pnpm": "^7.9.0",
         "prettier": "^2.7.1",
         "rollup": "^2.77.2",

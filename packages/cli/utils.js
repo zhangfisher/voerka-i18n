@@ -34,3 +34,4 @@ function forEachInterpVars(str, replacer, options = {}) {
 	}
 	return result;
 }
+

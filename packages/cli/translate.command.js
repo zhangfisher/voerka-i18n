@@ -24,12 +24,11 @@
  * @param {*} opts 
  */
 
-const createLogger = require("logsets") 
+const logsets = require("logsets") 
 const path = require("path")
 const { i18nScope,t } = require("./i18nProxy")
 const fs = require("fs-extra")
-const { glob } = require("glob")
-const logger = createLogger() 
+const { glob } = require("glob") 
 const { deepMerge,getProjectSourceFolder } = require("@voerkai18n/utils")
 const { Command } = require('commander');
 
@@ -62,7 +61,7 @@ function hasInterpolation(str) {
 /**
  * 文本中的插值变量不进行翻译，所以需要进行替换为特殊字符，翻译后再替换回来
  * 
- * 如“My name is {},I am {} years old” 先替换为“My name is {VVVVV},I am {VVVVV} years old” 
+ * 如“My name is {},I am {} years old” 先替换为“My name is {VARIABLE},I am {VARIABLE} years old” 
  * 翻译后再替换回来
  *  
  * @param {String | Object} messages 
@@ -191,15 +190,15 @@ async function translateLanguage(messages,from,to,options={}){
  */
 async function translateMessageFile(file,langSettings,options={}){    
     let context = this
-    logger.log(t("正在翻译文件:{}"),path.basename(file))
+    logsets.log(t("正在翻译文件:{}"),path.basename(file))
     let messages = fs.readJSONSync(file);
     // texts = {text:{zh:"",en:"",...,jp:""}}
     let results = {}
-    const tasks = logger.tasklist()    
+    const tasks = logsets.tasklist()    
     for(let lng  of langSettings.languages){
         if(lng.name === langSettings.defaultLanguage) continue
         try{
-            tasks.add(t(" - 翻译 -> {}",lng.name))
+            tasks.add(t("翻译 {} -> {}"),[langSettings.defaultLanguage,lng.name])
             results = deepMerge(results,await translateLanguage(messages,langSettings.defaultLanguage,lng.name,options))
             tasks.complete()
         }catch(e){

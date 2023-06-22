@@ -1,11 +1,6 @@
 import type { VoerkaI18nManager } from "./manager"
 import type { VoerkaI18nScope } from "./scope"
 
-declare global {    
-    export var VoerkaI18n: VoerkaI18nManager
-}
-
-
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 // 语言包
@@ -84,3 +79,9 @@ export type VoerkI18nFormatterConfigs = Record<string, any>
  
 
 export type Primitive = string | number | boolean | null | undefined
+
+
+declare global {   
+    export var VoerkaI18n: VoerkaI18nManager
+}
+

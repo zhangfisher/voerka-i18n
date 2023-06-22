@@ -19,7 +19,7 @@ IVoerkaI18nStorage,
 import { VoerkaI18nFormatterRegistry } from './formatterRegistry';
 import { randomId } from "./utils"
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from './consts';
-import type { FlexEventListener } from "flex-tools/events/types" 
+import type { LiteEventListener } from "flex-tools/events/liteEvent" 
 
 export interface VoerkaI18nScopeOptions {
     id?: string
@@ -126,8 +126,8 @@ export class VoerkaI18nScope {
      */
     private registerToManager(callback?:(e?:Error)=>void){
 		// 如果不存在全局VoerkaI18n实例，说明当前Scope是唯一或第一个加载的作用域，则自动创建全局VoerkaI18n实例
-		if (!globalThis.VoerkaI18n) {
-			globalThis.VoerkaI18n = new VoerkaI18nManager({
+		if (!(globalThis as any).VoerkaI18n) {
+			(globalThis as any).VoerkaI18n = new VoerkaI18nManager({
 				debug          : this._options.debug,
 				defaultLanguage: this._defaultLanguage,
 				activeLanguage : this._activeLanguage,
@@ -138,7 +138,7 @@ export class VoerkaI18nScope {
         // 当前作用域属于应用而不是库时，需要将当前作用域更新到全局配置
         // 应用配置优先级高于库配置
         if(!this._options.library){
-            globalThis.VoerkaI18n.initApp({
+            (globalThis as any).VoerkaI18n.initApp({
                 defaultLanguage : this._defaultLanguage,
                 activeLanguage : this._activeLanguage,
                 languages : this._options.languages,
@@ -146,7 +146,7 @@ export class VoerkaI18nScope {
                 debug:this._options.debug
             })
         }
-        this._global = globalThis.VoerkaI18n as unknown as VoerkaI18nManager;
+        this._global = (globalThis as any).VoerkaI18n as unknown as VoerkaI18nManager;
         
         //
         this._global.register(this)
@@ -395,6 +395,7 @@ export class VoerkaI18nScope {
 	 * @param {*} messages
 	 */
 	private _savePatchedMessages(messages:VoerkaI18nLanguageMessages, language:string) {
+        if(!this.global.storage) return 
 		try {
             this.global.storage.set(`voerkai18n_${this.id}_${language}_patched_messages`,JSON.stringify(messages));
 		} catch (e:any) {
@@ -406,8 +407,8 @@ export class VoerkaI18nScope {
      * @param language 
      */
     clearPatchedMessages(language?:string) {
-        let langs = language ? [language] : this.languages.map(l=>l.name);
-        if(globalThis.localStorage){
+        if(this.global.storage){
+            let langs = language ? [language] : this.languages.map(l=>l.name);
             for(let lang of langs){
                 this.global.storage.remove(`voerkai18n_${this.id}_${lang}_patched_messages`);
             }
@@ -420,17 +421,25 @@ export class VoerkaI18nScope {
 	 */
 	private _getPatchedMessages(language:string) {
 		try {
-			return JSON.parse((localStorage as any).getItem(`voerkai18n_${this.id}_${language}_patched_messages`));
-		} catch (e) {
+            if(this.global.storage){
+                return this.global.storage.get(`voerkai18n_${this.id}_${language}_patched_messages`);
+            }else{
+                return {};
+            }
+		} catch (e:any) {
+            this.logger.error(`读取语言包补丁(${language})时出错:${e.stack}(scope=${this.id})`);
 			return {};
 		}
 	}
 	// 以下方法引用全局VoerkaI18n实例的方法
-	on(event:VoerkaI18nEvents,callback:FlexEventListener) {return this._global.on(event,callback);	}
-    once(event:VoerkaI18nEvents,callback:FlexEventListener) {return this._global.once(event,callback);}
-	off(event:VoerkaI18nEvents,callback:FlexEventListener) {return this._global.off(event,callback); }
+	on(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._global.on(event,callback);	}
+    once(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._global.once(event,callback);}
+	off(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._global.off(event,callback); }
 	async change(language:string) {
         return await this._global.change(language);
+    }
+    ready(callback:LiteEventListener){
+        return this._global.ready().then(callback)
     }
 };
 

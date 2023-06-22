@@ -13,8 +13,8 @@
     "compile": "node ../../packages/cli/index.js compile"
   },
   "dependencies": {
-    "@voerkai18n/runtime": "workspace:^2.0.0",
-    "@voerkai18n/vue": "workspace:^2.0.0",
+    "@voerkai18n/runtime": "workspace:^",
+    "@voerkai18n/vue": "workspace:^",
     "vue": "^3.3.2"
   },
   "devDependencies": {

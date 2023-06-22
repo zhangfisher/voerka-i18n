@@ -1,12 +1,4 @@
 {
-    "VoerkaI18n多语言解决方案 ": {
-        "en": "VoerkaI18n Multilingual Solution",
-        "$file": [
-            "App.vue"
-        ],
-        "jp": "VoerkaI 18 n多言語ソリューション",
-        "cht": "VoerkaI18n多語言解決方案"
-    },
     "Hello world!": {
         "en": "Hello world!",
         "$file": [
@@ -128,14 +120,6 @@
         "jp": "今は{ value | date('YYYY-MM-DD') }",
         "cht": "現在是{ value | date('YYYY-MM-DD') }"
     },
-    "商品价格：{ value | currency('CNY','元整',3)}": {
-        "en": "Product price: { value | currency('CNY','元整',3)}",
-        "$file": [
-            "components\\formatters.vue"
-        ],
-        "jp": "商品価格：{ value | currency('CNY','元整',3)}",
-        "cht": "商品價格：{ value | currency('CNY','元整',3)}"
-    },
     "商品价格：{ value | currency }": {
         "en": "Product price: { value | currency }",
         "$file": [
@@ -144,22 +128,6 @@
         "jp": "商品価格：{ value | currency }",
         "cht": "商品價格：{ value | currency }"
     },
-    "商品价格：{ value | capitalizeCurrency }": {
-        "en": "Product price: { value | capitalizeCurrency }",
-        "$file": [
-            "components\\formatters.vue"
-        ],
-        "jp": "商品価格：{ value | capitalizeCurrency }",
-        "cht": "商品價格：{ value | capitalizeCurrency }"
-    },
-    "商品价格：{ value | capitalizeCurrency(true) }": {
-        "en": "Product price: { value | capitalizeCurrency(true) }",
-        "$file": [
-            "components\\formatters.vue"
-        ],
-        "jp": "商品価格：{ value | capitalizeCurrency(true) }",
-        "cht": "商品價格：{ value | capitalizeCurrency(true) }"
-    },
     "商品数量：{ value | number }": {
         "en": "Product quantity: { value | number }",
         "$file": [
@@ -167,5 +135,61 @@
         ],
         "jp": "商品数：{ value | number }",
         "cht": "商品數量：{ value | number }"
+    },
+    "{ value | currency({symbol:'￥￥'})}": {
+        "en": "{ value | currency({symbol:'￥￥'})}",
+        "jp": "{ value | currency({symbol:'￥￥'})}",
+        "cht": "{ value | currency({symbol:'￥￥'})}",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "{ value | currency({symbol:'￥￥',prefix:'人民币:'})}": {
+        "en": "{ value | currency({symbol:'￥￥',prefix:'人民币:'})}",
+        "jp": "{ value | currency({symbol:'￥￥',prefix:'人民币:'})}",
+        "cht": "{ value | currency({symbol:'￥￥',prefix:'人民币:'})}",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整'})}": {
+        "en": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整'})}",
+        "jp": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整'})}",
+        "cht": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整'})}",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2})}": {
+        "en": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2})}",
+        "jp": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2})}",
+        "cht": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2})}",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4})}": {
+        "en": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4})}",
+        "jp": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4})}",
+        "cht": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4})}",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "商品价格: { value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix}*{symbol}*{value}*{unit}*{suffix}'})}": {
+        "en": "Product Price: { value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix} * {symbol} * {value} * {unit} * {suffix} '})}",
+        "jp": "商品価格：{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix}*{symbol}*{value}*{unit}*{suffix}}",
+        "cht": "商品價格：{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix}*{symbol}*{value}*{unit}*{suffix}'})}",
+        "$file": [
+            "components\\formatters.vue"
+        ]
+    },
+    "hello": {
+        "en": "Hello",
+        "jp": "hello",
+        "cht": "hello",
+        "$file": [
+            "main.ts"
+        ]
     }
 }

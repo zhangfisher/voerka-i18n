@@ -34,7 +34,7 @@ function RootLayout() {
 
 function App() {
 	return (
-		<VoerkaI18nProvider scope={i18nScope}>
+		<VoerkaI18nProvider fallback={<div>正在加载语言包...</div>} scope={i18nScope}>
 			<RootLayout />
 		</VoerkaI18nProvider>
 	);

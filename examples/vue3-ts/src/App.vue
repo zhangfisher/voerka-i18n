@@ -5,7 +5,7 @@ import China from './components/china.vue'
 import Formatters from './components/formatters.vue'
    
 console.log(t("Hello world!"))    
- 
+
 const i18n = injectVoerkaI18n()
 console.log("i18n=", i18n)
 </script>
@@ -42,7 +42,7 @@ export default {
             <div class="title">VoerkaI18n多语言解决方案 - {{ $activeLanguage }}</div>
             <div class="menu">
                 <button class="menuitem" :key="lng.name" v-for="lng of i18n.languages"
-                    @click="i18n.activeLanguage = lng.name"
+                    @click="$activeLanguage = lng.name"
                     :style="{ 'outline': lng.name === i18n.activeLanguage ? '2px red solid' : '' }">{{ lng.title }}</button>
                 <!-- <button class="menuitem" @click="i18n.activeLanguage = 'de'"
                     :style="{ 'outline': i18n.activeLanguage === 'de' ? '2px red solid' : '' }">德语</button>
@@ -59,9 +59,11 @@ export default {
                     <h3>2.{{ t("中华人民共和国") }} </h3>
                     <h3>3.{{ t("迎接中华民族的伟大复兴") }} </h3>
                     <China :title="t('中华人民共和国')" />
+                    <h3>{{t("现在是{ value | date('YYYY-MM-DD') }",1661084229790)}}</h3>
+                    <h3>{{ t("商品价格：{ value | currency }", 788741) }}</h3>
                 </div>
                 <div class="tab" style="flex:2;font-size:small">
-                    <Formatters />
+                    <Formatters/>
                 </div>
             </div>
         </div>

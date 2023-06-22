@@ -9,7 +9,9 @@ export type useVoerkaI18n = ()=>{
     t:VoerkaI18nTranslate
 }
 
-
-export type VoerkaI18nProvider = React.FC<React.PropsWithChildren & { 
+export type VoerkaI18nProviderProps = React.PropsWithChildren & { 
     scope:VoerkaI18nScope
-}>
+    fallback:React.ReactNode
+}
+
+export type VoerkaI18nProvider = React.FC<VoerkaI18nProviderProps>

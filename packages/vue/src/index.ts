@@ -49,17 +49,13 @@ export default {
                     }
                 }        
             }
-        })
-
+        }) 
         // 注入一个全局可用的t方法，在组件模块中可以直接使用
         app.config.globalProperties.t = function(message:string,...args:any[]){
-            // 通过访问计算属性activeLanguage来实现当activeLanguage变更时的重新渲染
-            // 有没有更好的办法？
+            // 通过访问计算属性activeLanguage来实现当activeLanguage变更时的重新渲染,有没有更好的办法？
             this.$activeLanguage
             return i18nScope.t(message,...args)
         } 
-
-        
 
         app.provide(VoerkaI18nProvider, reactive({
             activeLanguage: computed({

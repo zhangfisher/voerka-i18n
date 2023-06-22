@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useContext,useCallback} from 'react';
- 
+
 export const VoerkaI18nContext = React.createContext({
     languages:null,
     activeLanguage:'zh',
@@ -11,17 +11,19 @@ VoerkaI18nContext.displayName = 'VoerkaI18nProvider'
 
 
 export function VoerkaI18nProvider(props){
-    const { scope } = props
+    const { scope,fallback } = props
     const [language, setLanguage ] = useState(VoerkaI18n.activeLanguage); 
+    const [isReady, setIsReady ] = useState(false);
+    
     useEffect(() => { 
         function onChangeLanguage(newLanguage) {
             setLanguage(newLanguage) 
         }        
+        VoerkaI18n.ready(()=>setIsReady(true))
         const listenerId = VoerkaI18n.on("change",onChangeLanguage)
-      return () => {
-        VoerkaI18n.off(listenerId)
-      };
-    });
+      return () => VoerkaI18n.off(listenerId)
+    },[]);
+
     const changeLanguage = useCallback((newLanguage) => {
         VoerkaI18n.change(newLanguage).then((lng) => {
             setLanguage(lng) 
@@ -35,7 +37,7 @@ export function VoerkaI18nProvider(props){
             languages:VoerkaI18n.languages,
             t:scope.t
         }}>
-            {props.children}
+            {(isReady && fallback) ? props.fallback : props.children}
         </VoerkaI18nContext.Provider>
     )
 }

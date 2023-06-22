@@ -100,11 +100,13 @@ export class VoerkaI18nFormatterRegistry{
             const fallbackLanguage = this.scope?.getLanguage(language)?.fallback ;
             if(this.scope){  // 从全局Scope读取
                 if(fallbackLanguage) configSources.push(this.scope.global.formatters.getConfig(fallbackLanguage))
-                configSources.push(this.scope.global.formatters.getConfig(language))
+                configSources.push(this.scope.global.formatters.getConfig("en"))
+                configSources.push(this.scope.global.formatters.getConfig(language))                
             }
             // 从当前Scope读取
-            if(fallbackLanguage) configSources.push(this.getConfig(fallbackLanguage))
-            configSources.push(this.getConfig(language))
+            configSources.push(this.getConfig('en'))
+            if(fallbackLanguage) configSources.push(this.getConfig(fallbackLanguage))            
+            configSources.push(this.getConfig(language))            
             // 合并当前语言的格式化器配置参数
             this._activeFormattersConfigs = configSources.reduce((finalConfig, curConfig)=>{
                 if(isPlainObject(curConfig)) finalConfig = deepMerge(finalConfig,deepClone(curConfig),{$merge:'replace'})
@@ -239,18 +241,20 @@ export class VoerkaI18nFormatterRegistry{
                 if(fallbackLanguage) targets.push(this.scope?.global.formatters.getTypes(fallbackLanguage))
                 if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.scope?.global.formatters.getTypes(DefaultFallbackLanguage))
                 targets.push(this.scope?.global.formatters.getTypes("*"))        
+                targets.push(this.scope?.global.formatters.getTypes("en"))        
             }          
-
         }else if(on=='scope'){
             targets.push(this._activeFormatters)
             if(fallbackLanguage) targets.push(this.getFormatters(fallbackLanguage))
             if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.getFormatters(DefaultFallbackLanguage))
             targets.push(this.getFormatters("*"))
+            targets.push(this.getFormatters('en'))
             if(inGlobal){
                 targets.push(this.scope?.global.formatters.activeFormatters)
                 if(fallbackLanguage) targets.push(this.scope?.global.formatters.getFormatters(fallbackLanguage))
                 if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.scope?.global.formatters.getFormatters(DefaultFallbackLanguage))
                 targets.push(this.scope?.global.formatters.getFormatters("*"))        
+                targets.push(this.scope?.global.formatters.getFormatters("en"))     
             }
         }
         // 查找指定名称的格式化器
