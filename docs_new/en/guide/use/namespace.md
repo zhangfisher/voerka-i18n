@@ -7,16 +7,16 @@ Consider a large project with thousands of source code files. By default, `voerk
 - Too much content makes the `default.json` file too large to manage
 - Some translations often need to be related to the context to make a more accurate translation, without proper classification, it is not easy to relate to the context.
 
-Therefore, the purpose of the introduction `名称空间` is to solve this problem.
+Therefore, the purpose of the introduction `namespace` is to solve this problem.
 
 To configure the namespace, a configuration `languages/settings.json` file is required.
 
 ```javascript
-// 工程目录：d:/code/myapp
+// project folder：d:/code/myapp
 // languages/settings.json
 module.exports = {
     namespaces:{
-        //"名称":"相对路径"，
+        //"name":"Relative path"，
         "routes":"routes",
         "auth":"core/auth",
         "admin":"views/admin"

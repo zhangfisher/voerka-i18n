@@ -1,2 +1,10 @@
-* [guide](/guide/)
-* [reference](/reference/) 
+* [指南](/zh/guide/)
+* [参考](/zh/reference/) 
+* [开源项目](#) 
+    * [Logsets](https://zhangfisher.github.io/logsets/)    
+    * [FlexDecorators](https://zhangfisher.github.io/flex-decorators/)
+    * [FlexState](https://zhangfisher.github.io/flexstate/)
+    * [FlexTools](https://zhangfisher.github.io/flex-tools/)
+    * [VoerkaLogger](https://zhangfisher.github.io/voerkalogger/)
+* [English](/en/guide/) 
+

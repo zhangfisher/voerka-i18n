@@ -54,12 +54,12 @@ When you need to localize the display of a currency, use the corresponding `curr
 - **Specify object parameters**
    When using positional parameters, you can only enter in order. If we only want to specify a suffix for the currency output, we need to pass the parameters in the following way:
    ```javascript
-        t("{ value | currency('long',1,2,'人民币','元',3,'<后缀>')}",1234.56)                 
-        t("{ value | currency('long',,,,,,'<后缀>')}",1234.56)                 
+        t("{ value | currency('long',1,2,'人民币','元',3,'<suffix>')}",1234.56)                 
+        t("{ value | currency('long',,,,,,'<suffix>')}",1234.56)                 
    ```
     `currency` The formatter supports passing parameters through an object, like this:
    ```javascript
-        t("{ value | currency({format:'long',suffix:'<后缀>'})}",1234.56)                       
+        t("{ value | currency({format:'long',suffix:'<suffix>'})}",1234.56)                       
    ```
 
 ### Currency composition
@@ -87,7 +87,7 @@ For different languages or different application scenarios, you can freely combi
 | ---  | ---  | ---  |  ---  |
 | `format` | `String`  | `default` |Value `long`, `short`, `default`, `<template>`|
 | `unit` | `Number`  | `0` |Carry bits, such as `万`, `亿`, `万亿`, `万万亿`|
-| `precision`| `Number`  | `2` | 即小数精度 |
+| `precision`| `Number`  | `2` | Decimal precision |
 | `prefix` | `String` | `''` Prefix |
 | `suffix` | `String ` | `''` | Suffix, different default values for different languages |
 | `division` | `Number`  | ` ` |Comma division bit, for example, 3 means adding a comma for every 3 bits|

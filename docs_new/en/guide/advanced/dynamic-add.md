@@ -6,7 +6,7 @@
 - If translation problems are found after the product is launched, the whole project needs to be repackaged.
 - To add a language after going online, you also need to go through the packaging process again.
 
- `voerkaI18n` To solve these problems, it supports the function of remote loading of language packs, and can support online `动态增加支持语种`, `语言包在线补丁` and other features.
+ `voerkaI18n` To solve these problems, it supports the function of remote loading of language packs, and can support online `dynamic add language support`, `language pack patch` and other features.
 
 
 ## How to use
@@ -30,10 +30,11 @@ chat
 
 ```
 Open `languages/index.js`, roughly as follows:
+
 ```javascript
 // ....
 const scope = new i18nScope({
-    id: "chat",                          // 当前作用域的id，自动取当前工程的package.json的name
+    id: "chat",                           
     messages:{ 
         "en" : ()=>import("./en.js")
     },
@@ -45,7 +46,7 @@ const scope = new i18nScope({
 - An asynchronous loader was created for `en` the language to load `en` language packs asynchronously.
 - When packaging `chat` an application, `zh.js` language packages such as, `en.js`, and so on are all packaged as part of the source code, except that the non-default language `en.js` is `chunk` packaged separately so that it can be loaded asynchronously.
 
-** Assume below **? When the application goes online, the customer requests to add a `de` language, but our source code package does not include `de` the language. `voerkiai18n` The language loader function can be used to realize `动态增加语种` the function more conveniently.
+** Assume below **? When the application goes online, the customer requests to add a `de` language, but our source code package does not include `de` the language. `voerkiai18n` The language loader function can be used to realize `Dynamically adding languages` the function more conveniently.
 
 ### Step 1: Register the default language loader
 
@@ -56,14 +57,12 @@ First, you need to import `i18nScope` the instance in the application (for examp
 
 ```javascript
 
-// 从当前工程导入`scope`实例
 import { i18nScope } from "./languages"
 
-// 注册默认的语言加载器
 i18nScope.registerDefaultLoader(async (language,scope)=>{
-    // language: 要切换到此语言
-    // scope: 语言作用域实例   
-    // 在此向服务器发起请求，请返回翻译后的其他语言文本
+    // language: target language
+    // scope: i18nScope instance
+    // Send a request to the server here, please return the translated text in another language
     return {.....}
 })
 ```
@@ -74,7 +73,7 @@ From here, we can make an asynchronous request to the server to read the languag
 
 ```javascript
 
-// 从当前工程导入`scope`实例
+
 import { i18nScope } from "./languages"
 
 i18nScope.registerDefaultLoader(async (language,scope)=>{
@@ -143,7 +142,7 @@ In practical applications, we often find a certain language translation error in
 
 The `voerkaI18n` language pack patch feature also works by using the default language loader to load language pack patches. The working principle is simple, as follows:
 - Register the default language loader as in the example above
-- When `i18nScope` registered to the global `VoerkaI18n`, the default language loader is invoked to load the language pack from the server, and then ** Merge into local language pack ** the ability to patch the language pack is easily implemented.
+- When `i18nScope` registered to the global `VoerkaI18n`, the default language loader is invoked to load the language pack from the server, and then **Merge into local language pack** the ability to patch the language pack is easily implemented.
 
 In this example, we assume that `chat` a translation error is found in the Chinese language of the application and a language pack patch is needed to fix it. The method is as follows:
 ```javascript
@@ -160,7 +159,7 @@ As described in the above example, edit a `zh.json` file on the server and save 
     "4": "名称空间"
 }
 ```
-Then, when the application switches to the specified `zh` language, the language pack merged into the source code is downloaded, thus implementing the function of patching the language pack and fixing the translation error. ** This feature is simple and practical and is highly recommended. **
+Then, when the application switches to the specified `zh` language, the language pack merged into the source code is downloaded, thus implementing the function of patching the language pack and fixing the translation error. **This feature is simple and practical and is highly recommended.**
 
 ### Brief summary
 
@@ -176,10 +175,10 @@ Then, when the application switches to the specified `zh` language, the language
 Language loader is a generic `异步函数` or `返回Promise` function that can be used to load language pack files remotely.
 
 The language loader passes in two parameters:
-|Parameter| 说明 |
+|Parameter| description |
 | --- | --- |
-|** language **| 要切换的此语言|
-| **scope** |A language-scoped instance where the `scope.id` value defaults equal to `package.json` the `name` field in. See for [参考](../../reference/i18nscope) details.|
+|** language **| target language|
+| **scope** |A language-scoped instance where the `scope.id` value defaults equal to `package.json` the `name` field in. See for [ref](../../reference/i18nscope) details.|
 
 - A typical language loader is very simple, as follows:
 ```javascript
@@ -217,7 +216,7 @@ We need to make simple extensions to the UI so that we can switch when we dynami
             v-for="lng of i18n.langauges">
             {{ lng.title }}        
         </button>
-        <!-- 预期要支持的语言 -->
+        <!-- Expected languages to be supported -->
         <button  @click="i18n.activeLanguage=lng.name" 
             v-for="lng of ['de','jp',.......]">
             {{ lng }} 
@@ -229,14 +228,15 @@ By writing the appropriate language switching interface, you can add language su
 
 ###  `scope.id` Parameter
 
-** Important: Why pass `scope.id` parameters to the server? ** In a multi-package environment, each library or package has a ** Unique ID ** `name` field that, according to the specifications for multi-package/library development, is used `package.json` by default.
+**Important: Why pass `scope.id` parameters to the server?** In a multi-package environment, each library or package has a **Unique ID** `name` field that, according to the specifications for multi-package/library development, is used `package.json` by default.
 
-** For example **：
+**For example**：
+
 - Applications `A` that rely on packages/libraries `X`, `Y`, `Z` and `A/X/Y/Z` are used `voerkiai18n` as a multilingual solution
 - When the application is started, `A/X/Y/Z` an `i18nScope` instance will be created, `id` and `A/X/Y/Z` then these `i18nScope` instances will be registered in the global `voerkaI18n` instance (see the introduction of multi-database linkage for details).
 - If the application `A` configuration supports `zh` `en` two languages, when the application is to switch to a `de` language, Then it's not just `A` the application itself that needs to switch to the `de` language, but also the libraries it depends on `de`. But the libraries `X`, `Y`, and `Z` may or may not support `de` the language themselves. If not, you will also need to request a translation language for the library from the server. Therefore, when you make a request to the server, you need to bring `scope.id` it with you, so that the server can prepare the corresponding language packages for the application `A` and the dependent libraries `X`, `Y`, `Z` respectively.
 
-** According to this mechanism, if your application uses any third-party library, as long as the third-party library also uses voerkai18n as a multilingual solution, you can do it `增加语言支持` `打语言包补丁` yourself without the support of the original developer. **
+**According to this mechanism, if your application uses any third-party library, as long as the third-party library also uses voerkai18n as a multilingual solution, you can do it `Add language support`,`Apply language pack patches` yourself without the support of the original developer.**
 
 
 ### Cache language packs

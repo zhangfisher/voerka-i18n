@@ -7,7 +7,7 @@
 
 The overall principle framework is as follows:
 
-![结构图](./arch.png)
+![](./arch.png)
 
 When we are developing an application or library `import "./languages"`, `langauges/index.js` the following processing is performed:
 
@@ -28,7 +28,9 @@ Parameter needs to be specified `library` in `lanuages/index.(js|ts)`
 
 const scope = new VoerkaI18nScope({    
     // ...
-    library     : false,                      // 开发库时设为true
+    library     : false,    // Set to true during library development
+
+
     // ...
 }) 
 ```
@@ -36,8 +38,7 @@ const scope = new VoerkaI18nScope({
 - When developing a library application, you need to set the `library` parameter to `true` and the application to `false` or not.
 
 
-## Frequently asked questions
-
+## Questions
 ### How to use `t` the translation function in the library?
 
 The usage method used in the development library is exactly the same as that used in the ordinary application `VoerkaI18n`.

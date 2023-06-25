@@ -16,11 +16,11 @@ The complete engineering process to `React` enable `VoerkaI18n` internationaliza
 - Introduction `@voerkai18n/vue` and `@voerkai18n/vite` plug-in in the application
 - Translate using `t` functions in the source code
 
-The complete engineering process is described in [工程化](../start/quick-start), and the following is a brief description of how it is used `VoerkaI18n` in the `Vue` application.
+The complete engineering process is described in [here](../start/get-started), and the following is a brief description of how it is used `VoerkaI18n` in the `Vue` application.
 
 ## Step 2: Install `Vite` the plug-in
 
-If the application is a project created with `Vite` + `@vitejs/plugin-react`, you can automatically import `t` functions and `翻译内容自动映射` so on through the configuration `@voerkai18n/vite` plug-in.
+If the application is a project created with `Vite` + `@vitejs/plugin-react`, you can automatically import `t` functions and `text map` so on through the configuration `@voerkai18n/vite` plug-in.
 
 The import installation `@voerkai18n/vite` plug-in is configured `vite.config.js` in.
 
@@ -35,7 +35,7 @@ export default defineConfig({
     plugins: [
         Inspect(),  // localhost:3000/__inspect/ 
         Voerkai18nPlugin({ 
-            debug: true     // 输出一些调试信息
+            debug: true     // output some debug info
         }),
         react()
     ]
@@ -65,7 +65,7 @@ import { t } from "../languages"
 import { t } from "../../languages"
 import { t } from "../../../languages"
 
-console.log(t("中华人民共和国"))
+console.log(t("xxxxxxxxxxx"))
 
 ```
 
@@ -74,15 +74,15 @@ console.log(t("中华人民共和国"))
 
 ### Use in `React` component
 
-The biggest difference between using `t` a function translation in a `React` component and in a `js|ts` file is: ** When you switch languages, you need to trigger a re-rendering of the component **. To do this we need to apply the configuration `Provider` at the root.
+The biggest difference between using `t` a function translation in a `React` component and in a `js|ts` file is: **When you switch languages, you need to trigger a re-rendering of the component **. To do this we need to apply the configuration `Provider` at the root.
 
-1. ** Configure Root Component Provider **
+1. **Configure Root Component Provider**
 
  `VoerkaI18nProvider` Wrapping the application root component essentially creates a `VoerkaI18nContext.Provider`.
 
 ```jsx
 
-// 1.当前语言Scope
+ 
 import { i18nScope } from "./languages"
 import { VoerkaI18nProvider } from "@voerkai18n/react"
 
@@ -95,7 +95,7 @@ export default App(){
 }
 ```
 
-2. Using `t` translation functions ** in ** components
+2. Using `t` translation functions **in** components
 
 Next, by `useVoerkaI18n` getting the `t` translation function for the current scope.
 
@@ -104,13 +104,13 @@ import { useVoerkaI18n } from "@voerkai18n/react"
 export function MyComponent(){
      const { t } = useVoerkaI18n()
     return ( 
-        <div>{t("要翻译的内容")}</div> 
+        <div>{t("Content to be translated")}</div> 
     )
 }
 
 ```
 
-It also works when used `import { t} from "languages` directly ** Notice ** in a component, because a `t` function is essentially just a normal function. But when the language is switched dynamically, the corresponding component cannot be re-rendered automatically. Therefore, it is only through `{ t} = useVoerkaI18n()` imported `t` functions that you can automatically re-render components when you switch languages.
+It also works when used `import { t} from "languages` directly **Notice **in a component, because a `t` function is essentially just a normal function. But when the language is switched dynamically, the corresponding component cannot be re-rendered automatically. Therefore, it is only through `{ t} = useVoerkaI18n()` imported `t` functions that you can automatically re-render components when you switch languages.
 
 ## Step 4: Switch languages
 
@@ -130,10 +130,10 @@ export function MyComponent(){
      const { t, activeLanguage,changeLanguage,languages,defaultLanguage } = useVoerkaI18n()
     return ( 
         <div>
-            <h1>{t("当前语言")}:{activeLanguage}</h1>
-            <h1>{t("默认语言")}:{defaultLanguage}</h1>
+            <h1>{t("active language")}:{activeLanguage}</h1>
+            <h1>{t("default langauge")}:{defaultLanguage}</h1>
             <div> {
-                {/* 遍历出支持的所有语言 */}
+                {/* Traverse all supported languages */}
                 languages.map(lang=>{
                 return (<button 
                             key={lang.name}
@@ -156,5 +156,5 @@ export function MyComponent(){
 - Use `import { t} from "./languages"` in plain `ts/js` files to import `t` translation functions
 -  `@voerkai18n/vite` The plug-in is optional and is only used to automatically import normal `ts/js` files when using `t` the translation function.
 - If you are using to `Create React App` create an `React` application, refer to `voerki18n-loader`
-- See for [这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/reactapp) a complete example
+- See for a example: [here](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/reactapp) 
 

@@ -4,9 +4,8 @@ When using `webpack`, `rollup`, `esbuild` to package the project, the default la
 
 ```javascript
 const defaultMessages =  require("./zh.js")   
-// 语言作用域
-const scope = new i18nScope({
-    // 以下为每一种语言生成一个异步打包语句
+
+const scope = new i18nScope({    
     messages:{ 
         'zh' :  defaultMessages,
         "en" : ()=>import("./en.js") 

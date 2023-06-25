@@ -9,7 +9,7 @@ The general solution is to repackage the application and redistribute it, which 
 
  `voerkai18n` The language pack patch feature provides a perfect solution to this problem, so you can fix translation errors at any time without repackaging the application.
 
-** Basic idea: When a translation error is found after the application is launched, the language pack patch can be placed at the appointed location on the server, and the application will automatically update and repair, which is a very practical feature. **
+**Basic idea: When a translation error is found after the application is launched, the language pack patch can be placed at the appointed location on the server, and the application will automatically update and repair, which is a very practical feature.**
 
 ## Guide
 
@@ -58,14 +58,13 @@ You need to import `i18nScope` the instance in the application (for example, `ap
 
 ```javascript
 
-// 从当前工程导入`scope`实例
+ 
 import { i18nScope } from "./languages"
 
-// 注册默认的语言加载器
-// 在此向服务器发起请求，请返回翻译后的其他语言文本
+// Send a request to the server here, please return the translated text in another language
 i18nScope.registerDefaultLoader(async (language,scope)=>{
-    // language: 要切换到此语言
-    // scope: 语言作用域实例   
+    // language
+    // scope: i18nScope instance
     return await (await fetch(`/languages/${scope.id}/${language}.json`)).json()
 })
 ```

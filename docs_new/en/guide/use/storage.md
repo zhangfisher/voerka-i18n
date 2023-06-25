@@ -6,7 +6,7 @@ When we use `i18n.change(language)` switching languages, we often need to rememb
 
 Keep in mind that the last language feature `voerkaI18n 2.0` you switched to works out of the box in. When we switch languages on the browser side, we automatically remember the last switched language and save it in `localStorage`, and automatically switch to the last language the next time we open the application.
 
-** The implementation principle is as follows: **
+**The implementation principle is as follows:**
 
 When we open `languages/index.(js|ts)` the file, we find that there is a `storage` parameter:
 

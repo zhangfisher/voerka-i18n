@@ -4,13 +4,13 @@
 
 The creation `Vue 3` application generally uses `Vite` or `Vue Cli` to create the project. The addition of an internationalized application introduced `voerkai18n` in an `Vue3` application requires two plug-ins to simplify the application.
 
-- ** @voerkai18n/vue **
+- **@voerkai18n/vue**
 
-  ** Vue Plugin **? Introduced when initializing `Vue` the application, providing access to `当前语言`, `切换语言`, `自动更新` and other functions.
+  **Vue Plugin**? Introduced when initializing `Vue` the application, providing access to `current language`, `change language` and other functions.
 
-- ** @voerkai18n/vite **
+- **@voerkai18n/vite**
 
-  ** Vite Plug-in **, `vite.config.js` configured in, used to implement `自动文本映射` `t函数的自动导入` functions such as and.
+  **Vite Plug-in**, `vite.config.js` configured in, used to implement `auto text map` `t function auto import` functions such as and.
 
   
  `@voerkai18n/vue` And `@voerkai18n/vite` after the two plug-ins are installed and configured, the multi-language `t` function can be used in the `Vue` file.
@@ -26,13 +26,13 @@ The complete engineering process to `Vue` enable `VoerkaI18n` internationalizati
 - Introduction `@voerkai18n/vue` and `@voerkai18n/vite` plug-in in the `Vue` application
 - Translate using `t` functions in the source code
 
-The complete engineering process is described in [工程化](../start/quick-start), and the following is a brief description of how it is used `VoerkaI18n` in the `Vue` application.
+The complete engineering process is described in [here](../start/get-started), and the following is a brief description of how it is used `VoerkaI18n` in the `Vue` application.
 
 ## Step 2: Enable `@voerkai18n/vite` the plug-in
 
  `@voerkai18n/vite` Plug-in functions are:
 
-- According to `idMap.ts` the mapping file, the source code can be `t("xxxxx")` converted into `t("<数字>")` the form of, thus eliminating the redundant content of the translated content.
+- According to `idMap.ts` the mapping file, the source code can be `t("xxxxx")` converted into `t("<nunmber>")` the form of, thus eliminating the redundant content of the translated content.
 - Realize the function of automatic import `t` function, save the trouble of manual import.
 
  `@voerkai18n/vite` Plug-in installation is as simple as adding the following to `vite.config.(ts|js)`:
@@ -46,8 +46,8 @@ import Voerkai18nPlugin from "@voerkai18n/vite"
  
 export default defineConfig({
   plugins: [    
-    Inspect(),                // 可选    
-    Voerkai18nPlugin(),       // 新增加
+    Inspect(),                // Option   
+    Voerkai18nPlugin(),       // add it
     vue()
   ],
 })
@@ -55,7 +55,7 @@ export default defineConfig({
 ```
 -  `@voerkai18n/vite` Plug-ins work only during the development and construction phases. In fact, if you don't care about the redundancy of text content, you can work fine without installing this plug-in.
 -  `vite-plugin-inspect` It is only used for debugging. You can `http://localhost:3000/__inspect/` check whether the automatic import and `idMap.ts` mapping in `@voerkai18n/vite` the current project are correct for debugging in the development stage.
-- The integrity [使用说明](/guide/tools/vite) of the `@voerkai18n/vite` plug-in.
+- The integrity [use](../tools/vite) of the `@voerkai18n/vite` plug-in.
 ## Step 3: Configure `@voerkai18n/vue` the plug-in
 
  `@voerkai18n/vue` Plug-ins are used to automatically inject `t` functions, switch languages, and so on.
@@ -67,21 +67,19 @@ The installation method is as follows:
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-// 导入插件
 import i18nPlugin from '@voerkai18n/vue'
-// 导入当前作用域
 import { i18nScope } from './languages'
 
-const app = createApp(App)
-// 应用插件
-app.use<VoerkaI18nPluginOptions>(i18nPlugin as any,{
-    i18nScope
-})
-app.mount('#app')
-
+i18nScope.ready(()=>{
+  const app = createApp(App)
+  app.use<VoerkaI18nPluginOptions>(i18nPlugin as any,{
+      i18nScope
+  })
+  app.mount('#app')
+}
 ```
 
- `@voerkai18n/vue` Plugins essentially automatically mix in `t` functions ** for ** each Vue component.
+ `@voerkai18n/vue` Plugins essentially automatically mix in `t` functions **for **each Vue component.
 
 ## Step 4: Use the `t` translation function
 
@@ -89,47 +87,46 @@ The nature of `Vue` an application use multiple languages is to call `import { t
 
 ```vue
 
-<script setup>
-// 手动导入t函数
-// 如果启用了@voerkai18n/vite插件，则可以省略此行实现自动导入
+<script setup> 
 import { t } from "./languages"
 console.log(t("Welcome to VoerkaI18n"))
 
 </script>
 
 
-// 直接使用t函数，不需要导入
+// Directly use without importing it
 <script>
 export default {
     data(){
         return {
             username:"",
             password:"",
-            title:t("认证")
+            title:t("xxxx")
         }
     },
     methods:{
         login(){
-            alert(t("登录"))
+            alert(t("xxxx"))
         }
     }
 }
 </script>
-// 直接使用
+
 <template>
 	<div>
-        <h1>{{ t("请输入用户名称") }}</h1>
+        <h1>{{ t("please enter") }}</h1>
         <div>
-            <span>{{t("用户名:")}}</span><input type="text" :placeholder="t('邮件/手机号码/帐号')"/>
-            <span>{{t("密码:")}}</span><input type="password" :placeholder="t('至少6位的密码')"/>            
+            <span>{{t("Username:")}}</span><input type="text"/>
+            <span>{{t("Password:")}}</span><input type="password"/>            
     	</div>            
     </div>
-        <button @click="login">{{t("登录")}}</button>
+        <button @click="login">{{t("Login")}}</button>
     </div>
 </template>
 ```
  
-** Key **
+**Key:**
+
 - Import `import { t} from "./languages"` Manually in `<script setup>`
 - Functions can be used `t` directly for translation in `<script>` and `<template>`.
 -  `@voerkai18n/vue` The plug-in essentially automatically mixes in `t` functions for each Vue component and automatically re-renders when the language is switched.
@@ -144,7 +141,7 @@ Plugins are introduced `@voerkai18n/vue` to enable language switching and automa
 <script setup lang="ts">
 import { injectVoerkaI18n } from "@voerkai18n/vue"
 
-// 提供一个i18n对象
+ 
 const i18n = injectVoerkaI18n()
 </script>
 
@@ -155,11 +152,11 @@ export default {
 </script>  
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <h1>{{ t("中华人民共和国")}} </h1>
-  <h2>{{ t("迎接中华民族的伟大复兴")}} </h2>
-  <h5>默认语言：{{ i18n.defaultLanguage }}</h5>
-  <h5>当前语言：{{ i18n.activeLanguage }}</h5>
-  <!-- 遍历支持的语言  -->
+  <h1>{{ t("xxxxxxxxxxxxxx")}} </h1>
+  <h2>{{ t("xxxxxxx")}} </h2>
+  <h5>default language：{{ i18n.defaultLanguage }}</h5>
+  <h5>current language：{{ i18n.activeLanguage }}</h5>
+  <!-- Traverse Supported Languages  -->
   <button v-for="lng of i18n.languages" 
     @click="i18n.activeLanguage = lng.name"  
     >{{ lng.title }}</button>
@@ -175,5 +172,5 @@ export default {
 - Use `injectVoerkaI18n()` to implement the ability to traverse supported languages and switch languages.
 - Components are automatically re-rendered when you switch languages.
 -  `@voerkai18n/vue` Plugins can only be used in `Vue 3`.
-- For a complete example, see [这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/vue3-ts)
+- For a example, see [here](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/vue3-ts)
 

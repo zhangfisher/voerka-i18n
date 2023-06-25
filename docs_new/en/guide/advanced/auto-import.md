@@ -19,7 +19,7 @@ As an internationalization solution, translation functions are used in most of t
 
 To this end, we provide plug-ins to automatically import translation functions, including:
 
-- [Babel插件](../tools/babel)
-- [Vite插件](../tools/vite)
+- [Babel Plugin](../tools/babel)
+- [Vite Plugin](../tools/vite)
 
 When the plug-in is enabled `babel/vite`, the functions are automatically imported `t` at compile time. See the documentation for how to use the plug-in.

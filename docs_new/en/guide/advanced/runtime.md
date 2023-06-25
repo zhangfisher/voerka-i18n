@@ -2,7 +2,7 @@
 
  `@voerkai18n/runtime` Yes `voerkai18n` Runtime Dependencies
 
-** Notice **
+**Notice**
 
 - And `esm` two transcoded versions were `@voerkai18n/runtime` released `commonjs`.
 - Attempts to automatically upgrade `@voerkai18n/runtime` when run `voerkai18n compile`

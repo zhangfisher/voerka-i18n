@@ -69,7 +69,7 @@ When the plural function is enabled, `t` the function needs to know which variab
 
 
 ```javascript
-t("{} have {} car","张三",0)
+t("{} have {} car","Tom",0)
 ```
 
 **When named variable interpolation is employed, `t` the function convention refers to a complex number according to a variable startsWith `$` when the variable exists in the interpolation dictionary and the value is `number`.**
