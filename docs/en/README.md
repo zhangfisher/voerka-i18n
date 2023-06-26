@@ -1,8 +1,6 @@
 Internationalization solutions for `Javascript/Vue/React/ReactNative`
 
-
-[官方网站](https://zhangfisher.github.io/voerka-i18n/)
-
+> This document was translated using an automatic translation engine and may have expressive issues. Welcome to fork modification, thanks!
 
 Based on `javascript` the internationalization of many solutions, the more famous are `fbt`, `i18next`, `react-i18next`, `vue-i18n`, `react-intl` and so on, each solution has a large number of users. Why build another wheel? Well, the reason for rebuilding a wheel is nothing more than not being satisfied with the existing solution, always thinking about the shortcomings of the existing solution, and then rolling up your sleeves and trying to build a wheel.
 
@@ -21,11 +19,11 @@ So what exactly is the dissatisfaction with the existing solution? There are thr
 
 - Comprehensive engineering solution, providing tool chain support for initialization, text extraction, automatic translation, compilation, etc.
 - Intuitively, there is no need to manually define text `Key` mappings.
-- The powerful interpolation variable `格式化器` mechanism can be extended to a powerful multi-language feature.
+- The powerful interpolation variable `formatter` mechanism can be extended to a powerful multi-language feature.
 - Support `babel` the automatic import `t` of translation functions by plug-ins.
 - Support `nodejs`, browser ( `vue`/ `react`/ `solid`), etc `React Native`., etc. Any JS scenario
-- Designed separately `工具链` from `运行时`, only a small runtime integration is required for release.
-- Highly extensible `复数`, common multilingual processing mechanisms such as, `货币`, `数字` and.
+- Designed separately `toolChain` from `runtime`, only a small runtime integration is required for release.
+- Highly extensible `plural`, common multilingual processing mechanisms such as, `currency`, `datetime` and.
 - During the translation process, the extracted text can be automatically synchronized and the translated content can be preserved.
 - Supported languages can be added dynamically online
 - Support online language pack patching after release to fix translation errors
@@ -38,9 +36,9 @@ So what exactly is the dissatisfaction with the existing solution? There are thr
 
 # ** Open source recommendation: **
 
-- ** `VoerkaI18n` **: [ One-click Internationalization Solution Based on Nodejs/React/Vue ](https://zhangfisher.github.io/voerka-i18n/)
-- ** `Logsets` **: [命令行应用增强输出库](https://zhangfisher.github.io/logsets/)
-- ** `AutoPub` **: [ Automatic package sending tool based on pnpm/monorepo ](https://zhangfisher.github.io/autopub/)
-- ** `FlexDecorators` **: [ JavaScript/Type Script Decorator Development ](https://zhangfisher.github.io/flex-decorators/)
-- ** `FlexState` **: [有限状态机实现](https://zhangfisher.github.io/flexstate/)
-- ** `FlexTools` **: [实用工具函数库](https://zhangfisher.github.io/flex-tools/)
+- [Logsets](https://zhangfisher.github.io/logsets/)
+- [VoerkaLogger](https://zhangfisher.github.io/voerkalogger/)
+- [FlexDecorators](https://zhangfisher.github.io/flex-decorators/)
+- [FlexState](https://zhangfisher.github.io/flexstate/)
+- [FlexTools](https://zhangfisher.github.io/flex-tools/)
+- [AutoPub](https://zhangfisher.github.io/autopub/)

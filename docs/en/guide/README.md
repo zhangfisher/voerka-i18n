@@ -10,16 +10,15 @@ So what exactly is the dissatisfaction with the existing solution?
 
   
 
-** Based on this, we began to build `VoerkaI18n` an international multilingual solution, and the main features include: **
+**Based on this, we began to build `VoerkaI18n` an international multilingual solution, and the main features include:**
  
-
 - Comprehensive engineering solution, providing tool chain support for initialization, text extraction, automatic translation, compilation, etc.
 - Intuitively, there is no need to manually define text `Key` mappings.
-- The powerful interpolation variable `格式化器` mechanism can be extended to a powerful multi-language feature.
+- The powerful interpolation variable `formatter` mechanism can be extended to a powerful multi-language feature.
 - Support `babel` the automatic import `t` of translation functions by plug-ins.
 - Support `nodejs`, browser ( `vue`/ `react`/ `solid`), etc `React Native`., etc. Any JS scenario
-- Designed separately `工具链` from `运行时`, only a small runtime integration is required for release.
-- Highly extensible `复数`, common multilingual processing mechanisms such as, `货币`, `数字` and.
+- Designed separately `toolChain` from `runtime`, only a small runtime integration is required for release.
+- Highly extensible `plural`, common multilingual processing mechanisms such as, `currency`, `datetime` and.
 - During the translation process, the extracted text can be automatically synchronized and the translated content can be preserved.
 - Supported languages can be added dynamically online
 - Support online language pack patching after release to fix translation errors
@@ -27,8 +26,7 @@ So what exactly is the dissatisfaction with the existing solution?
 - Over 90% test coverage for core runtime `@voerkai18n/runtime`
 - Support `TypeScript` development
 
-
-  
+ 
 
 # Open source recommendation
 
