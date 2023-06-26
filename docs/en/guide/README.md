@@ -1,4 +1,4 @@
-Internationalization solutions for `Javascript/Vue/React/ReactNative`
+Internationalization solution for 'Javascript/Typescript/Vue/React/Solidjs/SvelteJs/ReactNative'
 
 Based on `javascript` the internationalization of many solutions, the more famous are `fbt`, `i18next`, `react-i18next`, `vue-i18n`, `react-intl` and so on, each solution has a large number of users. Why build another wheel? Well, the reason for rebuilding a wheel is nothing more than not being satisfied with the existing solution, always thinking about the shortcomings of the existing solution, and then rolling up your sleeves and trying to build a wheel.
 

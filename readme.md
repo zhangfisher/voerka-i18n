@@ -28,7 +28,7 @@ Built-in support for TypeScript types and generation of TypeScript source code
 
 - **Applicability**
 
-Supports any Javascript application, including 'Nodejs/Vue/React/ReactNative' and more.
+Supports any Javascript application, including `Nodejs/Vue/React/solidjs/sveltejs/ReactNative` and more.
 
 - **Multi library**
 
