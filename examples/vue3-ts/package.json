@@ -8,7 +8,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "translate": "node ../../packages/cli/index.js translate --",
-    "init": "node ../../packages/cli/index.js init",
+    "init:i18n": "node ../../packages/cli/index.js init",
     "extract": "node ../../packages/cli/index.js extract",
     "compile": "node ../../packages/cli/index.js compile"
   },

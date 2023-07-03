@@ -5,7 +5,11 @@
   "scripts": {
     "serve": "set NODE_OPTIONS=--openssl-legacy-provider & vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "translate": "node ../../packages/cli/index.js translate --",
+    "init:i18n": "node ../../packages/cli/index.js init",
+    "extract": "node ../../packages/cli/index.js extract",
+    "compile": "node ../../packages/cli/index.js compile"
   },
   "dependencies": {
     "@voerkai18n/runtime": "^2.0.5",
