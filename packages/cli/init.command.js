@@ -100,7 +100,7 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
         }    
         tasks.complete()
     }catch(e){
-        tasks.error(e.message)
+        tasks.error(e.stack)
     }
     
     // 创建settings.json文件
@@ -122,7 +122,7 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
         fs.writeFileSync(settingsFile,JSON.stringify(settings,null,4))
         tasks.complete()
     }catch(e){
-        tasks.error(e.message)
+        tasks.error(e.stack)
     }    
     
     // 生成一个语言初始化文件,该文件在执行extract/compile前提供访问t函数的能力
@@ -137,7 +137,7 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
         fs.writeFileSync(path.join(lngPath,`index.${isTypeScript ? 'ts' : 'js'}`),entryContent)
         tasks.complete()
     }catch(e){
-        tasks.error(e.message)
+        tasks.error(e.stack)
     } 
 
     try{
@@ -146,7 +146,7 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
         fs.writeFileSync(path.join(lngPath,`idMap.${isTypeScript ? 'ts' : 'js'}`),entryContent)
         tasks.complete()
     }catch(e){
-        tasks.error(e.message)
+        tasks.error(e.stack)
     } 
  
     
@@ -159,7 +159,7 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
             tasks.complete()
         }            
     }catch(e){
-        tasks.error(e.message)
+        tasks.error(e.stack)
     } 
     
     
