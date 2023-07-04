@@ -28,6 +28,26 @@ export async function loadAsyncModule(context:any,module:Function){
         return  loadResult
     }
 }
+
+/**
+ * 简单版本的字符串替换函数replaceAll
+ * 
+ * 之所以不采用String.prototype.replaceAll是因为在nodejs 12.x版本中不支持
+ * 
+ * 
+ * @param str 
+ * @param search 
+ * @param replace 
+ * @returns 
+ */
+export function replaceAll(str:string,search:string,replace:string):string{    
+    while(str.indexOf(search) > -1){
+        str = str.replace(search,replace)
+    }
+    return str
+}
+
+
  /**
   * 当需要采用正则表达式进行字符串替换时，需要对字符串进行转义
   * 

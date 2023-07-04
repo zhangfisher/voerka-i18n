@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { t } from "../language"
+import { t } from "../languages"
 
 export default {
   name: 'HelloWorld',

@@ -19,6 +19,7 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.22.5",
     "@vue/cli-plugin-babel": "~4.4.6",
     "@vue/cli-plugin-router": "~4.4.6",
     "@vue/cli-plugin-unit-jest": "~4.4.6",

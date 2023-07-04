@@ -1,0 +1,19 @@
+{
+  "name": "@voerkai18n/vue2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@voerkai18n/runtime": "workspace:^",
+    "vue": "2.7.14"
+  },
+  "devDependencies": {
+    "vue": "2.7.14"
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "hello": {
+        "en": "hello",
+        "$file": [
+            "main.js"
+        ]
+    },
+    "VoerkaI18n是一个非常不错的多语言解决方案": {
+        "en": "VoerkaI18n是一个非常不错的多语言解决方案",
+        "$file": [
+            "components\\HelloWorld.vue"
+        ]
+    }
+}

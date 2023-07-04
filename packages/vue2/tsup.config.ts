@@ -5,17 +5,16 @@ export default defineConfig({
     entry: [
         'src/index.ts'
     ],
-    format: ['esm','cjs','iife'],
+    format: ['esm','cjs'],
     dts: true,
     splitting: false,
     sourcemap: true,
     clean: true,
     treeshake:true,  
-    minify: false,
-    noExternal:['flex-tools'],
+    minify: true,
     banner: {
         js: `/***        
-*   ---=== VoerkaI18n Runtime ===---
-*   https://zhangfisher.github.io/voerka-i18n/*
+*   ---=== VoerkaI18n for Vue2 ===---
+*   https://zhangfisher.github.io/voerka-i18n
 */`}
 }) 

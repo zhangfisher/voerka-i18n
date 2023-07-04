@@ -28,7 +28,7 @@
  *
  */
 
-import { getDataTypeName } from "./utils"
+import { getDataTypeName,replaceAll } from "./utils"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { isFunction } from "flex-tools/typecheck/isFunction"
 import { FormatterDefineChain, parseFormatters } from "./formatter"
@@ -87,7 +87,7 @@ function forEachInterpolatedVars(str:string, replacer:InterpolatedVarReplacer, o
 			try {
 				const finalValue = replacer(varname, formatters, matched[0]);
 				if (opts.replaceAll) {
-					result = (result as any).replaceAll(matched[0], finalValue);
+					result = replaceAll(result,matched[0], finalValue);
 				} else {
 					result = result.replace(matched[0], finalValue);
 				}
