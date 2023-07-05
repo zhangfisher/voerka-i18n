@@ -1,13 +1,22 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">{{t('首页')}}</router-link> |
+      <router-link to="/about">{{t('关于')}}</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+<script> 
 
+export default {
+   created(){
+     console.log("App created")
+     console.log("t=",this.t)
+
+   }
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -6,7 +6,25 @@
         ]
     },
     "VoerkaI18n是一个非常不错的多语言解决方案": {
-        "en": "VoerkaI18n是一个非常不错的多语言解决方案",
+        "en": "VoerkaI18n is a great multilingual solution",
+        "$file": [
+            "components\\HelloWorld.vue"
+        ]
+    },
+    "首页": {
+        "en": "Home",
+        "$file": [
+            "App.vue"
+        ]
+    },
+    "关于": {
+        "en": "About",
+        "$file": [
+            "App.vue"
+        ]
+    },
+    "欢迎使用VoerkaI18n": {
+        "en": "Welcome to VoerkaI18n",
         "$file": [
             "components\\HelloWorld.vue"
         ]

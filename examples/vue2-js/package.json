@@ -1,5 +1,5 @@
 {
-  "name": "vue2app",
+  "name": "vue2-js",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,10 +12,10 @@
     "compile": "node ../../packages/cli/index.js compile"
   },
   "dependencies": {
-    "@voerkai18n/runtime": "^2.0.5",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vue-template-compiler": "2.6.11",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
@@ -28,6 +28,6 @@
     "@vue/test-utils": "^1.0.3",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "voerkai18n-loader": "^2.0.6"
   }
 }

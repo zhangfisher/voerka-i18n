@@ -244,7 +244,7 @@ program
     .option('-t, --typescript',t("输出typescript代码")) 
     .option('-l, --library',t("开发库模式"),false)
     .option('-u, --update-runtime',t("自动更新runtime")) 
-    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
+    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .option('--skip',t("跳过更新language/index.(ts|js)文件"),false) 
     .argument('[location]',  t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){
