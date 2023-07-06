@@ -39,13 +39,6 @@ export function i18nMixin(){
             }
         }
     }
-}
+} 
 
- 
-
-declare global  {    
-    interface Vue {
-        t(message:string,...args:any[]):string
-        activeLanguage:()=>void
-    }
-}
+export * from "./types"

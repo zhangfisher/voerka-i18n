@@ -29,6 +29,9 @@ pnpm add @voerkai18n/runtime
 ## **@voerkai18/vue**
 
 适用于`Vue3`的`vue`插件，用来为Vue应用提供语言动态切换功能。
+## **@voerkai18/vue2**
+
+适用于`Vue2`的`vue`插件，用来为Vue应用提供语言动态切换功能。
 
 ## **@voerkai18/react**
 

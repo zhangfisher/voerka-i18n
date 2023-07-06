@@ -261,11 +261,18 @@ Options:
       xx.(js|ts)
 ```
 
+## 多语言
 
-**说明：**
+默认情况下,`@voerkai18n/cli`会尝试读取当前操作系的语言，并使该语言进行显示。如果当前操作系统的语言不在支持的语言列表中，则会使用`en`作为默认语言。
+
+- 可以通过`--lang`参数来指定默认的语言，比如`voerkai18n --lang zh`。
+- 可以通过环境变量`set LANGUAGE=xx`来指定默认的语言，比如`set LANGUAGE=zh & voerkai18n extract`。
+
+## **说明：**
 
 - 在当前工程目录下，一般不需要指定参数就可以反复多次进行编译。
 - 您每次修改了源码并`extract`后，均应该再次运行`compile`命令。
 - 如果您修改了`formatters.js`，执行`compile`命令不会重新生成和修改该文件。
 - 默认情况下，`compile`命令当发现当前工程存在`ts.config.ts`时，会生成`languages/**/*.ts`。也可以显式指定`voerkai18n compile --typescript`来生成`ts`源码，或者显式指定`voerkai18n compile --typescript=false`来禁用生成`ts`源码。
 - **注意**，`compile`命令会重新覆盖`languages/index.(js|ts)`,如果您修改了该文件，而不希望被覆盖，请指定`--skip`参数。
+

@@ -257,8 +257,15 @@ After `voerkai18n compile` execution, it will be `langauges` output under the fo
       xx.(js|ts)
 ```
 
+## Multilingual
 
-** Explain **
+By default, '@voerkai18n/cli' will attempt to read the language of the current operating system and display that language. If the language of the current operating system is not in the supported Index of language articles, 'en' will be used as the default language.
+
+-You can specify the default language through the '-- lang' parameter, such as' voerkai18n -- lang zh '.
+-You can specify the default language through the environment variable 'set LANGUAGE=xx', such as' set LANGUAGE=zh&voerkai18n extract '.
+
+'@voerkai18n/cli' supports the following languages:`zh`,`en`,`de`,`jp`,`fra`,`spa`,`kor`,`ru`,`it`
+## Explain
 
 - In the current project directory, you can compile repeatedly without specifying parameters.
 - Every time you modify the source code `extract`, you should run `compile` the command again.

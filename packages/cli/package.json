@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/cli",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "description": "命令行工具,用来初始化/提取/编译/自动翻译等工具链",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -16,6 +16,7 @@
     ],
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
+        "translate": "node ./index.js translate",
         "extract": "node ./index.js extract -D -e templates/** ",
         "compile": "node ./index.js compile -m cjs",
         "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d",
@@ -27,6 +28,7 @@
         "voerkai18n": "./index.js"
     },
     "dependencies": {
+        "lcid": "^4.0.1",
         "@babel/cli": "^7.17.6",
         "@babel/core": "^7.17.5",
         "@voerkai18n/runtime": "workspace:latest",

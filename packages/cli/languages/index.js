@@ -9,14 +9,28 @@ const storage = require("./storage.js")
 
 const formatters = {
     'zh' :  defaultFormatters,
-    'en' : ()=>require("./formatters/en.js"),
-	'de' : ()=>require("./formatters/de.js")
+    'cht' : ()=>require("./formatters/cht.js"),
+	'en' : ()=>require("./formatters/en.js"),
+	'de' : ()=>require("./formatters/de.js"),
+	'jp' : ()=>require("./formatters/jp.js"),
+	'fra' : ()=>require("./formatters/fra.js"),
+	'spa' : ()=>require("./formatters/spa.js"),
+	'kor' : ()=>require("./formatters/kor.js"),
+	'ru' : ()=>require("./formatters/ru.js"),
+	'it' : ()=>require("./formatters/it.js")
 }
  
 const messages = {
     'zh' :  defaultMessages,
-    'en' : ()=>require("./en.js"),
-	'de' : ()=>require("./de.js")
+    'cht' : ()=>require("./cht.js"),
+	'en' : ()=>require("./en.js"),
+	'de' : ()=>require("./de.js"),
+	'jp' : ()=>require("./jp.js"),
+	'fra' : ()=>require("./fra.js"),
+	'spa' : ()=>require("./spa.js"),
+	'kor' : ()=>require("./kor.js"),
+	'ru' : ()=>require("./ru.js"),
+	'it' : ()=>require("./it.js")
 }
  
 
@@ -28,12 +42,40 @@ const scopeSettings = {
             "title": "中文"
         },
         {
+            "name": "cht",
+            "title": "繁体中文"
+        },
+        {
             "name": "en",
             "title": "英文"
         },
         {
             "name": "de",
             "title": "德语"
+        },
+        {
+            "name": "jp",
+            "title": "日语"
+        },
+        {
+            "name": "fra",
+            "title": "法语"
+        },
+        {
+            "name": "spa",
+            "title": "西班牙语"
+        },
+        {
+            "name": "kor",
+            "title": "韩语"
+        },
+        {
+            "name": "ru",
+            "title": "俄语"
+        },
+        {
+            "name": "it",
+            "title": "意大利语"
         }
     ],
     "defaultLanguage": "zh",

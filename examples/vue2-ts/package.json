@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "translate": "node ../../packages/cli/index.js translate --",
+    "init:i18n": "node ../../packages/cli/index.js init",
+    "extract": "node ../../packages/cli/index.js extract",
+    "compile": "node ../../packages/cli/index.js compile"
   },
   "dependencies": {
     "vue": "^2.6.11",

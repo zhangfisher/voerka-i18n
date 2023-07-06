@@ -31,6 +31,8 @@ const { i18nScope,t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const artTemplate = require("art-template")
 const semver = require("semver") 
+const { getCliLanguage } = require("./oslocate")
+
 const { 
     findModuleType,
     getProjectSourceFolder,
@@ -247,9 +249,8 @@ program
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .option('--skip',t("跳过更新language/index.(ts|js)文件"),false) 
     .argument('[location]',  t('工程项目所在目录'),"./")
-    .hook("preAction",async function(location){
-        const lang= process.env.LANGUAGE || "zh"
-         await i18nScope.change(lang)      
+    .hook("preAction",async function(location){ 
+         await i18nScope.change(getCliLanguage())      
     })
     .action(async (location,options) => { 
         location = getProjectSourceFolder(location)

@@ -31,6 +31,7 @@ const fs = require("fs-extra")
 const { glob } = require("glob") 
 const { deepMerge,getProjectSourceFolder } = require("@voerkai18n/utils")
 const { Command } = require('commander');
+const { getCliLanguage } = require("./oslocate")
 
 const delay = async (t) => new Promise(resolve=>setTimeout(resolve,t))
 
@@ -252,8 +253,7 @@ program
     .option('--appkey [key]', t('API密钥'))
     .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), 1)  
     .hook("preAction",async function(location){
-        const lang= process.env.LANGUAGE || "zh"
-        await i18nScope.change(lang)     
+        await i18nScope.change(getCliLanguage())     
     })
     .action((location,options) => { 
         location = getProjectSourceFolder(location)

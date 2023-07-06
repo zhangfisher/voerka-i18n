@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "description": "runtime of voerkai18n",
     "main": "./src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -15,10 +15,10 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsup",
+        "build": "tsup --metafile",
         "build:test": "modern build",
         "version:patch": "npm version patch --commit-hooks=false",
-        "release": "tsup && npm publish --registry https://registry.npmjs.org/"
+        "release": "tsup --metafile && npm publish --registry https://registry.npmjs.org/"
     },
     "author": "wxzhang",
     "license": "MIT",
@@ -29,6 +29,7 @@
         "@swc/core": "^1.3.44",
         "@types/node": "^18.15.11",
         "@vitest/coverage-c8": "^0.30.1",
+        "esbuild-analyzer": "^0.2.0",
         "jest": "^27.5.1",
         "tsup": "^6.7.0",
         "typescript": "^4.9.3",

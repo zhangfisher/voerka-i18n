@@ -355,7 +355,7 @@ function updateLanguageFile(newTexts,toLangFile,options){
     try{
         oldTexts =JSON.parse(fs.readFileSync(toLangFile))
     }catch(e){
-        logger.log("Error while read language file <{}>: {}",toLangFile,e.message)
+        logger.log(t("读取语言文件<{}>出错: {}"),toLangFile,e.message)
         // 如果读取出错，可能是语言文件不是有效的json文件，则备份一下
     }
     // 同步模式下，如果原始文本在新扫描的内容中，则需要删除
@@ -416,19 +416,19 @@ module.exports = function(options={}){
             if(debug){
                 const textCount = Object.values(texts).reduce((sum,item)=>sum+Object.keys(item).length,0)
                 if(textCount>0){
-                    logger.log("提取<{}>, 发现 [{}] 名称空间，{} 条信息。",file.relative,Object.keys(texts).join(),textCount)
+                    logger.log(t("提取<{}>, 发现 [{}] 名称空间，{} 条信息。"),file.relative,Object.keys(texts).join(),textCount)
                 }                
             }
         }catch(err){
-            logger.log("从<{}>提取信息时出错 : {}",file.relative,err.message)
+            logger.log(t("从<{}>提取信息时出错 : {}"),file.relative,err.message)
         }
         
         callback()
     },function(callback){
         logger.log("")
-        logger.log("翻译信息提取完成。")
-        logger.log(" - 文件总数\t: {}",fileCount)
-        logger.log(" - 输出路径\t: {}",outputPath)
+        logger.log(t("翻译信息提取完成。"))
+        logger.log(t(" - 文件总数\t: {}"),fileCount)
+        logger.log(t(" - 输出路径\t: {}"),outputPath)
         const translatesPath = path.join(outputPath,"translates")
         if(!fs.existsSync(outputPath)) fs.mkdirSync(outputPath)
         if(!fs.existsSync(translatesPath)) fs.mkdirSync(translatesPath)
@@ -442,10 +442,10 @@ module.exports = function(options={}){
             const langTexts = {}
             if(isExists){
                 updateLanguageFile(texts,langFile,options)
-                logger.log("    √ 更新语言文件 : {}",path.relative(outputPath,langFile))
+                logger.log(t("    √ 更新语言文件 : {}"),path.relative(outputPath,langFile))
             }else{
                 fs.writeFileSync(langFile,JSON.stringify(texts,null,4)) 
-                logger.log("    √ 保存语言文件 : {}",path.relative(outputPath,langFile))
+                logger.log(t("    √ 保存语言文件 : {}"),path.relative(outputPath,langFile))
             }   
         }
         // 生成语言配置文件 settings.json  , 仅当不存在时才生成
@@ -458,14 +458,14 @@ module.exports = function(options={}){
                 namespaces     : options.namespaces 
             }
             fs.writeFileSync(settingsFile,JSON.stringify(settings,null,4))
-            logger.log(" - 生成语言配置文件: {}",settingsFile) 
+            logger.log(t(" - 生成语言配置文件: {}"),settingsFile) 
         }else{
-            logger.log(" - 应用语言配置文件: {}",settingsFile) 
+            logger.log(t(" - 应用语言配置文件: {}"),settingsFile) 
         }    
 
-        logger.log("下一步：")
-        logger.log(" - 运行<{}>编译语言包","voerkai18n compile")
-        logger.log(" - 在源码中从[{}]导入编译后的语言包","./languages")
+        logger.log(t("下一步："))
+        logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
+        logger.log(t(" - 在源码中从[{}]导入编译后的语言包"),"./languages")
 
 
         callback()               

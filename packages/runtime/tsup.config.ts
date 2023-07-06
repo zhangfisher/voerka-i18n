@@ -1,5 +1,6 @@
 import { defineConfig } from 'tsup' 
 
+// 分析包大小 https://www.bundle-buddy.com/
 
 export default defineConfig({
     entry: [
@@ -11,7 +12,7 @@ export default defineConfig({
     sourcemap: true,
     clean: true,
     treeshake:true,  
-    minify: false,
+    minify: true,
     noExternal:['flex-tools'],
     banner: {
         js: `/***        

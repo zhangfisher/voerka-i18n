@@ -12,6 +12,7 @@ const logger = createLogger()
 const { installPackage,isTypeScriptProject,getCurrentPackageJson,getProjectSourceFolder, isInstallDependent } = require("@voerkai18n/utils")
 const artTemplate = require("art-template")
 const { Command } = require('commander'); 
+const { getCliLanguage } = require("./oslocate")
 
 function getLanguageList(langs,defaultLanguage){
     try{
@@ -131,7 +132,7 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
         const templateContext = {
             moduleType,
             library,
-            scopeId:projectPackageJson.name,
+            scopeId:projectPackageJson ? projectPackageJson.name : 'scope'+parseInt(Math.random()*10000)
         }
         const entryContent = artTemplate(path.join(__dirname,"templates",`init-entry.${isTypeScript ? 'ts' : (moduleType=='esm' ? 'mjs' :  'cjs')}`), templateContext )
         fs.writeFileSync(path.join(lngPath,`index.${isTypeScript ? 'ts' : 'js'}`),entryContent)
@@ -172,8 +173,7 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
     logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),"languages/settings.json")
     logger.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
     logger.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
-    logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
-    
+    logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")    
 } 
 
 const program = new Command();
@@ -182,7 +182,7 @@ program
     .argument('[location]', t('工程项目所在目录'))
     .description(t('初始化项目国际化配置'))
     .option('-D, --debug', t('输出调试信息'))
-    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'auto')     
+    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
     .option('-t, --typescript',t("输出typescript代码")) 
     .option('-l, --library',t("开发库模式"),false) 
@@ -190,8 +190,7 @@ program
     .option('-d, --defaultLanguage <name>', t('默认语言'), 'zh')  
     .option('-a, --activeLanguage <name>', t('激活语言'), 'zh')  
     .hook("preAction",async function(location){
-        const lang= process.env.LANGUAGE || "zh"
-        await i18nScope.change(lang)     
+        await i18nScope.change(getCliLanguage())     
     })
     .action(async (location,options) => { 
         options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript

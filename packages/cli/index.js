@@ -3,8 +3,10 @@ const { Command } = require('commander');
 const createLogger =  require("logsets")
 const semver = require('semver')
 const logger = createLogger()
-const { t }  = require("./i18nProxy")
+const { t,i18nScope}  = require("./i18nProxy")
 const { getPackageReleaseInfo }  = require("@voerkai18n/utils"); 
+const { getCliLanguage } = require("./oslocate")
+
 const replaceAll = require('string.prototype.replaceall');
 replaceAll.shim() 
 
@@ -13,6 +15,9 @@ program
     .name("voerkai18n")
     .option("-v, --version", "当前版本号")
     .helpOption('-h, --help', '显示帮助')
+    .hook("preAction",async function(location){ 
+        await i18nScope.change(getCliLanguage())     
+    })
     .action(async (options) => {
         const currentVersion = require("./package.json").version
         const newVersion = (await getPackageReleaseInfo("@voerkai18n/cli")).latestVersion

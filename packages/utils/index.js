@@ -209,7 +209,8 @@ function fileIsExists(filename){
  */
  function getCurrentPackageJson(folder,exclueCurrent=true){ 
     let projectFolder = getProjectRootFolder(folder,exclueCurrent)
-    if(projectFolder){
+    let packageJsonFile = path.join(projectFolder,"package.json")
+    if(fs.existsSync(packageJsonFile)){
        return fs.readJSONSync(path.join(projectFolder,"package.json"))
     }
 }

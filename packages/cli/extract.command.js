@@ -8,6 +8,7 @@ const extractor = require("./extract.plugin")
 const createLogger = require("logsets")
 const { getProjectSourceFolder } = require("@voerkai18n/utils")
 const logger = createLogger()
+const { getCliLanguage } = require("./oslocate")
 
 
 function extract(srcPath,options={}){
@@ -66,9 +67,8 @@ program
     .option('-u, --updateMode', t('本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并'), 'sync')  
     .option('-f, --filetypes', t('要扫描的文件类型'), 'js,vue,html,jsx,ts,mjs,cjs')  
     .argument('[location]', t('工程项目所在目录'),"./")
-    .hook("preAction",async function(location){
-        const lang= process.env.LANGUAGE || "zh"
-        await i18nScope.change(lang)     
+    .hook("preAction",async function(location){ 
+        await i18nScope.change(getCliLanguage())     
     })
     .action(async (location,options) => {
         location = getProjectSourceFolder(location)

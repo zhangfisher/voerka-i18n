@@ -7,7 +7,7 @@ try{
     const language = require('./languages'); 
     t = language.t
     i18nScope = language.i18nScope
-}catch{
+}catch(e){
     t=v=>v
     i18nScope={change:()=>{} }
 }
