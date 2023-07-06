@@ -5,10 +5,13 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types":"dist/index.d.ts",  
+  "access": "public",
   "publishConfig": {
       "main": "dist/index.js",
       "module": "dist/index.mjs",
-      "types": "dist/index.d.ts"
+      "types": "dist/index.d.ts",
+      "access": "public",
+      "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +19,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "peerDependencies": {
     "@voerkai18n/runtime": "workspace:^",
     "vue": "2.7.14"
