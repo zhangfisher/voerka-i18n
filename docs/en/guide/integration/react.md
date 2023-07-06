@@ -16,7 +16,7 @@ The complete engineering process to `React` enable `VoerkaI18n` internationaliza
 - Introduction `@voerkai18n/vue` and `@voerkai18n/vite` plug-in in the application
 - Translate using `t` functions in the source code
 
-The complete engineering process is described in [here](../start/get-started), and the following is a brief description of how it is used `VoerkaI18n` in the `Vue` application.
+The complete engineering process is described in [here](../intro/get-started), and the following is a brief description of how it is used `VoerkaI18n` in the `Vue` application.
 
 ## Step 2: Install `Vite` the plug-in
 

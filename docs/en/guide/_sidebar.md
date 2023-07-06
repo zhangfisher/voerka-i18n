@@ -15,6 +15,7 @@
     * [Remember langauge](/en/guide/use/storage)
 * [Integration](/en/guide/integration/)
     * [Vue](/en/guide/integration/vue)
+    * [Vue2](/en/guide/integration/vue2)
     * [React](/en/guide/integration/react)
 * [Advanced](/en/guide/advanced/)
     * [Runtime](/en/guide/advanced/runtime)

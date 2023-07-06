@@ -15,7 +15,7 @@ The creation `Vue 3` application generally uses `Vite` or `Vue Cli` to create th
   
  `@voerkai18n/vue` And `@voerkai18n/vite` after the two plug-ins are installed and configured, the multi-language `t` function can be used in the `Vue` file.
 
-## Step 1: Basic Process
+## Step 1: Basic
 
 The complete engineering process to `Vue` enable `VoerkaI18n` internationalization for an application is as follows:
 
@@ -26,7 +26,7 @@ The complete engineering process to `Vue` enable `VoerkaI18n` internationalizati
 - Introduction `@voerkai18n/vue` and `@voerkai18n/vite` plug-in in the `Vue` application
 - Translate using `t` functions in the source code
 
-The complete engineering process is described in [here](../start/get-started), and the following is a brief description of how it is used `VoerkaI18n` in the `Vue` application.
+The complete engineering process is described in [here](../intro/get-started), and the following is a brief description of how it is used `VoerkaI18n` in the `Vue` application.
 
 ## Step 2: Enable `@voerkai18n/vite` the plug-in
 
