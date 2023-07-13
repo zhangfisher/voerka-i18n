@@ -125,7 +125,9 @@ function getCliLanguage(){
         result = envLang.trim()
     }else{
         if(fs.existsSync(savedLangFile)){
-            result = fs.readFileSync(savedLangFile).trim()
+            try{
+				result = fs.readFileSync(savedLangFile).trim()
+			}catch{}
         }
         if(!result || !supportedLanguages.some(lng=>lng.name==result) ){
             result = osLocaleSync()

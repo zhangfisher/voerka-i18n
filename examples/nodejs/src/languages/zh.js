@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     "1": "这是一个测试:{a}+{b | x}={c}",
     "2": "你好",
     "3": "我叫{name},今年{age}岁",

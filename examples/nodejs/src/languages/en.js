@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     "1": "This is:{a}+{b | x}={c}",
     "2": "Hello",
     "3": "My Name is {name},Now {age} years old year",

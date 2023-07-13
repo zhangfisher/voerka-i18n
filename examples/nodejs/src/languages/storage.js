@@ -1,5 +1,5 @@
 
-module.exports = {
+export default  {
     get(key){
         if(globalThis.localStorage){
             return globalThis.localStorage.getItem(key)

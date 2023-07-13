@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     "1": "これはテストです:{a}+{b｜x}={c}",
     "2": "こんにちは",
     "3": "私は名前を{name}と申します、今年{age}歳です",
