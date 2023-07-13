@@ -1,5 +1,9 @@
 # Update log <!-- {docsify-ignore-all} -->
 
+## V2.0.8
+
+- [BUG] When 'activeLanguage' is different from 'defaultLanguage', an undefined 'activeFormatters' error occurred in the compiled' languages/index. js'.
+
 ## V2.0
 
 ### 2023/6/18

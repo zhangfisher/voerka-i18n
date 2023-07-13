@@ -1,4 +1,7 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.8
+
+- [BUG] 当`activeLangage`与`defaultLanguage`不一样时，编译生成的`languages/index.js`中出现了未定义的`activeFormatters`的错误。
 
 ## V2.0.7
 
