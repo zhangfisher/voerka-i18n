@@ -78,7 +78,7 @@ function getProjectModuleType(srcPath,isTypeScript){
     return isTypeScript ? 'esm' : 'cjs'       
 }
 
-async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
+async function initializer(srcPath,{languagesLocation='languages',library=false,moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
     let settings = {}
     // 检查当前项目的模块类型
     if(!['esm',"cjs"].includes(moduleType)){
@@ -87,9 +87,8 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
     const projectPackageJson = getCurrentPackageJson(srcPath)
 
     let tasks = logger.tasklist("初始化VoerkaI18n多语言支持")
-    const  langFolderName = "languages"
     // 查找当前项目的语言包类型路径
-    const lngPath = path.join(srcPath,langFolderName)
+    const lngPath = path.join(srcPath,languagesLocation)
 
     // 语言文件夹名称
     try{
@@ -165,12 +164,12 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
     
     
         
-    logger.log(t("生成语言配置文件:{}"),"./languages/settings.json")
+    logger.log(t("生成语言配置文件:{}"),`./${languagesLocation}/settings.json`)
     logger.log(t("拟支持的语言：{}"),settings.languages.map(l=>l.name).join(","))
     logger.log(t("已安装运行时:{}"),'@voerkai18n/runtime')
     logger.log(t("本工程运行在: {}"),library ? "库模式" : "应用模式")
     logger.log(t("初始化成功,下一步："))    
-    logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),"languages/settings.json")
+    logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),`${languagesLocation}/settings.json`)
     logger.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
     logger.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
     logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")    
@@ -186,6 +185,7 @@ program
     .option('-r, --reset', t('重新生成当前项目的语言配置'))
     .option('-t, --typescript',t("输出typescript代码")) 
     .option('-l, --library',t("开发库模式"),false) 
+    .option('--languages-location',t("languages文件夹相对位置"),"languages") 
     .option('-lngs, --languages <languages...>', t('支持的语言列表'), ['zh','en'])     
     .option('-d, --defaultLanguage <name>', t('默认语言'), 'zh')  
     .option('-a, --activeLanguage <name>', t('激活语言'), 'zh')  
@@ -196,6 +196,7 @@ program
         options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
         location = getProjectSourceFolder(location)
         logger.log(t("工程目录：{}"),location)
+        logger.log(t("语言目录：{}"),options.languagesLocation)
         //
         if(options.debug){
             logger.format(options,{compact:true})

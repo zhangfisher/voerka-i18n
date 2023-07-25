@@ -248,6 +248,7 @@ program
     .option('-u, --update-runtime',t("自动更新runtime")) 
     .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .option('--skip',t("跳过更新language/index.(ts|js)文件"),false) 
+    .option('--languages-location',t("languages文件夹相对位置"),"languages")  
     .argument('[location]',  t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){ 
          await i18nScope.change(getCliLanguage())      
@@ -255,7 +256,7 @@ program
     .action(async (location,options) => { 
         location = getProjectSourceFolder(location)
         options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
-        const langFolder = path.join(location,"languages")
+        const langFolder = path.join(location,options.languagesLocation)
         if(!fs.existsSync(langFolder)){
             logger.error(t("语言包文件夹<{}>不存在",langFolder))
             return
