@@ -28,6 +28,7 @@
     * [语言包](/zh/guide/advanced/lang-pack)
     * [自动翻译](/zh/guide/advanced/auto-translate)
     * [动态增加语言支持](/zh/guide/advanced/dynamic-add)
+    * [更改语言目录](/zh/guide/advanced/lang-entry-path)    
     * [语言包补丁](/zh/guide/advanced/lang-patch)
     * [在线编辑应用界面](/zh/guide/advanced/lang-edit)
     * [TypeScript](/zh/guide/advanced/typescript)

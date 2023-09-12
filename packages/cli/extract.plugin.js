@@ -31,12 +31,12 @@ const DefaultHtmlAttrExtractor = String.raw`\<(?<tagName>\w+)(.*?)(?<i18nKey>{at
 // 声明各种语言的注释匹配正则表达式
 // {"js,jsx"}
 const commentRegexs ={
-    "js,vue,jsx,ts":[
+    "js,vue,jsx,ts,tsx":[
         /(^[^\n\r\w\W]*\/\/.*$)|(\/\/.*$)/gm,                   // 单行注释
-        /\/\*\s*[\W\w|\r|\n|*]*\s*\*\//gm                       // 多行注释
+        /\/\*\s*[\W\w|\r|\n|*]*\s*\*\//gm,                      // 多行注释
     ],
-    html:[
-        /\<\!--[\s\r\n-]*[\w\r\n-\W]*?[\s\r\n-]*--\>/gm,    // 注释
+    "html,vue":[
+        /\<\!--[\s\r\n-]*?[\w\r\n-\W]*?[\s\r\n-]*?--\>/gm,    // 注释
     ]
 } 
 
@@ -390,7 +390,7 @@ module.exports = function(options={}){
     options = normalizeLanguageOptions(options)
     let {debug,outputPath} = options
     
-    logger.log(t("支持的语言\t: {}"),options.languages.map(item=>`${item.title}(${item.name})`).join(","))
+    logger.log(t("支持的语言\t: {}"),options.languages.map(item=>`${item.title}(${item.name})`).join(","))    
     logger.log(t("默认语言\t: {}"),options.defaultLanguage)
     logger.log(t("激活语言\t: {}"),options.activeLanguage) 
     logger.log(t("名称空间\t: {}"),Object.keys(options.namespaces).join(","))
@@ -465,7 +465,7 @@ module.exports = function(options={}){
 
         logger.log(t("下一步："))
         logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
-        logger.log(t(" - 在源码中从[{}]导入编译后的语言包"),"./languages")
+        logger.log(t(" - 在源码中从[{}]导入编译后的语言包"),options.entry)
 
 
         callback()               

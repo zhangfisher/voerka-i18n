@@ -215,10 +215,10 @@ async function translateMessageFile(file,langSettings,options={}){
 
 async function translate(srcFolder,opts={}){
     const options = normalizeTranslateOptions(opts);
-    let {   backup, appkey,appid,provider="baidu",qps=1 } = options;
+    let {   backup, appkey,appid,provider="baidu",entry="languages" } = options;
     if(!provider && !(appkey && appid) ) throw new Error(t("需要指定翻译脚本或者appkey和appid"))
 
-    const langFolder = path.join(srcFolder,"languages");
+    const langFolder = path.join(srcFolder,entry);
     const files = glob.sync(path.join(langFolder,"translates/*.json"))
     const langSettings = fs.readJSONSync(path.join(langFolder,"settings.json"))   
     // 保存一些调用信息，用来在翻译完成后，显示
@@ -257,6 +257,8 @@ program
     })
     .action((location,options) => { 
         location = getProjectSourceFolder(location)
+        // 从本地package.json读取合并配置
+        options = Object.assign({},getSettingsFromPackageJson(location),options)   
         translate(location,options)
     });
 

@@ -28,7 +28,7 @@
 
 const fs =  require("fs");
 const pathobj =  require("path");
-const { getProjectRootFolder } = require("@voerkai18n/utils")
+const { getProjectRootFolder, getSettingsFromPackageJson } = require("@voerkai18n/utils")
 
 
 const DefaultI18nPluginOptions = {
@@ -96,7 +96,7 @@ function hasRequireTranslateFunction(path){
  * @returns 
  */
 function readIdMapFile(options){
-    let { idMap,location } = options
+    let { idMap,location ,entry ='languages'} = options
     if(typeof(idMap)==="object" && Object.keys(idMap).length>0){
         return idMap
     }else{
@@ -104,21 +104,21 @@ function readIdMapFile(options){
         if(!pathobj.isAbsolute(location)){
             location =  pathobj.join(process.cwd(),location)
         }
-        searchIdMapFiles.push(pathobj.join(location,"src","languages/idMap.js"))
-        searchIdMapFiles.push(pathobj.join(location,"languages/idMap.js"))
+        searchIdMapFiles.push(pathobj.join(location,"src",`${entry}/idMap.js`))
+        searchIdMapFiles.push(pathobj.join(location,`${entry}/idMap.js`))
         searchIdMapFiles.push(pathobj.join(location,"idMap.js"))
 
-        searchIdMapFiles.push(pathobj.join(location,"src","languages/idMap.ts"))
-        searchIdMapFiles.push(pathobj.join(location,"languages/idMap.ts"))
+        searchIdMapFiles.push(pathobj.join(location,"src",`${entry}/idMap.ts`))
+        searchIdMapFiles.push(pathobj.join(location,`${entry}/idMap.ts`))
         searchIdMapFiles.push(pathobj.join(location,"idMap.ts"))
 
         let projectRoot = getProjectRootFolder(location)        
-        searchIdMapFiles.push(pathobj.join(projectRoot,"src","languages/idMap.js"))
-        searchIdMapFiles.push(pathobj.join(projectRoot,"languages/idMap.js"))
+        searchIdMapFiles.push(pathobj.join(projectRoot,"src",`${entry}/idMap.js`))
+        searchIdMapFiles.push(pathobj.join(projectRoot,`${entry}/idMap.js`))
         searchIdMapFiles.push(pathobj.join(projectRoot,"idMap.js"))
 
-        searchIdMapFiles.push(pathobj.join(projectRoot,"src","languages/idMap.ts"))
-        searchIdMapFiles.push(pathobj.join(projectRoot,"languages/idMap.ts"))
+        searchIdMapFiles.push(pathobj.join(projectRoot,"src",`${entry}/idMap.ts`))
+        searchIdMapFiles.push(pathobj.join(projectRoot,`${entry}/idMap.ts`))
         searchIdMapFiles.push(pathobj.join(projectRoot,"idMap.ts"))
 
         let idMapFile
@@ -147,12 +147,13 @@ function readIdMapFile(options){
 module.exports = function voerkai18nPlugin(babel) {
     const t = babel.types;
     const pluginOptions = Object.assign({},DefaultI18nPluginOptions);
+    const pkgLangSettings = getSettingsFromPackageJson()
     let idMap = {}
     return {
         visitor:{ 
             Program(path, state){ 
                 // 转码插件参数可以覆盖默认参数
-                Object.assign(pluginOptions,state.opts || {}); 
+                Object.assign(pluginOptions,state.opts || {},pkgLangSettings); 
                 const { location ,autoImport, translateFunctionName,moduleType } = pluginOptions
                 if(Object.keys(idMap).length===0){
                     idMap = readIdMapFile(pluginOptions) 

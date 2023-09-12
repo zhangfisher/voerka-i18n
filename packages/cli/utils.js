@@ -1,6 +1,5 @@
 const {promisify} = require('node:util')
 const childProcess  = require('node:child_process')
-
 const execFile = promisify(childProcess.execFile);
 
 /**
@@ -35,8 +34,9 @@ function getOsLanguage(){
 }
 
 
+
 module.exports = {
 	getOsLanguage,
 	exec,
-	execSync
+	execSync 
 }

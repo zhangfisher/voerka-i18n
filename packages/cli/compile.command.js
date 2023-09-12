@@ -40,7 +40,8 @@ const {
     getInstalledPackageInfo, 
     isTypeScriptProject,
     getPackageReleaseInfo,
-    upgradePackage
+    upgradePackage,
+    getSettingsFromPackageJson
 } = require("@voerkai18n/utils")
 
 
@@ -139,7 +140,7 @@ async  function compile(langFolder,opts={}){
         // 读取多语言配置文件
         const langSettings = fs.readJSONSync(settingsFile) 
         let { languages,defaultLanguage,activeLanguage,namespaces }  = langSettings
-        
+
         logger.log(t("支持的语言\t: {}"),languages.map(item=>`${item.title}(${item.name})`).join(","))
         logger.log(t("默认语言\t: {}"),defaultLanguage)
         logger.log(t("激活语言\t: {}"),activeLanguage)
@@ -255,7 +256,9 @@ program
     .action(async (location,options) => { 
         location = getProjectSourceFolder(location)
         options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
-        const langFolder = path.join(location,"languages")
+        // 从本地package.json读取合并配置
+        options = Object.assign({},getSettingsFromPackageJson(location),options)      
+        const langFolder = path.join(location,options.entry)
         if(!fs.existsSync(langFolder)){
             logger.error(t("语言包文件夹<{}>不存在",langFolder))
             return

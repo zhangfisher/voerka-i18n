@@ -6,13 +6,13 @@ const fs = require("fs-extra")
 const gulp = require("gulp")
 const extractor = require("./extract.plugin")
 const createLogger = require("logsets")
-const { getProjectSourceFolder } = require("@voerkai18n/utils")
+const { getProjectSourceFolder,getSettingsFromPackageJson } = require("@voerkai18n/utils")
 const logger = createLogger()
 const { getCliLanguage } = require("./oslocate")
 
 
 function extract(srcPath,options={}){
-    let { filetypes,exclude} =  options
+    let { filetypes,exclude,entry} =  options
     if(!filetypes) filetypes = ["*.js","*.jsx","*.ts","*.tsx","*.vue","*.html"]
     if(!Array.isArray(filetypes)) filetypes = filetypes.split(",")
     const folders = filetypes.map(ftype=>{
@@ -20,7 +20,7 @@ function extract(srcPath,options={}){
         if(!ftype.startsWith("*.")) ftype = "*."+ftype
         return path.join(srcPath,"**",ftype)
     })
-    folders.push(`!${path.join(srcPath,"languages","**")}`)
+    folders.push(`!${path.join(srcPath,entry,"**")}`)
     folders.push(`!${path.join(srcPath,"node_modules","**")}`)
     folders.push(`!${path.join(srcPath,"**","node_modules","**")}`)
     folders.push("!**/babel.config.js")
@@ -47,7 +47,7 @@ function extract(srcPath,options={}){
         logger.format(folders)
     }
 
-    options.outputPath = path.join(srcPath,"languages")
+    options.outputPath = path.join(srcPath,entry)
     gulp.src(folders)
         .pipe(extractor(options))
         .pipe(gulp.dest(options.outputPath))
@@ -75,16 +75,11 @@ program
         if(options.languages){
             options.languages = options.languages.map(l=>({name:l,title:l}))
         }
+        // 从本地package.json读取合并配置
+        options = Object.assign({},getSettingsFromPackageJson(location),options)      
+
         logger.log(t("工程目录：{}"),location)
-        const langSettingsFile = path.join(location,"languages","settings.json")
-        if(fs.existsSync(langSettingsFile)){
-            logger.log(t("语言配置文件<{}>已存在,将优先使用此配置文件中参数来提取文本"),"./languages/settings.json")
-            let lngOptions  = fs.readJSONSync(langSettingsFile)
-            options.languages = lngOptions.languages
-            options.defaultLanguage = lngOptions.defaultLanguage
-            options.activeLanguage = lngOptions.activeLanguage
-            options.namespaces = lngOptions.namespaces
-        }
+        logger.log(t("语言目录：{}"),options.entry)
         extract(location,options)
     });
 

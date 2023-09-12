@@ -1,4 +1,18 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.9
+
+- [BUG] 修复了在`html,vue`当存在`<!--  -->`空注释时提取翻译文本时误伤的问题
+- [特性]: 支持指定`languages`文件夹位置
+
+现在可以在`package.json`中指定`langauges`路径:
+```json
+{
+    "voerkai18n":{
+        "entry":"i18n"  // 将语言提取到src/i18n中
+    }
+}
+```
+
 ## V2.0.8
 
 - [BUG] 当`activeLangage`与`defaultLanguage`不一样时，编译生成的`languages/index.js`中出现了未定义的`activeFormatters`的错误。

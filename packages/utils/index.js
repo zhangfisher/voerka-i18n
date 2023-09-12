@@ -147,17 +147,17 @@ function fileIsExists(filename){
  * @param {*} location 
  */
  function getProjectLanguageFolder(location="./"){
+    // 从package.json/voerkai18n中读取
+    let { entry } = getSettingsFromPackageJson(location)
+
     // 绝对路径    
     if(!path.isAbsolute(location)){   
         location = path.join(process.cwd(),location)
     }    
-
     // 发现当前项目根目录
-    const projectRoot = getProjectRootFolder(location)
-
     const searchFolders = [
-        path.join(location,"src","languages"),
-        path.join(location,"languages")
+        path.join(location,"src",entry),
+        path.join(location,entry)
     ]
 
     for(let folder of searchFolders){
@@ -166,7 +166,7 @@ function fileIsExists(filename){
         }
     }
  
-    return null
+    return path.join(process.cwd(),'languages')
 }
 
 
@@ -214,7 +214,21 @@ function fileIsExists(filename){
        return fs.readJSONSync(path.join(projectFolder,"package.json"))
     }
 }
-
+/**
+ * 
+ * 从当前文件的package.json读取voerkai18n配置
+ * 
+ */
+ function getSettingsFromPackageJson(entry){
+	const pkg=  getCurrentPackageJson(entry,false)
+    const settings = {
+        entry:"languages"
+    }
+	if(typeof(pkg)=='object' &&  "voerkai18n" in pkg){
+		Object.assign(settings,pkg.voerkai18n)
+	} 
+	return settings
+}
 /**
  * 判断当前是否是Typescript工程
  * 
@@ -562,25 +576,28 @@ function upgradePackage(packageName){
  * @returns 
  */
 function readIdMapFile(location="./"){
+
+    const { entry='languages' }  = getSettingsFromPackageJson(location)
+
     let searchIdMapFiles = []
     if(!path.isAbsolute(location)){
         location =  path.join(process.cwd(),location)
     }
-    searchIdMapFiles.push(path.join(location,"src","languages/idMap.js"))
-    searchIdMapFiles.push(path.join(location,"languages/idMap.js"))
+    searchIdMapFiles.push(path.join(location,"src",`${entry}/idMap.js`))
+    searchIdMapFiles.push(path.join(location,`${entry}/idMap.js`))
     searchIdMapFiles.push(path.join(location,"idMap.js"))
 
-    searchIdMapFiles.push(path.join(location,"src","languages/idMap.ts"))
-    searchIdMapFiles.push(path.join(location,"languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(location,"src",`${entry}/idMap.ts`))
+    searchIdMapFiles.push(path.join(location,`${entry}/idMap.ts`))
     searchIdMapFiles.push(path.join(location,"idMap.ts"))
 
     let projectRoot = getProjectRootFolder(location)        
-    searchIdMapFiles.push(path.join(projectRoot,"src","languages/idMap.js"))
-    searchIdMapFiles.push(path.join(projectRoot,"languages/idMap.js"))
+    searchIdMapFiles.push(path.join(projectRoot,"src",`${entry}/idMap.js`))
+    searchIdMapFiles.push(path.join(projectRoot,`${entry}/idMap.js`))
     searchIdMapFiles.push(path.join(projectRoot,"idMap.js"))
         
-    searchIdMapFiles.push(path.join(projectRoot,"src","languages/idMap.ts"))
-    searchIdMapFiles.push(path.join(projectRoot,"languages/idMap.ts"))
+    searchIdMapFiles.push(path.join(projectRoot,"src",`${entry}/idMap.ts`))
+    searchIdMapFiles.push(path.join(projectRoot,`${entry}/idMap.ts`))
     searchIdMapFiles.push(path.join(projectRoot,"idMap.ts"))
 
     let idMapFile
@@ -735,5 +752,6 @@ module.exports = {
     asyncExecShellScript,                   // 异步执行一段脚本并返回结果
     getPackageReleaseInfo,                  // 从npm上读取指定包的信息
     getInstalledPackageInfo,                // 返回当前工程已安装的包信息，主要是版本号
-    upgradePackage                          // 升级包
+    upgradePackage,                         // 升级包
+    getSettingsFromPackageJson              // 从当前工程的package.json中读取voerkai18n配置
 }

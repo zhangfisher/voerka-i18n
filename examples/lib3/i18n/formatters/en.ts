@@ -6,9 +6,8 @@
     
  */
 
-
-// import { Formatter,FlexFormatter } from "./runtime"
-export default  {    
+ 
+export default {    
     // global   : true,     // 简单地设置为true,代表当前所有格式化器均注册到全局，false只在当前scope生效        
     // global   : { // 仅将里面的格式化器注册到全局
         // $config:{... }
@@ -78,31 +77,13 @@ export default  {
     //     number            : {
     //         division      : 3,                      // , 分割位，3代表每3位添加一个, 
     //         precision     : 0                      // 精度，即保留小数点位置,0代表不限 
-    //     },
-    //     empty:{
-    //         //values        : [],                   // 可选，定义空值，如果想让0,''也为空值，可以指定values=[0,'']
-    //         escape        : "",                     // 当空值时显示的备用值
-    //         next          : 'break'                 // 当空值时下一步的行为: break=中止;skip=跳过
-    //     },
-    //     error             : {
-    //         //当错误时显示的内容，支持的插值变量有message=错误信息,error=错误类名,也可以是一个返回上面内容的同步函数
-    //         escape        : null,                   // 默认当错误时显示空内容
-    //         next          : 'break'                 // 当出错时下一步的行为: break=中止;skip=忽略
-    //     },
-    //     fileSize:{
-    //         brief    : ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB","NB","DB"],
-    //         whole    : ["Bytes", "Kilobytes", "Megabytes", "Gigabytes", "TeraBytes", "PetaBytes", "ExaBytes", "ZetaBytes", "YottaBytes","DoggaBytes"],
-    //         precision: 2 // 小数精度
-    //     }
+    //     } 
     // },
     // 改变特定数据类型的默认格式化器
-    // $types:{    
-        // Date     : dateFormatter,
+    // $types:{     
         // Null     : value =>"",
-        // Undefined: value =>"",
-        // Error    : value => "ERROR",
-        // Boolean  : value =>value ? "True":"False",
-        // Number   : numberFormartter           
+        // Undefined: value =>"", 
+        // Boolean  : value =>value ? "True":"False", 
     // }
     // 以下可以自定义编写格式化器
     // xxxx        : value => { ... }, 
@@ -110,4 +91,4 @@ export default  {
     // xxxx        : (value,...args,$config) => { ... }, 
     // xxxx        : Formatter(value,...args,$config) => { ... }, 
     // xxxx        : FlexFormatter(value,params,$config) => { ... }, 
-}
+}   

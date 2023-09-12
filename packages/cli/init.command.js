@@ -9,7 +9,7 @@ const fs = require("fs")
 const { t,i18nScope } = require("./i18nProxy")
 const createLogger = require("logsets")
 const logger = createLogger() 
-const { installPackage,isTypeScriptProject,getCurrentPackageJson,getProjectSourceFolder, isInstallDependent } = require("@voerkai18n/utils")
+const { installPackage,isTypeScriptProject,getCurrentPackageJson,getProjectSourceFolder, isInstallDependent,getSettingsFromPackageJson} = require("@voerkai18n/utils")
 const artTemplate = require("art-template")
 const { Command } = require('commander'); 
 const { getCliLanguage } = require("./oslocate")
@@ -78,7 +78,7 @@ function getProjectModuleType(srcPath,isTypeScript){
     return isTypeScript ? 'esm' : 'cjs'       
 }
 
-async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
+async function initializer(srcPath,{entry='languages',library=false,moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
     let settings = {}
     // 检查当前项目的模块类型
     if(!['esm',"cjs"].includes(moduleType)){
@@ -87,9 +87,8 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
     const projectPackageJson = getCurrentPackageJson(srcPath)
 
     let tasks = logger.tasklist("初始化VoerkaI18n多语言支持")
-    const  langFolderName = "languages"
     // 查找当前项目的语言包类型路径
-    const lngPath = path.join(srcPath,langFolderName)
+    const lngPath = path.join(srcPath,entry)
 
     // 语言文件夹名称
     try{
@@ -165,12 +164,12 @@ async function initializer(srcPath,{library=false,moduleType,isTypeScript,debug 
     
     
         
-    logger.log(t("生成语言配置文件:{}"),"./languages/settings.json")
+    logger.log(t("生成语言配置文件:{}"),`./${entry}/settings.json`)
     logger.log(t("拟支持的语言：{}"),settings.languages.map(l=>l.name).join(","))
     logger.log(t("已安装运行时:{}"),'@voerkai18n/runtime')
     logger.log(t("本工程运行在: {}"),library ? "库模式" : "应用模式")
     logger.log(t("初始化成功,下一步："))    
-    logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),"languages/settings.json")
+    logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),`${entry}/settings.json`)
     logger.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
     logger.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
     logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")    
@@ -195,7 +194,11 @@ program
     .action(async (location,options) => { 
         options.isTypeScript = options.typescript==undefined ?  isTypeScriptProject()   : options.typescript
         location = getProjectSourceFolder(location)
+        // 从本地package.json读取合并配置
+        options = Object.assign({},getSettingsFromPackageJson(location),options)           
+
         logger.log(t("工程目录：{}"),location)
+        logger.log(t("语言目录：{}"),options.entry)
         //
         if(options.debug){
             logger.format(options,{compact:true})
