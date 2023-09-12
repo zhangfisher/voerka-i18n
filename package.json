@@ -8,15 +8,13 @@
         "test": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js ",
         "test:app": "cross-env NODE_OPTIONS=--experimental-vm-modules node node_modules/jest/bin/jest.js -- app",
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
-        "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi build",
-        "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider dumi dev ",
         "build:all": "pnpm -r --filter \"runtime\" --filter \"react\"  --filter \"vue\" build ",
         "publish:all": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish",
         "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch ",
         "publish:all:beta": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish --tag beta "
     },
-    "author": "",
-    "license": "ISC",
+    "author": "wxzhang@126.com",
+    "license": "MIT",
     "devDependencies": {
         "@babel/core": "^7.18.10",
         "@babel/plugin-transform-runtime": "^7.18.10",
@@ -48,11 +46,5 @@
         "vinyl": "^2.2.1",
         "yalc": "1.0.0-pre.53",
         "yorkie": "^2.0.0"
-    },
-    "autopub": {
-        "excludes": [
-            "apps"
-        ],
-        "includeDescendants": false
-    }
+    } 
 }

@@ -25,6 +25,7 @@
     "**/__test__",
     "test",
     "docs",
-    "tests"
+    "tests",
+    "packages/cli/templates"
   ]
 }
