@@ -1,8 +1,8 @@
 Internationalization solution for 'Javascript/Typescript/Vue/React/Solidjs/SvelteJs/ReactNative'
 # Document
 
-[中文](https://zhangfisher.github.io/voerka-i18n/zh/guide/)
-[English](https://zhangfisher.github.io/voerka-i18n/en/guide/)
+[中文](https://zhangfisher.github.io/voerka-i18n)
+[English](https://zhangfisher.github.io/voerka-i18n/#/en/guide/)
  
 # Features:
 
