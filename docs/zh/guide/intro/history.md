@@ -1,4 +1,8 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.11
+
+- **[BUG]** 修复了当执行`voerkai18n compile --skip`时出错的问题
+
 ## V2.0.10
 
 - **[BUG]** 修复了引用`flex-tools/safeParseJson`导致在`safari`浏览器下的错误问题:`invalid group specifier name`.
