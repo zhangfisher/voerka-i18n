@@ -333,6 +333,12 @@ importers:
         specifier: ^1.0.11
         version: 1.0.11(typescript@4.9.5)
 
+  examples/webpack:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: ^2.0.11
+        version: link:../../packages/runtime
+
   packages/babel:
     dependencies:
       '@voerkai18n/utils':
@@ -421,8 +427,8 @@ importers:
   packages/runtime:
     dependencies:
       flex-tools:
-        specifier: ^1.3.29
-        version: 1.3.29
+        specifier: ^1.3.30
+        version: 1.3.30
     devDependencies:
       '@swc/core':
         specifier: ^1.3.44
@@ -14594,8 +14600,8 @@ packages:
     deprecated: flatten is deprecated in favor of utility frameworks such as lodash.
     dev: true
 
-  /flex-tools@1.3.29:
-    resolution: {integrity: sha512-DB7NrV4uPR9oNnxXMEc386e4DLwAqEqjDH8wLPyDWGii9JfRd1VgmmwxMYSvCr+EGOh8+My2Fj1XTTeyEjAwGw==}
+  /flex-tools@1.3.30:
+    resolution: {integrity: sha512-tK8uO+1qdtyLiJFY5n99zG0HXstw2qG+ao8udgrX0SRAPML8HbnndVuZBa8R+M8uF5f84R2gnRFugkH7HHnrzQ==}
     dependencies:
       art-template: 4.13.2
       glob: 10.3.4
@@ -18458,7 +18464,7 @@ packages:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
       core-js: 3.27.1
-      flex-tools: 1.3.29
+      flex-tools: 1.3.30
 
   /longest-streak@2.0.4:
     resolution: {integrity: sha512-vM6rUVCVUJJt33bnmHiZEvr7wPT78ztX7rojL+LW51bHtLh6HTjx84LA5W4+oa6aKEJA7jJu5LR6vQRBpA5DVg==}

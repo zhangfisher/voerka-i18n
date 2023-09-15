@@ -1,0 +1,21 @@
+{
+  "name": "webpackloader-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js",
+    "translate": "node ../../packages/cli/index.js translate --",
+    "help": "node ../packages/cli/index.js -h",
+    "i18n:init": "node ../../packages/cli/index.js init",
+    "extract": "node ../../packages/cli/index.js extract",
+    "compile": "node ../../packages/cli/index.js compile"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@voerkai18n/runtime": "^2.0.11"
+  }
+}
