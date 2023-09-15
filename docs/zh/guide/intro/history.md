@@ -1,8 +1,12 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.10
+
+- **[BUG]** 修复了引用`flex-tools/safeParseJson`导致在`safari`浏览器下的错误问题:`invalid group specifier name`.
+
 ## V2.0.9
 
-- [BUG] 修复了在`html,vue`当存在`<!--  -->`空注释时提取翻译文本时误伤的问题
-- [特性]: 支持指定`languages`文件夹位置
+- **[BUG]** 修复了在`html,vue`当存在`<!--  -->`空注释时提取翻译文本时误伤的问题
+- **[特性]**: 支持指定`languages`文件夹位置
 
 现在可以在`package.json`中指定`langauges`路径:
 ```json
