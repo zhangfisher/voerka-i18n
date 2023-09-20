@@ -1,4 +1,8 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.13
+
+- **[BUG]** 修复了`voerkai18n translate`未导入`getSettingsFromPackageJson`的错误.
+
 ## V2.0.12
 
 - **[BUG]** 修复了当执行`voerkai18n extract`时出错：`Missing positive glob`的问题.感谢[zl_0110](https://gitee.com/zhangfisher/voerka-i18n/pulls/1/commits)

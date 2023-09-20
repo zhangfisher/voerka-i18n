@@ -29,7 +29,7 @@ const path = require("path")
 const { i18nScope,t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const { glob } = require("glob") 
-const { deepMerge,getProjectSourceFolder } = require("@voerkai18n/utils")
+const { deepMerge,getProjectSourceFolder,getSettingsFromPackageJson } = require("@voerkai18n/utils")
 const { Command } = require('commander');
 const { getCliLanguage } = require("./oslocate")
 
