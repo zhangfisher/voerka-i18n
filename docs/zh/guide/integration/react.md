@@ -175,5 +175,7 @@ export function MyComponent(){
 - 在普通`ts/js`文件中使用`import { t } from "./languages"`来导入`t`翻译函数
 - `@voerkai18n/vite`插件是可选的，仅仅普通`ts/js`文件使用`t`翻译函数时用来自动导入。
 - 如果使用`Create React App`创建`React`应用，则请参考`voerki18n-loader`
-- 完整示例见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/reactapp)
+- 完整示例见:
+    - [reactapp](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/reactapp)
+    - [reactapp-ts](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/react-ts)
 

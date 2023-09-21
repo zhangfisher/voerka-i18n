@@ -1,4 +1,12 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.14
+
+- **@voerkai18n/react**
+
+    - **[BUG]** 修复了`typescript`类型错误
+    - **[BUG]** 修复了`VoerkaI18nProvider`的启用`fallback`时的逻辑错误
+    - **[DOC]** 新增加了`examples/react-ts`示例，用于演示在`typescript`中使用`@voerkai18n/react`的用法
+
 ## V2.0.13
 
 - **[BUG]** 修复了`voerkai18n translate`未导入`getSettingsFromPackageJson`的错误.

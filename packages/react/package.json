@@ -1,9 +1,10 @@
 {
     "name": "@voerkai18n/react",
-    "version": "2.0.13",
+    "version": "2.0.14",
     "description": "React支持,提供语言切换等功能",
-    "main": "src/index.jsx",
-    "types": "src/index.d.ts",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
@@ -14,11 +15,6 @@
         "react",
         "voerkai18n"
     ],
-    "publishConfig": {
-        "main": "./dist/index.js",
-        "types": "./dist/index.d.ts",
-        "module": "./dist/index.mjs"
-    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsup",
@@ -27,11 +23,14 @@
     "author": "wxzhang",
     "license": "ISC",
     "devDependencies": {
+        "@types/react": "^18.2.15",
+        "react": "^18.2.0",
         "tsup": "^6.7.0"
     },
     "peerDependencies": {
+        "@types/react": "^18.2.15",
         "@voerkai18n/runtime": "workspace:latest",
-        "react": "^17.0.2"
+        "react": "^18.2.0"
     },
     "lastPublish": "2023-03-30T08:53:32+08:00"
 }
