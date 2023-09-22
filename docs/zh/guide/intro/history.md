@@ -1,4 +1,9 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+
+## V2.0.15
+
+- **@voerkai18n/cli**
+    - **[特性]** 执行`voerkai18n extract -D`时显示提取的翻译文本的详细信息，当提取信息不符合要求供查询。
 ## V2.0.14
 
 - **@voerkai18n/react**

@@ -1,0 +1,15 @@
+{
+    "languages": [
+        {
+            "name": "zh",
+            "title": "zh"
+        },
+        {
+            "name": "en",
+            "title": "en"
+        }
+    ],
+    "defaultLanguage": "zh",
+    "activeLanguage": "zh",
+    "namespaces": {}
+}

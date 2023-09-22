@@ -415,9 +415,7 @@ module.exports = function(options={}){
             fileCount++
             if(debug){
                 const textCount = Object.values(texts).reduce((sum,item)=>sum+Object.keys(item).length,0)
-                if(textCount>0){
-                    logger.log(t("提取<{}>, 发现 [{}] 名称空间，{} 条信息。"),file.relative,Object.keys(texts).join(),textCount)
-                }                
+                logger.log(t("提取<{}>, 发现 [{}] 名称空间，{} 条信息。"),file.relative,Object.keys(texts).join(","),textCount)
             }
         }catch(err){
             logger.log(t("从<{}>提取信息时出错 : {}"),file.relative,err.message)
