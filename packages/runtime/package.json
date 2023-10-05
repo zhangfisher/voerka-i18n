@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "2.0.15",
+    "version": "2.0.16",
     "description": "runtime of voerkai18n",
     "main": "./src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -10,7 +10,7 @@
     },
     "publishConfig": {
         "main": "./dist/index.js",
-        "module": "./dist/index.esm.js",
+        "module": "./dist/index.mjs",
         "typings": "./dist/index.d.ts"
     },
     "scripts": {

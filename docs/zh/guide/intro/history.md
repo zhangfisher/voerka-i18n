@@ -1,5 +1,9 @@
 # 更新日志<!-- {docsify-ignore-all} -->
 
+## V2.0.16
+
+- **[BUG]** 修复`@voerkai18n/runtime`引用`esm`模块时出错导致`import`失败的问题。
+
 ## V2.0.15
 
 - **@voerkai18n/cli**
