@@ -1,13 +1,13 @@
 {
     "首页": {
         "en": "首页",
-        "$file": [
+        "$files": [
             "App.vue"
         ]
     },
     "关于": {
         "en": "关于",
-        "$file": [
+        "$files": [
             "App.vue"
         ]
     }

@@ -1,7 +1,7 @@
 {
     "这是一个测试": {
         "en": "This is a test",
-        "$file": [
+        "$files": [
             "main.js",
             "App.jsx"
         ],
@@ -10,7 +10,7 @@
     },
     "中华民族伟大复兴": {
         "en": "The great rejuvenation of the Chinese nation",
-        "$file": [
+        "$files": [
             "modules\\module1.js"
         ],
         "jp": "中華民族の偉大な復興",
@@ -18,7 +18,7 @@
     },
     "犯我中华者，虽远必诛！": {
         "en": "Those who offend China will be punished even if they are far away!",
-        "$file": [
+        "$files": [
             "modules\\module2.js"
         ],
         "jp": "私の中華を犯す者は、遠くても必ず殺す！",
@@ -26,7 +26,7 @@
     },
     "Voerkai1n是一个功能强大设计精良的国际化解决方案": {
         "en": "Voerkai1n is a powerful and well-designed international solution",
-        "$file": [
+        "$files": [
             "App.jsx"
         ],
         "jp": "Voerkai 1 nは、強力で洗練されたデザインの国際化ソリューションです",
@@ -34,7 +34,7 @@
     },
     "一字一世界，一笔一乾坤，汉字是这个星球上最美的语言": {
         "en": "Every word in the world, every stroke in the universe, Chinese characters are the most beautiful language on this planet",
-        "$file": [
+        "$files": [
             "components\\Banner.jsx"
         ],
         "jp": "一字一世界、一筆一筆、漢字はこの星で最も美しい言語である",
@@ -42,7 +42,7 @@
     },
     "当前语言": {
         "en": "Current language",
-        "$file": [
+        "$files": [
             "components\\LanguageConfigurator.jsx"
         ],
         "jp": "現在の言語",

@@ -46,15 +46,14 @@ console.log(t("中华人民共和国成立于{}",1949))
     "languages": [
         {
             "name": "zh",
-            "title": "zh"
+            "title": "zh",
+            "default": true,    // 默认语言
         },
         {
             "name": "en",
             "title": "en"
         }
     ],
-    "defaultLanguage": "zh",
-    "activeLanguage": "zh",
     "namespaces": {}
 }
 ```

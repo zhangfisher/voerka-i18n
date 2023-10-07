@@ -46,15 +46,14 @@ The above command creates `languages/settings.json` a file in the current projec
     "languages": [
         {
             "name": "zh",
-            "title": "zh"
+            "title": "zh",
+            "default":true
         },
         {
             "name": "en",
             "title": "en"
         }
     ],
-    "defaultLanguage": "zh",
-    "activeLanguage": "zh",
     "namespaces": {}
 }
 ```

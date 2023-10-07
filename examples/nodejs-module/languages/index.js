@@ -21,15 +21,15 @@ const scopeSettings = {
     "languages": [
         {
             "name": "zh",
-            "title": "zh"
+            "title": "zh",
+            "default": true,
+            "active": true  
         },
         {
             "name": "en",
             "title": "en"
         }
-    ],
-    "defaultLanguage": "zh",
-    "activeLanguage": "zh",
+    ], 
     "namespaces": {}
 }
 

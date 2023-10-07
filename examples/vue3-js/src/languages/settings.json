@@ -1,0 +1,26 @@
+{
+    "languages": [
+        {
+            "name": "zh",
+            "title": "Chinese"
+        },
+        {
+            "name": "en",
+            "title": "English",
+            "default": true
+        },
+        {
+            "name": "th",
+            "title": "th"
+        },
+        {
+            "name": "jp",
+            "title": "Japanese"
+        },
+        {
+            "name": "de",
+            "title": "German"
+        }
+    ],
+    "namespaces": {}
+}

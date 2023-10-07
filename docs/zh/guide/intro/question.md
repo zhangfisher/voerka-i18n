@@ -3,6 +3,8 @@
 ## 提取翻译内容是否能够过滤注释？
 
 是的，翻译内容是可以过滤注释的。
+翻译前会采用正则表达式过滤掉注释内容,如果有特殊情况，请提出issue。
+
 ## 是否支持查看哪些文件包含提取结果？
 
 在`languages/translate/default.json`中会显示从哪一个文件提取的。
@@ -11,7 +13,7 @@
 {
     " - 更新格式化器:{}": {
         "en": " - Update formatters:{}",
-        "$file": [
+        "$files": [
             "compile.command.js"  // 代表是从该文件中提取的
         ]
     }
@@ -40,5 +42,51 @@
 但是由于实际情况很复杂，哪些需要翻译哪些不需要等等，单靠一个正则表达式替换是不能解决问题的，即容易误伤，也容易出错。
 
 只能说可以减少一些工作量，需要更多的人工介入才可以的。
+
+
+## 提示出错
+
+- **运行时提示错误：`[VoerkaI18n] 默认语言包必须是静态内容,不能使用异步加载的方式.`?**
+
+在`languages/index.(ts|js)`中，指定`default=true`的语言包必须是直接`import`的，不能使用异步加载的方式`()=>import()`。
+
+```ts
+// 语言配置文件
+
+const scopeSettings = {
+    "languages": [
+        {
+            "name": "zh",
+            "title": "Chinese"
+        },
+        {
+            "name": "en",
+            "title": "English",
+            "default":true, 
+        } 
+    ] 
+}
+
+// 错误示例
+
+import defaultMessages from "./zh.js"  
+const messages = {
+    'zh' : defaultMessages,
+    // 由于默认语言是en,采用了异步加载的，所以会报错
+	'en' :  ()=>import("./en.js") 
+}
+
+// 正确示例
+import defaultMessages from "./en.js"  
+const messages = {
+    'zh' : ()=>import("./en.js"),
+	'en' : defaultMessages   // 正确：静态加载
+}
+
+
+```
+
+
+
 
 

@@ -1,7 +1,7 @@
 {
     " - 更新格式化器:{}": {
         "en": " - Update formatters:{}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "-Formatierer aktualisieren: {}",
@@ -15,7 +15,7 @@
     },
     " - 访问入口文件: {}": {
         "en": " - Entry of language: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "-Zugriffsdatei: {}",
@@ -29,7 +29,7 @@
     },
     "加载多语言配置文件<{}>失败: {} ": {
         "en": "Failed to load multilingual configuration file <{}>: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "Laden der mehrsprachigen Konfigurationsdatei fehlgeschlagen<{}>: {}",
@@ -43,7 +43,7 @@
     },
     "目标文件夹<{}>不存在": {
         "en": "The destination folder < {} > does not exist",
-        "$file": [
+        "$files": [
             "extract.command.js"
         ],
         "de": "Der Zielordner<{}>existiert nicht",
@@ -57,7 +57,7 @@
     },
     "扫描提取范围：": {
         "en": "Scan for：",
-        "$file": [
+        "$files": [
             "extract.command.js"
         ],
         "de": "Scanextraktionsbereich:",
@@ -71,7 +71,7 @@
     },
     "工程项目所在目录": {
         "en": "Project directory",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Projektverzeichnis",
@@ -85,7 +85,7 @@
     },
     "初始化项目国际化配置": {
         "en": "Initialize project i18n configuration",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Konfiguration der Projektinternationalisierung initialisieren",
@@ -99,7 +99,7 @@
     },
     "输出调试信息": {
         "en": "Output debug information",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Debugging-Informationen ausgeben",
@@ -113,7 +113,7 @@
     },
     "重新生成当前项目的语言配置": {
         "en": "Regenerate the language configuration of the current project",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Die Sprachkonfiguration des aktuellen Projekts neu erstellen",
@@ -127,7 +127,7 @@
     },
     "支持的语言列表": {
         "en": "Supported languages",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Liste der unterstützten Sprachen",
@@ -141,7 +141,7 @@
     },
     "工程目录：{}": {
         "en": "Folder of project：{}",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Projektverzeichnis: {}",
@@ -155,7 +155,7 @@
     },
     "扫描并提取所有待翻译的字符串到<languages/translates>文件夹中": {
         "en": "Scan and extract all strings to be translated into the <languages/translations> folder",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Scannen und extrahieren Sie alle zu übersetzenden Zeichenfolgen in den Ordner <languages/translations>",
@@ -169,7 +169,7 @@
     },
     "支持的语言": {
         "en": "Supported languages",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Unterstützte Sprachen",
@@ -183,7 +183,7 @@
     },
     "默认语言": {
         "en": "Default language",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Standardsprache",
@@ -197,7 +197,7 @@
     },
     "激活语言": {
         "en": "Active language",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Sprache aktivieren",
@@ -211,7 +211,7 @@
     },
     "翻译名称空间": {
         "en": "Namespaces",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Übersetzungsnamensraum",
@@ -225,7 +225,7 @@
     },
     "排除要扫描的文件夹，多个用逗号分隔": {
         "en": "Exclude folders to scan, multiple separated by commas",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Zu scannende Ordner ausschließen, mehrere werden durch Kommas getrennt",
@@ -239,7 +239,7 @@
     },
     "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并": {
         "en": " strategy of messages merge,with value of sync(default),overwrite,merge",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Die Datenzusammenführungsrichtlinie des extrahierten Inhalts und des vorhandenen Inhalts. Standardwerte sind sync=synchronization, overwrite=überschreiben, merge=merge",
@@ -253,7 +253,7 @@
     },
     "要扫描的文件类型": {
         "en": "Type of file to scan",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Zu scannender Dateityp",
@@ -267,7 +267,7 @@
     },
     "语言配置文件<{}>已存在,将优先使用此配置文件中参数来提取文本": {
         "en": "The language configuration file <{}> already exists. It will be used preferentially to extract messages",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Die Sprachkonfigurationsdatei<{}>existiert bereits. Die Parameter in dieser Konfigurationsdatei werden zuerst zum Extrahieren von Text verwendet.",
@@ -281,7 +281,7 @@
     },
     "编译指定项目的语言包": {
         "en": "Compiles the language messages for project",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Kompilieren des Sprachpakets für das angegebene Projekt",
@@ -295,7 +295,7 @@
     },
     "输出模块类型,取值auto,esm,cjs": {
         "en": "Output module type, values： auto, esm, cjs",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Ausgabemodultyp, Wert auto, esm, cjs",
@@ -309,7 +309,7 @@
     },
     "语言包文件夹<{}>不存在": {
         "en": "The language messages folder <{}> does not exist",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Der Language Pack Ordner<{}>existiert nicht",
@@ -323,7 +323,7 @@
     },
     "生成语言配置文件:{}": {
         "en": "Generate language configuration: {}",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "de": "Sprachprofil generieren: {}",
@@ -337,7 +337,7 @@
     },
     "拟支持的语言：{}": {
         "en": "Languages to be supported：{}",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "de": "Zu unterstützende Sprache: {}",
@@ -351,7 +351,7 @@
     },
     "初始化成功,下一步：": {
         "en": "Initialization succeeded, next step：",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "de": "Initialisierung erfolgreich, nächster Schritt:",
@@ -365,7 +365,7 @@
     },
     " - 编辑{}确定拟支持的语言种类等参数": {
         "en": " - Edit language parameters in {}",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "de": "-Edit {} um den Sprachtyp und andere Parameter zu bestimmen, die unterstützt werden sollen",
@@ -379,7 +379,7 @@
     },
     " - 运行<{}>扫描提取要翻译的文本": {
         "en": " - Run <{}> scan to extract the messages to be translated",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "de": "Führen Sie den<{}>Scan aus, um den zu übersetzenden Text zu extrahieren",
@@ -393,7 +393,7 @@
     },
     " - 运行<{}>编译语言包": {
         "en": " - Run <{}> compile language messages",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "de": "-Führen Sie das<{}>Compile Language Pack aus",
@@ -407,7 +407,7 @@
     },
     "创建语言包文件夹: {}": {
         "en": "Create <languages> folder: {}",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "de": "Sprachpaket-Ordner erstellen: {}",
@@ -421,7 +421,7 @@
     },
     "编译结果输出至：{}": {
         "en": "Compile to：{}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "Die Ergebnisse der Zusammenstellung werden ausgegeben an: {}",
@@ -435,7 +435,7 @@
     },
     "读取语言文件{}失败:{}": {
         "en": "Error while read language file{}: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "Sprachdatei konnte nicht gelesen werden {}: {}",
@@ -449,7 +449,7 @@
     },
     " - 语言包文件: {}": {
         "en": " - Language file: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "Sprachpaket-Datei: {}",
@@ -463,7 +463,7 @@
     },
     " - idMap文件: {}": {
         "en": " - idMap file: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "-IdMap-Datei: {}",
@@ -477,7 +477,7 @@
     },
     " - 格式化器:{}": {
         "en": " - Formatters: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "-Formatierer: {}",
@@ -491,7 +491,7 @@
     },
     " - 共合成{}条文本": {
         "en": " - Total{} messages",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "de": "-{} Text insgesamt",
@@ -505,7 +505,7 @@
     },
     "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务": {
         "en": "Call the API translation language package of the online translation service provider, eg:baidu translation service",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "Rufen Sie die API des Online-Übersetzungsdienstleisters an, um das Sprachpaket des angegebenen Projekts zu übersetzen, z. B. Baidu Cloud Translation Service",
@@ -519,7 +519,7 @@
     },
     "API密钥": {
         "en": "API Key",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "API-Schlüssel",
@@ -533,7 +533,7 @@
     },
     "API ID": {
         "en": "API ID",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "de": "API-ID",
@@ -548,7 +548,7 @@
     "翻译速度限制,即每秒可调用的API次数": {
         "en": "Translation speed limit. API calls per second",
         "de": "Übersetzungsgeschwindigkeitsbegrenzung, d. h. die Anzahl der API-Aufrufe pro Sekunde",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "jp": "翻訳速度制限(呼び出し可能なAPIの1秒あたりの回数)",
@@ -562,7 +562,7 @@
     "在线翻译服务提供者名称或翻译脚本文件": {
         "en": "Online translation service provider name or translation script file",
         "de": "Name des Online-Übersetzungsdienstleisters oder der Übersetzungsskriptdatei",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "jp": "オンライン翻訳サービスプロバイダ名または翻訳スクリプトファイル",
@@ -576,7 +576,7 @@
     "将多个文本合并提交的最大包字节数": {
         "en": "The maximum number of packet bytes submitted by merging multiple texts",
         "de": "Die maximale Anzahl an Paketbytes, die durch Zusammenführen mehrerer Texte gesendet werden",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "jp": "複数のテキストを結合してコミットされる最大パケットバイト数",
@@ -590,7 +590,7 @@
     "正在翻译文件:{}": {
         "en": "Translating file: {}",
         "de": "Datei übersetzen: {}",
-        "$file": [
+        "$files": [
             "translate.command.js"
         ],
         "jp": "ファイルを翻訳中:{}",
@@ -604,7 +604,7 @@
     "需要指定翻译脚本或者appkey和appid": {
         "en": "You need to specify the translation script or appkey and appid",
         "de": "Sie müssen das Übersetzungsskript oder appkey und appid angeben",
-        "$file": [
+        "$files": [
             "translate.command.js"
         ],
         "jp": "翻訳スクリプトまたはappkeyとappidを指定する必要があります",
@@ -618,7 +618,7 @@
     "更新@voerkai18n/runtime运行时": {
         "en": "Update @ voerkai18n/runtime runtime",
         "de": "Update von voerkai18n/runtime runtime",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "更新@voerkai 18 n/runtimeランタイム",
@@ -632,7 +632,7 @@
     "Updated:{}": {
         "en": "Updated: {}",
         "de": "Aktualisiert:{}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "Updated:{}",
@@ -646,7 +646,7 @@
     "已经是最新的": {
         "en": "It is the latest",
         "de": "Es ist die neueste",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "すでに最新の",
@@ -660,7 +660,7 @@
     "更新@voerkai18n/runtime失败,请手动更新!": {
         "en": "Failed to update @ voerkai18n/runtime, please update manually!",
         "de": "Fehler beim Update von voerkai18n/runtime, bitte manuell aktualisieren!",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "@voerkai 18 n/runtimeの更新に失敗しました。手動で更新してください！",
@@ -674,7 +674,7 @@
     "支持的语言\\t: {}": {
         "en": "Supported languages  t: {}",
         "de": "Unterstützte Sprachen t: {}",
-        "$file": [
+        "$files": [
             "compile.command.js",
             "extract.plugin.js"
         ],
@@ -689,7 +689,7 @@
     "默认语言\\t: {}": {
         "en": "Default language  t: {}",
         "de": "Standardsprache t: {}",
-        "$file": [
+        "$files": [
             "compile.command.js",
             "extract.plugin.js"
         ],
@@ -704,7 +704,7 @@
     "激活语言\\t: {}": {
         "en": "Activation language  t: {}",
         "de": "Aktivierungssprache t: {}",
-        "$file": [
+        "$files": [
             "compile.command.js",
             "extract.plugin.js"
         ],
@@ -719,7 +719,7 @@
     "名称空间\\t: {}": {
         "en": "Namespace  t: {}",
         "de": "Namensraum t: {}",
-        "$file": [
+        "$files": [
             "compile.command.js",
             "extract.plugin.js"
         ],
@@ -734,7 +734,7 @@
     "模块类型\\t: {}": {
         "en": "Module type  t: {}",
         "de": "Modultyp t: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "モジュールタイプ t:{}",
@@ -748,7 +748,7 @@
     "TypeScript\\t: {}": {
         "en": "TypeScript  t: {}",
         "de": "TypeScript t: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "TypeScript\\t: {}",
@@ -762,7 +762,7 @@
     "输出typescript代码": {
         "en": "Output typescript code",
         "de": "Ausgabetypscript code",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "jp": "typescriptコードを出力",
@@ -776,7 +776,7 @@
     "备份原始文件": {
         "en": "Back up original files",
         "de": "Originaldateien sichern",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "jp": "元のファイルをバックアップする",
@@ -790,7 +790,7 @@
     "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译": {
         "en": "Translation mode, value auto=translate only untranslated, full=translate all",
         "de": "Übersetzungsmodus, Wert auto=translate nur unübersetzt, full=translate all",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "jp": "翻訳モード、値を取るauto=翻訳されていないもののみ、full=すべて翻訳",
@@ -804,7 +804,7 @@
     "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建": {
         "en": "The language configuration file {} already exists, skipping creation. \\N Use {} to overwrite the creation",
         "de": "Die Sprachkonfigurationsdatei {} existiert bereits, die Erstellung wird übersprungen. \\N Verwenden Sie {} um die Erstellung zu überschreiben",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "jp": "言語プロファイル{}ファイルは既に存在し、作成をスキップします。 n{}を使用して作成を再上書きできます",
@@ -818,7 +818,7 @@
     "已安装运行时:{}": {
         "en": "Runtime installed: {}",
         "de": "Laufzeit installiert: {}",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "jp": "インストール実行時：{}",
@@ -832,7 +832,7 @@
     "自动更新runtime": {
         "en": "Automatically update runtime",
         "de": "Laufzeit automatisch aktualisieren",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "runtimeの自動更新",
@@ -846,7 +846,7 @@
     "扫描并提取待翻译的文本到<languages/translates>": {
         "en": "Scan and extract the text to be translated to<languages/translations>",
         "de": "Scannen und extrahieren Sie den zu übersetzenden Text in<languages/translations>",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "jp": "<languages/translates>に翻訳するテキストをスキャンして抽出します",
@@ -860,7 +860,7 @@
     "在线翻译语言包,如使用百度云翻译服务": {
         "en": "Online translation language packs, such as Baidu Cloud Translation Service",
         "de": "Sprachpakete für Online-Übersetzungen wie Baidu Cloud Translation Service",
-        "$file": [
+        "$files": [
             "index.js"
         ],
         "jp": "百度クラウド翻訳サービスを利用するなど、オンライン翻訳言語パッケージ",
@@ -874,7 +874,7 @@
     "生成IdMap文件": {
         "en": "Generate IdMap file",
         "de": "IdMap-Datei generieren",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "jp": "IdMapファイルの生成",
@@ -888,7 +888,7 @@
     "安装@voerkai18n/runtime": {
         "en": "install @voerkai18n/runtime",
         "de": "Installieren von Datei Voerkai18n/runtime",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "jp": "インストール@voerkai 18 n/runtime",
@@ -902,7 +902,7 @@
     " - 配置存储文件:{}": {
         "en": "-Configuration storage file: {}",
         "de": "-Konfigurationsspeicherdatei: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "-構成ストレージファイル:{}",
@@ -916,7 +916,7 @@
     "库模式\\t\\t: {}": {
         "en": "Library Mode  t  t: {}",
         "de": "Bibliotheksmodus t: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "ライブラリモード t  t  t:{}",
@@ -930,7 +930,7 @@
     " - 跳过更新访问入口文件: {}": {
         "en": "-Skip updating access entry file: {}",
         "de": "-Aktualisierung der Zugriffseintragsdatei überspringen: {}",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "-アクセスポータルファイルの更新をスキップ：{}",
@@ -944,7 +944,7 @@
     "开发库模式": {
         "en": "Development Library Mode",
         "de": "Entwicklungsbibliotheksmodus",
-        "$file": [
+        "$files": [
             "compile.command.js",
             "init.command.js"
         ],
@@ -959,7 +959,7 @@
     "跳过更新language/index.(ts|js)文件": {
         "en": "Skip updating language/index (ts | js) file",
         "de": "Aktualisieren von Sprache/Index überspringen (ts�js) Datei",
-        "$file": [
+        "$files": [
             "compile.command.js"
         ],
         "jp": "language/indexの更新をスキップします。(ts|js)ファイル",
@@ -973,7 +973,7 @@
     "本工程运行在: {}": {
         "en": "This project runs on: {}",
         "de": "Dieses Projekt läuft auf: {}",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "jp": "本プロジェクトの実行中:{}",
@@ -987,7 +987,7 @@
     " - 运行<{}>在线自动翻译": {
         "en": "-Run<{}>online automatic translation",
         "de": "-Run<{}>automatische Online-Übersetzung",
-        "$file": [
+        "$files": [
             "init.command.js"
         ],
         "jp": "-オンライン自動翻訳を実行<{}>",
@@ -1001,7 +1001,7 @@
     "翻译 {} -> {}": {
         "en": "Translation {} ->{}",
         "de": "Übersetzung {} ->{}",
-        "$file": [
+        "$files": [
             "translate.command.js"
         ],
         "jp": "翻訳{}->{}",
@@ -1022,7 +1022,7 @@
         "kor": "언어 파일 읽기 <{}> 오류: {}",
         "ru": "Чтение языкового файла < {} > Ошибка: {}",
         "it": "Errore nella lettura del file della lingua<{}> {}",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1036,7 +1036,7 @@
         "kor": "<{}>를 추출하여 [{}] 이름 공간, {} 개의 정보를 발견합니다.",
         "ru": "Извлечь < {} > и найти [{}] пространство имён, {} сообщение.",
         "it": "Estrarre<{}>e trovare [{}] namespace con {} informazioni.",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1050,7 +1050,7 @@
         "kor": "<{}>에서 정보를 추출하는 중 오류 발생: {}",
         "ru": "Ошибка извлечения информации из < {}: {}",
         "it": "Errore nell'estrazione delle informazioni da<{}> {}",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1064,7 +1064,7 @@
         "kor": "번역 정보 추출이 완료되었습니다.",
         "ru": "Получение переведенной информации завершено.",
         "it": "Estrazione delle informazioni di traduzione completata.",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1078,7 +1078,7 @@
         "kor": "- 총 파일 수\\t: {}",
         "ru": "- Общее количество документов \\ t: {}",
         "it": "-Totale file t: {}",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1092,7 +1092,7 @@
         "kor": "- 출력 경로\\t: {}",
         "ru": "- Выходной путь \\ t: {}",
         "it": "Percorso di uscita t: {VARIABILE}",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1106,7 +1106,7 @@
         "kor": "♦ 언어 파일 업데이트: {}",
         "ru": "Обновление языковых файлов: {}",
         "it": "√ Aggiorna il file della lingua: {VARIABILE}",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1120,7 +1120,7 @@
         "kor": "언어 파일 저장: {}",
         "ru": "• Сохранение языковых файлов: {}",
         "it": "√ Salva file di lingua: {VARIABILE}",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1134,7 +1134,7 @@
         "kor": "- 언어 구성 파일 생성: {}",
         "ru": "- Создание профиля языка: {}",
         "it": "-Genera file di configurazione della lingua: {}",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1148,7 +1148,7 @@
         "kor": "- 언어 프로파일 적용: {}",
         "ru": "- Файл конфигурации языка приложения: {}",
         "it": "File di configurazione del linguaggio dell'applicazione: {}",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1162,7 +1162,7 @@
         "kor": "다음 단계:",
         "ru": "Следующий шаг:",
         "it": "Passo successivo:",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     },
@@ -1176,7 +1176,7 @@
         "kor": "- 원본에서 [{}]에서 컴파일된 언어 팩 가져오기",
         "ru": "- Импорт скомпилированных языковых пакетов из [{}] в исходный код",
         "it": "-Importa il Language Pack compilato da [{}] nel codice sorgente",
-        "$file": [
+        "$files": [
             "extract.plugin.js"
         ]
     }

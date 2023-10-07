@@ -93,17 +93,17 @@ module.exports = {
     "languages": [
         {
             "name": "zh",
-            "title": "中文"
+            "title": "中文",
+            // 默认语言，即准备在源码中写的语言，一般我们可以直接使用中文
+            "default":true,
+            // 激活语言，即默认要启用的语言，一般等于defaultLanguage
+            "active":true
         },
         {
             "name": "en",
             "title": "英文"
         }
-    ],
-    // 默认语言，即准备在源码中写的语言，一般我们可以直接使用中文
-    "defaultLanguage": "zh",
-    // 激活语言，即默认要启用的语言，一般等于defaultLanguage
-    "activeLanguage": "zh",
+    ], 
     // 翻译名称空间定义，详见后续介绍。
     "namespaces": {}
 }
@@ -247,18 +247,18 @@ Options:
 `voerkai18n compile`执行后会在`langauges`文件夹下输出：
 
 ```typescript
-  languages
-    settings.json
-    index.(js|ts)
-    idMap.(js|ts)
-    zh.(js|ts)
-    en.(js|ts)
-    xx.(js|ts)
-    storage.(js|ts)
-    formatters
-      zh.(js|ts)
-      en.(js|ts)
-      xx.(js|ts)
+  |- languages
+    |- settings.json
+    |- index.(js|ts)
+    |- idMap.(js|ts)
+    |- zh.(js|ts)
+    |- en.(js|ts)
+    |- xx.(js|ts)
+    |- storage.(js|ts)
+    |- formatters
+      |- zh.(js|ts)
+      |- en.(js|ts)
+      |- xx.(js|ts)
 ```
 
 ## 多语言

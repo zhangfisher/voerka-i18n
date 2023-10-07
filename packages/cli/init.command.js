@@ -19,18 +19,15 @@ function getLanguageList(langs,defaultLanguage){
         const available_languages = require("./available_languages")
         if(defaultLanguage in available_languages){
             return langs.map(lng=>{
-                const langIndex = available_languages[defaultLanguage].findIndex(l=>l.name===lng)
-                if(langIndex > -1 ){
-                    return {
-                        name:lng,
-                        title:available_languages[defaultLanguage][langIndex].title 
-                    }
-                }else{                    
-                    return {
-                        name:lng,
-                        title:lng 
-                    }
-                }                
+                const langIndex = available_languages[defaultLanguage].findIndex(l=>l.name===lng)                
+                lngItem =  {
+                    name:lng,
+                    title:langIndex > -1  ? available_languages[defaultLanguage][langIndex].title  : lng
+                }
+                if(defaultLanguage===lng){
+                    lngItem.default = true
+                }
+                return lngItem
             })   
         }else{
             return langs.map(lng=>({name:lng,title:lng}))
@@ -114,8 +111,6 @@ async function initializer(srcPath,{entry='languages',library=false,moduleType,i
         }
         settings = {
             languages:getLanguageList(languages,defaultLanguage),
-            defaultLanguage,
-            activeLanguage,
             namespaces:{}
         }    
         // 写入配置文件
@@ -165,7 +160,7 @@ async function initializer(srcPath,{entry='languages',library=false,moduleType,i
     
         
     logger.log(t("生成语言配置文件:{}"),`./${entry}/settings.json`)
-    logger.log(t("拟支持的语言：{}"),settings.languages.map(l=>l.name).join(","))
+    logger.log(t("拟支持的语言：{}"),settings.languages.map(l=>`${l.title}(${l.name})`).join(","))    
     logger.log(t("已安装运行时:{}"),'@voerkai18n/runtime')
     logger.log(t("本工程运行在: {}"),library ? "库模式" : "应用模式")
     logger.log(t("初始化成功,下一步："))    

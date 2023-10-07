@@ -96,7 +96,7 @@ function inNamespace(filePath,nsPath){
  * @param {*} content 
  * @param {*} file 
  * @param {*} options 
- * @returns   {namespace:{text:{zh:"",en:"",...,$file:""},text:{zh:"",en:"",...,$file:""}}
+ * @returns   {namespace:{text:{zh:"",en:"",...,$files:""},text:{zh:"",en:"",...,$files:""}}
  */
 function extractTranslateTextUseRegexp(content,namespace,extractor,file,options){
   
@@ -124,7 +124,7 @@ function extractTranslateTextUseRegexp(content,namespace,extractor,file,options)
                     texts[ns][text][language.name] = text
                 }                
             })
-            texts[ns][text]["$file"]=[file.relative]
+            texts[ns][text]["$files"]=[file.relative]
         }
     }
     return texts

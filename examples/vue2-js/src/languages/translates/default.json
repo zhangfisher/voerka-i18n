@@ -1,31 +1,31 @@
 {
     "hello": {
         "en": "hello",
-        "$file": [
+        "$files": [
             "main.js"
         ]
     },
     "VoerkaI18n是一个非常不错的多语言解决方案": {
         "en": "VoerkaI18n is a great multilingual solution",
-        "$file": [
+        "$files": [
             "components\\HelloWorld.vue"
         ]
     },
     "首页": {
         "en": "Home",
-        "$file": [
+        "$files": [
             "App.vue"
         ]
     },
     "关于": {
         "en": "About",
-        "$file": [
+        "$files": [
             "App.vue"
         ]
     },
     "欢迎使用VoerkaI18n": {
         "en": "Welcome to VoerkaI18n",
-        "$file": [
+        "$files": [
             "components\\HelloWorld.vue"
         ]
     }

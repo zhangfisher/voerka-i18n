@@ -89,22 +89,17 @@ After running `voerkai18n init` the command, the corresponding configuration fil
 
 ```javascript
 module.exports = {
-    // 拟支持的语言列表
     "languages": [
         {
             "name": "zh",
-            "title": "中文"
+            "title": "中文",
+            "default": true
         },
         {
             "name": "en",
             "title": "英文"
         }
     ],
-    // 默认语言，即准备在源码中写的语言，一般我们可以直接使用中文
-    "defaultLanguage": "zh",
-    // 激活语言，即默认要启用的语言，一般等于defaultLanguage
-    "activeLanguage": "zh",
-    // 翻译名称空间定义，详见后续介绍。
     "namespaces": {}
 }
 ```

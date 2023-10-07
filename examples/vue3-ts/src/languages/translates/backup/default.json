@@ -1,128 +1,128 @@
 {
     "VoerkaI18n多语言解决方案 ": {
         "en": "VoerkaI18n multilingual solutions",
-        "$file": [
+        "$files": [
             "App.vue"
         ]
     },
     "Hello world!": {
         "en": "Hello world!",
-        "$file": [
+        "$files": [
             "App.vue",
             "components\\formatters.vue"
         ]
     },
     "data： Hello world!": {
         "en": "data： Hello world!",
-        "$file": [
+        "$files": [
             "App.vue"
         ]
     },
     "中华人民共和国": {
         "en": "the People's Republic of China",
-        "$file": [
+        "$files": [
             "App.vue"
         ]
     },
     "迎接中华民族的伟大复兴": {
         "en": "Welcoming the Great Revival of the Chinese Nation",
-        "$file": [
+        "$files": [
             "App.vue"
         ]
     },
     "成立于{}年": {
         "en": "Established in {}",
-        "$file": [
+        "$files": [
             "components\\china.vue"
         ]
     },
     "首都：北京": {
         "en": "首都：北京",
-        "$file": [
+        "$files": [
             "components\\china.vue"
         ]
     },
     "现在是{ value | date }": {
         "en": "Now is { value | date }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "现在是{ value | date('long') }": {
         "en": "Now is { value | date('long') }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "现在是{ value | date('short') }": {
         "en": "Now is { value | date('short') }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "现在是{ value | date('local') }": {
         "en": "Now is { value | date('local') }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "现在是{ value | date('iso') }": {
         "en": "Now is { value | date('iso') }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "现在是{ value | date('gmt') }": {
         "en": "Now is { value | date('gmt') }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "现在是{ value | date('utc') }": {
         "en": "Now is { value | date('utc') }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "现在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }": {
         "en": "现在是{ value | date('YYYY年MM月DD日 HH点mm分ss秒') }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "现在是{ value | date('YYYY-MM-DD') }": {
         "en": "Now is { value | date('YYYY-MM-DD') }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "商品价格：{ value | currency('CNY','元整',3)}": {
         "en": "Price：{ value | currency('CNY','元整',3)}",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "商品价格：{ value | currency }": {
         "en": "Price：{ value | currency }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "商品价格：{ value | capitalizeCurrency }": {
         "en": "Price：{ value | capitalizeCurrency }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "商品价格：{ value | capitalizeCurrency(true) }": {
         "en": "Price: { value | capitalizeCurrency(true) }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     },
     "商品数量：{ value | number }": {
         "en": "Count：{ value | number }",
-        "$file": [
+        "$files": [
             "components\\formatters.vue"
         ]
     }

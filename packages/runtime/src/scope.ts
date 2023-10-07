@@ -26,8 +26,6 @@ export interface VoerkaI18nScopeOptions {
     debug?: boolean
     library?:boolean                                            // 当使用在库中时应该置为true
     languages: VoerkaI18nLanguageDefine[]                       // 当前作用域支持的语言列表
-    defaultLanguage?: string                                    // 默认语言名称                         
-    activeLanguage?: string                                     // 当前语言名称
     messages: VoerkaI18nLanguageMessagePack                     // 当前语言包
     idMap?: Voerkai18nIdMap                                      // 消息id映射列表
     storage?:IVoerkaI18nStorage                                 // 语言包存储器

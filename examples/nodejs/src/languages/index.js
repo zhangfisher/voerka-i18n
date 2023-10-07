@@ -24,7 +24,9 @@ const scopeSettings = {
     "languages": [
         {
             "name": "zh",
-            "title": "zh"
+            "title": "zh",
+            "default": true,
+            "active": true  
         },
         {
             "name": "en",
@@ -34,9 +36,7 @@ const scopeSettings = {
             "name": "jp",
             "title": "jp"
         }
-    ],
-    "defaultLanguage": "zh",
-    "activeLanguage": "en",
+    ], 
     "namespaces": {}
 }
 

@@ -1,25 +1,25 @@
 {
     "这是一个测试:{a}+{b | x}={c}": {
         "en": "This is:{a}+{b | x}={c}",
-        "$file": [
+        "$files": [
             "index.js"
         ]
     },
     "你好": {
         "en": "Hello",
-        "$file": [
+        "$files": [
             "index.js"
         ]
     },
     "我叫{name},今年{age}岁": {
         "en": "My Name is {name},Now {age} years old year",
-        "$file": [
+        "$files": [
             "index.js"
         ]
     },
     "中国": {
         "en": "China",
-        "$file": [
+        "$files": [
             "index.js"
         ]
     },
@@ -30,7 +30,7 @@
             "I have two cars",
             "I have {} cars"
         ],
-        "$file": [
+        "$files": [
             "index.js"
         ]
     },
@@ -41,158 +41,158 @@
             "I have two cars",
             "I have {count} cars"
         ],
-        "$file": [
+        "$files": [
             "index.js"
         ]
     },
     "请输入旧密码:": {
         "en": "Please enter old password:",
-        "$file": [
+        "$files": [
             "auth\\changepassword.js"
         ]
     },
     "请再次输入旧密码:": {
         "en": "Please re-enter the old password:",
-        "$file": [
+        "$files": [
             "auth\\changepassword.js"
         ]
     },
     "请输入新密码:": {
         "en": "Please enter new password:",
-        "$file": [
+        "$files": [
             "auth\\changepassword.js"
         ]
     },
     "请再次输入新密码:": {
         "en": "Please re-enter new password:",
-        "$file": [
+        "$files": [
             "auth\\changepassword.js"
         ]
     },
     "密码至少需要6位，并且至少包含数字、字符或特殊符号中的两种": {
         "en": "密码至少需要6位，并且至少包含数字、字符或特殊符号中的两种",
-        "$file": [
+        "$files": [
             "auth\\changepassword.js"
         ]
     },
     "密码强度: {strength}": {
         "en": "密码强度: {strength}",
-        "$file": [
+        "$files": [
             "auth\\changepassword.js"
         ]
     },
     "用户名或密码错误": {
         "en": "用户名或密码错误",
-        "$file": [
+        "$files": [
             "auth\\login.js"
         ]
     },
     "请输入用户名:": {
         "en": "请输入用户名:",
-        "$file": [
+        "$files": [
             "auth\\login.js",
             "auth\\login.html"
         ]
     },
     "请输入密码：": {
         "en": "请输入密码：",
-        "$file": [
+        "$files": [
             "auth\\login.js"
         ]
     },
     "欢迎您: {}": {
         "en": "欢迎您: {}",
-        "$file": [
+        "$files": [
             "auth\\login.js"
         ]
     },
     "数据库类型：{}、{}、{}": {
         "en": "数据库类型：{}、{}、{}",
-        "$file": [
+        "$files": [
             "db\\index.js"
         ]
     },
     "数据库密码:{pwd}": {
         "en": "数据库密码:{pwd}",
-        "$file": [
+        "$files": [
             "db\\index.js"
         ]
     },
     "数据库地址:{url}": {
         "en": "数据库地址:{url}",
-        "$file": [
+        "$files": [
             "db\\index.js"
         ]
     },
     "编码:{encode}": {
         "en": "Encode:{encode}",
-        "$file": [
+        "$files": [
             "db\\index.js"
         ]
     },
     "编码": {
         "en": "Encode",
-        "$file": [
+        "$files": [
             "db\\models.js"
         ]
     },
     "名称": {
         "en": "name",
-        "$file": [
+        "$files": [
             "db\\models.js"
         ]
     },
     "描述": {
         "en": "description",
-        "$file": [
+        "$files": [
             "db\\models.js"
         ]
     },
     "文件名称": {
         "en": "Filename",
-        "$file": [
+        "$files": [
             "db\\models.js"
         ]
     },
     "您有{}条未读消息": {
         "en": "You have {} unread messages",
-        "$file": [
+        "$files": [
             "messages\\index.js"
         ]
     },
     "消息总数:{$count}": {
         "en": "Count:{$count}",
-        "$file": [
+        "$files": [
             "messages\\index.js"
         ]
     },
     "消息类型:{type}": {
         "en": "Message type:{type}",
-        "$file": [
+        "$files": [
             "messages\\index.js"
         ]
     },
     "登录": {
         "en": "Login",
-        "$file": [
+        "$files": [
             "auth\\login.html"
         ]
     },
     "请输入密码:": {
         "en": "Please enter password:",
-        "$file": [
+        "$files": [
             "auth\\login.html"
         ]
     },
     "头像": {
         "en": "Avatar",
-        "$file": [
+        "$files": [
             "auth\\login.html"
         ]
     },
     "相片": {
         "en": "Photo",
-        "$file": [
+        "$files": [
             "auth\\login.html"
         ]
     }

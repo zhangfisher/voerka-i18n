@@ -15,13 +15,12 @@ const scope = new VoerkaI18nScope({
     messages    : {},                               // 当前语言包
     idMap       : {},                               // 消息id映射列表    
     library     : {{library}},                      // 开发库时设为true
-    formatters  : {},                               // 扩展自定义格式化器    
-    defaultLanguage: 'zh',                          // 默认语言名称                         
-    activeLanguage: 'zh',                           // 当前语言名称
+    formatters  : {},                               // 扩展自定义格式化器   
     languages: [
         {
             name: "zh",
-            title: "中文"
+            title: "中文",
+            default: true
         },
         {
             name: "en",

@@ -1,0 +1,82 @@
+{
+    "Edit": {
+        "en": "Edit",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ],
+        "zh": "编辑",
+        "th": "บรรณาธิการ",
+        "jp": "編集",
+        "de": "Bearbeiten"
+    },
+    "components/HelloWorld.vue": {
+        "en": "components/HelloWorld.vue",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ],
+        "zh": "components/HelloWorld.vue",
+        "th": "components/HelloWorld.vue",
+        "jp": "components/HelloWorld.vue",
+        "de": "components/HelloWorld.vue"
+    },
+    "to test HMR ": {
+        "en": "to test HMR ",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ],
+        "zh": "测试HMR",
+        "th": "ทดสอบ HMR",
+        "jp": "テストHMR",
+        "de": "zur Prüfung von HMR"
+    },
+    "Check out": {
+        "en": "Check out",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ],
+        "zh": "退房",
+        "th": "เช็คเอาท์",
+        "jp": "チェックアウト",
+        "de": "Check out"
+    },
+    "create-vue": {
+        "en": "create-vue",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ],
+        "zh": "创建vue",
+        "th": "สร้าง vue",
+        "jp": "vueの作成",
+        "de": "create-vue"
+    },
+    "Install": {
+        "en": "Install",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ],
+        "zh": "安装",
+        "th": "การติดตั้ง",
+        "jp": "インストール",
+        "de": "Installieren"
+    },
+    "in your IDE for a better DX": {
+        "en": "in your IDE for a better DX",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ],
+        "zh": "以获得更好的DX",
+        "th": "เพื่อให้ได้ DX ที่ดีขึ้น",
+        "jp": "より良いDXを得るために",
+        "de": "in Ihrer IDE für eine bessere DX"
+    },
+    "Click on the Vite and Vue logos to learn more": {
+        "en": "Click on the Vite and Vue logos to learn more",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ],
+        "zh": "点击Vite和Vue徽标了解更多信息",
+        "th": "คลิกที่โลโก้ Vite และ Vue เพื่อเรียนรู้เพิ่มเติม",
+        "jp": "ViteとVueロゴをクリックして詳細を見る",
+        "de": "Klicken Sie auf die Vite und Vue Logos, um mehr zu erfahren"
+    }
+}
