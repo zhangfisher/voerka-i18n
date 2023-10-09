@@ -3,6 +3,7 @@
 ## V2.0.21
 
 - **[BUG]** 修复`voerkai18n translate`翻译时默认语言显示错误的问题
+- **[BUG]** 修复了`@voerkai18n/vue`中显示`activeLanguage`值默认没有解构`ref`的问题
 
 ## V2.0.20
 
