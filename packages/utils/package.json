@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/utils",
-    "version": "2.0.20",
+    "version": "2.0.21",
     "description": "公共工具库",
     "main": "index.js",
     "scripts": {
