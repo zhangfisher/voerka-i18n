@@ -119,6 +119,21 @@ async function updateRuntime(){
     }    
 }
 
+/**
+ * 
+ * @param {Array} languages 
+ */
+function getDefaultLanguage(languages){
+    let index = languages.findIndex(lang=>lang.default)
+    if(index>=0) return languages[index].name
+    return languages[0].name
+}
+function getActiveLanguage(languages){
+    let index = languages.findIndex(lang=>lang.active)
+    if(index>=0) return languages[index].name
+    return getDefaultLanguage(languages)
+}
+
 async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);
     let { moduleType,isTypeScript,updateRuntime:isUpdateRuntime,library,skip} = options; 
@@ -139,7 +154,9 @@ async  function compile(langFolder,opts={}){
 
         // 读取多语言配置文件
         const langSettings = fs.readJSONSync(settingsFile) 
-        let { languages,defaultLanguage,activeLanguage,namespaces }  = langSettings
+        let { languages,namespaces }  = langSettings
+        let defaultLanguage = getDefaultLanguage(languages)
+        let activeLanguage = getActiveLanguage(languages)
 
         logger.log(t("支持的语言\t: {}"),languages.map(item=>`${item.title}(${item.name})`).join(","))
         logger.log(t("默认语言\t: {}"),defaultLanguage)

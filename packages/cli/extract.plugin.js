@@ -265,25 +265,24 @@ function normalizeLanguageOptions(options){
         if(options.languages.length === 0)  throw new TypeError("options.languages'length must be greater than 0")
         let defaultLanguage = options.defaultLanguage
         let activeLanguage = options.activeLanguage
-        options.languages = options.languages.map(item=>{
-            let language = item
-            if(typeof item === "string"){
-                return {name:item,title:item}
-            }else if(typeof item === "object"){
-                return Object.assign({name:"",title:""},item)
+        options.languages = options.languages.map(lng=>{
+            if(typeof lng === "string"){
+                return {name:lng,title:lng}
+            }else if(typeof lng === "object"){
+                return Object.assign({name:"",title:""},lng)
             }
-            if(typeof(item.title)==="string" && item.title.trim().length===0){
-                item.title = item.name
+            if(typeof(lng.title)==="string" && lng.title.trim().length===0){
+                lng.title = lng.name
             }
             // 默认语言
-            if(item.default===true && item.name){
-                defaultLanguage = item.name
+            if(lng.default===true && lng.name){
+                defaultLanguage = lng.name
             }
             // 激活语言
-            if(item.active ===true && item.name){
-                activeLanguage = item.name
+            if(lng.active ===true && lng.name){
+                activeLanguage = lng.name
             }
-            return item
+            return lng
         })
         if(!defaultLanguage) defaultLanguage = options.languages[0].name
         options.defaultLanguage = defaultLanguage
