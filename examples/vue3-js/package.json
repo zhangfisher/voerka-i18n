@@ -7,10 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "18n-init": "voerkai18n init -d en -a en --languages zh en jp de th",
-    "18n-extract": "voerkai18n extract",
-    "18n-translate": "voerkai18n translate --appid 20231005001837376 --appkey up9wOoz71hG_XJ6DYpww",
-    "18n-compile": "voerkai18n compile"
+    "translate": "node ../../packages/cli/index.js translate --",
+    "init:i18n": "node ../../packages/cli/index.js init",
+    "extract": "node ../../packages/cli/index.js extract",
+    "compile": "node ../../packages/cli/index.js compile"
   },
   "dependencies": {
     "@voerkai18n/runtime": "workspace:^2.0.0",

@@ -33,7 +33,7 @@ const scopeSettings = {
         {
             "name": "en",
             "title": "English",
-            "default":true, 
+            "default": true
         },
         {
             "name": "th",
