@@ -32,6 +32,7 @@ const fs = require("fs-extra")
 const artTemplate = require("art-template")
 const semver = require("semver") 
 const { getCliLanguage } = require("./oslocate")
+const { getActiveLanguage,getDefaultLanguage  } = require("./utils")
 
 const { 
     findModuleType,
@@ -119,20 +120,6 @@ async function updateRuntime(){
     }    
 }
 
-/**
- * 
- * @param {Array} languages 
- */
-function getDefaultLanguage(languages){
-    let index = languages.findIndex(lang=>lang.default)
-    if(index>=0) return languages[index].name
-    return languages[0].name
-}
-function getActiveLanguage(languages){
-    let index = languages.findIndex(lang=>lang.active)
-    if(index>=0) return languages[index].name
-    return getDefaultLanguage(languages)
-}
 
 async  function compile(langFolder,opts={}){
     const options = normalizeCompileOptions(opts);

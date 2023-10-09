@@ -1,4 +1,9 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+
+## V2.0.21
+
+- **[BUG]** 修复`voerkai18n translate`翻译时默认语言显示错误的问题
+
 ## V2.0.20
 
 - **[BUG]** 修复了`voerkai18n init`指定`-a`参数时无效的问题。

@@ -32,6 +32,7 @@ const { glob } = require("glob")
 const { deepMerge,getProjectSourceFolder,getSettingsFromPackageJson } = require("@voerkai18n/utils")
 const { Command } = require('commander');
 const { getCliLanguage } = require("./oslocate")
+const { getActiveLanguage,getDefaultLanguage  } = require("./utils")
 
 const delay = async (t) => new Promise(resolve=>setTimeout(resolve,t))
 
@@ -196,11 +197,13 @@ async function translateMessageFile(file,langSettings,options={}){
     // texts = {text:{zh:"",en:"",...,jp:""}}
     let results = {}
     const tasks = logsets.tasklist()    
+    const defaultLanguage= getDefaultLanguage(langSettings.languages)
+
     for(let lng  of langSettings.languages){
-        if(lng.name === langSettings.defaultLanguage) continue
+        if(lng.name === defaultLanguage) continue
         try{
-            tasks.add(t("翻译 {} -> {}"),[langSettings.defaultLanguage,lng.name])
-            results = deepMerge(results,await translateLanguage(messages,langSettings.defaultLanguage,lng.name,options))
+            tasks.add(t("翻译 {} -> {}"),[defaultLanguage,lng.name])
+            results = deepMerge(results,await translateLanguage(messages,defaultLanguage,lng.name,options))
             tasks.complete()
         }catch(e){
             tasks.error(e.message || e)

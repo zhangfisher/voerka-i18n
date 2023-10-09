@@ -33,10 +33,30 @@ function getOsLanguage(){
 
 }
 
+/**
+ * 
+ * @param {Array} languages  语言列表
+ */
+ function getDefaultLanguage(languages){
+    let index = languages.findIndex(lang=>lang.default)
+    if(index>=0) return languages[index].name
+    return languages[0].name
+}
+/**
+ * 
+ * @param {Array} languages  语言列表
+ */
+function getActiveLanguage(languages){
+    let index = languages.findIndex(lang=>lang.active)
+    if(index>=0) return languages[index].name
+    return getDefaultLanguage(languages)
+}
 
 
 module.exports = {
 	getOsLanguage,
 	exec,
-	execSync 
+	execSync,
+	getDefaultLanguage,
+	getActiveLanguage
 }

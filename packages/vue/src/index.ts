@@ -59,7 +59,7 @@ export default {
 
         app.provide(VoerkaI18nProvider, reactive({
             activeLanguage: computed({
-                get: () => activeLanguage,
+                get: () => activeLanguage.value,
                 set: (value) => i18nScope.global.change(value as unknown as string).then(()=>{
                     activeLanguage.value = value as any
                 })

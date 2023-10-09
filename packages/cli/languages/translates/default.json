@@ -265,20 +265,6 @@
         "ru": "Тип файла для сканирования",
         "it": "Tipi di file da scansionare"
     },
-    "语言配置文件<{}>已存在,将优先使用此配置文件中参数来提取文本": {
-        "en": "The language configuration file <{}> already exists. It will be used preferentially to extract messages",
-        "$files": [
-            "index.js"
-        ],
-        "de": "Die Sprachkonfigurationsdatei<{}>existiert bereits. Die Parameter in dieser Konfigurationsdatei werden zuerst zum Extrahieren von Text verwendet.",
-        "jp": "言語プロファイル<{}>はすでに存在し、このプロファイルのパラメータを優先的に使用してテキストを抽出します",
-        "cht": "語言設定檔<{}>已存在,將優先使用此設定檔中參數來選取文字",
-        "fra": "Le profil de langue < {variable} > existe déjà, les paramètres de ce profil seront utilisés de préférence pour extraire le texte",
-        "spa": "El archivo de configuración del idioma < < variable] > ya existe y se dará prioridad al uso de los parámetros de este archivo de configuración para extraer el texto",
-        "kor": "언어 구성 파일<{}>이(가) 이미 있습니다. 이 구성 파일의 매개 변수를 사용하여 텍스트를 추출합니다.",
-        "ru": "Файл конфигурации языка < {} > уже существует, и приоритет будет отдаваться извлечению текста с помощью параметров этого профиля",
-        "it": "Il file di configurazione della lingua<{}>esiste già e i parametri in questo file di configurazione verranno usati per primi per estrarre il testo"
-    },
     "编译指定项目的语言包": {
         "en": "Compiles the language messages for project",
         "$files": [
@@ -1179,5 +1165,76 @@
         "$files": [
             "extract.plugin.js"
         ]
+    },
+    "语言目录：{}": {
+        "en": "Language directory: {}",
+        "$files": [
+            "extract.command.js",
+            "init.command.js"
+        ],
+        "cht": "語言目錄：{}",
+        "de": "Sprachverzeichnis: {}",
+        "jp": "言語ディレクトリ:{}",
+        "fra": "Répertoire des langues: {variable}",
+        "spa": "Catálogo de idiomas: @ variable..",
+        "kor": "언어 디렉토리: {}",
+        "ru": "Языковой каталог: {Variable}",
+        "it": "Cartella linguistica: {VARIABILE}"
+    },
+    "初始化VoerkaI18n多语言支持": {
+        "en": "Initialize VoerkaI18n multilingual support",
+        "$files": [
+            "init.command.js"
+        ],
+        "cht": "初始化VoerkaI18n多語言支持",
+        "de": "VoerkaI18n mehrsprachige Unterstützung initialisieren",
+        "jp": "VoerkaI 18 n多言語サポートの初期化",
+        "fra": "Initialisation du support multilingue voerkai18n",
+        "spa": "Iniciando soporte multilingüe de voerkai18n",
+        "kor": "VoerkaI18n 다국어 지원 초기화",
+        "ru": "Инициализация многоязычной поддержки VoerkaI18n",
+        "it": "Inizializzazione del supporto multilingue VoerkaI18n"
+    },
+    "创建语言包文件夹": {
+        "en": "Create Language Pack Folder",
+        "$files": [
+            "init.command.js"
+        ],
+        "cht": "創建語言包資料夾",
+        "de": "Ordner für Sprachpakete erstellen",
+        "jp": "Language Packフォルダの作成",
+        "fra": "Créer un dossier Language Pack",
+        "spa": "Crear una carpeta de paquetes de idiomas",
+        "kor": "언어 팩 폴더 만들기",
+        "ru": "Создание папки языковых пакетов",
+        "it": "Crea cartella Language Pack"
+    },
+    "生成语言配置文件settings.json": {
+        "en": "Generate language configuration file settings.json",
+        "$files": [
+            "init.command.js"
+        ],
+        "cht": "生成語言設定檔settings.json",
+        "de": "Sprachkonfigurationsdatei settings.json generieren",
+        "jp": "言語プロファイルsettings.jsonを生成する",
+        "fra": "Générer le profil de langue settings.json",
+        "spa": "Generar el archivo de configuración del lenguaje settings.json",
+        "kor": "언어 구성 파일 생성 settings.json",
+        "ru": "Создание языкового профиля settings.json",
+        "it": "Genera impostazioni del file di configurazione della lingua.json"
+    },
+    "初始化语言上下文": {
+        "en": "Initialize Language Context",
+        "$files": [
+            "init.command.js"
+        ],
+        "cht": "初始化語言上下文",
+        "de": "Sprachkontext initialisieren",
+        "jp": "言語コンテキストの初期化",
+        "fra": "Initialiser le contexte linguistique",
+        "spa": "Iniciar el contexto del lenguaje",
+        "kor": "언어 컨텍스트 초기화",
+        "ru": "Контекст языка инициализации",
+        "it": "Inizializza contesto linguistico"
     }
 }

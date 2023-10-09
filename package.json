@@ -12,7 +12,9 @@
         "publish:all": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish",
         "publish:all:noversion": "pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish",
         "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch ",
-        "publish:all:beta": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish --tag beta "
+        "publish:all:beta": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish --tag beta ",
+        "sync":"cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/webpack @voerkai18n/vue2 @voerkai18n/babel"
+
     },
     "author": "wxzhang@126.com",
     "license": "MIT",

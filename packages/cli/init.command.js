@@ -86,13 +86,13 @@ async function initializer(srcPath,{entry='languages',library=false,moduleType,i
     } 
     const projectPackageJson = getCurrentPackageJson(srcPath)
 
-    let tasks = logger.tasklist("初始化VoerkaI18n多语言支持")
+    let tasks = logger.tasklist(t("初始化VoerkaI18n多语言支持"))
     // 查找当前项目的语言包类型路径
     const lngPath = path.join(srcPath,entry)
 
     // 语言文件夹名称
     try{
-        tasks.add("创建语言包文件夹")
+        tasks.add(t("创建语言包文件夹"))
 
         if(!fs.existsSync(lngPath)){
             fs.mkdirSync(lngPath)
@@ -105,7 +105,7 @@ async function initializer(srcPath,{entry='languages',library=false,moduleType,i
     
     // 创建settings.json文件
     try{
-        tasks.add("生成语言配置文件settings.json")
+        tasks.add(t("生成语言配置文件settings.json"))
         const settingsFile = path.join(lngPath,"settings.json")
         if(fs.existsSync(settingsFile) && !reset){
             if(debug) logger.log(t("语言配置文件{}文件已存在，跳过创建。\n使用{}可以重新覆盖创建"),settingsFile,"-r")
@@ -125,7 +125,7 @@ async function initializer(srcPath,{entry='languages',library=false,moduleType,i
     
     // 生成一个语言初始化文件,该文件在执行extract/compile前提供访问t函数的能力
     try{
-        tasks.add("初始化语言上下文")
+        tasks.add(t("初始化语言上下文"))
         const templateContext = {
             moduleType,
             library,
