@@ -1,48 +1,30 @@
-/**
- * 注意：执行compile命令会重新生成本文件，所以请不要修改本文件
- */
-import idMap from "./idMap"                                             // 语言ID映射文件
-import { translate,VoerkaI18nScope  } from "../../../packages/runtime/src/index"
-import defaultFormatters from "./formatters/zh"             // 默认语言格式化器
-import defaultMessages from "./zh"  
-import storage  from "./storage"
+/* 
+* 注意：执行compile命令会生新后成本文件，所以请不要修改本文件
+* 本文件仅供在执行voerkai18n extract&compile前提供t函数占位引用 
+*/
+import runtime from "@voerkai18n/runtime"
+const { translate,VoerkaI18nScope  } = runtime
 
-const messages = {
-    'zh' :  defaultMessages,
-    'en' : ()=>import("./en")
-}
-
-const formatters = {
-    'zh' :  defaultFormatters,
-    'en' : ()=>import("./formatters/en")
-}
-
-// 语言配置文件
-const scopeSettings = {
-    "languages": [
-        {
-            "name": "zh",
-            "title": "中文",
-            "default": true
-        },
-        {
-            "name": "en",
-            "title": "英语"
-        }
-    ],
-    "namespaces": {}
-}
 
 // 语言作用域
-const scope = new VoerkaI18nScope({    
-    id          : "lib1",                    // 当前作用域的id，自动取当前工程的package.json的name
-    debug       : false,                            // 是否在控制台输出调试信息   
-    idMap,                                          // 消息id映射列表  
-    library     : true,                      // 开发库时设为true
-    messages,                                       // 语言包
-    formatters,                                     // 扩展自定义格式化器    
-    storage,                                        // 语言配置存储器
-    ...scopeSettings
+const scope = new VoerkaI18nScope({
+    id          : "voerka-i18n",                    // 当前作用域的id，自动取当前工程的package.json的name
+    debug       : false,                            // 是否在控制台输出高度信息
+    messages    : {},                               // 当前语言包
+    idMap       : {},                               // 消息id映射列表
+    library     : false,                      // 开发库时设为true    
+    formatters  : {},                               // 扩展自定义格式化器    
+    languages: [
+        {
+            name: "zh",
+            title: "中文",
+            default: true
+        },
+        {
+            name: "en",
+            title: "英文"
+        }
+    ]
 }) 
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 

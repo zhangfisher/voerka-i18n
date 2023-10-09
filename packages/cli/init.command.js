@@ -14,7 +14,7 @@ const artTemplate = require("art-template")
 const { Command } = require('commander'); 
 const { getCliLanguage } = require("./oslocate")
 
-function getLanguageList(langs,defaultLanguage){
+function getLanguageList(langs,defaultLanguage,activeLanguage){
     try{
         const available_languages = require("./available_languages")
         if(defaultLanguage in available_languages){
@@ -26,6 +26,9 @@ function getLanguageList(langs,defaultLanguage){
                 }
                 if(defaultLanguage===lng){
                     lngItem.default = true
+                }
+                if(activeLanguage==lng){
+                    lngItem.active = true
                 }
                 return lngItem
             })   
@@ -110,7 +113,7 @@ async function initializer(srcPath,{entry='languages',library=false,moduleType,i
             return 
         }
         settings = {
-            languages:getLanguageList(languages,defaultLanguage),
+            languages:getLanguageList(languages,defaultLanguage,activeLanguage),
             namespaces:{}
         }    
         // 写入配置文件

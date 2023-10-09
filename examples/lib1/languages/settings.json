@@ -2,14 +2,13 @@
     "languages": [
         {
             "name": "zh",
-            "title": "中文"
+            "title": "Chinese"
         },
         {
             "name": "en",
-            "title": "英语"
+            "title": "English",
+            "default": true
         }
     ],
-    "defaultLanguage": "zh",
-    "activeLanguage": "zh",
     "namespaces": {}
 }

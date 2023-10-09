@@ -1,4 +1,8 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.20
+
+- **[BUG]** 修复了`voerkai18n init`指定`-a`参数时无效的问题。
+
 ## V2.0.19
 
 - **[BUG]** 修复未指定`language.active=true`时`activeLanguage`值不正确的问题.
