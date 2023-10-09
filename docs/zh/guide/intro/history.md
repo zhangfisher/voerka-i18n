@@ -1,4 +1,7 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.19
+
+- **[BUG]** 修复未指定`language.active=true`时`activeLanguage`值不正确的问题.
 ## V2.0.18
 
 - **[BUG]** 修复`@voerkai18n/cli compile`时导入默认语言和当前语言为空的错误

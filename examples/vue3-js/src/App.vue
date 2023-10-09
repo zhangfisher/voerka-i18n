@@ -1,7 +1,8 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+import { injectVoerkaI18n } from "@voerkai18n/vue"  
+const i18n = injectVoerkaI18n()
 </script>
-
 <template>
   <div>
     <a href="https://vitejs.dev" target="_blank">
@@ -10,6 +11,7 @@ import HelloWorld from './components/HelloWorld.vue'
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
+    <span><b>默认语言：</b>{{ i18n.defaultLanguage }}&nbsp;&nbsp;&nbsp;&nbsp;<b>当前语言：</b>{{ i18n.activeLanguage }}</span>
   </div>
   <HelloWorld msg="Vite + Vue" />
 </template>

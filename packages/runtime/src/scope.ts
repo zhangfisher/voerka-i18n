@@ -39,8 +39,8 @@ export class VoerkaI18nScope {
     private _refreshing:boolean = false
     private _t:VoerkaI18nTranslate
     private _formatterRegistry?:VoerkaI18nFormatterRegistry 
-    private _defaultLanguage:string ='zh'
-    private _activeLanguage:string='zh'         
+    private _defaultLanguage?:string
+    private _activeLanguage?:string      
     private _currentMessages:VoerkaI18nLanguageMessages = {}                   // 当前语言包
     private _patchedMessages:VoerkaI18nLanguagePack = {}                       // 补丁语言包
     /**
@@ -71,7 +71,7 @@ export class VoerkaI18nScope {
     get defaultLanguage() {return this._global.defaultLanguage;}            // 默认语言名称	
 	get activeLanguage() {return this._global.activeLanguage;}              // 默认语言名称	
     // 默认语言包，只能静态语言包，不能是动态语言包
-	get default() {return this._options.messages[this._defaultLanguage] as VoerkaI18nLanguageMessages;}     
+	get default() {return this._options.messages[this._defaultLanguage!] as VoerkaI18nLanguageMessages;}     
     get current() {return this._currentMessages;}                           // 当前语言包   	
 	get messages() {return this._options.messages;	}                       // 所有语言包	
 	get idMap() {return this._options.idMap;}                               // 消息id映射列表	
@@ -96,18 +96,22 @@ export class VoerkaI18nScope {
             }
         }        
         // 2.为语言配置默认回退语言，并且提取默认语言和活动语言
+        let activeLang:string,defaultLang:string
         this.languages.forEach(language=>{
             if(!language.fallback) language.fallback = DefaultFallbackLanguage
-            if(language.default) this._defaultLanguage = language.name
-            if(language.active) this._activeLanguage = language.name
+            if(language.default) defaultLang = language.name
+            if(language.active) activeLang = language.name
         })
         // 3. 确保提供了有效的默认语言和活动语言
         const lanMessages = this._options.messages
-        if(!(this._defaultLanguage in lanMessages)) this._defaultLanguage = Object.keys(lanMessages)[0]
-        if(!(this._activeLanguage in lanMessages)) this._activeLanguage = this._defaultLanguage 
-        if(!(this._defaultLanguage in lanMessages)){
+        if(!(defaultLang! in lanMessages)) defaultLang = Object.keys(lanMessages)[0]
+        if(!(activeLang! in lanMessages)) activeLang = defaultLang!
+        if(!(defaultLang! in lanMessages)){
             throw new Error("[VoerkaI18n]无效的语言配置，必须提供有效的默认语言和活动语言.")
         }
+        this._activeLanguage = activeLang!
+        this._defaultLanguage = defaultLang!
+
         // 初始化时，默认和激活的语言包只能是静态语言包，不能是动态语言包
         // 因为初始化时激活语言需要马上显示，如果是异步语言包，会导致显示延迟
         if(isFunction(this.messages[this._defaultLanguage])){
@@ -127,8 +131,8 @@ export class VoerkaI18nScope {
 		if (!(globalThis as any).VoerkaI18n) {
 			(globalThis as any).VoerkaI18n = new VoerkaI18nManager({
 				debug          : this._options.debug,
-				defaultLanguage: this._defaultLanguage,
-				activeLanguage : this._activeLanguage,
+				defaultLanguage: this._defaultLanguage!,
+				activeLanguage : this._activeLanguage!,
 				languages      : this._options.languages,
                 storage        : this._options.storage
 			});

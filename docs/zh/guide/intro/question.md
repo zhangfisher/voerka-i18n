@@ -43,6 +43,20 @@
 
 只能说可以减少一些工作量，需要更多的人工介入才可以的。
 
+## 为什么指定了`activeLanguage`不能生效？
+
+为什么有时指定了`activeLanguage`参数后，还是不能生效？
+
+**原因可能是：**
+
+`VoerkaI18n`默认情况下会在`LocalStorage`下存储最近切换的语言，当您修改了`languages/index.(js|ts)`中的`activeLanguage`配置后.
+由于`LocalStorage`中已经有值(`上一次记住的activeLanguage`)了，所以`VoerkaI18n`会优先使用`LocalStorage`中的值，而不是`activeLanguage`中的值。
+
+这样就造成了`activeLanguage`不能生效的现象。
+
+**解决方案：**
+
+- 清空`LocalStorage`中的`language`值，然后刷新页面即可。
 
 ## 提示出错
 
