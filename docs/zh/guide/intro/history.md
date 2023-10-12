@@ -1,4 +1,9 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.23
+
+- **[BUG]** 修复`@voerkai18n/vue2`对`vue2`的版本依赖问题,由于依赖版本写死了,可能导至版本不一致的问题.
+
+
 ## V2.0.22
 
 - **[BUG]** 修复了当执行`extract`时在`settings/namespaces`设置无效的问题

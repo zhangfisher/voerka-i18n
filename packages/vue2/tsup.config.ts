@@ -12,6 +12,7 @@ export default defineConfig({
     clean: true,
     treeshake:true,  
     minify: true,
+    external:["vue"],
     banner: {
         js: `/***        
 *   ---=== VoerkaI18n for Vue2 ===---
