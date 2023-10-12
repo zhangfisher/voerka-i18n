@@ -9,12 +9,12 @@ const through2 = require('through2')
 const deepmerge = require("deepmerge")
 const path = require('path')
 const fs = require('fs-extra')
-const createLogger = require("logsets") 
+const logsets = require("logsets") 
 const { t } = require("./i18nProxy") 
+const { getDefaultLanguage,getActiveLanguage } = require("./utils")
 const replaceAll = require('string.prototype.replaceall');
 replaceAll.shim()
-
-const logger = createLogger() 
+ 
 
 
 // 捕获翻译文本正则表达式一： 能匹配完整的t(xx,...)函数调用，如果t函数调用不完整，则不能匹配到
@@ -76,9 +76,9 @@ function inNamespace(filePath,nsPath){
  * @param {*} options.namespaces  名称空间配置 {<name>:[path,...,path],<name>:path,<name>:(file)=>{}}
  */
  function getFileNamespace(file,options){
-    const {output, namespaces } = options
+    const { namespaces } = options
     const fileRefPath = file.relative.toLowerCase()   // 当前文件相对源文件夹的路径
-    for(let [name,paths] of Object.entries(options.namespaces)){ 
+    for(let [name,paths] of Object.entries(namespaces)){ 
         for(let nsPath of paths){
             if(typeof(nsPath) === "string" && inNamespace(fileRefPath,nsPath)){
                 return name
@@ -186,7 +186,7 @@ function getFileTypeExtractors(filetype,extractor){
  */
 function getTranslateTexts(content,file,options){
     
-    let { extractor: extractorOptions,languages,defaultLanguage,activeLanguage,debug } = options
+    let { extractor: extractorOptions } = options
 
     if(!options || Object.keys(extractorOptions).length===0) return
 
@@ -219,7 +219,7 @@ function getTranslateTexts(content,file,options){
 
 const defaultExtractLanguages  = [
     {name:'en',title:"英文"},
-    {name:'zh',title:"中文",default:true},
+    {name:'zh',title:"中文",default:true,active:true},
     {name:'de',title:"德语"},
     {name:'fr',title:"法语"},
     {name:'es',title:"西班牙语"},
@@ -231,8 +231,6 @@ function normalizeLanguageOptions(options){
     options = Object.assign({
         debug          : true,                    // 输出调试信息，控制台输出相关的信息 
         languages      :defaultExtractLanguages,  // 默认要支持的语言            
-        defaultLanguage: "zh",                    // 默认语言：指的是在源代码中的原始文本语言
-        activeLanguage : "zh",                    // 当前激活语言：指的是当前启用的语言，比如在源码中使用中文，在默认激活的是英文
         extractor        : {                      // 匹配翻译函数并提取内容的正则表达式
             "*"                 :    DefaultTranslateExtractor,
             "html,vue,jsx"      :    DefaultHtmlAttrExtractor
@@ -252,6 +250,7 @@ function normalizeLanguageOptions(options){
             attrName   :"data-i18n",                // 用在html组件上的翻译属性名称
         }
     },options) 
+
     // 输出配置
     if(typeof(options.output)==="string"){
         options.output = {path:options.output,updateMode: 'sync'}
@@ -263,8 +262,6 @@ function normalizeLanguageOptions(options){
         throw new TypeError("options.languages must be an array")
     }else{
         if(options.languages.length === 0)  throw new TypeError("options.languages'length must be greater than 0")
-        let defaultLanguage = options.defaultLanguage
-        let activeLanguage = options.activeLanguage
         options.languages = options.languages.map(lng=>{
             if(typeof lng === "string"){
                 return {name:lng,title:lng}
@@ -274,20 +271,13 @@ function normalizeLanguageOptions(options){
             if(typeof(lng.title)==="string" && lng.title.trim().length===0){
                 lng.title = lng.name
             }
-            // 默认语言
-            if(lng.default===true && lng.name){
-                defaultLanguage = lng.name
-            }
-            // 激活语言
-            if(lng.active ===true && lng.name){
-                activeLanguage = lng.name
-            }
             return lng
-        })
-        if(!defaultLanguage) defaultLanguage = options.languages[0].name
-        options.defaultLanguage = defaultLanguage
-        options.activeLanguage = activeLanguage 
+        }) 
     }
+    const activeLanguage = getActiveLanguage(options.languages)
+    const defaultLanguage = getDefaultLanguage(options.languages)
+    if(!defaultLanguage) options.languages[0].default = true
+    if(!activeLanguage) options.languages[0].active = true
     // 提取正则表达式匹配
     if(typeof(options.extractor)==="string") options.extractor =  new RegExp(options.extractor,"gm")
     if(options.extractor instanceof RegExp){
@@ -354,7 +344,7 @@ function updateLanguageFile(newTexts,toLangFile,options){
     try{
         oldTexts =JSON.parse(fs.readFileSync(toLangFile))
     }catch(e){
-        logger.log(t("读取语言文件<{}>出错: {}"),toLangFile,e.message)
+        logsets.log(t("读取语言文件<{}>出错: {}"),toLangFile,e.message)
         // 如果读取出错，可能是语言文件不是有效的json文件，则备份一下
     }
     // 同步模式下，如果原始文本在新扫描的内容中，则需要删除
@@ -388,12 +378,13 @@ function updateLanguageFile(newTexts,toLangFile,options){
 module.exports = function(options={}){
     options = normalizeLanguageOptions(options)
     let {debug,outputPath} = options
-    
-    logger.log(t("支持的语言\t: {}"),options.languages.map(item=>`${item.title}(${item.name})`).join(","))    
-    logger.log(t("默认语言\t: {}"),options.defaultLanguage)
-    logger.log(t("激活语言\t: {}"),options.activeLanguage) 
-    logger.log(t("名称空间\t: {}"),Object.keys(options.namespaces).join(","))
-    logger.log("")
+    const activeLanguage = getActiveLanguage(options.languages)
+    const defaultLanguage = getDefaultLanguage(options.languages)
+    logsets.log(t("支持的语言\t: {}"),options.languages.map(item=>`${item.title}(${item.name})`).join(","))    
+    logsets.log(t("默认语言\t: {}"),defaultLanguage)
+    logsets.log(t("激活语言\t: {}"),activeLanguage) 
+    logsets.log(t("名称空间\t: {}"),Object.keys(options.namespaces).join(","))
+    logsets.log("")
     
     // 保存提交提取的文本 = {}
     let results = {}
@@ -414,18 +405,18 @@ module.exports = function(options={}){
             fileCount++
             if(debug){
                 const textCount = Object.values(texts).reduce((sum,item)=>sum+Object.keys(item).length,0)
-                logger.log(t("提取<{}>, 发现 [{}] 名称空间，{} 条信息。"),file.relative,Object.keys(texts).join(","),textCount)
+                logsets.log(t("提取<{}>, 发现 [{}] 名称空间，{} 条信息。"),file.relative,Object.keys(texts).join(","),textCount)
             }
         }catch(err){
-            logger.log(t("从<{}>提取信息时出错 : {}"),file.relative,err.message)
+            logsets.log(t("从<{}>提取信息时出错 : {}"),file.relative,err.message)
         }
         
         callback()
     },function(callback){
-        logger.log("")
-        logger.log(t("翻译信息提取完成。"))
-        logger.log(t(" - 文件总数\t: {}"),fileCount)
-        logger.log(t(" - 输出路径\t: {}"),outputPath)
+        logsets.log("")
+        logsets.log(t("翻译信息提取完成。"))
+        logsets.log(t(" - 文件总数\t: {}"),fileCount)
+        logsets.log(t(" - 输出路径\t: {}"),outputPath)
         const translatesPath = path.join(outputPath,"translates")
         if(!fs.existsSync(outputPath)) fs.mkdirSync(outputPath)
         if(!fs.existsSync(translatesPath)) fs.mkdirSync(translatesPath)
@@ -435,40 +426,35 @@ module.exports = function(options={}){
         // 每个名称空间对应一个文件
         for(let [namespace,texts] of Object.entries(results)){
             const langFile = path.join(outputPath,"translates",`${namespace}.json`)
-            const isExists = fs.existsSync(langFile)
-            const langTexts = {}
-            if(isExists){
+            if(fs.existsSync(langFile)){
                 updateLanguageFile(texts,langFile,options)
-                logger.log(t("    √ 更新语言文件 : {}"),path.relative(outputPath,langFile))
+                logsets.log(t("    √ 更新语言文件 : {}"),path.relative(outputPath,langFile))
             }else{
                 fs.writeFileSync(langFile,JSON.stringify(texts,null,4)) 
-                logger.log(t("    √ 保存语言文件 : {}"),path.relative(outputPath,langFile))
+                logsets.log(t("    √ 保存语言文件 : {}"),path.relative(outputPath,langFile))
             }   
         }
         // 生成语言配置文件 settings.json  , 仅当不存在时才生成
         const settingsFile = path.join(outputPath,"settings.json")
         if(!fs.existsSync(settingsFile)){
             const settings = {
-                languages      : options.languages,
-                defaultLanguage: options.defaultLanguage,
-                activeLanguage : options.activeLanguage,
+                languages      : options.languages, 
                 namespaces     : options.namespaces 
             }
             fs.writeFileSync(settingsFile,JSON.stringify(settings,null,4))
-            logger.log(t(" - 生成语言配置文件: {}"),settingsFile) 
+            logsets.log(t(" - 生成语言配置文件: {}"),settingsFile) 
         }else{
-            logger.log(t(" - 应用语言配置文件: {}"),settingsFile) 
+            logsets.log(t(" - 应用语言配置文件: {}"),settingsFile) 
         }    
 
-        logger.log(t("下一步："))
-        logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
-        logger.log(t(" - 在源码中从[{}]导入编译后的语言包"),options.entry)
-
-
+        logsets.log(t("下一步："))
+        logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
+        logsets.log(t(" - 在源码中从[{}]导入编译后的语言包"),options.entry)
         callback()               
     });
 }
 
 
+
+module.exports.normalizeLanguageOption =normalizeLanguageOptions
 module.exports.getTranslateTexts = getTranslateTexts
-module.exports.normalizeLanguageOptions = normalizeLanguageOptions

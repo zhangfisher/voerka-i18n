@@ -57,6 +57,23 @@ function extract(srcPath,options={}){
 }
 
 
+/**
+ * 读取语言配置，命令行优先
+ * @param {*} options 
+ */
+function getLanguageSettings(options){    
+    // 从本地package.json读取合并配置
+    let opts = Object.assign({},getSettingsFromPackageJson(options.srcPath))
+    // 如果本地settings存在
+    const settingsFile = path.join(options.srcPath,opts.entry,"settings.json")
+    if(fs.existsSync(settingsFile)){
+        Object.assign(opts,require(settingsFile))
+    }
+    // 命令行优先参数
+    Object.assign(opts,options)
+    return opts
+}
+
 const program = new Command();
 
 program
@@ -74,16 +91,15 @@ program
         await i18nScope.change(getCliLanguage())
     })
     .action(async (location,options) => {
-        location = getProjectSourceFolder(location)
+        options.srcPath =getProjectSourceFolder(location)
         if(options.languages){
             options.languages = options.languages.map(l=>({name:l,title:l}))
         }
-        // 从本地package.json读取合并配置
-        options = Object.assign({},getSettingsFromPackageJson(location),options)
+        options = getLanguageSettings(options) 
 
-        logger.log(t("工程目录：{}"),location)
+        logger.log(t("工程目录：{}"), options.srcPath)
         logger.log(t("语言目录：{}"),options.entry)
-        extract(location,options)
+        extract(options.srcPath,options)
     });
 
 

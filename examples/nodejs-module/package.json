@@ -1,5 +1,5 @@
 {
-    "name": "voerkai18n-nodejs-module",
+    "name": "voerkai18n-example-nodejs-module",
     "type": "module",
     "private": true,
     "dependencies": {

@@ -13,8 +13,7 @@
         "publish:all:noversion": "pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish",
         "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch ",
         "publish:all:beta": "pnpm version:patch:all && pnpm build:all && git add . && git commit -m \"build: release all packages\" && pnpm -r  --filter \"./packages/**\" publish --tag beta ",
-        "sync":"cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/webpack @voerkai18n/vue2 @voerkai18n/babel"
-
+        "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel voerkai18n-loader"
     },
     "author": "wxzhang@126.com",
     "license": "MIT",
@@ -22,6 +21,7 @@
         "@babel/core": "^7.18.10",
         "@babel/plugin-transform-runtime": "^7.18.10",
         "@babel/preset-env": "^7.18.10",
+        "@changesets/cli": "^2.26.2",
         "@modern-js/module-tools": "^2.24.0",
         "@rollup/plugin-babel": "^5.3.1",
         "@rollup/plugin-commonjs": "^21.1.0",

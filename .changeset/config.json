@@ -1,0 +1,25 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@2.3.1/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": true,
+  "fixed": [ 
+    [
+      "@voerkai18n/cli",
+      "@voerkai18n/runtime", 
+      "@voerkai18n/vue",
+      "@voerkai18n/vite",
+      "@voerkai18n/react",
+      "@voerkai18n/utils",
+      "@voerkai18n/vue2",
+      "@voerkai18n/babel",
+      "voerkai18n-loader"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "master",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "voerkai18n-example-*"
+  ]
+}
