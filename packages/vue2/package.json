@@ -10,8 +10,7 @@
       "main": "dist/index.js",
       "module": "dist/index.mjs",
       "types": "dist/index.d.ts",
-      "access": "public",
-      "registry": "https://registry.npmjs.org/"
+      "access": "public"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
