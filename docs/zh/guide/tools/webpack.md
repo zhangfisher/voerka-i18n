@@ -13,7 +13,7 @@ npm install -D voerkai18n-loader
 yarn add -D voerkai18n-loader
 ```
 
-## 使用方法
+## React项目中使用
 
 `voerkai18n-loader`是一个标准的`webpack loader`,在任意使用`webpack`作为构建工具的环境下均可以使用。
 关于如何安装配置`webpack loader`请参阅`webpack`的相关文档。
@@ -115,6 +115,47 @@ module.exports = {
 }
 ```
   
+## Vue2项目中使用
+
+`Vue2`项目一般有两种构建方式，一种是使用`vue-cli/webpack`构建的，另一种是使用`vite`构建的。
+
+一般较早的`Vue2`项目中会使用`webpack`构建的.
+
+### `webpack`构建
+
+在Vue2项目中使用`voerkai18n-loader`需要修改`vue.config.js`文件，如下：
+
+```js
+// vue.config.js
+module.exports = {
+    configureWebpack: {
+        module:{
+            rules:[
+                {
+                    test: [/^$/, /\.(js|vue)$/],
+                    use:[
+                        {
+                            loader:"voerkai18n-loader",
+                            // 可选的配置参数
+                            options: {
+                               autoImport:false,            // 是否自动导入t函数
+                               debug:true,                 // 输出一些调试信息
+                            }
+                        }
+                    ],                            
+                    include: path.join(__dirname, 'src'),                  
+                    enforce:'pre',
+                } 
+            ]
+        }
+      }
+}
+```
+
+### `vite`构建
+
+如果是使用`vite`构建的`Vue2`项目，则需要使用`@voerkai18n/vite`插件,详见[这里](./vite)。
+
 ## 配置参数 
 
 `voerkai18n-loader`支持两个配置参数：
