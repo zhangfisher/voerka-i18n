@@ -13,8 +13,8 @@
     "compile": "node ../../packages/cli/index.js compile"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "wxzhang",
+  "license": "MIT",
   "dependencies": {
     "@voerkai18n/runtime": "^2.0.11"
   }

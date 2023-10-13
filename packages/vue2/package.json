@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/vue2",
-  "version": "2.0.23",
+  "version": "2.0.24",
   "description": "voerkai18n for vue2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -9,15 +9,14 @@
   "publishConfig": {
       "main": "dist/index.js",
       "module": "dist/index.mjs",
-      "types": "dist/index.d.ts",
-      "access": "public"
+      "types": "dist/index.d.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build":"tsup"
   },
   "keywords": [],
-  "author": "",
+  "author": "wxzhang",
   "license": "MIT",
   "peerDependencies": {
     "@voerkai18n/runtime": "workspace:^",
