@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "2.0.25",
+    "version": "2.0.26",
     "description": "runtime of voerkai18n",
     "main": "./src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",

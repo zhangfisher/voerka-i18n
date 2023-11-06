@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vue",
-    "version": "2.0.25",
+    "version": "2.0.26",
     "description": "voerkai18n for vue3",
     "main": "src/index.ts",
     "types": "src/index.ts",
