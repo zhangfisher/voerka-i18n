@@ -97,10 +97,18 @@ const messages = {
 	'en' : defaultMessages   // 正确：静态加载
 }
 
-
 ```
 
 
+## `defaultLanguage`和`activeLanguage`
 
+- **默认语言**(`defaultLanguage`)：
 
+指的是直接写在代码里面的语言。一般情况下，国产软件一般默认中文为默认语言，也就是我们直接在代码里面写的语言，如`t("中文")`。并且在执行`voerkai18n translate`命令时，总是将默认语言翻译成其他语言。
+
+- **激活语言**(`activeLanguage`)：
+
+指是界面上实际显示的语言，我们切换语言时，就是切换的激活语言。
+
+在`settings.json`中，**默认语言**和**激活语言**可以相同，也可以不同。
 
