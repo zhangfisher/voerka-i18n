@@ -1,4 +1,9 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+
+## V2.0.26
+
+- **[BUG]** 修复当`activeLanguage`与`defaultLanguage`不一致时，执行`voerkai18n compile`时生成的代码逻辑不一致的问题
+
 ## V2.0.24
 
 - **[BUG]** 修复`@voerkai18n/vue2`使用`npm`发包时导致没有修复`workspace`版本依赖的问题.

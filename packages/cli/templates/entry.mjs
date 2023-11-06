@@ -4,18 +4,20 @@
 import idMap from "./idMap.js"                                             // 语言ID映射文件
 import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
 import defaultFormatters from "./formatters/{{defaultLanguage}}.js"             // 默认语言格式化器
+import activeFormatters  from {{if activeLanguage == defaultLanguage}}defaultFormatters{{else}}"./formatters/{{activeLanguage}}"{{/if}}
 import defaultMessages from "./{{defaultLanguage}}.js"  
+import activeMessages  from {{if activeLanguage == defaultLanguage}}defaultMessages{{else}}"./{{activeLanguage}}"{{/if}}
 import storage  from "./storage.js"
 
 const messages = {
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultMessages{{if $index !== languages.length - 1}},{{/if}}
-    {{else if $value.name == activeLanguage}}{{if defaultLanguage !== activeLanguage}}'{{activeLanguage}}':defaultMessages{{/if}}{{if $index !== languages.length - 1}},{{/if}}
+    {{else if $value.name == activeLanguage}}{{if defaultLanguage !== activeLanguage}}'{{activeLanguage}}':activeMessages{{/if}}{{if $index !== languages.length - 1}},{{/if}}
     {{else}}'{{$value.name}}' : ()=>import("./{{$value.name}}.js"){{if $index !== languages.length - 1}},{{'\n\t'}}{{/if}}{{/if}}{{/each}}
 }
 
 const formatters = {
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultFormatters{{if $index !== languages.length - 1}},{{/if}}
-    {{else if $value.name == activeLanguage}}{{if defaultLanguage !== activeLanguage}}'{{activeLanguage}}':defaultFormatters{{/if}}{{if $index !== languages.length - 1}},{{/if}}
+    {{else if $value.name == activeLanguage}}{{if defaultLanguage !== activeLanguage}}'{{activeLanguage}}':activeFormatters{{/if}}{{if $index !== languages.length - 1}},{{/if}}
     {{else}}'{{$value.name}}' : ()=>import("./formatters/{{$value.name}}.js"){{if $index !== languages.length - 1}},{{'\n\t'}}{{/if}}{{/if}}{{/each}}
 }
 

@@ -4,7 +4,9 @@
 const idMap = require("./idMap")
 const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
 const defaultFormatters = require("./formatters/{{defaultLanguage}}.js")
+const activeFormatters= {{if activeLanguage == defaultLanguage}}defaultFormatters{{else}}require("./formatters/{{activeLanguage}}.js"){{/if}}
 const defaultMessages =  require("./{{defaultLanguage}}.js")      
+const activeMessages = {{if activeLanguage == defaultLanguage}}defaultMessages{{else}}require("./{{activeLanguage}}.js"){{/if}}
 const storage = require("./storage.js")
 
 const formatters = {
