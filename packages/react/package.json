@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/react",
-    "version": "2.0.26",
+    "version": "2.0.27",
     "description": "React支持,提供语言切换等功能",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
@@ -20,7 +20,6 @@
         "build": "tsup",
         "version:patch": "npm version patch --commit-hooks=false",
         "release": "tsup --metafile && pnpm publish --no-git-checks"
-
     },
     "author": "wxzhang",
     "license": "MIT",

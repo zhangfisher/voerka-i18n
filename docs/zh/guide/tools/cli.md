@@ -236,7 +236,6 @@ Arguments:
 
 Options:
   -D, --debug               输出调试信息
-  -m, --moduleType [types]  输出模块类型,取值auto,esm,cjs (default: "esm")
   -l, --library             开发库模式(default:false)
   -t, --typescript          生成typescript文件
   -u, --update-runtime      自动更新runtime
