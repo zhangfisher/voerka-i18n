@@ -4,8 +4,8 @@
     "dependencies": {
         "@voerkai18n/cli": "workspace:^2.0.0",
         "@voerkai18n/runtime": "workspace:^2.0.0",
-        "lib1": "workspace:^",
-        "lib2": "workspace:^"
+        "voerkai18n-example-lib1": "workspace:^",
+        "voerkai18n-example-lib2": "workspace:^"
     },
     "devDependencies": {
         "ts-node": "latest"

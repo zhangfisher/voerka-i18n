@@ -6,7 +6,7 @@
     
  */
  
-export default  {    
+module.exports = {    
     // global   : true,     // 简单地设置为true,代表当前所有格式化器均注册到全局，false只在当前scope生效        
     // global   : { // 仅将里面的格式化器注册到全局
         // $config:{... }

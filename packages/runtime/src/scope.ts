@@ -53,7 +53,7 @@ export class VoerkaI18nScope {
             id             : randomId(),                  // 作用域唯一id
             library        : false,                        // 当使用在库中时应该置为true
             debug          : false,
-            languages      : {},                          // 当前作用域支持的语言列表
+            languages      : [],                          // 当前作用域支持的语言列表
             messages       : {},                          // 所有语言包={[language]:VoerkaI18nLanguageMessages}
             idMap          : {},                          // 消息id映射列表
             formatters     : {},                          // 当前作用域的格式化函数列表{<lang>: {$types,$config,[格式化器名称]: () => {},[格式化器名称]: () => {}}}

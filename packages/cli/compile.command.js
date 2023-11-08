@@ -42,7 +42,8 @@ const {
     isTypeScriptProject,
     getPackageReleaseInfo,
     upgradePackage,
-    getSettingsFromPackageJson
+    getSettingsFromPackageJson,
+    getVoerkaModuleType
 } = require("@voerkai18n/utils")
 
 
@@ -129,10 +130,8 @@ async  function compile(langFolder,opts={}){
         await updateRuntime()
     }    
 
-    // 如果自动则会从当前项目读取，如果没有指定则会是esm
-    if(moduleType==="auto"){
-        moduleType = findModuleType(langFolder)
-    }
+    // 读取languages/index.js的模块类型
+    moduleType = getVoerkaModuleType(langFolder)
     const projectPackageJson = getCurrentPackageJson(langFolder)
     // 加载多语言配置文件
     const settingsFile = path.join(langFolder,"settings.json")
@@ -251,7 +250,7 @@ program
     .option('-t, --typescript',t("输出typescript代码")) 
     .option('-l, --library',t("开发库模式"),false)
     .option('-u, --update-runtime',t("自动更新runtime")) 
-    .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
+    // .option('-m, --moduleType [types]', t('输出模块类型,取值auto,esm,cjs'), 'esm')     
     .option('--skip',t("跳过更新language/index.(ts|js)文件"),false) 
     .argument('[location]',  t('工程项目所在目录'),"./")
     .hook("preAction",async function(location){ 

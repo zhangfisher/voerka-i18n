@@ -1,5 +1,7 @@
 # 更新日志<!-- {docsify-ignore-all} -->
+## V2.0.27
 
+- **[改进]** 当使用`voerkai18n compile`时不再需要指定`-m`参数，会自动根据`languages/index.(js|ts)`来判断模块类型。
 ## V2.0.26
 
 - **[BUG]** 修复当`activeLanguage`与`defaultLanguage`不一致时，执行`voerkai18n compile`时生成的代码逻辑不一致的问题

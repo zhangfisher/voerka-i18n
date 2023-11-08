@@ -1,25 +1,24 @@
 /**
  * 注意：执行compile命令会重新生成本文件，所以请不要修改本文件
  */
-import idMap from "./idMap.js"                                             // 语言ID映射文件
-import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
-import defaultFormatters from "./formatters/zh.js"             // 默认语言格式化器
-import activeFormatters  from "./formatters/en.js"
-import defaultMessages from "./zh.js"  
-import activeMessages  from "./en.js"
-import storage  from "./storage.js"
-
-const messages = {
-    'zh' :  defaultMessages,
-    'en':activeMessages,
-    'de' : ()=>import("./de.js")
-}
+const idMap = require("./idMap")
+const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
+const defaultFormatters = require("./formatters/zh.js")
+const defaultMessages =  require("./zh.js")      
+const activeFormatters= defaultFormatters
+const activeMessages = defaultMessages
+const storage = require("./storage.js")
 
 const formatters = {
     'zh' :  defaultFormatters,
-    'en':activeFormatters,
-    'de' : ()=>import("./formatters/de.js")
+    'en' : ()=>require("./formatters/en.js")
 }
+ 
+const messages = {
+    'zh' :  defaultMessages,
+    'en' : ()=>require("./en.js")
+}
+ 
 
 // 语言配置文件
 const scopeSettings = {
@@ -27,35 +26,29 @@ const scopeSettings = {
         {
             "name": "zh",
             "title": "中文",
-            "default": true
-        },
-        {
-            "name": "en",
-            "title": "英语",
+            "default": true,
             "active": true
         },
         {
-            "name": "de",
-            "title": "德语"
+            "name": "en",
+            "title": "英语"
         }
     ],
     "namespaces": {}
 }
-
 // 语言作用域
 const scope = new VoerkaI18nScope({    
-    id          : "voerkai18n-example-lib1",                    // 当前作用域的id，自动取当前工程的package.json的name
-    debug       : false,                            // 是否在控制台输出调试信息   
-    idMap,                                          // 消息id映射列表        
+    // 当前作用域的id，自动取当前工程的package.json的name
+    id          : "voerkai18n-example-lib1",                    
+    debug       : false,                            // 是否在控制台输出高度信息
+    messages,                                       // 当前语言包
+    idMap ,                                         // 消息id映射列表    
     library     : false,                      // 开发库时设为true
-    messages,                                       // 语言包+
     formatters,                                     // 扩展自定义格式化器    
     storage,                                        // 语言配置存储器
-    ...scopeSettings
+    ...scopeSettings                             
 }) 
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 
-export { 
-    scopedTtranslate as t, 
-    scope as i18nScope
-}
+module.exports.t = scopedTtranslate
+module.exports.i18nScope = scope 

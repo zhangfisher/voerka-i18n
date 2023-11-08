@@ -126,12 +126,12 @@ importers:
         specifier: workspace:^2.0.0
         version: link:../../packages/cli
       '@voerkai18n/runtime':
-        specifier: file://../../packages/runtime/src
-        version: file:packages/runtime/src
-      lib1:
+        specifier: workspace:^2.0.0
+        version: link:../../packages/runtime
+      voerkai18n-example-lib1:
         specifier: workspace:^
-        version: link:../lib1
-      lib2:
+        version: link:../testb
+      voerkai18n-example-lib2:
         specifier: workspace:^
         version: link:../lib2
     devDependencies:
@@ -271,6 +271,12 @@ importers:
         specifier: ^2.0.16
         version: link:../../packages/runtime
 
+  examples/testb:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+
   examples/vue2-js:
     dependencies:
       core-js:
@@ -315,7 +321,7 @@ importers:
         version: 1.26.5
       sass-loader:
         specifier: ^8.0.2
-        version: 8.0.2(sass@1.26.5)(webpack@5.81.0)
+        version: 8.0.2(sass@1.26.5)(webpack@4.47.0)
       voerkai18n-loader:
         specifier: ^2.0.6
         version: link:../../packages/webpack
@@ -581,9 +587,8 @@ importers:
       '@voerkai18n/runtime':
         specifier: workspace:^
         version: link:../runtime
-    devDependencies:
       vue:
-        specifier: 2.7.14
+        specifier: ^2.7.0
         version: 2.7.14
 
   packages/webpack:
@@ -1429,13 +1434,6 @@ packages:
     dependencies:
       '@babel/types': 7.22.19
     dev: true
-
-  /@babel/parser@7.22.6:
-    resolution: {integrity: sha512-EIQu22vNkceq3LbjAq7knDf/UmtI2qbcNI8GRBlijez6TpQLvSodJPYfydQmNA5buwkxxxa/PVI44jjYZ+/cLw==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-    dependencies:
-      '@babel/types': 7.22.19
 
   /@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@7.18.6(@babel/core@7.21.5):
     resolution: {integrity: sha512-Dgxsyg54Fx1d4Nge8UnvTrED63vrwOdPmyvPzlNN/boaliRP54pm3pGzZD1SJUwrBA+Cs/xdG8kXX6Mn/RfISQ==}
@@ -3130,7 +3128,7 @@ packages:
       '@babel/helper-hoist-variables': 7.22.5
       '@babel/helper-module-transforms': 7.22.5
       '@babel/helper-plugin-utils': 7.21.5
-      '@babel/helper-validator-identifier': 7.22.5
+      '@babel/helper-validator-identifier': 7.22.19
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4086,7 +4084,7 @@ packages:
       '@babel/helper-plugin-utils': 7.21.5
       '@babel/plugin-proposal-unicode-property-regex': 7.18.6(@babel/core@7.21.5)
       '@babel/plugin-transform-dotall-regex': 7.18.6(@babel/core@7.21.5)
-      '@babel/types': 7.22.5
+      '@babel/types': 7.22.19
       esutils: 2.0.3
     dev: true
 
@@ -4099,7 +4097,7 @@ packages:
       '@babel/helper-plugin-utils': 7.21.5
       '@babel/plugin-proposal-unicode-property-regex': 7.18.6(@babel/core@7.22.19)
       '@babel/plugin-transform-dotall-regex': 7.18.6(@babel/core@7.22.19)
-      '@babel/types': 7.22.5
+      '@babel/types': 7.22.19
       esutils: 2.0.3
 
   /@babel/preset-modules@0.1.5(@babel/core@7.22.5):
@@ -4111,7 +4109,7 @@ packages:
       '@babel/helper-plugin-utils': 7.21.5
       '@babel/plugin-proposal-unicode-property-regex': 7.18.6(@babel/core@7.22.5)
       '@babel/plugin-transform-dotall-regex': 7.18.6(@babel/core@7.22.5)
-      '@babel/types': 7.22.5
+      '@babel/types': 7.22.19
       esutils: 2.0.3
     dev: true
 
@@ -4179,7 +4177,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.22.5
-      '@babel/parser': 7.22.6
+      '@babel/parser': 7.22.16
       '@babel/types': 7.22.5
 
   /@babel/template@7.22.15:
@@ -4208,7 +4206,7 @@ packages:
       '@babel/helper-function-name': 7.21.0
       '@babel/helper-hoist-variables': 7.18.6
       '@babel/helper-split-export-declaration': 7.18.6
-      '@babel/parser': 7.22.6
+      '@babel/parser': 7.22.16
       '@babel/types': 7.22.5
       debug: 4.3.4(supports-color@6.1.0)
       globals: 11.12.0
@@ -8376,7 +8374,7 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     dependencies:
-      '@vue/cli-service': 4.4.6(babel-core@7.0.0-bridge.0)(react-dom@17.0.2)(react@17.0.2)(sass-loader@8.0.2)(typescript@5.0.2)(vue-template-compiler@2.6.11)
+      '@vue/cli-service': 4.4.6(react-dom@17.0.2)(react@17.0.2)(typescript@3.9.3)(vue-template-compiler@2.6.11)
       '@vue/cli-shared-utils': 4.5.19
     dev: true
 
@@ -8447,7 +8445,7 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     dependencies:
-      '@vue/cli-service': 4.4.6(babel-core@7.0.0-bridge.0)(react-dom@17.0.2)(react@17.0.2)(sass-loader@8.0.2)(typescript@5.0.2)(vue-template-compiler@2.6.11)
+      '@vue/cli-service': 4.4.6(react-dom@17.0.2)(react@17.0.2)(typescript@3.9.3)(vue-template-compiler@2.6.11)
     dev: true
 
   /@vue/cli-service@4.4.6(babel-core@7.0.0-bridge.0)(react-dom@17.0.2)(react@17.0.2)(sass-loader@8.0.2)(typescript@5.0.2)(vue-template-compiler@2.6.11):
@@ -8496,7 +8494,7 @@ packages:
       clipboardy: 2.3.0
       cliui: 6.0.0
       copy-webpack-plugin: 5.1.2(webpack@4.46.0)
-      css-loader: 3.6.0(webpack@5.81.0)
+      css-loader: 3.6.0(webpack@4.47.0)
       cssnano: 4.1.11
       debug: 4.3.4(supports-color@6.1.0)
       default-gateway: 5.0.5
@@ -8506,7 +8504,7 @@ packages:
       fs-extra: 7.0.1
       globby: 9.2.0
       hash-sum: 2.0.0
-      html-webpack-plugin: 3.2.0(webpack@5.81.0)
+      html-webpack-plugin: 3.2.0(webpack@4.47.0)
       launch-editor-middleware: 2.6.0
       lodash.defaultsdeep: 4.6.1
       lodash.mapvalues: 4.6.0
@@ -8516,7 +8514,7 @@ packages:
       pnp-webpack-plugin: 1.7.0(typescript@5.0.2)
       portfinder: 1.0.32(supports-color@6.1.0)
       postcss-loader: 3.0.0
-      sass-loader: 8.0.2(sass@1.26.5)(webpack@5.81.0)
+      sass-loader: 8.0.2(sass@1.26.5)(webpack@4.47.0)
       ssri: 7.1.1
       terser-webpack-plugin: 2.3.8(webpack@4.46.0)
       thread-loader: 2.1.3(webpack@4.46.0)
@@ -8639,7 +8637,7 @@ packages:
       clipboardy: 2.3.0
       cliui: 6.0.0
       copy-webpack-plugin: 5.1.2(webpack@4.46.0)
-      css-loader: 3.6.0(webpack@4.47.0)
+      css-loader: 3.6.0(webpack@4.46.0)
       cssnano: 4.1.11
       debug: 4.3.4(supports-color@6.1.0)
       default-gateway: 5.0.5
@@ -8649,7 +8647,7 @@ packages:
       fs-extra: 7.0.1
       globby: 9.2.0
       hash-sum: 2.0.0
-      html-webpack-plugin: 3.2.0(webpack@4.47.0)
+      html-webpack-plugin: 3.2.0(webpack@4.46.0)
       launch-editor-middleware: 2.6.0
       lodash.defaultsdeep: 4.6.1
       lodash.mapvalues: 4.6.0
@@ -8786,6 +8784,7 @@ packages:
       '@babel/parser': 7.22.16
       postcss: 8.4.29
       source-map: 0.6.1
+    dev: false
 
   /@vue/compiler-sfc@3.3.2:
     resolution: {integrity: sha512-jG4jQy28H4BqzEKsQqqW65BZgmo3vzdLHTBjF+35RwtDdlFE+Fk1VWJYUnDMMqkFBo6Ye1ltSKVOMPgkzYj7SQ==}
@@ -8907,7 +8906,7 @@ packages:
       html-webpack-plugin: '>=2.26.0'
       webpack: '>=4.0.0'
     dependencies:
-      html-webpack-plugin: 3.2.0(webpack@5.81.0)
+      html-webpack-plugin: 3.2.0(webpack@4.46.0)
       webpack: 4.46.0
     dev: true
 
@@ -12167,6 +12166,28 @@ packages:
       postcss: 8.4.23
       postcss-selector-parser: 6.0.12
 
+  /css-loader@3.6.0(webpack@4.46.0):
+    resolution: {integrity: sha512-M5lSukoWi1If8dhQAUCvj4H8vUt3vOnwbQBH9DdTm/s4Ym2B/3dPMtYZeJmq7Q3S3Pa+I94DcZ7pc9bP14cWIQ==}
+    engines: {node: '>= 8.9.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      camelcase: 5.3.1
+      cssesc: 3.0.0
+      icss-utils: 4.1.1
+      loader-utils: 1.4.2
+      normalize-path: 3.0.0
+      postcss: 7.0.39
+      postcss-modules-extract-imports: 2.0.0
+      postcss-modules-local-by-default: 3.0.3
+      postcss-modules-scope: 2.2.0
+      postcss-modules-values: 3.0.0
+      postcss-value-parser: 4.2.0
+      schema-utils: 2.7.1
+      semver: 6.3.1
+      webpack: 4.46.0
+    dev: true
+
   /css-loader@3.6.0(webpack@4.47.0):
     resolution: {integrity: sha512-M5lSukoWi1If8dhQAUCvj4H8vUt3vOnwbQBH9DdTm/s4Ym2B/3dPMtYZeJmq7Q3S3Pa+I94DcZ7pc9bP14cWIQ==}
     engines: {node: '>= 8.9.0'}
@@ -12187,28 +12208,6 @@ packages:
       schema-utils: 2.7.1
       semver: 6.3.1
       webpack: 4.47.0
-    dev: true
-
-  /css-loader@3.6.0(webpack@5.81.0):
-    resolution: {integrity: sha512-M5lSukoWi1If8dhQAUCvj4H8vUt3vOnwbQBH9DdTm/s4Ym2B/3dPMtYZeJmq7Q3S3Pa+I94DcZ7pc9bP14cWIQ==}
-    engines: {node: '>= 8.9.0'}
-    peerDependencies:
-      webpack: ^4.0.0 || ^5.0.0
-    dependencies:
-      camelcase: 5.3.1
-      cssesc: 3.0.0
-      icss-utils: 4.1.1
-      loader-utils: 1.4.2
-      normalize-path: 3.0.0
-      postcss: 7.0.39
-      postcss-modules-extract-imports: 2.0.0
-      postcss-modules-local-by-default: 3.0.3
-      postcss-modules-scope: 2.2.0
-      postcss-modules-values: 3.0.0
-      postcss-value-parser: 4.2.0
-      schema-utils: 2.7.1
-      semver: 6.3.1
-      webpack: 5.81.0
     dev: true
 
   /css-loader@6.7.3(webpack@5.81.0):
@@ -16107,6 +16106,23 @@ packages:
     resolution: {integrity: sha512-uE/TxKuyNIcx44cIWnjr/rfIATDH7ZaOMmstu0CwhFG1Dunhlp4OC6/NMbhiwoq5BpW0ubi303qnEk/PZj614w==}
     dev: true
 
+  /html-webpack-plugin@3.2.0(webpack@4.46.0):
+    resolution: {integrity: sha512-Br4ifmjQojUP4EmHnRBoUIYcZ9J7M4bTMcm7u6xoIAIuq2Nte4TzXX0533owvkQKQD1WeMTTTyD4Ni4QKxS0Bg==}
+    engines: {node: '>=6.9'}
+    deprecated: 3.x is no longer supported
+    peerDependencies:
+      webpack: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
+    dependencies:
+      html-minifier: 3.5.21
+      loader-utils: 0.2.17
+      lodash: 4.17.21
+      pretty-error: 2.1.2
+      tapable: 1.1.3
+      toposort: 1.0.7
+      util.promisify: 1.0.0
+      webpack: 4.46.0
+    dev: true
+
   /html-webpack-plugin@3.2.0(webpack@4.47.0):
     resolution: {integrity: sha512-Br4ifmjQojUP4EmHnRBoUIYcZ9J7M4bTMcm7u6xoIAIuq2Nte4TzXX0533owvkQKQD1WeMTTTyD4Ni4QKxS0Bg==}
     engines: {node: '>=6.9'}
@@ -16122,23 +16138,6 @@ packages:
       toposort: 1.0.7
       util.promisify: 1.0.0
       webpack: 4.47.0
-    dev: true
-
-  /html-webpack-plugin@3.2.0(webpack@5.81.0):
-    resolution: {integrity: sha512-Br4ifmjQojUP4EmHnRBoUIYcZ9J7M4bTMcm7u6xoIAIuq2Nte4TzXX0533owvkQKQD1WeMTTTyD4Ni4QKxS0Bg==}
-    engines: {node: '>=6.9'}
-    deprecated: 3.x is no longer supported
-    peerDependencies:
-      webpack: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
-    dependencies:
-      html-minifier: 3.5.21
-      loader-utils: 0.2.17
-      lodash: 4.17.21
-      pretty-error: 2.1.2
-      tapable: 1.1.3
-      toposort: 1.0.7
-      util.promisify: 1.0.0
-      webpack: 5.81.0
     dev: true
 
   /html-webpack-plugin@5.5.1(webpack@5.81.0):
@@ -23770,7 +23769,7 @@ packages:
       neo-async: 2.6.2
       webpack: 5.81.0
 
-  /sass-loader@8.0.2(sass@1.26.5)(webpack@5.81.0):
+  /sass-loader@8.0.2(sass@1.26.5)(webpack@4.47.0):
     resolution: {integrity: sha512-7o4dbSK8/Ol2KflEmSco4jTjQoV988bM82P9CZdmo9hR3RLnvNc0ufMNdMrB0caq38JQ/FgF4/7RcbcfKzxoFQ==}
     engines: {node: '>= 8.9.0'}
     peerDependencies:
@@ -23792,7 +23791,7 @@ packages:
       sass: 1.26.5
       schema-utils: 2.7.1
       semver: 6.3.0
-      webpack: 5.81.0
+      webpack: 4.47.0
     dev: true
 
   /sass@1.26.5:
@@ -26689,7 +26688,7 @@ packages:
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(babel-core@7.0.0-bridge.0)(react-dom@17.0.2)(react@17.0.2)
       cache-loader: 4.1.0(webpack@4.46.0)
-      css-loader: 3.6.0(webpack@5.81.0)
+      css-loader: 3.6.0(webpack@4.47.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
       vue-hot-reload-api: 2.3.4
@@ -26770,7 +26769,7 @@ packages:
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(babel-core@7.0.0-bridge.0)(react-dom@17.0.2)(react@17.0.2)
       cache-loader: 4.1.0(webpack@4.46.0)
-      css-loader: 3.6.0(webpack@4.47.0)
+      css-loader: 3.6.0(webpack@4.46.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
       vue-hot-reload-api: 2.3.4
@@ -26910,6 +26909,7 @@ packages:
     dependencies:
       '@vue/compiler-sfc': 2.7.14
       csstype: 3.1.2
+    dev: false
 
   /vue@3.3.2:
     resolution: {integrity: sha512-98hJcAhyDwZoOo2flAQBSPVYG/o0HA9ivIy2ktHshjE+6/q8IMQ+kvDKQzOZTFPxvnNMcGM+zS2A00xeZMA7tA==}
@@ -27965,8 +27965,3 @@ packages:
   /zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
     dev: true
-
-  file:packages/runtime/src:
-    resolution: {directory: packages/runtime/src, type: directory}
-    name: src
-    dev: false

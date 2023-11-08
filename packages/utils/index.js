@@ -260,6 +260,25 @@ function isTypeScriptProject(){
 }
 
 /**
+ * 此函数用于判断当前VoerkaI18n项目中的模块类型
+ * 
+ * 也就是判断languages/index.js中的模块类型，
+ * 
+ * 
+ * @param {*} folder 
+ * @returns esm | cjs
+ */
+function getVoerkaModuleType(folder){
+    // 获取当前项目的模块类型
+    const lngFolder = getProjectLanguageFolder(folder)
+    try{
+        const fileContent = fs.readFileSync(path.join(lngFolder,"index.js"),"utf-8")
+        return /\s*import\s*\{.*\}\s*from\s*([\"\']){1}\@voerkai18n\/runtime\1/gm.test(fileContent) ? "esm" : "cjs"
+    }catch{
+        return "esm"
+    }
+}
+/**
  * 判断是否已经安装了依赖
  * 
  * isInstallDependent("@voerkai18n/runtime")
@@ -753,5 +772,6 @@ module.exports = {
     getPackageReleaseInfo,                  // 从npm上读取指定包的信息
     getInstalledPackageInfo,                // 返回当前工程已安装的包信息，主要是版本号
     upgradePackage,                         // 升级包
-    getSettingsFromPackageJson              // 从当前工程的package.json中读取voerkai18n配置
+    getSettingsFromPackageJson,             // 从当前工程的package.json中读取voerkai18n配置
+    getVoerkaModuleType                    // 读取languages/index.(ts|js)文件中的模块类型
 }
