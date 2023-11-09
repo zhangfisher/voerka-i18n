@@ -1,22 +1,10 @@
-/.vscode
-/node_modules
+.vscode
 node_modules
-/packages/**/node_modules 
-/coverage
-/packages/apps/vueapp/src/languages
-/packages/apps/app/languages
-/packages/apps/test
-node_modules/ 
 /packages/cli/baidu.api.txt
-node_modules/
-/.github/access key.txt 
-.umi
-.umi-production
-/docs/dist
-dist
-/packages/runtime/dist
+/.github/access key.txt  
 /.yalc
 /versions.md
-autopub.log
-/versions.test.md
 coverage
+.turbo
+dist/
+.next/**

@@ -10,7 +10,7 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "version:patch": "npm version patch --commit-hooks=false"
+        "version:patch": "npm version patch --commit-hooks=false" 
     },
     "author": "wxzhang",
     "license": "MIT",

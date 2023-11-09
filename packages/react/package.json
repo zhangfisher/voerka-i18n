@@ -16,10 +16,10 @@
         "voerkai18n"
     ],
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsup",
+        "test": "echo \"Error: no test specified\" && exit 1", 
         "version:patch": "npm version patch --commit-hooks=false",
-        "release": "tsup --metafile && pnpm publish --no-git-checks"
+        "release": "tsup --metafile && pnpm publish --no-git-checks",
+        "build":"tsup"
     },
     "author": "wxzhang",
     "license": "MIT",

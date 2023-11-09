@@ -7,4 +7,4 @@
 "@voerkai18n/vue": major
 ---
 
-更新脚本
+更新构建脚本
