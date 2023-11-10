@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/react",
-    "version": "2.0.27",
+    "version": "3.0.0",
     "description": "React支持,提供语言切换等功能",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
@@ -16,10 +16,10 @@
         "voerkai18n"
     ],
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1", 
+        "test": "echo \"Error: no test specified\" && exit 1",
         "version:patch": "npm version patch --commit-hooks=false",
         "release": "tsup --metafile && pnpm publish --no-git-checks",
-        "build":"tsup"
+        "build": "tsup"
     },
     "author": "wxzhang",
     "license": "MIT",
@@ -30,7 +30,7 @@
     },
     "peerDependencies": {
         "@types/react": "^18.2.15",
-        "@voerkai18n/runtime": "workspace:latest",
+        "@voerkai18n/runtime": "workspace:^",
         "react": "^18.2.0"
     },
     "lastPublish": "2023-03-30T08:53:32+08:00"

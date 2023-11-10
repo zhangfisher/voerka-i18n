@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "private":true,
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "translate": "node ../../packages/cli/index.js translate --",
@@ -16,6 +16,6 @@
   "author": "wxzhang",
   "license": "MIT",
   "dependencies": {
-    "@voerkai18n/runtime": "^2.0.16"
+    "@voerkai18n/runtime": "^3.0.0"
   }
 }

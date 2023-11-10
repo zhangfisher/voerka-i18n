@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/babel",
-    "version": "2.0.27",
+    "version": "3.0.0",
     "description": "Babel插件,实现自动导入t函数和自动文本映射",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -10,12 +10,12 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "version:patch": "npm version patch --commit-hooks=false" 
+        "version:patch": "npm version patch --commit-hooks=false"
     },
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
-        "@voerkai18n/utils": "workspace:latest"
+        "@voerkai18n/utils": "workspace:^"
     },
     "lastPublish": "2023-03-29T17:37:24+08:00"
 }

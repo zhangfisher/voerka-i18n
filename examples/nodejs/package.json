@@ -2,8 +2,8 @@
     "name": "voerkai18n-example-nodejs",
     "private": true,
     "dependencies": {
-        "@voerkai18n/cli": "workspace:^2.0.0",
-        "@voerkai18n/runtime": "workspace:^2.0.0"
+        "@voerkai18n/cli": "workspace:^3.0.0",
+        "@voerkai18n/runtime": "workspace:^3.0.0"
     },
     "scripts": {
         "dev": "node src/index.js",

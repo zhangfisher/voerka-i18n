@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "2.0.27",
+    "version": "3.0.0",
     "description": "runtime of voerkai18n",
     "main": "./src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -15,7 +15,7 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build":"tsup",
+        "build": "tsup",
         "version:patch": "npm version patch --commit-hooks=false",
         "release": "tsup --metafile && pnpm publish --no-git-checks"
     },

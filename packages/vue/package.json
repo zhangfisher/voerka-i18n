@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vue",
-    "version": "2.0.27",
+    "version": "3.0.0",
     "description": "voerkai18n for vue3",
     "main": "src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -14,9 +14,9 @@
         "types": "dist/index.d.ts"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1", 
+        "test": "echo \"Error: no test specified\" && exit 1",
         "version:patch": "npm version patch --commit-hooks=false",
-        "build":"tsup"
+        "build": "tsup"
     },
     "author": "wxzhang",
     "license": "MIT",

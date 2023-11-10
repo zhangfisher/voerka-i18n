@@ -1,0 +1,14 @@
+# @voerkai18n/cli
+
+## 3.0.0
+
+### Major Changes
+
+- 1f7a142: 修复当`compile`时生成`activeFormatters`和`activeMessages`错误的问题
+
+### Patch Changes
+
+- db12f89: [BUG] 修复了当执行`extract`时在`settings/namespaces`设置无效的问题
+- Updated dependencies [a903aea]
+  - @voerkai18n/runtime@3.0.0
+  - @voerkai18n/utils@3.0.0

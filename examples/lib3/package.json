@@ -19,7 +19,7 @@
   "dependencies": {
     "@voerkai18n/runtime": "workspace:^"
   },
-  "voerkai18n":{
-    "entry":"i18n"
+  "voerkai18n": {
+    "entry": "i18n"
   }
 }

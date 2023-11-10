@@ -2,8 +2,8 @@
     "name": "voerkai18n-example-nodejs-ts",
     "private": true,
     "dependencies": {
-        "@voerkai18n/cli": "workspace:^2.0.0",
-        "@voerkai18n/runtime": "workspace:^2.0.0",
+        "@voerkai18n/cli": "workspace:^3.0.0",
+        "@voerkai18n/runtime": "workspace:^3.0.0",
         "voerkai18n-example-lib1": "workspace:^",
         "voerkai18n-example-lib2": "workspace:^"
     },
@@ -11,7 +11,7 @@
         "ts-node": "latest"
     },
     "scripts": {
-        "dev":"ts-node src/index.ts",
+        "dev": "ts-node src/index.ts",
         "translate": "node ../../packages/cli/index.js translate --",
         "help": "node ../../packages/cli/index.js -h",
         "init": "node ../../packages/cli/index.js init",
