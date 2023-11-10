@@ -4,10 +4,12 @@
 import idMap from "./idMap.js"                                             // 语言ID映射文件
 import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
 import defaultFormatters from "./formatters/{{defaultLanguage}}.js"             // 默认语言格式化器
-import activeFormatters  from {{if activeLanguage == defaultLanguage}}defaultFormatters{{else}}"./formatters/{{activeLanguage}}"{{/if}}
 import defaultMessages from "./{{defaultLanguage}}.js"  
-import activeMessages  from {{if activeLanguage == defaultLanguage}}defaultMessages{{else}}"./{{activeLanguage}}"{{/if}}
 import storage  from "./storage.js"
+{{if activeLanguage !== defaultLanguage}}
+import  activeFormatters from "./formatters/{{activeLanguage}}"{{/if}}
+{{if activeLanguage !== defaultLanguage}}
+import activeMessages  from "./{{activeLanguage}}"{{/if}}
 
 const messages = {
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultMessages{{if $index !== languages.length - 1}},{{/if}}

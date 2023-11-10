@@ -3,12 +3,12 @@
         {
             "name": "zh",
             "title": "中文",
-            "default": true,
-            "active": true
+            "default": true
         },
         {
             "name": "en",
-            "title": "英语"
+            "title": "英语",
+            "active": true
         }
     ],
     "namespaces": {}

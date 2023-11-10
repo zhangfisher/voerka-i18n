@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vue",
-    "version": "3.0.0",
+    "version": "2.0.28",
     "description": "voerkai18n for vue3",
     "main": "src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
