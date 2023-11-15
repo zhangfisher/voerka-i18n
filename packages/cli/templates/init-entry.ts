@@ -2,9 +2,7 @@
 * 注意：执行compile命令会生新后成本文件，所以请不要修改本文件
 * 本文件仅供在执行voerkai18n extract&compile前提供t函数占位引用 
 */
-import runtime from "@voerkai18n/runtime"
-const { translate,VoerkaI18nScope  } = runtime
-
+import { translate,VoerkaI18nScope  }  from "@voerkai18n/runtime"
 
 // 语言作用域
 const scope = new VoerkaI18nScope({
@@ -18,13 +16,15 @@ const scope = new VoerkaI18nScope({
         {
             name: "zh",
             title: "中文",
-            default: true
+            default: true,
+            active:true
         },
         {
             name: "en",
             title: "英文"
         }
-    ]
+    ],
+    namespaces: {}
 }) 
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 

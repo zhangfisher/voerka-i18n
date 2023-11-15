@@ -8,7 +8,7 @@
   - @voerkai18n/runtime@2.0.29
   - @voerkai18n/utils@2.0.29
 
-## 3.0.0
+## 2.0.28
 
 ### Major Changes
 

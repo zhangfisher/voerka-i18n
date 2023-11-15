@@ -11,8 +11,7 @@
     "strict": true,
     "allowJs": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
+      "@/*": ["src/*"], 
     },
     "allowSyntheticDefaultImports": true
   },

@@ -10,6 +10,7 @@
         "publish:all": "pnpm -r --filter \"./packages/**\" publish",
         "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch",
         "authpub": "pnpm build:all && pnpm version:patch:all && pnpm publish:all",
+        "autorelease": "pnpm build:all && pnpm version:patch:all && pnpm publish:all",
         "changeset": "changeset",
         "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel voerkai18n-loader"
     },

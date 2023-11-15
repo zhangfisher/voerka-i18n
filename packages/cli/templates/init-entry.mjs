@@ -20,13 +20,15 @@ const scope = new VoerkaI18nScope({
         {
             name: "zh",
             title: "中文",
-            default: true
+            default: true,
+            active:true
         },
         {
             name: "en",
             title: "英文"
         }
-    ]
+    ],
+    namespaces: {}
 }) 
 // 翻译函数
 const scopedTtranslate = translate.bind(scope) 
