@@ -1,5 +1,11 @@
 # @voerkai18n/babel
 
+## 2.0.29
+
+### Patch Changes
+
+- @voerkai18n/utils@2.0.29
+
 ## 3.0.0
 
 ### Major Changes

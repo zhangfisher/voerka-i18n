@@ -1,5 +1,13 @@
 # @voerkai18n/cli
 
+## 2.0.29
+
+### Patch Changes
+
+- cc84fdc: 修复初始化时生成的入口文件导入问题
+  - @voerkai18n/runtime@2.0.29
+  - @voerkai18n/utils@2.0.29
+
 ## 3.0.0
 
 ### Major Changes

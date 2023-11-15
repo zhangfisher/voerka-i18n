@@ -7,12 +7,12 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@voerkai18n/react": "workspace:^",
-    "@voerkai18n/runtime": "^3.0.0",
-    "@voerkai18n/utils": "workspace:^3.0.0",
+    "@voerkai18n/runtime": "^2.0.29",
+    "@voerkai18n/utils": "workspace:^2.0.29",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "voerkai18n-loader": "workspace:^3.0.0",
+    "voerkai18n-loader": "workspace:^2.0.29",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

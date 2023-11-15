@@ -1,5 +1,11 @@
 # @voerkai18n/react
 
+## 2.0.29
+
+### Patch Changes
+
+- @voerkai18n/runtime@2.0.29
+
 ## 3.0.0
 
 ### Major Changes
