@@ -47,6 +47,7 @@ async function main(){
         console.log(t("我叫{name},今年{age}岁",["tom",12]))//("My name is tom,Now 12 years old year") 
         console.log(t("我叫{name},今年{age}岁",{name:"tom",age:12}))//("My name is tom,Now 12 years old year") 
         console.log(t("现在是{|date}",Date.now()))
+        console.log(t("百度翻译还能用吗"))
 }
 
 

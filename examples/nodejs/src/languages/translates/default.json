@@ -223,5 +223,12 @@
         "$files": [
             "index.js"
         ]
+    },
+    "百度翻译还能用吗": {
+        "en": "Can Baidu Translate still be used",
+        "$files": [
+            "index.js"
+        ],
+        "jp": "百度翻訳はまだ使えますか"
     }
 }
