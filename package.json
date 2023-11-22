@@ -6,12 +6,12 @@
     "main": "index.js",
     "scripts": {
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
-        "build:all": "turbo run build --filter=@voerkai18n/* --filter=!@voerkai18n/utils  --filter=!@voerkai18n/babel --filter=!@voerkai18n/vite --filter=!@voerkai18n/cli",
-        "publish:all": "pnpm -r --filter \"./packages/**\" publish",
-        "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch",
-        "authpub": "pnpm build:all && pnpm version:patch:all && pnpm publish:all",
-        "autorelease": "pnpm build:all && pnpm version:patch:all && pnpm publish:all",
+        "build:all": "turbo run build --filter=@voerkai18n/* --filter=!@voerkai18n/utils  --filter=!@voerkai18n/babel --filter=!@voerkai18n/vite --filter=!@voerkai18n/cli",        
+        "authpub": "pnpm build:all && pnpm version:all && pnpm publish:all",
+        "release:auto": "pnpm build:all && pnpm version:all && pnpm release:all",
         "changeset": "changeset",
+        "release:all": "changeset publish",        
+        "version:all": "changelog version",
         "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel voerkai18n-loader"
     },
     "author": "wxzhang@126.com",
