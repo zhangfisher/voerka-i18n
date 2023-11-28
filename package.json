@@ -10,7 +10,10 @@
         "publish:all": "pnpm -r --filter \"./packages/**\" publish",
         "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch",
         "autorelease": "pnpm build:all && pnpm version:patch:all && pnpm publish:all",
+        "release:auto": "pnpm build:all && pnpm version:all && pnpm release:all",
         "changeset": "changeset",
+        "release:all": "changeset publish",        
+        "version:all": "changelog version",
         "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel voerkai18n-loader"
     },
     "author": "wxzhang@126.com",
@@ -39,15 +42,15 @@
         "yorkie": "^2.0.0"
     },
     "json-comments": {
-        "tips": "请安装JSON Comments插件为JSON文件提供注释功能, 详见: https://github.com/zhangfisher/json_comments_extension",
+        "tips": "请安装JsonComments插件,详见https://github.com/zhangfisher/json_comments_extension",
         "package.json": {
             "scripts.test:runtime": "运行@voerkai18n/runtime单元测试",
-            "scripts.build:all": "构建所有需要发布的包",
+            "scripts.build:all": "构建所有包",
             "scripts.publish:all": "发布所有包到NPM",
-            "scripts.version:patch:all": "升级所有包的PATCH版本号",
-            "scripts.autorelease": "一健全自动构建和发布包",
-            "scripts.changeset": "更新发布日志changeset",
-            "scripts.sync": "发布后运行同步淘宝镜像"
+            "scripts.version:patch:all": "升级所有包的Patch版本号",
+            "scripts.autorelease": "一健自动化发布所有包",
+            "scripts.changeset": "更新变更历史",
+            "scripts.sync": "同步淘宝镜像"
         }
     }
 }
