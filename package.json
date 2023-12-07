@@ -7,7 +7,8 @@
     "scripts": {
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
         "build:all": "turbo run build --filter=@voerkai18n/* --filter=!@voerkai18n/utils  --filter=!@voerkai18n/babel --filter=!@voerkai18n/vite --filter=!@voerkai18n/cli",
-        "authpub": "pnpm build:all && pnpm version:all && pnpm publish:all",
+        "publish:all": "pnpm -r --filter \"./packages/**\" publish",
+        "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch",
         "release:auto": "pnpm build:all && pnpm version:all && pnpm release:all",
         "changeset": "changeset",
         "release:all": "changeset publish",
@@ -40,10 +41,15 @@
         "yorkie": "^2.0.0"
     },
     "json-comments": {
-        "tips": "请安装JSON Comments插件为JSON文件提供注释功能, 详见: https://github.com/zhangfisher/json_comments_extension",
+        "tips": "请安装JsonComments插件,详见https://github.com/zhangfisher/json_comments_extension",
         "package.json": {
-            "scripts.test:runtime": "运行单元测试",
-            "scripts.build:all": "构建当前工程所有包"
+            "scripts.test:runtime": "运行@voerkai18n/runtime单元测试",
+            "scripts.build:all": "构建所有包",
+            "scripts.publish:all": "发布所有包到NPM",
+            "scripts.version:patch:all": "升级所有包的Patch版本号",
+            "scripts.changeset": "当更新后执行以更新变更历史",
+            "scripts.sync": "同步淘宝镜像",
+            "scripts.release:all": "一健自动化发布所有包"
         }
     }
 }
