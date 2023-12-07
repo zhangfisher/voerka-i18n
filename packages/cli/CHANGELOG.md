@@ -1,5 +1,13 @@
 # @voerkai18n/cli
 
+## 2.0.30
+
+### Patch Changes
+
+- c8d8e57: 修复执行`extract`时`settings.json`是的语言配置无效的问题
+  - @voerkai18n/runtime@2.0.30
+  - @voerkai18n/utils@2.0.30
+
 ## 2.0.29
 
 ### Patch Changes
