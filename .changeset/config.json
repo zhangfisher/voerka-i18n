@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@2.3.1/schema.json",
-  "changelog":  ["@changesets/changelog-github", { "repo": "changesets/changesets" }],  
+  "changelog": "@changesets/cli/changelog", 
   "commit": true,
   "fixed": [ 
     [
@@ -20,6 +20,7 @@
   "baseBranch": "master",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "voerkai18n-example-*"
+    "voerkai18n-example-**"
   ]
+
 }

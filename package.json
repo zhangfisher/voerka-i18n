@@ -6,12 +6,12 @@
     "main": "index.js",
     "scripts": {
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
-        "build:all": "turbo run build --filter=@voerkai18n/* --filter=!@voerkai18n/utils  --filter=!@voerkai18n/babel --filter=!@voerkai18n/vite --filter=!@voerkai18n/cli",        
+        "build:all": "turbo run build --filter=@voerkai18n/* --filter=!@voerkai18n/utils  --filter=!@voerkai18n/babel --filter=!@voerkai18n/vite --filter=!@voerkai18n/cli",
         "authpub": "pnpm build:all && pnpm version:all && pnpm publish:all",
         "release:auto": "pnpm build:all && pnpm version:all && pnpm release:all",
         "changeset": "changeset",
-        "release:all": "changeset publish",        
-        "version:all": "changelog version",
+        "release:all": "changeset publish",
+        "version:all": "changeset version",
         "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel voerkai18n-loader"
     },
     "author": "wxzhang@126.com",
@@ -20,8 +20,8 @@
         "@babel/core": "^7.18.10",
         "@babel/plugin-transform-runtime": "^7.18.10",
         "@babel/preset-env": "^7.18.10",
-        "@changesets/changelog-github": "^0.4.8",
-        "@changesets/cli": "^2.26.2",
+        "@changesets/changelog-github": "^0.5.0",
+        "@changesets/cli": "^2.27.1",
         "commander": "^9.4.0",
         "cross-env": "^7.0.3",
         "dayjs": "^1.11.4",
@@ -38,5 +38,12 @@
         "vinyl": "^2.2.1",
         "yalc": "1.0.0-pre.53",
         "yorkie": "^2.0.0"
+    },
+    "json-comments": {
+        "tips": "请安装JSON Comments插件为JSON文件提供注释功能, 详见: https://github.com/zhangfisher/json_comments_extension",
+        "package.json": {
+            "scripts.test:runtime": "运行单元测试",
+            "scripts.build:all": "构建当前工程所有包"
+        }
     }
 }

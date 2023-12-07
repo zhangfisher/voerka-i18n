@@ -658,7 +658,7 @@
         "it": "Aggiornamento @ voerkai18n/runtime non riuscito, si prega di aggiornare manualmente!"
     },
     "支持的语言\\t: {}": {
-        "en": "Supported languages  t: {}",
+        "en": "Supported languages: {}",
         "de": "Unterstützte Sprachen t: {}",
         "$files": [
             "compile.command.js",
@@ -666,14 +666,14 @@
         ],
         "jp": "サポートされている言語 t:{}",
         "cht": "支持的語言\\t: {}",
-        "fra": "Langues supportées \\ t: {variable}",
-        "spa": "Idiomas soportados \\ t: (...) variable..",
+        "fra": "Langues supportées \\t: {variable}",
+        "spa": "Idiomas soportados \\t: (...) variable..",
         "kor": "지원되는 언어\\t: {}",
-        "ru": "Поддерживаемые языки \\ t: {Variable}",
+        "ru": "Поддерживаемые языки \\t: {Variable}",
         "it": "Lingue supportate t: {}"
     },
     "默认语言\\t: {}": {
-        "en": "Default language  t: {}",
+        "en": "Default language: {}",
         "de": "Standardsprache t: {}",
         "$files": [
             "compile.command.js",
@@ -681,14 +681,14 @@
         ],
         "jp": "デフォルト言語 t:{}",
         "cht": "默認語言\\t: {}",
-        "fra": "Langue par défaut \\ t: {variable}",
-        "spa": "Idioma predeterminado \\ t: (...) variable..",
+        "fra": "Langue par défaut \\t: {variable}",
+        "spa": "Idioma predeterminado \\t: (...) variable..",
         "kor": "기본 언어\\t: {}",
-        "ru": "Язык по умолчанию \\ t: {}",
+        "ru": "Язык по умолчанию \\t: {}",
         "it": "Lingua predefinita t: {VARIABILE}"
     },
     "激活语言\\t: {}": {
-        "en": "Activation language  t: {}",
+        "en": "Activation language: {}",
         "de": "Aktivierungssprache t: {}",
         "$files": [
             "compile.command.js",
@@ -696,14 +696,14 @@
         ],
         "jp": "アクティブ化言語 t:{}",
         "cht": "啟動語言\\t: {}",
-        "fra": "Activer la langue \\ t: {variable}",
-        "spa": "Activar lenguaje \\ t: (...) variable..",
+        "fra": "Activer la langue \\t: {variable}",
+        "spa": "Activar lenguaje \\t: (...) variable..",
         "kor": "활성화 언어\\t: {}",
-        "ru": "Язык активации \\ t: {}",
+        "ru": "Язык активации \\t: {}",
         "it": "Attiva lingua t: {VARIABILE}"
     },
     "名称空间\\t: {}": {
-        "en": "Namespace  t: {}",
+        "en": "Namespace: {}",
         "de": "Namensraum t: {}",
         "$files": [
             "compile.command.js",
@@ -711,38 +711,38 @@
         ],
         "jp": "ネームスペース t:{}",
         "cht": "名稱空間\\t: {}",
-        "fra": "Namespace \\ t: {variable}",
+        "fra": "Namespace \\t: {variable}",
         "spa": "Espacio de nombres",
         "kor": "이름 공간\\t: {}",
-        "ru": "Пространство имён \\ t: {Variable}",
+        "ru": "Пространство имён \\t: {Variable}",
         "it": "Spazio nomi t: {VARIABILE}"
     },
     "模块类型\\t: {}": {
-        "en": "Module type  t: {}",
+        "en": "Module type: {}",
         "de": "Modultyp t: {}",
         "$files": [
             "compile.command.js"
         ],
         "jp": "モジュールタイプ t:{}",
         "cht": "模塊類型\\t: {}",
-        "fra": "Type de module \\ t: {variable}",
+        "fra": "Type de module \\t: {variable}",
         "spa": "Tipo de módulo",
         "kor": "모듈 유형 \\t: {}",
-        "ru": "Тип модуля \\ t: {}",
+        "ru": "Тип модуля \\t: {}",
         "it": "Tipo di modulo t: {VARIABILE}"
     },
     "TypeScript\\t: {}": {
-        "en": "TypeScript  t: {}",
+        "en": "TypeScript: {}",
         "de": "TypeScript t: {}",
         "$files": [
             "compile.command.js"
         ],
         "jp": "TypeScript\\t: {}",
         "cht": "TypeScript\\t: {}",
-        "fra": "Typescript \\ t: {variable}",
-        "spa": "Tipescript \\ t: @ variable..",
+        "fra": "Typescript \\t: {variable}",
+        "spa": "Tipescript \\t: @ variable..",
         "kor": "TypeScript\\t: {}",
-        "ru": "TypeScript \\ t: {}",
+        "ru": "TypeScript \\t: {}",
         "it": "TipoScript t: {}"
     },
     "输出typescript代码": {
@@ -900,17 +900,17 @@
         "it": "File di archiviazione di configurazione: {}"
     },
     "库模式\\t\\t: {}": {
-        "en": "Library Mode  t  t: {}",
+        "en": "Library Mode: {}",
         "de": "Bibliotheksmodus t: {}",
         "$files": [
             "compile.command.js"
         ],
-        "jp": "ライブラリモード t  t  t:{}",
+        "jp": "ライブラリモード t:{}",
         "cht": "庫模式\\t\\t: {}",
-        "fra": "Modèle de bibliothèque \\ t \\ t: {variable}",
-        "spa": "Modo de biblioteca \\ t \\ t: ('variable')",
+        "fra": "Modèle de bibliothèque \\ t \\t: {variable}",
+        "spa": "Modo de biblioteca \\ t \\t: ('variable')",
         "kor": "라이브러리 모드\\t\\t: {}",
-        "ru": "Режим библиотеки \\ t \\ t: {Variable}",
+        "ru": "Режим библиотеки \\ t \\t: {Variable}",
         "it": "Modalità libreria t: {VARIABILE}"
     },
     " - 跳过更新访问入口文件: {}": {
@@ -1056,13 +1056,13 @@
     },
     " - 文件总数\\t: {}": {
         "cht": "-檔案總數\\t: {}",
-        "en": "-Total Files  t: {}",
+        "en": "-Total Files: {}",
         "de": "-Gesamtdateien t: {}",
         "jp": "-合計ファイル数 t:{}",
-        "fra": "- nombre total de fichiers \\ t: {variable}",
+        "fra": "- nombre total de fichiers \\t: {variable}",
         "spa": "- número total de archivos",
         "kor": "- 총 파일 수\\t: {}",
-        "ru": "- Общее количество документов \\ t: {}",
+        "ru": "- Общее количество документов \\t: {}",
         "it": "-Totale file t: {}",
         "$files": [
             "extract.plugin.js"
@@ -1070,13 +1070,13 @@
     },
     " - 输出路径\\t: {}": {
         "cht": "-輸出路徑\\t: {}",
-        "en": "-Output Path  t: {}",
+        "en": "-Output Path: {}",
         "de": "-Ausgabepfad t: {}",
         "jp": "-出力パス t:{}",
-        "fra": "- chemin de sortie \\ t: {variable}",
-        "spa": "- Ruta de salida \\ t: (...) variable..",
+        "fra": "- chemin de sortie \\t: {variable}",
+        "spa": "- Ruta de salida \\t: (...) variable..",
         "kor": "- 출력 경로\\t: {}",
-        "ru": "- Выходной путь \\ t: {}",
+        "ru": "- Выходной путь \\t: {}",
         "it": "Percorso di uscita t: {VARIABILE}",
         "$files": [
             "extract.plugin.js"

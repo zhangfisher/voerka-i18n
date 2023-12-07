@@ -79,7 +79,7 @@ const program = new Command();
 program
     .description(t('扫描并提取所有待翻译的字符串到<languages/translates>文件夹中'))
     .option('-D, --debug', t('输出调试信息'))
-    .option('-lngs, --languages <languages...>', t('支持的语言'), ['zh','en'])
+    .option('-lngs, --languages <languages...>', t('支持的语言'))
     .option('-d, --defaultLanguage', t('默认语言'), 'zh')
     .option('-a, --activeLanguage', t('激活语言'), 'zh')
     .option('-ns, --namespaces', t('翻译名称空间'))
