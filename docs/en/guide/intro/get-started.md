@@ -26,7 +26,7 @@ Install `@voerkai18n/cli` to global.
 ```shell
 > npm install -g @voerkai18n/cli
 > yarn global add @voerkai18n/cli
-> pnpm add -g @voerkai18/cli
+> pnpm add -g @voerkai18n/cli
 ```
 
 ## Step 2: Initialize the project
