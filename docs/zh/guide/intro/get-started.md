@@ -26,7 +26,7 @@ console.log(t("中华人民共和国成立于{}",1949))
 ```shell
 > npm install -g @voerkai18n/cli
 > yarn global add @voerkai18n/cli
-> pnpm add -g @voerkai18/cli
+> pnpm add -g @voerkai18n/cli
 ```
 
 ## 第二步：初始化工程
