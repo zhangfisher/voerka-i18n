@@ -1,13 +1,13 @@
 # OpenInula应用<!-- {docsify-ignore-all} -->
 
-`OpenInula`是华为开源的一个类React的构建用户界面的响应式JavaScript库，见[这里](https://openinula.net/)
+`OpenInula`是华为开源的一个类`React`的构建用户界面的响应式`JavaScript`库，见[这里](https://openinula.net/)
 
 本节介绍如何为`OpenInula`工程添加`voerkai18n`支持。
  
 
 ## 第一步：引入
 
-`React`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
+`OpenInula`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
 
 - 调用`voerkai18n init`初始化多语言工程
 - 调用`voerkai18n extract`提取要翻译的文本
@@ -44,10 +44,10 @@ export default defineConfig({
 
 ## 第三步：导入`t`翻译函数
 
-`t`翻译函数用来进行文件翻译，普通的`React`应用`t`翻译函数可以用在两个地方：
+`t`翻译函数用来进行文件翻译，普通的`OpenInula`应用`t`翻译函数可以用在两个地方：
 
 - 普通的`js`或`ts`文件
-- `React`组件`jsx、tsx`文件
+- 组件`jsx、tsx`文件
 
 ### 在`js|ts`文件中使用
 
