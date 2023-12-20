@@ -1,0 +1,74 @@
+{
+    "欢迎来到 Inula 项目!": {
+        "en": "欢迎来到 Inula 项目!",
+        "$files": [
+            "index.jsx"
+        ],
+        "de": "欢迎来到 Inula 项目!",
+        "jp": "欢迎来到 Inula 项目!",
+        "fra": "欢迎来到 Inula 项目!"
+    },
+    "你已成功创建你的第一个Inula项目": {
+        "en": "你已成功创建你的第一个Inula项目",
+        "$files": [
+            "index.jsx"
+        ],
+        "de": "你已成功创建你的第一个Inula项目",
+        "jp": "你已成功创建你的第一个Inula项目",
+        "fra": "你已成功创建你的第一个Inula项目"
+    },
+    "开始吧": {
+        "en": "开始吧",
+        "$files": [
+            "index.jsx"
+        ],
+        "de": "开始吧",
+        "jp": "开始吧",
+        "fra": "开始吧"
+    },
+    "编辑": {
+        "en": "编辑",
+        "$files": [
+            "index.jsx"
+        ],
+        "de": "编辑",
+        "jp": "编辑",
+        "fra": "编辑"
+    },
+    "了解更多": {
+        "en": "了解更多",
+        "$files": [
+            "index.jsx"
+        ],
+        "de": "了解更多",
+        "jp": "了解更多",
+        "fra": "了解更多"
+    },
+    "要了解 Inula,查看": {
+        "en": "要了解 Inula,查看",
+        "$files": [
+            "index.jsx"
+        ],
+        "de": "要了解 Inula,查看",
+        "jp": "要了解 Inula,查看",
+        "fra": "要了解 Inula,查看"
+    },
+    "Inula 官网": {
+        "en": "Inula 官网",
+        "$files": [
+            "index.jsx"
+        ],
+        "de": "Inula 官网",
+        "jp": "Inula 官网",
+        "fra": "Inula 官网"
+    },
+    "当前语言": {
+        "en": "当前语言",
+        "$files": [
+            "LanguageConfigurator.jsx"
+        ],
+        "de": "当前语言",
+        "jp": "当前语言",
+        "fra": "当前语言"
+    }
+}

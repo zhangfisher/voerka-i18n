@@ -11,7 +11,7 @@
 在工程项目下直接调用`voerkai18n translate`就可对当前项目下的所有`JSON`文件进行自动翻译。
 
 ```shell
-> voerkai18n translate --appkey u549fh3aeryjh22ws --appkey 202304468001160382
+> voerkai18n translate --appkey <xxxxxx> --appid <xxxxxxxxxxxxxx>
 ```
 
 - 内置采用的是百度在线翻译服务，因此需要在百度翻译网站上申请`appkey`和`appid`，然后传入`--appkey`和`--appid`参数。
