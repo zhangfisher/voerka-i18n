@@ -13,7 +13,7 @@
 - 调用`voerkai18n extract`提取要翻译的文本
 - 调用`voerkai18n translate`进行自动翻译或人工翻译
 - 调用`voerkai18n compile`编译语言包
-- 在应用中引入`@voerkai18n/vue`和`@voerkai18n/vite`插件
+- 在应用中引入`@voerkai18n/react`和`@voerkai18n/vite`插件
 - 在源码中使用`t`函数进行翻译
 
 完整的工程化流程请参见[工程化](../start/quick-start)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
