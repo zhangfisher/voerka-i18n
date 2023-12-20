@@ -18,6 +18,7 @@
     * [Vue2](/zh/guide/integration/vue2)
     * [React](/zh/guide/integration/react)
     * [uniapp](/zh/guide/integration/uniapp)
+    * [openinula](/zh/guide/integration/openinula)
 * [高级](/zh/guide/advanced/)
     * [运行时](/zh/guide/advanced/runtime)
     * [文本映射](/zh/guide/advanced/textMap)
