@@ -1,7 +1,7 @@
 {
-    "name": "@voerkai18n/react",
+    "name": "@voerkai18n/openinula",
     "version": "2.1.0",
-    "description": "React支持,提供语言切换等功能",
+    "description": "openinula支持,提供语言切换等功能",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
@@ -24,14 +24,12 @@
     "author": "wxzhang",
     "license": "MIT",
     "devDependencies": {
-        "@types/react": "^18.2.15",
-        "react": "^18.2.0",
+        "@voerkai18n/runtime": "workspace:^",
+        "openinula": "^0.1.1",
         "tsup": "^6.7.0"
     },
     "peerDependencies": {
-        "@types/react": "^18.2.15",
         "@voerkai18n/runtime": "workspace:^",
-        "react": "^18.2.0"
-    },
-    "lastPublish": "2023-03-30T08:53:32+08:00"
+        "openinula": "^0.1.1"
+    }
 }

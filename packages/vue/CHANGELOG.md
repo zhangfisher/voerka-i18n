@@ -1,5 +1,6 @@
 # @voerkai18n/vue
 
+
 ## 2.0.30
 
 ### Patch Changes

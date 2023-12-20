@@ -13,7 +13,7 @@
         "changeset": "changeset",
         "release:all": "changeset publish",
         "version:all": "changeset version",
-        "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel voerkai18n-loader"
+        "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/openinula @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel voerkai18n-loader"
     },
     "author": "wxzhang@126.com",
     "license": "MIT",

@@ -1,6 +1,6 @@
 {
     "name": "voerkai18n-loader",
-    "version": "2.0.30",
+    "version": "2.1.0",
     "description": "voerkai18n loader for webpack",
     "main": "loader.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -20,6 +20,6 @@
         "loader-runner": "^4.3.0"
     },
     "dependencies": {
-        "@voerkai18n/utils": "workspace:^2.0.30"
+        "@voerkai18n/utils": "workspace:^3.0.0"
     }
 }
