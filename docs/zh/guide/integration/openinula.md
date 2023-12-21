@@ -4,6 +4,7 @@
 
 本节介绍如何为`OpenInula`工程添加`voerkai18n`支持。
  
+ ![](./openinula_demo.gif)
 
 ## 第一步：引入
 

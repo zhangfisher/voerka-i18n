@@ -14,7 +14,7 @@ export default defineConfig({
     minify: true,
     banner: {
         js: `/***
-*   ---=== VoerkaI18n for React ===---
+*   ---=== VoerkaI18n for openinula ===---
 *   https://zhangfisher.github.io/voerka-i18n
 */`}
 }) 

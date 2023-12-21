@@ -1,5 +1,8 @@
 # 更新日志<!-- {docsify-ignore-all} -->
 
+## V2.1.1
+
+- **[BUG]** 修复`@voerkai18n/openinula`出现的`Warning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: object.`
 
 ## V2.1.0
 

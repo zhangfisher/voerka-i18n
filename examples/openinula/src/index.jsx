@@ -21,7 +21,7 @@ import { VoerkaI18nProvider } from "@voerkai18n/openinula"
 
 function Main() {
   return (
-    <VoerkaI18nProvider  fallback={<div>正在加载语言包...</div>} scope={i18nScope }>
+    <VoerkaI18nProvider  scope={i18nScope }>
         <App/>
     </VoerkaI18nProvider>
   )
