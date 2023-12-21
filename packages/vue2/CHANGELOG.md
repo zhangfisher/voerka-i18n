@@ -1,5 +1,10 @@
 # @voerkai18n/vue2
 
+## 2.1.1
+
+### Patch Changes
+
+- @voerkai18n/runtime@2.1.1
 
 ## 2.0.30
 
