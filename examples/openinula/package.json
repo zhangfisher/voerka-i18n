@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "private": "true",
+  "private": true,
   "scripts": {
     "start": "vite",
     "build": "vite build",
