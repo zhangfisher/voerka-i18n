@@ -1,5 +1,11 @@
 # @voerkai18n/vite
 
+## 2.1.2
+
+### Patch Changes
+
+- @voerkai18n/utils@2.1.2
+
 ## 2.1.1
 
 ### Patch Changes

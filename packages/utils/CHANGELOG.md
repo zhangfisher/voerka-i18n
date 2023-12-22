@@ -1,5 +1,7 @@
 # @voerkai18n/utils
 
+## 2.1.2
+
 ## 2.1.1
 
 ### Major Changes
