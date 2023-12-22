@@ -12,6 +12,7 @@
       "@voerkai18n/utils",
       "@voerkai18n/vue2",
       "@voerkai18n/babel",
+      "@voerkai18n/openinula",
       "voerkai18n-loader"
     ]
   ],

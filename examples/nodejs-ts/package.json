@@ -2,8 +2,8 @@
     "name": "voerkai18n-example-nodejs-ts",
     "private": true,
     "dependencies": {
-        "@voerkai18n/cli": "workspace:^2.0.30",
-        "@voerkai18n/runtime": "workspace:^2.0.30",
+        "@voerkai18n/cli": "workspace:^",
+        "@voerkai18n/runtime": "workspace:^",
         "voerkai18n-example-lib1": "workspace:^",
         "voerkai18n-example-lib2": "workspace:^"
     },

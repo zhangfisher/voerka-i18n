@@ -1,26 +1,25 @@
-# React应用<!-- {docsify-ignore-all} -->
+# OpenInula应用<!-- {docsify-ignore-all} -->
 
-`React`应用一般可以采用`create-react-app`或`Vite+"@vitejs/plugin-react`工具来创建工程。
+`OpenInula`是华为开源的一个类`React`的构建用户界面的响应式`JavaScript`库，见[这里](https://openinula.net/)
 
-本节介绍如何为`Vite`+`@vitejs/plugin-react`创建的工程添加`voerkai18n`支持。
+本节介绍如何为`OpenInula`工程添加`voerkai18n`支持。
+ 
+ ![](./openinula_demo.gif)
 
 ## 第一步：引入
 
-
-`React`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
+`OpenInula`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
 
 - 调用`voerkai18n init`初始化多语言工程
 - 调用`voerkai18n extract`提取要翻译的文本
 - 调用`voerkai18n translate`进行自动翻译或人工翻译
 - 调用`voerkai18n compile`编译语言包
-- 在应用中引入`@voerkai18n/react`和`@voerkai18n/vite`插件
+- 在应用中引入`@voerkai18n/openinula`和`@voerkai18n/vite`插件
 - 在源码中使用`t`函数进行翻译
 
 完整的工程化流程请参见[工程化](../start/quick-start)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
 
 ## 第二步： 安装`Vite`插件
-
-如果应用是采用`Vite`+`@vitejs/plugin-react`创建的工程，则可以通过配置`@voerkai18n/vite`插件实现自动导入`t`函数和`翻译内容自动映射`等。
 
 在`vite.config.js`中配置导入安装`@voerkai18n/vite`插件。
 
@@ -46,10 +45,10 @@ export default defineConfig({
 
 ## 第三步：导入`t`翻译函数
 
-`t`翻译函数用来进行文件翻译，普通的`React`应用`t`翻译函数可以用在两个地方：
+`t`翻译函数用来进行文件翻译，普通的`OpenInula`应用`t`翻译函数可以用在两个地方：
 
 - 普通的`js`或`ts`文件
-- `React`组件`jsx、tsx`文件
+- 组件`jsx、tsx`文件
 
 ### 在`js|ts`文件中使用
 
@@ -72,9 +71,9 @@ console.log(t("中华人民共和国"))
 - 导入`t`函数后就可以直接使用了。如果启用了`@voerkai18n/vite`插件的`autoImport`,则会自动导入`t`函数，无需手动导入。
 
 
-### 在`React`组件中使用
+### 在组件中使用
 
-在`React`组件中使用`t`函数翻译与在`js|ts`文件中使用的最大区别在于：**当切换语言时，需要触发组件的重新渲染**。为此我们需要在根应用配置`Provider`。
+在组件中使用`t`函数翻译与在`js|ts`文件中使用的最大区别在于：**当切换语言时，需要触发组件的重新渲染**。为此我们需要在根应用配置`Provider`。
 
 1. **配置根组件Provider**
 
@@ -84,7 +83,7 @@ console.log(t("中华人民共和国"))
 
 // 1.当前语言Scope
 import { i18nScope } from "./languages"
-import { VoerkaI18nProvider } from "@voerkai18n/react"
+import { VoerkaI18nProvider } from "@voerkai18n/openinula"
 
 export default App(){
 	return (
@@ -101,7 +100,7 @@ export default App(){
 
 // 1.当前语言Scope
 import { i18nScope } from "./languages"
-import { VoerkaI18nProvider } from "@voerkai18n/react"
+import { VoerkaI18nProvider } from "@voerkai18n/openinula"
 
 export default App(){
 	return (
@@ -118,7 +117,7 @@ export default App(){
 接下来通过`useVoerkaI18n`获取当前作用域的`t`翻译函数。
 
 ```jsx
-import { useVoerkaI18n } from "@voerkai18n/react"
+import { useVoerkaI18n } from "@voerkai18n/openinula"
 export function MyComponent(){
      const { t } = useVoerkaI18n()
     return ( 
@@ -143,7 +142,7 @@ export function MyComponent(){
 
 ```jsx
 
-import { useVoerkaI18n } from "@voerkai18n/react"
+import { useVoerkaI18n } from "@voerkai18n/openinula"
 
 export function MyComponent(){
      const { t, activeLanguage,changeLanguage,languages,defaultLanguage } = useVoerkaI18n()
@@ -174,8 +173,6 @@ export function MyComponent(){
 - 使用`const { changeLanguage } = useVoerkaI18n()`来访问切换语言的函数
 - 在普通`ts/js`文件中使用`import { t } from "./languages"`来导入`t`翻译函数
 - `@voerkai18n/vite`插件是可选的，仅仅普通`ts/js`文件使用`t`翻译函数时用来自动导入。
-- 如果使用`Create React App`创建`React`应用，则请参考`voerki18n-loader`
 - 完整示例见:
-    - [reactapp](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/reactapp)
-    - [reactapp-ts](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/react-ts)
+    - [openinula](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/openinula) 
 

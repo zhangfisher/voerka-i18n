@@ -1,0 +1,36 @@
+{
+    "name": "@voerkai18n/openinula",
+    "version": "2.1.1",
+    "description": "openinula支持,提供语言切换等功能",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zhangfisher/voerka-i18n"
+    },
+    "keywords": [
+        "i18n",
+        "react",
+        "voerkai18n"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "version:patch": "npm version patch --commit-hooks=false",
+        "release": "tsup --metafile && pnpm publish --no-git-checks",
+        "build": "tsup"
+    },
+    "author": "wxzhang",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/react": "^18.2.15",
+        "@voerkai18n/runtime": "workspace:^",
+        "tsup": "^6.7.0"
+    },
+    "peerDependencies": {
+        "@voerkai18n/runtime": "workspace:^",
+        "openinula": "^0.1.1",
+        "react": "^18.2.0"
+    }
+}

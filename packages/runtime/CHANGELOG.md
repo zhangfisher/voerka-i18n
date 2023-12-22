@@ -1,10 +1,6 @@
 # @voerkai18n/runtime
 
-## 2.0.30
-
-## 2.0.29
-
-## 2.0.28
+## 2.1.1
 
 ### Major Changes
 
