@@ -10,12 +10,14 @@ export const VoerkaI18nContext = React.createContext< {
     activeLanguage?:string   
     languages:VoerkaI18nLanguageDefine[]
     t:VoerkaI18nTranslate
+    isChanging: boolean
 }>({
     languages:[],
     activeLanguage:'zh',
     defaultLanguage:undefined,
     changeLanguage:async () =>{},
-    t:()=>''
+    t:()=>'',
+    isChanging: false
 })
 
 VoerkaI18nContext.displayName = 'VoerkaI18nProvider'
@@ -29,6 +31,7 @@ export function VoerkaI18nProvider(props:VoerkaI18nProviderProps){
     const { scope,fallback } = props
     const [language, setLanguage ] = useState(VoerkaI18n.activeLanguage); 
     const [isReady, setIsReady ] = useState(false);
+    const [isChanging, setIsChanging] = useState(false)
     
     useEffect(() => { 
         function onChangeLanguage(newLanguage:string) {
@@ -40,8 +43,10 @@ export function VoerkaI18nProvider(props:VoerkaI18nProviderProps){
     },[]);
 
     const changeLanguage = useCallback((newLanguage:string) => {
+        setIsChanging(true)
         return VoerkaI18n.change(newLanguage).then((lng) => {
             setLanguage(lng) 
+            setIsChanging(false)
         })
     },[language])
 
@@ -50,7 +55,8 @@ export function VoerkaI18nProvider(props:VoerkaI18nProviderProps){
         activeLanguage:language,            
         defaultLanguage:VoerkaI18n.defaultLanguage,
         languages:VoerkaI18n.languages,
-        t:scope.t
+        t:scope.t,
+        isChanging
     }
     return (
         <VoerkaI18nContext.Provider value={value}>
