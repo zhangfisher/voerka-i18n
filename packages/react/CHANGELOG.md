@@ -1,5 +1,11 @@
 # @voerkai18n/react
 
+## 2.0.31
+
+### Patch Changes
+
+- 0c55350: Add isChanging state to VoerkaI18nContext to easily control application updates
+
 ## 2.0.30
 
 ### Patch Changes
