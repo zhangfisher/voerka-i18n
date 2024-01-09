@@ -242,7 +242,7 @@ function normalizeLanguageOptions(options){
             // 0 - overwrite 覆盖模式，可能导致翻译了一半的原始内容丢失(不推荐)，
             // 1 - merge 合并，尽可能保留原来已翻译的内容
             // 2 - sync 同步， 在合并基础上，如果文本已经被删除，则同步移除原来的内容
-            updateMode  : 'sync',                    
+            updateMode  : options.updateMode || 'sync',                    
         },
         // 以下变量会被用来传递给提取器正则表达式
         translation    : {
