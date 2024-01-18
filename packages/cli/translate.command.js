@@ -152,6 +152,8 @@ async function translateLanguage(messages,from,to,options={}){
     let result = {}
     let translatedMessages = {} ,packageSize =0
     for(let [ text,lngs ] of Object.entries(messages)){
+        // 由于复数需要手动配置，不进行翻译
+        if(Array.isArray(lngs[to])) continue;
         // 如果mode=auto，则当翻译内容已经有变化时，则不再翻译
         if(mode=="auto" && typeof(lngs[to])==="string" && (lngs[to]!=text && lngs[to].trim()!="")){
             if(!(text in result)) result[text] = {}
