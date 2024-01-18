@@ -1,5 +1,11 @@
 # voerkai18n-loader
 
+## 2.1.3
+
+### Patch Changes
+
+- @voerkai18n/utils@2.1.3
+
 ## 2.1.2
 
 ### Patch Changes

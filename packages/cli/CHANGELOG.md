@@ -1,5 +1,13 @@
 # @voerkai18n/cli
 
+## 2.1.3
+
+### Patch Changes
+
+- 620c6a7: 修复自动翻译时对复数形式内容的处理机制，现在不会对复数内容进行翻译，需要手动进行翻译
+  - @voerkai18n/runtime@2.1.3
+  - @voerkai18n/utils@2.1.3
+
 ## 2.1.2
 
 ### Patch Changes
