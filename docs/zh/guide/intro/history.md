@@ -1,5 +1,13 @@
 # 更新日志<!-- {docsify-ignore-all} -->
 
+## V2.1.4
+
+- **[BUG]** 修复`@voerkai18n/runtime`当翻译内容传入为""的字段非空判断有误的错误。感谢[faiz-gear](https://github.com/zhangfisher/voerka-i18n/pull/33#event-11534541956)
+
+## V2.1.3
+
+- **[BUG]** 修复`@voerkai18n/cli`在对复数内容进行翻译时出现的错误，现在会略过复数的内容的自动翻译，需要手动进行翻译。
+
 ## V2.1.1
 
 - **[BUG]** 修复`@voerkai18n/openinula`出现的`Warning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: object.`
