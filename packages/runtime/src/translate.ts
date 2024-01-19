@@ -88,7 +88,7 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
         }else{
             const msgId = scope.idMap[message]  
             // 语言包可能是使用idMap映射过的，则需要转换
-            result = (msgId ? (scope.current as any)[msgId]  : (scope.current as any)[message]) || message
+            result = (msgId ? (scope.current as any)[msgId]  : (scope.current as any)[message]) ?? message
         }
 
          // 2. 处理复数
