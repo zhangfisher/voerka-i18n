@@ -1,5 +1,12 @@
 # @voerkai18n/vue2
 
+## 2.1.4
+
+### Patch Changes
+
+- Updated dependencies [6d5db54]
+  - @voerkai18n/runtime@2.1.4
+
 ## 2.1.3
 
 ### Patch Changes
