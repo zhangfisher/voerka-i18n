@@ -7,6 +7,8 @@ import defaultFormatters from "./formatters/zh.js"             // 默认语言�
 import defaultMessages from "./zh.js"  
 import storage  from "./storage.js"
 
+
+
 const messages = {
     'zh' :  defaultMessages,
     'en' : ()=>import("./en.js")
@@ -36,7 +38,7 @@ const scopeSettings = {
 
 // 语言作用域
 const scope = new VoerkaI18nScope({    
-    id          : "vue2-js",                    // 当前作用域的id，自动取当前工程的package.json的name
+    id          : "voerkai18n-example-vue2-js",                    // 当前作用域的id，自动取当前工程的package.json的name
     debug       : false,                            // 是否在控制台输出调试信息   
     idMap,                                          // 消息id映射列表        
     library     : false,                      // 开发库时设为true

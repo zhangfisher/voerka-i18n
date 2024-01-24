@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "set NODE_OPTIONS=\"--openssl-legacy-provider\" && vue-cli-service serve",
     "build": "vue-cli-service build",
     "translate": "node ../../packages/cli/index.js translate --",
     "init:i18n": "node ../../packages/cli/index.js init",
@@ -22,6 +22,7 @@
     "@vue/cli-plugin-typescript": "~4.4.6",
     "@vue/cli-plugin-vuex": "~4.4.6",
     "@vue/cli-service": "~4.4.6",
+    "tslib": "^2.6.2",
     "typescript": "~3.9.3",
     "vue-template-compiler": "^2.6.11"
   }

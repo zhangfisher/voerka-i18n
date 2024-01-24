@@ -9,9 +9,10 @@ Vue.config.productionTip = false
 
 console.log(t("hello"))
 Vue.use(i18nPlugin,{i18nScope})
-
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+i18nScope.on('ready',()=>{
+    new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')  
+})

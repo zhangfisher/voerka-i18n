@@ -346,7 +346,7 @@ importers:
         version: 1.26.5
       sass-loader:
         specifier: ^8.0.2
-        version: 8.0.2(sass@1.26.5)(webpack@5.81.0)
+        version: 8.0.2(sass@1.26.5)(webpack@4.47.0)
       voerkai18n-loader:
         specifier: workspace:^
         version: link:../../packages/webpack
@@ -381,6 +381,9 @@ importers:
       '@vue/cli-service':
         specifier: ~4.4.6
         version: 4.4.6(typescript@3.9.3)(vue-template-compiler@2.6.11)
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
       typescript:
         specifier: ~3.9.3
         version: 3.9.3
@@ -6115,7 +6118,7 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     dependencies:
-      '@vue/cli-service': 4.4.6(babel-core@7.0.0-bridge.0)(sass-loader@8.0.2)(vue-template-compiler@2.6.11)
+      '@vue/cli-service': 4.4.6(typescript@3.9.3)(vue-template-compiler@2.6.11)
       '@vue/cli-shared-utils': 4.5.19
     dev: true
 
@@ -6186,7 +6189,7 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     dependencies:
-      '@vue/cli-service': 4.4.6(babel-core@7.0.0-bridge.0)(sass-loader@8.0.2)(vue-template-compiler@2.6.11)
+      '@vue/cli-service': 4.4.6(typescript@3.9.3)(vue-template-compiler@2.6.11)
     dev: true
 
   /@vue/cli-service@4.4.6(babel-core@7.0.0-bridge.0)(sass-loader@8.0.2)(vue-template-compiler@2.6.11):
@@ -6235,7 +6238,7 @@ packages:
       clipboardy: 2.3.0
       cliui: 6.0.0
       copy-webpack-plugin: 5.1.2(webpack@4.46.0)
-      css-loader: 3.6.0(webpack@5.81.0)
+      css-loader: 3.6.0(webpack@4.47.0)
       cssnano: 4.1.11
       debug: 4.3.4(supports-color@6.1.0)
       default-gateway: 5.0.5
@@ -6245,7 +6248,7 @@ packages:
       fs-extra: 7.0.1
       globby: 9.2.0
       hash-sum: 2.0.0
-      html-webpack-plugin: 3.2.0(webpack@5.81.0)
+      html-webpack-plugin: 3.2.0(webpack@4.47.0)
       launch-editor-middleware: 2.6.0
       lodash.defaultsdeep: 4.6.1
       lodash.mapvalues: 4.6.0
@@ -6255,7 +6258,7 @@ packages:
       pnp-webpack-plugin: 1.7.0(typescript@3.9.3)
       portfinder: 1.0.32(supports-color@6.1.0)
       postcss-loader: 3.0.0
-      sass-loader: 8.0.2(sass@1.26.5)(webpack@5.81.0)
+      sass-loader: 8.0.2(sass@1.26.5)(webpack@4.47.0)
       ssri: 7.1.1
       terser-webpack-plugin: 2.3.8(webpack@4.46.0)
       thread-loader: 2.1.3(webpack@4.46.0)
@@ -6378,7 +6381,7 @@ packages:
       clipboardy: 2.3.0
       cliui: 6.0.0
       copy-webpack-plugin: 5.1.2(webpack@4.46.0)
-      css-loader: 3.6.0(webpack@4.47.0)
+      css-loader: 3.6.0(webpack@4.46.0)
       cssnano: 4.1.11
       debug: 4.3.4(supports-color@6.1.0)
       default-gateway: 5.0.5
@@ -6388,7 +6391,7 @@ packages:
       fs-extra: 7.0.1
       globby: 9.2.0
       hash-sum: 2.0.0
-      html-webpack-plugin: 3.2.0(webpack@4.47.0)
+      html-webpack-plugin: 3.2.0(webpack@4.46.0)
       launch-editor-middleware: 2.6.0
       lodash.defaultsdeep: 4.6.1
       lodash.mapvalues: 4.6.0
@@ -6643,7 +6646,7 @@ packages:
       html-webpack-plugin: '>=2.26.0'
       webpack: '>=4.0.0'
     dependencies:
-      html-webpack-plugin: 3.2.0(webpack@5.81.0)
+      html-webpack-plugin: 3.2.0(webpack@4.46.0)
       webpack: 4.46.0
     dev: true
 
@@ -9460,6 +9463,28 @@ packages:
       postcss: 8.4.23
       postcss-selector-parser: 6.0.12
 
+  /css-loader@3.6.0(webpack@4.46.0):
+    resolution: {integrity: sha512-M5lSukoWi1If8dhQAUCvj4H8vUt3vOnwbQBH9DdTm/s4Ym2B/3dPMtYZeJmq7Q3S3Pa+I94DcZ7pc9bP14cWIQ==}
+    engines: {node: '>= 8.9.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      camelcase: 5.3.1
+      cssesc: 3.0.0
+      icss-utils: 4.1.1
+      loader-utils: 1.4.2
+      normalize-path: 3.0.0
+      postcss: 7.0.39
+      postcss-modules-extract-imports: 2.0.0
+      postcss-modules-local-by-default: 3.0.3
+      postcss-modules-scope: 2.2.0
+      postcss-modules-values: 3.0.0
+      postcss-value-parser: 4.2.0
+      schema-utils: 2.7.1
+      semver: 6.3.1
+      webpack: 4.46.0
+    dev: true
+
   /css-loader@3.6.0(webpack@4.47.0):
     resolution: {integrity: sha512-M5lSukoWi1If8dhQAUCvj4H8vUt3vOnwbQBH9DdTm/s4Ym2B/3dPMtYZeJmq7Q3S3Pa+I94DcZ7pc9bP14cWIQ==}
     engines: {node: '>= 8.9.0'}
@@ -9480,28 +9505,6 @@ packages:
       schema-utils: 2.7.1
       semver: 6.3.1
       webpack: 4.47.0
-    dev: true
-
-  /css-loader@3.6.0(webpack@5.81.0):
-    resolution: {integrity: sha512-M5lSukoWi1If8dhQAUCvj4H8vUt3vOnwbQBH9DdTm/s4Ym2B/3dPMtYZeJmq7Q3S3Pa+I94DcZ7pc9bP14cWIQ==}
-    engines: {node: '>= 8.9.0'}
-    peerDependencies:
-      webpack: ^4.0.0 || ^5.0.0
-    dependencies:
-      camelcase: 5.3.1
-      cssesc: 3.0.0
-      icss-utils: 4.1.1
-      loader-utils: 1.4.2
-      normalize-path: 3.0.0
-      postcss: 7.0.39
-      postcss-modules-extract-imports: 2.0.0
-      postcss-modules-local-by-default: 3.0.3
-      postcss-modules-scope: 2.2.0
-      postcss-modules-values: 3.0.0
-      postcss-value-parser: 4.2.0
-      schema-utils: 2.7.1
-      semver: 6.3.1
-      webpack: 5.81.0
     dev: true
 
   /css-loader@6.7.3(webpack@5.81.0):
@@ -12654,6 +12657,23 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /html-webpack-plugin@3.2.0(webpack@4.46.0):
+    resolution: {integrity: sha512-Br4ifmjQojUP4EmHnRBoUIYcZ9J7M4bTMcm7u6xoIAIuq2Nte4TzXX0533owvkQKQD1WeMTTTyD4Ni4QKxS0Bg==}
+    engines: {node: '>=6.9'}
+    deprecated: 3.x is no longer supported
+    peerDependencies:
+      webpack: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
+    dependencies:
+      html-minifier: 3.5.21
+      loader-utils: 0.2.17
+      lodash: 4.17.21
+      pretty-error: 2.1.2
+      tapable: 1.1.3
+      toposort: 1.0.7
+      util.promisify: 1.0.0
+      webpack: 4.46.0
+    dev: true
+
   /html-webpack-plugin@3.2.0(webpack@4.47.0):
     resolution: {integrity: sha512-Br4ifmjQojUP4EmHnRBoUIYcZ9J7M4bTMcm7u6xoIAIuq2Nte4TzXX0533owvkQKQD1WeMTTTyD4Ni4QKxS0Bg==}
     engines: {node: '>=6.9'}
@@ -12669,23 +12689,6 @@ packages:
       toposort: 1.0.7
       util.promisify: 1.0.0
       webpack: 4.47.0
-    dev: true
-
-  /html-webpack-plugin@3.2.0(webpack@5.81.0):
-    resolution: {integrity: sha512-Br4ifmjQojUP4EmHnRBoUIYcZ9J7M4bTMcm7u6xoIAIuq2Nte4TzXX0533owvkQKQD1WeMTTTyD4Ni4QKxS0Bg==}
-    engines: {node: '>=6.9'}
-    deprecated: 3.x is no longer supported
-    peerDependencies:
-      webpack: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
-    dependencies:
-      html-minifier: 3.5.21
-      loader-utils: 0.2.17
-      lodash: 4.17.21
-      pretty-error: 2.1.2
-      tapable: 1.1.3
-      toposort: 1.0.7
-      util.promisify: 1.0.0
-      webpack: 5.81.0
     dev: true
 
   /html-webpack-plugin@5.5.1(webpack@5.81.0):
@@ -18733,7 +18736,7 @@ packages:
       neo-async: 2.6.2
       webpack: 5.81.0
 
-  /sass-loader@8.0.2(sass@1.26.5)(webpack@5.81.0):
+  /sass-loader@8.0.2(sass@1.26.5)(webpack@4.47.0):
     resolution: {integrity: sha512-7o4dbSK8/Ol2KflEmSco4jTjQoV988bM82P9CZdmo9hR3RLnvNc0ufMNdMrB0caq38JQ/FgF4/7RcbcfKzxoFQ==}
     engines: {node: '>= 8.9.0'}
     peerDependencies:
@@ -18755,7 +18758,7 @@ packages:
       sass: 1.26.5
       schema-utils: 2.7.1
       semver: 6.3.1
-      webpack: 5.81.0
+      webpack: 4.47.0
     dev: true
 
   /sass@1.26.5:
@@ -20284,6 +20287,10 @@ packages:
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
 
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+    dev: true
+
   /tslint@5.20.1(typescript@3.9.3):
     resolution: {integrity: sha512-EcMxhzCFt8k+/UP5r8waCf/lzmeSyVlqxqMEDQE7rWYiQky8KpIBz1JAoYXfROHrPZ1XXd43q8yQnULOLiBRQg==}
     engines: {node: '>=4.8.0'}
@@ -21186,7 +21193,7 @@ packages:
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(babel-core@7.0.0-bridge.0)
       cache-loader: 4.1.0(webpack@4.46.0)
-      css-loader: 3.6.0(webpack@5.81.0)
+      css-loader: 3.6.0(webpack@4.47.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
       vue-hot-reload-api: 2.3.4
@@ -21267,7 +21274,7 @@ packages:
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(babel-core@7.0.0-bridge.0)
       cache-loader: 4.1.0(webpack@4.46.0)
-      css-loader: 3.6.0(webpack@4.47.0)
+      css-loader: 3.6.0(webpack@4.46.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
       vue-hot-reload-api: 2.3.4

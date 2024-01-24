@@ -28,5 +28,23 @@
         "$files": [
             "components\\HelloWorld.vue"
         ]
+    },
+    "基本链接": {
+        "en": "基本链接",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ]
+    },
+    "生态系统": {
+        "en": "生态系统",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ]
+    },
+    "hello get": {
+        "en": "hello get",
+        "$files": [
+            "components\\HelloWorld.vue"
+        ]
     }
 }
