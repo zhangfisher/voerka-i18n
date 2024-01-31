@@ -73,7 +73,7 @@ function replaceInterpVars(messages){
     const msgs = Array.isArray(messages) ? messages : Object.keys(messages)
     const replacedMessages = msgs.map((message)=>{
         let vars=[]
-        let result = message.replaceAll(/\{\s*.*?\s*\}/g,(matched)=>{
+        let result = message.replaceAll(/\{\s*.*?\s*\}/gm,(matched)=>{
             vars.push(matched)
             return `{VARIABLE}`
         })
@@ -90,9 +90,8 @@ function replaceInterpVars(messages){
 function restoreInterpVars(messages,interpVars){ 
     return messages.map((message,index)=>{
         let i = 0
-        return message.replaceAll(/\{VARIABLE\}/g,()=>interpVars[index][i++])
+        return message.replaceAll(/\{VARIABLE\}/gm,()=>interpVars[index][i++])
     })
-
 }
 
 /**
@@ -109,8 +108,13 @@ async function translateMessages(messages={},from="zh",to="en",options={}){
     await delay(1000/qps)
     // 将文本中的插值变量替换为特殊字符，避免翻译时对插值变量进行翻译
     const [replacedMessages,interpVars] = replaceInterpVars(messages)
-
-    let translatedMessages =await provider.translate(replacedMessages,from,to)
+    let translatedMessages
+    try{
+        translatedMessages =await provider.translate(replacedMessages,from,to)
+    }catch(e){
+        console.error(t('调用翻译API时出错:{}',e.stack))
+    }
+    
     
     translatedMessages = restoreInterpVars(translatedMessages,interpVars)
 

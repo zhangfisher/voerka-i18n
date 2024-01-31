@@ -35,5 +35,14 @@
         "$files": [
             "index.js"
         ]
+    },
+    "relative": {
+        "en": "relative",
+        "jp": "relative",
+        "de": "relative",
+        "fra": "relative",
+        "$files": [
+            "index.js"
+        ]
     }
 }

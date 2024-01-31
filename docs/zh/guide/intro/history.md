@@ -1,5 +1,8 @@
 # 更新日志<!-- {docsify-ignore-all} -->
 
+## V2.1.6
+- **[特性]**  `@voerkai18n/cli`的`translate`执行时提供错误信息增强
+
 ## V2.1.4
 
 - **[BUG]** 修复`@voerkai18n/runtime`当翻译内容传入为""的字段非空判断有误的错误。感谢[faiz-gear](https://github.com/zhangfisher/voerka-i18n/pull/33#event-11534541956)
