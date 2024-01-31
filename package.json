@@ -7,7 +7,6 @@
     "scripts": {
         "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
         "build:all": "turbo run build --filter=@voerkai18n/* --filter=!@voerkai18n/utils  --filter=!@voerkai18n/babel --filter=!@voerkai18n/vite --filter=!@voerkai18n/cli",
-        "publish:all": "pnpm -r --filter \"./packages/**\" publish",
         "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch",
         "release:auto": "pnpm build:all && pnpm version:all && pnpm release:all",
         "changeset": "changeset",
@@ -44,8 +43,7 @@
         "tips": "请安装JsonComments插件,详见https://github.com/zhangfisher/json_comments_extension",
         "package.json": {
             "scripts.test:runtime": "运行@voerkai18n/runtime单元测试",
-            "scripts.build:all": "构建所有包",
-            "scripts.publish:all": "发布所有包到NPM",
+            "scripts.build:all": "构建所有包", 
             "scripts.version:patch:all": "升级所有包的Patch版本号",
             "scripts.changeset": "当更新后执行以更新变更历史",
             "scripts.sync": "同步淘宝镜像",
