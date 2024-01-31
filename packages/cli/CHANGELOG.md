@@ -1,5 +1,13 @@
 # @voerkai18n/cli
 
+## 2.1.5
+
+### Patch Changes
+
+- 7c3a3a8: 为翻译 API 执行提供错误反馈
+  - @voerkai18n/runtime@2.1.5
+  - @voerkai18n/utils@2.1.5
+
 ## 2.1.4
 
 ### Patch Changes
