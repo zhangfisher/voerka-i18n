@@ -149,7 +149,7 @@ new Vue({
 import { i18nMixin } from "@voerkai18n/vue2"
  
 export default {
-    mixins: [i18nMixin],
+    mixins: [i18nMixin()],
    //......
 }
 </script>  
