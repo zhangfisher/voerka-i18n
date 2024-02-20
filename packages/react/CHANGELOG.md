@@ -1,5 +1,11 @@
 # @voerkai18n/react
 
+## 2.1.6
+
+### Patch Changes
+
+- @voerkai18n/runtime@2.1.6
+
 ## 2.1.5
 
 ### Patch Changes

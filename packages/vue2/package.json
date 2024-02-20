@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/vue2",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "voerkai18n for vue2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -14,6 +14,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup",
+    "build:watch": "tsup --watch",
     "version:patch": "npm version patch --commit-hooks=false"
   },
   "keywords": [],

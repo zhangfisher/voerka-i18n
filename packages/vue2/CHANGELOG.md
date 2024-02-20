@@ -1,5 +1,12 @@
 # @voerkai18n/vue2
 
+## 2.1.6
+
+### Patch Changes
+
+- abe862a: 修复当切换语言时`activeLanguage`没有实时渲染的问题
+  - @voerkai18n/runtime@2.1.6
+
 ## 2.1.5
 
 ### Patch Changes

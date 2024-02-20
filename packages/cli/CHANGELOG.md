@@ -1,5 +1,12 @@
 # @voerkai18n/cli
 
+## 2.1.6
+
+### Patch Changes
+
+- @voerkai18n/runtime@2.1.6
+- @voerkai18n/utils@2.1.6
+
 ## 2.1.5
 
 ### Patch Changes
