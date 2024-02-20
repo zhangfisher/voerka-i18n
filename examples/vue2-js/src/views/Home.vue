@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
+    activeLanguage = {{ activeLanguage }}-{{ getActiveLanguage() }}
     <HelloWorld/>
     <div>
         <button v-for="lng of languages" :key="lng.name" @click="changeLanguage(lng.name)">{{lng.title}}</button> 

@@ -1,4 +1,4 @@
-import type { VoerkaI18nScope } from '@voerkai18n/runtime'; 
+import type { VoerkaI18nScope } from '@voerkai18n/runtime';  
 export interface VoerkaI18nVue2Options {
     i18nScope:VoerkaI18nScope
 }
@@ -14,6 +14,9 @@ export const i18nPlugin = {
                 state.langauge 
                 return i18nScope.t(message,...args)
             }         
+            Vue.prototype.getActiveLanguage =()=> {
+                return state.langauge 
+            }
             i18nScope.on("change",(language:string)=>{
                 state.langauge = language
             })
@@ -26,7 +29,7 @@ export function i18nMixin(){
         computed:{
             activeLanguage:{
                 get(){
-                    return VoerkaI18n.activeLanguage
+                    return (this as any).getActiveLanguage()
                 }
             },
             languages(){
