@@ -1,5 +1,13 @@
 # @voerkai18n/cli
 
+## 2.1.7
+
+### Patch Changes
+
+- Updated dependencies [107640e]
+  - @voerkai18n/utils@2.1.7
+  - @voerkai18n/runtime@2.1.7
+
 ## 2.1.6
 
 ### Patch Changes
