@@ -1,5 +1,8 @@
 # 更新日志<!-- {docsify-ignore-all} -->
 
+## V2.1.7
+- **[BUG]**  解决在`uniapp`下执行`voerkai18n init`由于不存在`package.json`文件时的错误提示问题。
+
 ## V2.1.6
 - **[特性]**  `@voerkai18n/cli`的`translate`执行时提供错误信息增强
 - **[BUG]** 修复`@voerkai18n/vue2`的`activeLanguage`不会实时渲染更新的问题。

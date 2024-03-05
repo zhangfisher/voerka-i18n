@@ -209,6 +209,9 @@ function fileIsExists(filename){
  */
  function getCurrentPackageJson(folder,exclueCurrent=true){ 
     let projectFolder = getProjectRootFolder(folder,exclueCurrent)
+    if(!projectFolder){
+        throw new Error("当前不是有效的JS工程目录,未找到package.json文件")
+    }
     let packageJsonFile = path.join(projectFolder,"package.json")
     if(fs.existsSync(packageJsonFile)){
        return fs.readJSONSync(path.join(projectFolder,"package.json"))
