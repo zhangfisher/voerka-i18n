@@ -1,5 +1,11 @@
 # @voerkai18n/vue
 
+## 2.1.8
+
+### Patch Changes
+
+- @voerkai18n/runtime@2.1.8
+
 ## 2.1.7
 
 ### Patch Changes

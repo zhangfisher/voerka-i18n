@@ -1,5 +1,13 @@
 # @voerkai18n/cli
 
+## 2.1.8
+
+### Patch Changes
+
+- b949c19: 修复调用百度 API 出错时无法显示准确错误信息的问题
+  - @voerkai18n/runtime@2.1.8
+  - @voerkai18n/utils@2.1.8
+
 ## 2.1.7
 
 ### Patch Changes

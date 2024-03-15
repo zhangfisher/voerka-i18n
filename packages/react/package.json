@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/react",
-    "version": "2.1.7",
+    "version": "2.1.8",
     "description": "React支持,提供语言切换等功能",
     "main": "dist/index.js",
     "module": "dist/index.mjs",

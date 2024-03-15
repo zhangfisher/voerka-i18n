@@ -1,5 +1,11 @@
 # @voerkai18n/babel
 
+## 2.1.8
+
+### Patch Changes
+
+- @voerkai18n/utils@2.1.8
+
 ## 2.1.7
 
 ### Patch Changes
