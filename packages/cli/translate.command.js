@@ -112,7 +112,7 @@ async function translateMessages(messages={},from="zh",to="en",options={}){
     try{
         translatedMessages =await provider.translate(replacedMessages,from,to)
     }catch(e){
-        console.error(t('调用翻译API时出错:{}',e.stack))
+        throw new Error(t('调用翻译API时出错:{}',e.message))
     }
     
     
@@ -183,11 +183,10 @@ async function translateLanguage(messages,from,to,options={}){
     // 对剩余的信息进行翻译
     if(Object.keys(translatedMessages).length > 0){
         await translateMessages(translatedMessages,from,to,options)
-        result = deepMerge(result,translatedMessages)
+        return  deepMerge(result,translatedMessages)
+    }else{
+        return  {}
     }
-
-   return result
-
 }
 
 /**
@@ -209,8 +208,13 @@ async function translateMessageFile(file,langSettings,options={}){
         if(lng.name === defaultLanguage) continue
         try{
             tasks.add(t("翻译 {} -> {}"),[defaultLanguage,lng.name])
-            results = deepMerge(results,await translateLanguage(messages,defaultLanguage,lng.name,options))
-            tasks.complete()
+            const msgs = await translateLanguage(messages,defaultLanguage,lng.name,options)
+            if(Object.keys(msgs).length>0){
+                results = deepMerge(results,msgs)
+                tasks.complete()
+            }else{
+                tasks.skip()
+            }
         }catch(e){
             tasks.error(e.message || e)
         }

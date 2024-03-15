@@ -1236,5 +1236,19 @@
         "kor": "언어 컨텍스트 초기화",
         "ru": "Контекст языка инициализации",
         "it": "Inizializza contesto linguistico"
+    },
+    "调用翻译API时出错:{}": {
+        "cht": "調用翻譯API時出錯：{}",
+        "en": "Error calling translation API: {}",
+        "de": "Fehler beim Aufruf der Übersetzungs-API: {}",
+        "jp": "翻訳APIの呼び出し中にエラーが発生しました:{}",
+        "fra": "Erreur lors de l'appel de l'API de traduction: {variable}",
+        "spa": "Se produjo un error al llamar a la API de traducción: @ variable..",
+        "kor": "번역 API를 호출하는 중 오류 발생: {}",
+        "ru": "Ошибка вызова интерфейса перевода: {Variable}",
+        "it": "Errore nel chiamare API di traduzione: {}",
+        "$files": [
+            "translate.command.js"
+        ]
     }
 }

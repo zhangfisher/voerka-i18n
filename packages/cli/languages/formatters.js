@@ -46,7 +46,7 @@
  
  * 
  */
-export default  {
+module.exports = {
     // 在所有语言下生效的格式化器
     "*":{ 
         //[格式化名称]:(value)=>{...},

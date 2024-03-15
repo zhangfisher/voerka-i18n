@@ -86,5 +86,6 @@ module.exports = {
     "85": "VoerkaI18n mehrsprachige Unterstützung initialisieren",
     "86": "Ordner für Sprachpakete erstellen",
     "87": "Sprachkonfigurationsdatei settings.json generieren",
-    "88": "Sprachkontext initialisieren"
+    "88": "Sprachkontext initialisieren",
+    "89": "Fehler beim Aufruf der Übersetzungs-API: {}"
 }

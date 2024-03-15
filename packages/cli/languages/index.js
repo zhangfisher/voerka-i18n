@@ -2,10 +2,14 @@
  * 注意：执行compile命令会重新生成本文件，所以请不要修改本文件
  */
 const idMap = require("./idMap")
-const { translate,VoerkaI18nScope  } =  require("@voerkai18n/runtime")
+const { translate,VoerkaI18nScope  } =  require("../../runtime/dist")
 const defaultFormatters = require("./formatters/zh.js")
 const defaultMessages =  require("./zh.js")      
 const storage = require("./storage.js")
+
+
+
+
 
 const formatters = {
     'zh' :  defaultFormatters,

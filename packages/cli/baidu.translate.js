@@ -47,7 +47,7 @@ module.exports = function(options={}){
                 axios.get(`${baseurl}?${params}`).then(res=>{
                     const { data } = res;
                     if(data.error_code){
-                        reject(data.error_msg)
+                        reject(new Error(data.error_msg))
                     }else{
                         resolve(res.data.trans_result.map(item=>{
                             // 在翻译时会将一些|,等符号转成全角符号，这会导致插值变量无法识别，所以需要转回来                            

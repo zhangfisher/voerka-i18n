@@ -86,5 +86,6 @@ module.exports = {
     "85": "Initialize VoerkaI18n multilingual support",
     "86": "Create Language Pack Folder",
     "87": "Generate language configuration file settings.json",
-    "88": "Initialize Language Context"
+    "88": "Initialize Language Context",
+    "89": "Error calling translation API: {}"
 }
