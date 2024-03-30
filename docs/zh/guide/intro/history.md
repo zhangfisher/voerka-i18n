@@ -1,5 +1,9 @@
 # 更新日志<!-- {docsify-ignore-all} -->
 
+## V2.1.9
+
+- **[Build]** 将`@voerkai18n/react`对`react`的版本依赖降低到`16.9.0`，以支持低版本的`react`。
+
 ## V2.1.7
 - **[BUG]**  解决在`uniapp`下执行`voerkai18n init`由于不存在`package.json`文件时的错误提示问题。
 
