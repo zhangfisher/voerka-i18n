@@ -1,5 +1,12 @@
 # @voerkai18n/react
 
+## 2.1.9
+
+### Patch Changes
+
+- 136b6a9: 降低@voerkai18n/react 对 react 的 peer 依赖至 16.9
+  - @voerkai18n/runtime@2.1.9
+
 ## 2.1.8
 
 ### Patch Changes
