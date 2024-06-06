@@ -13,6 +13,7 @@
     * [切换语言](/zh/guide/use/change-language)
     * [名称空间](/zh/guide/use/namespace)
     * [记住切换语言](/zh/guide/use/storage)
+    * [一词多译](/zh/guide/use/multi-translate)
 * [框架集成](/zh/guide/integration/)
     * [Vue](/zh/guide/integration/vue)
     * [Vue2](/zh/guide/integration/vue2)
