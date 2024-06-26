@@ -5,11 +5,14 @@
 
 `vue`或`react`应用的使用流程也基本相同，可以参考[Vue集成](../integration/vue)和[React集成](../integration/react)。
 
-```shell
+
+<lite-tree>
 myapp
-  |--package.json
-  |--index.js  
-```
+  package.json
+  index.js
+</lite-tree>
+
+> 上述树组件基于[Lite-Tree](https://zhangfisher.github.io/lite-tree/)构建。
 
 在本项目的所有支持的源码文件中均可以使用`t`函数对要翻译的文本进行包装，简单而粗暴。
 
@@ -103,16 +106,16 @@ myapp>voerkai18n extract
 
 最后文件结构如下：
 
-```shell
-myapp
-  |-- languages
-    |-- settings.json                // 语言配置文件
-    |-- translates                   // 此文件夹是所有需要翻译的内容
-      |-- default.json               // 默认名称空间内容
-  |-- package.json
-  |-- index.js
 
-```
+<lite-tree>
+myapp
+  languages
+    settings.json                // 语言配置文件
+    translates                   // 此文件夹是所有需要翻译的内容
+        default.json               // 默认名称空间内容
+  package.json
+  index.js
+</lite-tree>
 
 **如果略过第一步中的`voerkai18n init`，也可以使用以下命令来为创建和更新`settings.json`**
 
@@ -177,29 +180,30 @@ myapp>voerkai18n extract -D -lngs zh en de jp -d zh -a zh
 myapp> voerkai18n compile
 ```
 
-`compile`命令根据`myapp/languages/translates/*.json`和`myapp/languages/settings.json`文件编译生成以下文件：
+`compile`命令根据`myapp/languages/translates/*.json`和`myapp/languages/settings.json`文件编译生成以下文件： 
 
-```javascript 
-  |-- languages
-    |-- settings.json                // 语言配置文件
-    |-- idMap.js                     // 文本信息id映射表
-    |-- index.js                     // 包含该应用作用域下的翻译函数等
-    |-- storage.js
-    |-- zh.js                        // 语言包
-    |-- en.js
-    |-- jp.js
-    |-- de.js
-    |-- formatters                   // 自定义扩展格式化器
-        |-- zh.js                     
-        |-- en.js
-        |-- jp.js
-        |-- de.js
-    |-- translates                   // 此文件夹包含了所有需要翻译的内容
-      |-- default.json
-  |-- package.json
-  |-- index.js
+<lite-tree>
+myapp
+    languages
+        settings.json                // 语言配置文件
+        idMap.js                     // 文本信息id映射表
+        index.js                     // 包含该应用作用域下的翻译函数等
+        storage.js
+        zh.js                        // 语言包
+        en.js
+        jp.js
+        de.js
+        formatters                   // 自定义扩展格式化器
+            zh.js                     
+            en.js
+            jp.js
+            de.js
+        translates                   // 此文件夹包含了所有需要翻译的内容
+            default.json
+    package.json
+    index.js
 
-```
+</lite-tree>
 
 ## 第八步：导入翻译函数
 
