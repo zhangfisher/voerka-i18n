@@ -19,6 +19,7 @@ export default {
         <h2>{{ title }}</h2>  
         <h3>{{ t("成立于{}年",1949)}} </h3>
         <h3>{{ t("首都：北京")}} </h3>
+        <h3>{{ t("首都：{city}",{city:"北京"})}} </h3>
     </div>
 </template>
 

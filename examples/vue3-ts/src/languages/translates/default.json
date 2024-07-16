@@ -176,20 +176,20 @@
             "components\\formatters.vue"
         ]
     },
-    "商品价格: { value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix}*{symbol}*{value}*{unit}*{suffix}'})}": {
-        "en": "Product Price: { value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix} * {symbol} * {value} * {unit} * {suffix} '})}",
-        "jp": "商品価格：{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix}*{symbol}*{value}*{unit}*{suffix}}",
-        "cht": "商品價格：{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix}*{symbol}*{value}*{unit}*{suffix}'})}",
-        "$files": [
-            "components\\formatters.vue"
-        ]
-    },
     "hello": {
         "en": "Hello",
         "jp": "hello",
         "cht": "hello",
         "$files": [
             "main.ts"
+        ]
+    },
+    "首都：{city}": {
+        "en": "English：{city}",
+        "jp": "首都：{city}",
+        "cht": "首都：{city}",
+        "$files": [
+            "components\\china.vue"
         ]
     }
 }

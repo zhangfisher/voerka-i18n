@@ -21,6 +21,6 @@ export default {
     "20": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整'})}",
     "21": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2})}",
     "22": "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4})}",
-    "23": "商品价格: { value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4,format:'{prefix}*{symbol}*{value}*{unit}*{suffix}'})}",
-    "24": "hello"
+    "23": "hello",
+    "24": "首都：{city}"
 }
