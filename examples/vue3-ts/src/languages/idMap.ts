@@ -22,5 +22,6 @@ export default {
     "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2})}": 21,
     "{ value | currency({symbol:'￥￥',prefix:'人民币:',suffix:'元整',unit:2,precision:4})}": 22,
     "hello": 23,
-    "首都：{city}": 24
+    "首都：{city}": 24,
+    "{count}人在等你聊天哦": 25
 }

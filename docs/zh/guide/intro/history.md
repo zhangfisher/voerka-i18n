@@ -1,5 +1,15 @@
 # 更新日志<!-- {docsify-ignore-all} -->
 
+## V2.1.10
+
+- **[特性]**  `@voerkai18n/cli`的`extract`原来总是从src中提取文本，现在支持指定从哪个文件夹中提取文本。
+
+```shell
+# 从public文件夹中提取文本
+voerkai18n extract public          
+```
+
+
 ## V2.1.9
 
 - **[Build]** 将`@voerkai18n/react`对`react`的版本依赖降低到`16.9.0`，以支持低版本的`react`。

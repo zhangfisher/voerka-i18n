@@ -86,8 +86,8 @@ program
     .option('-e, --exclude <folders>', t('排除要扫描的文件夹，多个用逗号分隔'))
     .option('-u, --updateMode <value>', t('本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并'), 'sync')
     .option('-f, --filetypes <values...> ', t('要扫描的文件类型'),[])
-    .argument('[location]', t('工程项目所在目录'),"./")
-    .hook("preAction",async function(location){
+    .argument('[location]', t('指定从该目录提取'))
+    .hook("preAction",async function(){
         await i18nScope.change(getCliLanguage())
     })
     .action(async (location,options) => {
@@ -99,7 +99,8 @@ program
 
         logger.log(t("工程目录：{}"), options.srcPath)
         logger.log(t("语言目录：{}"),options.entry)
-        extract(options.srcPath,options)
+        const extractFrom =location==undefined ? location : (path.isAbsolute(location) ? location : path.join(process.cwd(),location))
+        extract(extractFrom || options.srcPath,options)
     });
 
 

@@ -87,5 +87,6 @@ module.exports = {
     "86": "Crear una carpeta de paquetes de idiomas",
     "87": "Generar el archivo de configuración del lenguaje settings.json",
     "88": "Iniciar el contexto del lenguaje",
-    "89": "Se produjo un error al llamar a la API de traducción: @ variable.."
+    "89": "Se produjo un error al llamar a la API de traducción: @ variable..",
+    "90": "Especifica la extracción de este catálogo"
 }

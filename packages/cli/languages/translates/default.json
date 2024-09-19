@@ -1250,5 +1250,19 @@
         "$files": [
             "translate.command.js"
         ]
+    },
+    "指定从该目录提取": {
+        "cht": "指定從該目錄選取",
+        "en": "Specify to extract from this directory",
+        "de": "Geben Sie an, aus diesem Verzeichnis zu extrahieren",
+        "jp": "ディレクトリからの抽出の指定",
+        "fra": "Spécifie l'extraction à partir de ce répertoire",
+        "spa": "Especifica la extracción de este catálogo",
+        "kor": "디렉토리에서 추출 지정",
+        "ru": "Назначить извлечение из каталога",
+        "it": "Specifica da estrarre da questa directory",
+        "$files": [
+            "extract.command.js"
+        ]
     }
 }

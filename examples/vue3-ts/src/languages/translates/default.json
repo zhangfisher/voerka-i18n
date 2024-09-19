@@ -191,5 +191,13 @@
         "$files": [
             "components\\china.vue"
         ]
+    },
+    "{count}人在等你聊天哦": {
+        "en": "{count} people are waiting for you to chat",
+        "jp": "{count}人在等你聊天哦",
+        "cht": "{count}人在等你聊天哦",
+        "$files": [
+            "components\\china.vue"
+        ]
     }
 }

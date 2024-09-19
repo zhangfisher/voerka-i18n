@@ -87,5 +87,6 @@ module.exports = {
     "86": "Crea cartella Language Pack",
     "87": "Genera impostazioni del file di configurazione della lingua.json",
     "88": "Inizializza contesto linguistico",
-    "89": "Errore nel chiamare API di traduzione: {}"
+    "89": "Errore nel chiamare API di traduzione: {}",
+    "90": "Specifica da estrarre da questa directory"
 }

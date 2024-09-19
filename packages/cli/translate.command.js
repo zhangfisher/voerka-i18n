@@ -112,6 +112,7 @@ async function translateMessages(messages={},from="zh",to="en",options={}){
     try{
         translatedMessages =await provider.translate(replacedMessages,from,to)
     }catch(e){
+        console.error(e)
         throw new Error(t('调用翻译API时出错:{}',e.message))
     }
     

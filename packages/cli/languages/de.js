@@ -87,5 +87,6 @@ module.exports = {
     "86": "Ordner für Sprachpakete erstellen",
     "87": "Sprachkonfigurationsdatei settings.json generieren",
     "88": "Sprachkontext initialisieren",
-    "89": "Fehler beim Aufruf der Übersetzungs-API: {}"
+    "89": "Fehler beim Aufruf der Übersetzungs-API: {}",
+    "90": "Geben Sie an, aus diesem Verzeichnis zu extrahieren"
 }
