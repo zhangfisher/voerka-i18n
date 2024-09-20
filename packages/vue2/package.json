@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/vue2",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "voerkai18n for vue2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

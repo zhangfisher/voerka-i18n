@@ -1,5 +1,13 @@
 # voerkai18n-loader
 
+## 2.1.10
+
+### Patch Changes
+
+- 67277f4: voerkai18n extract 支持指定提取目录
+- Updated dependencies [67277f4]
+  - @voerkai18n/utils@2.1.10
+
 ## 2.1.9
 
 ### Patch Changes
