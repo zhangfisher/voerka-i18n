@@ -9,6 +9,7 @@
         "build:all": "turbo run build --filter=@voerkai18n/* --filter=!@voerkai18n/utils  --filter=!@voerkai18n/babel --filter=!@voerkai18n/vite --filter=!@voerkai18n/cli",
         "version:patch:all": "pnpm -r --filter \"./packages/**\" version:patch",
         "release:auto": "pnpm build:all && pnpm version:all && pnpm release:all",
+        "publish:all": "pnpm build:all && changeset version && changeset release",
         "changeset": "changeset",
         "release:all": "changeset publish",
         "version:all": "changeset version",
