@@ -1,5 +1,11 @@
 # @voerkai18n/runtime
 
+## 2.1.12
+
+### Patch Changes
+
+- f89a023: 调整正则表达式的兼容性
+
 ## 2.1.10
 
 ### Patch Changes

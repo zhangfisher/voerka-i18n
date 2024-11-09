@@ -1,5 +1,13 @@
 # @voerkai18n/babel
 
+## 2.1.12
+
+### Patch Changes
+
+- f89a023: 调整正则表达式的兼容性
+- Updated dependencies [f89a023]
+  - @voerkai18n/utils@2.1.12
+
 ## 2.1.10
 
 ### Patch Changes
