@@ -26,7 +26,8 @@
     "devDependencies": {
         "@types/react": "^18.2.15",
         "react": "^18.2.0",
-        "tsup": "^6.7.0"
+        "tsup": "^6.7.0",
+        "@voerkai18n/runtime": "workspace:^"
     },
     "peerDependencies": {
         "@types/react": "^16.9.0",

@@ -25,6 +25,7 @@
     "vue": "^2.7.0"
   },
   "devDependencies": {
-    "tsup": "^6.7.0"
+    "tsup": "^6.7.0",
+    "@voerkai18n/runtime": "workspace:^"
   }
 }
