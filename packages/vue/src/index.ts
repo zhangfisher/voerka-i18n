@@ -11,10 +11,9 @@
 
  */
 
-import type { VoerkaI18nScope } from "@voerkai18n/runtime"
+import type { VoerkaI18nScope,VoerkaI18nSupportedLanguages } from "@voerkai18n/runtime"
 import { computed,reactive,ref,inject} from "vue"
 import type { App } from "vue"
-import type { VoerkaI18nSupportedLanguages } from "@Voerkai18n/runtime"
  
 export const VoerkaI18nProvider = Symbol('VoerkaI18nVueProvider')
 export interface VoerkaI18nPluginOptions{
