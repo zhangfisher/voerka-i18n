@@ -1,10 +1,10 @@
 {
     "name": "@voerkai18n/utils",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "description": "公共工具库",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1" 
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "wxzhang",
     "license": "MIT",
