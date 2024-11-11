@@ -25,7 +25,7 @@ chat
         index.js
         idMap.js   
         runtime.js
-        ettings.json                  
+        settings.json                  
         cn.js
         en.js
   index.js
@@ -104,13 +104,13 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 <Tree>
 webroot
     languages
-        chat          
+        chat          //!
             de.json        
-        user               
+        user          //!     
             de.json    
-        manager
+        manager       //!  
             de.json   
-        log                 
+        log           //!      
             de.json               
 </Tree>
 
