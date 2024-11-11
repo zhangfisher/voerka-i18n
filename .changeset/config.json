@@ -6,9 +6,9 @@
     [
       "@voerkai18n/cli",
       "@voerkai18n/runtime", 
+      "@voerkai18n/react",
       "@voerkai18n/vue",
       "@voerkai18n/vite",
-      "@voerkai18n/react",
       "@voerkai18n/utils",
       "@voerkai18n/vue2",
       "@voerkai18n/babel",
@@ -21,7 +21,8 @@
   "baseBranch": "master",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "voerkai18n-example-**"
+    "voerkai18n-example-**",
+    "voerkai18n-docs"
   ]
 
 }

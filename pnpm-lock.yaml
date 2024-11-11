@@ -81,7 +81,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
-  docs-new:
+  docs:
     dependencies:
       '@lite-tree/icons':
         specifier: ^1.0.6
