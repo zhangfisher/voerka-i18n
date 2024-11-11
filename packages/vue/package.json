@@ -1,6 +1,10 @@
 {
     "name": "@voerkai18n/vue",
+<<<<<<< HEAD
     "version": "2.1.10",
+=======
+    "version": "2.1.12",
+>>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
     "description": "voerkai18n for vue3",
     "main": "src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -25,6 +29,7 @@
         "vue": "^3.0.0"
     },
     "devDependencies": {
-        "tsup": "^6.7.0"
+        "tsup": "^6.7.0",
+        "@voerkai18n/runtime": "workspace:^"
     }
 }

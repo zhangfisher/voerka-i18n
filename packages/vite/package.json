@@ -1,6 +1,10 @@
 {
     "name": "@voerkai18n/vite",
+<<<<<<< HEAD
     "version": "2.1.10",
+=======
+    "version": "2.1.12",
+>>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
     "description": "Vite插件,提供自动插入翻译函数和文本映射等功能",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {

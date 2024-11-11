@@ -1,5 +1,14 @@
 # @voerkai18n/utils
 
+<<<<<<< HEAD
+=======
+## 2.1.12
+
+### Patch Changes
+
+- f89a023: 调整正则表达式的兼容性
+
+>>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
 ## 2.1.10
 
 ### Patch Changes

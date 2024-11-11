@@ -1,6 +1,10 @@
 {
     "name": "@voerkai18n/runtime",
+<<<<<<< HEAD
     "version": "2.1.10",
+=======
+    "version": "2.1.12",
+>>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
     "description": "runtime of voerkai18n",
     "main": "./src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -22,7 +26,11 @@
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
+<<<<<<< HEAD
         "flex-tools": "^1.3.30"
+=======
+        "flex-tools": "^1.4.11"
+>>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
     },
     "devDependencies": {
         "@swc/core": "^1.3.44",

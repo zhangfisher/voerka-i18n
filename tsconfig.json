@@ -23,7 +23,7 @@
     "typings",
     "**/__test__",
     "test",
-    "docs",
+    "docs-new",
     "tests",
     "packages/cli/templates"
   ]

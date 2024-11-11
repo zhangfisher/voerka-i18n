@@ -5,6 +5,9 @@ export default defineConfig({
     entry: [
         'src/index.ts'
     ],
+    output:{
+        exports: 'named',
+    },
     format: ['esm','cjs'],
     dts: true,
     splitting: false,

@@ -1,0 +1,25 @@
+{
+  "name": "voerkai18n-docs",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": { 
+    "@lite-tree/icons": "^1.0.6",
+    "@lite-tree/vue": "^1.1.4",
+    "flex-tools": "^1.4.11",
+    "flexstyled": "^2.1.2"
+  } 
+}

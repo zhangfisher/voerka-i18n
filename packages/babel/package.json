@@ -1,6 +1,10 @@
 {
     "name": "@voerkai18n/babel",
+<<<<<<< HEAD
     "version": "2.1.10",
+=======
+    "version": "2.1.12",
+>>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
     "description": "Babel插件,实现自动导入t函数和自动文本映射",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
