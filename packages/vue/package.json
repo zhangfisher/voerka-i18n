@@ -2,7 +2,10 @@
     "name": "@voerkai18n/vue",
     "version": "3.0.0",
     "description": "voerkai18n for vue3",
-    "main": "src/index.ts",
+    "access": "public",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
