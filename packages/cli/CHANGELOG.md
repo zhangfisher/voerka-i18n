@@ -1,5 +1,12 @@
 # @voerkai18n/cli
 
+## 3.0.1
+
+### Patch Changes
+
+- @voerkai18n/runtime@3.0.1
+- @voerkai18n/utils@3.0.1
+
 ## 3.0.0
 
 ### Minor Changes
