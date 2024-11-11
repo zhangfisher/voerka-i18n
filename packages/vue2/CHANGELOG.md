@@ -1,5 +1,14 @@
 # @voerkai18n/vue2
 
+## 2.1.4
+
+### Patch Changes
+
+- [`364f3da`](https://github.com/zhangfisher/voerka-i18n/commit/364f3daa8822e1432dbaff8087519cee002c2be0) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix ci error
+
+- Updated dependencies [[`364f3da`](https://github.com/zhangfisher/voerka-i18n/commit/364f3daa8822e1432dbaff8087519cee002c2be0)]:
+  - @voerkai18n/runtime@2.1.4
+
 ## 2.1.3
 
 ### Patch Changes
