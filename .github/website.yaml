@@ -44,14 +44,14 @@ jobs:
         run:
           npm install -g pnpm
       - name: Install dependencies
-        run: pnpm install # or npm ci / yarn install / bun install /
+        run: pnpm install 
       - name: Install turbo        
         run: pnpm add -w -D turbo 
       - name: Build packages
         run: pnpm build:all 
       - name: pnpm docs:build
         run: |
-          pnpm docs:build # or  npm run docs:build / yarn docs:build / bun run docs:build
+          pnpm docs:build 
           touch docs/.vitepress/dist/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
