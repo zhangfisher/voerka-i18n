@@ -1,5 +1,13 @@
 # @voerkai18n/vite
 
+## 2.1.3
+
+### Patch Changes
+
+- 2a245d8: fix version no
+- Updated dependencies [2a245d8]
+  - @voerkai18n/utils@2.1.3
+
 ## 3.0.1
 
 ### Patch Changes

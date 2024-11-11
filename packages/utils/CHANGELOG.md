@@ -1,5 +1,11 @@
 # @voerkai18n/utils
 
+## 2.1.3
+
+### Patch Changes
+
+- 2a245d8: fix version no
+
 ## 3.0.1
 
 ## 3.0.0
