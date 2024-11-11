@@ -1,6 +1,6 @@
 {
   "name": "voerkai18n-docs",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "private": true,
   "main": "index.js",
@@ -16,10 +16,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": { 
+  "dependencies": {
     "@lite-tree/icons": "^1.0.6",
     "@lite-tree/vue": "^1.1.4",
     "flex-tools": "^1.4.11",
     "flexstyled": "^2.1.2"
-  } 
+  }
 }

@@ -1,14 +1,25 @@
 # @voerkai18n/runtime
 
-<<<<<<< HEAD
-=======
+## 3.0.0
+
+### Minor Changes
+
+- bb79a36: 更新依赖
+
+### Patch Changes
+
+- 193c382: 修改依赖关系
+
+# <<<<<<< HEAD
+
 ## 2.1.12
 
 ### Patch Changes
 
 - f89a023: 调整正则表达式的兼容性
 
->>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
+> > > > > > > 1361524204098e84c00dc7d7ba0e138616a309fc
+
 ## 2.1.10
 
 ### Patch Changes
