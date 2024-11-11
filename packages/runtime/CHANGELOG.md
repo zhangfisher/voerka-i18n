@@ -1,5 +1,11 @@
 # @voerkai18n/runtime
 
+## 2.1.3
+
+### Patch Changes
+
+- [`2a245d8`](https://github.com/zhangfisher/voerka-i18n/commit/2a245d82bee3cfeb20e2d522b96a847739984d30) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix version no
+
 ## 3.0.1
 
 ## 3.0.0
