@@ -49,7 +49,7 @@ importers:
         version: 4.0.2
       jest:
         specifier: ^27.5.1
-        version: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+        version: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
       logsets:
         specifier: ^1.3.1
         version: 1.3.1
@@ -81,7 +81,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
-  docs:
+  docs-new:
     dependencies:
       '@lite-tree/icons':
         specifier: ^1.0.6
@@ -2599,7 +2599,6 @@ packages:
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
-    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -2611,7 +2610,6 @@ packages:
 
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
-    deprecated: Use @eslint/object-schema instead
 
   '@iconify-json/simple-icons@1.2.11':
     resolution: {integrity: sha512-AHCGDtBRqP+JzAbBzgO8uN/08CXxEmuaC6lQQZ3b5burKhRU12AJnJczwbUw2K5Mb/U85EpSUNhYMG3F28b8NA==}
@@ -6755,9 +6753,6 @@ packages:
   flatted@3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
 
-  flex-tools@1.3.30:
-    resolution: {integrity: sha512-tK8uO+1qdtyLiJFY5n99zG0HXstw2qG+ao8udgrX0SRAPML8HbnndVuZBa8R+M8uF5f84R2gnRFugkH7HHnrzQ==}
-
   flex-tools@1.4.11:
     resolution: {integrity: sha512-DJoHQtk2HC6x9i74KCNTYWTMnkAXECYCjiN+/OD9ZeZJbKQ8Lzb/8xTeTKL2ax/FiHq3redOBHe2AYS0v7S0gg==}
 
@@ -6903,7 +6898,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: Upgrade to fsevents v2 to mitigate potential security issues
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -15223,7 +15218,7 @@ snapshots:
       - ts-node
       - utf-8-validate
 
-  '@jest/core@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))':
+  '@jest/core@27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))':
     dependencies:
       '@jest/console': 27.5.1
       '@jest/reporters': 27.5.1
@@ -15237,7 +15232,7 @@ snapshots:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 27.5.1
-      jest-config: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+      jest-config: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
       jest-haste-map: 27.5.1
       jest-message-util: 27.5.1
       jest-regex-util: 27.5.1
@@ -17811,7 +17806,7 @@ snapshots:
 
   axios@0.26.1:
     dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
+      follow-redirects: 1.15.2(debug@4.3.4(supports-color@6.1.0))
     transitivePeerDependencies:
       - debug
 
@@ -20055,7 +20050,7 @@ snapshots:
       eslint: 8.55.0
     optionalDependencies:
       '@typescript-eslint/eslint-plugin': 5.59.2(@typescript-eslint/parser@5.59.2(eslint@8.55.0)(typescript@5.3.3))(eslint@8.55.0)(typescript@5.3.3)
-      jest: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+      jest: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -20632,11 +20627,6 @@ snapshots:
 
   flatted@3.2.7: {}
 
-  flex-tools@1.3.30:
-    dependencies:
-      art-template: 4.13.2
-      glob: 10.3.4
-
   flex-tools@1.4.11:
     dependencies:
       art-template: 4.13.2
@@ -20657,7 +20647,7 @@ snapshots:
     dependencies:
       tabbable: 6.2.0
 
-  follow-redirects@1.15.2(debug@4.3.4):
+  follow-redirects@1.15.2(debug@4.3.4(supports-color@6.1.0)):
     optionalDependencies:
       debug: 4.3.4(supports-color@6.1.0)
 
@@ -21308,9 +21298,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@0.19.1(debug@4.3.4)(supports-color@6.1.0):
+  http-proxy-middleware@0.19.1(debug@4.3.4(supports-color@6.1.0))(supports-color@6.1.0):
     dependencies:
-      http-proxy: 1.18.1(debug@4.3.4)
+      http-proxy: 1.18.1(debug@4.3.4(supports-color@6.1.0))
       is-glob: 4.0.3
       lodash: 4.17.21
       micromatch: 3.1.10(supports-color@6.1.0)
@@ -21321,7 +21311,7 @@ snapshots:
   http-proxy-middleware@2.0.6(@types/express@4.17.17):
     dependencies:
       '@types/http-proxy': 1.17.11
-      http-proxy: 1.18.1(debug@4.3.4)
+      http-proxy: 1.18.1(debug@4.3.4(supports-color@6.1.0))
       is-glob: 4.0.3
       is-plain-obj: 3.0.0
       micromatch: 4.0.5
@@ -21330,10 +21320,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  http-proxy@1.18.1(debug@4.3.4):
+  http-proxy@1.18.1(debug@4.3.4(supports-color@6.1.0)):
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2(debug@4.3.4)
+      follow-redirects: 1.15.2(debug@4.3.4(supports-color@6.1.0))
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -21920,16 +21910,16 @@ snapshots:
       - ts-node
       - utf-8-validate
 
-  jest-cli@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3)):
+  jest-cli@27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3)):
     dependencies:
-      '@jest/core': 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+      '@jest/core': 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
       import-local: 3.1.0
-      jest-config: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+      jest-config: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
       jest-util: 27.5.1
       jest-validate: 27.5.1
       prompts: 2.4.2
@@ -21999,7 +21989,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  jest-config@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3)):
+  jest-config@27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3)):
     dependencies:
       '@babel/core': 7.23.5
       '@jest/test-sequencer': 27.5.1
@@ -22201,7 +22191,9 @@ snapshots:
       pretty-format: 24.9.0
       throat: 4.1.0
     transitivePeerDependencies:
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   jest-jasmine2@27.5.1:
     dependencies:
@@ -22613,7 +22605,7 @@ snapshots:
     dependencies:
       ansi-escapes: 4.3.2
       chalk: 4.1.2
-      jest: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+      jest: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
       jest-regex-util: 28.0.2
       jest-watcher: 28.1.3
       slash: 4.0.0
@@ -22702,11 +22694,11 @@ snapshots:
       - ts-node
       - utf-8-validate
 
-  jest@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3)):
+  jest@27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3)):
     dependencies:
-      '@jest/core': 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+      '@jest/core': 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
       import-local: 3.1.0
-      jest-cli: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+      jest-cli: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -23080,7 +23072,7 @@ snapshots:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
       core-js: 3.27.1
-      flex-tools: 1.3.30
+      flex-tools: 1.4.11
 
   loose-envify@1.4.0:
     dependencies:
@@ -25004,7 +24996,7 @@ snapshots:
       fs-extra: 10.1.0
       html-webpack-plugin: 5.5.1(webpack@5.81.0(@swc/core@1.3.56))
       identity-obj-proxy: 3.0.0
-      jest: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3))
+      jest: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.3.3))
       jest-resolve: 27.5.1
       jest-watch-typeahead: 1.1.0(jest@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.3.3)))
       mini-css-extract-plugin: 2.7.5(webpack@5.81.0(@swc/core@1.3.56))
@@ -27501,7 +27493,7 @@ snapshots:
       del: 4.1.1
       express: 4.18.2(supports-color@6.1.0)
       html-entities: 1.4.0
-      http-proxy-middleware: 0.19.1(debug@4.3.4)(supports-color@6.1.0)
+      http-proxy-middleware: 0.19.1(debug@4.3.4(supports-color@6.1.0))(supports-color@6.1.0)
       import-local: 2.0.0
       internal-ip: 4.3.0
       ip: 1.1.8

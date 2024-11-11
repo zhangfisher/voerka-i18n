@@ -1,4 +1,4 @@
-# Vite插件<!-- {docsify-ignore-all} -->
+# Vite插件
 
 `@voerkai18n/babel`插件在`vite`应用中不能正常使用，需要使用`@voerkai18n/vite`插件来完成类似的功能，包括自动文本映射和自动导入`t`函数。
 

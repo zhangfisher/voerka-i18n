@@ -1,4 +1,4 @@
-# 事件<!-- {docsify-ignore-all} -->
+# 事件
 
 `VoerkaI18n`和`i18nScope`提供了一些事件来侦听语言切换、语言包加载等事件。
 

@@ -1,4 +1,4 @@
-# 运行时<!-- {docsify-ignore-all} -->
+# 运行时
 
 `@voerkai18n/runtime`是`voerkai18n`的运行时依赖
 

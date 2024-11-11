@@ -1,4 +1,4 @@
-# OpenInula应用<!-- {docsify-ignore-all} -->
+# OpenInula应用
 
 `OpenInula`是华为开源的一个类`React`的构建用户界面的响应式`JavaScript`库，见[这里](https://openinula.net/)
 
@@ -17,7 +17,7 @@
 - 在应用中引入`@voerkai18n/openinula`和`@voerkai18n/vite`插件
 - 在源码中使用`t`函数进行翻译
 
-完整的工程化流程请参见[工程化](../start/quick-start)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
+完整的工程化流程请参见[工程化](../intro/get-started)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
 
 ## 第二步： 安装`Vite`插件
 
@@ -41,7 +41,7 @@ export default defineConfig({
 })
 ```
 
-详见[@voerkai18n/vite](/guide/tools/vite)插件介绍。
+详见[@voerkai18n/vite](../tools/vite)插件介绍。
 
 ## 第三步：导入`t`翻译函数
 

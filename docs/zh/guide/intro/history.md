@@ -1,4 +1,4 @@
-# 更新日志<!-- {docsify-ignore-all} -->
+# 更新日志
 
 ## V2.1.10
 
@@ -35,7 +35,7 @@ voerkai18n extract public
 
 ## V2.1.0
 
-- **[特性]** 新增加适配支持`OpenInula`，详见[OpenInula应用](/guide/integration/openinula)
+- **[特性]** 新增加适配支持`OpenInula`，详见[OpenInula应用](../integration/openinula)
 
 ## V2.0.30
 

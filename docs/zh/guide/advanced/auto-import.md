@@ -1,4 +1,4 @@
-# 自动导入翻译函数<!-- {docsify-ignore-all} -->
+# 自动导入翻译函数
 
 使用`voerkai18 compile`后，要进行翻译时需要从`./languages`导入`t`翻译函数。
 

@@ -1,4 +1,4 @@
-# 货币<!-- {docsify-ignore-all} -->
+# 货币
 ## 概述
 
 `voerkai18n`内置支持`currency`格式化器用来进行多语言场景下的货币显示。 

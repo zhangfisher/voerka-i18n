@@ -1,10 +1,10 @@
-# 命令行工具<!-- {docsify-ignore-all} -->
+# 命令行工具
 
 `@voerkai18n/cli`命令行工具用来实现工程初始化、扫描提取文本、自动翻译和编译语言等功能。
  
-<Alert type="error">
-<b>建议将<code>@voerkai18n/cli</code>命令行工具安装在全局</b>
-</Alert>
+:::warning 提示
+建议将`@voerkai18n/cli`命令行工具安装在全局
+:::
 
 
 ## 安装
@@ -68,21 +68,13 @@ Options:
 
 运行`voerkai18n init`命令后，会在当前工程中创建相应配置文件。
 
-<Tree title="myapp"> 
-  <ul> 
-        <li>
-          languages
-          <small>多语言目录</small>
-          <ul>
-            <li>settings.json</li>
-            <li>index.(js|ts)</li>
-            <li>idMap.(js|ts)</li>
-          </ul>
-        </li>
-        <li>index.md</li>
-        <li>package.json</li>
-        <li>...</li>  
-  </ul>
+<Tree> 
+  languages  // 多语言目录
+    settings.json
+    index.js|ts
+    idMap.js|ts
+    index.md
+    package.json    
 </Tree>
 
 `settings.json`文件很简单，主要是用来配置要支持的语言等基本信息。
@@ -247,20 +239,20 @@ Options:
 
 `voerkai18n compile`执行后会在`langauges`文件夹下输出：
 
-```typescript
-  |- languages
-    |- settings.json
-    |- index.(js|ts)
-    |- idMap.(js|ts)
-    |- zh.(js|ts)
-    |- en.(js|ts)
-    |- xx.(js|ts)
-    |- storage.(js|ts)
-    |- formatters
-      |- zh.(js|ts)
-      |- en.(js|ts)
-      |- xx.(js|ts)
-```
+<Tree>
+languages
+    settings.json
+    index.(js|ts)
+    idMap.(js|ts)
+    zh.(js|ts)
+    en.(js|ts)
+    xx.(js|ts)
+    storage.(js|ts)
+    formatters
+        zh.(js|ts)
+        en.(js|ts)
+        xx.(js|ts)
+</Tree>
 
 ## 多语言
 

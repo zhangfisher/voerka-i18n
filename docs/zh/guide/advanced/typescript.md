@@ -1,4 +1,4 @@
-# TypeScript<!-- {docsify-ignore-all} -->
+# TypeScript
 
 `voerkai18n`支持`TypeScript`开发。
 

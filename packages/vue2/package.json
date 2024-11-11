@@ -1,10 +1,6 @@
 {
   "name": "@voerkai18n/vue2",
-<<<<<<< HEAD
-  "version": "2.1.10",
-=======
   "version": "2.1.12",
->>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
   "description": "voerkai18n for vue2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

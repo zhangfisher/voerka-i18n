@@ -1,4 +1,4 @@
-# Babel插件<!-- {docsify-ignore-all} -->
+# Babel插件
 
 全局安装`@voerkai18n/babel`插件用来进行自动导入`t`函数和自动文本映射。
 ## 安装

@@ -1,10 +1,6 @@
 {
     "name": "@voerkai18n/utils",
-<<<<<<< HEAD
-    "version": "2.1.10",
-=======
     "version": "2.1.12",
->>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
     "description": "公共工具库",
     "main": "index.js",
     "scripts": {

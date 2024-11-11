@@ -1,4 +1,4 @@
-# 翻译函数<!-- {docsify-ignore-all} -->
+# 翻译函数
 
 默认提供翻译函数`t`用来进行翻译。一般情况下，`t`函数声明在执行`voerkai18n compile`命令生成在工程目录下的`languages/index.(js|ts)`文件中。
 

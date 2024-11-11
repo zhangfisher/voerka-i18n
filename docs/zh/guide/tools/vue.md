@@ -1,4 +1,4 @@
-# Vue插件<!-- {docsify-ignore-all} -->
+# Vue插件
 
 
 在`vue3`项目中可以安装`@voerkai18n/vue`来实现`枚举语言`、`变量注入`、`语言切换`等功能。

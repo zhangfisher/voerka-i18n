@@ -1,4 +1,4 @@
-# 复数<!-- {docsify-ignore-all} -->
+# 复数
 
 当翻译文本内容是一个`数组`时启用复数处理机制。即在`langauges/tranclates/*.json`中的文本翻译项是一个数组。
 

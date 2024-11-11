@@ -1,4 +1,4 @@
-# 语言包<!-- {docsify-ignore-all} -->
+# 语言包
 
 当使用`webpack`、`rollup`、`esbuild`进行项目打包时，默认语言包采用静态加载，会被打包进行源码中，而其他语言则采用异步打包方式。在`languages/index.js`中。
 

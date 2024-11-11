@@ -1,4 +1,4 @@
-# Vue应用<!-- {docsify-ignore-all} -->
+# Vue应用
 
 > 本节主要介绍如何在`Vue 3`应用中使用`VoerkaI18n`。
 
@@ -26,7 +26,7 @@
 - 在`Vue`应用中引入`@voerkai18n/vue`和`@voerkai18n/vite`插件
 - 在源码中使用`t`函数进行翻译
 
-完整的工程化流程请参见[工程化](../start/quick-start)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
+完整的工程化流程请参见[工程化](../intro/get-started)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
 
 ## 第二步：启用`@voerkai18n/vite`插件
 
@@ -55,7 +55,7 @@ export default defineConfig({
 ```
 - `@voerkai18n/vite`插件仅在开发和构建阶段作用。事实上，如果不在乎文本内容的冗余，不安装此插件也是可以工作正常的。
 - `vite-plugin-inspect`仅用于调试，可以在`http://localhost:3000/__inspect/`查看当前工程中的`@voerkai18n/vite`是否正确地进行自动导入和`idMap.ts`映射，供开发阶段进行调试使用。
-- `@voerkai18n/vite`插件的完整[使用说明](/guide/tools/vite)。
+- `@voerkai18n/vite`插件的完整[使用说明](../tools/vite)。
 ## 第三步：配置`@voerkai18n/vue`插件
 
 `@voerkai18n/vue`插件用来自动注入`t`函数、切换语言等功能。

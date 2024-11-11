@@ -1,4 +1,4 @@
-# Vue2应用<!-- {docsify-ignore-all} -->
+# Vue2应用
 
 > 本节主要介绍如何在`Vue 2`应用中使用`VoerkaI18n`。
 
@@ -24,7 +24,7 @@
 - 在`Vue`应用中引入`@voerkai18n/vue`和`@voerkai18n/vite`插件
 - 在源码中使用`t`函数进行翻译
 
-完整的工程化流程请参见[工程化](../start/quick-start)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
+完整的工程化流程请参见[工程化](../intro/get-started)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
 
 ## 第二步：启用`voerkai18n-loader`
 
