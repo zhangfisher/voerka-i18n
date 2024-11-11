@@ -44,11 +44,7 @@ jobs:
         run:
           npm install -g pnpm
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-      - name: Install turbo        
-        run: pnpm add -w -D turbo 
-      - name: Build packages
-        run: pnpm build:all 
+        run: pnpm install --no-frozen-lockfile 
       - name: pnpm docs:build
         run: |
           pnpm docs:build 
