@@ -1,7 +1,21 @@
 # @voerkai18n/cli
 
-<<<<<<< HEAD
-=======
+## 3.0.0
+
+### Minor Changes
+
+- bb79a36: 更新依赖
+
+### Patch Changes
+
+- 193c382: 修改依赖关系
+- Updated dependencies [bb79a36]
+- Updated dependencies [193c382]
+  - @voerkai18n/runtime@3.0.0
+  - @voerkai18n/utils@3.0.0
+
+# <<<<<<< HEAD
+
 ## 2.1.12
 
 ### Patch Changes
@@ -11,7 +25,8 @@
   - @voerkai18n/runtime@2.1.12
   - @voerkai18n/utils@2.1.12
 
->>>>>>> 1361524204098e84c00dc7d7ba0e138616a309fc
+> > > > > > > 1361524204098e84c00dc7d7ba0e138616a309fc
+
 ## 2.1.10
 
 ### Patch Changes
