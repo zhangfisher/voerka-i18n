@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "VoerkaI18n"
-  text: "全流程国际化解决方案"
+  text: "🚀全流程国际化解决方案"
   tagline: Nodejs/React/Vue/Solid/ReactNative/Uniapp/...
   actions:
     - theme: brand
