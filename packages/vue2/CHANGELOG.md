@@ -19,7 +19,7 @@
 - Updated dependencies [193c382]
   - @voerkai18n/runtime@3.0.0
 
-# <<<<<<< HEAD
+ 
 
 ## 2.1.12
 
@@ -28,8 +28,7 @@
 - f89a023: 调整正则表达式的兼容性
 - Updated dependencies [f89a023]
   - @voerkai18n/runtime@2.1.12
-
-> > > > > > > 1361524204098e84c00dc7d7ba0e138616a309fc
+ 
 
 ## 2.1.10
 
