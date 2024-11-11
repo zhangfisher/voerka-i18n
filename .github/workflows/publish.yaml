@@ -33,8 +33,9 @@ jobs:
 
             # 安装依赖
             - name: Install dependencies
-              run: pnpm install --no-frozen-lockfile
-
+              run: pnpm install  
+            - name: Build all packages
+              run: pnpm build:all  
             - name: Create Release Pull Request or Publish to npm
               id: changesets
               uses: changesets/action@v1
