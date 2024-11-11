@@ -1,5 +1,14 @@
 # @voerkai18n/vue
 
+## 3.0.1
+
+### Patch Changes
+
+- 340e27b: update vue packages error
+- dc9f796: 修改@voerkai18n/vue 包缺少 tsconfig.json 导致构建失败的问题
+- 814aa73: 修复引入@voerkai18n/runtime 的拼写错误
+  - @voerkai18n/runtime@3.0.1
+
 ## 3.0.0
 
 ### Minor Changes
