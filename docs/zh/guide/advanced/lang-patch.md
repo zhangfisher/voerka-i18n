@@ -36,7 +36,7 @@ chat
             default.json
     index.js
     package.json                  // name=chat
-<Tree>
+</Tree>
 
 打开`languages/index.js`,大概如下:
 ```javascript
