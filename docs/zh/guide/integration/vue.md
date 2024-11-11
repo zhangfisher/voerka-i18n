@@ -68,7 +68,7 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 // 导入插件
-import i18nPlugin from '@voerkai18n/vue'
+import { i18nPlugin } from '@voerkai18n/vue'
 // 导入当前作用域
 import { i18nScope } from './languages'
 

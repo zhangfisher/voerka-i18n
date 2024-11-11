@@ -16,21 +16,23 @@
 为说明如何利用远程加载语言包的机制为应用动态增加语言支持，我们将假设以下的应用：
 应用`chat`，依赖于`user`、`manager`、`log`等三个库，均使用了`voerkiai18n`作为多语言解决方案
 当执行完`voerkai18n compile`后，项目结构大概如下：
-```javascript
-chat
-  |-- languages
-  | |-- index.js
-  | |-- idMap.js   
-  | |-- runtime.js
-  | |-- settings.json                  
-  | |-- cn.js
-  | |-- en.js
-  |    |-- translates
-  |       |-- default.json
-  |-- index.js
-  |-- package.json                  //name=chat
 
-```
+<Tree>
+chat
+    languages
+        translates
+            default.json
+        index.js
+        idMap.js   
+        runtime.js
+        ettings.json                  
+        cn.js
+        en.js
+  index.js
+  package.json      // name=chat
+</Tree>
+
+
 打开`languages/index.js`,大概如下:
 ```javascript
 // ....
@@ -98,18 +100,19 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 ### 第三步：将语言包文件保存在服务器
 
 在上一步中，我们通过`fetch(/languages/${scope.id}/${language}.json)`来传递读取语言包（您可以使用任意您喜欢的方式,如`axios`），这意味着我们需要在web服务器上根据此`URL`来组织语言包，以便可以下载到语言包。比如可以这样组织：
-```javascript
+
+<Tree>
 webroot
-  |-- languages
-    <chat>          
-       |-- de.json        
-    <user>               
-       |-- de.json    
-    <manager>                 
-       |-- de.json   
-    <log>                 
-       |-- de.json               
-```
+    languages
+        chat          
+            de.json        
+        user               
+            de.json    
+        manager
+            de.json   
+        log                 
+            de.json               
+</Tree>
 
 `voerkaI18n`将编写**如何语言加载器**和**如何在服务器上组织语言包**交由开发者自行决定，您完全可以根据自己的喜好来决定如何组织语言包在服务器的位置以及如何加载，你甚至可以采用数据库来保存语言包，然后为之编写编辑界面，让用户可以自行修改。
 
@@ -152,13 +155,15 @@ module.exports = {
 - 当`i18nScope`注册到全局`VoerkaI18n`时，会调用默认的语言加载器,从服务器加载语言包，然后**合并到本地语言包中**，这样就很轻松地实现了为语言包打补丁的功能。
 
 在本例中，我们假设`chat`应用的中文语言发现翻译错误，需要一个语言包补丁来修复，方法如下：
-```javascript
-webroot
-  |-- languages
-    <chat>
-       |-- zh.json    
 
-```
+<Tree> 
+webroot
+  languages
+    chat            //! chat应用的语言包
+        zh.json    
+</Tree>
+
+
 按上例说明的方式，在服务器上编辑一个`zh.json`文件，保存到`languages/char/zh.json`，里面内容只需要包括出错的内容修复即可，其会自动合并到目标语言包中，整个过程对用户是无感的。
 
 ```javascript
@@ -182,6 +187,7 @@ webroot
 语言加载器是一个普通`异步函数`或者`返回Promise`的函数，可以用来从远程加载语言包文件。
 
 语言加载器时会传入两个参数：
+
 | 参数 | 说明 |
 | --- | --- |
 | **language** | 要切换的此语言|

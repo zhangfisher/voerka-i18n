@@ -31,7 +31,7 @@ export function injectVoerkaI18n(){
 }
 
 
-export default {
+export const i18nPlugin = {
     install: (app:App<any>, options:VoerkaI18nPluginOptions)=> {      
         const i18nScope = options.i18nScope 
         if(i18nScope===null){

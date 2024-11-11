@@ -18,7 +18,7 @@ yarn add @voerkai18n/vue
 ```javascript
     import { createApp } from 'vue'
     import Root from './App.vue'
-    import i18nPlugin from '@voerkai18n/vue'
+    import { i18nPlugin } from '@voerkai18n/vue'
     import { i18nScope } from './languages'
     const app = createApp(Root)
     app.use(i18nPlugin,{ i18nScope })   // 重点，需要引入i18nScope
@@ -55,7 +55,7 @@ this.i18n = {
 
 注入`i18n`实例后就可以在此基础上实现`激活语言`、`默认语言`、`切换语言`等功能。
 
-```javascript
+```ts
 <script>
 import {reactive } from 'vue'
 export default {
@@ -80,10 +80,10 @@ export default {
 
 `@voerkai18n/vue`插件支持以下参数：
 
-```javascript
+```ts {3}
 import { i18nScope } from './languages'
 app.use(i18nPlugin,{ 
-    i18nScope,				// 重点，需要引入当前作用域的i18nScope 
+    i18nScope,				//重点，需要引入当前作用域的i18nScope 
 })   
 
 ```

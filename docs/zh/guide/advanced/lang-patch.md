@@ -19,24 +19,24 @@
 应用`chat`，依赖于`user`、`manager`、`log`等三个库，均使用了`voerkiai18n`作为多语言解决方案。
 其拟支持`zh`、`en`、`de`共三种语言。
 当执行完`voerkai18n compile`后，项目结构大概如下：
-```javascript
-chat
-  |-- languages
-  | |-- index.js
-  | |-- idMap.js   
-  | |-- runtime.js
-  | |-- settings.json                  
-  | |-- zh.js
-  | |-- en.js
-  | |-- formatters
-  |     |-- zh.js
-  |     |-- en.js
-  | |-- translates
-  |       |-- default.json
-  |-- index.js
-  |-- package.json                  //name=chat
 
-```
+<Tree>
+chat
+    languages
+        index.js
+        idMap.js   
+        runtime.js
+        settings.json                  
+        zh.js
+        en.js
+        formatters
+            zh.js
+            en.js
+        translates
+            default.json
+    index.js
+    package.json                  // name=chat
+<Tree>
 
 打开`languages/index.js`,大概如下:
 ```javascript
@@ -99,18 +99,19 @@ module.exports = {
 ### 第三步：组织语言包补丁文件
 在上面中，我们通过`fetch(/languages/${scope.id}/${language}.json)`来读取语言包（您可以使用任意您喜欢的方式,如`axios`），这意味着我们需要在web服务器上根据此`URL`来组织语言包补丁，以便可以下载到语言包补丁。需要将语言包补丁保存在服务器的指定位置，如下：
 
-```javascript
+<Tree>
 webroot
-  |-- languages
-    <chat>          
-       |-- zh.json        
-    <user>               
-       |-- zh.json    
-    <manager>                 
-       |-- zh.json   
-    <log>                 
-       |-- zh.json               
-```
+    languages
+        chat          
+            de.json        
+        user               
+            de.json    
+        manager
+            de.json   
+        log                 
+            de.json               
+</Tree>
+
 ### 完成：自动打语言包补丁
 
 至此，语言包补丁功能已配置完毕。当应用启动时就会自动加载该补丁合并到线上应用的语言包中。
