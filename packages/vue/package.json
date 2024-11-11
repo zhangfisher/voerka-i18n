@@ -18,7 +18,6 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "version:patch": "npm version patch --commit-hooks=false",
         "build": "tsup"
     },
     "author": "wxzhang",

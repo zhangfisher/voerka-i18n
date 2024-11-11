@@ -46,7 +46,6 @@ jobs:
                   # this doesn't work but semantic-release works
                   # see https://github.com/sonofmagic/npm-lib-rollup-template/blob/main/.github/workflows/release.yml#L46
                   # NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-                  version: pnpm version:all
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
                   npm_config_registry: https://registry.npmjs.org
