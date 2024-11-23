@@ -40,6 +40,7 @@ export default defineConfig({
             { text: '快速入门', link: '/zh/guide/intro/get-started' },
             { text: '更新历史', link: '/zh/guide/intro/history' },
             { text: '常见问题', link: '/zh/guide/intro/question' },
+            { text: '获取支持', link: '/zh/guide/intro/support' },
           ]
         },
         {
