@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/react",
-    "version": "2.1.6",
+    "version": "2.1.12",
     "description": "React支持,提供语言切换等功能",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
@@ -17,7 +17,7 @@
     ],
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "release": "tsup --metafile && pnpm publish --no-git-checks",
+        "release": "npm publish",
         "build": "tsup"
     },
     "author": "wxzhang",

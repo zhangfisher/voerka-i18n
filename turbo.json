@@ -16,6 +16,8 @@
           "lint"
         ]
       },
+      "release": { 
+      },
       "test": {
         "dependsOn": [
           "build"

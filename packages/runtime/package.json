@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "2.1.6",
+    "version": "2.1.12",
     "description": "runtime of voerkai18n",
     "main": "./src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -16,7 +16,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsup",
-        "release": "tsup --metafile && pnpm publish --no-git-checks"
+        "release": "npm publish"
     },
     "author": "wxzhang",
     "license": "MIT",

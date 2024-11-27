@@ -1,6 +1,6 @@
 {
     "name": "voerkai18n-loader",
-    "version": "2.1.6",
+    "version": "2.1.12",
     "description": "voerkai18n loader for webpack",
     "main": "loader.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -9,7 +9,7 @@
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "release": "npm publish",
         "build": "tsup"
     },
     "keywords": [],

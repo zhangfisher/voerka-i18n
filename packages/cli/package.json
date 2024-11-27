@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/cli",
-    "version": "2.1.6",
+    "version": "2.1.12",
     "description": "命令行工具,用来初始化/提取/编译/自动翻译等工具链",
     "main": "index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -19,7 +19,8 @@
         "translate": "node ./index.js translate",
         "extract": "node ./index.js extract -D -e templates/** ",
         "compile": "node ./index.js compile",
-        "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d"
+        "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d",
+        "release": "npm publish"
     },
     "author": "wxzhang",
     "license": "MIT",
