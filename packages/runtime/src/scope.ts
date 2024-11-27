@@ -311,7 +311,7 @@ export class VoerkaI18nScope {
 		this._refreshing = true;
 		if (!newLanguage) newLanguage = this.activeLanguage;
 		// 默认语言：由于默认语言采用静态加载方式而不是异步块,因此只需要简单的替换即可
-		if (newLanguage === this.defaultLanguage) {
+		if (newLanguage === this._defaultLanguage) {
 			this._currentMessages = this.default;
             this._restorePatchedMessages(this._currentMessages, newLanguage); // 恢复补丁
 			await this._patch(this._currentMessages, newLanguage); // 异步补丁

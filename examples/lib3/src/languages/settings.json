@@ -10,7 +10,5 @@
             "default": true
         }
     ],
-    "defaultLanguage": "zh",
-    "activeLanguage": "zh",
     "namespaces": {}
 }

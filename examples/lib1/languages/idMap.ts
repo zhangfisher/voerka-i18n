@@ -1,1 +1,7 @@
-export default {}
+export default {
+    "中华人民共和国万岁！": 1,
+    "抽奖": 2,
+    "抽奖完毕": 3,
+    "中奖 _value": 4,
+    "中奖 _val": 5
+}

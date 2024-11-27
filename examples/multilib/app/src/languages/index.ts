@@ -3,20 +3,22 @@
  */
 import idMap from "./idMap"                                             // 语言ID映射文件
 import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
-import defaultFormatters from "./formatters/zh"  
-import defaultMessages from "./zh"  
+import defaultFormatters from "./formatters/en"  
+import defaultMessages from "./en"  
 import storage  from "./storage"
 
 
 
 const messages = {
-    'zh' :  defaultMessages,
-    'en' : ()=>import("./en")
+    'zh' : ()=>import("./zh"),
+	'en' :  defaultMessages
+    
 }
 
 const formatters = {
-    'zh' :  defaultFormatters,
-    'en' : ()=>import("./formatters/en")
+    'zh' : ()=>import("./formatters/zh"),
+	'en' :  defaultFormatters
+    
 }
 
 // 语言配置文件
@@ -28,20 +30,20 @@ const scopeSettings = {
         },
         {
             "name": "en",
-            "title": "英语"
+            "title": "英语",
+            "default": true,
+            "active": true
         }
     ],
-    "defaultLanguage": "zh",
-    "activeLanguage": "zh",
     "namespaces": {}
 }
 
 // 语言作用域
 const scope = new VoerkaI18nScope({    
-    id          : "voerkai18n-example-lib2",                    // 当前作用域的id，自动取当前工程的package.json的name
+    id          : "main",                    // 当前作用域的id，自动取当前工程的package.json的name
     debug       : false,                            // 是否在控制台输出调试信息   
     idMap,                                          // 消息id映射列表  
-    library     : true,                      // 开发库时设为true
+    library     : false,                      // 开发库时设为true
     messages,                                       // 语言包
     formatters,                                     // 扩展自定义格式化器    
     storage,                                        // 语言配置存储器
