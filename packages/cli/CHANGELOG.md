@@ -1,5 +1,15 @@
 # @voerkai18n/cli
 
+## 2.1.6
+
+### Patch Changes
+
+- [`609ab62`](https://github.com/zhangfisher/voerka-i18n/commit/609ab623ffbabce0aacf61fdbaeae6569477bcde) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix release
+
+- Updated dependencies [[`609ab62`](https://github.com/zhangfisher/voerka-i18n/commit/609ab623ffbabce0aacf61fdbaeae6569477bcde)]:
+  - @voerkai18n/runtime@2.1.6
+  - @voerkai18n/utils@2.1.6
+
 ## 2.1.5
 
 ### Patch Changes
