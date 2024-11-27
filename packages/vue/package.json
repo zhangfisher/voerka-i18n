@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vue",
-    "version": "2.1.6",
+    "version": "2.1.7",
     "description": "voerkai18n for vue3",
     "access": "public",
     "main": "dist/index.js",

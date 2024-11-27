@@ -1,5 +1,14 @@
 # voerkai18n-loader
 
+## 2.1.7
+
+### Patch Changes
+
+- [`9da2ed6`](https://github.com/zhangfisher/voerka-i18n/commit/9da2ed690e0f69f74d8163af6f1e89fbaa856a33) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix release
+
+- Updated dependencies [[`9da2ed6`](https://github.com/zhangfisher/voerka-i18n/commit/9da2ed690e0f69f74d8163af6f1e89fbaa856a33)]:
+  - @voerkai18n/utils@2.1.7
+
 ## 2.1.6
 
 ### Patch Changes
