@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/vue",
-    "version": "2.1.12",
+    "version": "2.1.13",
     "description": "voerkai18n for vue3",
     "access": "public",
     "main": "dist/index.js",
@@ -17,7 +17,7 @@
         "types": "dist/index.d.ts"
     },
     "scripts": {
-      "release": "npm publish",
+        "release": "npm publish",
         "build": "tsup"
     },
     "author": "wxzhang",

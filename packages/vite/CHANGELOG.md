@@ -1,5 +1,14 @@
 # @voerkai18n/vite
 
+## 2.1.13
+
+### Patch Changes
+
+- [`a13a3ef`](https://github.com/zhangfisher/voerka-i18n/commit/a13a3efa54c2fcb577c65e208e203a726486b1e8) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix versions
+
+- Updated dependencies [[`a13a3ef`](https://github.com/zhangfisher/voerka-i18n/commit/a13a3efa54c2fcb577c65e208e203a726486b1e8)]:
+  - @voerkai18n/utils@2.1.13
+
 ## 2.1.6
 
 ### Patch Changes
