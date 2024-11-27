@@ -1,5 +1,11 @@
 # @voerkai18n/utils
 
+## 2.1.5
+
+### Patch Changes
+
+- [`85c43b1`](https://github.com/zhangfisher/voerka-i18n/commit/85c43b12ccb13672aa8c118e02c885141e6eb071) Thanks [@zhangfisher](https://github.com/zhangfisher)! - 修复在多库场景下主应用与库切换不同步的问题
+
 ## 2.1.4
 
 ### Patch Changes
