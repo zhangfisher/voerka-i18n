@@ -192,7 +192,6 @@ export class VoerkaI18nManager extends LiteEvent<any,VoerkaI18nEvents>{
      * @param {*} scope 
      */
     async register(scope:VoerkaI18nScope){ 
-        debugger   
         const isInit = this._scopes.length===0 && !scope.options.library
         this._scopes.push(scope) 
         if(this._scopes.length===1) this._appScopeId = scope.id
