@@ -1,5 +1,11 @@
 # @voerkai18n/utils
 
+## 2.1.6
+
+### Patch Changes
+
+- [`609ab62`](https://github.com/zhangfisher/voerka-i18n/commit/609ab623ffbabce0aacf61fdbaeae6569477bcde) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix release
+
 ## 2.1.5
 
 ### Patch Changes
