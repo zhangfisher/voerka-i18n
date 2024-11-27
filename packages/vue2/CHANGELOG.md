@@ -1,5 +1,16 @@
 # @voerkai18n/vue2
 
+## 2.1.6
+
+### Patch Changes
+
+- [`9da2ed6`](https://github.com/zhangfisher/voerka-i18n/commit/9da2ed690e0f69f74d8163af6f1e89fbaa856a33) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix release
+
+- [`609ab62`](https://github.com/zhangfisher/voerka-i18n/commit/609ab623ffbabce0aacf61fdbaeae6569477bcde) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix release
+
+- Updated dependencies [[`9da2ed6`](https://github.com/zhangfisher/voerka-i18n/commit/9da2ed690e0f69f74d8163af6f1e89fbaa856a33), [`609ab62`](https://github.com/zhangfisher/voerka-i18n/commit/609ab623ffbabce0aacf61fdbaeae6569477bcde)]:
+  - @voerkai18n/runtime@2.1.6
+
 ## 2.1.5
 
 ### Patch Changes
