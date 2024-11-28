@@ -11,7 +11,7 @@
   "dependencies": {
     "@voerkai18n/runtime": "workspace:*",
     "voerkai18n-example-lib1": "workspace:*",
-    "voerkai18n-example-lib2": "workspace:*",
+    "voerkai18n-example-lib22": "workspace:*",
     "voerkai18n-example-utils": "workspace:*",
     "vue": "3.5.13"
   },
