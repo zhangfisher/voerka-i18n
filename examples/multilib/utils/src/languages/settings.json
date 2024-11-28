@@ -1,0 +1,14 @@
+{
+    "languages": [
+        {
+            "name": "zh",
+            "title": "中文",
+            "default": true
+        },
+        {
+            "name": "en",
+            "title": "英语"
+        }
+    ],
+    "namespaces": {}
+}

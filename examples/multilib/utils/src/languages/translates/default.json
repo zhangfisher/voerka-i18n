@@ -1,0 +1,8 @@
+{
+    "工具:中文": {
+        "en": "utils:china",
+        "$files": [
+            "index.js"
+        ]
+    }
+}
