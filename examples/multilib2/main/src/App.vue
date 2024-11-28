@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { t, i18nScope } from "./languages";
-import {test_lib1} from 'voerkai18n-example-lib1'
+import {test_lib1} from 'voerkai18n-example-lib11'
 import {test_lib2} from 'voerkai18n-example-lib22'
 import {utils_test} from 'voerkai18n-example-utils'
 
