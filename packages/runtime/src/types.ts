@@ -21,10 +21,10 @@ export interface VoerkaI18nLanguagePack {
 export type Voerkai18nIdMap = Record<string, number>
 
 export interface VoerkaI18nLanguageDefine {
-    name: string
-    title?: string
-    default?: boolean           // 是否默认语言
-    active?: boolean                 
+    name     : string
+    title?   : string
+    default? : boolean           // 是否默认语言
+    active?  : boolean                 
     fallback?: string
 }
 

@@ -49,7 +49,7 @@ importers:
         version: 4.0.2
       jest:
         specifier: ^27.5.1
-        version: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+        version: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
       logsets:
         specifier: ^1.3.1
         version: 1.3.1
@@ -90,8 +90,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4(vue@3.5.13(typescript@5.6.3))
       flex-tools:
-        specifier: ^1.4.11
-        version: 1.4.11
+        specifier: ^1.4.12
+        version: 1.4.12
       flexstyled:
         specifier: ^2.1.2
         version: 2.1.2(@types/react@18.2.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -200,6 +200,55 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime
 
+  examples/multilib2/lib11:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime
+      voerkai18n-example-utils:
+        specifier: workspace:*
+        version: link:../../multilib/utils
+
+  examples/multilib2/lib22:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime
+      voerkai18n-example-utils:
+        specifier: workspace:*
+        version: link:../../multilib/utils
+
+  examples/multilib2/main:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime
+      voerkai18n-example-lib11:
+        specifier: workspace:*
+        version: link:../lib11
+      voerkai18n-example-lib22:
+        specifier: workspace:*
+        version: link:../lib22
+      voerkai18n-example-utils:
+        specifier: workspace:*
+        version: link:../../multilib/utils
+      vue:
+        specifier: 3.5.13
+        version: 3.5.13(typescript@5.6.3)
+    devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: 5.1.2
+        version: 5.1.2(vite@5.2.12(@types/node@18.16.3)(sass@1.26.5)(terser@5.18.2))(vue@3.5.13(typescript@5.6.3))
+      typescript:
+        specifier: 5.6.3
+        version: 5.6.3
+      vite:
+        specifier: 5.2.12
+        version: 5.2.12(@types/node@18.16.3)(sass@1.26.5)(terser@5.18.2)
+      vue-tsc:
+        specifier: 2.0.24
+        version: 2.0.24(typescript@5.6.3)
+
   examples/nodejs:
     dependencies:
       '@voerkai18n/cli':
@@ -228,10 +277,10 @@ importers:
         version: link:../../packages/runtime
       voerkai18n-example-lib1:
         specifier: workspace:^
-        version: link:../multilib/lib1
+        version: link:../lib1
       voerkai18n-example-lib2:
         specifier: workspace:^
-        version: link:../multilib/lib2
+        version: link:../lib2
     devDependencies:
       ts-node:
         specifier: latest
@@ -676,6 +725,9 @@ importers:
       flex-tools:
         specifier: ^1.4.11
         version: 1.4.11
+      flexvars:
+        specifier: ^1.0.0
+        version: 1.0.0
     devDependencies:
       '@swc/core':
         specifier: ^1.3.44
@@ -6856,11 +6908,13 @@ packages:
   eslint@8.49.0:
     resolution: {integrity: sha512-jw03ENfm6VJI0jA9U+8H5zfl5b+FvuU3YYvZRdZHOlU2ggJkxrlkJH4HcDrZpj6YwD8kuYqvQM8LyesoazrSOQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   eslint@8.55.0:
     resolution: {integrity: sha512-iyUUAM0PCKj5QpwGfmCAG9XXbZCWsqP/eWAWrG/W0umvjuLRBECwSFdt+rCntju0xEH7teIABPwXpahftIaTdA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -7142,12 +7196,18 @@ packages:
   flex-tools@1.4.11:
     resolution: {integrity: sha512-DJoHQtk2HC6x9i74KCNTYWTMnkAXECYCjiN+/OD9ZeZJbKQ8Lzb/8xTeTKL2ax/FiHq3redOBHe2AYS0v7S0gg==}
 
+  flex-tools@1.4.12:
+    resolution: {integrity: sha512-H6rszT3iM2M7wyIYPJ9HIYH6eY/kK1Lr4m4jRWE7B5hkC6uGUIGQNwC3B4Eo5+dROovVup01G3nY5UopskFUrg==}
+
   flexstyled@2.1.2:
     resolution: {integrity: sha512-EBvH01pUOiU+pwAu2dLYIM1cqrFkYCp+ZTCyqBUlnjwrz1zlJIem7FQoPYV79TAgYHXSnitN98A7ilhnaO97oA==}
     peerDependencies:
       '@types/react': ^18.2.40
       react: ^18.2.0
       react-dom: ^18.2.0
+
+  flexvars@1.0.0:
+    resolution: {integrity: sha512-ceJ8Os1fONZOLCLfXrvMvYq1drKIGxliyM22hyI8TnfGPvroYJNF/JUYtTo6jfFav87cayWcaiRIo6exQbnT8A==}
 
   flush-write-stream@1.1.1:
     resolution: {integrity: sha512-3Z4XhFZ3992uIq0XOqb9AreonueSYphE6oYbpt5+3u06JWklbsPkNv3ZKkP9Bz/r+1MWCaMoSQ28P85+1Yc77w==}
@@ -15716,7 +15776,7 @@ snapshots:
       - ts-node
       - utf-8-validate
 
-  '@jest/core@27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))':
+  '@jest/core@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))':
     dependencies:
       '@jest/console': 27.5.1
       '@jest/reporters': 27.5.1
@@ -15730,7 +15790,7 @@ snapshots:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 27.5.1
-      jest-config: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+      jest-config: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
       jest-haste-map: 27.5.1
       jest-message-util: 27.5.1
       jest-regex-util: 27.5.1
@@ -18388,7 +18448,7 @@ snapshots:
 
   axios@0.26.1:
     dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4(supports-color@6.1.0))
+      follow-redirects: 1.15.2(debug@4.3.4)
     transitivePeerDependencies:
       - debug
 
@@ -20672,7 +20732,7 @@ snapshots:
       eslint: 8.55.0
     optionalDependencies:
       '@typescript-eslint/eslint-plugin': 5.59.2(@typescript-eslint/parser@5.59.2(eslint@8.55.0)(typescript@5.6.3))(eslint@8.55.0)(typescript@5.6.3)
-      jest: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+      jest: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -21249,11 +21309,18 @@ snapshots:
       art-template: 4.13.2
       glob: 10.3.4
 
+  flex-tools@1.4.12:
+    dependencies:
+      art-template: 4.13.2
+      glob: 10.4.5
+
   flexstyled@2.1.2(@types/react@18.2.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@types/react': 18.2.22
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+
+  flexvars@1.0.0: {}
 
   flush-write-stream@1.1.1:
     dependencies:
@@ -21264,7 +21331,7 @@ snapshots:
     dependencies:
       tabbable: 6.2.0
 
-  follow-redirects@1.15.2(debug@4.3.4(supports-color@6.1.0)):
+  follow-redirects@1.15.2(debug@4.3.4):
     optionalDependencies:
       debug: 4.3.4(supports-color@6.1.0)
 
@@ -21913,9 +21980,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@0.19.1(debug@4.3.4(supports-color@6.1.0))(supports-color@6.1.0):
+  http-proxy-middleware@0.19.1(debug@4.3.4)(supports-color@6.1.0):
     dependencies:
-      http-proxy: 1.18.1(debug@4.3.4(supports-color@6.1.0))
+      http-proxy: 1.18.1(debug@4.3.4)
       is-glob: 4.0.3
       lodash: 4.17.21
       micromatch: 3.1.10(supports-color@6.1.0)
@@ -21926,7 +21993,7 @@ snapshots:
   http-proxy-middleware@2.0.6(@types/express@4.17.17):
     dependencies:
       '@types/http-proxy': 1.17.11
-      http-proxy: 1.18.1(debug@4.3.4(supports-color@6.1.0))
+      http-proxy: 1.18.1(debug@4.3.4)
       is-glob: 4.0.3
       is-plain-obj: 3.0.0
       micromatch: 4.0.8
@@ -21935,10 +22002,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  http-proxy@1.18.1(debug@4.3.4(supports-color@6.1.0)):
+  http-proxy@1.18.1(debug@4.3.4):
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2(debug@4.3.4(supports-color@6.1.0))
+      follow-redirects: 1.15.2(debug@4.3.4)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -22529,16 +22596,16 @@ snapshots:
       - ts-node
       - utf-8-validate
 
-  jest-cli@27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3)):
+  jest-cli@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3)):
     dependencies:
-      '@jest/core': 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+      '@jest/core': 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
       import-local: 3.1.0
-      jest-config: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+      jest-config: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
       jest-util: 27.5.1
       jest-validate: 27.5.1
       prompts: 2.4.2
@@ -22608,7 +22675,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  jest-config@27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3)):
+  jest-config@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3)):
     dependencies:
       '@babel/core': 7.23.5
       '@jest/test-sequencer': 27.5.1
@@ -23224,7 +23291,7 @@ snapshots:
     dependencies:
       ansi-escapes: 4.3.2
       chalk: 4.1.2
-      jest: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+      jest: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
       jest-regex-util: 28.0.2
       jest-watcher: 28.1.3
       slash: 4.0.0
@@ -23313,11 +23380,11 @@ snapshots:
       - ts-node
       - utf-8-validate
 
-  jest@27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3)):
+  jest@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3)):
     dependencies:
-      '@jest/core': 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+      '@jest/core': 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
       import-local: 3.1.0
-      jest-cli: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+      jest-cli: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -23691,7 +23758,7 @@ snapshots:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
       core-js: 3.27.1
-      flex-tools: 1.4.11
+      flex-tools: 1.4.12
 
   loose-envify@1.4.0:
     dependencies:
@@ -25587,7 +25654,7 @@ snapshots:
       fs-extra: 10.1.0
       html-webpack-plugin: 5.5.1(webpack@5.81.0(@swc/core@1.3.56))
       identity-obj-proxy: 3.0.0
-      jest: 27.5.1(ts-node@10.9.2(@types/node@18.16.3)(typescript@5.6.3))
+      jest: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3))
       jest-resolve: 27.5.1
       jest-watch-typeahead: 1.1.0(jest@27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.6.3)))
       mini-css-extract-plugin: 2.7.5(webpack@5.81.0(@swc/core@1.3.56))
@@ -28086,7 +28153,7 @@ snapshots:
       del: 4.1.1
       express: 4.18.2(supports-color@6.1.0)
       html-entities: 1.4.0
-      http-proxy-middleware: 0.19.1(debug@4.3.4(supports-color@6.1.0))(supports-color@6.1.0)
+      http-proxy-middleware: 0.19.1(debug@4.3.4)(supports-color@6.1.0)
       import-local: 2.0.0
       internal-ip: 4.3.0
       ip: 1.1.8

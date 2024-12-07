@@ -24,11 +24,11 @@ const defaultLanguageSettings = {
 } as VoerkaI18nManagerOptions
 
 export interface VoerkaI18nManagerOptions {
-    debug?: boolean
+    debug?         : boolean
     defaultLanguage: string
-    activeLanguage: string
-    languages: VoerkaI18nLanguageDefine[]
-    storage?:IVoerkaI18nStorage                                 // 语言包存储器
+    activeLanguage : string
+    languages      : VoerkaI18nLanguageDefine[]
+    storage?       : IVoerkaI18nStorage                                 // 语言包存储器
 }
 
 export type VoerkaI18nEvents =     

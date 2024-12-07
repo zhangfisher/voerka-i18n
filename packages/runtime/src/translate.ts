@@ -44,7 +44,6 @@ function getPluraMessage(messages:any,value:number){
  * 
  */
 export function translate(this:VoerkaI18nScope,message:string,...args:any[]):string { 
-    const scope = this
     // 如果内容是复数，则其值是一个数组，数组中的每个元素是从1-N数量形式的文本内容
     let result:string | string[] = message
     let vars=[]                             // 插值变量列表
@@ -59,7 +58,7 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
                 if(isFunction(value)){
                     try{
                         dictVars[name] = value()
-                    }catch(e){
+                    }catch{
                         dictVars[name] = value
                     }
                 } 
@@ -71,12 +70,12 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
             }            
             vars = [dictVars]
         }else if(arguments.length >= 2){ // 位置插值
-            vars = [...arguments].splice(1).map((arg,index)=>{
+            vars = [...arguments].splice(1).map((arg)=>{
                 try{
                     arg = isFunction(arg) ? arg() : arg         
                     // 约定：位置参数中以第一个数值变量作为指示复数变量
                     if(isNumber(arg)) pluraValue = parseInt(arg)     
-                }catch(e){
+                }catch{
                     return String(arg)
                  }
                 return arg   
@@ -84,11 +83,11 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
         }
         
         if(isMessageId(message)){ // 如果是数字id,
-            result = (scope.current as any)[message] || message
+            result = (this.current as any)[message] || message
         }else{
-            const msgId = scope.idMap[message]  
+            const msgId = this.idMap[message]  
             // 语言包可能是使用idMap映射过的，则需要转换
-            result = (msgId ? (scope.current as any)[msgId]  : (scope.current as any)[message]) ?? message
+            result = (msgId ? (this.current as any)[msgId]  : (this.current as any)[message]) ?? message
         }
 
          // 2. 处理复数
@@ -106,8 +105,8 @@ export function translate(this:VoerkaI18nScope,message:string,...args:any[]):str
         // 如果没有传入插值变量，则直接返回
         if(args.length===0) return result as string
         // 进行插值处理
-        return replaceInterpolatedVars.call(scope,result as string,...vars)
-    }catch(e){
+        return replaceInterpolatedVars.call(this,result as string,...vars)
+    }catch{
         return result as any      // 出错则返回原始文本
     } 
 }
