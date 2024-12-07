@@ -35,6 +35,7 @@ import { FormatterDefineChain, parseFormatters } from "./formatter"
 import { VoerkaI18nScope } from "./scope"
 import {   VoerkaI18nFormatterConfigs } from './types';
 
+
 // 用来提取字符里面的插值变量参数 , 支持管道符 { var | formatter | formatter }
 // 支持参数： { var | formatter(x,x,..) | formatter }
 // v1 采用命名捕获组

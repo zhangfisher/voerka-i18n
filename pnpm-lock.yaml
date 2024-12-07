@@ -726,8 +726,8 @@ importers:
         specifier: ^1.4.11
         version: 1.4.11
       flexvars:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
     devDependencies:
       '@swc/core':
         specifier: ^1.3.44
@@ -7206,8 +7206,8 @@ packages:
       react: ^18.2.0
       react-dom: ^18.2.0
 
-  flexvars@1.0.0:
-    resolution: {integrity: sha512-ceJ8Os1fONZOLCLfXrvMvYq1drKIGxliyM22hyI8TnfGPvroYJNF/JUYtTo6jfFav87cayWcaiRIo6exQbnT8A==}
+  flexvars@1.0.1:
+    resolution: {integrity: sha512-cwqDpDB9X0twEd8oTEmePvp9lGOKOtKyJKTg7Ju5N1h3sEY6t9rhLBdRsFrms0WwZ1KlqVVpWJJA5lShi0GA5g==}
 
   flush-write-stream@1.1.1:
     resolution: {integrity: sha512-3Z4XhFZ3992uIq0XOqb9AreonueSYphE6oYbpt5+3u06JWklbsPkNv3ZKkP9Bz/r+1MWCaMoSQ28P85+1Yc77w==}
@@ -21320,7 +21320,9 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  flexvars@1.0.0: {}
+  flexvars@1.0.1:
+    dependencies:
+      flex-tools: 1.4.12
 
   flush-write-stream@1.1.1:
     dependencies:
