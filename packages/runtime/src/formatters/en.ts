@@ -133,9 +133,9 @@ export default {
     },
     // 默认数据类型的格式化器
     $types: {
-        Null     : (value: any) =>"",
-        Undefined: (value: any) =>"",
-        Error    : (value: any) => "ERROR",
+        Null     : () =>"",
+        Undefined: () =>"",
+        Error    : () => "ERROR",
         Boolean  : (value: any) =>value ? "True":"False",
     },
     // 以下是格式化定义

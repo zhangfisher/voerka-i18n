@@ -63,8 +63,8 @@ export default  {
         }
     },
     $types: {
-        Null     : (value: any) =>"",
-        Undefined: (value: any) =>"",
+        Null     : () =>"",
+        Undefined: () =>"",
         Boolean  : (value:any) =>value ? "是":"否"
     }
 } 

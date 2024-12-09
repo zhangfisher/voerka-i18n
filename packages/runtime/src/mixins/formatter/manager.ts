@@ -21,6 +21,7 @@ import { VoerkaI18nFormatter,
         VoerkaI18nTypesFormatters  
 } from '../../types'; 
 import { deepClone } from 'flex-tools/object/deepClone';
+import inlineFormatters from "../../formatters"         
 
 export interface VoerkaI18nScopeCache{
     activeLanguage :string | null,
@@ -39,11 +40,11 @@ export interface GetFormatterOptions{
     inGlobal?:boolean                                   // 在全局中查找
 }
 
-const EmptyFormatters:any = {
+const EmptyFormatters = {
     $config:{},
     $types:{}
 }
-
+const EmptyFormater = (value:any)=>value
 export interface VoerkaI18nScopeFormatterCache{
     typedFormatters:VoerkaI18nTypesFormatters,
     formatters     : Record<string,VoerkaI18nFormatter>,
@@ -51,27 +52,36 @@ export interface VoerkaI18nScopeFormatterCache{
 
 export class VoerkaI18nFormatterManager{
     private _formatters:VoerkaI18nLanguageFormatters = {} 
-    private _activeFormatters:VoerkaI18nFormatters = {}
-    private _activeFormattersConfigs :VoerkaI18nFormatterConfigs = {}
-    private _scope?:VoerkaI18nScope
-    private _language?:string                                                // 当前语言
-    private _cache:VoerkaI18nScopeFormatterCache = {typedFormatters:{},formatters:{}}
+    private _activeFormatters:VoerkaI18nFormatters = {}  
+    private _fallbackFormatters:VoerkaI18nFormatters = {}  
+    private _globalFormatters:VoerkaI18nFormatters = {}  
+
+    private _scope:VoerkaI18nScope
+    private _language?:string                                               
+    private _cache:VoerkaI18nScopeFormatterCache = { typedFormatters:{},formatters:{}}
     
     constructor(scope:VoerkaI18nScope){ 
         this._scope = scope   
-        this._formatters = scope?.options.formatters     
+        this._formatters = scope?.options.formatters    
         this._scope.on("change",this._onChange.bind(this))
     }    
-    get scope(){ return this._scope }    
-    get language(){ return this._language }
+    get scope(){ return this._scope! }     
     get cache(){ return this._cache }
+
+    get activeFormatters(){ return this._activeFormatters }
+    get fallbackFormatters(){ return this._fallbackFormatters }
+    get globalFormatters(){ return this._globalFormatters }
+
     /**
      * 当语言变化时，重新生成格式化器
      */
     private _onChange(language:string){
         if(language !== this._language){
             this._clearCache()
-            this.change(language)
+            this._activeFormatters = getByPath(this._formatters,language,{defaultValue:EmptyFormatters}) 
+            this._globalFormatters = getByPath(this._formatters,"*",{defaultValue:EmptyFormatters})
+            const fallbackLanguage = this.scope.fallbackLanguage || 'en'
+            this._fallbackFormatters = getByPath(this._formatters,fallbackLanguage,{defaultValue:EmptyFormatters})
         }
     }
     private _clearCache(){
@@ -87,8 +97,8 @@ export class VoerkaI18nFormatterManager{
         try {            
             let useLanguage = language
             if(!(language in this.formatters )){
-                useLanguage = this.scope?.getLanguage(language)?.fallback || "zh"
-                this.scope?.logger.warn(`没有配置<${language}>格式化器，使用后退语言<${useLanguage}>替代.`);
+                useLanguage = this.scope.getLanguage(language)?.fallback || "zh"
+                this.scope.logger.warn(`没有配置<${language}>格式化器，使用后退语言<${useLanguage}>替代.`);
             }
 			if (useLanguage){				
                 const formatters = this.formatters[useLanguage]  
@@ -102,16 +112,16 @@ export class VoerkaI18nFormatterManager{
                 this.generateFormattersConfigs(useLanguage)
                 this._language = language
 			} else {
-                this.scope?.logger.warn(`未指定<${language}>格式化器配置(scope=${this.scope?.id})`); 
+                this.scope.logger.warn(`未指定<${language}>格式化器配置(scope=${this.scope.id})`); 
 			}
 		} catch (e:any) {
-            this.scope?.logger.error(`当加载<${language}>格式化器时出错(scope=${this.scope?.id}): ${e.stack}`);
+            this.scope.logger.error(`当加载<${language}>格式化器时出错(scope=${this.scope.id}): ${e.stack}`);
 		}
     } 
     private generateFormattersConfigs(language:string){               
         try{
             const configSources = [ ]   
-            const fallbackLanguage = this.scope?.getLanguage(language)?.fallback ;
+            const fallbackLanguage = this.scope.getLanguage(language)?.fallback ;
             if(this.scope){  // 从全局Scope读取
                 if(fallbackLanguage) configSources.push(this.scope.global.formatters.getConfig(fallbackLanguage))
                 configSources.push(this.scope.global.formatters.getConfig("en"))
@@ -127,7 +137,7 @@ export class VoerkaI18nFormatterManager{
                 return finalConfig
             },{})
         }catch(e:any){
-            if(this.scope?.debug) console.error(`当生成<${language}>格式化器配置时出错(scope=${this.scope?.id})：${e.stack}`)
+            if(this.scope.debug) console.error(`当生成<${language}>格式化器配置时出错(scope=${this.scope.id})：${e.stack}`)
             this._activeFormattersConfigs = {}
         }                         
     }
@@ -148,23 +158,26 @@ export class VoerkaI18nFormatterManager{
      */
     registerLanguageFormatters(language:string,formatters:VoerkaI18nFormatters | VoerkaI18nFormattersLoader){
         this._formatters[language] = formatters
-    }
+    } 
+    
     /**
-     * 加载所有格式化器
-     * @param formatters 
-     */
-    loadInitials(formatters:VoerkaI18nLanguageFormatters){
-        this._formatters = formatters
-    }
-        /**
      * 注册格式化器
+     *      * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
+     * 
+     * register(name,value=>{...})                                 // 注册到所有语言
+     * register(name,value=>{...},{langauge:"zh"})                 // 注册到zh语言
+     * register(name,value=>{...},{langauge:"en"})                 // 注册到en语言 
+     * register("Date",value=>{...},{langauge:"en"})               // 注册到en语言的默认数据类型格式化器
+     * register(name,value=>{...},{langauge:["zh","cht"]})         // 注册到zh和cht语言
+     * register(name,value=>{...},{langauge:"zh,cht"})       
+     * 
     * @param name  格式化器名称，如果名称是一个支持的日期类型，则格式化器将被注册为语言类型的格式化器
     * @param formatter 
     * @param language 将格式化器注册到指定语言，如果不指定或'*'，则注册到所有语言;
     *                 也可以指定将格式化器注册到多个语言
     * 
     */
-    register(name:string | SupportedDateTypes, formatter:VoerkaI18nFormatter,options?:{ language?:  string | string[] } ) {
+    register(name:string | SupportedDateTypes, formatter:VoerkaI18nFormatter,options?:{ language?:  string | string[] , asGlobal?:boolean } ) {
         const { language='*' } = options || {};
         if (!isFunction(formatter) || typeof name !== "string") {
             throw new TypeError("格式化器必须是一个函数");
@@ -206,15 +219,9 @@ export class VoerkaI18nFormatterManager{
     } 
 
     //****************** 以下方法和属性只作用于当前语言 *********************** */
+    get inlineFormatters(){ return inlineFormatters }
 
-    get formatters(){ return this._formatters }                     // 所有语言的格式化器集合
-    get activeFormatters(){ return this._activeFormatters }         // 当前语言的格式化器集合
-    /**
-     * 当前语言的格式化器配置
-     */
-    get config(){
-        return this._activeFormattersConfigs 
-    }
+    get formatters(){ return this._formatters }                 
     get types(){
         return (this._activeFormatters  as VoerkaI18nFormatters).$types as VoerkaI18nFormatterConfigs
     }
@@ -231,61 +238,35 @@ export class VoerkaI18nFormatterManager{
      * }
      * 
      */
-    get(name:string,options?:GetFormatterOptions):VoerkaI18nFormatter | undefined{             
-        const {on,inGlobal} = assignObject({        
-            on:"scope",
-            inGlobal:true
-        },options)
-
+    get(name:string,inGlobal:boolean=true):VoerkaI18nFormatter {   
         // 直接从缓存中获取
-        if(on=="types" && name in this._cache.typedFormatters) return this._cache.typedFormatters[name as SupportedDateTypes]
-        if(on=="scope" && name in this._cache.formatters) return this._cache.formatters[name]
-
-        const fallbackLanguage = this.scope?.getLanguage(this.activeLanguage)?.fallback  
-        
-        // 先在当前作用域中查找，再在全局查找
-        const targets =[]
-        if(on=="types"){
-            targets.push(this.types)
-            if(fallbackLanguage) targets.push(this.getTypes(fallbackLanguage))
-            if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.getTypes(DefaultFallbackLanguage))
-            targets.push(this.getTypes("*"))       
-            if(inGlobal){
-                targets.push(this.scope?.global.formatters.types)
-                if(fallbackLanguage) targets.push(this.scope?.global.formatters.getTypes(fallbackLanguage))
-                if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.scope?.global.formatters.getTypes(DefaultFallbackLanguage))
-                targets.push(this.scope?.global.formatters.getTypes("*"))        
-                targets.push(this.scope?.global.formatters.getTypes("en"))        
-            }          
-        }else if(on=='scope'){
-            targets.push(this._activeFormatters)
-            if(fallbackLanguage) targets.push(this.getFormatters(fallbackLanguage))
-            if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.getFormatters(DefaultFallbackLanguage))
-            targets.push(this.getFormatters("*"))
-            targets.push(this.getFormatters('en'))
-            if(inGlobal){
-                targets.push(this.scope?.global.formatters.activeFormatters)
-                if(fallbackLanguage) targets.push(this.scope?.global.formatters.getFormatters(fallbackLanguage))
-                if(fallbackLanguage!=DefaultFallbackLanguage) targets.push(this.scope?.global.formatters.getFormatters(DefaultFallbackLanguage))
-                targets.push(this.scope?.global.formatters.getFormatters("*"))        
-                targets.push(this.scope?.global.formatters.getFormatters("en"))     
-            }
+        if(name in this._cache.formatters) return this._cache.formatters[name]        
+        const targets =[]    
+        targets.push(this._activeFormatters)       
+        targets.push(this._globalFormatters)
+        targets.push(this._fallbackFormatters)        
+        if(inGlobal){
+            targets.push(this.scope.global.formatters.activeFormatters)       
+            targets.push(this.scope.global.formatters.globalFormatters)
+            targets.push(this.scope.global.formatters.fallbackFormatters)        
         }
         // 查找指定名称的格式化器
         for (const target of targets) {
             if (!target) continue;
-            if(isPlainObject(target) && name in target){
+            if(name in target){
                 const formatter = target[name]
-                if (isFunction(formatter)) {
-                    // 缓存起来，下次直接返回避免重复查找
-                    if(on=="types"){
-                        this._cache.typedFormatters[name as SupportedDateTypes] = formatter
-                    }else{
-                        this._cache.formatters[name] = formatter
-                    }
+                if (isFunction(formatter)) { 
+                    this._cache.formatters[name] = formatter 
                     return formatter
                 }
             }		
-        }
+        } 
+        return EmptyFormater
     }    
+    
+
+    getTyped(name:string,useGlobal:boolean = true){
+        
+                       
+    }
 }

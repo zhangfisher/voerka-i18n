@@ -9,6 +9,8 @@ import { VoerkaI18nFormatter } from "../../types";
 import { VoerkaI18nFormatterManager } from "./manager";
 
 
+
+
 export class FormatterMixin{
     private _formatters:VoerkaI18nFormatterManager | null = null
     get formatters() {	return this._formatters!;}                   // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
@@ -56,12 +58,12 @@ export class FormatterMixin{
            语言名称，语言名称数组，或者使用,分割的语言名称字符串
         asGlobal : 注册到全局
      */
-	registerFormatter(this:VoerkaI18nScope,name:string, formatter:VoerkaI18nFormatter, options?:{ language?:  string | string[] | "*", asGlobal?:boolean } ) {
-        const {language = "*", asGlobal= true} = options || {} 
-		if(asGlobal){
-            this.global.registerFormatter(name, formatter, {language});
-        }else{
-            this.formatters.register(name, formatter, {language});
-        }
-	}
+	// registerFormatter(this:VoerkaI18nScope,name:string, formatter:VoerkaI18nFormatter, options?:{ language?:  string | string[] | "*", asGlobal?:boolean } ) {
+    //     const {language = "*", asGlobal= true} = options || {} 
+	// 	if(asGlobal){
+    //         this.global.registerFormatter(name, formatter, {language});
+    //     }else{
+    //         this.formatters.register(name, formatter, {language});
+    //     }
+	// }
 }

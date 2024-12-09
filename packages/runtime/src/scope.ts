@@ -80,6 +80,7 @@ export class VoerkaI18nScope {
     get debug() {return this._options.debug;}                               // 是否开启调试模式
     get defaultLanguage() {return this._global.defaultLanguage;}            // 默认语言名称	
 	get activeLanguage() {return this._global.activeLanguage;}              // 默认语言名称	
+    get fallbackLanguage() {return this._global.fallbackLanguage;}          // 回退语言名称
     // 默认语言包，只能静态语言包，不能是动态语言包
 	get default() {return this._options.messages[this._defaultLanguage!] as VoerkaI18nLanguageMessages;}     
     get current() {return this._currentMessages;}                           // 当前语言包   	
