@@ -46,8 +46,8 @@ const EmptyFormatters = {
 }
 const EmptyFormater = (value:any)=>value
 export interface VoerkaI18nScopeFormatterCache{
-    typedFormatters:VoerkaI18nTypesFormatters,
-    formatters     : Record<string,VoerkaI18nFormatter>,
+    typedFormatters : VoerkaI18nTypesFormatters,
+    formatters      : Record<string,VoerkaI18nFormatter>,
 }
 
 export class VoerkaI18nFormatterManager{
@@ -202,19 +202,19 @@ export class VoerkaI18nFormatterManager{
      * 获取指定语言的格式化器配置
      * @param language 
      */
-    getConfig(language?:string){
+    private _getConfig(language?:string){
         return language ? getByPath(this._formatters,`${language}.$config`,{defaultValue:{}}) : {}                
     }
     /**
      获取指定语言中为每个数据类型指定的格式化器
      */
-    getTypes(language?:string){
+     private _getTypes(language?:string){
         return language ? getByPath(this._formatters,`${language}.$types`,{defaultValue:{}}) : {}                
     }
     /**
      获取指定语言中为每个数据类型指定的格式化器
      */
-    getFormatters(language?:string){
+    private _getFormatters(language?:string){
         return language ? getByPath(this._formatters,language,{defaultValue:{}}) : {}                
     } 
 
@@ -238,9 +238,15 @@ export class VoerkaI18nFormatterManager{
      * }
      * 
      */
-    get(name:string,inGlobal:boolean=true):VoerkaI18nFormatter {   
+    get(name:string,options?:{
+        inGlobal:boolean,
+        on: "scope" | "types"
+    }):VoerkaI18nFormatter {   
+        const {inGlobal,on} = Object.assign({inGlobal:true,on:"scope"},options)
         // 直接从缓存中获取
-        if(name in this._cache.formatters) return this._cache.formatters[name]        
+        if(on === 'scope' && name in this._cache.formatters) return this._cache.formatters[name]                
+        if(on === "types" && name in this._cache.typedFormatters) return this._cache.typedFormatters[name as SupportedDateTypes]
+
         const targets =[]    
         targets.push(this._activeFormatters)       
         targets.push(this._globalFormatters)
@@ -264,9 +270,32 @@ export class VoerkaI18nFormatterManager{
         return EmptyFormater
     }    
     
+    
 
-    getTyped(name:string,useGlobal:boolean = true){
-        
+    getTyped(name:string,inGlobal:boolean = true){
+                // 直接从缓存中获取
+                if(name in this._cache.typedFormatters) return this._cache.typedFormatters[name as SupportedDateTypes]        
+                const targets =[]    
+                targets.push(this._activeFormatters)       
+                targets.push(this._globalFormatters)
+                targets.push(this._fallbackFormatters)        
+                if(inGlobal){
+                    targets.push(this.scope.global.formatters.activeFormatters)       
+                    targets.push(this.scope.global.formatters.globalFormatters)
+                    targets.push(this.scope.global.formatters.fallbackFormatters)        
+                }
+                // 查找指定名称的格式化器
+                for (const target of targets) {
+                    if (!target) continue;
+                    if(name in target){
+                        const formatter = target[name]
+                        if (isFunction(formatter)) { 
+                            this._cache.formatters[name] = formatter 
+                            return formatter
+                        }
+                    }		
+                } 
+                return EmptyFormater
                        
     }
 }
