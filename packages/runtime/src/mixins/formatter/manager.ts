@@ -1,17 +1,17 @@
 /**
  * 
- *  保存所有格式化器数据 * 
+ *  保存所有格式化器数据
  * 
  * 
  */
 import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
-import type { VoerkaI18nScope } from './scope';
-import { DataTypes, loadAsyncModule } from './utils';
+import type { VoerkaI18nScope } from '../../scope';
+import { DataTypes, loadAsyncModule } from '../../utils';
 import { get as getByPath } from "flex-tools/object/get" 
 import { isFunction } from 'flex-tools/typecheck/isFunction';
 import { deepMerge } from 'flex-tools/object/deepMerge';
 import { assignObject } from 'flex-tools/object/assignObject';
-import { DefaultFallbackLanguage } from './consts';
+import { DefaultFallbackLanguage } from '../../consts';
 import { VoerkaI18nFormatter, 
         VoerkaI18nFormatters, 
         VoerkaI18nFormattersLoader, 
@@ -19,7 +19,7 @@ import { VoerkaI18nFormatter,
         SupportedDateTypes, 
         VoerkaI18nFormatterConfigs, 
         VoerkaI18nTypesFormatters  
-} from './types'; 
+} from '../../types'; 
 import { deepClone } from 'flex-tools/object/deepClone';
 
 export interface VoerkaI18nScopeCache{
@@ -49,21 +49,35 @@ export interface VoerkaI18nScopeFormatterCache{
     formatters     : Record<string,VoerkaI18nFormatter>,
 }
 
-export class VoerkaI18nFormatterRegistry{
+export class VoerkaI18nFormatterManager{
     private _formatters:VoerkaI18nLanguageFormatters = {} 
     private _activeFormatters:VoerkaI18nFormatters = {}
     private _activeFormattersConfigs :VoerkaI18nFormatterConfigs = {}
     private _scope?:VoerkaI18nScope
     private _language?:string                                                // 当前语言
-    private _formatterCache:VoerkaI18nScopeFormatterCache = {typedFormatters:{},formatters:{}}
-    constructor(scope?:VoerkaI18nScope){ 
-        this._scope = scope        
+    private _cache:VoerkaI18nScopeFormatterCache = {typedFormatters:{},formatters:{}}
+    
+    constructor(scope:VoerkaI18nScope){ 
+        this._scope = scope   
+        this._formatters = scope?.options.formatters     
+        this._scope.on("change",this._onChange.bind(this))
+    }    
+    get scope(){ return this._scope }    
+    get language(){ return this._language }
+    get cache(){ return this._cache }
+    /**
+     * 当语言变化时，重新生成格式化器
+     */
+    private _onChange(language:string){
+        if(language !== this._language){
+            this._clearCache()
+            this.change(language)
+        }
     }
-    get activeLanguage(){ 
-        if(!this._language) this._language = this._scope?.activeLanguage || "zh"
-        return this._language 
-    }                   // 当前语言
-    get scope(){ return this._scope }
+    private _clearCache(){
+        this._cache = {typedFormatters:{},formatters:{}}
+    }
+                   // 当前语言
     /**
      * 当切换语言时，切换当前语言的格式化器
      * 当切换语言时，如果当前语言的格式化器集合还没有加载，则会自动加载
@@ -84,7 +98,7 @@ export class VoerkaI18nFormatterRegistry{
                     this._activeFormatters = formatters as VoerkaI18nFormatters
                 }
                 // 合并生成格式化器的配置参数,当执行格式化器时该参数将被传递给格式化器
-                this._formatterCache = {typedFormatters:{},formatters:{}}  
+                this._cache = {typedFormatters:{},formatters:{}}  
                 this.generateFormattersConfigs(useLanguage)
                 this._language = language
 			} else {
@@ -224,8 +238,8 @@ export class VoerkaI18nFormatterRegistry{
         },options)
 
         // 直接从缓存中获取
-        if(on=="types" && name in this._formatterCache.typedFormatters) return this._formatterCache.typedFormatters[name as SupportedDateTypes]
-        if(on=="scope" && name in this._formatterCache.formatters) return this._formatterCache.formatters[name]
+        if(on=="types" && name in this._cache.typedFormatters) return this._cache.typedFormatters[name as SupportedDateTypes]
+        if(on=="scope" && name in this._cache.formatters) return this._cache.formatters[name]
 
         const fallbackLanguage = this.scope?.getLanguage(this.activeLanguage)?.fallback  
         
@@ -265,9 +279,9 @@ export class VoerkaI18nFormatterRegistry{
                 if (isFunction(formatter)) {
                     // 缓存起来，下次直接返回避免重复查找
                     if(on=="types"){
-                        this._formatterCache.typedFormatters[name as SupportedDateTypes] = formatter
+                        this._cache.typedFormatters[name as SupportedDateTypes] = formatter
                     }else{
-                        this._formatterCache.formatters[name] = formatter
+                        this._cache.formatters[name] = formatter
                     }
                     return formatter
                 }

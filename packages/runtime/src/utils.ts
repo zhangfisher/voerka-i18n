@@ -28,7 +28,9 @@ export async function loadAsyncModule(context:any,module:Function){
         return  loadResult
     }
 }
-
+export function isScope(obj:any){
+    return obj && typeof(obj)==='object' && obj.__VOERKAI18N_SCOPE__ 
+}
 /**
  * 简单版本的字符串替换函数replaceAll
  * 

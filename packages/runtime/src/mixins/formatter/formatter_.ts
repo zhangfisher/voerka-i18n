@@ -9,14 +9,14 @@
  */
 
 
-import { escapeRegexpStr } from "./utils"
+import { escapeRegexpStr } from "../../utils"
 import { get as getByPath } from "flex-tools/object/get"
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isFunction } from "flex-tools/typecheck/isFunction"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { safeParseJson } from "flex-tools/object/safeParseJson"
 import { assignObject } from "flex-tools/object/assignObject"
-import {  VoerkaI18nFormatter } from './types';
+import {  VoerkaI18nFormatter } from '../../types';
 
 /**
 使用正则表达式对原始文本内容进行解析匹配后得到的便以处理的数组

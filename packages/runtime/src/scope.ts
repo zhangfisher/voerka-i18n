@@ -1,6 +1,5 @@
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { isFunction } from "flex-tools/typecheck/isFunction" 
-import { translate } from "./translate"
 import { assignObject } from "flex-tools/object/assignObject"
 import {type VoerkaI18nEvents, VoerkaI18nManager } from "./manager"
 import type { 
@@ -21,21 +20,28 @@ import { randomId } from "./utils"
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from './consts';
 import type { LiteEventListener } from "flex-tools/events/liteEvent" 
 import {  FlexVars } from 'flexvars';
+import { TranslateMixin } from "./mixins/translate"
+import { mix } from "ts-mixer"
+import { FormatterMixin } from "./mixins/formatter/formatter"
 
 
 export interface VoerkaI18nScopeOptions {
-    id?       : string
-    debug?    : boolean
+    id?       : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
+    debug?    : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
     library?  : boolean                                                 // 当使用在库中时应该置为true
     languages : VoerkaI18nLanguageDefine[]                              // 当前作用域支持的语言列表
     messages  : VoerkaI18nLanguageMessagePack                           // 当前语言包
     idMap?    : Voerkai18nIdMap                                         // 消息id映射列表
     storage?  : IVoerkaI18nStorage                                      // 语言包存储器
     formatters: VoerkaI18nLanguageFormatters                            // 当前作用域的格式化函数列表{<lang>: {$types,$config,[格式化器名称]: () => {},[格式化器名称]: () => {}}}
-    ready?    : (e?:Error)=>void                                        // 当注册到全局管理器并切换到语言后的回调函数                 
+    ready?    : (e?:Error)=>void                                        // 当注册到全局管理器并切换到语言后的回调函数         
 }
 
+export interface VoerkaI18nScope extends TranslateMixin,FormatterMixin {}
+
+@mix(TranslateMixin,FormatterMixin)
 export class VoerkaI18nScope {
+    __VOERKAI18N_SCOPE__ = true
     private _options           : Required<VoerkaI18nScopeOptions>
     private _global            : VoerkaI18nManager                                  // 引用全局VoerkaI18nManager配置，注册后自动引用
     private _refreshing        : boolean = false                                    // 是否正在刷新语言包
@@ -66,7 +72,7 @@ export class VoerkaI18nScope {
         this.init()   
         // 将当前实例注册到全局单例VoerkaI18nManager中
 		this._global = this.registerToManager() 
-        this._t = translate.bind(this)
+        this._t = this.translate.bind(this)
 	}	
     get options(){return this._options}   
 	get id() {return this._options.id;}                                     // 作用域唯一id	
@@ -81,9 +87,7 @@ export class VoerkaI18nScope {
 	get idMap() {return this._options.idMap;}                               // 消息id映射列表	
 	get languages() {return this._options.languages;}                       // 当前作用域支持的语言列表[{name,title,fallback}]	
 	get global() {	return this._global;}                                   // 引用全局VoerkaI18n配置，注册后自动引用    
-	get formatters() {	return this._formatterRegistry!;}                   // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
-	get activeFormatters() {return this._formatterRegistry!.formatters}     // 当前作用域激活的格式化器定义 {$types,$config,[格式化器名称]: ()                       = >{},[格式化器名称]: ()          = >{}}   
-    get flexVars(){return this._flexVars! }                                   // 变量解析器
+	    get interpolator(){return this._flexVars! }                              // 变量插值处理器,使用flexvars
     get t(){return this._t}      
     /**
      * 对输入的语言配置进行处理
@@ -122,20 +126,16 @@ export class VoerkaI18nScope {
         if(isFunction(this.messages[this._defaultLanguage])){
             throw new Error("[VoerkaI18n] 默认语言包必须是静态内容,不能使用异步加载的方式.")
         }
-        this._currentMessages = this.messages[this._activeLanguage] as VoerkaI18nLanguageMessages
-        
+        this._currentMessages = this.messages[this._activeLanguage] as VoerkaI18nLanguageMessages        
 
         // 初始化格式化器
-        this.loadInitialFormatters()
+        this.initFormatters()
+        
     }
 
     private installFormatters(){        
 
-        this._flexVars = new FlexVars({
-            getFilter:(name:string)=>{
-                return this.formatters.get(name,{on:'types'})
-            }
-        })
+        
     }
 
     /**
@@ -199,50 +199,7 @@ export class VoerkaI18nScope {
             this._options.ready.call(this,e)
         } 
     }
-	/**
-     * 注册格式化器
-     * 
-     * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
-     * 
-     * registerFormatter(name,value=>{...})                                 // 注册到所有语言
-     * registerFormatter(name,value=>{...},{langauge:"zh"})                 // 注册到zh语言
-     * registerFormatter(name,value=>{...},{langauge:"en"})                 // 注册到en语言 
-       registerFormatter("Date",value=>{...},{langauge:"en"})               // 注册到en语言的默认数据类型格式化器
-       registerFormatter(name,value=>{...},{langauge:["zh","cht"]})         // 注册到zh和cht语言
-       registerFormatter(name,value=>{...},{langauge:"zh,cht"})
-     * @param {*} formatter            格式化器
-        language : 字符串或数组，声明该格式化器适用语言
-           *代表适用于所有语言
-           语言名称，语言名称数组，或者使用,分割的语言名称字符串
-        asGlobal : 注册到全局
-     */
-	registerFormatter(name:string, formatter:VoerkaI18nFormatter, options?:{ language?:  string | string[] | "*", asGlobal?:boolean } ) {
-        const {language = "*", asGlobal= true} = options || {} 
-		if(asGlobal){
-            this.global.registerFormatter(name, formatter, {language});
-        }else{
-            this.formatters!.register(name, formatter, {language});
-        }
-	}
-    /**
-     * 初始化格式化器
-     * 激活和默认语言的格式化器采用静态导入的形式，而没有采用异步块的形式，这是为了确保首次加载时的能马上读取，而不能采用延迟加载方式
-     * #activeFormatters={
-     *      global:{...} // 或true代表注册到全局
-     *      $config:{...},
-     *      $types:{...},
-     *      [格式化器名称]:()=>{...},
-     *      [格式化器名称]:()=>{...},
-     *      ...
-     * }
-     */
-    private loadInitialFormatters(){          
-        this._formatterRegistry= new VoerkaI18nFormatterRegistry(this)
-        // 初始化格式化器
-        this.formatters.loadInitials(this._options.formatters)
-        // 保存到Registry中，就可以从options中删除了
-        delete (this._options as any).formatters
-    }
+
 	/**
 	 * 注册默认文本信息加载器
 	 * @param {Function} 必须是异步函数或者是返回Promise

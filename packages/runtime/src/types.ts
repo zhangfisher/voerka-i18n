@@ -35,6 +35,8 @@ export type VoerkaI18nTypesFormatters=Partial<Record<SupportedDateTypes, VoerkaI
 export type VoerkaI18nTypesFormatterConfig= Partial<Record<string, any>>
 export type VoerkaI18nTypesFormatterConfigs= Partial<Record<SupportedDateTypes | string, Record<string,any>>>
 export type VoerkaI18nFormattersLoader =  (()=>Promise<VoerkaI18nFormatters>)
+
+
 // 每一个语言的格式化器定义={$types:{...},$config:{...},[格式化器名称]: () => {},[格式化器名称]: () => {}
 // 在formatters/xxxx.ts里面进行配置
 export type VoerkaI18nFormatters = {

@@ -9,6 +9,7 @@ import { LiteEvent } from "flex-tools/events/liteEvent"
 import defaultStoage from "./storage"
 import { assignObject } from 'flex-tools/object/assignObject';
 import { createLogger } from "./logger"
+import { isScope } from "./utils"
 
 
 // 默认语言配置
@@ -192,6 +193,7 @@ export class VoerkaI18nManager extends LiteEvent<any,VoerkaI18nEvents>{
      * @param {*} scope 
      */
     async register(scope:VoerkaI18nScope){ 
+        if(!isScope(scope)) throw new Error("注册的作用域必须是VoerkaI18nScope的实例")
         const isInit = this._scopes.length===0 && !scope.options.library
         this._scopes.push(scope) 
         if(this._scopes.length===1) this._appScopeId = scope.id
