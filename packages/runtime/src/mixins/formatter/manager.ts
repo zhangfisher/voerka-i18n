@@ -238,14 +238,9 @@ export class VoerkaI18nFormatterManager{
      * }
      * 
      */
-    get(name:string,options?:{
-        inGlobal:boolean,
-        on: "scope" | "types"
-    }):VoerkaI18nFormatter {   
-        const {inGlobal,on} = Object.assign({inGlobal:true,on:"scope"},options)
+    get(name:string, inGlobal:boolean  =false):VoerkaI18nFormatter {           
         // 直接从缓存中获取
-        if(on === 'scope' && name in this._cache.formatters) return this._cache.formatters[name]                
-        if(on === "types" && name in this._cache.typedFormatters) return this._cache.typedFormatters[name as SupportedDateTypes]
+        if(name in this._cache.formatters) return this._cache.formatters[name]                
 
         const targets =[]    
         targets.push(this._activeFormatters)       
@@ -270,32 +265,4 @@ export class VoerkaI18nFormatterManager{
         return EmptyFormater
     }    
     
-    
-
-    getTyped(name:string,inGlobal:boolean = true){
-                // 直接从缓存中获取
-                if(name in this._cache.typedFormatters) return this._cache.typedFormatters[name as SupportedDateTypes]        
-                const targets =[]    
-                targets.push(this._activeFormatters)       
-                targets.push(this._globalFormatters)
-                targets.push(this._fallbackFormatters)        
-                if(inGlobal){
-                    targets.push(this.scope.global.formatters.activeFormatters)       
-                    targets.push(this.scope.global.formatters.globalFormatters)
-                    targets.push(this.scope.global.formatters.fallbackFormatters)        
-                }
-                // 查找指定名称的格式化器
-                for (const target of targets) {
-                    if (!target) continue;
-                    if(name in target){
-                        const formatter = target[name]
-                        if (isFunction(formatter)) { 
-                            this._cache.formatters[name] = formatter 
-                            return formatter
-                        }
-                    }		
-                } 
-                return EmptyFormater
-                       
-    }
 }

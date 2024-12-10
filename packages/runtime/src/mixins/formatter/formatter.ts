@@ -5,10 +5,15 @@
  */
 
 import type  { VoerkaI18nScope } from "../../scope";
-import { VoerkaI18nFormatter } from "../../types";
 import { VoerkaI18nFormatterManager } from "./manager";
 
 
+export type FormatterContext = {
+    language:string
+}
+export interface Formatter<Config extends Record<string,any>> {
+    (value:string,config:Config,context:FormatterContext):any
+}
 
 
 export class FormatterMixin{

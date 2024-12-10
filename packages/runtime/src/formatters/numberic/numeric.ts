@@ -22,15 +22,3 @@ export const numberFormartter = Formatter<any,any[]>(function(value:any,[precisi
 }) as VoerkaI18nFormatter
 
  
-
-export default {
-    name: "number",
-    args:["precision","division"],
-    default:{
-
-    },
-    next(value:any,args,context){
-        const language = context.language
-
-    }
-}  
