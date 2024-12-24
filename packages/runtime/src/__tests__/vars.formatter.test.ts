@@ -28,13 +28,13 @@ describe("插值变量使用格式化器", () => {
       scope.registerFormatter("add", (value, args, config) => {
         return String(Number(value) + Number(args.length == 0 ? 1 : args[0]));
       });
-      scope.formatters.updateConfig("zh", {
+      scope.formatterManager.updateConfig("zh", {
         bookname: {
           beginChar: "《",
           endChar: "》",
         },
       });
-      scope.formatters.updateConfig("en", {
+      scope.formatterManager.updateConfig("en", {
         bookname: {
           beginChar: "<",
           endChar: ">",

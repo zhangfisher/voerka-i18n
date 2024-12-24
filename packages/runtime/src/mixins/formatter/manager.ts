@@ -51,14 +51,13 @@ export interface VoerkaI18nScopeFormatterCache{
 }
 
 export class VoerkaI18nFormatterManager{
-    private _formatters:VoerkaI18nLanguageFormatters = {} 
-    private _activeFormatters:VoerkaI18nFormatters = {}  
-    private _fallbackFormatters:VoerkaI18nFormatters = {}  
-    private _globalFormatters:VoerkaI18nFormatters = {}  
-
-    private _scope:VoerkaI18nScope
-    private _language?:string                                               
-    private _cache:VoerkaI18nScopeFormatterCache = { typedFormatters:{},formatters:{}}
+    private _formatters        : VoerkaI18nLanguageFormatters = {} 
+    private _activeFormatters  : VoerkaI18nFormatters = {}  
+    private _fallbackFormatters: VoerkaI18nFormatters = {}  
+    private _globalFormatters  : VoerkaI18nFormatters = {}  
+    private _scope             : VoerkaI18nScope
+    private _language?         : string                                               
+    private _cache             : VoerkaI18nScopeFormatterCache = { typedFormatters:{}, formatters:{}}
     
     constructor(scope:VoerkaI18nScope){ 
         this._scope = scope   
@@ -84,10 +83,11 @@ export class VoerkaI18nFormatterManager{
             this._fallbackFormatters = getByPath(this._formatters,fallbackLanguage,{defaultValue:EmptyFormatters})
         }
     }
+
     private _clearCache(){
         this._cache = {typedFormatters:{},formatters:{}}
     }
-                   // 当前语言
+                   
     /**
      * 当切换语言时，切换当前语言的格式化器
      * 当切换语言时，如果当前语言的格式化器集合还没有加载，则会自动加载
@@ -123,9 +123,9 @@ export class VoerkaI18nFormatterManager{
             const configSources = [ ]   
             const fallbackLanguage = this.scope.getLanguage(language)?.fallback ;
             if(this.scope){  // 从全局Scope读取
-                if(fallbackLanguage) configSources.push(this.scope.global.formatters.getConfig(fallbackLanguage))
-                configSources.push(this.scope.global.formatters.getConfig("en"))
-                configSources.push(this.scope.global.formatters.getConfig(language))                
+                if(fallbackLanguage) configSources.push(this.scope.manager.formatters.getConfig(fallbackLanguage))
+                configSources.push(this.scope.manager.formatters.getConfig("en"))
+                configSources.push(this.scope.manager.formatters.getConfig(language))                
             }
             // 从当前Scope读取
             configSources.push(this.getConfig('en'))
@@ -238,10 +238,10 @@ export class VoerkaI18nFormatterManager{
      * }
      * 
      */
-    get(name:string,options?:{
-        inGlobal:boolean,
-        on: "scope" | "types"
-    }):VoerkaI18nFormatter {   
+    get(name:string,options?:{ inGlobal:boolean, on: "scope" | "types"}):VoerkaI18nFormatter { 
+        
+        
+        
         const {inGlobal,on} = Object.assign({inGlobal:true,on:"scope"},options)
         // 直接从缓存中获取
         if(on === 'scope' && name in this._cache.formatters) return this._cache.formatters[name]                
@@ -252,9 +252,9 @@ export class VoerkaI18nFormatterManager{
         targets.push(this._globalFormatters)
         targets.push(this._fallbackFormatters)        
         if(inGlobal){
-            targets.push(this.scope.global.formatters.activeFormatters)       
-            targets.push(this.scope.global.formatters.globalFormatters)
-            targets.push(this.scope.global.formatters.fallbackFormatters)        
+            targets.push(this.scope.manager.formatters.activeFormatters)       
+            targets.push(this.scope.manager.formatters.globalFormatters)
+            targets.push(this.scope.manager.formatters.fallbackFormatters)        
         }
         // 查找指定名称的格式化器
         for (const target of targets) {
@@ -280,9 +280,9 @@ export class VoerkaI18nFormatterManager{
                 targets.push(this._globalFormatters)
                 targets.push(this._fallbackFormatters)        
                 if(inGlobal){
-                    targets.push(this.scope.global.formatters.activeFormatters)       
-                    targets.push(this.scope.global.formatters.globalFormatters)
-                    targets.push(this.scope.global.formatters.fallbackFormatters)        
+                    targets.push(this.scope.manager.formatters.activeFormatters)       
+                    targets.push(this.scope.manager.formatters.globalFormatters)
+                    targets.push(this.scope.manager.formatters.fallbackFormatters)        
                 }
                 // 查找指定名称的格式化器
                 for (const target of targets) {

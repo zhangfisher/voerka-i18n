@@ -125,7 +125,7 @@ function executeFormatter(value:any, formatters:WrapperedVoerkaI18nFormatter[], 
 	// 3. 分别执行格式化器函数
 	for (let formatter of formatters) {
 		try {
-            result = formatter(result, scope.formatters.config);		
+            result = formatter(result, scope.formatterManager.config);		
 		} catch (e:any) {
             // 出错时直接忽略，不影响后续的格式化器执行
 			e.formatter = (formatter as any).$name;
@@ -156,11 +156,11 @@ function executeFormatter(value:any, formatters:WrapperedVoerkaI18nFormatter[], 
 function wrapperFormatters(scope:VoerkaI18nScope, activeLanguage:string, formatters:FormatterDefineChain) {
 	let wrappedFormatters:WrapperedVoerkaI18nFormatter[] = [];
 	for (let [name, args] of formatters) {
-		let fn = scope.formatters.get(name,{on:'scope'}) 
+		let fn = scope.formatterManager.get(name,{on:'scope'}) 
 		let formatter;		
 		if (isFunction(fn)) {
 			formatter = (value:string,config:VoerkaI18nFormatterConfigs) =>{
-                return (fn as Function).call(scope.formatters.config, value, args, config)
+                return (fn as Function).call(scope.formatterManager.config, value, args, config)
             }
 		} else {
             // 格式化器无效或者没有定义时，查看当前值是否具有同名的原型方法，如果有则执行调用
@@ -193,7 +193,7 @@ function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatt
     // 1. 取得格式化器函数列表，然后经过包装以传入当前格式化器的配置参数
 	const formatterFuncs = wrapperFormatters(scope, activeLanguage, formatters);
 	// 2. 优先指定指定数据类型的格式化器
-    const dataTypeFormatter = scope.formatters.get(getDataTypeName(value),{on:'types'}) 
+    const dataTypeFormatter = scope.formatterManager.get(getDataTypeName(value),{on:'types'}) 
     if (dataTypeFormatter) {            
         formatterFuncs.splice(0,0,(value:any,config)=>dataTypeFormatter.call(config, value, [], config));
     }
@@ -221,7 +221,7 @@ function getFormattedValue(scope:VoerkaI18nScope, activeLanguage:string, formatt
 export function replaceInterpolatedVars(this:VoerkaI18nScope,template:string, ...args:any[]) {
 	const scope = this;
 	// 当前激活语言
-	const activeLanguage = scope.global.activeLanguage;
+	const activeLanguage = scope.manager.activeLanguage;
 	// 没有变量插值则的返回原字符串
 	// if (args.length === 0 || !hasInterpolation(template)) return template;
 

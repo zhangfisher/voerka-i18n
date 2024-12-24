@@ -281,7 +281,7 @@ export interface CreateFormatterOptions {
 export function createFormatter<Value=any,Args extends any[] = any[]>(fn: VoerkaI18nFormatter, options?: CreateFormatterOptions, defaultParams?: Record<string, any>) {
     let opts = assignObject({
         normalize: null,                // 对输入值进行规范化处理，如进行时间格式化时，为了提高更好的兼容性，支持数字时间戳/字符串/Date等，需要对输入值进行处理，如强制类型转换等
-        params: null,                   // 可选的，声明参数顺序，如果是变参的，则需要传入null
+        params   : null,                   // 可选的，声明参数顺序，如果是变参的，则需要传入null
         configKey: null                 // 声明该格式化器在config中的路径，支持简单的使用.的路径语法
     }, options)
 

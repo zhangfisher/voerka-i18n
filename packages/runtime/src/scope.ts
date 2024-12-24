@@ -1,7 +1,7 @@
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { isFunction } from "flex-tools/typecheck/isFunction" 
 import { assignObject } from "flex-tools/object/assignObject"
-import {type VoerkaI18nEvents, VoerkaI18nManager } from "./manager"
+import { VoerkaI18nManager } from "./manager"
 import type { 
     VoerkaI18nDefaultMessageLoader,
     VoerkaI18nFormatter,
@@ -13,13 +13,13 @@ import type {
     VoerkaI18nTranslate,  
     VoerkaI18nDynamicLanguageMessages,
     VoerkaI18nLanguageMessagePack,
-    IVoerkaI18nStorage
+    IVoerkaI18nStorage,
+    VoerkaI18nEvents
 } from "./types" 
-import { VoerkaI18nFormatterRegistry } from './formatterRegistry';
 import { randomId } from "./utils"
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from './consts';
 import type { LiteEventListener } from "flex-tools/events/liteEvent" 
-import {  FlexVars } from 'flexvars';
+import {  FlexFilter, FlexVars } from 'flexvars';
 import { TranslateMixin } from "./mixins/translate"
 import { mix } from "ts-mixer"
 import { FormatterMixin } from "./mixins/formatter/formatter"
@@ -43,16 +43,14 @@ export interface VoerkaI18nScope extends TranslateMixin,FormatterMixin {}
 export class VoerkaI18nScope {
     __VOERKAI18N_SCOPE__ = true
     private _options           : Required<VoerkaI18nScopeOptions>
-    private _global            : VoerkaI18nManager                                  // 引用全局VoerkaI18nManager配置，注册后自动引用
+    private _manager           : VoerkaI18nManager                                  // 引用全局VoerkaI18nManager配置，注册后自动引用
     private _refreshing        : boolean = false                                    // 是否正在刷新语言包
     private _t                 : VoerkaI18nTranslate
-    private _formatterRegistry?: VoerkaI18nFormatterRegistry 
     private _defaultLanguage?  : string
     private _activeLanguage?   : string      
     private _currentMessages   : VoerkaI18nLanguageMessages = {}                    // 当前语言包
     private _patchedMessages   : VoerkaI18nLanguagePack = {}                        // 补丁语言包
-    private _flexVars?         : FlexVars
-    private _formatterCache    = new Map<string,VoerkaI18nFormatter>()               // 格式化器缓存
+    private _flexVars?         : FlexVars 
     /**
      * 
      * @param options 
@@ -71,25 +69,40 @@ export class VoerkaI18nScope {
         // 初始化
         this.init()   
         // 将当前实例注册到全局单例VoerkaI18nManager中
-		this._global = this.registerToManager() 
+		this._manager = this.registerToManager() 
         this._t = this.translate.bind(this)
 	}	
     get options(){return this._options}   
 	get id() {return this._options.id;}                                     // 作用域唯一id	
-    get logger(){return this._global.logger}                                // 日志记录器
+    get logger(){return this._manager.logger}                                // 日志记录器
     get debug() {return this._options.debug;}                               // 是否开启调试模式
-    get defaultLanguage() {return this._global.defaultLanguage;}            // 默认语言名称	
-	get activeLanguage() {return this._global.activeLanguage;}              // 默认语言名称	
-    get fallbackLanguage() {return this._global.fallbackLanguage;}          // 回退语言名称
+    get defaultLanguage() {return this._manager.defaultLanguage;}            // 默认语言名称	
+	get activeLanguage() {return this._manager.activeLanguage;}              // 默认语言名称	
+    get fallbackLanguage() {return this._manager.fallbackLanguage;}          // 回退语言名称
     // 默认语言包，只能静态语言包，不能是动态语言包
 	get default() {return this._options.messages[this._defaultLanguage!] as VoerkaI18nLanguageMessages;}     
     get current() {return this._currentMessages;}                           // 当前语言包   	
 	get messages() {return this._options.messages;	}                       // 所有语言包	
 	get idMap() {return this._options.idMap;}                               // 消息id映射列表	
 	get languages() {return this._options.languages;}                       // 当前作用域支持的语言列表[{name,title,fallback}]	
-	get global() {	return this._global;}                                   // 引用全局VoerkaI18n配置，注册后自动引用    
-	    get interpolator(){return this._flexVars! }                              // 变量插值处理器,使用flexvars
+	get manager() {	return this._manager;}                                   // 引用全局VoerkaI18n配置，注册后自动引用    
+	get interpolator(){return this._flexVars! }                              // 变量插值处理器,使用flexvars
     get t(){return this._t}      
+
+    private _subscribeLanguageChange(){
+        this.manager.on("change",(language:string)=>{
+            this.refresh(language)
+        })
+    }    
+    
+    private _createInterpolators(){        
+        this._flexVars = new FlexVars({
+            getFilter:(name)=>{
+               return this.formatterManager.get(name) as unknown as FlexFilter
+            }
+        })        
+    }
+
     /**
      * 对输入的语言配置进行处理
      * - 将en配置为默认回退语言
@@ -128,16 +141,14 @@ export class VoerkaI18nScope {
             throw new Error("[VoerkaI18n] 默认语言包必须是静态内容,不能使用异步加载的方式.")
         }
         this._currentMessages = this.messages[this._activeLanguage] as VoerkaI18nLanguageMessages        
-
+        // 订阅语言切换事件
+        this._subscribeLanguageChange()
         // 初始化格式化器
         this.initFormatters()
-        
+        // 初始化格式化器
+        this._createInterpolators()        
     }
 
-    private installFormatters(){        
-
-        
-    }
 
     /**
      * 注册当前作用域到全局作用域
@@ -165,10 +176,10 @@ export class VoerkaI18nScope {
                 debug          : this._options.debug
             })
         }
-        this._global = (globalThis as any).VoerkaI18n as unknown as VoerkaI18nManager;
+        this._manager = (globalThis as any).VoerkaI18n as unknown as VoerkaI18nManager;
         
         //
-        this._global.register(this)
+        this._manager.register(this)
             .then(()=>{
                 this.onRegisterSuccess.call(this)
                 callback?.call(this)
@@ -177,7 +188,7 @@ export class VoerkaI18nScope {
                 this.onRegisterFail.call(this,e)
                 callback
             })
-        return this._global
+        return this._manager
     } 
     /**
      * 当注册到Manager后，执行注册后的操作
@@ -186,7 +197,7 @@ export class VoerkaI18nScope {
         if(typeof(this._options.ready)=='function'){
             this._options.ready.call(this)
         }
-        this.global.emit("registered",{language:this.activeLanguage,scope:this.id})
+        this.manager.emit("registered",{language:this.activeLanguage,scope:this.id})
         // 1. 先从本地缓存中读取并合并补丁语言包
         this._restorePatchedMessages(this._currentMessages,this.activeLanguage);  
         // 2. 从远程延后执行补丁命令，该命令会向远程下载补丁包
@@ -206,7 +217,7 @@ export class VoerkaI18nScope {
 	 * @param {Function} 必须是异步函数或者是返回Promise
 	 */
 	registerDefaultLoader(fn:VoerkaI18nDefaultMessageLoader) {
-		this.global.registerDefaultLoader(fn);
+		this.manager.registerDefaultLoader(fn);
 	}
 	/**
 	 * 获取指定语言信息
@@ -228,7 +239,7 @@ export class VoerkaI18nScope {
 	/**
 	 * 回退到默认语言
 	 */
-	private fallbackToDefault() {
+	private _fallbackToDefault() {
 		this._currentMessages = this.default;
 		this._activeLanguage = this._defaultLanguage;
 	}
@@ -243,7 +254,7 @@ export class VoerkaI18nScope {
      * @param language 语言名称
      * @returns 
      */
-    private async loadLanguageMessages(language:string):Promise<VoerkaI18nLanguageMessages>{
+    private async _loadLanguageMessages(language:string):Promise<VoerkaI18nLanguageMessages>{
         this.logger.debug(`准备加载语言包:${language}`)
         // if(!this.hasLanguage(language)) throw new InvalidLanguageError(`Not found language <${language}>`)
         // 非默认语言可以是：语言包对象，也可以是一个异步加载语言包文件,加载器是一个异步函数
@@ -259,13 +270,13 @@ export class VoerkaI18nScope {
             }else{
                 messages = loadResult
             }
-        } else if (isFunction(this.global.defaultMessageLoader)) { 
+        } else if (isFunction(this.manager.defaultMessageLoader)) { 
             // 从远程加载语言包:如果该语言没有指定加载器，则使用全局配置的默认加载器
-            const loadedMessages = (await this.global.loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nDynamicLanguageMessages;
+            const loadedMessages = (await this.manager._loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nDynamicLanguageMessages;
             if(isPlainObject(loadedMessages)){
                 // 需要保存动态语言包中的$config，合并到对应语言的格式化器配置
                 if(isPlainObject(loadedMessages.$config)){           
-                    this.formatters.updateConfig(language,loadedMessages.$config!) 
+                    this.formatterManager.updateConfig(language,loadedMessages.$config!) 
                     delete loadedMessages.$config
                 }
                 messages = Object.assign({
@@ -289,12 +300,12 @@ export class VoerkaI18nScope {
 			this._currentMessages = this.default;
             this._restorePatchedMessages(this._currentMessages, newLanguage); // 恢复补丁
 			await this._patch(this._currentMessages, newLanguage); // 异步补丁
-			await this.formatters.change(newLanguage);
+			await this.formatterManager.change(newLanguage);
             this._refreshing = false            
 			return;
 		}else{ // 非默认语言可以是静态语言包也可以是异步加载语言包
             try{
-                let messages = await this.loadLanguageMessages(newLanguage)
+                let messages = await this._loadLanguageMessages(newLanguage)
                 if(messages){
                     this._currentMessages = messages
                     this._activeLanguage = newLanguage;       
@@ -305,14 +316,14 @@ export class VoerkaI18nScope {
                         await this._patch(this._currentMessages, newLanguage);                    
                     }
                     // 切换到对应语言的格式化器
-                    await this.formatters.change(newLanguage);        
+                    await this.formatterManager.change(newLanguage);        
                 }else{                    
                     this.logger.warn(`无法加载语言包<${newLanguage}>(scope=${this.id}),将回退到默认语言`);
-                    this.fallbackToDefault();
+                    this._fallbackToDefault();
                 }
             }catch(e:any){
                 this.logger.warn(`当加载语言包<${newLanguage}>时出错(scope=${this.id}): ${e.message}`);
-                this.fallbackToDefault();
+                this._fallbackToDefault();
             } finally {
                 this._refreshing = false;
             }  
@@ -328,13 +339,13 @@ export class VoerkaI18nScope {
 	 * @returns
 	 */
 	private async _patch(messages:VoerkaI18nLanguageMessages, language:string) {
-		if (!isFunction(this.global.loadMessagesFromDefaultLoader)) return;
+		if (!isFunction(this.manager._loadMessagesFromDefaultLoader)) return;
 		try {
-			let pachedMessages = (await this.global.loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nLanguageMessages;
+			let pachedMessages = (await this.manager._loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nLanguageMessages;
 			if (isPlainObject(pachedMessages)) {
 				Object.assign(messages, pachedMessages);
 				this._savePatchedMessages(pachedMessages, language);
-                this._global.emit('patched',{language:language,scope:this.id})
+                this._manager.emit('patched',{language:language,scope:this.id})
                 this.logger.debug(`已更新了语言补丁包<${language}>(scope=${this.id}),共${Object.keys(pachedMessages).length}条`);
 			}
 		} catch (e:any) {
@@ -348,7 +359,7 @@ export class VoerkaI18nScope {
 		let patchedMessages = this._getPatchedMessages(language);
 		if (isPlainObject(patchedMessages)) {
             Object.assign(messages, patchedMessages);
-            this._global.emit('restore',{language,scope:this.id})
+            this._manager.emit('restore',{language,scope:this.id})
             this.logger.debug(`成功恢复补丁语言包<${language}>(scope=${this.id})`);
 		}
 	}
@@ -371,9 +382,9 @@ export class VoerkaI18nScope {
 	 * @param {*} messages
 	 */
 	private _savePatchedMessages(messages:VoerkaI18nLanguageMessages, language:string) {
-        if(!this.global.storage) return 
+        if(!this.manager.storage) return 
 		try {
-            this.global.storage.set(`voerkai18n_${this.id}_${language}_patched_messages`,JSON.stringify(messages));
+            this.manager.storage.set(`voerkai18n_${this.id}_${language}_patched_messages`,JSON.stringify(messages));
 		} catch (e:any) {
 			this.logger.error(`保存语言包补丁(${language})时出错:${e.stack}(scope=${this.id})`);
 		}
@@ -383,10 +394,10 @@ export class VoerkaI18nScope {
      * @param language 
      */
     clearPatchedMessages(language?:string) {
-        if(this.global.storage){
+        if(this.manager.storage){
             let langs = language ? [language] : this.languages.map(l=>l.name);
             for(let lang of langs){
-                this.global.storage.remove(`voerkai18n_${this.id}_${lang}_patched_messages`);
+                this.manager.storage.remove(`voerkai18n_${this.id}_${lang}_patched_messages`);
             }
         }
     }
@@ -397,8 +408,8 @@ export class VoerkaI18nScope {
 	 */
 	private _getPatchedMessages(language:string) {
 		try {
-            if(this.global.storage){
-                return this.global.storage.get(`voerkai18n_${this.id}_${language}_patched_messages`);
+            if(this.manager.storage){
+                return this.manager.storage.get(`voerkai18n_${this.id}_${language}_patched_messages`);
             }else{
                 return {};
             }
@@ -408,14 +419,14 @@ export class VoerkaI18nScope {
 		}
 	}
 	// 以下方法引用全局VoerkaI18n实例的方法
-	on(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._global.on(event,callback);	}
-    once(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._global.once(event,callback);}
-	off(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._global.off(event,callback); }
+	on(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._manager.on(event,callback);	}
+    once(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._manager.once(event,callback);}
+	off(event:VoerkaI18nEvents,callback:LiteEventListener) {return this._manager.off(event,callback); }
 	async change(language:string) {
-        return await this._global.change(language);
+        return await this._manager.change(language);
     }
     ready(callback:LiteEventListener){
-        return this._global.ready().then(callback)
+        return this._manager.ready().then(callback)
     }
 };
 

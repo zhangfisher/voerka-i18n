@@ -72,6 +72,8 @@ export interface VoerkaI18nTranslate {
     (message: string, vars: TranslateMessageVars[]): string
     (message: string, vars?: Record<string, TranslateMessageVars>): string
 }
+
+
 export interface VoerkaI18nSupportedLanguages {
     [key: string]: VoerkaI18nLanguageDefine
 }
@@ -86,4 +88,11 @@ export type Primitive = string | number | boolean | null | undefined
 declare global {   
     export var VoerkaI18n: VoerkaI18nManager
 }
+
+export type VoerkaI18nEvents =     
+    "ready"                 // 当默认语言第一次加载完成后触发，data={language,scope}
+    | "change"              // 当语言切换时    data=language
+    | "registered"          // 当Scope注册到成功后    
+    | "restore"             // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
+    | "patched"             // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}               
 

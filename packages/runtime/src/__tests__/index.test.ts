@@ -28,7 +28,7 @@ describe("VoerkaI18n实例与语言切换", () => {
         expect(scope.default).toEqual(zhMessages)
         expect(scope.current).toEqual(zhMessages)
         // 全局管理器
-        expect(scope.global).toBeInstanceOf(VoerkaI18nManager)
+        expect(scope.manager).toBeInstanceOf(VoerkaI18nManager)
     })
     test("切换语言", () => {
         return new Promise<void>((resolve)=>{
@@ -53,7 +53,7 @@ describe("VoerkaI18n实例与语言切换", () => {
         }        
     })
     test("指定了默认信息加载器时，切换到不存在的语言时从远程加载", async () => {
-        scope.global.registerDefaultLoader(async function(newLanguage:string,curScope){
+        scope.manager.registerDefaultLoader(async function(newLanguage:string,curScope){
             expect(newLanguage).toBe("de")
             expect(curScope).toBe(scope)
             return {
