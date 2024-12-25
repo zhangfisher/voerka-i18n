@@ -1,3 +1,5 @@
+import { CurrencyOptions } from "./formatters/currency/types"
+import { DateFormatterOptions } from "./formatters/datetime/date"
 import type { VoerkaI18nManager } from "./manager"
 import type { VoerkaI18nScope } from "./scope"
 
@@ -96,3 +98,13 @@ export type VoerkaI18nEvents =
     | "restore"             // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
     | "patched"             // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}               
 
+
+export type Dict<T=any> = Record<string,T>
+
+
+
+export interface VoerkaI18nFormattersOptions {
+    currency?: Partial<CurrencyOptions>
+    date?    : Partial<DateFormatterOptions>
+
+}

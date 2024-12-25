@@ -3,17 +3,13 @@
 处理日期时间相关
 
 */
-import { toDate } from '../utils'
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 import { relativeTime } from "flex-tools/misc/relativeTime"
 import { assignObject } from "flex-tools/object/assignObject"
 import { isFunction } from "flex-tools/typecheck/isFunction"
-import { Formatter } from '../formatter'
+import { Formatter } from "../../mixins/formatter/formatter_"
 
- 
-function formatTime(value:number ,template="HH:mm:ss"){    
-    return formatDateTime(value,template,{})
-}
+
 
 
 /**

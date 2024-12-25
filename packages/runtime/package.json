@@ -21,8 +21,8 @@
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
-        "flex-tools": "^1.4.11",
-        "flexvars": "^1.0.1",
+        "flex-tools": "^1.4.14",
+        "flexvars": "^1.0.3",
         "ts-mixer": "^6.0.4"
     },
     "devDependencies": {
@@ -32,7 +32,7 @@
         "esbuild-analyzer": "^0.2.0",
         "jest": "^27.5.1",
         "tsup": "^6.7.0",
-        "typescript": "^4.9.3",
+        "typescript": "^5.7.2",
         "vitest": "^0.29.8"
     },
     "lastPublish": "2023-03-30T08:53:24+08:00"

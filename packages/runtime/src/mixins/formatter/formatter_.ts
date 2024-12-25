@@ -9,7 +9,7 @@
  */
 
 
-import { escapeRegexpStr } from "../../utils"
+import { escapeRegexpStr } from "../../utils/escapeRegexpStr"
 import { get as getByPath } from "flex-tools/object/get"
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isFunction } from "flex-tools/typecheck/isFunction"
