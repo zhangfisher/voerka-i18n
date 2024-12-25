@@ -1,11 +1,9 @@
-
-import type  { VoerkaI18nScope } from "../../scope"
-import { createFormatter } from "../../utils/createFormatter"  
+import { createFormatter } from "../../formatter"  
 import { toDate } from "../../utils/toDate" 
 import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/misc/formatDateTime"
 
 export type MonthFormatterOptions = {
-    format: string | ((date:Date)=>string)
+    format: 'long' | 'short' | string | ((date:Date)=>string)
     long  : string[]
     short : string[] 
 }
@@ -15,7 +13,7 @@ export type MonthFormatterArgs = {
     format: string
 }
 
-export default createFormatter<MonthFormatterArgs,MonthFormatterOptions>((scope: VoerkaI18nScope,{getActiveOptions})=>{
+export const monthFormatter = createFormatter<MonthFormatterArgs,MonthFormatterOptions>(({getLanguageOptions})=>{
     return {
         name   : "month",
         args   : [ "format" ],
@@ -25,7 +23,7 @@ export default createFormatter<MonthFormatterArgs,MonthFormatterOptions>((scope:
         next(value:any,args){              
             try{
                 const month   = toDate(value).getMonth() + 1
-                const options = getActiveOptions()
+                const options = getLanguageOptions()
                 const format  = args.format || 'long'
                 if( typeof(format)==='string' && format in options ){
                     const formatVal = (options as any)[format]
@@ -36,7 +34,7 @@ export default createFormatter<MonthFormatterArgs,MonthFormatterOptions>((scope:
                     }                    
                 }
                 return month
-            }catch(e){                
+            }catch{                
                 return value
             }
         }

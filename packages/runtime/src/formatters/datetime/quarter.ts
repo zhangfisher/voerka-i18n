@@ -1,10 +1,8 @@
-
-import type  { VoerkaI18nScope } from "../../scope"
-import { createFormatter } from "../../utils/createFormatter"  
+import { createFormatter } from "../../formatter"  
 import { toDate } from "../../utils/toDate" 
 
 export type QuarterFormatterOptions = {
-    format: string | ((date:Date)=>string)
+    format: 'long' | 'short' | string | ((date:Date)=>string)
     long  : string[]
     short : string[] 
 }
@@ -14,7 +12,7 @@ export type QuarterFormatterArgs = {
     format: string
 }
 
-export default createFormatter<QuarterFormatterArgs,QuarterFormatterOptions>((scope: VoerkaI18nScope,{getActiveOptions})=>{
+export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterOptions>(({getLanguageOptions})=>{
     return {
         name   : "quarter",
         args   : [ "format" ],
@@ -25,7 +23,7 @@ export default createFormatter<QuarterFormatterArgs,QuarterFormatterOptions>((sc
             try{
                 const month   = toDate(value).getMonth() + 1  
                 const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
-                const options = getActiveOptions()
+                const options = getLanguageOptions()
                 const format  = args.format || 'long'
                 if( typeof(format)==='string' && format in options ){
                     const formatVal = (options as any)[format]
@@ -36,7 +34,7 @@ export default createFormatter<QuarterFormatterArgs,QuarterFormatterOptions>((sc
                     }                    
                 }
                 return quarter
-            }catch(e){                
+            }catch{                
                 return value
             }
         }

@@ -1,8 +1,6 @@
-
-import type  { VoerkaI18nScope } from "../../scope"
-import { createFormatter } from "../../utils/createFormatter"  
+import { createFormatter } from "../../formatter"  
 import { toDate } from "../../utils/toDate" 
-import { formatDateTime, relativeTime } from "flex-tools/misc/formatDateTime"
+import { relativeTime } from "flex-tools/misc/formatDateTime"
 
  
 
@@ -18,19 +16,19 @@ export type RelativeTimeFormatterArgs = {
     base: Date
 }
  
-export default createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterOptions>((scope: VoerkaI18nScope,{ getActiveOptions })=>{
+export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterOptions>(( { getLanguageOptions })=>{
     return {
-        name   : "time",
+        name   : "relativeTime",
         args   : [ "base" ],
         default: ()=>({
-            base:new Date()
-        }),
+            base: new Date()
+        }) ,
         next(value:any,args){              
             try{ 
-                const options   = getActiveOptions()
+                const options   = getLanguageOptions()
                 const baseTime = args.base || new Date()
-                return relativeTime(toDate(value),baseTime,options)
-            }catch(e){                
+                return relativeTime(toDate(value),baseTime,options)  
+            }catch{                
                 return value
             }
         }

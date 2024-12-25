@@ -1,12 +1,10 @@
-
-import type  { VoerkaI18nScope } from "../../scope"
-import { createFormatter } from "../../utils/createFormatter"  
+import { createFormatter } from "../../formatter"  
 import { toDate } from "../../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 
  
 
-export type DateFormatterOptions = {
+export type TimeFormatterOptions = {
     format: 'local' | 'timestamp' | 'long'  | 'short' | string | ((date:Date)=>string)    
     long  : string
     short : string   
@@ -14,7 +12,7 @@ export type DateFormatterOptions = {
 }
 
 
-export type DateFormatterArgs = {
+export type TimeFormatterArgs = {
     format?: string
 }
 
@@ -23,7 +21,7 @@ const transformers =  {
     timestamp: (value:Date)=>value.getTime()
 }  
 
-export default createFormatter<DateFormatterArgs,DateFormatterOptions>((scope: VoerkaI18nScope,{ getActiveOptions })=>{
+export const timeFormatter =  createFormatter<TimeFormatterArgs,TimeFormatterOptions>(({ getLanguageOptions })=>{
     return {
         name   : "time",
         args   : [ "format" ],
@@ -31,22 +29,18 @@ export default createFormatter<DateFormatterArgs,DateFormatterOptions>((scope: V
             format : "local" 
         },
         next(value:any,args){              
-            try{
-                const dateValue = toDate(value)
-                const options   = getActiveOptions()
-                const format    = args.format || 'local'
-                if( format in transformers ){
-                    return (transformers as any)[format](dateValue)
-                }else if(format in options){
-                    const formatVal = options[format] 
-                    if(typeof formatVal === 'function'){
-                        return (formatVal as any)(dateValue)
-                    }
-                }else if(typeof(format) === 'string'){
-                    return formatDateTime(dateValue,format)
+            const dateValue = toDate(value)
+            const options   = getLanguageOptions()
+            const format    = args.format || 'local'
+            if( format in transformers ){
+                return (transformers as any)[format](dateValue)
+            }else if(format in options){
+                const formatVal = options[format] 
+                if(typeof formatVal === 'function'){
+                    return (formatVal as any)(dateValue)
                 }
-            }catch(e){                
-                return value
+            }else if(typeof(format) === 'string'){
+                return formatDateTime(dateValue,format)
             }
         }
     } 

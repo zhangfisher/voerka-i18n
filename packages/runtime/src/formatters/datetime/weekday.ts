@@ -1,11 +1,9 @@
-
-import type  { VoerkaI18nScope } from "../../scope"
-import { createFormatter } from "../../utils/createFormatter"  
+import { createFormatter } from "../../formatter"  
 import { toDate } from "../../utils/toDate" 
-import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES, CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/misc/formatDateTime"
+import { CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/misc/formatDateTime"
 
 export type WeekdayFormatterOptions = {
-    format: string | ((date:Date)=>string)
+    format: 'long' | 'short' | string | ((date:Date)=>string)
     long  : string[]
     short : string[] 
 }
@@ -15,7 +13,7 @@ export type WeekdayFormatterArgs = {
     format: string
 }
 
-export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterOptions>((scope: VoerkaI18nScope,{getActiveOptions})=>{
+export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterOptions>(({getLanguageOptions})=>{
     return {
         name   : "weekday",
         args   : [ "format" ],
@@ -25,7 +23,7 @@ export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterOptions>((sc
         next(value:any,args){              
             try{
                 const day   = toDate(value).getDay() + 1
-                const options = getActiveOptions()
+                const options = getLanguageOptions()
                 const format  = args.format || 'long'
                 if( typeof(format)==='string' && format in options ){
                     const formatVal = (options as any)[format]
@@ -36,7 +34,7 @@ export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterOptions>((sc
                     }                    
                 }
                 return day
-            }catch(e){                
+            }catch{                
                 return value
             }
         }

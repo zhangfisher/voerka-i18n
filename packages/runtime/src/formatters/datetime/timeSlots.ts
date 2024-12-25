@@ -1,7 +1,5 @@
-import type  { VoerkaI18nScope } from "../../scope"
-import { createFormatter } from "../../utils/createFormatter"  
+import { createFormatter } from "../../formatter"  
 import { toDate } from "../../utils/toDate"  
-import { formatDateTime } from "flex-tools/misc/timeFormatter"
 
  
 
@@ -17,7 +15,7 @@ export type TimeSlotsFormatterArgs = {
  }
 
 
-export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterOptions>((scope: VoerkaI18nScope,{ getActiveOptions })=>{
+export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterOptions>(({ getLanguageOptions })=>{
     return {
         name   : "time",
         args   : [ "upper" ],
@@ -28,12 +26,11 @@ export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterOptions>
             try{
                 const hour    = toDate(value).getHours()
                 const isUpper = Boolean(args.upper)
-                const options = getActiveOptions()
+                const options = getLanguageOptions()
                 let slotIndex = options.slots.findIndex(slot=>hour<slot)
                 if(slotIndex===-1) slotIndex = options.slots.length-1
-                return isUpper ? options.upperCases[slotIndex] : options.lowerCases[slotIndex]                
-               
-            }catch(e){                
+                return isUpper ? options.upperCases[slotIndex] : options.lowerCases[slotIndex]                               
+            }catch{                
                 return value
             }
         }

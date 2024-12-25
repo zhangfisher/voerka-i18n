@@ -1,8 +1,8 @@
-import type { VoerkaI18nScope } from "../../scope"
-import { toCurrency } from "../../utils/toCurrency"
-import { createFormatter } from "../../utils/createFormatter"
+import { toCurrency } from "../currency/toCurrency"
+import { createFormatter } from "../../formatter"
 
-export default createFormatter((scope: VoerkaI18nScope)=>{
+
+export const numberFormatter = createFormatter(()=>{
     return {
         name: "number",
         args:["precision","division"],

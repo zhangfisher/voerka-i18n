@@ -1,13 +1,12 @@
 
-import type  { VoerkaI18nScope } from "../../scope"
-import { createFormatter } from "../../utils/createFormatter"  
+import { createFormatter } from "../../formatter"  
 import { toDate } from "../../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 
  
 
 export type DateFormatterOptions = {
-    format: string | ((date:Date)=>string)    
+    format: 'long' | 'short' | string | ((date:Date)=>string)    
     long  : string
     short : string   
     [key: string]: string | ((date: Date) => string)
@@ -25,7 +24,7 @@ const transformers =  {
     gmt  : (value:any)=>value.toGMTString()    
 }  
 
-export default createFormatter<DateFormatterArgs,DateFormatterOptions>((scope: VoerkaI18nScope,{getActiveOptions})=>{
+export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterOptions>(({getLanguageOptions})=>{
     return {
         name   : "date",
         args   : [ "format" ],
@@ -35,7 +34,7 @@ export default createFormatter<DateFormatterArgs,DateFormatterOptions>((scope: V
         next(value:any,args){              
             try{
                 const dateValue = toDate(value)
-                const options   = getActiveOptions()
+                const options   = getLanguageOptions()
                 const format    = args.format || 'local'
                 if( format in transformers ){
                     return (transformers as any)[format](dateValue)
@@ -47,7 +46,7 @@ export default createFormatter<DateFormatterArgs,DateFormatterOptions>((scope: V
                 }else if(typeof(format) === 'string'){
                     return formatDateTime(dateValue,format)
                 }
-            }catch(e){                
+            }catch{                
                 return value
             }
         }
