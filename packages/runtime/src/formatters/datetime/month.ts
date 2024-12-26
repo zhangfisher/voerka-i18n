@@ -1,4 +1,4 @@
-import { createFormatter } from "../../formatter"  
+import { createFormatter } from "../../mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/misc/formatDateTime"
 
@@ -13,30 +13,26 @@ export type MonthFormatterArgs = {
     format: string
 }
 
-export const monthFormatter = createFormatter<MonthFormatterArgs,MonthFormatterOptions>(({getLanguageOptions})=>{
+export const monthFormatter = createFormatter<MonthFormatterArgs,MonthFormatterOptions>(({getLanguageConfig})=>{
     return {
         name   : "month",
         args   : [ "format" ],
         default: { 
             format : "long" 
         },
-        next(value:any,args){              
-            try{
-                const month   = toDate(value).getMonth() + 1
-                const options = getLanguageOptions()
-                const format  = args.format || 'long'
-                if( typeof(format)==='string' && format in options ){
-                    const formatVal = (options as any)[format]
-                    if(typeof formatVal === 'function'){
-                        return (formatVal as any)(month)
-                    }else{
-                        return formatVal[month]
-                    }                    
-                }
-                return month
-            }catch{                
-                return value
+        next(value:any,args){
+            const month   = toDate(value).getMonth() + 1
+            const options = getLanguageConfig("month")
+            const format  = args.format || 'long'
+            if( typeof(format)==='string' && format in options ){
+                const formatVal = (options as any)[format]
+                if(typeof formatVal === 'function'){
+                    return (formatVal as any)(month)
+                }else{
+                    return formatVal[month]
+                }                    
             }
+            return month 
         }
     } 
 },{

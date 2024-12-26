@@ -1,4 +1,4 @@
-import { createFormatter } from "../../formatter"  
+import { createFormatter } from "../../mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 
 export type QuarterFormatterOptions = {
@@ -12,7 +12,7 @@ export type QuarterFormatterArgs = {
     format: string
 }
 
-export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterOptions>(({getLanguageOptions})=>{
+export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterOptions>(({getLanguageConfig})=>{
     return {
         name   : "quarter",
         args   : [ "format" ],
@@ -23,7 +23,7 @@ export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFor
             try{
                 const month   = toDate(value).getMonth() + 1  
                 const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
-                const options = getLanguageOptions()
+                const options = getLanguageConfig("quarter")
                 const format  = args.format || 'long'
                 if( typeof(format)==='string' && format in options ){
                     const formatVal = (options as any)[format]

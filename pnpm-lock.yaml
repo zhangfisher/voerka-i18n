@@ -664,6 +664,9 @@ importers:
       lcid:
         specifier: ^4.0.1
         version: 4.0.1
+      locale-code:
+        specifier: ^2.0.2
+        version: 2.0.2
       logsets:
         specifier: ^1.3.10
         version: 1.3.10
@@ -688,6 +691,10 @@ importers:
       vinyl:
         specifier: ^2.2.1
         version: 2.2.1
+    devDependencies:
+      iso-639-1-zh:
+        specifier: ^2.0.4
+        version: 2.0.4
 
   packages/openinula:
     dependencies:
@@ -726,8 +733,8 @@ importers:
   packages/runtime:
     dependencies:
       flex-tools:
-        specifier: ^1.4.14
-        version: 1.4.14
+        specifier: ^1.4.15
+        version: 1.4.15
       flexvars:
         specifier: ^1.0.3
         version: 1.0.3
@@ -747,9 +754,6 @@ importers:
       esbuild-analyzer:
         specifier: ^0.2.0
         version: 0.2.0
-      jest:
-        specifier: ^27.5.1
-        version: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.7.2))
       tsup:
         specifier: ^6.7.0
         version: 6.7.0(@swc/core@1.3.56)(postcss@8.4.48)(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.7.2))(typescript@5.7.2)
@@ -7207,6 +7211,9 @@ packages:
   flex-tools@1.4.14:
     resolution: {integrity: sha512-yAf+AmFGwrTP35LFg5Mz6aAe+K5W00Z3dHG0ATwBzgdqf1nodArOATVrw46f5RBDe08B2a98M/4ru7tl+VIz9w==}
 
+  flex-tools@1.4.15:
+    resolution: {integrity: sha512-iuJpkJnWmmmfPeDuHqJxxn2cAmYwSWD5+wvlewMWb5lUkMO0aisNSN0eJpQBMxuVViYjKLIhQ3prK/+UHnoKWA==}
+
   flexstyled@2.1.2:
     resolution: {integrity: sha512-EBvH01pUOiU+pwAu2dLYIM1cqrFkYCp+ZTCyqBUlnjwrz1zlJIem7FQoPYV79TAgYHXSnitN98A7ilhnaO97oA==}
     peerDependencies:
@@ -8277,6 +8284,16 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
+  iso-3166-1-alpha-2@1.0.2:
+    resolution: {integrity: sha512-B9xyzPQIpVKJnEvVfjzgWA/P6c6tL6LqqxrR14NJaw2RpGtCMcyFYcwcJw6h/PYMTq7hAZp63oIhxqcfO90TRA==}
+
+  iso-639-1-zh@2.0.4:
+    resolution: {integrity: sha512-DsCQZFPVcbDr8MGRAP8U4LbAwGWtxx3HZFHoJNILKVvJpc4SMhmnMyhngV4mFcDQDwCp2szOX8npKmzyOoA8hQ==}
+
+  iso-639-1@2.1.15:
+    resolution: {integrity: sha512-7c7mBznZu2ktfvyT582E2msM+Udc1EjOyhVRE/0ZsjD9LBtWSm23h3PtiRh2a35XoUsTQQjJXaJzuLjXsOdFDg==}
+    engines: {node: '>=6.0'}
+
   iso-639-1@3.1.3:
     resolution: {integrity: sha512-1jz0Wh9hyLMRwqEPchb/KZCiTqfFWtc9R3nm7GHPygBAKS8wdKJ3FH4lvLsri6UtAE5Kz5SnowtXZa//6bqMyw==}
     engines: {node: '>=6.0'}
@@ -8912,6 +8929,9 @@ packages:
     resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
     engines: {node: '>=14'}
 
+  locale-code@2.0.2:
+    resolution: {integrity: sha512-wNcUMwk6Nlc10pnZZXWtKArAOZHhH8p2vohPEIENg7ImwMrib/CwKSvyV4g9Wm7KjylyHzXnEMz4i/W3w57wlw==}
+
   locate-path@3.0.0:
     resolution: {integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==}
     engines: {node: '>=6'}
@@ -9236,6 +9256,9 @@ packages:
 
   mlly@1.2.0:
     resolution: {integrity: sha512-+c7A3CV0KGdKcylsI6khWyts/CYrGTrRVo4R/I7u/cUsy0Conxa6LUhiEzVKIw14lc2L5aiO4+SeVe4TeGRKww==}
+
+  mout@1.2.4:
+    resolution: {integrity: sha512-mZb9uOruMWgn/fw28DG4/yE3Kehfk1zKCLhuDU2O3vlKdnBBr4XaOCqVTflJ5aODavGUPqFHZgrFX3NJVuxGhQ==}
 
   move-concurrently@1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}
@@ -21300,6 +21323,11 @@ snapshots:
       art-template: 4.13.2
       glob: 10.4.5
 
+  flex-tools@1.4.15:
+    dependencies:
+      art-template: 4.13.2
+      glob: 10.4.5
+
   flexstyled@2.1.2(@types/react@18.2.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@types/react': 18.2.22
@@ -21308,7 +21336,7 @@ snapshots:
 
   flexvars@1.0.3:
     dependencies:
-      flex-tools: 1.4.14
+      flex-tools: 1.4.15
 
   flush-write-stream@1.1.1:
     dependencies:
@@ -22404,6 +22432,16 @@ snapshots:
   isarray@2.0.5: {}
 
   isexe@2.0.0: {}
+
+  iso-3166-1-alpha-2@1.0.2:
+    dependencies:
+      mout: 1.2.4
+
+  iso-639-1-zh@2.0.4:
+    dependencies:
+      iso-639-1: 2.1.15
+
+  iso-639-1@2.1.15: {}
 
   iso-639-1@3.1.3: {}
 
@@ -23614,6 +23652,11 @@ snapshots:
 
   local-pkg@0.4.3: {}
 
+  locale-code@2.0.2:
+    dependencies:
+      iso-3166-1-alpha-2: 1.0.2
+      iso-639-1-zh: 2.0.4
+
   locate-path@3.0.0:
     dependencies:
       p-locate: 3.0.0
@@ -23954,6 +23997,8 @@ snapshots:
       pathe: 1.1.0
       pkg-types: 1.0.2
       ufo: 1.1.1
+
+  mout@1.2.4: {}
 
   move-concurrently@1.0.1:
     dependencies:

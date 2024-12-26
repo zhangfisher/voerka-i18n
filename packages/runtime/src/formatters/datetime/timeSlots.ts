@@ -1,4 +1,4 @@
-import { createFormatter } from "../../formatter"  
+import { createFormatter } from "../../mixins/formatter/utils"
 import { toDate } from "../../utils/toDate"  
 
  
@@ -15,9 +15,9 @@ export type TimeSlotsFormatterArgs = {
  }
 
 
-export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterOptions>(({ getLanguageOptions })=>{
+export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterOptions>(({ getLanguageConfig })=>{
     return {
-        name   : "time",
+        name   : "timeSlots",
         args   : [ "upper" ],
         default: { 
             upper : true
@@ -26,7 +26,7 @@ export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterOptions>
             try{
                 const hour    = toDate(value).getHours()
                 const isUpper = Boolean(args.upper)
-                const options = getLanguageOptions()
+                const options = getLanguageConfig("timeSlots")
                 let slotIndex = options.slots.findIndex(slot=>hour<slot)
                 if(slotIndex===-1) slotIndex = options.slots.length-1
                 return isUpper ? options.upperCases[slotIndex] : options.lowerCases[slotIndex]                               

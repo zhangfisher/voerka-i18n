@@ -1,20 +1,19 @@
-import { CurrencyOptions } from "./formatters/currency/types"
-import { DateFormatterOptions } from "./formatters/datetime/date"
 import type { VoerkaI18nManager } from "./manager"
-import type { VoerkaI18nScope } from "./scope"
+import { VoerkaI18nFormatterConfigs } from "./mixins/formatter/types"
+import type { VoerkaI18nScope } from "./scope" 
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 // 语言包
-export type VoerkaI18nLanguageMessages = Record<string, string | string[]> | {
-    $config?: VoerkaI18nTypesFormatterConfigs
+export type VoerkaI18nLanguageMessages = Record<LanguageCodes, string | string[]> | {
+    $config?: VoerkaI18nFormatterConfigs
     $remote?: boolean
 }       
 
 export type VoerkaI18nLanguageMessagePack = Record<string, VoerkaI18nLanguageMessages | VoerkaI18nMessageLoader> 
 
 export type VoerkaI18nDynamicLanguageMessages = Record<string, string | string[]> & {
-    $config?: VoerkaI18nTypesFormatterConfigs
+    $config?: VoerkaI18nFormatterConfigs
 }   
 export interface VoerkaI18nLanguagePack {
     [language: string]: VoerkaI18nLanguageMessages
@@ -23,32 +22,14 @@ export interface VoerkaI18nLanguagePack {
 export type Voerkai18nIdMap = Record<string, number>
 
 export interface VoerkaI18nLanguageDefine {
-    name     : string
+    name     : LanguageCodes
     title?   : string
     default? : boolean           // 是否默认语言
     active?  : boolean                 
     fallback?: string
 }
 
-
-export type VoerkaI18nFormatterConfigs = Record<string, any>
-export type VoerkaI18nFormatter = ((value: any,args: any[],config: VoerkI18nFormatterConfigs) => string) 
-export type VoerkaI18nTypesFormatters=Partial<Record<SupportedDateTypes, VoerkaI18nFormatter>>
-export type VoerkaI18nTypesFormatterConfig= Partial<Record<string, any>>
-export type VoerkaI18nTypesFormatterConfigs= Partial<Record<SupportedDateTypes | string, Record<string,any>>>
-export type VoerkaI18nFormattersLoader =  (()=>Promise<VoerkaI18nFormatters>)
-
-
-// 每一个语言的格式化器定义={$types:{...},$config:{...},[格式化器名称]: () => {},[格式化器名称]: () => {}
-// 在formatters/xxxx.ts里面进行配置
-export type VoerkaI18nFormatters = {
-    global?: boolean | Omit<VoerkaI18nFormatters,'global'>                                                // 是否全局格式化器
-    $types?:VoerkaI18nTypesFormatters
-    $config?: VoerkaI18nTypesFormatterConfigs
-} | {
-    [key: string]: VoerkaI18nFormatter
-}
-
+ 
 // 提供一个简单的KV存储接口,用来加载相关的存储
 export interface IVoerkaI18nStorage{
     get(key:string):any
@@ -56,9 +37,6 @@ export interface IVoerkaI18nStorage{
     remove(key:string):any
 }
 
-// 包括语言的{"*":{...},zh:{...},en:{...}} 
-// 声明格式化器
-export type VoerkaI18nLanguageFormatters =  Record<string,VoerkaI18nFormatters | VoerkaI18nMessageLoader>
 
 
 export type VoerkaI18nMessageLoader = () => Awaited<Promise<any>>
@@ -80,8 +58,6 @@ export interface VoerkaI18nSupportedLanguages {
     [key: string]: VoerkaI18nLanguageDefine
 }
 
-
-export type VoerkI18nFormatterConfigs = Record<string, any>
  
 
 export type Primitive = string | number | boolean | null | undefined
@@ -89,22 +65,51 @@ export type Primitive = string | number | boolean | null | undefined
 
 declare global {   
     export var VoerkaI18n: VoerkaI18nManager
+    export var __VoerkaI18nScopes__: VoerkaI18nScope[]
 }
 
-export type VoerkaI18nEvents =     
-    "ready"                 // 当默认语言第一次加载完成后触发，data={language,scope}
-    | "change"              // 当语言切换时    data=language
-    | "registered"          // 当Scope注册到成功后    
-    | "restore"             // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
-    | "patched"             // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}               
+   
+  
+export type VoerkaI18nEvents = {
+    log        : { level: string, message:string }                  // 当有日志输出时，data={level
+    ready      : { scope:string,language:string }                   // 当默认语言第一次加载完成后触发，data={language,scope}
+    change     : string                                             // 当语言切换时    data=language
+    registered : string                                             // 当Scope注册到成功后    
+    restore    : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
+    patched    : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}               
+}      
+    
+ 
 
 
 export type Dict<T=any> = Record<string,T>
 
 
 
-export interface VoerkaI18nFormattersOptions {
-    currency?: Partial<CurrencyOptions>
-    date?    : Partial<DateFormatterOptions>
+export type LanguageCodes = 'aa' | 'ab' | 'ae' | 'af' | 'ak' | 'am' | 'an' | 'ar' | 'as' | 'av' | 'ay' | 'az' 
+    | 'ba' | 'be' | 'bg' | 'bh' | 'bi' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' 
+    | 'ca' | 'ce' | 'ch' | 'co' | 'cr' | 'cs' | 'cu' | 'cv' | 'cy' 
+    | 'da' | 'de' | 'dv' | 'dz' 
+    | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' 
+    | 'fa' | 'ff' | 'fi' | 'fj' | 'fo' | 'fr' | 'fy' 
+    | 'ga' | 'gd' | 'gl' | 'gn' | 'gu' | 'gv' 
+    | 'ha' | 'he' | 'hi' | 'ho' | 'hr' | 'ht' | 'hu' | 'hy' | 'hz' 
+    | 'ia' | 'id' | 'ie' | 'ig' | 'ii' | 'ik' | 'io' | 'is' | 'it' | 'iu' 
+    | 'ja' | 'jv' 
+    | 'ka' | 'kg' | 'ki' | 'kj' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'kr' | 'ks' | 'ku' | 'kv' | 'kw' | 'ky' 
+    | 'la' | 'lb' | 'lg' | 'li' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' 
+    | 'mg' | 'mh' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' 
+    | 'na' | 'nb' | 'nd' | 'ne' | 'ng' | 'nl' | 'nn' | 'no' | 'nr' | 'nv' | 'ny' 
+    | 'oc' | 'oj' | 'om' | 'or' | 'os' 
+    | 'pa' | 'pi' | 'pl' | 'ps' | 'pt' 
+    | 'qu' 
+    | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' 
+    | 'sa' | 'sc' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sm' | 'sn' | 'so' | 'sq' | 'sr' | 'ss' | 'st' | 'su' | 'sv' | 'sw' 
+    | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'tl' | 'tn' | 'to' | 'tr' | 'ts' | 'tt' | 'tw' | 'ty' 
+    | 'ug' | 'uk' | 'ur' | 'uz' 
+    | 've' | 'vi' | 'vo' 
+    | 'wa' | 'wo' 
+    | 'xh' 
+    | 'yi' | 'yo' 
+    | 'za' | 'zh' | 'zu'
 
-}

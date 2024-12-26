@@ -1,4 +1,4 @@
-import { createFormatter } from "../../formatter"  
+import { createFormatter } from "../../mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { relativeTime } from "flex-tools/misc/formatDateTime"
 
@@ -16,7 +16,7 @@ export type RelativeTimeFormatterArgs = {
     base: Date
 }
  
-export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterOptions>(( { getLanguageOptions })=>{
+export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterOptions>(( { getLanguageConfig })=>{
     return {
         name   : "relativeTime",
         args   : [ "base" ],
@@ -25,7 +25,7 @@ export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,
         }) ,
         next(value:any,args){              
             try{ 
-                const options   = getLanguageOptions()
+                const options   = getLanguageConfig("relativeTime")
                 const baseTime = args.base || new Date()
                 return relativeTime(toDate(value),baseTime,options)  
             }catch{                

@@ -22,15 +22,15 @@ describe("格式化器配置与参数", () => {
         await scope.change("zh")
     })
     test("格式化器参数", async () => {        
-        expect(scope.formatterManager).toBeInstanceOf(VoerkaI18nFormatterRegistry)
-        expect(scope.formatterManager.activeLanguage).toBe("zh")
-        expect(scope.formatterManager.formatters).toEqual(formatters) 
+        expect(scope.formatters).toBeInstanceOf(VoerkaI18nFormatterRegistry)
+        expect(scope.formatters.activeLanguage).toBe("zh")
+        expect(scope.formatters.formatters).toEqual(formatters) 
     })
 
     test("查找格式化器", async () => {        
-        expect(scope.formatterManager.get("first")).toBe(formatters.zh.first)
+        expect(scope.formatters.get("first")).toBe(formatters.zh.first)
         await scope.change("en")
-        expect(scope.formatterManager.get("first")).toBe(formatters.en.first)        
+        expect(scope.formatters.get("first")).toBe(formatters.en.first)        
     })
     test("合并后的格式化器配置", async () => {         
         let fallbackLanguage = scope.getLanguage(scope.activeLanguage)?.fallback
@@ -41,7 +41,7 @@ describe("格式化器配置与参数", () => {
             (fallbackLanguage! in formatters) ? (formatters as any)?.[fallbackLanguage!]?.$config:{},
             formatters.zh.$config
         ])
-        expect(scope.formatterManager.config).toEqual(scopeConfig)
+        expect(scope.formatters.config).toEqual(scopeConfig)
         // 
         await scope.change("en")
         fallbackLanguage = scope.getLanguage(scope.activeLanguage)?.fallback
@@ -51,7 +51,7 @@ describe("格式化器配置与参数", () => {
             (fallbackLanguage! in formatters) ? (formatters as any)?.[fallbackLanguage!]?.$config:{},
             formatters.en.$config
         ])
-        expect(scope.formatterManager.config).toEqual(scopeConfig)        
+        expect(scope.formatters.config).toEqual(scopeConfig)        
     })
 })
  

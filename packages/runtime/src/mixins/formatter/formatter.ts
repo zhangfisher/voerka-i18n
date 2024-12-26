@@ -8,21 +8,19 @@ import type  { VoerkaI18nScope } from "../../scope";
 import { VoerkaI18nFormatterManager } from "./manager";
 
 
-export type FormatterContext = {
-    language:string
-}
-export interface Formatter<Config extends Record<string,any>> {
-    (value:string,config:Config,context:FormatterContext):any
-}
+
 
 
 export class FormatterMixin{
     private _formatterManager:VoerkaI18nFormatterManager | null = null
     // 当前作用域的所有格式化器定义 {<语言名称>: {$types,$config,[格式化器名称]: ()          = >{},[格式化器名称]: () => {}}}    
-    get formatterManager() {	return this._formatterManager! }                   
+    get formatters() {	return this._formatterManager! }                   
 
     protected initFormatters(this:VoerkaI18nScope){
-        this._formatterManager = new VoerkaI18nFormatterManager(this) 
+        this._formatterManager = new VoerkaI18nFormatterManager(this)         
+    }
+
+    registerFormatter(this:VoerkaI18nScope,name:string, formatter:VoerkaI18nFormatter, options?:{ language?:  string | string[] | "*", asGlobal?:boolean } ) {
         
     }
     

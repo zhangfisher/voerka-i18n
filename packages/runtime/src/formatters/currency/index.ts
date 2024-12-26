@@ -1,7 +1,6 @@
 
 import { toCurrency } from "./toCurrency" 
-import { createFormatter } from "../../formatter" 
-
+import { createFormatter } from "../../mixins/formatter/utils"
 
 export type CurrencyFormatterOptions = {
     default  : string                       // "{symbol}{value}{unit}",
@@ -39,7 +38,7 @@ export type CurrencyFormatterArgs = {
 } 
  
 
-export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterOptions>(({getLanguageOptions})=>{
+export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterOptions>(({getLanguageConfig})=>{
     return {
         name   : "currency",
         args   : [ "format", "unit", "precision", "prefix", "suffix", "division", "symbol", "radix" ],
@@ -54,7 +53,7 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterOptions>((
             radix    : 3     
         },
         next(value:any,args){
-            const options = getLanguageOptions()
+            const options = getLanguageConfig("currency")
             // format可以取预设值的名称，如long,short等    
             if(args.format in options){
                 args.format = (options as any)[args.format]
@@ -69,7 +68,7 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterOptions>((
             if(args.unit>0 && args.precision==2){
                 args.precision = -1
             }
-            return toCurrency(value, args,getLanguageOptions())
+            return toCurrency(value, args,getLanguageConfig())
         }
     } 
 },{
@@ -97,5 +96,5 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterOptions>((
         division : 4,
         precision: 2            
     }    
-} )
+})
 

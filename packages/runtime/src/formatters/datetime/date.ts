@@ -1,12 +1,9 @@
-
-import { createFormatter } from "../../formatter"  
+import { createFormatter } from "../../mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
-import { formatDateTime } from "flex-tools/misc/formatDateTime"
-
- 
+import { formatDateTime } from "flex-tools/misc/formatDateTime" 
 
 export type DateFormatterOptions = {
-    format: 'long' | 'short' | string | ((date:Date)=>string)    
+    format: 'long' | 'short' | 'local' | 'iso' | 'utc' | 'gmt' | string | ((date:Date)=>string)    
     long  : string
     short : string   
     [key: string]: string | ((date: Date) => string)
@@ -24,30 +21,27 @@ const transformers =  {
     gmt  : (value:any)=>value.toGMTString()    
 }  
 
-export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterOptions>(({getLanguageOptions})=>{
+export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterOptions>(({getLanguageConfig})=>{
     return {
+        global : true,
         name   : "date",
         args   : [ "format" ],
         default: { 
             format : "local" 
         },
-        next(value:any,args){              
-            try{
-                const dateValue = toDate(value)
-                const options   = getLanguageOptions()
-                const format    = args.format || 'local'
-                if( format in transformers ){
-                    return (transformers as any)[format](dateValue)
-                }else if(format in options){
-                    const formatVal = options[format] 
-                    if(typeof formatVal === 'function'){
-                        return (formatVal as any)(dateValue)
-                    }
-                }else if(typeof(format) === 'string'){
-                    return formatDateTime(dateValue,format)
+        next(value:any,args){         
+            const dateValue = toDate(value) 
+            const options   = getLanguageConfig("date")
+            const format    = args.format || 'local'
+            if( format in transformers ){
+                return (transformers as any)[format](dateValue)
+            }else if(format in options){
+                const formatVal = options[format] 
+                if(typeof formatVal === 'function'){
+                    return (formatVal as any)(dateValue)
                 }
-            }catch{                
-                return value
+            }else if(typeof(format) === 'string'){
+                return formatDateTime(dateValue,format)
             }
         }
     } 

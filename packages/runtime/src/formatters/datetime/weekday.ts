@@ -1,4 +1,4 @@
-import { createFormatter } from "../../formatter"  
+import { createFormatter } from "../../mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/misc/formatDateTime"
 
@@ -13,7 +13,7 @@ export type WeekdayFormatterArgs = {
     format: string
 }
 
-export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterOptions>(({getLanguageOptions})=>{
+export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterOptions>(({getLanguageConfig})=>{
     return {
         name   : "weekday",
         args   : [ "format" ],
@@ -23,7 +23,7 @@ export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterOptions>(({g
         next(value:any,args){              
             try{
                 const day   = toDate(value).getDay() + 1
-                const options = getLanguageOptions()
+                const options = getLanguageConfig("weekday")
                 const format  = args.format || 'long'
                 if( typeof(format)==='string' && format in options ){
                     const formatVal = (options as any)[format]

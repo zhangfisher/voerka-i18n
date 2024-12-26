@@ -1,34 +1,13 @@
-import { isFunction } from "flex-tools/typecheck/isFunction"
-import { deepMerge } from "flex-tools/object/deepMerge"      
+import { isFunction } from "flex-tools/typecheck/isFunction"     
 import type {  VoerkaI18nScope } from "./scope"
-import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nFormatter,  IVoerkaI18nStorage, VoerkaI18nEvents }  from "./types"
+import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nEvents }  from "./types"
 import { InvalidLanguageError } from './errors';
-import { LiteEvent } from "flex-tools/events/liteEvent"
-import defaultStoage from "./storage"
-import { assignObject } from 'flex-tools/object/assignObject';
-import { createLogger } from "./logger"
-import { isScope } from "./utils"
+import { LiteEvent } from "flex-tools/events/liteEvent" 
+import { createLogger, VoerkaI18nLogger } from "./logger"
+import { isScope } from "./utils" 
 
 
-// 默认语言配置
-const defaultLanguageSettings = {  
-    debug          : true,
-    defaultLanguage: "zh",
-    activeLanguage : "zh",
-    storage        : defaultStoage,
-    languages      : [
-        {name:"zh",title:"中文",default:true},
-        {name:"en",title:"英文"}
-    ]
-} as VoerkaI18nManagerOptions
-
-export interface VoerkaI18nManagerOptions {
-    debug?          : boolean
-    defaultLanguage : string
-    activeLanguage  : string 
-    languages       : VoerkaI18nLanguageDefine[]
-    storage?        : IVoerkaI18nStorage                                 // 语言包存储器
-}
+export interface VoerkaI18nManagerOptions extends VoerkaI18nScope {}
 
 
 /** 
@@ -47,49 +26,54 @@ export interface VoerkaI18nManagerOptions {
  * 
  * */ 
 
-export class VoerkaI18nManager extends LiteEvent<any,VoerkaI18nEvents>{
+export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     static instance?              : VoerkaI18nManager  
     private _scopes               : VoerkaI18nScope[] = []
-    private _options!             : Required<VoerkaI18nManagerOptions>  
-    private _logger!              : ReturnType<typeof createLogger>
-    private _appInitilized        : boolean = false
-    private _appScopeId?          : string
+    private _logger!              : VoerkaI18nLogger
+    private _appInitilized        : boolean = false 
+    private _appScope?            : VoerkaI18nScope
+
     private _defaultMessageLoader?: VoerkaI18nDefaultMessageLoader
-    constructor(options?:VoerkaI18nManagerOptions){
+    
+    constructor(appScope:VoerkaI18nScope){
         super()
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
-        }
-        this._options= deepMerge({},defaultLanguageSettings,options) as Required<VoerkaI18nManagerOptions>
-        this._logger = createLogger(this.options.debug)
-        VoerkaI18nManager.instance = this;
-        this._loadInitialFormatters().then(()=>{
-            this._loadOptionsFromStorage()                               // 从存储器加载语言包配置        
-        })                                // 加载初始格式化器        
+        }        
+        this._appScope = appScope
+        this._logger = createLogger(this)
+        VoerkaI18nManager.instance = this                       // 加载初始格式化器        
+        this._registerScopes()                                  // 注册所有作用域
     }
-    get debug(){return this.options.debug }
-    get options(){ return this._options}  
-    get logger(){ return this._logger }                            // 日志记录器                        
-    get scopes(){ return this._scopes }                             // 注册的报有VoerkaI18nScope实例
-    get appScopeId(){ return this._appScopeId }                    // 应用的scopeId
-    get activeLanguage(){ return this.options!.activeLanguage}     // 当前激活语言名称
-    get defaultLanguage(){ return this.options!.defaultLanguage}   // 默认语言名称    
-    get fallbackLanguage(){ return this.options!.activeLanguage}   // 默认语言名称    
-    get languages(){ return this.options!.languages}               // 支持的语言列表    
+    get debug(){return this.scope.debug }  
+    get logger(){ return this._logger! }                            // 日志记录器                        
+    get scopes(){ return this._scopes }                             // 注册VoerkaI18nScope实例 
+    get activeLanguage(){ return this.scope.activeLanguage}     // 当前激活语言名称
+    get defaultLanguage(){ return this.scope.defaultLanguage}   // 默认语言名称     
+    get languages(){ return this.scope.languages}               // 支持的语言列表    
     get defaultMessageLoader(){ return this._defaultMessageLoader}  // 默认语言包加载器 
-    get storage(){return this.options.storage}
+    get storage(){return this.scope!.storage}
+    get scope(){return this._appScope!}
 
+    private _registerScopes(){
+        const scopes = globalThis.__VoerkaI18nScopes__
+        if(scopes && Array.isArray(scopes)){
+            scopes.forEach(scope=>this.register(scope))
+        }
+    }
     /**
-     * 本方法供scope.options.library=false，即应用时调用更新配置
+     * 
+     * 将应用Scope注册到管理器中
      * 
      */
-    private _initApp(appScopeOptions:VoerkaI18nManagerOptions){
+    private _registerAppScope(scope:VoerkaI18nScope){
         if(this._appInitilized){
-            this.logger.warn("VoerkaI18n只允许注册一个library=false的i18nScope,请检查是否正确配置了library参数")
-            return
+            this.logger.warn("只允许注册一个library=false的i18nScope,请检查是否正确配置了library参数")
+            return 
         }
-        assignObject(this.options,appScopeOptions)
-        this._loadOptionsFromStorage()                               // 从存储器加载语言包配置
+        this._activeLanguage = scope.activeLanguage
+        this._defaultLanguage = scope.defaultLanguage
+        this._loadOptionsFromStorage()    // 从存储器加载语言包配置
         this._appInitilized = true
     }
     
@@ -97,23 +81,23 @@ export class VoerkaI18nManager extends LiteEvent<any,VoerkaI18nEvents>{
      * 从存储器加载语言包配置
      */
     private _loadOptionsFromStorage(){
-        if(this.options.storage){
-            const storage = this.options.storage
-            const savedLangauge = storage.get("language")
-            if(savedLangauge && !this.hasLanguage(savedLangauge)) {
-                this.logger.warn("从存储中读取到未配置的语言名称参数：",savedLangauge)
+        const storage = this.scope.storage
+        if(storage){            
+            const savedLanguage = storage.get("language")
+            if(savedLanguage && !this.hasLanguage(savedLanguage)) {
+                this.logger.warn("从存储中读取到无效的语言名称参数：",savedLanguage)
             }
-            if(savedLangauge) this.logger.info("从存储中读取到当前语言名称参数：",savedLangauge)
-            if(savedLangauge && savedLangauge!=='undefined'){
-                this.options.activeLanguage = savedLangauge
-                this.logger.debug("当前语言设置为：",savedLangauge)
+            if(savedLanguage) this.logger.info("从存储中读取到当前语言名称参数：",savedLanguage)
+            if(savedLanguage && savedLanguage!=='undefined'){
+                this.options.activeLanguage = savedLanguage
+                this.logger.debug("当前语言设置为：",savedLanguage)
             }
         }
     }
     private _saveOptionsToStorage(){
-        if(this.options.storage){
-            const storage = this.options.storage
-            if(!this.options.activeLanguage)  return
+        const storage = this.scope.storage
+        if(storage){
+            if(!this._activeLanguage)  return
             storage.set("language",this.activeLanguage)            
             this.logger.debug("当前语言设置已保存到存储：",this.activeLanguage)
         }
@@ -155,40 +139,23 @@ export class VoerkaI18nManager extends LiteEvent<any,VoerkaI18nEvents>{
     async register(scope:VoerkaI18nScope){ 
         if(!isScope(scope)) throw new Error("注册的作用域必须是VoerkaI18nScope的实例")
         const isInit = this._scopes.length===0 && !scope.options.library
-        this._scopes.push(scope) 
-        if(this._scopes.length===1) this._appScopeId = scope.id
-        if(scope.options.library===false) this._appScopeId = scope.id
+        if(scope.options.library===false){
+            this._registerAppScope(scope)
+        }else{
+            this._scopes.push(scope)         
+            scope.bind(this)
+        }        
         await scope.refresh(this.activeLanguage) 
         // 在第一次初始化时触发ready事件
         if(isInit){
-            this.emit("ready",{language:this.activeLanguage,scope:scope.id},true)
+            this.emit("ready",{
+                language:this.activeLanguage,
+                scope:scope.id
+            },true)
         }
     }    
     async ready(){
         return await this.waitFor("ready")
-    }
-
-    /**
-     * 注册全局格式化器
-     * 格式化器是一个简单的同步函数value=>{...}，用来对输入进行格式化后返回结果
-     * 
-     * registerFormatter(name,value=>{...})                                 // 注册到所有语言
-     * registerFormatter(name,value=>{...},{langauge:"zh"})                 // 注册到zh语言
-     * registerFormatter(name,value=>{...},{langauge:"en"})                 // 注册到en语言 
-       registerFormatter("Date",value=>{...},{langauge:"en"})               // 注册到en语言的默认数据类型格式化器
-       registerFormatter(name,value=>{...},{langauge:["zh","cht"]})         // 注册到zh和cht语言
-       registerFormatter(name,value=>{...},{langauge:"zh,cht"})
-
-     
-     * @param {*} formatter 
-        language : 声明该格式化器适用语言
-     */
-    registerFormatter(name:string,formatter:VoerkaI18nFormatter,options?:{language?:string | string[] | '*'}){
-        const {language = "*"} = options || {}
-        if (!isFunction(formatter) || typeof name !== "string") {
-			throw new TypeError("格式化器必须是一个函数");
-		}
-        this.register(name,formatter,{ language })
     }
     /**
     * 注册默认文本信息加载器
