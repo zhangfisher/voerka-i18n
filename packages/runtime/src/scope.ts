@@ -100,13 +100,7 @@ export class VoerkaI18nScope {
             }
         })        
     }
-
-    /**
-     * 对输入的语言配置进行处理
-     * - 将en配置为默认回退语言
-     * - 确保提供了有效的默认语言和活动语言
-     */
-    private _init(){
+    private _initOptions(){
         // 1. 检测语言配置列表是否有效
         if(!Array.isArray(this.languages)){
             this.logger.warn("无效的语言配置，将使用默认语言配置")
@@ -114,7 +108,7 @@ export class VoerkaI18nScope {
         }else if(this.languages.length==0){
             throw new Error("[VoerkaI18n] 未提供语言配置")            
         }        
-        
+
         // 2.为语言配置默认回退语言，并且提取默认语言和活动语言
         let activeLang:string, defaultLang:string
         this.languages.forEach(language=>{
@@ -133,6 +127,14 @@ export class VoerkaI18nScope {
 
         this._activeLanguage  = activeLang!
         this._defaultLanguage = defaultLang!
+    }
+    /**
+     * 对输入的语言配置进行处理
+     * - 将en配置为默认回退语言
+     * - 确保提供了有效的默认语言和活动语言
+     */
+    private _init(){
+        
 
         // 初始化时，默认和激活的语言包只能是静态语言包，不能是动态语言包
         // 因为初始化时激活语言需要马上显示，如果是异步语言包，会导致显示延迟
