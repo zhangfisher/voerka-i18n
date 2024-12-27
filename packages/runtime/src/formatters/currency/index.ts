@@ -1,8 +1,8 @@
 
 import { toCurrency } from "./toCurrency" 
-import { createFormatter } from "../../mixins/formatter/utils"
+import { createFormatter } from "../../scope/mixins/formatter/utils"
 
-export type CurrencyFormatterOptions = {
+export type CurrencyFormatterConfig = {
     default  : string                       // "{symbol}{value}{unit}",
     long     : string                       // "{prefix} {symbol}{value}{unit}{suffix}", 
     short    : string                       // "{symbol}{value}{unit}",
@@ -38,7 +38,7 @@ export type CurrencyFormatterArgs = {
 } 
  
 
-export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterOptions>(({getLanguageConfig})=>{
+export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(({getLanguageConfig})=>{
     return {
         name   : "currency",
         args   : [ "format", "unit", "precision", "prefix", "suffix", "division", "symbol", "radix" ],

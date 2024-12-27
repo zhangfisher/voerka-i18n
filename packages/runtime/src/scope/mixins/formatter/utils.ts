@@ -4,8 +4,8 @@
  * 
  */
 
-import type { VoerkaI18nScope } from "../../scope";
-import { Dict } from "../../types";
+import type { VoerkaI18nScope } from "../..";
+import { Dict } from "../../../types";
 import type { VoerkaI18nFormatter, VoerkaI18nFormatterCreator } from "./types";
 
 export function createFormatter<Args extends Dict = Dict,Config extends Dict = Dict>(

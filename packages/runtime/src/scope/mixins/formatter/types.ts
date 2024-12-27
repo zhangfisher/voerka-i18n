@@ -15,12 +15,12 @@
  * 
  * 
  */
-import { MonthFormatterOptions, QuarterFormatterOptions, RelativeTimeFormatterOptions, TimeFormatterOptions, TimeSlotsFormatterOptions, WeekdayFormatterOptions } from "../../formatters"
-import { CurrencyOptions } from "../../formatters/currency/types"
-import { DateFormatterOptions } from "../../formatters/datetime/date"
+import { MonthFormatterConfig, QuarterFormatterConfig, RelativeTimeFormatterConfig, TimeFormatterConfig, TimeSlotsFormatterConfig, WeekdayFormatterConfig } from "../../../formatters"
+import { CurrencyFormatterConfig } from "../../../formatters/currency"
+import { DateFormatterConfig } from "../../../formatters/datetime/date"
 import { FlexFilter } from "flexvars"
-import { VoerkaI18nScope } from "../../scope"
-import { Dict } from "../../types" 
+import { VoerkaI18nScope } from "../.."
+import { Dict } from "../../../types" 
 
  
 export type VoerkaI18nFormatter<Args extends Dict = Dict> = FlexFilter<Args> & {
@@ -28,14 +28,14 @@ export type VoerkaI18nFormatter<Args extends Dict = Dict> = FlexFilter<Args> & {
 }
 
 export interface VoerkaI18nFormatterConfigs {
-    currency?    : Partial<CurrencyOptions>
-    date?        : Partial<DateFormatterOptions>
-    month?       : Partial<MonthFormatterOptions>
-    quarter?     : Partial<QuarterFormatterOptions>
-    time?        : Partial<TimeFormatterOptions>
-    weekday?     : Partial<WeekdayFormatterOptions>
-    timeSlots?   : Partial<TimeSlotsFormatterOptions>
-    relativeTime?: Partial<RelativeTimeFormatterOptions>
+    currency?    : Partial<CurrencyFormatterConfig>
+    date?        : Partial<DateFormatterConfig>
+    month?       : Partial<MonthFormatterConfig>
+    quarter?     : Partial<QuarterFormatterConfig>
+    time?        : Partial<TimeFormatterConfig>
+    weekday?     : Partial<WeekdayFormatterConfig>
+    timeSlots?   : Partial<TimeSlotsFormatterConfig>
+    relativeTime?: Partial<RelativeTimeFormatterConfig>
 }
 
 

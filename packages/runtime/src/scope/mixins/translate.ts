@@ -6,8 +6,8 @@
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import { isFunction } from "flex-tools/typecheck/isFunction" 
-import type { VoerkaI18nScope } from "../scope"
-import { isMessageId } from "../utils/isMessageId"
+import type { VoerkaI18nScope } from ".."
+import { isMessageId } from "../../utils/isMessageId"
 
 
 
@@ -72,11 +72,11 @@ export class TranslateMixin{
             }
             
             if(isMessageId(message)){ // 如果是数字id,
-                result = (this.current as any)[message] || message
+                result = (this.currentMessages as any)[message] || message
             }else{
                 const msgId = this.idMap[message]  
                 // 语言包可能是使用idMap映射过的，则需要转换
-                result = (msgId ? (this.current as any)[msgId]  : (this.current as any)[message]) ?? message
+                result = (msgId ? (this.currentMessages as any)[msgId]  : (this.currentMessages as any)[message]) ?? message
             }
     
              // 2. 处理复数

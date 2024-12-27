@@ -1,8 +1,8 @@
-import { createFormatter } from "../../mixins/formatter/utils"
+import { createFormatter } from "../../scope/mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/misc/formatDateTime"
 
-export type MonthFormatterOptions = {
+export type MonthFormatterConfig = {
     format: 'long' | 'short' | string | ((date:Date)=>string)
     long  : string[]
     short : string[] 
@@ -13,7 +13,7 @@ export type MonthFormatterArgs = {
     format: string
 }
 
-export const monthFormatter = createFormatter<MonthFormatterArgs,MonthFormatterOptions>(({getLanguageConfig})=>{
+export const monthFormatter = createFormatter<MonthFormatterArgs,MonthFormatterConfig>(({getLanguageConfig})=>{
     return {
         name   : "month",
         args   : [ "format" ],

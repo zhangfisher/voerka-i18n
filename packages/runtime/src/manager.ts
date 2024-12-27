@@ -30,32 +30,37 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     static instance?              : VoerkaI18nManager  
     private _scopes               : VoerkaI18nScope[] = []
     private _logger!              : VoerkaI18nLogger
-    private _appInitilized        : boolean = false 
-    private _appScope?            : VoerkaI18nScope
-
+    private _appScope!            : VoerkaI18nScope
     private _defaultMessageLoader?: VoerkaI18nDefaultMessageLoader
+    private _activeLanguage       : string = 'zh'
     
     constructor(appScope:VoerkaI18nScope){
-        super()
+        super()      
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }        
-        this._appScope = appScope
         this._logger = createLogger(this)
-        VoerkaI18nManager.instance = this                       // 加载初始格式化器        
-        this._registerScopes()                                  // 注册所有作用域
+        this._registerAppScope(appScope)                             // 注册应用作用域        
+        this._registerScopes()                                      // 注册所有作用域
+        VoerkaI18nManager.instance = this                           // 加载初始格式化器        
     }
     get debug(){return this.scope.debug }  
     get logger(){ return this._logger! }                            // 日志记录器                        
     get scopes(){ return this._scopes }                             // 注册VoerkaI18nScope实例 
-    get activeLanguage(){ return this.scope.activeLanguage}     // 当前激活语言名称
-    get defaultLanguage(){ return this.scope.defaultLanguage}   // 默认语言名称     
-    get languages(){ return this.scope.languages}               // 支持的语言列表    
+    get activeLanguage(){ return this._activeLanguage}              // 当前激活语言名称   
     get defaultMessageLoader(){ return this._defaultMessageLoader}  // 默认语言包加载器 
     get storage(){return this.scope!.storage}
+    get languages(){return this.scope.languages}
     get scope(){return this._appScope!}
 
-    private _registerScopes(){
+ 
+    /**
+     * 注册所有i18nScope作用域。
+     * 该方法会检查全局对象中的 `__VoerkaI18nScopes__` 属性，
+     * 如果该属性存在且为数组，则遍历数组并注册每个作用域。
+     * 这是内部实现细节，不对外暴露。
+     */
+    private _registerScopes() {
         const scopes = globalThis.__VoerkaI18nScopes__
         if(scopes && Array.isArray(scopes)){
             scopes.forEach(scope=>this.register(scope))
@@ -66,35 +71,29 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      * 将应用Scope注册到管理器中
      * 
      */
-    private _registerAppScope(scope:VoerkaI18nScope){
-        if(this._appInitilized){
-            this.logger.warn("只允许注册一个library=false的i18nScope,请检查是否正确配置了library参数")
-            return 
-        }
+    private _registerAppScope(scope:VoerkaI18nScope){ 
+        this._appScope = scope
         this._activeLanguage = scope.activeLanguage
-        this._defaultLanguage = scope.defaultLanguage
-        this._loadOptionsFromStorage()    // 从存储器加载语言包配置
-        this._appInitilized = true
+        this._getLanguageFromStorage()                      // 从存储器加载语言包配置        
+        this.emitAsync("init",{
+            scope: scope.id,
+            language:this.activeLanguage
+        },true).then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
     
     /**
      * 从存储器加载语言包配置
      */
-    private _loadOptionsFromStorage(){
-        const storage = this.scope.storage
+    private _getLanguageFromStorage(){
+        const storage = this.scope.storage 
         if(storage){            
             const savedLanguage = storage.get("language")
-            if(savedLanguage && !this.hasLanguage(savedLanguage)) {
-                this.logger.warn("从存储中读取到无效的语言名称参数：",savedLanguage)
-            }
-            if(savedLanguage) this.logger.info("从存储中读取到当前语言名称参数：",savedLanguage)
-            if(savedLanguage && savedLanguage!=='undefined'){
-                this.options.activeLanguage = savedLanguage
-                this.logger.debug("当前语言设置为：",savedLanguage)
-            }
+            if(!savedLanguage || !this.hasLanguage(savedLanguage))  return 
+            this._activeLanguage = savedLanguage
+            this.logger.debug("从存储中读取到当前语言：",savedLanguage)
         }
     }
-    private _saveOptionsToStorage(){
+    private _setLanguageToStorage(){
         const storage = this.scope.storage
         if(storage){
             if(!this._activeLanguage)  return
@@ -117,16 +116,35 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      *  切换语言
      */
     async change(language:string){
-        if(this.languages.findIndex(lang=>lang.name === language)!==-1 || isFunction(this._defaultMessageLoader)){                     
-            this.options!.activeLanguage = language            
+        if(!this.hasLanguage(language) || isFunction(this._defaultMessageLoader)){                     
+            await this._refreshScopes(language)                  // 刷新所有作用域
+            this._setLanguageToStorage()                         // 保存语言配置到存储器
             this.emit("change",language)     
-            this._saveOptionsToStorage()                         // 保存语言配置到存储器
-            this.logger.info("语言已切换为：",language)
+            this.logger.info("语言已切换为："+ language)
             return language
         }else{
             throw new InvalidLanguageError(language)
         }
     } 
+     /**
+     * 当切换语言时调用此方法来加载更新语言包
+     * @param {*} newLanguage 
+     */
+     private async _refreshScopes(newLanguage:string){ 
+        try{
+            const scopeRefreshers = this._scopes.map(scope=>{
+                return scope.refresh(newLanguage)
+            })
+            if(Promise.allSettled){
+               await Promise.allSettled(scopeRefreshers)
+            }else{
+                await Promise.all(scopeRefreshers)
+            } 
+        }catch(e:any){
+            this.logger.error("刷新语言作用域时出错:"+e.stack)
+            this.emit("error",e)
+        }          
+    }
     /**
      * 
      * 注册一个新的作用域
@@ -138,21 +156,14 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      */
     async register(scope:VoerkaI18nScope){ 
         if(!isScope(scope)) throw new Error("注册的作用域必须是VoerkaI18nScope的实例")
-        const isInit = this._scopes.length===0 && !scope.options.library
+        if(scope.id===this.scope.id) return 
         if(scope.options.library===false){
             this._registerAppScope(scope)
-        }else{
-            this._scopes.push(scope)         
+        }else{       
             scope.bind(this)
-        }        
+        }      
+        this._scopes.push(scope)    
         await scope.refresh(this.activeLanguage) 
-        // 在第一次初始化时触发ready事件
-        if(isInit){
-            this.emit("ready",{
-                language:this.activeLanguage,
-                scope:scope.id
-            },true)
-        }
     }    
     async ready(){
         return await this.waitFor("ready")

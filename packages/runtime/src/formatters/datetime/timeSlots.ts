@@ -1,9 +1,9 @@
-import { createFormatter } from "../../mixins/formatter/utils"
+import { createFormatter } from "../../scope/mixins/formatter/utils"
 import { toDate } from "../../utils/toDate"  
 
  
 
-export type TimeSlotsFormatterOptions = { 
+export type TimeSlotsFormatterConfig = { 
     slots       : number[],
     lowerCases  : string[],
     upperCases  : string[]
@@ -15,7 +15,7 @@ export type TimeSlotsFormatterArgs = {
  }
 
 
-export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterOptions>(({ getLanguageConfig })=>{
+export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>(({ getLanguageConfig })=>{
     return {
         name   : "timeSlots",
         args   : [ "upper" ],

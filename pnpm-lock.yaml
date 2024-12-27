@@ -38,21 +38,18 @@ importers:
       deepmerge:
         specifier: ^4.2.2
         version: 4.3.1
-      docsify:
-        specifier: ^4.13.0
-        version: 4.13.0
       fs-extra:
         specifier: ^10.1.0
         version: 10.1.0
       gulp:
         specifier: ^4.0.2
         version: 4.0.2
-      jest:
-        specifier: ^27.5.1
-        version: 27.5.1(ts-node@10.9.2(@swc/core@1.3.56)(@types/node@18.16.3)(typescript@5.7.2))
       logsets:
         specifier: ^1.3.1
         version: 1.3.1
+      oxlint:
+        specifier: ^0.15.3
+        version: 0.15.3
       pnpm:
         specifier: ^7.9.0
         version: 7.9.0
@@ -68,9 +65,6 @@ importers:
       turbo:
         specifier: ^2.1.2
         version: 2.1.2
-      vinyl:
-        specifier: ^2.2.1
-        version: 2.2.1
       vitepress:
         specifier: ^1.5.0
         version: 1.5.0(@algolia/client-search@5.13.0)(@types/node@18.16.3)(@types/react@18.2.22)(postcss@8.4.48)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.18.2)(typescript@5.7.2)
@@ -733,8 +727,8 @@ importers:
   packages/runtime:
     dependencies:
       flex-tools:
-        specifier: ^1.4.15
-        version: 1.4.15
+        specifier: ^1.4.16
+        version: 1.4.16
       flexvars:
         specifier: ^1.0.3
         version: 1.0.3
@@ -3251,6 +3245,50 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@oxlint/darwin-arm64@0.15.3':
+    resolution: {integrity: sha512-6isglmWrI3XxNR+V2KDURRg8bo3JpoTGUs1BqEuwZISz0tIEU5kVZ3Zba4vNz6Rp79lfA18ueYTB5NKonWaYOg==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@oxlint/darwin-x64@0.15.3':
+    resolution: {integrity: sha512-wKn+eITIIpcXPU7hiWVHezAKONT/Vz6q9TUZFiYQFytF7sGAt0APZshe5tbjGTZ8XTR6wQ5wDETwdornHXCNFg==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oxlint/linux-arm64-gnu@0.15.3':
+    resolution: {integrity: sha512-AZUOtb3OfK8xDZJfk60AwgTKEpa6zJdvjrwuk8Qqz4tPqLJpk4KSJmfNMzbYzy689m27ur+ix1p/7JAxwvckRg==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxlint/linux-arm64-musl@0.15.3':
+    resolution: {integrity: sha512-HIeyrgE11KFkSRpVjBRWOux78OITDqlOiC8plC2RDrLvSj205MaA1GYYyIMMv/FuyWdGMOAHOetn5vWbyJJctQ==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxlint/linux-x64-gnu@0.15.3':
+    resolution: {integrity: sha512-cDHQaDCpuqFFYTohM+xw4120hzBSWaOVIZqq0ROUEX/qi+nnR9XMKE/fJf8xiHJznFlV6ANsiMLY939uur8OKw==}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxlint/linux-x64-musl@0.15.3':
+    resolution: {integrity: sha512-6PVIi0XXhlpFoBh0k2fP9wioU8MiktkqnYHxOv7EM7HggjAzpRMJqQmgwWcww3RU5R7T4wnZNzrUPPqI7+Ejmw==}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxlint/win32-arm64@0.15.3':
+    resolution: {integrity: sha512-CAvFXTZ6pwHHMHTmRgev/QcS4vD2UeH4e68DxgslPrib6ivTGz2EvtVbrVuVsuS27WQuKTy06e9RW339dk4pHg==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@oxlint/win32-x64@0.15.3':
+    resolution: {integrity: sha512-sXBPSxDoOELlkUbjXfXqlfig3jw67ylrZn+URke/TZMknY1uNEsFTg9+89t8km65eC8SZSE9rnZVyjK8iaEJXA==}
+    cpu: [x64]
+    os: [win32]
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -6398,9 +6436,6 @@ packages:
   dns-txt@2.0.2:
     resolution: {integrity: sha512-Ix5PrWjphuSoUXV/Zv5gaFHjnaJtb02F2+Si3Ht9dyJ87+Z/lMmy+dpNHtTGraNK958ndXq2i+GLkWsWHcKaBQ==}
 
-  docsify@4.13.0:
-    resolution: {integrity: sha512-dM2D0LZKrhK9e5cPwzOTO8FJ2l9IxgiSmTgLBIMjkBlTs1rAUT5camzekbk2AhH0Tw+5lzkNrSb7dmKFuTiLCA==}
-
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
@@ -7208,11 +7243,11 @@ packages:
   flex-tools@1.4.12:
     resolution: {integrity: sha512-H6rszT3iM2M7wyIYPJ9HIYH6eY/kK1Lr4m4jRWE7B5hkC6uGUIGQNwC3B4Eo5+dROovVup01G3nY5UopskFUrg==}
 
-  flex-tools@1.4.14:
-    resolution: {integrity: sha512-yAf+AmFGwrTP35LFg5Mz6aAe+K5W00Z3dHG0ATwBzgdqf1nodArOATVrw46f5RBDe08B2a98M/4ru7tl+VIz9w==}
-
   flex-tools@1.4.15:
     resolution: {integrity: sha512-iuJpkJnWmmmfPeDuHqJxxn2cAmYwSWD5+wvlewMWb5lUkMO0aisNSN0eJpQBMxuVViYjKLIhQ3prK/+UHnoKWA==}
+
+  flex-tools@1.4.16:
+    resolution: {integrity: sha512-+6ouqKOS/RdAw0AuuDzFrK0/aPCIPNxWAuAbI3QVoVNJ8cpECiGxi0FAaOEPcQbU7HiLnTdHkVmhITf03LHxtQ==}
 
   flexstyled@2.1.2:
     resolution: {integrity: sha512-EBvH01pUOiU+pwAu2dLYIM1cqrFkYCp+ZTCyqBUlnjwrz1zlJIem7FQoPYV79TAgYHXSnitN98A7ilhnaO97oA==}
@@ -9061,11 +9096,6 @@ packages:
   mark.js@8.11.1:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
 
-  marked@1.2.9:
-    resolution: {integrity: sha512-H8lIX2SvyitGX+TRdtS06m1jHMijKN/XjfH6Ooii9fvxMlh8QdqBfBDkGUpMWH2kQNrtixjzYUa3SH8ROTgRRw==}
-    engines: {node: '>= 8.16.2'}
-    hasBin: true
-
   matchdep@2.0.0:
     resolution: {integrity: sha512-LFgVbaHIHMqCRuCZyfCtUOq9/Lnzhi7Z0KFUE2fhD54+JN2jLh3hC02RLkqauJ3U4soU6H1J3tfj/Byk7GoEjA==}
     engines: {node: '>= 0.10.0'}
@@ -9088,9 +9118,6 @@ packages:
   media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
-
-  medium-zoom@1.0.8:
-    resolution: {integrity: sha512-CjFVuFq/IfrdqesAXfg+hzlDKu6A2n80ZIq0Kl9kWjoHh9j1N9Uvk5X0/MmN0hOfm5F9YBswlClhcwnmtwz7gA==}
 
   memfs@3.5.1:
     resolution: {integrity: sha512-UWbFJKvj5k+nETdteFndTpYxdeTMox/ULeqX5k/dpaQJCCFmj5EeKv3dBcyO2xmkRAx2vppRu5dVG7SOtsGOzA==}
@@ -9567,10 +9594,6 @@ packages:
     resolution: {integrity: sha512-OS+QTnw1/4vrf+9hh1jc1jnYjzSG4ttTBB8UxOwAnInG3Uo4ssetzC1ihqaIHjLJnA5GGlRl6QlZXOTQhRBUvg==}
     engines: {node: '>=14.16'}
 
-  opencollective-postinstall@2.0.3:
-    resolution: {integrity: sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==}
-    hasBin: true
-
   opener@1.5.2:
     resolution: {integrity: sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==}
     hasBin: true
@@ -9615,6 +9638,11 @@ packages:
 
   outdent@0.5.0:
     resolution: {integrity: sha512-/jHxFIzoMXdqPzTaCpFzAAWhpkSjZPF4Vsn6jAfNpmbH/ymsmd7Qc6VE9BGn0L6YMj6uwpQLxCECpus4ukKS9Q==}
+
+  oxlint@0.15.3:
+    resolution: {integrity: sha512-kOAt0EC/oluYTcfRu6yg8+QkYMq6uibvEW+hx5nKsX320+VYEw1ChNBRcfSLCtJwA+k6X/CGxk2MN2Nddw70sQ==}
+    engines: {node: '>=14.*'}
+    hasBin: true
 
   p-each-series@1.0.0:
     resolution: {integrity: sha512-J/e9xiZZQNrt+958FFzJ+auItsBGq+UrQ7nE89AUP7UOTtjHnkISANXLdayhVzh538UnLMCSlf13lFfRIAKQOA==}
@@ -10561,10 +10589,6 @@ packages:
   pretty@2.0.0:
     resolution: {integrity: sha512-G9xUchgTEiNpormdYBl+Pha50gOUovT18IvAe7EYMZ1/f9W/WWMPRn+xI68yXNMUk3QXHDwo/1wV/4NejVNe1w==}
     engines: {node: '>=0.10.0'}
-
-  prismjs@1.29.0:
-    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
-    engines: {node: '>=6'}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -11870,10 +11894,6 @@ packages:
   tinybench@2.5.0:
     resolution: {integrity: sha512-kRwSG8Zx4tjF9ZiyH4bhaebu+EDz1BOx9hOigYHlUW4xxI/wKIUQUqo018UlU4ar6ATPBsaMrdbKZ+tmPdohFA==}
 
-  tinydate@1.3.0:
-    resolution: {integrity: sha512-7cR8rLy2QhYHpsBDBVYnnWXm8uRTr38RoZakFSW7Bs7PzfMPNZthuMLkwqZv7MTu8lhQ91cOFYS5a7iFj2oR3w==}
-    engines: {node: '>=4'}
-
   tinypool@0.4.0:
     resolution: {integrity: sha512-2ksntHOKf893wSAH4z/+JbPpi92esw8Gn9N2deXX+B0EO92hexAVI9GIZZPx7P5aYo5KULfeOSt3kMOmSOy6uA==}
     engines: {node: '>=14.0.0'}
@@ -12110,9 +12130,6 @@ packages:
 
   tweetnacl@0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
-
-  tweezer.js@1.5.0:
-    resolution: {integrity: sha512-aSiJz7rGWNAQq7hjMK9ZYDuEawXupcCWgl3woQQSoDP2Oh8O4srWb/uO1PzzHIsrPEOqrjJ2sUb9FERfzuBabQ==}
 
   type-check@0.3.2:
     resolution: {integrity: sha512-ZCmOJdvOWDBYJlzAoFkC+Q0+bUyEOS1ltgp1MGU03fqHG+dbi9tBFU2Rd9QKiDZFAYrhPh2JUf7rZRIuHRKtOg==}
@@ -16141,6 +16158,30 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
 
+  '@oxlint/darwin-arm64@0.15.3':
+    optional: true
+
+  '@oxlint/darwin-x64@0.15.3':
+    optional: true
+
+  '@oxlint/linux-arm64-gnu@0.15.3':
+    optional: true
+
+  '@oxlint/linux-arm64-musl@0.15.3':
+    optional: true
+
+  '@oxlint/linux-x64-gnu@0.15.3':
+    optional: true
+
+  '@oxlint/linux-x64-musl@0.15.3':
+    optional: true
+
+  '@oxlint/win32-arm64@0.15.3':
+    optional: true
+
+  '@oxlint/win32-x64@0.15.3':
+    optional: true
+
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
@@ -16677,7 +16718,7 @@ snapshots:
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
-      csstype: 3.1.2
+      csstype: 3.1.3
 
   '@types/resolve@1.17.1':
     dependencies:
@@ -20137,16 +20178,6 @@ snapshots:
     dependencies:
       buffer-indexof: 1.1.1
 
-  docsify@4.13.0:
-    dependencies:
-      marked: 1.2.9
-      medium-zoom: 1.0.8
-      opencollective-postinstall: 2.0.3
-      prismjs: 1.29.0
-      strip-indent: 3.0.0
-      tinydate: 1.3.0
-      tweezer.js: 1.5.0
-
   doctrine@2.1.0:
     dependencies:
       esutils: 2.0.3
@@ -21318,12 +21349,12 @@ snapshots:
       art-template: 4.13.2
       glob: 10.4.5
 
-  flex-tools@1.4.14:
+  flex-tools@1.4.15:
     dependencies:
       art-template: 4.13.2
       glob: 10.4.5
 
-  flex-tools@1.4.15:
+  flex-tools@1.4.16:
     dependencies:
       art-template: 4.13.2
       glob: 10.4.5
@@ -21336,7 +21367,7 @@ snapshots:
 
   flexvars@1.0.3:
     dependencies:
-      flex-tools: 1.4.15
+      flex-tools: 1.4.16
 
   flush-write-stream@1.1.1:
     dependencies:
@@ -23703,14 +23734,14 @@ snapshots:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
       core-js: 3.27.1
-      flex-tools: 1.4.14
+      flex-tools: 1.4.15
 
   logsets@1.3.10:
     dependencies:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
       core-js: 3.27.1
-      flex-tools: 1.4.14
+      flex-tools: 1.4.15
 
   loose-envify@1.4.0:
     dependencies:
@@ -23782,8 +23813,6 @@ snapshots:
 
   mark.js@8.11.1: {}
 
-  marked@1.2.9: {}
-
   matchdep@2.0.0:
     dependencies:
       findup-sync: 2.0.0
@@ -23822,8 +23851,6 @@ snapshots:
   mdn-data@2.0.4: {}
 
   media-typer@0.3.0: {}
-
-  medium-zoom@1.0.8: {}
 
   memfs@3.5.1:
     dependencies:
@@ -24342,8 +24369,6 @@ snapshots:
       is-inside-container: 1.0.0
       is-wsl: 2.2.0
 
-  opencollective-postinstall@2.0.3: {}
-
   opener@1.5.2: {}
 
   openinula@0.1.1: {}
@@ -24401,6 +24426,17 @@ snapshots:
   os-tmpdir@1.0.2: {}
 
   outdent@0.5.0: {}
+
+  oxlint@0.15.3:
+    optionalDependencies:
+      '@oxlint/darwin-arm64': 0.15.3
+      '@oxlint/darwin-x64': 0.15.3
+      '@oxlint/linux-arm64-gnu': 0.15.3
+      '@oxlint/linux-arm64-musl': 0.15.3
+      '@oxlint/linux-x64-gnu': 0.15.3
+      '@oxlint/linux-x64-musl': 0.15.3
+      '@oxlint/win32-arm64': 0.15.3
+      '@oxlint/win32-x64': 0.15.3
 
   p-each-series@1.0.0:
     dependencies:
@@ -25387,8 +25423,6 @@ snapshots:
       condense-newlines: 0.2.1
       extend-shallow: 2.0.1
       js-beautify: 1.14.8
-
-  prismjs@1.29.0: {}
 
   process-nextick-args@2.0.1: {}
 
@@ -26948,8 +26982,6 @@ snapshots:
 
   tinybench@2.5.0: {}
 
-  tinydate@1.3.0: {}
-
   tinypool@0.4.0: {}
 
   tinyspy@1.1.1: {}
@@ -27201,8 +27233,6 @@ snapshots:
       turbo-windows-arm64: 2.1.2
 
   tweetnacl@0.14.5: {}
-
-  tweezer.js@1.5.0: {}
 
   type-check@0.3.2:
     dependencies:

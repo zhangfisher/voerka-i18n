@@ -1,10 +1,10 @@
-import { createFormatter } from "../../mixins/formatter/utils"
+import { createFormatter } from "../../scope/mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { relativeTime } from "flex-tools/misc/formatDateTime"
 
  
 
-export type RelativeTimeFormatterOptions = {
+export type RelativeTimeFormatterConfig = {
     units       : string[]
     now         : string
     before      : string
@@ -16,7 +16,7 @@ export type RelativeTimeFormatterArgs = {
     base: Date
 }
  
-export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterOptions>(( { getLanguageConfig })=>{
+export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>(( { getLanguageConfig })=>{
     return {
         name   : "relativeTime",
         args   : [ "base" ],

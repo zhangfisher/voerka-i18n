@@ -1,10 +1,10 @@
-import { createFormatter } from "../../mixins/formatter/utils"
+import { createFormatter } from "../../scope/mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 
  
 
-export type TimeFormatterOptions = {
+export type TimeFormatterConfig = {
     format: 'local' | 'timestamp' | 'long'  | 'short' | string | ((date:Date)=>string)    
     long  : string
     short : string   
@@ -21,7 +21,7 @@ const transformers =  {
     timestamp: (value:Date)=>value.getTime()
 }  
 
-export const timeFormatter =  createFormatter<TimeFormatterArgs,TimeFormatterOptions>(({ getLanguageConfig })=>{
+export const timeFormatter =  createFormatter<TimeFormatterArgs,TimeFormatterConfig>(({ getLanguageConfig })=>{
     return {
         name   : "time",
         args   : [ "format" ],

@@ -4,7 +4,7 @@
  * 
  */
 
-import type  { VoerkaI18nScope } from "../../scope";
+import type  { VoerkaI18nScope } from "../..";
 import { VoerkaI18nFormatterManager } from "./manager";
 
 

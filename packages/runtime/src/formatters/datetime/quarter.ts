@@ -1,7 +1,7 @@
-import { createFormatter } from "../../mixins/formatter/utils"
+import { createFormatter } from "../../scope/mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 
-export type QuarterFormatterOptions = {
+export type QuarterFormatterConfig = {
     format: 'long' | 'short' | string | ((date:Date)=>string)
     long  : string[]
     short : string[] 
@@ -12,7 +12,7 @@ export type QuarterFormatterArgs = {
     format: string
 }
 
-export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterOptions>(({getLanguageConfig})=>{
+export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterConfig>(({getLanguageConfig})=>{
     return {
         name   : "quarter",
         args   : [ "format" ],

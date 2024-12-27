@@ -1,10 +1,9 @@
-import type { VoerkaI18nManager } from "./manager"
-import type { VoerkaI18nScope } from "./scope"
+import type { VoerkaI18nManager } from "./manager" 
 
 export type VoerkaI18nLoggerLevels = 'warn' | 'error' | 'info' | 'debug'
 
 export type VoerkaI18nLogger = {
-    [key in VoerkaI18nLoggerLevels]: (message:string)=>void
+    [key in VoerkaI18nLoggerLevels]: (message:string,...args:any[])=>void
 }
 
 export const ConsoleLogger =  {
@@ -13,15 +12,6 @@ export const ConsoleLogger =  {
     info : console.info,
     debug: console.debug        
 }
-
-// export function createLogger(debug?:boolean,scope:VoerkaI18nScope):VoerkaI18nLogger{        
-//     return Object.keys(logMethods).reduce((logger,level:string)=>{
-//         logger[level] = function(...args:any[]){
-//             if(debug) (logMethods as any)[level]('[VoerkaI18n]',...args)
-//         }
-//         return logger
-//     },{} as any) as VoerkaI18nLogger
-// }
 
 
 
@@ -33,11 +23,11 @@ export function createLogger(manager:VoerkaI18nManager):VoerkaI18nLogger{
             try{logMethod(message)}catch{}
         })
     }
-    return {
-        warn : (message:string)=>{ manager.emit("log",{level:"warn",message})},
-        error: (message:string)=>{ manager.emit("log",{level:"error",message})},
-        info : (message:string)=>{ manager.emit("log",{level:"info",message})},
-        debug: (message:string)=>{ manager.emit("log",{level:"debug",message})}
+    return { 
+        warn : (message:string,...args:any[])=> manager.emit("log",{level:"warn",message:message+args.join(' ')}),
+        error: (message:string,...args:any[])=>{ manager.emit("log",{level:"error",message:message+args.join(' ')})},
+        info : (message:string,...args:any[])=>{ manager.emit("log",{level:"info",message:message+args.join(' ')})},
+        debug: (message:string,...args:any[])=>{ manager.emit("log",{level:"debug",message:message+args.join(' ')})}
     }
 }
  

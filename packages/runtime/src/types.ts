@@ -1,20 +1,23 @@
 import type { VoerkaI18nManager } from "./manager"
-import { VoerkaI18nFormatterConfigs } from "./mixins/formatter/types"
+import { VoerkaI18nFormatterConfigs } from "./scope/mixins/formatter/types"
 import type { VoerkaI18nScope } from "./scope" 
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 // 语言包
-export type VoerkaI18nLanguageMessages = Record<LanguageCodes, string | string[]> | {
+export type VoerkaI18nLanguageMessages = {
     $config?: VoerkaI18nFormatterConfigs
     $remote?: boolean
-}       
+}  & {
+    [key in string]?: Record<string,any>
+}  
 
 export type VoerkaI18nLanguageMessagePack = Record<string, VoerkaI18nLanguageMessages | VoerkaI18nMessageLoader> 
 
 export type VoerkaI18nDynamicLanguageMessages = Record<string, string | string[]> & {
     $config?: VoerkaI18nFormatterConfigs
 }   
+
 export interface VoerkaI18nLanguagePack {
     [language: string]: VoerkaI18nLanguageMessages
 }
@@ -25,13 +28,13 @@ export interface VoerkaI18nLanguageDefine {
     name     : LanguageCodes
     title?   : string
     default? : boolean           // 是否默认语言
-    active?  : boolean                 
-    fallback?: string
+    active?  : boolean           // 是否激活      
+    fallback?: string            // 回退语言
 }
 
  
 // 提供一个简单的KV存储接口,用来加载相关的存储
-export interface IVoerkaI18nStorage{
+export interface IVoerkaI18nStorage{ 
     get(key:string):any
     set(key:string,value:any):void
     remove(key:string):any
@@ -72,11 +75,12 @@ declare global {
   
 export type VoerkaI18nEvents = {
     log        : { level: string, message:string }                  // 当有日志输出时，data={level
-    ready      : { scope:string,language:string }                   // 当默认语言第一次加载完成后触发，data={language,scope}
-    change     : string                                             // 当语言切换时    data=language
-    registered : string                                             // 当Scope注册到成功后    
+    init       : { scope:string, language:string }                  // 当应用Scope注册时触发, payload={scope,activeLanguage}        
+    ready      : string                                             // 当初始化切换完成后触发
+    change     : string                                             // 当语言切换后时, payload=language
     restore    : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
     patched    : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}               
+    error      : Error                                              // 当有错误发生时
 }      
     
  
@@ -112,4 +116,6 @@ export type LanguageCodes = 'aa' | 'ab' | 'ae' | 'af' | 'ak' | 'am' | 'an' | 'ar
     | 'xh' 
     | 'yi' | 'yo' 
     | 'za' | 'zh' | 'zu'
+
+
 

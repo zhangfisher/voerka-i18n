@@ -5,12 +5,12 @@
  * 
  */
 import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
-import type { VoerkaI18nScope } from '../../scope';
+import type { VoerkaI18nScope } from '../..';
 import { get as getByPath } from "flex-tools/object/get" 
 import { isFunction } from 'flex-tools/typecheck/isFunction';
 import { deepMerge } from 'flex-tools/object/deepMerge';
 import { assignObject } from 'flex-tools/object/assignObject';
-import {  SupportedDateTypes,  } from '../../types'; 
+import {  SupportedDateTypes,  } from '../../../types'; 
 import { deepClone } from 'flex-tools/object/deepClone';         
 import { VoerkaI18nFormatterBuilder, VoerkaI18nFormatters } from './types';
 

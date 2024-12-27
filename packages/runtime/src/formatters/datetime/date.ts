@@ -1,8 +1,8 @@
-import { createFormatter } from "../../mixins/formatter/utils"
+import { createFormatter } from "../../scope/mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime" 
 
-export type DateFormatterOptions = {
+export type DateFormatterConfig = {
     format: 'long' | 'short' | 'local' | 'iso' | 'utc' | 'gmt' | string | ((date:Date)=>string)    
     long  : string
     short : string   
@@ -21,7 +21,7 @@ const transformers =  {
     gmt  : (value:any)=>value.toGMTString()    
 }  
 
-export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterOptions>(({getLanguageConfig})=>{
+export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConfig>(({getLanguageConfig})=>{
     return {
         global : true,
         name   : "date",

@@ -1,8 +1,8 @@
-import { createFormatter } from "../../mixins/formatter/utils"
+import { createFormatter } from "../../scope/mixins/formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/misc/formatDateTime"
 
-export type WeekdayFormatterOptions = {
+export type WeekdayFormatterConfig = {
     format: 'long' | 'short' | string | ((date:Date)=>string)
     long  : string[]
     short : string[] 
@@ -13,7 +13,7 @@ export type WeekdayFormatterArgs = {
     format: string
 }
 
-export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterOptions>(({getLanguageConfig})=>{
+export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterConfig>(({getLanguageConfig})=>{
     return {
         name   : "weekday",
         args   : [ "format" ],
