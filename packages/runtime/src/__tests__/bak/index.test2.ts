@@ -1,11 +1,11 @@
 
 
 import {test,vi,describe,expect,afterAll,beforeAll, beforeEach} from 'vitest'
-import { VoerkaI18nScope } from '../scope' 
-import { VoerkaI18nManager } from '../manager';
-import { InvalidLanguageError } from '../errors';
-import { createI18nScope } from './utils';
-import { messages,zhMessages,enMessages } from './utils/testData';
+import { VoerkaI18nScope } from '../../scope' 
+import { VoerkaI18nManager } from '../../manager';
+import { InvalidLanguageError } from '../../errors';
+import { createI18nScope } from '../data';
+import { messages,zhMessages,enMessages } from '../data/testData';
 
 let scope:VoerkaI18nScope;
 

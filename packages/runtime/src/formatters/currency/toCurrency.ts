@@ -1,4 +1,4 @@
-import { isNumber } from "flex-tools/dist/typecheck/isNumber"
+import { isNumber } from "flex-tools/typecheck/isNumber"
 import { get as getByPath } from "flex-tools/object/get"
 
 

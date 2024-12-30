@@ -1,4 +1,4 @@
-import { isNumber } from "flex-tools/dist/typecheck/isNumber";
+import { isNumber } from "flex-tools/typecheck/isNumber";
 
 /**
  * 文本id必须是一个数字

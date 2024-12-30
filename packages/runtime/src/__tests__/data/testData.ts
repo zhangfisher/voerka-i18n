@@ -1,21 +1,21 @@
 
 import zhFormatters from '../../formatters/zh';
-import enFormatters from '../../formatters/en';
-import { VoerkaI18nManager } from '../../manager';
-import { VoerkaI18nFormatterRegistry } from '../../formatterRegistry';
-import { VoerkaI18nLanguageMessages, VoerkaI18nFormatterConfigs, VoerkaI18nTranslate } from '../../types';
+import enFormatters from '../../formatters/en'; 
+import { VoerkaI18nLanguageMessages } from '../../types';
 
 export const zhMessages:VoerkaI18nLanguageMessages = {
-    $config:{
-        add:{a:1},
-        dec:{b:1}
-    },
+    // $config:{
+    //     add:{a:1},
+    //     dec:{b:1}
+    // },
     "你好": "你好",
     "我叫{name},今年{age}岁": "我叫{name},今年{age}岁",
     "中国": "中国",
     "我有{}部车": ["我没有车","我有一部车","我有两部车","我有{}部车"]  ,
     "我的工资是每月{}元":"我的工资是每月{}元"
 }
+
+
 export const enMessages={
     "你好": "hello",
     "我叫{name},今年{age}岁": "My name is {name},Now {age} years old year",

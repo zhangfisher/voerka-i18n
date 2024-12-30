@@ -1,7 +1,7 @@
 import { VoerkaI18nLanguageMessages } from "@/types";
 import { VoerkaI18nScope } from "..";
-import { isFunction  } from "flex-tools/dist/typecheck/isFunction";
-import { isPlainObject } from "flex-tools/dist/typecheck/isPlainObject";
+import { isFunction  } from "flex-tools/typecheck/isFunction";
+import { isPlainObject } from "flex-tools/typecheck/isPlainObject";
 
 /**
  * 语言包补丁

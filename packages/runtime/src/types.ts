@@ -9,7 +9,7 @@ export type VoerkaI18nLanguageMessages = {
     $config?: VoerkaI18nFormatterConfig
     $remote?: boolean
 }  & {
-    [key in string]?: Record<string,any>
+    [key in string]?: string | string[]
 }  
 
 export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nMessageLoader> 

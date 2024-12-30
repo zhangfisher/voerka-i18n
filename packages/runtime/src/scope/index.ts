@@ -12,7 +12,7 @@ import type {
     Dict
 } from "@/types" 
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from '../consts';
-import {  FlexFilter, FlexVars } from 'flexvars';
+import {  FlexVars } from 'flexvars';
 import { TranslateMixin } from "./mixins/translate"
 import { mix } from "ts-mixer"
 import { FormatterMixin } from "./mixins/formatter/formatter"

@@ -11,9 +11,9 @@ import {
 	beforeAll,
 	beforeEach,
 } from "vitest";
-import { VoerkaI18nScope } from "../scope";
-import { VoerkaI18nTranslate } from "../types";
-import { createI18nScope } from "./utils";
+import { VoerkaI18nScope } from "../../scope";
+import { VoerkaI18nTranslate } from "../../types";
+import { createI18nScope } from "../data";
 
 let scope: VoerkaI18nScope;
 let t: VoerkaI18nTranslate;

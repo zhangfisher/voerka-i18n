@@ -52,7 +52,7 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(()
             symbol   : "$",
             radix    : 3     
         },
-        next(value:any,args,ctx){
+        next(value,args,ctx){
             const config = ctx.getFormatterConfig("currency")
             // format可以取预设值的名称，如long,short等    
             if(args.format in config){

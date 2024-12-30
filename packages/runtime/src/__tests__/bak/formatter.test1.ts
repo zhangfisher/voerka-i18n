@@ -2,11 +2,11 @@
  * 格式化器基本功能测试
  */
 import {test,vi,describe,expect,afterAll,beforeAll, beforeEach} from 'vitest'
-import { VoerkaI18nScope } from '../scope'
+import { VoerkaI18nScope } from '../../scope'
 import { VoerkaI18nFormatterRegistry } from '../formatterRegistry';
-import { default as inlineFormatters } from '../formatters';
-import { createI18nScope, mergeFormattersConfigs } from './utils';
-import { messages,zhMessages,enMessages,formatters } from './utils/testData';
+import { default as inlineFormatters } from '../../formatters';
+import { createI18nScope, mergeFormattersConfigs } from '../data';
+import { messages,zhMessages,enMessages,formatters } from '../data/testData';
 
 let scope:VoerkaI18nScope;
 
