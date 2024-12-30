@@ -21,7 +21,7 @@ const transformers =  {
     gmt  : (value:any)=>value.toGMTString()    
 }  
 
-export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConfig>(({getLanguageConfig})=>{
+export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConfig>(()=>{
     return {
         global : true,
         name   : "date",
@@ -29,14 +29,14 @@ export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConf
         default: { 
             format : "local" 
         },
-        next(value:any,args){         
+        next(value:any,args,ctx){         
+            const config   = ctx.getFormatterConfig<DateFormatterConfig>("date")
             const dateValue = toDate(value) 
-            const options   = getLanguageConfig("date")
             const format    = args.format || 'local'
             if( format in transformers ){
                 return (transformers as any)[format](dateValue)
-            }else if(format in options){
-                const formatVal = options[format] 
+            }else if(format in config){
+                const formatVal = config[format] 
                 if(typeof formatVal === 'function'){
                     return (formatVal as any)(dateValue)
                 }

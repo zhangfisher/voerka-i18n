@@ -1,6 +1,6 @@
 
 import { toCurrency } from "./toCurrency" 
-import { createFormatter } from "../../scope/mixins/formatter/utils"
+import { createFormatter } from "@/scope/mixins/formatter/utils"
 
 export type CurrencyFormatterConfig = {
     default  : string                       // "{symbol}{value}{unit}",
@@ -38,7 +38,7 @@ export type CurrencyFormatterArgs = {
 } 
  
 
-export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(({getLanguageConfig})=>{
+export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(()=>{
     return {
         name   : "currency",
         args   : [ "format", "unit", "precision", "prefix", "suffix", "division", "symbol", "radix" ],
@@ -52,14 +52,14 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(({
             symbol   : "$",
             radix    : 3     
         },
-        next(value:any,args){
-            const options = getLanguageConfig("currency")
+        next(value:any,args,ctx){
+            const config = ctx.getFormatterConfig("currency")
             // format可以取预设值的名称，如long,short等    
-            if(args.format in options){
-                args.format = (options as any)[args.format]
+            if(args.format in config){
+                args.format = (config as any)[args.format]
             }
             args.unit = parseInt(String(args.unit)) || 0
-            if(args.unit>options.units.length-1) args.unit = options.units.length-1
+            if(args.unit>config.units.length-1) args.unit = config.units.length-1
             if(args.unit<0) args.unit = 0
             // 当指定unit大于0时取消小数点精度控制
             // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
@@ -68,7 +68,7 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(({
             if(args.unit>0 && args.precision==2){
                 args.precision = -1
             }
-            return toCurrency(value, args,getLanguageConfig())
+            return toCurrency(value, args,config)
         }
     } 
 },{

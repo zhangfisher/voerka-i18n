@@ -13,19 +13,19 @@ export type MonthFormatterArgs = {
     format: string
 }
 
-export const monthFormatter = createFormatter<MonthFormatterArgs,MonthFormatterConfig>(({getLanguageConfig})=>{
+export const monthFormatter = createFormatter<MonthFormatterArgs>(()=>{
     return {
         name   : "month",
         args   : [ "format" ],
         default: { 
             format : "long" 
         },
-        next(value:any,args){
+        next(value,args,ctx){
+            const config = ctx.getFormatterConfig<MonthFormatterConfig>("month")
             const month   = toDate(value).getMonth() + 1
-            const options = getLanguageConfig("month")
             const format  = args.format || 'long'
-            if( typeof(format)==='string' && format in options ){
-                const formatVal = (options as any)[format]
+            if( typeof(format)==='string' && format in config ){
+                const formatVal = (config as any)[format]
                 if(typeof formatVal === 'function'){
                     return (formatVal as any)(month)
                 }else{

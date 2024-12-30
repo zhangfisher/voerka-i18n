@@ -13,30 +13,26 @@ export type WeekdayFormatterArgs = {
     format: string
 }
 
-export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterConfig>(({getLanguageConfig})=>{
+export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterConfig>(()=>{
     return {
         name   : "weekday",
         args   : [ "format" ],
         default: { 
             format : "long" 
         },
-        next(value:any,args){              
-            try{
-                const day   = toDate(value).getDay() + 1
-                const options = getLanguageConfig("weekday")
-                const format  = args.format || 'long'
-                if( typeof(format)==='string' && format in options ){
-                    const formatVal = (options as any)[format]
-                    if(typeof formatVal === 'function'){
-                        return (formatVal as any)(day)
-                    }else{
-                        return formatVal[day]
-                    }                    
-                }
-                return day
-            }catch{                
-                return value
+        next(value:any,args,ctx){
+            const options = ctx.getFormatterConfig<WeekdayFormatterConfig>("weekday")
+            const day   = toDate(value).getDay() + 1                
+            const format  = args.format || 'long'
+            if( typeof(format)==='string' && format in options ){
+                const formatVal = (options as any)[format]
+                if(typeof formatVal === 'function'){
+                    return (formatVal as any)(day)
+                }else{
+                    return formatVal[day]
+                }                    
             }
+            return day
         }
     } 
 },{

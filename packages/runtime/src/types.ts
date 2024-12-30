@@ -1,21 +1,21 @@
 import type { VoerkaI18nManager } from "./manager"
-import { VoerkaI18nFormatterConfigs } from "./scope/mixins/formatter/types"
+import { VoerkaI18nFormatterConfig } from "./scope/mixins/formatter/types"
 import type { VoerkaI18nScope } from "./scope" 
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 // 语言包
 export type VoerkaI18nLanguageMessages = {
-    $config?: VoerkaI18nFormatterConfigs
+    $config?: VoerkaI18nFormatterConfig
     $remote?: boolean
 }  & {
     [key in string]?: Record<string,any>
 }  
 
-export type VoerkaI18nLanguageMessagePack = Record<string, VoerkaI18nLanguageMessages | VoerkaI18nMessageLoader> 
+export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nMessageLoader> 
 
 export type VoerkaI18nDynamicLanguageMessages = Record<string, string | string[]> & {
-    $config?: VoerkaI18nFormatterConfigs
+    $config?: VoerkaI18nFormatterConfig
 }   
 
 export interface VoerkaI18nLanguagePack {
@@ -65,7 +65,7 @@ export interface VoerkaI18nSupportedLanguages {
 
 export type Primitive = string | number | boolean | null | undefined
 
-
+export type LanguageName = string
 declare global {   
     export var VoerkaI18n: VoerkaI18nManager
     export var __VoerkaI18nScopes__: VoerkaI18nScope[]
@@ -75,7 +75,7 @@ declare global {
   
 export type VoerkaI18nEvents = {
     log        : { level: string, message:string }                  // 当有日志输出时，data={level
-    init       : { scope:string, language:string }                  // 当应用Scope注册时触发, payload={scope,activeLanguage}        
+    init       : string                                             // 当应用Scope注册时触发, payload={scope,activeLanguage}        
     ready      : string                                             // 当初始化切换完成后触发
     change     : string                                             // 当语言切换后时, payload=language
     restore    : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
@@ -83,12 +83,7 @@ export type VoerkaI18nEvents = {
     error      : Error                                              // 当有错误发生时
 }      
     
- 
-
-
 export type Dict<T=any> = Record<string,T>
-
-
 
 export type LanguageCodes = 'aa' | 'ab' | 'ae' | 'af' | 'ak' | 'am' | 'an' | 'ar' | 'as' | 'av' | 'ay' | 'az' 
     | 'ba' | 'be' | 'bg' | 'bh' | 'bi' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' 

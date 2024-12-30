@@ -21,21 +21,21 @@ const transformers =  {
     timestamp: (value:Date)=>value.getTime()
 }  
 
-export const timeFormatter =  createFormatter<TimeFormatterArgs,TimeFormatterConfig>(({ getLanguageConfig })=>{
+export const timeFormatter =  createFormatter<TimeFormatterArgs,TimeFormatterConfig>(()=>{
     return {
         name   : "time",
         args   : [ "format" ],
         default: { 
             format : "local" 
         },
-        next(value:any,args){              
+        next(value,args,ctx){             
+            const config   = ctx.getFormatterConfig<TimeFormatterConfig>("time")
             const dateValue = toDate(value)
-            const options   = getLanguageConfig("time")
             const format    = args.format || 'local'
             if( format in transformers ){
                 return (transformers as any)[format](dateValue)
-            }else if(format in options){
-                const formatVal = options[format] 
+            }else if(format in config){
+                const formatVal = config[format] 
                 if(typeof formatVal === 'function'){
                     return (formatVal as any)(dateValue)
                 }

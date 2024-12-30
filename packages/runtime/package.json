@@ -22,7 +22,7 @@
     "license": "MIT",
     "dependencies": {
         "flex-tools": "^1.4.16",
-        "flexvars": "^1.0.3",
+        "flexvars": "^1.0.5",
         "ts-mixer": "^6.0.4"
     },
     "devDependencies": {

@@ -12,31 +12,27 @@ export type QuarterFormatterArgs = {
     format: string
 }
 
-export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterConfig>(({getLanguageConfig})=>{
+export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterConfig>(()=>{
     return {
         name   : "quarter",
         args   : [ "format" ],
         default: { 
             format : "long" 
         },
-        next(value:any,args){              
-            try{
-                const month   = toDate(value).getMonth() + 1  
-                const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
-                const options = getLanguageConfig("quarter")
-                const format  = args.format || 'long'
-                if( typeof(format)==='string' && format in options ){
-                    const formatVal = (options as any)[format]
-                    if(typeof formatVal === 'function'){
-                        return (formatVal as any)(quarter)
-                    }else{
-                        return formatVal[quarter]
-                    }                    
-                }
-                return quarter
-            }catch{                
-                return value
+        next(value,args,ctx){ 
+            const config = ctx.getFormatterConfig<QuarterFormatterConfig>("quarter")
+            const month   = toDate(value).getMonth() + 1  
+            const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
+            const format  = args.format || 'long'
+            if( typeof(format)==='string' && format in config ){
+                const formatVal = (config as any)[format]
+                if(typeof formatVal === 'function'){
+                    return (formatVal as any)(quarter)
+                }else{
+                    return formatVal[quarter]
+                }                    
             }
+            return quarter
         }
     } 
 },{

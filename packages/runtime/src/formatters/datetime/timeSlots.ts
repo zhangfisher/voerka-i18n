@@ -15,24 +15,20 @@ export type TimeSlotsFormatterArgs = {
  }
 
 
-export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>(({ getLanguageConfig })=>{
+export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>(()=>{
     return {
         name   : "timeSlots",
         args   : [ "upper" ],
         default: { 
             upper : true
         },
-        next(value:any,args){              
-            try{
-                const hour    = toDate(value).getHours()
-                const isUpper = Boolean(args.upper)
-                const options = getLanguageConfig("timeSlots")
-                let slotIndex = options.slots.findIndex(slot=>hour<slot)
-                if(slotIndex===-1) slotIndex = options.slots.length-1
-                return isUpper ? options.upperCases[slotIndex] : options.lowerCases[slotIndex]                               
-            }catch{                
-                return value
-            }
+        next(value,args,ctx){               
+            const options = ctx.getFormatterConfig<TimeSlotsFormatterConfig>("timeSlots")
+            const hour    = toDate(value).getHours()
+            const isUpper = Boolean(args.upper)
+            let slotIndex = options.slots.findIndex(slot=>hour<slot)
+            if(slotIndex===-1) slotIndex = options.slots.length-1
+            return isUpper ? options.upperCases[slotIndex] : options.lowerCases[slotIndex]   
         }
     } 
 },{

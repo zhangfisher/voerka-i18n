@@ -91,19 +91,15 @@ export class MessageLoaderMixin{
         } else if (isFunction(this.manager.defaultMessageLoader)) { 
             // 从远程加载语言包:如果该语言没有指定加载器，则使用全局配置的默认加载器
             const loadedMessages = (await this.manager._loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nDynamicLanguageMessages;
-            if(isPlainObject(loadedMessages)){
-                // 需要保存动态语言包中的$config，合并到对应语言的格式化器配置
-                if(isPlainObject(loadedMessages.$config)){           
-                    this.formatters.updateConfig(language,loadedMessages.$config!) 
-                    delete loadedMessages.$config
-                }
+            if(isPlainObject(loadedMessages)){  
                 messages = Object.assign(
-                    {
-                        $remote : true                          // 添加一个标识，表示该语言包是从远程加载的
-                    }, 
+                    { $remote : true },      // 添加一个标识，表示该语言包是从远程加载的                     
                     this.messages[this.defaultLanguage], 
                     loadedMessages
                 ) as VoerkaI18nLanguageMessages;   // 合并默认语言包和动态语言包,这样就可以局部覆盖默认语言包
+                if(loadedMessages.$config){
+                    messages.$config = Object.assign({},messages.$config,loadedMessages.$config)
+                }
             }
         }else{
             this.logger.error(`没有为<${language}>指定语言包加载器`)

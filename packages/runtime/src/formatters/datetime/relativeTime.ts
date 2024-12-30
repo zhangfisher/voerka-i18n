@@ -16,21 +16,17 @@ export type RelativeTimeFormatterArgs = {
     base: Date
 }
  
-export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>(( { getLanguageConfig })=>{
+export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>(()=>{
     return {
         name   : "relativeTime",
         args   : [ "base" ],
         default: ()=>({
             base: new Date()
         }) ,
-        next(value:any,args){              
-            try{ 
-                const options   = getLanguageConfig("relativeTime")
-                const baseTime = args.base || new Date()
-                return relativeTime(toDate(value),baseTime,options)  
-            }catch{                
-                return value
-            }
+        next(value,args,ctx){              
+            const config   = ctx.getFormatterConfig<RelativeTimeFormatterConfig>("relativeTime")
+            const baseTime = args.base || new Date()
+            return relativeTime(toDate(value),baseTime,config)   
         }
     } 
 },{

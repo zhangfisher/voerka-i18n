@@ -75,10 +75,8 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         this._appScope = scope
         this._activeLanguage = scope.activeLanguage
         this._getLanguageFromStorage()                      // 从存储器加载语言包配置        
-        this.emitAsync("init",{
-            scope: scope.id,
-            language:this.activeLanguage
-        },true).then(()=>this.emitAsync("ready",this.activeLanguage,true))         
+        this.emitAsync("init",this.activeLanguage,true)
+                .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
     
     /**
