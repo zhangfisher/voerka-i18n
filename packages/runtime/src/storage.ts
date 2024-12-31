@@ -2,7 +2,7 @@ import { IVoerkaI18nStorage } from "./types"
 
  
 
-export default {
+export const LocalStorage = {
     get(key:string){
         if(globalThis.localStorage){
             return globalThis.localStorage.getItem(key)

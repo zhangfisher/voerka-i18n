@@ -7,12 +7,12 @@
 
 import { isFunction } from "flex-tools/typecheck/isFunction";
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject";
-import { VoerkaI18nScope } from "..";
-import { VoerkaI18nDynamicLanguageMessages, VoerkaI18nLanguageMessages, VoerkaI18nLanguagePack } from "@/types";
+import type { VoerkaI18nScope } from "..";
+import type { VoerkaI18nDynamicLanguageMessages, VoerkaI18nLanguageMessages } from "@/types";
 
 
 
-export class MessageLoaderMixin{ 
+export class MessageLoaderMixin{     
     /**
      * 
      * 刷新语言包

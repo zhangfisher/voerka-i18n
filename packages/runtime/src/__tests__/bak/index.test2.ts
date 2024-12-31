@@ -3,7 +3,7 @@
 import {test,vi,describe,expect,afterAll,beforeAll, beforeEach} from 'vitest'
 import { VoerkaI18nScope } from '../../scope' 
 import { VoerkaI18nManager } from '../../manager';
-import { InvalidLanguageError } from '../../errors';
+import { VoerkaI18nInvalidLanguageError } from '../../errors';
 import { createI18nScope } from '../data';
 import { messages,zhMessages,enMessages } from '../data/testData';
 
@@ -49,7 +49,7 @@ describe("VoerkaI18n实例与语言切换", () => {
         try{
             await scope.change("xn")
         }catch(e){
-            expect(e).toBeInstanceOf(InvalidLanguageError)
+            expect(e).toBeInstanceOf(VoerkaI18nInvalidLanguageError)
         }        
     })
     test("指定了默认信息加载器时，切换到不存在的语言时从远程加载", async () => {

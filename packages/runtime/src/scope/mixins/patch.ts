@@ -1,5 +1,5 @@
-import { VoerkaI18nLanguageMessages } from "@/types";
-import { VoerkaI18nScope } from "..";
+import type { VoerkaI18nLanguageMessages } from "@/types";
+import type { VoerkaI18nScope } from "..";
 import { isFunction  } from "flex-tools/typecheck/isFunction";
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject";
 
@@ -7,8 +7,7 @@ import { isPlainObject } from "flex-tools/typecheck/isPlainObject";
  * 语言包补丁
  * 
  */
-export class PatchMessageMixin{
-    
+export class PatchMessageMixin{    
     /**
      * 清除保存在本地的补丁语言包
      * @param language 

@@ -1,9 +1,9 @@
 import { isFunction } from "flex-tools/typecheck/isFunction"     
 import type {  VoerkaI18nScope } from "./scope"
 import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nEvents, IVoerkaI18nStorage }  from "./types"
-import { InvalidLanguageError } from './errors';
+import { VoerkaI18nInvalidLanguageError } from './errors';
 import { LiteEvent } from "flex-tools/events/liteEvent" 
-import { isScope, isStorage } from "./utils" 
+import { isI18nScope, isStorage } from "./utils" 
 
 
 export interface VoerkaI18nManagerOptions extends VoerkaI18nScope {}
@@ -26,6 +26,7 @@ export interface VoerkaI18nManagerOptions extends VoerkaI18nScope {}
  * */ 
 
 export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
+    __VoerkaI18nManager__ = true
     static instance?              : VoerkaI18nManager  
     private _scopes               : VoerkaI18nScope[] = []    
     private _appScope!            : VoerkaI18nScope
@@ -37,15 +38,16 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }        
-        this._registerAppScope(appScope)                             // 注册应用作用域     
-        this._registerScopes()                                      // 注册所有作用域
-        VoerkaI18nManager.instance = this                           // 加载初始格式化器        
+        this._registerAppScope(appScope)                                // 注册应用作用域     
+        this._registerScopes()                                          // 注册所有作用域
+        VoerkaI18nManager.instance = this                               // 加载初始格式化器   
+        globalThis.VoerkaI18n = this     
     }
     get debug(){return this.scope.debug }  
     get logger(){ return this.scope.logger! }                            // 日志记录器                        
-    get scopes(){ return this._scopes }                             // 注册VoerkaI18nScope实例 
-    get activeLanguage(){ return this._activeLanguage}              // 当前激活语言名称   
-    get defaultMessageLoader(){ return this._defaultMessageLoader}  // 默认语言包加载器 
+    get scopes(){ return this._scopes }                                 // 注册VoerkaI18nScope实例 
+    get activeLanguage(){ return this._activeLanguage}                  // 当前激活语言名称   
+    get defaultMessageLoader(){ return this._defaultMessageLoader}      // 默认语言包加载器 
     get storage(){return this.scope!.storage}
     get languages(){return this.scope.languages}
     get scope(){return this._appScope!}
@@ -69,13 +71,31 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      * 
      */
     private _registerAppScope(scope:VoerkaI18nScope){ 
+        this._scopes.push(scope)
         this._appScope = scope
         this._activeLanguage = scope.activeLanguage
         this._getLanguageFromStorage()                      // 从存储器加载语言包配置        
+        this.emit("registered",scope.id,true)
+        this.logger.debug("注册应用I18nScope："+scope.id)
         this.emitAsync("init",this.activeLanguage,true)
-                .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
+            .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
-
+    /**
+     * 
+     * 注册一个新的作用域
+     * 
+     * 每一个库均对应一个作用域，每个作用域可以有多个语言包，且对应一个翻译函数
+     * 除了默认语言外，其他语言采用动态加载的方式
+     * 
+     * @param {*} scope 
+     */
+    register(scope:VoerkaI18nScope){ 
+        if(!isI18nScope(scope)) throw new Error("注册的作用域必须是VoerkaI18nScope的实例")
+        this._scopes.push(scope)     
+        scope.bind(this)            
+        this.emit("registered",scope.id,true)
+        this.logger.debug("注册I18nScope："+scope.id)
+    }   
     private _getStorage():IVoerkaI18nStorage | undefined{
         const storage = this.scope.storage 
         return isStorage(storage) ? storage: undefined
@@ -122,7 +142,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
             this.logger.info("语言已切换为："+ language)
             return language
         }else{
-            throw new InvalidLanguageError(language)
+            throw new VoerkaI18nInvalidLanguageError(language)
         }
     } 
      /**
@@ -141,25 +161,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
             this.logger.error("刷新语言作用域时出错:"+e.stack)
             this.emit("error",e)
         }          
-    }
-    /**
-     * 
-     * 注册一个新的作用域
-     * 
-     * 每一个库均对应一个作用域，每个作用域可以有多个语言包，且对应一个翻译函数
-     * 除了默认语言外，其他语言采用动态加载的方式
-     * 
-     * @param {*} scope 
-     */
-    register(scope:VoerkaI18nScope){ 
-        if(!isScope(scope)) throw new Error("注册的作用域必须是VoerkaI18nScope的实例")
-        if(scope.id===this.scope.id) return 
-        this._scopes.push(scope)    
-        if(scope.options.library===false){
-            this._registerAppScope(scope)
-        }  
-        scope.bind(this)            
-    }    
+    } 
     async ready(){
         return await this.waitFor("ready")
     }

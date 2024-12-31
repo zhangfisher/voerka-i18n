@@ -21,7 +21,4 @@ export const defaultLanguageSettings = {
         { name: "zh", title: "中文", default: true, active: true },
         { name: "en", title: "英文" }
     ]
-} 
-
-// 所有scope均注册到全局变量中
-export const VOERKAI18n_SCOPES = "__VoerkaI18nScopes__"
+}  

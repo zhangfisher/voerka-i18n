@@ -8,7 +8,7 @@ import {test,vi,describe,expect,afterAll,beforeAll, beforeEach} from 'vitest'
 import { VoerkaI18nScope } from '../../scope' 
 import { VoerkaI18nManager } from '../../manager';
 import {  VoerkaI18nTranslate } from '../../types';
-import { InvalidLanguageError } from '../../errors';
+import { VoerkaI18nInvalidLanguageError } from '../../errors';
 import { createI18nScope } from '../data';
 import { messages,zhMessages,enMessages } from '../data/testData';
 
