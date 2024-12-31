@@ -53,6 +53,8 @@ describe('语言切换', () => {
       const scope4 = createVoerkaI18nScope({ id: "d", library: true });
       // 由于是语言切换是异步的，所以需要等待切换完成
       await scope2.refreshing()
+      await scope3.refreshing()
+      await scope4.refreshing()
       expect(scope1.activeLanguage).toBe('en');
       expect(scope1.activeMessages).toEqual({ message: 'Hello' });
       expect(scope2.activeLanguage).toBe('en');
