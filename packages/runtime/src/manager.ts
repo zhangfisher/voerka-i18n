@@ -1,10 +1,9 @@
 import { isFunction } from "flex-tools/typecheck/isFunction"     
 import type {  VoerkaI18nScope } from "./scope"
-import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nEvents }  from "./types"
+import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nEvents, IVoerkaI18nStorage }  from "./types"
 import { InvalidLanguageError } from './errors';
 import { LiteEvent } from "flex-tools/events/liteEvent" 
-import { createLogger, VoerkaI18nLogger } from "./logger"
-import { isScope } from "./utils" 
+import { isScope, isStorage } from "./utils" 
 
 
 export interface VoerkaI18nManagerOptions extends VoerkaI18nScope {}
@@ -28,8 +27,7 @@ export interface VoerkaI18nManagerOptions extends VoerkaI18nScope {}
 
 export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     static instance?              : VoerkaI18nManager  
-    private _scopes               : VoerkaI18nScope[] = []
-    private _logger!              : VoerkaI18nLogger
+    private _scopes               : VoerkaI18nScope[] = []    
     private _appScope!            : VoerkaI18nScope
     private _defaultMessageLoader?: VoerkaI18nDefaultMessageLoader
     private _activeLanguage       : string = 'zh'
@@ -39,13 +37,12 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }        
-        this._logger = createLogger(this)
-        this._registerAppScope(appScope)                             // 注册应用作用域        
+        this._registerAppScope(appScope)                             // 注册应用作用域     
         this._registerScopes()                                      // 注册所有作用域
         VoerkaI18nManager.instance = this                           // 加载初始格式化器        
     }
     get debug(){return this.scope.debug }  
-    get logger(){ return this._logger! }                            // 日志记录器                        
+    get logger(){ return this.scope.logger! }                            // 日志记录器                        
     get scopes(){ return this._scopes }                             // 注册VoerkaI18nScope实例 
     get activeLanguage(){ return this._activeLanguage}              // 当前激活语言名称   
     get defaultMessageLoader(){ return this._defaultMessageLoader}  // 默认语言包加载器 
@@ -78,12 +75,16 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         this.emitAsync("init",this.activeLanguage,true)
                 .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
-    
+
+    private _getStorage():IVoerkaI18nStorage | undefined{
+        const storage = this.scope.storage 
+        return isStorage(storage) ? storage: undefined
+    }
     /**
      * 从存储器加载语言包配置
      */
     private _getLanguageFromStorage(){
-        const storage = this.scope.storage 
+        const storage = this._getStorage()
         if(storage){            
             const savedLanguage = storage.get("language")
             if(!savedLanguage || !this.hasLanguage(savedLanguage))  return 
@@ -92,7 +93,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         }
     }
     private _setLanguageToStorage(){
-        const storage = this.scope.storage
+        const storage = this._getStorage()
         if(storage){
             if(!this._activeLanguage)  return
             storage.set("language",this.activeLanguage)            
@@ -130,9 +131,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      */
      private async _refreshScopes(newLanguage:string){ 
         try{
-            const scopeRefreshers = this._scopes.map(scope=>{
-                return scope.refresh(newLanguage)
-            })
+            const scopeRefreshers = this._scopes.map(scope=>scope.refresh(newLanguage))
             if(Promise.allSettled){
                await Promise.allSettled(scopeRefreshers)
             }else{
@@ -152,16 +151,14 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      * 
      * @param {*} scope 
      */
-    async register(scope:VoerkaI18nScope){ 
+    register(scope:VoerkaI18nScope){ 
         if(!isScope(scope)) throw new Error("注册的作用域必须是VoerkaI18nScope的实例")
         if(scope.id===this.scope.id) return 
+        this._scopes.push(scope)    
         if(scope.options.library===false){
             this._registerAppScope(scope)
-        }else{       
-            scope.bind(this)
-        }      
-        this._scopes.push(scope)    
-        await scope.refresh(this.activeLanguage) 
+        }  
+        scope.bind(this)            
     }    
     async ready(){
         return await this.waitFor("ready")

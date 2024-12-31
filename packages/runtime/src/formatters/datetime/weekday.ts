@@ -1,4 +1,4 @@
-import { createFormatter } from "../../scope/mixins/formatter/utils"
+import { createFormatter } from "../../formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/misc/formatDateTime"
 

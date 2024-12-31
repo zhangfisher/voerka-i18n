@@ -1,5 +1,5 @@
 import type { VoerkaI18nManager } from "./manager"
-import { VoerkaI18nFormatterConfig } from "./scope/mixins/formatter/types"
+import { VoerkaI18nFormatterConfig } from "./formatter/types"
 import type { VoerkaI18nScope } from "./scope" 
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"

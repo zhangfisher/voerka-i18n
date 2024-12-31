@@ -26,7 +26,7 @@ describe("VoerkaI18n实例与语言切换", () => {
         expect(scope.defaultLanguage).toBe("zh")
         expect(scope.messages).toEqual(messages)
         expect(scope.defaultMessages).toEqual(zhMessages)
-        expect(scope.currentMessages).toEqual(zhMessages)
+        expect(scope.activeMessages).toEqual(zhMessages)
         // 全局管理器
         expect(scope.manager).toBeInstanceOf(VoerkaI18nManager)
     })
@@ -38,7 +38,7 @@ describe("VoerkaI18n实例与语言切换", () => {
                 expect(scope.defaultLanguage).toBe("zh")
                 expect(scope.messages).toEqual(messages)
                 expect(scope.defaultMessages).toEqual(zhMessages)
-                expect(scope.currentMessages).toEqual(enMessages)
+                expect(scope.activeMessages).toEqual(enMessages)
                 resolve()
             })
             scope.change("en")
@@ -61,7 +61,7 @@ describe("VoerkaI18n实例与语言切换", () => {
             }
         })
         await scope.change("de")
-        expect((scope.currentMessages as any)['hello']).toEqual("[DE]hello")
+        expect((scope.activeMessages as any)['hello']).toEqual("[DE]hello")
     })
 
     test("全局切换语言", () => {
@@ -80,7 +80,7 @@ describe("VoerkaI18n实例与语言切换", () => {
                     expect(scope.defaultLanguage).toBe("zh")
                     expect(scope.messages).toEqual(messages)
                     expect(scope.defaultMessages).toEqual(zhMessages)
-                    expect(scope.currentMessages).toEqual(enMessages)
+                    expect(scope.activeMessages).toEqual(enMessages)
                     event++
                     if(event==2) resolve()
                 })

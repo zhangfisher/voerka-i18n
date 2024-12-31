@@ -7,21 +7,25 @@ import { createVoerkaI18nScope } from './_utils';
  
 
 describe('VoerkaI18nScope', () => { 
- 
+  describe('创建VoerkaI18nScope', () => { 
 
-  test('should initialize with default options', () => {
-    const scope = createVoerkaI18nScope();
-    expect(scope.id).toBe('test-scope');
-    expect(scope.debug).toBe(false);
-    expect(scope.activeLanguage).toBe('en');
-    expect(scope.defaultLanguage).toBe('en');
-    expect(scope.currentMessages).toEqual({ message: 'Hello' });
-    expect(scope.defaultMessages).toEqual({ message: 'Hello' });
-    expect(scope.messages).toEqual({ en: { message: 'Hello' }, zh: { message: '你好' } });
-    expect(scope.manager).toBeInstanceOf(VoerkaI18nManager);
-    expect(scope.global).toBeInstanceOf(VoerkaI18nScope);
 
-  });
- 
-  // 可以添加更多测试用例来覆盖其他功能
+    test('创建默认VoerkaI18nScope实例', () => {
+      const scope = createVoerkaI18nScope();
+      expect(scope.id).toBe('test-scope');
+      expect(scope.debug).toBe(false);
+      expect(scope.activeLanguage).toBe('zh');
+      expect(scope.defaultLanguage).toBe('zh');
+      expect(scope.activeMessages).toEqual({ message: '你好' });
+      expect(scope.defaultMessages).toEqual({ message: '你好' });
+      expect(scope.messages).toEqual({ en: { message: 'Hello' }, zh: { message: '你好' } });
+      expect(scope.manager).toBeInstanceOf(VoerkaI18nManager);
+      expect(scope.global).toBeInstanceOf(VoerkaI18nScope);
+
+    }); 
+  })  
+  describe('VoerkaI18n事件', () => { 
+
+
+  })
 });

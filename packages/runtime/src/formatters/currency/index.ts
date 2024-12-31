@@ -1,6 +1,6 @@
 
 import { toCurrency } from "./toCurrency" 
-import { createFormatter } from "@/scope/mixins/formatter/utils"
+import { createFormatter } from "@/formatter/utils"
 
 export type CurrencyFormatterConfig = {
     default  : string                       // "{symbol}{value}{unit}",

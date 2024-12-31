@@ -1,4 +1,4 @@
-import { createFormatter } from "../../scope/mixins/formatter/utils"
+import { createFormatter } from "../../formatter/utils"
 import { toDate } from "../../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime" 
 

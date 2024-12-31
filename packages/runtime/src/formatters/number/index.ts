@@ -1,5 +1,5 @@
 import { toCurrency } from "../currency/toCurrency"
-import { createFormatter } from "../../scope/mixins/formatter/utils"
+import { createFormatter } from "../../formatter/utils"
 
 
 export const numberFormatter = createFormatter(()=>{

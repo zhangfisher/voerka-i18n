@@ -13,10 +13,6 @@ import { VoerkaI18nDynamicLanguageMessages, VoerkaI18nLanguageMessages, VoerkaI1
 
 
 export class MessageLoaderMixin{ 
-    protected _refreshing        : boolean = false                                    // 是否正在刷新语言包
-    protected _currentMessages   : VoerkaI18nLanguageMessages = {}                    // 当前语言包
-    protected _patchedMessages   : VoerkaI18nLanguagePack = {}                        // 补丁语言包
-     
     /**
      * 
      * 刷新语言包
@@ -27,13 +23,13 @@ export class MessageLoaderMixin{
         this._refreshing = true;		
         if (!language) language = this.activeLanguage;
         let finalLanguage:string = language; 
-        let finalMessages = { $remote : false }  as VoerkaI18nLanguageMessages
+        let finalMessages = { $remote : false } as VoerkaI18nLanguageMessages
         try{
             // 静态加载不是异步块,因此只需要简单的替换即可
             if(language in this.messages && !isFunction(this.messages[language])) {
                 finalMessages = this.messages[language] as VoerkaI18nLanguageMessages;
-                this._restorePatchedMessages(this._currentMessages, language);      // 恢复补丁
-                await this._patch(this._currentMessages, language);                 // 异步补丁
+                this._restorePatchedMessages(this._activeMessages, language);      // 恢复补丁
+                await this._patch(this._activeMessages, language);                 // 异步补丁
             }else{ // 异步加载语言包
                 try{
                     const messages = await this._loadLanguageMessages(language)
@@ -48,18 +44,16 @@ export class MessageLoaderMixin{
                 }  
             } 
             // 从本地存储中恢复补丁
-            this._restorePatchedMessages(this._currentMessages, language); 
+            this._restorePatchedMessages(this._activeMessages, language); 
             // 打语言包补丁, 如果是从远程加载语言包则不需要再打补丁了,因为远程加载的语言包已经是补丁过的了
             if(!finalMessages.$remote) {
-                await this._patch(this._currentMessages, language);                    
+                await this._patch(this._activeMessages, language);                    
             }
         }finally{
             this._activeLanguage = finalLanguage
             this._refreshing = false;
         }
-       this._currentMessages = finalMessages as VoerkaI18nLanguageMessages
-
-
+       this._activeMessages = finalMessages as VoerkaI18nLanguageMessages 
     }
     /**
      * 
