@@ -30,7 +30,7 @@ export class PatchMessageMixin{
 	 * @returns {Promise<number>} 返回补丁包的数量
 	 */
 	protected async _patch(this:VoerkaI18nScope,messages:VoerkaI18nLanguageMessages, language:string):Promise<number> {
-		if (!isFunction(this.manager._loadMessagesFromDefaultLoader)) return 0;
+		if (!isFunction(this.manager.defaultMessageLoader)) return 0;
 		try {
 			const pachedMessages = (await this.manager._loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nLanguageMessages;
 			if (isPlainObject(pachedMessages)) {

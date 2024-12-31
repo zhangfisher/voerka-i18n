@@ -46,7 +46,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     get debug(){return this.scope.debug }  
     get logger(){ return this.scope.logger! }                            // 日志记录器                        
     get scopes(){ return this._scopes }                                 // 注册VoerkaI18nScope实例 
-    get activeLanguage(){ return this._activeLanguage}                  // 当前激活语言名称   
+    get activeLanguage(){ return this._appScope.activeLanguage }                  // 当前激活语言名称   
     get defaultMessageLoader(){ return this._defaultMessageLoader}      // 默认语言包加载器 
     get storage(){return this.scope!.storage}
     get languages(){return this.scope.languages}
@@ -77,7 +77,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         this._getLanguageFromStorage()                      // 从存储器加载语言包配置        
         this.emit("registered",scope.id,true)
         this.logger.debug("注册应用I18nScope："+scope.id)
-        this.emitAsync("init",this.activeLanguage,true)
+        this.emitAsync("change",this.activeLanguage,true)
             .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
     /**
@@ -122,7 +122,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     } 
     // 通过默认加载器加载文件
     async _loadMessagesFromDefaultLoader(newLanguage:string,scope:VoerkaI18nScope){
-        if(this._defaultMessageLoader && isFunction(this._defaultMessageLoader)){
+        if(isFunction(this._defaultMessageLoader)){
             try{
                 return await this._defaultMessageLoader.call(scope,newLanguage,scope)        
             }catch(e:any){
@@ -135,10 +135,10 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      *  切换语言
      */
     async change(language:string){
-        if(!this.hasLanguage(language) || isFunction(this._defaultMessageLoader)){                     
+        if(this.hasLanguage(language) || isFunction(this._defaultMessageLoader)){                     
             await this._refreshScopes(language)                  // 刷新所有作用域
             this._setLanguageToStorage()                         // 保存语言配置到存储器
-            this.emit("change",language)     
+            this.emit("change",language,true)     
             this.logger.info("语言已切换为："+ language)
             return language
         }else{

@@ -208,6 +208,9 @@ importers:
 
   packages/runtime:
     dependencies:
+      asyncsignal:
+        specifier: ^0.0.1
+        version: 0.0.1
       flex-tools:
         specifier: ^1.4.16
         version: 1.4.16
@@ -2385,6 +2388,9 @@ packages:
 
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+
+  asyncsignal@0.0.1:
+    resolution: {integrity: sha512-S03pkJrgnEi3Z78Yw5qiD4ONFWWHlSgh/z2kmePkh1sfLR2WwKTmje7REXnQYQfLuJvhAJtBmfAEXcQciu6+7A==}
 
   atob@2.1.2:
     resolution: {integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==}
@@ -7606,6 +7612,8 @@ snapshots:
 
   asynckit@0.4.0:
     optional: true
+
+  asyncsignal@0.0.1: {}
 
   atob@2.1.2: {}
 

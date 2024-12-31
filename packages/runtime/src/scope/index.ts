@@ -37,6 +37,7 @@ export interface VoerkaI18nScopeOptions {
     storage?   : IVoerkaI18nStorage                                      // 语言包存储器
     formatters?: VoerkaI18nFormatters                                    // 当前作用域的格式化
     logger?    : VoerkaI18nLogger                                        // 日志记录器
+    attached?  : boolean                                                 // 是否挂接到appScope
 }
 
 
@@ -62,9 +63,9 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
     private _logger!          : VoerkaI18nLogger    
     protected _defaultLanguage: string ='en'                                       // 默认语言名称
     protected _activeLanguage : string ='en'                                       // 默认语言名称    
-    protected _refreshing     : boolean = false                                    // 是否正在刷新语言包
     protected _activeMessages : VoerkaI18nLanguageMessages = {}                    // 当前语言包
     protected _patchedMessages: VoerkaI18nLanguagePack = {}                        // 补丁语言包
+    
     /**
      * 
      * @param options 
@@ -80,17 +81,18 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             fallback       : 'en',                          // 默认回退语言
             messages       : {},                            // 所有语言包={[language]:VoerkaI18nLanguageMessages}
             idMap          : {},                            // 消息id映射列表
-            formatters     : {},                            // 当前作用域的格式化器
+            formatters     : {},                            // 是否挂接到appScope
+            attached       : true                           // 是否挂接到appScope
         },options) as Required<VoerkaI18nScopeOptions>      
         this._init()           
 	}	
-
+    get id() { return this._options.id;}                                        // 作用域唯一id	    
     get options(){ return this._options}   
-	get id() { return this._options.id;}                                        // 作用域唯一id	    
+	get attached() { return this._options.attached}                             // 作用域唯一id	    
     get debug(){return this._options.debug }                                    // 是否开启调试模式
+    get library(){return this._options.library }                                // 是否是库
     get formatters() {	return this._formatterManager! }                        // 格式化器管理器
-	get activeLanguage() { return this._manager.activeLanguage }                        // 激活语言名称     
-    get activeMessages() { return this._activeMessages;}                      // 当前语言包
+    get activeMessages() { return this._activeMessages;}                       // 当前语言包
     get defaultLanguage() { return this._defaultLanguage }                      // 默认语言名称    
     get defaultMessages() { return this.messages[this.defaultLanguage];}        // 默认语言包    
 	get messages() { return this._options.messages;	}                           // 所有语言包	
@@ -100,9 +102,14 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
     get global() { return this._manager.scope}                                  // 全局作用域
 	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars
     get storage(){ return this._options!.storage}    
-    get logger(){ return this._logger!}                                 // 日志记录器
-    get t(){ return this.translate.bind(this)}          
- 
+    get logger(){ return this._logger!}                                         // 日志记录器
+    get t(){ return this.translate.bind(this)}              
+    /**
+     * 激活语言名称： 以appScope为准    
+     */
+	get activeLanguage():string { 
+        return (this.library ? this._manager.activeLanguage : this._activeLanguage) as string 
+    }       
     private _initOptions(){
         // 1. 检测语言配置列表是否有效
         if(!Array.isArray(this.languages)){
@@ -167,7 +174,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      */
     bind(manager:VoerkaI18nManager){
         this._manager = manager               
-        this._manager.once('init',this.refresh.bind(this))                  
+        this._manager.once('change',this.refresh.bind(this))                          
     }  
 
     /**
@@ -175,6 +182,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      * @param callback 
      */
     private registerToManager(){ 
+        if(!this.attached) return
         const isAppScope = !this.options.library 
         if(isAppScope){
             if(globalThis.VoerkaI18n && globalThis.VoerkaI18n.scope){
@@ -194,7 +202,11 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
     }  
 	 
 	async change(language:string) {
-        return await this._manager.change(language)
+        if(this.attached){
+            return await this._manager.change(language)
+        }else{
+            await this.refresh(language)
+        }        
     }  
 }
 
