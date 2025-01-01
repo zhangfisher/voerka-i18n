@@ -59,8 +59,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     private _registerScopes() {
         const scopes = globalThis.__VoerkaI18nScopes__
         if(scopes && Array.isArray(scopes)){
-            scopes.forEach(scope=>{this.register(scope)})     
-            execAsyncs(scopes.map(scope=>scope.refresh(this.activeLanguage)))
+            scopes.forEach(scope=>this.register(scope)) 
         }        
         // @ts-ignore
         delete globalThis.__VoerkaI18nScopes__
@@ -75,9 +74,8 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         this._appScope = scope
         this._activeLanguage = scope.activeLanguage
         this._getLanguageFromStorage()                      // 从存储器加载语言包配置        
-        this.emit("registered",scope.id,true)
         this.logger.debug("注册应用I18nScope: "+scope.id)
-        this.emitAsync("init",this.activeLanguage,true)
+        this.emitAsync("init",undefined,true)
             .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
     /**
@@ -93,8 +91,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         if(!isI18nScope(scope)) throw new Error("注册的作用域必须是VoerkaI18nScope的实例")
         this._scopes.push(scope)     
         scope.bind(this)            
-        this.emit("registered",scope.id,true)
-        this.logger.debug("注册I18nScope:"+scope.id)
+        this.logger.debug(`VoerkaI18nScope<${scope.id}>已注册`)
     }   
     private _getStorage():IVoerkaI18nStorage | undefined{
         const storage = this.scope.storage 

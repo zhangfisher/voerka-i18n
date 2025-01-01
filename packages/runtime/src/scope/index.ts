@@ -167,16 +167,25 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
     } 
     /**
      * 
+     * 当scope上在全局应用scope创建之后时，会调用此方法
      * 本方法在注册到全局VoerkaI18nManager时由Manager调用，
+     * 
+     * 注意：本方法仅当
+     * scope是在全局应用scope创建之前时才会调用
+     * 
+     * 如果scope是在全局应用scope创建之后时创建的，则不会调用此方法
+     * 因为此时scope会直接注册到全局VoerkaI18nManager中，不会保存到全局变量__VoerkaI18nScopes__中
      * 
      * @param manager 
      * @returns 
      */
     bind(manager:VoerkaI18nManager){
         this._manager = manager               
-        this._manager.once('init',this.refresh.bind(this))                          
-    }  
-
+        this._manager.once('init',this._onInit.bind(this))        
+    }
+    private _onInit(){
+        this.refresh(this.activeLanguage)
+    }
     /**
      * 注册当前作用域到全局作用域
      * @param callback 
@@ -186,21 +195,20 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
         const isAppScope = !this.options.library 
         if(isAppScope){
             if(globalThis.VoerkaI18n && globalThis.VoerkaI18n.scope){
-                throw new VoerkaI18nOnlyOneAppScopeError("应用中只能有一个library=false的i18nScope")
+                throw new VoerkaI18nOnlyOneAppScopeError("应用只能有一个library=false的i18nScope")
             }
-            this._manager = new VoerkaI18nManager(this)            
+            this._manager = new VoerkaI18nManager(this)
         }
         // 当前作用域是库时，如果此时Manager和应用Scope还没创建就先保存到了全局变量__VoerkaI18nScopes__中
         // 当应用Scope创建后，会再调用registerToManager方法注册到全局VoerkaI18nManager中
         const manager = globalThis.VoerkaI18n as VoerkaI18nManager
         if(manager && isI18nManger(manager)){
-            if(!isAppScope) manager.register(this) 
+            if(!isAppScope) manager.register(this)  
         }else{
             if(!globalThis.__VoerkaI18nScopes__) globalThis.__VoerkaI18nScopes__ = []
             globalThis.__VoerkaI18nScopes__.push(this)
         }
-    }  
-	 
+    }
 	async change(language:string) {
         if(this.attached){
             return await this._manager.change(language)

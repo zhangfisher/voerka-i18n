@@ -8,7 +8,6 @@
 import { test, vi, describe, expect, beforeEach } from 'vitest'
 import { createVoerkaI18nScope, resetVoerkaI18n } from './_utils';
 
-
 describe('语言切换', () => {
   
     beforeEach(() => {
@@ -43,6 +42,23 @@ describe('语言切换', () => {
       expect(scope4.activeLanguage).toBe('en');
       expect(scope4.activeMessages).toEqual({ message: 'Hello' });
     }) 
+    test('先创建libScope再注册appScope', async () => {      
+      const libScope1 = createVoerkaI18nScope({ id: "b", library: true });
+      const libScope2 = createVoerkaI18nScope({ id: "c", library: true });
+      const libScope3 = createVoerkaI18nScope({ id: "d", library: true });
+      const appScope = createVoerkaI18nScope({ id: "a" });
+      expect(globalThis.VoerkaI18n.scopes.length).toBe(4);
+      const newLanguage = await appScope.change("en")
+      expect(newLanguage).toBe('en');
+      expect(appScope.activeLanguage).toBe('en');
+      expect(appScope.activeMessages).toEqual({ message: 'Hello' });
+      expect(libScope1.activeLanguage).toBe('en');
+      expect(libScope1.activeMessages).toEqual({ message: 'Hello' });
+      expect(libScope2.activeLanguage).toBe('en');
+      expect(libScope2.activeMessages).toEqual({ message: 'Hello' });
+      expect(libScope3.activeLanguage).toBe('en');
+      expect(libScope3.activeMessages).toEqual({ message: 'Hello' });
+    }) 
     test('多个延后注册scope切换语言', async () => {
       const scope1 = createVoerkaI18nScope({ id: "a" });            
       await scope1.change("en")
@@ -63,11 +79,24 @@ describe('语言切换', () => {
       expect(scope4.activeMessages).toEqual({ message: 'Hello' });
     })
 
-    test("语言切换事件",async()=>{
-      const scope1 = createVoerkaI18nScope({ id: "a" });            
-      VoerkaI18n.on("change",(language)=>{})
-      scope1.change("en").then((language)=>{})
+    test("语言切换change事件",()=>{
+      return new Promise<void>((resolve)=>{
+          const scope1 = createVoerkaI18nScope({ id: "a" });            
+          VoerkaI18n.on("change",(language)=>{
+            expect(language).toBe('en');
+            resolve()
+          })
+          scope1.change("en").then((language)=>{
+            expect(scope1.activeLanguage).toBe('en');
+            expect(scope1.activeMessages).toEqual({ message: 'Hello' });
+            expect(language).toBe('en');
+          })
       })
+    })
+    test("ready事件",()=>{
+
+    })
+      
 
 });
 
