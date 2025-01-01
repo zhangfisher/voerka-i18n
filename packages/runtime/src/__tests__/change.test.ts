@@ -6,10 +6,7 @@
 
 
 import { test, vi, describe, expect, beforeEach } from 'vitest'
-import { VoerkaI18nScope } from '../scope'
-import { VoerkaI18nManager } from '../manager';
 import { createVoerkaI18nScope, resetVoerkaI18n } from './_utils';
-import { VoerkaI18nOnlyOneAppScopeError } from '@/errors';
 
 
 describe('语言切换', () => {
@@ -35,7 +32,8 @@ describe('语言切换', () => {
       const scope3 = createVoerkaI18nScope({ id: "c", library: true });
       const scope4 = createVoerkaI18nScope({ id: "d", library: true });
       expect(globalThis.VoerkaI18n.scopes.length).toBe(4);
-      await scope1.change("en")
+      const newLanguage = await scope1.change("en")
+      expect(newLanguage).toBe('en');
       expect(scope1.activeLanguage).toBe('en');
       expect(scope1.activeMessages).toEqual({ message: 'Hello' });
       expect(scope2.activeLanguage).toBe('en');
@@ -44,8 +42,8 @@ describe('语言切换', () => {
       expect(scope3.activeMessages).toEqual({ message: 'Hello' });
       expect(scope4.activeLanguage).toBe('en');
       expect(scope4.activeMessages).toEqual({ message: 'Hello' });
-    })
-    test('多scope延后切换语言', async () => {
+    }) 
+    test('多个延后注册scope切换语言', async () => {
       const scope1 = createVoerkaI18nScope({ id: "a" });            
       await scope1.change("en")
       const scope2 = createVoerkaI18nScope({ id: "b", library: true });
@@ -64,6 +62,13 @@ describe('语言切换', () => {
       expect(scope4.activeLanguage).toBe('en');
       expect(scope4.activeMessages).toEqual({ message: 'Hello' });
     })
+
+    test("语言切换事件",async()=>{
+      const scope1 = createVoerkaI18nScope({ id: "a" });            
+      VoerkaI18n.on("change",(language)=>{})
+      scope1.change("en").then((language)=>{})
+      })
+
 });
 
 

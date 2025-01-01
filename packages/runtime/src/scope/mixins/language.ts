@@ -26,6 +26,7 @@ export class LanguageMixin{
         }else{
             return this._defaultLanguage
         }
+		
     }
 	/**
 	 * 返回是否存在指定的语言

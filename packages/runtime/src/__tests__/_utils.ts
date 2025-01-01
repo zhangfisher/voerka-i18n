@@ -17,7 +17,7 @@ export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>): Vo
           zh: { message: '你好' }
         },
         idMap: {},
-        storage: {},
+        storage: undefined,
         formatters: {},
         ready: () => {},    
       }, opts))

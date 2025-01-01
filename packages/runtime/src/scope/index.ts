@@ -84,7 +84,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             formatters     : {},                            // 是否挂接到appScope
             attached       : true                           // 是否挂接到appScope
         },options) as Required<VoerkaI18nScopeOptions>      
-        this._init()           
+        this._init()                   
 	}	
     get id() { return this._options.id;}                                        // 作用域唯一id	    
     get options(){ return this._options}   
@@ -174,7 +174,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      */
     bind(manager:VoerkaI18nManager){
         this._manager = manager               
-        this._manager.once('change',this.refresh.bind(this))                          
+        this._manager.once('init',this.refresh.bind(this))                          
     }  
 
     /**

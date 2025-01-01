@@ -1,4 +1,4 @@
-import defaultStoage from "./storage"
+import { LocalStorage } from "./storage"
 export const DefaultFallbackLanguage = 'en'    
 
 
@@ -16,7 +16,7 @@ export const VOERKAI18N_FORMATTER_BUILDER = Symbol("VoerkaI18nFormatterBuilder")
 // 默认语言配置
 export const defaultLanguageSettings = {  
     debug          : true,
-    storage        : defaultStoage,
+    storage        : LocalStorage,
     languages      : [
         { name: "zh", title: "中文", default: true, active: true },
         { name: "en", title: "英文" }

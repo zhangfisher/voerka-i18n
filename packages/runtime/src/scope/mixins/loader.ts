@@ -55,7 +55,8 @@ export class MessageLoaderMixin{
             this._activeLanguage = finalLanguage            
             this._activeMessages = finalMessages as VoerkaI18nLanguageMessages  
             this._refreshSignal.resolve()
-            this._refreshSignal = undefined         
+            this._refreshSignal = undefined       
+            await this.emit('change',finalLanguage)               
         }
        
     }
