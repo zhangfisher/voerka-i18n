@@ -41,7 +41,7 @@ export interface VoerkaI18nScopeOptions {
     logger?        : VoerkaI18nLogger                                        // 日志记录器
     attached?      : boolean                                                 // 是否挂接到appScope
     sorageKey?     : string                                                  // 保存到Storeage时的Key
-    languageLoader?: VoerkaI18nLanguageLoader                                // 从远程加载语言包
+    loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包
 }
 
 

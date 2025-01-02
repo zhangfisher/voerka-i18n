@@ -26,7 +26,8 @@ describe('语言包补丁功能', () => {
         const languageLoader = getTestLanguageLoader()
         
         const appScope = createVoerkaI18nScope({
-            storage
+            storage,
+            loader:languageLoader as VoerkaI18nLanguageLoader
         })
     });
 });
