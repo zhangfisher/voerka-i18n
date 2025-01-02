@@ -55,8 +55,8 @@ export class MessageLoaderMixin{
             this._activeLanguage = finalLanguage            
             this._activeMessages = finalMessages as VoerkaI18nLanguageMessages  
             this._refreshSignal.resolve()
-            this._refreshSignal = undefined       
-            await this.emit('change',finalLanguage)               
+            this._refreshSignal = undefined
+            await this.emit('scope/change',finalLanguage,true)               
         }
        
     }
@@ -96,15 +96,15 @@ export class MessageLoaderMixin{
             }else{
                 messages = loadResult
             }
-        } else if (isFunction(this.manager.defaultMessageLoader)) { 
+        } else if (isFunction(this.manager.messageLoader)) { 
             // 从远程加载语言包:如果该语言没有指定加载器，则使用全局配置的默认加载器
-            const loadedMessages = (await this.manager._loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nDynamicLanguageMessages;
+            const loadedMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nDynamicLanguageMessages;
             if(isPlainObject(loadedMessages)){  
                 messages = Object.assign(
-                    { $remote : true },      // 添加一个标识，表示该语言包是从远程加载的                     
+                    { $remote : true },                     // 添加一个标识，表示该语言包是从远程加载的                     
                     this.messages[this.defaultLanguage], 
                     loadedMessages
-                ) as VoerkaI18nLanguageMessages;   // 合并默认语言包和动态语言包,这样就可以局部覆盖默认语言包
+                ) as VoerkaI18nLanguageMessages;            // 合并默认语言包和动态语言包,这样就可以局部覆盖默认语言包
                 if(loadedMessages.$config){
                     messages.$config = Object.assign({},messages.$config,loadedMessages.$config)
                 }
@@ -114,4 +114,22 @@ export class MessageLoaderMixin{
         }
         return messages
     }
+    /**
+     * 
+     * 从远程加载信息包
+     * 
+     * @param this 
+     * @param language 
+     */
+    protected async _loadMessagesFromLoader(this:VoerkaI18nScope,language:string){
+        if(isFunction(this.messageLoader)){
+            try{
+                return await this.messageLoader.call(this,language,this)        
+            }catch(e:any){
+                this.logger.debug(`从远程加载语言包${language}文件出错:${e.stack}`)
+                return {}
+            }            
+        }
+    }
+
 }

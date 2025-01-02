@@ -8,13 +8,14 @@ import { isPlainObject } from "flex-tools/typecheck/isPlainObject";
  * 
  */
 export class PatchMessageMixin{    
+
     /**
      * 清除保存在本地的补丁语言包
      * @param language 
      */
     clearPatchedMessages(this:VoerkaI18nScope,language?:string) {
         if(this.manager.storage){
-            let langs = language ? [language] : this.languages.map(l=>l.name);
+            let langs = language ? [language] : this.languages.map(language=>language.name);
             for(let lang of langs){
                 this.manager.storage.remove(`voerkai18n_${this.id}_${lang}_patched_messages`);
             }
@@ -30,19 +31,19 @@ export class PatchMessageMixin{
 	 * @returns {Promise<number>} 返回补丁包的数量
 	 */
 	protected async _patch(this:VoerkaI18nScope,messages:VoerkaI18nLanguageMessages, language:string):Promise<number> {
-		if (!isFunction(this.manager.defaultMessageLoader)) return 0;
+		if (!isFunction(this.manager.messageLoader)) return 0;
 		try {
-			const pachedMessages = (await this.manager._loadMessagesFromDefaultLoader(language,this)) as unknown as VoerkaI18nLanguageMessages;
+			const pachedMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nLanguageMessages;
 			if (isPlainObject(pachedMessages)) {
 				Object.assign(messages, pachedMessages);
 				this._savePatchedMessages(pachedMessages, language);
-                this.manager.emit('patched',{language:language,scope:this.id})
+                this.emit('patched',{language:language,scope:this.id})
 				const count = Object.keys(pachedMessages).length;
                 this.logger.debug(`已更新了语言补丁包<${language}>(scope=${this.id}),共${count}条`);
 				return count
 			}
 		} catch (e:any) {
-			this.logger.error(`当从远程加载语言补丁包<${language}>时出错:${e.stack}(scope=${this})`);
+			this.logger.error(`当从远程加载语言补丁包<${language}>时出错:${e.stack}(scope=${this.id})`);
 		}		
 		return 0
 	}
@@ -50,10 +51,10 @@ export class PatchMessageMixin{
 	 * 从本地存储中读取语言包补丁合并到当前语言包中
 	 */
 	protected _restorePatchedMessages(this:VoerkaI18nScope,messages:VoerkaI18nLanguageMessages,language:string) {
-		let patchedMessages = this._getPatchedMessages(language);
+		const patchedMessages = this._getPatchedMessages(language);
 		if (isPlainObject(patchedMessages)) {
             Object.assign(messages, patchedMessages);
-            this.manager.emit('restore',{language,scope:this.id})
+            this.emit('restore',{language,scope:this.id})
             this.logger.debug(`成功恢复补丁语言包<${language}>(scope=${this.id})`);
 		}
 	}
@@ -76,9 +77,9 @@ export class PatchMessageMixin{
 	 * @param {*} messages
 	 */
 	protected _savePatchedMessages(this:VoerkaI18nScope,messages:VoerkaI18nLanguageMessages, language:string) {
-        if(!this.manager.storage) return 
+        if(!this.attached && !this.manager.storage) return 
 		try {
-            this.manager.storage.set(`voerkai18n_${this.id}_${language}_patched_messages`,JSON.stringify(messages));
+            this.storage && this.storage.set(`voerkai18n_${this.id}_${language}_patched_messages`,JSON.stringify(messages));
 		} catch (e:any) {
 			this.logger.error(`保存语言包补丁(${language})时出错:${e.stack}(scope=${this.id})`);
 		}
@@ -90,7 +91,7 @@ export class PatchMessageMixin{
 	 */
 	protected _getPatchedMessages(this:VoerkaI18nScope,language:string) {
 		try {
-            if(this.manager.storage){
+            if(!this.attached && this.manager.storage){
                 return this.manager.storage.get(`voerkai18n_${this.id}_${language}_patched_messages`) || {};
             }else{
                 return {};

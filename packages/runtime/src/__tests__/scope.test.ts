@@ -22,7 +22,7 @@ describe('VoerkaI18nScope', () => {
       expect(scope.defaultMessages).toEqual({ message: '你好' });
       expect(scope.messages).toEqual({ en: { message: 'Hello' }, zh: { message: '你好' } });
       expect(scope.manager).toBeInstanceOf(VoerkaI18nManager);
-      expect(scope.global).toBeInstanceOf(VoerkaI18nScope);
+      expect(scope.appScope).toBeInstanceOf(VoerkaI18nScope);
       expect(scope.manager.scopes).toEqual([scope]);
     });
     test('只能有一个VoerkaI18nScope,library=false应用实例,否则触发错误', () => {

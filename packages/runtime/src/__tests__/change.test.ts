@@ -59,7 +59,7 @@ describe('语言切换', () => {
       expect(libScope3.activeLanguage).toBe('en');
       expect(libScope3.activeMessages).toEqual({ message: 'Hello' });
     }) 
-    test('多个延后注册scope切换语言', async () => {
+    test('先创建appScope再注册libScope', async () => {
       const scope1 = createVoerkaI18nScope({ id: "a" });            
       await scope1.change("en")
       const scope2 = createVoerkaI18nScope({ id: "b", library: true });
@@ -93,11 +93,43 @@ describe('语言切换', () => {
           })
       })
     })
-    test("ready事件",()=>{
+    test("ready事件",async ()=>{
+        const libScope1 = createVoerkaI18nScope({ id: "b", library: true });
+        const libScope2 = createVoerkaI18nScope({ id: "c", library: true });
+        const libScope3 = createVoerkaI18nScope({ id: "d", library: true });
+        const appScope = createVoerkaI18nScope({ id: "a" });
+        expect(globalThis.VoerkaI18n.scopes.length).toBe(4);
+        appScope.change("en")        
+        await VoerkaI18n.ready()
+        expect(appScope.activeLanguage).toBe('en');
+        expect(appScope.activeMessages).toEqual({ message: 'Hello' });
+        expect(libScope1.activeLanguage).toBe('en');
+        expect(libScope1.activeMessages).toEqual({ message: 'Hello' });
+        expect(libScope2.activeLanguage).toBe('en');
+        expect(libScope2.activeMessages).toEqual({ message: 'Hello' });
+        expect(libScope3.activeLanguage).toBe('en');
+        expect(libScope3.activeMessages).toEqual({ message: 'Hello' });
+    })
+    test("切换appScope语言时不影响detachedScope",async ()=>{
+      const detachedScope = createVoerkaI18nScope({ id: "b", library: true,attached:false }); 
+      const appScope = createVoerkaI18nScope({ id: "a" });
+      await VoerkaI18n.change('en')
+      expect(appScope.activeLanguage).toBe("en")
+      expect(appScope.activeMessages).toEqual({ message: 'Hello' })
+      expect(detachedScope.activeLanguage).toBe("zh")
+      expect(detachedScope.activeMessages).toEqual({ message: 'Hello' })
+    })
+
+    test("独立切换detachedScope语言",async ()=>{
+      const detachedScope = createVoerkaI18nScope({ id: "b", library: true,attached:false }); 
+      const appScope = createVoerkaI18nScope({ id: "a" });
+      await detachedScope.change('en')
+      expect(appScope.activeLanguage).toBe("zh")
+      expect(appScope.activeMessages).toEqual({ message: '你好' })
+      expect(detachedScope.activeLanguage).toBe("en")
+      expect(detachedScope.activeMessages).toEqual({ message: 'Hello' })
 
     })
-      
-
 });
 
 

@@ -1,6 +1,6 @@
 import { createFormatter } from "../../formatter/utils"
 import { toDate } from "../../utils/toDate" 
-import { relativeTime } from "flex-tools/misc/formatDateTime"
+import { relativeTime } from "flex-tools/misc/relativeTime"
 
  
 

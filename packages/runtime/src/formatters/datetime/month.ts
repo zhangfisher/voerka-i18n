@@ -1,6 +1,6 @@
 import { createFormatter } from "../../formatter/utils"
 import { toDate } from "../../utils/toDate" 
-import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/misc/formatDateTime"
+import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/chinese"
 
 export type MonthFormatterConfig = {
     format: 'long' | 'short' | string | ((date:Date)=>string)

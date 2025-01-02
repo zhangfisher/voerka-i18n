@@ -1,6 +1,6 @@
 import { isFunction } from "flex-tools/typecheck/isFunction"     
 import type {  VoerkaI18nScope } from "../scope"
-import type { VoerkaI18nLanguageDefine,  VoerkaI18nDefaultMessageLoader, VoerkaI18nEvents, IVoerkaI18nStorage }  from "../types"
+import type { VoerkaI18nLanguageDefine,  VoerkaI18nMessageLoader, VoerkaI18nEvents, IVoerkaI18nStorage }  from "../types"
 import { VoerkaI18nInvalidLanguageError } from '../errors';
 import { LiteEvent } from "flex-tools/events/liteEvent" 
 import { execAsyncs, isI18nScope, isStorage } from "../utils"  
@@ -25,8 +25,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     __VoerkaI18nManager__ = true
     static instance?              : VoerkaI18nManager  
     private _scopes               : VoerkaI18nScope[] = []    
-    private _appScope!            : VoerkaI18nScope
-    private _defaultMessageLoader?: VoerkaI18nDefaultMessageLoader
+    private _appScope!            : VoerkaI18nScope 
     private _activeLanguage       : string = 'zh'
     
     constructor(appScope:VoerkaI18nScope){
@@ -44,11 +43,10 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     get logger(){ return this.scope.logger! }                            // 日志记录器                        
     get scopes(){ return this._scopes }                                 // 注册VoerkaI18nScope实例 
     get activeLanguage(){ return this._appScope.activeLanguage }        // 当前激活语言名称   
-    get defaultMessageLoader(){ return this._defaultMessageLoader}      // 默认语言包加载器 
+    get messageLoader(){ return this._appScope.messageLoader}           // 默认语言包加载器 
     get storage(){return this.scope!.storage}
     get languages(){return this.scope.languages}
     get scope(){return this._appScope!}
-
  
     /**
      * 注册所有i18nScope作用域。
@@ -116,23 +114,12 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
             storage.set("language",this.activeLanguage)            
             this.logger.debug("当前语言设置已保存到存储：",this.activeLanguage)
         }
-    } 
-    // 通过默认加载器加载文件
-    async _loadMessagesFromDefaultLoader(newLanguage:string,scope:VoerkaI18nScope){
-        if(isFunction(this._defaultMessageLoader)){
-            try{
-                return await this._defaultMessageLoader.call(scope,newLanguage,scope)        
-            }catch(e:any){
-                this.logger.debug(`从远程加载语言包${newLanguage}文件出错:${e.stack}`)
-                return {}
-            }            
-        }
-    } 
+    }  
     /**
      *  切换语言
      */
     async change(language:string){
-        if(this.hasLanguage(language) || isFunction(this._defaultMessageLoader)){                     
+        if(this.hasLanguage(language) || isFunction(this.messageLoader)){                     
             await this._refreshScopes(language)                  // 刷新所有作用域
             this._setLanguageToStorage()                         // 保存语言配置到存储器
             this.emit("change",language,true)     
@@ -162,13 +149,6 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      */
     async ready(){
         return await this.waitFor("ready")
-    }
-    /**
-    * 注册默认文本信息加载器
-    */
-    registerDefaultLoader(fn:VoerkaI18nDefaultMessageLoader){
-        if(!isFunction(fn)) throw new Error("默认语言加载器必须是一个函数")
-        this._defaultMessageLoader = fn 
     } 
     /**
      * 清除所有作用域的翻译补丁信息

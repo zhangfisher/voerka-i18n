@@ -5,7 +5,8 @@ import type {
     VoerkaI18nLanguageMessagePack,
     IVoerkaI18nStorage, 
     Dict,
-    VoerkaI18nLanguagePack
+    VoerkaI18nLanguagePack,
+    VoerkaI18nMessageLoader
 } from "@/types" 
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from '../consts';
 import { Mixin } from "ts-mixer"
@@ -20,6 +21,7 @@ import { VoerkaI18nFormatterManager } from "../formatter/manager";
 import { isI18nManger } from "@/utils/isI18nManger"
 import { LanguageMixin } from "./mixins/language"
 import { TranslateMixin } from "./mixins/translate"
+import { RestoreMixin } from "./mixins/restore";
 import { InterpolatorMixin } from "./mixins/interpolator";
 import { VoerkaI18nOnlyOneAppScopeError } from "@/errors";
 import { isFunction } from "flex-tools/typecheck/isFunction" 
@@ -27,17 +29,18 @@ import { assignObject } from "flex-tools/object/assignObject"
 import { VoerkaI18nManager } from "../manager"
 
 export interface VoerkaI18nScopeOptions {
-    id?        : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
-    debug?     : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
-    library?   : boolean                                                 // 当使用在库中时应该置为true
-    languages  : VoerkaI18nLanguageDefine[]                              // 当前作用域支持的语言列表
-    fallback?  : string                                                  // 默认回退语言
-    messages   : VoerkaI18nLanguageMessagePack                           // 当前语言包
-    idMap?     : Voerkai18nIdMap                                         // 消息id映射列表
-    storage?   : IVoerkaI18nStorage                                      // 语言包存储器
-    formatters?: VoerkaI18nFormatters                                    // 当前作用域的格式化
-    logger?    : VoerkaI18nLogger                                        // 日志记录器
-    attached?  : boolean                                                 // 是否挂接到appScope
+    id?           : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
+    debug?        : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
+    library?      : boolean                                                 // 当使用在库中时应该置为true
+    languages     : VoerkaI18nLanguageDefine[]                              // 当前作用域支持的语言列表
+    fallback?     : string                                                  // 默认回退语言
+    messages      : VoerkaI18nLanguageMessagePack                           // 当前语言包
+    idMap?        : Voerkai18nIdMap                                         // 消息id映射列表
+    storage?      : IVoerkaI18nStorage                                      // 语言包存储器
+    formatters?   : VoerkaI18nFormatters                                    // 当前作用域的格式化
+    logger?       : VoerkaI18nLogger                                        // 日志记录器
+    attached?     : boolean                                                 // 是否挂接到appScope
+    messageLoader?: VoerkaI18nMessageLoader                                 // 从远程加载语言包
 }
 
 
@@ -54,7 +57,8 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
         MessageLoaderMixin,
         LanguageMixin,
         TranslateMixin,
-        InterpolatorMixin
+        InterpolatorMixin,
+        RestoreMixin
     ){
     __VoerkaI18nScope__ = true
     private _options          : Required<VoerkaI18nScopeOptions>
@@ -92,24 +96,37 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
     get debug(){return this._options.debug }                                    // 是否开启调试模式
     get library(){return this._options.library }                                // 是否是库
     get formatters() {	return this._formatterManager! }                        // 格式化器管理器
-    get activeMessages() { return this._activeMessages;}                       // 当前语言包
+    get activeMessages() { return this._activeMessages;}                        // 当前语言包
     get defaultLanguage() { return this._defaultLanguage }                      // 默认语言名称    
     get defaultMessages() { return this.messages[this.defaultLanguage];}        // 默认语言包    
 	get messages() { return this._options.messages;	}                           // 所有语言包	
 	get idMap() { return this._options.idMap;}                                  // 消息id映射列表	
 	get languages() { return this._options.languages;}                          // 当前作用域支持的语言列表[{name,title,fallback}]	
 	get manager() {	return this._manager;}                                      // 引用全局VoerkaI18n配置，注册后自动引用    
-    get global() { return this._manager.scope}                                  // 全局作用域
-	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars
-    get storage(){ return this._options!.storage}    
+    get appScope() { return this._manager.scope}                                // 全局作用域
+	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars    
     get logger(){ return this._logger!}                                         // 日志记录器
-    get t(){ return this.translate.bind(this)}              
+    get t(){ return this.translate.bind(this)}                  
     /**
      * 激活语言名称： 以appScope为准    
      */
 	get activeLanguage():string { 
-        return (this.library ? this._manager.activeLanguage : this._activeLanguage) as string 
-    }       
+        return  this._options.attached ? ((this.library ? this._manager.activeLanguage : this._activeLanguage)) : this._activeLanguage   as string 
+    }  
+    // 
+    get storage(){ return this.getScopeOption<IVoerkaI18nStorage>('storage')}    
+    get messageLoader(){ return this.getScopeOption<VoerkaI18nMessageLoader>('messageLoader') }
+    /**
+     * 有些配置项是以appScope为准
+     * 
+     * @param name 
+     * @returns 
+     */
+    private getScopeOption<T>(name:string):T | undefined{
+        const scopeOpts = this._options as any
+        return (this.attached ? scopeOpts[name] || this._manager.messageLoader : scopeOpts[name]) as T | undefined
+    }
+
     private _initOptions(){
         // 1. 检测语言配置列表是否有效
         if(!Array.isArray(this.languages)){
@@ -117,8 +134,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             this._options.languages = Object.assign([],DefaultLanguageSettings)
         }else if(this.languages.length==0){
             throw new Error("[VoerkaI18n] 未提供语言配置")            
-        }        
-
+        }
         // 2.为语言配置默认回退语言，并且提取默认语言和活动语言
         let activeLang: string, defaultLang: string
         this.languages.forEach(language => {
@@ -129,15 +145,13 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
                 language.fallback = DefaultFallbackLanguage
             }
         })
-
         // 3. 确保提供了有效的默认语言和活动语言
         const lanMessages = this._options.messages
         if (!(defaultLang! in lanMessages)) defaultLang = Object.keys(lanMessages)[0]
         if (!(activeLang! in lanMessages)) activeLang = defaultLang!
         if (!(defaultLang! in lanMessages)) {
             throw new Error("[VoerkaI18n] 无效的语言配置，必须提供有效的默认语言和活动语言.")
-        }
-
+        } 
         this._activeLanguage  = activeLang!
         this._defaultLanguage = defaultLang!
         
@@ -146,7 +160,6 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
         if(isFunction(this.messages[this._defaultLanguage])){
             throw new Error("[VoerkaI18n] 默认语言包必须是静态内容,不能使用异步加载的方式.")
         }
-
         this._activeMessages = this.messages[this._activeLanguage] as VoerkaI18nLanguageMessages
     } 
     /**
