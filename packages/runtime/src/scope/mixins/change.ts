@@ -13,7 +13,7 @@ import { IAsyncSignal,asyncSignal } from "asyncsignal"
 
 
 
-export class MessageLoaderMixin{     
+export class ChangeLanguageMixin{     
     protected _refreshSignal? :IAsyncSignal 
     /** 
      * 刷新语言包 
@@ -26,12 +26,8 @@ export class MessageLoaderMixin{
         let finalMessages = { $remote : false } as VoerkaI18nLanguageMessages
         try{
             // 静态加载不是异步块,因此只需要简单的替换即可
-            if(language in this.messages && !isFunction(this.messages[language])) {
-                finalMessages = this.messages[language] as VoerkaI18nLanguageMessages;
-                // 恢复补丁
-                this._restorePatchedMessages(finalMessages, language);              
-                // 异步补丁 
-                await this._patch(finalMessages, language);                         
+            if(language in this.messages && isPlainObject(this.messages[language])) {
+                finalMessages = this.messages[language] as VoerkaI18nLanguageMessages;                
             }else{ // 异步加载语言包
                 try{
                     const messages = await this._loadLanguageMessages(language)
@@ -96,7 +92,7 @@ export class MessageLoaderMixin{
             }else{
                 messages = loadResult
             }
-        } else if (isFunction(this.manager.messageLoader)) { 
+        } else if (isFunction(this.languageLoader)) { 
             // 从远程加载语言包:如果该语言没有指定加载器，则使用全局配置的默认加载器
             const loadedMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nDynamicLanguageMessages;
             if(isPlainObject(loadedMessages)){  
@@ -122,9 +118,9 @@ export class MessageLoaderMixin{
      * @param language 
      */
     protected async _loadMessagesFromLoader(this:VoerkaI18nScope,language:string){
-        if(isFunction(this.messageLoader)){
+        if(isFunction(this.languageLoader)){
             try{
-                return await this.messageLoader.call(this,language,this)        
+                return await this.languageLoader.call(this,language,this)        
             }catch(e:any){
                 this.logger.debug(`从远程加载语言包${language}文件出错:${e.stack}`)
                 return {}

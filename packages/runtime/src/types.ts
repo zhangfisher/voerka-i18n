@@ -12,7 +12,7 @@ export type VoerkaI18nLanguageMessages = {
     [key in string]?: string | string[]
 }  
 
-export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nMessageLoader> 
+export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nLanguageLoader> 
 
 export type VoerkaI18nDynamicLanguageMessages = Record<string, string | string[]> & {
     $config?: VoerkaI18nFormatterConfig
@@ -41,7 +41,7 @@ export interface IVoerkaI18nStorage{
 }
 
  
-export type VoerkaI18nMessageLoader = (this:VoerkaI18nScope,newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages>
+export type VoerkaI18nLanguageLoader = (this:VoerkaI18nScope,newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages>
 
 export type TranslateMessageVars = number | boolean | string | Function | Date
 export interface VoerkaI18nTranslate {
@@ -65,14 +65,15 @@ declare global {
    
   
 export type VoerkaI18nEvents = {
-    log           : { level: string, message:string }                  // 当有日志输出时
-    init          : undefined                                          // 当第一个应用Scope注册时触发
-    ready         : string                                             // 当初始化切换完成后触发
-    change        : string                                             // 当语言切换后时, payload=language
-    restore       : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
-    patched       : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}               
-    error         : Error                                              // 当有错误发生时    
-    "scope/change": { scope:string,language:string }                                             //  
+    log             : { level: string, message:string }                  // 当有日志输出时
+    init            : undefined                                          // 当第一个应用Scope注册时触发
+    ready           : string                                             // 当初始化切换完成后触发
+    change          : string                                             // 当语言切换后时, payload=language
+    restore         : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
+    patched         : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}    
+    error           : Error                                              // 当有错误发生时    
+    "scope/change"  : { scope:string,language:string }                   //  
+    "scope/fallback": { scope:string,from:string,to:string}             // 当切换到无效的语言或者加载失败时，进行回退
 } 
     
 export type Dict<T=any> = Record<string,T>

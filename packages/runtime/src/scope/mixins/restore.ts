@@ -14,23 +14,45 @@ export class RestoreMixin{
         return isStorage(storage) ? storage: undefined
     }
     /**
+     * 
+     * @param this 
+     */
+    private _getStorageKey(this:VoerkaI18nScope){
+        const storageKey = this.options.sorageKey       
+        return storageKey.replace("{scope}",this.id)
+    }
+    /**
      * 从存储器加载语言包配置
      */
-    private _getLanguageFromStorage(this:VoerkaI18nScope){
+    restoreLanguage(this:VoerkaI18nScope){
         const storage = this._getStorage()
-        if(storage){            
-            const savedLanguage = storage.get("language")
+        if(storage){      
+            const storageKey = this._getStorageKey()      
+            const savedLanguage = storage.get(storageKey)
             if(!savedLanguage || !this.hasLanguage(savedLanguage))  return 
             this._activeLanguage = savedLanguage
-            this.logger.debug("从存储中读取到当前语言：",savedLanguage)
+            this.logger.debug(`从存储<${storageKey}>中恢复保存的语言：${savedLanguage}`)
         }
     }
-    private _setLanguageToStorage(this:VoerkaI18nScope){
+    /**
+     * 
+     * 将当前语言保存到Storage
+     * 
+     */
+    saveLanguage(this:VoerkaI18nScope){
         const storage = this._getStorage()
         if(storage){
             if(!this._activeLanguage)  return
-            storage.set("language",this.activeLanguage)            
-            this.logger.debug("当前语言设置已保存到存储：",this.activeLanguage)
+            const storageKey = this._getStorageKey()
+            storage.set(storageKey,this.activeLanguage)            
+            this.logger.debug(`当前语言已保存到存储${storageKey}=${this.activeLanguage}`)
         }
     }  
+    clearLanguage(this:VoerkaI18nScope){
+        const storage = this._getStorage()
+        if(storage){
+            storage.remove(this._getStorageKey())
+        }
+    }
+    
 }

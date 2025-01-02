@@ -7,8 +7,7 @@ import { createVoerkaI18nScope, resetVoerkaI18n } from './_utils';
 import { VoerkaI18nOnlyOneAppScopeError } from '@/errors';
 
 
-describe('VoerkaI18nScope', () => {
-  describe('创建VoerkaI18nScope实例', () => {
+describe('创建VoerkaI18nScope实例', () => { 
     beforeEach(() => {
       resetVoerkaI18n()
     });
@@ -34,22 +33,20 @@ describe('VoerkaI18nScope', () => {
       }
     });
 
-    test('创建多个VoerkaI18nScope实例', () => {
+    test('先创建appScope再创建多个VoerkaI18nScope实例', () => {
       createVoerkaI18nScope({ id: "a" });
       createVoerkaI18nScope({ id: "b", library: true });
       createVoerkaI18nScope({ id: "c", library: true });
       createVoerkaI18nScope({ id: "d", library: true });
       expect(globalThis.VoerkaI18n.scopes.length).toBe(4);
     })
-    test('延后创建多个VoerkaI18nScope实例', () => {            
+    test('先创建多个VoerkaI18nScope实例再创建appScope', () => {            
       createVoerkaI18nScope({ id: "b", library: true });
       createVoerkaI18nScope({ id: "c", library: true });
       createVoerkaI18nScope({ id: "d", library: true });
       createVoerkaI18nScope({ id: "a" });      
       expect(globalThis.VoerkaI18n.scopes.length).toBe(4);
-    })
-
-  }) 
+    }) 
 });
 
 

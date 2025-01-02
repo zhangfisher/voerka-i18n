@@ -5,7 +5,7 @@
 
 
 
-import { test, vi, describe, expect, beforeEach } from 'vitest'
+import { test,  describe, expect, beforeEach } from 'vitest'
 import { createVoerkaI18nScope, resetVoerkaI18n } from './_utils';
 
 describe('语言切换', () => {
@@ -117,7 +117,7 @@ describe('语言切换', () => {
       expect(appScope.activeLanguage).toBe("en")
       expect(appScope.activeMessages).toEqual({ message: 'Hello' })
       expect(detachedScope.activeLanguage).toBe("zh")
-      expect(detachedScope.activeMessages).toEqual({ message: 'Hello' })
+      expect(detachedScope.activeMessages).toEqual({ message: '你好' })
     })
 
     test("独立切换detachedScope语言",async ()=>{
@@ -128,6 +128,15 @@ describe('语言切换', () => {
       expect(appScope.activeMessages).toEqual({ message: '你好' })
       expect(detachedScope.activeLanguage).toBe("en")
       expect(detachedScope.activeMessages).toEqual({ message: 'Hello' })
+
+    })
+
+    test("切换到不存在的语言时进行回退",async ()=>{
+      const appScope = createVoerkaI18nScope({ id: "a" });      
+      await appScope.change("de")
+      // 回退到defaultLanguage
+      expect(appScope.activeLanguage).toBe("zh")
+      expect(appScope.activeMessages).toEqual({ message: 'Hello' })
 
     })
 });

@@ -6,13 +6,13 @@ import type {
     IVoerkaI18nStorage, 
     Dict,
     VoerkaI18nLanguagePack,
-    VoerkaI18nMessageLoader
+    VoerkaI18nLanguageLoader
 } from "@/types" 
 import { DefaultLanguageSettings, DefaultFallbackLanguage } from '../consts';
 import { Mixin } from "ts-mixer"
 import { EventEmitterMixin } from "./mixins/eventEmitter"
 import { PatchMessageMixin } from "./mixins/patch"
-import { MessageLoaderMixin } from "./mixins/loader"
+import { ChangeLanguageMixin } from "./mixins/change"
 import { VoerkaI18nLogger } from "../logger";
 import { VoerkaI18nFormatters } from "../formatter/types"
 import { getId } from "@/utils/getId"  
@@ -29,32 +29,32 @@ import { assignObject } from "flex-tools/object/assignObject"
 import { VoerkaI18nManager } from "../manager"
 
 export interface VoerkaI18nScopeOptions {
-    id?           : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
-    debug?        : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
-    library?      : boolean                                                 // 当使用在库中时应该置为true
-    languages     : VoerkaI18nLanguageDefine[]                              // 当前作用域支持的语言列表
-    fallback?     : string                                                  // 默认回退语言
-    messages      : VoerkaI18nLanguageMessagePack                           // 当前语言包
-    idMap?        : Voerkai18nIdMap                                         // 消息id映射列表
-    storage?      : IVoerkaI18nStorage                                      // 语言包存储器
-    formatters?   : VoerkaI18nFormatters                                    // 当前作用域的格式化
-    logger?       : VoerkaI18nLogger                                        // 日志记录器
-    attached?     : boolean                                                 // 是否挂接到appScope
-    messageLoader?: VoerkaI18nMessageLoader                                 // 从远程加载语言包
+    id?            : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
+    debug?         : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
+    library?       : boolean                                                 // 当使用在库中时应该置为true
+    languages      : VoerkaI18nLanguageDefine[]                              // 当前作用域支持的语言列表
+    fallback?      : string                                                  // 默认回退语言
+    messages       : VoerkaI18nLanguageMessagePack                           // 当前语言包
+    idMap?         : Voerkai18nIdMap                                         // 消息id映射列表
+    storage?       : IVoerkaI18nStorage                                      // 语言包存储器
+    formatters?    : VoerkaI18nFormatters                                    // 当前作用域的格式化
+    logger?        : VoerkaI18nLogger                                        // 日志记录器
+    attached?      : boolean                                                 // 是否挂接到appScope
+    sorageKey?     : string                                                  // 保存到Storeage时的Key
+    languageLoader?: VoerkaI18nLanguageLoader                                // 从远程加载语言包
 }
 
 
 export type VoerkaI18nScopeFormatterContext = {
     getFormatterConfig: <T=Dict>(configKey?:string )=>T
 }
-
  
 
 export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeOptions> 
     extends Mixin(
         EventEmitterMixin,
         PatchMessageMixin,
-        MessageLoaderMixin,
+        ChangeLanguageMixin,
         LanguageMixin,
         TranslateMixin,
         InterpolatorMixin,
@@ -86,12 +86,13 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             messages       : {},                            // 所有语言包={[language]:VoerkaI18nLanguageMessages}
             idMap          : {},                            // 消息id映射列表
             formatters     : {},                            // 是否挂接到appScope
-            attached       : true                           // 是否挂接到appScope
+            attached       : true,                           // 是否挂接到appScope
+            sorageKey      : 'language'
         },options) as Required<VoerkaI18nScopeOptions>      
         this._init()                   
 	}	
     get id() { return this._options.id;}                                        // 作用域唯一id	    
-    get options(){ return this._options}   
+    get options(){ return this._options}                                        // 
 	get attached() { return this._options.attached}                             // 作用域唯一id	    
     get debug(){return this._options.debug }                                    // 是否开启调试模式
     get library(){return this._options.library }                                // 是否是库
@@ -106,25 +107,26 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
     get appScope() { return this._manager.scope}                                // 全局作用域
 	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars    
     get logger(){ return this._logger!}                                         // 日志记录器
-    get t(){ return this.translate.bind(this)}                  
+    get t(){ return this.translate.bind(this)}
+
     /**
      * 激活语言名称： 以appScope为准    
      */
 	get activeLanguage():string { 
-        return  this._options.attached ? ((this.library ? this._manager.activeLanguage : this._activeLanguage)) : this._activeLanguage   as string 
+        return  this._options.attached ? ((this.library ? this._manager.activeLanguage : this._activeLanguage)) : this._activeLanguage as string 
     }  
     // 
     get storage(){ return this.getScopeOption<IVoerkaI18nStorage>('storage')}    
-    get messageLoader(){ return this.getScopeOption<VoerkaI18nMessageLoader>('messageLoader') }
+    get languageLoader(){ return this.getScopeOption<VoerkaI18nLanguageLoader>('languageLoader') }
     /**
      * 有些配置项是以appScope为准
-     * 
      * @param name 
      * @returns 
      */
     private getScopeOption<T>(name:string):T | undefined{
         const scopeOpts = this._options as any
-        return (this.attached ? scopeOpts[name] || this._manager.messageLoader : scopeOpts[name]) as T | undefined
+        // @ts-ignore
+        return (this.attached ? scopeOpts[name] || (this.library ? this._manager[name] : undefined) : scopeOpts[name]) as T | undefined
     }
 
     private _initOptions(){
@@ -169,12 +171,16 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      */
     private _init(){         
         this._logger = createLogger()
+        
         // 处理初始化参数
         this._initOptions()
+        // appScope需要从应用中恢复保存的
+        if(!this.library) this.restoreLanguage()
         // 初始化格式化器
         this._formatterManager = new VoerkaI18nFormatterManager(this)       
         // 初始化格式化器
         this._initInterpolators()        
+        
         // 将当前实例注册到全局单例VoerkaI18nManager中
 		this.registerToManager()       
     } 
@@ -194,11 +200,21 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      */
     bind(manager:VoerkaI18nManager){
         this._manager = manager               
-        this._manager.once('init',this._onInit.bind(this))        
+        this._manager.once('init',this._initRefresh.bind(this))        
     }
-    private _onInit(){
-        this.refresh(this.activeLanguage)
+    /**
+     * 第一次初始化时刷新语言
+     */
+    private _initRefresh(){
+        if(this.library){
+            this.refresh(this.activeLanguage)
+        }else{ // app            
+            if(this._defaultLanguage !== this._activeLanguage || isFunction(this.activeMessages)){
+                this.refresh()
+            }            
+        }        
     }
+
     /**
      * 注册当前作用域到全局作用域
      * @param callback 
@@ -210,13 +226,17 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             if(globalThis.VoerkaI18n && globalThis.VoerkaI18n.scope){
                 throw new VoerkaI18nOnlyOneAppScopeError("应用只能有一个library=false的i18nScope")
             }
-            this._manager = new VoerkaI18nManager(this)
+            this._manager = new VoerkaI18nManager(this)            
         }
         // 当前作用域是库时，如果此时Manager和应用Scope还没创建就先保存到了全局变量__VoerkaI18nScopes__中
         // 当应用Scope创建后，会再调用registerToManager方法注册到全局VoerkaI18nManager中
         const manager = globalThis.VoerkaI18n as VoerkaI18nManager
         if(manager && isI18nManger(manager)){
-            if(!isAppScope) manager.register(this)  
+            if(isAppScope){
+                this._initRefresh()
+            }else{
+                manager.register(this)  
+            } 
         }else{
             if(!globalThis.__VoerkaI18nScopes__) globalThis.__VoerkaI18nScopes__ = []
             globalThis.__VoerkaI18nScopes__.push(this)

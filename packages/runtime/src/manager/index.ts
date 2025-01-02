@@ -1,6 +1,6 @@
 import { isFunction } from "flex-tools/typecheck/isFunction"     
 import type {  VoerkaI18nScope } from "../scope"
-import type { VoerkaI18nLanguageDefine,  VoerkaI18nMessageLoader, VoerkaI18nEvents, IVoerkaI18nStorage }  from "../types"
+import type { VoerkaI18nLanguageDefine,  VoerkaI18nLanguageLoader, VoerkaI18nEvents, IVoerkaI18nStorage }  from "../types"
 import { VoerkaI18nInvalidLanguageError } from '../errors';
 import { LiteEvent } from "flex-tools/events/liteEvent" 
 import { execAsyncs, isI18nScope, isStorage } from "../utils"  
@@ -26,7 +26,6 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     static instance?              : VoerkaI18nManager  
     private _scopes               : VoerkaI18nScope[] = []    
     private _appScope!            : VoerkaI18nScope 
-    private _activeLanguage       : string = 'zh'
     
     constructor(appScope:VoerkaI18nScope){
         super()      
@@ -43,7 +42,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     get logger(){ return this.scope.logger! }                            // 日志记录器                        
     get scopes(){ return this._scopes }                                 // 注册VoerkaI18nScope实例 
     get activeLanguage(){ return this._appScope.activeLanguage }        // 当前激活语言名称   
-    get messageLoader(){ return this._appScope.messageLoader}           // 默认语言包加载器 
+    get languageLoader(){ return this._appScope.languageLoader}           // 默认语言包加载器 
     get storage(){return this.scope!.storage}
     get languages(){return this.scope.languages}
     get scope(){return this._appScope!}
@@ -70,8 +69,6 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     private _registerAppScope(scope:VoerkaI18nScope){ 
         this._scopes.push(scope)
         this._appScope = scope
-        this._activeLanguage = scope.activeLanguage
-        this._getLanguageFromStorage()                      // 从存储器加载语言包配置        
         this.logger.debug("注册应用I18nScope: "+scope.id)
         this.emitAsync("init",undefined,true)
             .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
@@ -90,38 +87,14 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         this._scopes.push(scope)     
         scope.bind(this)            
         this.logger.debug(`VoerkaI18nScope<${scope.id}>已注册`)
-    }   
-    private _getStorage():IVoerkaI18nStorage | undefined{
-        const storage = this.scope.storage 
-        return isStorage(storage) ? storage: undefined
-    }
-    /**
-     * 从存储器加载语言包配置
-     */
-    private _getLanguageFromStorage(){
-        const storage = this._getStorage()
-        if(storage){            
-            const savedLanguage = storage.get("language")
-            if(!savedLanguage || !this.hasLanguage(savedLanguage))  return 
-            this._activeLanguage = savedLanguage
-            this.logger.debug("从存储中读取到当前语言：",savedLanguage)
-        }
-    }
-    private _setLanguageToStorage(){
-        const storage = this._getStorage()
-        if(storage){
-            if(!this._activeLanguage)  return
-            storage.set("language",this.activeLanguage)            
-            this.logger.debug("当前语言设置已保存到存储：",this.activeLanguage)
-        }
-    }  
+    }    
     /**
      *  切换语言
      */
     async change(language:string){
-        if(this.hasLanguage(language) || isFunction(this.messageLoader)){                     
-            await this._refreshScopes(language)                  // 刷新所有作用域
-            this._setLanguageToStorage()                         // 保存语言配置到存储器
+        if(this.hasLanguage(language) || isFunction(this.languageLoader)){                     
+            await this._refreshScopes(language)          // 刷新所有作用域                                     
+            this.scope.saveLanguage()                    // 保存语言配置到存储器
             this.emit("change",language,true)     
             this.logger.info("语言已切换为："+ language)
             return language
@@ -164,6 +137,15 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
 	hasLanguage(language:string) {
 		return this.languages.findIndex((lang:VoerkaI18nLanguageDefine) => lang.name == language) != -1;
 	}
+    clearLanguage(){
+        this.scope.clearLanguage()
+    }
+    saveLanguage(){
+        this.scope.saveLanguage()
+    }
+    restoreLanguage(){
+        this.scope.restoreLanguage()        
+    }
 
 } 
  
