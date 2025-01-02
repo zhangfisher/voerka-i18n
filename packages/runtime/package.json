@@ -14,24 +14,24 @@
         "typings": "./dist/index.d.ts"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsup",
-        "release": "npm publish"
+        "test": "vitest",
+        "build": "tsup"
     },
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
-        "flex-tools": "^1.4.11"
+        "asyncsignal": "^0.0.2",
+        "flex-tools": "^1.4.16",
+        "flexvars": "^1.0.5",
+        "ts-mixer": "^6.0.4"
     },
     "devDependencies": {
-        "@swc/core": "^1.3.44",
-        "@types/node": "^18.15.11",
-        "@vitest/coverage-c8": "^0.30.1",
+        "@swc/core": "^1.10.4",
+        "@types/node": "^22.10.3",
+        "@vitest/coverage-c8": "^0.33.0",
         "esbuild-analyzer": "^0.2.0",
-        "jest": "^27.5.1",
-        "tsup": "^6.7.0",
-        "typescript": "^4.9.3",
-        "vitest": "^0.29.8"
-    },
-    "lastPublish": "2023-03-30T08:53:24+08:00"
+        "tsup": "^8.3.5",
+        "typescript": "^5.7.2",
+        "vitest": "^2.1.8"
+    } 
 }
