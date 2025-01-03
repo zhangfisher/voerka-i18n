@@ -1,14 +1,18 @@
 import type { VoerkaI18nLanguageMessages } from "@/types";
 import type { VoerkaI18nScope } from "..";
 import { isFunction  } from "flex-tools/typecheck/isFunction";
-import { isPlainObject } from "flex-tools/typecheck/isPlainObject";
+import { isPlainObject } from "flex-tools/typecheck/isPlainObject"; 
+import { IAsyncSignal,asyncSignal } from "flex-tools/async/asyncSignal";
 
 /**
  * 语言包补丁
  * 
  */
 export class PatchMessageMixin{    
-
+	protected _patching:IAsyncSignal | undefined
+	private _getPatchKey(this:VoerkaI18nScope,language:string){
+		return `voerkai18n_${this.id}_${language}_patched_messages`
+	}
     /**
      * 清除保存在本地的补丁语言包
      * @param language 
@@ -17,7 +21,7 @@ export class PatchMessageMixin{
         if(this.storage){
             let langs = language ? [language] : this.languages.map(language=>language.name);
             for(let lang of langs){
-                this.storage.remove(`voerkai18n_${this.id}_${lang}_patched_messages`);
+                this.storage.remove(this._getPatchKey(lang));
             }
         }
     }
@@ -30,21 +34,30 @@ export class PatchMessageMixin{
 	 * @param {*} language
 	 * @returns {Promise<number>} 返回补丁包的数量
 	 */
-	protected async _patch(this:VoerkaI18nScope,messages:VoerkaI18nLanguageMessages, language:string):Promise<number> {
-		if (!isFunction(this.languageLoader)) return 0;
+	async patch(this:VoerkaI18nScope, language?:string):Promise<number>{
+		this._patching = asyncSignal();
+		if (!language) language = this.activeLanguage;
+      	// 1. 从本地存储中恢复补丁
+        this._restorePatchedMessages(this.activeMessages, language); 
+		// 2. 从远程加载语言包补丁
+		if (!isFunction(this.loader)) return 0;
 		try {
 			const pachedMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nLanguageMessages;
 			if (isPlainObject(pachedMessages)) {
-				Object.assign(messages, pachedMessages);
-				this._savePatchedMessages(pachedMessages, language);
-                this.emit('patched',{language:language,scope:this.id})
-				const count = Object.keys(pachedMessages).length;
-                this.logger.debug(`已更新了语言补丁包<${language}>(scope=${this.id}),共${count}条`);
+				Object.assign(this.activeMessages, pachedMessages);
+				this._setPatchedMessages(pachedMessages, language);
+                this.emit('patched',{ language:language,scope:this.id })
+				// 计算补丁包的数量
+				const count = Object.keys(pachedMessages).length;                
+				this.logger.debug(`已更新了语言补丁包<${language}>(scope=${this.id}),共${count}条`);				
 				return count
 			}
-		} catch (e:any) {
-			this.logger.error(`当从远程加载语言补丁包<${language}>时出错:${e.stack}(scope=${this.id})`);
-		}		
+		}catch (e:any) {
+			this.logger.error(`从远程加载语言补丁包<${language}>时出错: ${e.stack}(scope=${this.id})`);
+		}finally{
+			this._patching?.resolve()
+			this._patching = undefined
+		}
 		return 0
 	}
 	/**
@@ -76,14 +89,15 @@ export class PatchMessageMixin{
 	 *
 	 * @param {*} messages
 	 */
-	protected _savePatchedMessages(this:VoerkaI18nScope,messages:VoerkaI18nLanguageMessages, language:string) {
+	protected _setPatchedMessages(this:VoerkaI18nScope,messages:VoerkaI18nLanguageMessages, language:string) {
         if(!this.attached && !this.storage) return 
 		try {
-            this.storage && this.storage.set(`voerkai18n_${this.id}_${language}_patched_messages`,JSON.stringify(messages));
+            this.storage && this.storage.set(this._getPatchKey(language),JSON.stringify(messages));
 		} catch (e:any) {
-			this.logger.error(`保存语言包补丁(${language})时出错:${e.stack}(scope=${this.id})`);
+			this.logger.error(`保存语言包补丁(${language})时出错: ${e.stack}(scope=${this.id})`);
 		}
 	}
+
 	/**
 	 * 从本地缓存中读取补丁语言包
 	 * @param {*} language
@@ -91,8 +105,8 @@ export class PatchMessageMixin{
 	 */
 	protected _getPatchedMessages(this:VoerkaI18nScope,language:string) {
 		try {
-            if(this.storage){
-                return this.storage.get(`voerkai18n_${this.id}_${language}_patched_messages`) || {};
+            if(this.storage && this.options.cachePatch){
+                return this.storage.get(this._getPatchKey(language)) 
             }else{
                 return {};
             }

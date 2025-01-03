@@ -42,19 +42,28 @@ export function resetVoerkaI18n() {
 }
 
 
-export function getTestStorage(init?:string){
-  let saveLanguage:string | undefined= init
+export function getTestStorage(initial?:Record<string,string>){
+  let values:Record<string,string> = Object.assign({},initial)
   return {
-      get() { return saveLanguage},
-      set(_:string,value:string){saveLanguage = value},
-      remove(){ saveLanguage = undefined }
+      get(key:string) { 
+        return values[key]
+      },
+      set(key:string,value:string){
+        values[key] = value
+      },
+      remove(key:string){ 
+        delete values[key]
+      },
+      getAll(){
+        return values
+      }
   }
 
 }
 
 
-export function getTestLanguageLoader(patchMsgs?:Record<string,any>):VoerkaI18nLanguageLoader{
+export function getTestLanguageLoader(callback?: VoerkaI18nLanguageLoader):VoerkaI18nLanguageLoader{
   return async (language:string,scope:VoerkaI18nScope)=>{
-   return Object.assign({},patchMsgs)
+    return callback && await callback(language,scope)
   }
 }

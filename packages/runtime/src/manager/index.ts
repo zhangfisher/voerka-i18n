@@ -42,7 +42,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     get logger(){ return this.scope.logger! }                            // 日志记录器                        
     get scopes(){ return this._scopes }                                 // 注册VoerkaI18nScope实例 
     get activeLanguage(){ return this._appScope.activeLanguage }        // 当前激活语言名称   
-    get languageLoader(){ return this._appScope.languageLoader}           // 默认语言包加载器 
+    get loader(){ return this._appScope.loader}                         // 默认语言包加载器 
     get storage(){return this.scope!.storage}
     get languages(){return this.scope.languages}
     get scope(){return this._appScope!}
@@ -92,7 +92,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      *  切换语言
      */
     async change(language:string){
-        if(this.hasLanguage(language) || isFunction(this.languageLoader)){                     
+        if(this.hasLanguage(language) || isFunction(this.loader)){                     
             await this._refreshScopes(language)          // 刷新所有作用域                                     
             this.scope.saveLanguage()                    // 保存语言配置到存储器
             this.emit("change",language,true)     

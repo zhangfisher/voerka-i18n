@@ -25,25 +25,25 @@ export interface VoerkaI18nLanguagePack {
 export type Voerkai18nIdMap = Record<string, number>
 
 export interface VoerkaI18nLanguageDefine {
-    name     : LanguageCodes
-    title?   : string
-    default? : boolean           // 是否默认语言
-    active?  : boolean           // 是否激活      
-    fallback?: string            // 回退语言
+    name     : LanguageCodes        // 语言代码
+    title?   : string               // 语言标题
+    default? : boolean              // 是否默认语言
+    active?  : boolean              // 是否激活      
+    fallback?: string               // 回退语言
 }
 
- 
 // 提供一个简单的KV存储接口,用来加载相关的存储
-export interface IVoerkaI18nStorage{ 
+export interface IVoerkaI18nStorage{
     get(key:string):any
     set(key:string,value:any):void
     remove(key:string):any
 }
 
  
-export type VoerkaI18nLanguageLoader = (this:VoerkaI18nScope,newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages>
+export type VoerkaI18nLanguageLoader = (newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages | undefined | void>
 
 export type TranslateMessageVars = number | boolean | string | Function | Date
+
 export interface VoerkaI18nTranslate {
     (message: string, ...vars: TranslateMessageVars[]): string
     (message: string, vars: TranslateMessageVars[]): string

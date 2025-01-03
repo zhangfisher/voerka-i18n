@@ -41,7 +41,8 @@ export interface VoerkaI18nScopeOptions {
     logger?        : VoerkaI18nLogger                                        // 日志记录器
     attached?      : boolean                                                 // 是否挂接到appScope
     sorageKey?     : string                                                  // 保存到Storeage时的Key
-    loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包
+    loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包 
+    cachePatch?    : boolean                                                 // 是否缓存补丁语言包
 }
 
 
@@ -86,11 +87,12 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             messages       : {},                            // 所有语言包={[language]:VoerkaI18nLanguageMessages}
             idMap          : {},                            // 消息id映射列表
             formatters     : {},                            // 是否挂接到appScope
-            attached       : true,                           // 是否挂接到appScope
-            sorageKey      : 'language'
-        },options) as Required<VoerkaI18nScopeOptions>      
-        this._init()                   
-	}	
+            attached       : true,                          // 是否挂接到appScope
+            sorageKey      : 'language',
+            cachePatch     : true                           // 是否缓存补丁语言包
+        },options) as Required<VoerkaI18nScopeOptions>
+        this._init()
+	}
     get id() { return this._options.id;}                                        // 作用域唯一id	    
     get options(){ return this._options}                                        // 
 	get attached() { return this._options.attached}                             // 作用域唯一id	    
@@ -117,7 +119,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
     }  
     // 
     get storage(){ return this.getScopeOption<IVoerkaI18nStorage>('storage')}    
-    get languageLoader(){ return this.getScopeOption<VoerkaI18nLanguageLoader>('languageLoader') }
+    get loader(){ return this.getScopeOption<VoerkaI18nLanguageLoader>('loader') }
     /**
      * 有些配置项是以appScope为准
      * @param name 
@@ -210,8 +212,9 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             this.refresh(this.activeLanguage)
         }else{ // app            
             if(this._defaultLanguage !== this._activeLanguage || isFunction(this.activeMessages)){
-                this.refresh()
-            }            
+                this.refresh(undefined,{patch:false})
+            }    
+            this.patch()                    
         }        
     }
 
