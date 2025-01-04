@@ -92,15 +92,12 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      *  切换语言
      */
     async change(language:string){
-        if(this.hasLanguage(language) || isFunction(this.loader)){                     
-            await this._refreshScopes(language)          // 刷新所有作用域                                     
-            this.scope.saveLanguage()                    // 保存语言配置到存储器
-            this.emit("change",language,true)     
-            this.logger.info("语言已切换为："+ language)
-            return language
-        }else{
-            throw new VoerkaI18nInvalidLanguageError(language)
-        }
+        await this._refreshScopes(language)          // 刷新所有作用域    
+        const activeLanguage = this._appScope.activeLanguage                                 
+        this.scope.saveLanguage()                    // 保存语言配置到存储器        
+        this.emit("change",activeLanguage,true)     
+        this.logger.info("语言已切换为："+ activeLanguage)
+        return activeLanguage
     } 
      /**
      * 当切换语言时调用此方法来加载更新语言包

@@ -34,3 +34,5 @@ export class LanguageMixin{
 		return this.languages.findIndex((lang:VoerkaI18nLanguageDefine) => lang.name == language) != -1;
 	} 
 }
+
+ 

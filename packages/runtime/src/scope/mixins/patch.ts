@@ -34,31 +34,27 @@ export class PatchMessageMixin{
 	 * @param {*} language
 	 * @returns {Promise<number>} 返回补丁包的数量
 	 */
-	async patch(this:VoerkaI18nScope, language?:string):Promise<number>{
+	async patch(this:VoerkaI18nScope, language?:string){
 		this._patching = asyncSignal();
 		if (!language) language = this.activeLanguage;
       	// 1. 从本地存储中恢复补丁
         this._restorePatchedMessages(this.activeMessages, language); 
-		// 2. 从远程加载语言包补丁
-		if (!isFunction(this.loader)) return 0;
+		// 2. 从远程加载语言包补丁		
 		try {
-			const pachedMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nLanguageMessages;
-			if (isPlainObject(pachedMessages)) {
-				Object.assign(this.activeMessages, pachedMessages);
-				this._setPatchedMessages(pachedMessages, language);
-                this.emit('patched',{ language:language,scope:this.id })
-				// 计算补丁包的数量
-				const count = Object.keys(pachedMessages).length;                
-				this.logger.debug(`已更新了语言补丁包<${language}>(scope=${this.id}),共${count}条`);				
-				return count
-			}
+			if (isFunction(this.loader)){
+				const pachedMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nLanguageMessages;
+				if (isPlainObject(pachedMessages)) {
+					Object.assign(this.activeMessages, pachedMessages);
+					this._setPatchedMessages(pachedMessages, language);
+					this.emit('patched',{ language:language,scope:this.id })
+				}
+			}			
 		}catch (e:any) {
-			this.logger.error(`从远程加载语言补丁包<${language}>时出错: ${e.stack}(scope=${this.id})`);
+			this.logger.warn(`从远程加载语言补丁包<${language}>时出错: ${e.stack}(scope=${this.id})`);
 		}finally{
 			this._patching?.resolve()
 			this._patching = undefined
 		}
-		return 0
 	}
 	/**
 	 * 从本地存储中读取语言包补丁合并到当前语言包中
@@ -116,3 +112,4 @@ export class PatchMessageMixin{
 		}
 	}
 }
+

@@ -20,14 +20,14 @@ export class ChangeLanguageMixin{
      * 刷新语言包 
      * @param language 
      */
-    async refresh(this:VoerkaI18nScope,language?:string,options?:{fallback?:boolean,patch:boolean}){
+    async refresh(this:VoerkaI18nScope,language?:string,options?:{fallback?:boolean,patch:boolean}):Promise<string>{
         if(!this._refreshSignal) this._refreshSignal = asyncSignal() 
         if (!language) language   = this.activeLanguage;        
         let finalLanguage: string = language; 
         let finalMessages         = { $remote : false } as VoerkaI18nLanguageMessages
-        const {patch:enablePatch,fallback} = Object.assign({
+        const { patch:enablePatch,fallback } = Object.assign({
             fallback:false,
-            patch:true},options)
+            patch:true },options)
         try{
             // 静态加载不是异步块,因此只需要简单的替换即可
             if(language in this.messages && isPlainObject(this.messages[language])) {
@@ -56,16 +56,22 @@ export class ChangeLanguageMixin{
             }
         }catch(e:any){
             // 切换语言失败，回退到默认语言
+            // 注意：回退语言是不可能出错的，无论回退到了何种语言，默认语言总是可以兜底的回退语言
             if(e && e instanceof VoerkaI18nError){
-                const finalLanguage = this.getFallbackLanguage(language)
-                
+                const fallbackLanguage = this.getFallbackLanguage(language)
+                if(fallbackLanguage && fallbackLanguage!==language){
+                    finalLanguage = await this.refresh(fallbackLanguage,{patch:enablePatch,fallback:true})
+                }
             }
         }finally{
-            this._activeLanguage = finalLanguage
-            this._refreshSignal.resolve()
-            this._refreshSignal = undefined
-            await this.emit('scope/change',finalLanguage,true)
+            if(!fallback){
+                this._activeLanguage = finalLanguage
+                this._refreshSignal.resolve()
+                this._refreshSignal = undefined
+                await this.emit('scope/change',finalLanguage,true)
+            }
         }
+        return finalLanguage
     }
     /**
      * 
@@ -120,12 +126,7 @@ export class ChangeLanguageMixin{
      */
     protected async _loadMessagesFromLoader(this:VoerkaI18nScope,language:string){
         if(isFunction(this.loader)){
-            try{
-                return await this.loader.call(this,language,this)        
-            }catch(e:any){
-                this.logger.debug(`从远程加载语言包${language}文件出错:${e.stack}`)
-                return {}
-            }            
+            return await this.loader.call(this,language,this)      
         }
     }
 

@@ -83,7 +83,6 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             library        : false,                         // 当使用在库中时应该置为true
             debug          : false,                         // 是否开启调试模式，开启后会输出调试信息
             languages      : [],                            // 当前作用域支持的语言列表
-            fallback       : 'en',                          // 默认回退语言
             messages       : {},                            // 所有语言包={[language]:VoerkaI18nLanguageMessages}
             idMap          : {},                            // 消息id映射列表
             formatters     : {},                            // 是否挂接到appScope
@@ -142,12 +141,8 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
         // 2.为语言配置默认回退语言，并且提取默认语言和活动语言
         let activeLang: string, defaultLang: string
         this.languages.forEach(language => {
-            if (!language.fallback) language.fallback = DefaultFallbackLanguage
             if (language.default) defaultLang = language.name
             if (language.active) activeLang = language.name
-            if (language.fallback && !this.hasLanguage(language.fallback)) {
-                language.fallback = DefaultFallbackLanguage
-            }
         })
         // 3. 确保提供了有效的默认语言和活动语言
         const lanMessages = this._options.messages

@@ -1,27 +1,29 @@
 import { VoerkaI18nLanguageLoader } from '@/types'
 import { VoerkaI18nScope, VoerkaI18nScopeOptions } from '../scope'  
 import { VoerkaI18nManager } from "@/manager"
+import { deepMerge } from 'flex-tools/object/deepMerge'
 
-
-export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>): VoerkaI18nScope {
-    return new VoerkaI18nScope(Object.assign({
+export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>,useDeepMerge?:boolean): VoerkaI18nScope {
+    const merge = useDeepMerge ? deepMerge : Object.assign
+    return new VoerkaI18nScope(merge({
         id: 'test-scope',
         debug: false,
         library: false,
         languages: {
-            zh: { name: 'Chinese', title: '中文', fallback: 'en', active: true,default: true },
-            en: { name: 'English', title: 'English'}        
-        },
-        fallback: "en",
+            zh: { name: 'Chinese', title: '中文', active: true,default: true },
+            en: { name: 'English', title: 'English'},
+            // de: { name: 'German', title: 'Deutsch' }
+        }, 
         messages: {
           en: { message: 'Hello' },
-          zh: { message: '你好' }
+          zh: { message: '你好' },
+          de: { message: 'Hallo' }
         },
         idMap: {},
         storage: undefined,
         formatters: {},
         ready: () => {},    
-      }, opts))
+      }, opts) as VoerkaI18nScopeOptions)
 }
 
 
