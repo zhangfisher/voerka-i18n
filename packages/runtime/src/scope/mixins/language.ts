@@ -21,12 +21,9 @@ export class LanguageMixin{
      */
     getFallbackLanguage(this: VoerkaI18nScope, language: string): string {
         const lngOptions = this.getLanguage(language)
-        if(lngOptions && lngOptions.fallback){
-            return lngOptions.fallback
-        }else{
-            return this._defaultLanguage
-        }
-		
+		return (lngOptions && lngOptions.fallback)
+					|| this.options.fallback
+					|| this._defaultLanguage        
     }
 	/**
 	 * 返回是否存在指定的语言
@@ -37,3 +34,5 @@ export class LanguageMixin{
 		return this.languages.findIndex((lang:VoerkaI18nLanguageDefine) => lang.name == language) != -1;
 	} 
 }
+
+ 

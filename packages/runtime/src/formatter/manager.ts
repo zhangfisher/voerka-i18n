@@ -4,14 +4,7 @@
  * 
  * 
  */
-import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
-import type { VoerkaI18nScope } from '../scope';
-import { get as getByPath } from "flex-tools/object/get" 
-import { isFunction } from 'flex-tools/typecheck/isFunction';
-import { deepMerge } from 'flex-tools/object/deepMerge';
-import { assignObject } from 'flex-tools/object/assignObject';
-import {  SupportedDateTypes,  } from '../types'; 
-import { deepClone } from 'flex-tools/object/deepClone';         
+import type { VoerkaI18nScope } from '../scope';        
 import { VoerkaI18nFormatter, VoerkaI18nFormatterBuilder, VoerkaI18nFormatters } from './types';
 
 export interface VoerkaI18nScopeCache{
@@ -28,7 +21,7 @@ export class FormattersNotLoadedError extends Error{
  
 
 export class VoerkaI18nFormatterManager{
-    private _formatters        : VoerkaI18nFormatters = {}  
+    private _formatters        : VoerkaI18nFormatters = [] 
     private _scope             : VoerkaI18nScope                                         
     private _cache             : Map<string,VoerkaI18nFormatter> = new Map<string,VoerkaI18nFormatter> 
 
@@ -47,8 +40,7 @@ export class VoerkaI18nFormatterManager{
      * 
      */
     private _loadFormatters(){
-        Object.entries(this._formatters).forEach(([name,formatterBuilder])=>{
-            if(name==='$config') return
+        this._formatters.forEach((formatterBuilder)=>{
             const builder = formatterBuilder as VoerkaI18nFormatterBuilder
             const filter = builder(this.scope)
             try{
@@ -58,7 +50,7 @@ export class VoerkaI18nFormatterManager{
                     this.scope.manager.scope.formatters.register(filter)
                 }
             }catch(e:any){
-                this.scope.logger.error(`注册格式化器<${name}>失败：${e.stack}`)
+                this.scope.logger.error(`注册格式化器<${filter.name}>失败：${e.stack}`)
             }
         })        
     }  
@@ -67,8 +59,7 @@ export class VoerkaI18nFormatterManager{
     * 
     */
     register(formatter:VoerkaI18nFormatter) {
-
-         
+        this.scope.interpolator.addFilter(formatter)         
     }              
  
      

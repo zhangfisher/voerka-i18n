@@ -1,27 +1,27 @@
 import { VoerkaI18nLanguageLoader } from '@/types'
 import { VoerkaI18nScope, VoerkaI18nScopeOptions } from '../scope'  
 import { VoerkaI18nManager } from "@/manager"
+import { deepMerge } from 'flex-tools/object/deepMerge'
 
-
-export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>): VoerkaI18nScope {
-    return new VoerkaI18nScope(Object.assign({
+export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>,useDeepMerge?:boolean): VoerkaI18nScope {
+    const merge = useDeepMerge ? deepMerge : Object.assign
+    return new VoerkaI18nScope(merge({
         id: 'test-scope',
         debug: false,
         library: false,
         languages: {
-            zh: { name: 'Chinese', title: '中文', fallback: 'en', active: true,default: true },
-            en: { name: 'English', title: 'English'}        
-        },
-        fallback: "en",
+            zh: { name: 'Chinese', title: '中文', active: true,default: true },
+            en: { name: 'English', title: 'English'} 
+        }, 
         messages: {
           en: { message: 'Hello' },
-          zh: { message: '你好' }
+          zh: { message: '你好' } 
         },
         idMap: {},
         storage: undefined,
         formatters: {},
         ready: () => {},    
-      }, opts))
+      }, opts) as VoerkaI18nScopeOptions)
 }
 
 
@@ -42,19 +42,28 @@ export function resetVoerkaI18n() {
 }
 
 
-export function getTestStorage(init?:string){
-  let saveLanguage:string | undefined= init
+export function getTestStorage(initial?:Record<string,string>){
+  let values:Record<string,string> = Object.assign({},initial)
   return {
-      get() { return saveLanguage},
-      set(_:string,value:string){saveLanguage = value},
-      remove(){ saveLanguage = undefined }
+      get(key:string) { 
+        return values[key]
+      },
+      set(key:string,value:string){
+        values[key] = value
+      },
+      remove(key:string){ 
+        delete values[key]
+      },
+      getAll(){
+        return values
+      }
   }
 
 }
 
 
-export function getTestLanguageLoader(patchMsgs?:Record<string,any>):VoerkaI18nLanguageLoader{
+export function getTestLanguageLoader(callback?: VoerkaI18nLanguageLoader):VoerkaI18nLanguageLoader{
   return async (language:string,scope:VoerkaI18nScope)=>{
-   return Object.assign({},patchMsgs)
+    return callback && await callback(language,scope)
   }
 }
