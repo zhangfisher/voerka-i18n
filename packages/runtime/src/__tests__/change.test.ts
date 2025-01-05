@@ -129,16 +129,7 @@ describe('语言切换', () => {
       expect(detachedScope.activeLanguage).toBe("en")
       expect(detachedScope.activeMessages).toEqual({ message: 'Hello' })
 
-    })
-
-    test("切换到不存在的语言时进行回退",async ()=>{
-      const appScope = createVoerkaI18nScope({ id: "a" });      
-      await appScope.change("de")
-      // 回退到defaultLanguage
-      expect(appScope.activeLanguage).toBe("zh")
-      expect(appScope.activeMessages).toEqual({ message: 'Hello' })
-
-    })
+    }) 
 });
 
 

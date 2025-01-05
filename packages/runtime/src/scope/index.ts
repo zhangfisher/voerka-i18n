@@ -87,7 +87,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             idMap          : {},                            // 消息id映射列表
             formatters     : {},                            // 是否挂接到appScope
             attached       : true,                          // 是否挂接到appScope
-            sorageKey      : 'language',
+            sorageKey      : 'language',                    // 保存语言配置到Storage时的Key
             cachePatch     : true                           // 是否缓存补丁语言包
         },options) as Required<VoerkaI18nScopeOptions>
         this._init()
@@ -114,7 +114,8 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      * 激活语言名称： 以appScope为准    
      */
 	get activeLanguage():string { 
-        return  this._options.attached ? ((this.library ? this._manager.activeLanguage : this._activeLanguage)) : this._activeLanguage as string 
+        return this._activeLanguage
+        // return  this._options.attached ? ((this.library ? this._manager.activeLanguage : this._activeLanguage)) : this._activeLanguage as string 
     }  
     // 
     get storage(){ return this.getScopeOption<IVoerkaI18nStorage>('storage')}    
@@ -168,7 +169,6 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      */
     private _init(){         
         this._logger = createLogger()
-        
         // 处理初始化参数
         this._initOptions()
         // appScope需要从应用中恢复保存的
@@ -202,14 +202,14 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
     /**
      * 第一次初始化时刷新语言
      */
-    private _initRefresh(){
+    private _initRefresh(getInitLanguage?:()=>string){
         if(this.library){
-            this.refresh(this.activeLanguage)
+            this.refresh(getInitLanguage && getInitLanguage())
         }else{ // app            
             if(this._defaultLanguage !== this._activeLanguage || isFunction(this.activeMessages)){
                 this.refresh(undefined,{patch:false})
             }    
-            this.patch()                    
+            this.patch()
         }        
     }
 

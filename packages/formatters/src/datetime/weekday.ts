@@ -1,5 +1,5 @@
-import { createFormatter } from "../../formatter/utils"
-import { toDate } from "../../utils/toDate" 
+import { createFormatter } from "../../../runtime/src/formatter/utils"
+import { toDate } from "../../../runtime/src/utils/toDate" 
 import { CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/chinese"
 
 export type WeekdayFormatterConfig = {

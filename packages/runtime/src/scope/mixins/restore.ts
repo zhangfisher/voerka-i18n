@@ -22,7 +22,7 @@ export class RestoreMixin{
         return storageKey.replace("{scope}",this.id)
     }
     /**
-     * 从存储器加载语言包配置
+     * 从存储器加载语言配置
      */
     restoreLanguage(this:VoerkaI18nScope){
         const storage = this._getStorage()

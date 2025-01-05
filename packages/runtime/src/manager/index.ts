@@ -69,8 +69,10 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     private _registerAppScope(scope:VoerkaI18nScope){ 
         this._scopes.push(scope)
         this._appScope = scope
-        this.logger.debug("注册应用I18nScope: "+scope.id)
-        this.emitAsync("init",undefined,true)
+        this.logger.debug("注册应用I18nScope: "+scope.id)            
+        this.emitAsync("init",()=>{
+            return this._appScope.activeLanguage
+        },true)
             .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
     /**

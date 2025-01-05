@@ -5,7 +5,7 @@
  */
 
 import type { VoerkaI18nScope } from "@/scope";
-import { Dict, ISO630LanguageCodes } from "@/types";
+import { Dict  } from "@/types";
 import type { VoerkaI18nFormatter,  VoerkaI18nFormatterCreator } from "./types";
 
 
@@ -14,7 +14,7 @@ import type { VoerkaI18nFormatter,  VoerkaI18nFormatterCreator } from "./types";
 export function createFormatter<
     Args extends Dict = Dict,
     Config extends  Dict = Dict
->(creator: VoerkaI18nFormatterCreator<Args>,config?:Partial<Record<ISO630LanguageCodes,Partial<Config>>>){
+>(creator: VoerkaI18nFormatterCreator<Args>,config?:Partial<Record<string,Partial<Config>>>){
     return (scope: VoerkaI18nScope)=>{  
         const formatter =  creator(scope) as unknown as VoerkaI18nFormatter<Args>
         if(config){

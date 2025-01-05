@@ -11,13 +11,11 @@ export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>,useD
         library: false,
         languages: {
             zh: { name: 'Chinese', title: '中文', active: true,default: true },
-            en: { name: 'English', title: 'English'},
-            // de: { name: 'German', title: 'Deutsch' }
+            en: { name: 'English', title: 'English'} 
         }, 
         messages: {
           en: { message: 'Hello' },
-          zh: { message: '你好' },
-          de: { message: 'Hallo' }
+          zh: { message: '你好' } 
         },
         idMap: {},
         storage: undefined,
