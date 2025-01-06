@@ -7,12 +7,20 @@ import type { BCP47LanguageTagName } from "bcp47-language-tags"
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 // 语言包
-export type VoerkaI18nLanguageMessages = {
+export type VoerkaI18nLanguageMessages =  {
+    [key : string]?:  string | string[]
+} & {
     $config?: VoerkaI18nFormatterConfig
     $remote?: boolean
-}  & {
-    [key in string]?: string | string[]
 }  
+
+const ff:VoerkaI18nLanguageMessages={
+    $config:{
+        add:{
+           
+        }
+    }
+}
 
 export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nLanguageLoader> 
 

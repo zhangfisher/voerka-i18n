@@ -23,17 +23,14 @@ export class FormattersNotLoadedError extends Error{
 export class VoerkaI18nFormatterManager{
     private _formatters        : VoerkaI18nFormatters = [] 
     private _scope             : VoerkaI18nScope                                         
-    private _cache             : Map<string,VoerkaI18nFormatter> = new Map<string,VoerkaI18nFormatter> 
 
     constructor(scope:VoerkaI18nScope){ 
         this._scope = scope   
         this._formatters = scope?.options.formatters     
         this._loadFormatters()
     }    
-    get scope(){ return this._scope! }     
-    get cache(){ return this._cache }  
+    get scope(){ return this._scope! }      
     get formatters(){ return this._formatters }    
-
     /**
      * 
      * 加载所有格式化器

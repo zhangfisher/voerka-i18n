@@ -1,5 +1,5 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate" 
+import { createFormatter } from "@voerkai18n/runtime"
+import { toDate } from "../utils/toDate" 
 import { relativeTime } from "flex-tools/misc/relativeTime"
 
  
@@ -24,7 +24,7 @@ export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,
             base: new Date()
         }) ,
         next(value,args,ctx){              
-            const config   = ctx.getFormatterConfig<RelativeTimeFormatterConfig>("relativeTime")
+            const config   = ctx.getConfig<RelativeTimeFormatterConfig>("relativeTime")
             const baseTime = args.base || new Date()
             return relativeTime(toDate(value),baseTime,config)   
         }

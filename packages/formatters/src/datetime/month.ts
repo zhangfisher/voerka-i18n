@@ -1,5 +1,5 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate" 
+import { createFormatter } from "@voerkai18n/runtime"
+import { toDate } from "../utils/toDate" 
 import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/chinese"
 
 export type MonthFormatterConfig = {
@@ -21,7 +21,7 @@ export const monthFormatter = createFormatter<MonthFormatterArgs>(()=>{
             format : "long" 
         },
         next(value,args,ctx){
-            const config = ctx.getFormatterConfig<MonthFormatterConfig>("month")
+            const config = ctx.getConfig<MonthFormatterConfig>("month")
             const month   = toDate(value).getMonth() + 1
             const format  = args.format || 'long'
             if( typeof(format)==='string' && format in config ){

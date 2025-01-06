@@ -175,6 +175,25 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4
 
+  packages/formatters:
+    dependencies:
+      '@voerkai18n/runtime':
+        specifier: workspace:*
+        version: link:../runtime
+      flex-tools:
+        specifier: ^1.4.16
+        version: 1.4.16
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.3
+        version: 22.10.3
+      tsup:
+        specifier: ^8.3.5
+        version: 8.3.5(@swc/core@1.10.4)(postcss@8.4.48)(typescript@5.7.2)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.2
+
   packages/openinula:
     dependencies:
       openinula:
@@ -3121,9 +3140,6 @@ packages:
 
   flex-tools@1.4.12:
     resolution: {integrity: sha512-H6rszT3iM2M7wyIYPJ9HIYH6eY/kK1Lr4m4jRWE7B5hkC6uGUIGQNwC3B4Eo5+dROovVup01G3nY5UopskFUrg==}
-
-  flex-tools@1.4.15:
-    resolution: {integrity: sha512-iuJpkJnWmmmfPeDuHqJxxn2cAmYwSWD5+wvlewMWb5lUkMO0aisNSN0eJpQBMxuVViYjKLIhQ3prK/+UHnoKWA==}
 
   flex-tools@1.4.16:
     resolution: {integrity: sha512-+6ouqKOS/RdAw0AuuDzFrK0/aPCIPNxWAuAbI3QVoVNJ8cpECiGxi0FAaOEPcQbU7HiLnTdHkVmhITf03LHxtQ==}
@@ -8599,11 +8615,6 @@ snapshots:
       art-template: 4.13.2
       glob: 10.4.5
 
-  flex-tools@1.4.15:
-    dependencies:
-      art-template: 4.13.2
-      glob: 10.4.5
-
   flex-tools@1.4.16:
     dependencies:
       art-template: 4.13.2
@@ -9388,14 +9399,14 @@ snapshots:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
       core-js: 3.27.1
-      flex-tools: 1.4.15
+      flex-tools: 1.4.16
 
   logsets@1.3.10:
     dependencies:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
       core-js: 3.27.1
-      flex-tools: 1.4.15
+      flex-tools: 1.4.16
 
   loose-envify@1.4.0:
     dependencies:

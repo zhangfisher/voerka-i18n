@@ -1,5 +1,5 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate"  
+import { createFormatter } from "@voerkai18n/runtime"
+import { toDate } from "../utils/toDate"  
 
  
 
@@ -23,7 +23,7 @@ export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>(
             upper : true
         },
         next(value,args,ctx){               
-            const options = ctx.getFormatterConfig<TimeSlotsFormatterConfig>("timeSlots")
+            const options = ctx.getConfig<TimeSlotsFormatterConfig>("timeSlots") as TimeSlotsFormatterConfig
             const hour    = toDate(value).getHours()
             const isUpper = Boolean(args.upper)
             let slotIndex = options.slots.findIndex(slot=>hour<slot)

@@ -1,6 +1,6 @@
 
-import { toCurrency } from "./toCurrency" 
-import { createFormatter } from "@/formatter/utils"
+import { toCurrency } from "../utils/toCurrency" 
+import { createFormatter } from "@voerkai18n/runtime"
 
 export type CurrencyFormatterConfig = {
     default  : string                       // "{symbol}{value}{unit}",
@@ -53,7 +53,7 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(()
             radix    : 3     
         },
         next(value,args,ctx){
-            const config = ctx.getFormatterConfig("currency")
+            const config = ctx.getConfig("currency")
             // format可以取预设值的名称，如long,short等    
             if(args.format in config){
                 args.format = (config as any)[args.format]

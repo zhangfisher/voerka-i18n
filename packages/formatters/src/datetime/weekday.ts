@@ -1,5 +1,5 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate" 
+import { createFormatter } from "@voerkai18n/runtime"
+import { toDate } from "../utils/toDate" 
 import { CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/chinese"
 
 export type WeekdayFormatterConfig = {
@@ -21,7 +21,7 @@ export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterConfig>(()=>
             format : "long" 
         },
         next(value:any,args,ctx){
-            const options = ctx.getFormatterConfig<WeekdayFormatterConfig>("weekday")
+            const options = ctx.getConfig<WeekdayFormatterConfig>("weekday")
             const day   = toDate(value).getDay() + 1                
             const format  = args.format || 'long'
             if( typeof(format)==='string' && format in options ){

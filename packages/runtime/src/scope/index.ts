@@ -3,12 +3,11 @@ import type {
     VoerkaI18nLanguageDefine, 
     VoerkaI18nLanguageMessages,   
     VoerkaI18nLanguageMessagePack,
-    IVoerkaI18nStorage, 
-    Dict,
+    IVoerkaI18nStorage,  
     VoerkaI18nLanguagePack,
     VoerkaI18nLanguageLoader
 } from "@/types" 
-import { DefaultLanguageSettings, DefaultFallbackLanguage } from '../consts';
+import { DefaultLanguageSettings } from '../consts';
 import { Mixin } from "ts-mixer"
 import { EventEmitterMixin } from "./mixins/eventEmitter"
 import { PatchMessageMixin } from "./mixins/patch"
@@ -46,9 +45,6 @@ export interface VoerkaI18nScopeOptions {
 }
 
 
-export type VoerkaI18nScopeFormatterContext = {
-    getFormatterConfig: <T=Dict>(configKey?:string )=>T
-}
  
 
 export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeOptions> 
@@ -174,10 +170,9 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
         // appScope需要从应用中恢复保存的
         if(!this.library) this.restoreLanguage()
         // 初始化格式化器
-        this._formatterManager = new VoerkaI18nFormatterManager(this)       
-        // 初始化格式化器
         this._initInterpolators()        
-        
+        // 初始化格式化器
+        this._formatterManager = new VoerkaI18nFormatterManager(this)       
         // 将当前实例注册到全局单例VoerkaI18nManager中
 		this.registerToManager()       
     } 

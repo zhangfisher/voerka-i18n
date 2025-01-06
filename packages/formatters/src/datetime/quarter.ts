@@ -1,5 +1,5 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate" 
+import { createFormatter } from "@voerkai18n/runtime"
+import { toDate } from "../utils/toDate" 
 
 export type QuarterFormatterConfig = {
     format: 'long' | 'short' | string | ((date:Date)=>string)
@@ -20,7 +20,7 @@ export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFor
             format : "long" 
         },
         next(value,args,ctx){ 
-            const config = ctx.getFormatterConfig<QuarterFormatterConfig>("quarter")
+            const config = ctx.getConfig<QuarterFormatterConfig>("quarter")
             const month   = toDate(value).getMonth() + 1  
             const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
             const format  = args.format || 'long'

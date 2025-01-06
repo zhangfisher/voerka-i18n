@@ -1,5 +1,5 @@
-import { toCurrency } from "../currency/toCurrency"
-import { createFormatter } from "../../../runtime/src/formatter/utils"
+import { toCurrency } from "../utils/toCurrency"
+import { createFormatter } from "@voerkai18n/runtime"
 
 
 export const numberFormatter = createFormatter(()=>{

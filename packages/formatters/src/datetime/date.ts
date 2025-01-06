@@ -1,5 +1,5 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate" 
+import { createFormatter } from "@voerkai18n/runtime"
+import { toDate } from "../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime" 
 
 export type DateFormatterConfig = {
@@ -30,7 +30,7 @@ export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConf
             format : "local" 
         },
         next(value:any,args,ctx){         
-            const config   = ctx.getFormatterConfig<DateFormatterConfig>("date")
+            const config   = ctx.getConfig<DateFormatterConfig>("date")
             const dateValue = toDate(value) 
             const format    = args.format || 'local'
             if( format in transformers ){
