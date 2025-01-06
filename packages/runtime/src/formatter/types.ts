@@ -22,29 +22,28 @@ import { Dict } from "@/types"
  
 export type VoerkaI18nFormatterContext<Config extends Dict = Dict> = {
     getConfig: ()=>Config
+    scope:VoerkaI18nScope
 }
 
 export type VoerkaI18nFormatter<
-    Args extends Dict,
+    Args extends Dict =  Dict,
     Config extends  Dict = Args
 > = FlexFilter<Args,VoerkaI18nFormatterContext<Config>> & {
     global?  : boolean             // 是否全局格式化器，=true时，会在所有的scope中注册,默认为false
 }
 
-export type FormatterName = string
+export type VoerkaI18nFormatterName = string
 
-export interface VoerkaI18nFormatterConfig extends Record<FormatterName,Record<string,any>>{
-
- }
+export interface VoerkaI18nFormatterConfig extends Record<VoerkaI18nFormatterName,Record<string,any>>{}
 
 export type VoerkaI18nFormatterCreator<
-    Args extends Dict,
-    Config extends  Dict = Args
-> = (scope: VoerkaI18nScope)=>VoerkaI18nFormatter<Args,Config>
+    Args extends Dict =  Dict,
+    Config extends  Dict = Dict 
+> = (scope: VoerkaI18nScope) => VoerkaI18nFormatter<Args,Config>
 
 export interface VoerkaI18nFormatterBuilder<
-    Args extends Dict,
-    Config extends  Dict = Args
+    Args extends Dict =  Dict,
+    Config extends  Dict = Args 
 > {
     (scope: VoerkaI18nScope): VoerkaI18nFormatter<Args,Config> 
 } 

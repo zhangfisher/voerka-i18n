@@ -38,7 +38,7 @@ export class VoerkaI18nFormatterManager{
      */
     private _loadFormatters(){
         this._formatters.forEach((formatterBuilder)=>{
-            const builder = formatterBuilder as VoerkaI18nFormatterBuilder
+            const builder = formatterBuilder as VoerkaI18nFormatterBuilder<any,any>
             const filter = builder(this.scope)
             try{
                 this.scope.interpolator.addFilter(filter)
@@ -55,7 +55,7 @@ export class VoerkaI18nFormatterManager{
     * 动态注册格式化器 
     * 
     */
-    register(formatter:VoerkaI18nFormatter) {
+    register(formatter:VoerkaI18nFormatter<any,any>) {
         this.scope.interpolator.addFilter(formatter)         
     }              
  

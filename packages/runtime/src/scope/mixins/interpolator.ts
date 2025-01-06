@@ -12,7 +12,8 @@ export class InterpolatorMixin{
                     const configs = (this.activeMessages['$config'] || {}) as any
                     if(!configKey) return configs
                     return getByPath(configs,configKey)
-                }
+                },
+                scope:this
             }
         })
     }

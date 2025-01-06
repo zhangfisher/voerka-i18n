@@ -8,18 +8,10 @@ export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "A
 
 // 语言包
 export type VoerkaI18nLanguageMessages =  {
-    [key : string]?:  string | string[]
-} & {
     $config?: VoerkaI18nFormatterConfig
     $remote?: boolean
-}  
-
-const ff:VoerkaI18nLanguageMessages={
-    $config:{
-        add:{
-           
-        }
-    }
+} & {
+    [key : string] :  string | string[]
 }
 
 export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nLanguageLoader> 
