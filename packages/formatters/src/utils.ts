@@ -3,10 +3,7 @@
  * 提供格式化相关逻辑
  * 
  */
-import type { VoerkaI18nScope } from "@/scope";
-import { Dict, LanguageName  } from "@/types";
-import type { VoerkaI18nFormatter } from "./types";  
-import { VoerkaI18nFormatterBuilder } from './types';
+import type { VoerkaI18nScope,VoerkaI18nFormatter,VoerkaI18nFormatterBuilder, LanguageName, Dict } from "@voerkai18n/runtime";  
 
 
 export function createFormatter<Args extends Dict,Config extends  Dict = Args>(

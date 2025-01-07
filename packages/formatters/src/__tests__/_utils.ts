@@ -1,6 +1,4 @@
-import { VoerkaI18nLanguageLoader } from '@/types'
-import { VoerkaI18nScope, VoerkaI18nScopeOptions } from '../scope'  
-import { VoerkaI18nManager } from "@/manager"
+import { VoerkaI18nManager, VoerkaI18nScope, VoerkaI18nScopeOptions,VoerkaI18nLanguageLoader } from '@voerkai18n/runtime'
 import { deepMerge } from 'flex-tools/object/deepMerge'
 
 export function createVoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeOptions>(opts?:Partial<T>,useDeepMerge?:boolean): VoerkaI18nScope {

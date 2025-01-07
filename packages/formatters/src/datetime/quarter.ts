@@ -1,4 +1,4 @@
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils"
 import { toDate } from "../utils/toDate" 
 
 export type QuarterFormatterConfig = {
@@ -12,15 +12,14 @@ export type QuarterFormatterArgs = {
     format: string
 }
 
-export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterConfig>(()=>{
-    return {
+export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFormatterConfig>({
         name   : "quarter",
         args   : [ "format" ],
         default: { 
             format : "long" 
         },
         next(value,args,ctx){ 
-            const config = ctx.getConfig<QuarterFormatterConfig>("quarter")
+            const config = ctx.getConfig()
             const month   = toDate(value).getMonth() + 1  
             const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) ))
             const format  = args.format || 'long'
@@ -34,8 +33,7 @@ export const quarterFormatter =  createFormatter<QuarterFormatterArgs,QuarterFor
             }
             return quarter
         }
-    } 
-},{
+    },{
     en:{ 
         long        : ["First Quarter","Second Quarter","Third Quarter","Fourth Quarter"],
         short       : ["Q1","Q2","Q3","Q4"],

@@ -2,7 +2,13 @@
   "name": "@voerkai18n/formatters",
   "version": "1.0.0",
   "description": "formatters for voerkai18n",
-  "main": "index.js",
+  "main": "src/index.ts",
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts"
+  },
   "scripts": {
     "build": "tsup"
   },
@@ -10,13 +16,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "flex-tools": "^1.4.16"
+    "flex-tools": "^1.4.18"
   },
   "devDependencies": {
-    "@voerkai18n/runtime": "workspace:*",
     "@types/node": "^22.10.3",
-    "tsup": "^8.3.5",    
-    "typescript": "^5.7.2"
+    "@voerkai18n/runtime": "workspace:*",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
   },
   "peerDependencies": {
     "@voerkai18n/runtime": "workspace:*"

@@ -1,4 +1,4 @@
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils"
 import { toDate } from "../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime" 
 
@@ -21,8 +21,7 @@ const transformers =  {
     gmt  : (value:any)=>value.toGMTString()    
 }  
 
-export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConfig>(()=>{
-    return {
+export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConfig>({
         global : true,
         name   : "date",
         args   : [ "format" ],
@@ -30,7 +29,7 @@ export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConf
             format : "local" 
         },
         next(value:any,args,ctx){         
-            const config   = ctx.getConfig<DateFormatterConfig>("date")
+            const config   = ctx.getConfig()
             const dateValue = toDate(value) 
             const format    = args.format || 'local'
             if( format in transformers ){
@@ -44,8 +43,7 @@ export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConf
                 return formatDateTime(dateValue,format)
             }
         }
-    } 
-},{
+    },{
     en:{ 
         long        : 'YYYY/MM/DD HH:mm:ss', 
         short       : "YYYY/MM/DD",

@@ -1,6 +1,6 @@
 
 import { toCurrency } from "../utils/toCurrency" 
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils"
 
 export type CurrencyFormatterConfig = {
     default  : string                       // "{symbol}{value}{unit}",
@@ -38,8 +38,7 @@ export type CurrencyFormatterArgs = {
 } 
  
 
-export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(()=>{
-    return {
+export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>({
         name   : "currency",
         args   : [ "format", "unit", "precision", "prefix", "suffix", "division", "symbol", "radix" ],
         default: { 
@@ -53,7 +52,7 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(()
             radix    : 3     
         },
         next(value,args,ctx){
-            const config = ctx.getConfig("currency")
+            const config = ctx.getConfig()
             // format可以取预设值的名称，如long,short等    
             if(args.format in config){
                 args.format = (config as any)[args.format]
@@ -71,7 +70,7 @@ export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(()
             return toCurrency(value, args,config)
         }
     } 
-},{
+,{
     en:{
         default  : "{symbol}{value}{unit}",
         long     : "{prefix} {symbol}{value}{unit}{suffix}", 

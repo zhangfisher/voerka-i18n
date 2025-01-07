@@ -1,4 +1,4 @@
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils"
 import { toDate } from "../utils/toDate" 
 import { relativeTime } from "flex-tools/misc/relativeTime"
 
@@ -16,20 +16,18 @@ export type RelativeTimeFormatterArgs = {
     base: Date
 }
  
-export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>(()=>{
-    return {
+export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>({
         name   : "relativeTime",
         args   : [ "base" ],
         default: ()=>({
             base: new Date()
         }) ,
         next(value,args,ctx){              
-            const config   = ctx.getConfig<RelativeTimeFormatterConfig>("relativeTime")
+            const config   = ctx.getConfig()
             const baseTime = args.base || new Date()
             return relativeTime(toDate(value),baseTime,config)   
         }
-    } 
-},{
+    },{
     en:{ 
         units       : ["seconds","minutes","hours","days","weeks","months","years"],
         now         : "Just now",

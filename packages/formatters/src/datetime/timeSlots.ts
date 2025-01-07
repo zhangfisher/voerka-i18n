@@ -1,4 +1,4 @@
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils"
 import { toDate } from "../utils/toDate"  
 
  
@@ -15,23 +15,21 @@ export type TimeSlotsFormatterArgs = {
  }
 
 
-export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>(()=>{
-    return {
+export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>({
         name   : "timeSlots",
         args   : [ "upper" ],
         default: { 
             upper : true
         },
         next(value,args,ctx){               
-            const options = ctx.getConfig<TimeSlotsFormatterConfig>("timeSlots") as TimeSlotsFormatterConfig
+            const options = ctx.getConfig()
             const hour    = toDate(value).getHours()
             const isUpper = Boolean(args.upper)
             let slotIndex = options.slots.findIndex(slot=>hour<slot)
             if(slotIndex===-1) slotIndex = options.slots.length-1
             return isUpper ? options.upperCases[slotIndex] : options.lowerCases[slotIndex]   
         }
-    } 
-},{
+    },{
     en: {
         slots: [12],
         lowerCases: ["am", "pm"],

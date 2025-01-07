@@ -81,7 +81,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
             languages      : [],                            // 当前作用域支持的语言列表
             messages       : {},                            // 所有语言包={[language]:VoerkaI18nLanguageMessages}
             idMap          : {},                            // 消息id映射列表
-            formatters     : {},                            // 是否挂接到appScope
+            formatters     : [],                            // 是否挂接到appScope
             attached       : true,                          // 是否挂接到appScope
             sorageKey      : 'language',                    // 保存语言配置到Storage时的Key
             cachePatch     : true                           // 是否缓存补丁语言包

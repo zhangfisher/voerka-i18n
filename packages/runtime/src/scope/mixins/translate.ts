@@ -26,11 +26,11 @@ export class TranslateMixin{
         }
     }
     private _getPluraValue(args:any):[number | null,any[]]{
-        let pluraValue:number | null = null                       // 复数值        
-        let vars:any[] = []                                // 插值变量列表
+        let pluraValue:number | null = null                 // 复数值        
+        let vars:any[] = []                                 // 插值变量列表
         // 1. 预处理变量:  复数变量保存至pluralVars中 , 变量如果是Function则调用 
         if(isPlainObject(args)){// 字典插值
-            const dictVars:Record<string,any> = arguments[1]
+            const dictVars:Record<string,any> = args
             for(const [name,value] of Object.entries(dictVars)){
                 if(isFunction(value)){
                     try{
@@ -45,7 +45,7 @@ export class TranslateMixin{
                 }
             }            
             vars = [dictVars]
-        }else if(Array.isArray(args)){ // 位置插值
+        }else if(Array.isArray(args)){      // 位置插值
             vars = args.map((arg)=>{
                 try{
                     arg = isFunction(arg) ? arg() : arg
@@ -55,7 +55,8 @@ export class TranslateMixin{
                  }
                 return arg   
             })            
-        }else if(args!==undefined){ // 单个插值
+        }else if(args!==undefined){         // 单个插值
+            pluraValue = isNumber(args) ? parseInt(args) : 0
             vars = [args]
         }
         return [pluraValue,vars]
@@ -73,7 +74,7 @@ export class TranslateMixin{
                 // 语言包可能是使用idMap映射过的，则需要转换                
                 result = (msgId ? (this.activeMessages as any)[msgId]  : (this.activeMessages as any)[message]) ?? message
             }    
-            const [pluraValue,vars] = this._getPluraValue(args)
+            const [pluraValue,vars] = this._getPluraValue(finalArgs)
              // 2. 处理复数
             // 经过上面的处理，content可能是字符串或者数组
             // content = "原始文本内容" || 复数形式["原始文本内容","原始文本内容"....]

@@ -1,4 +1,4 @@
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils"
 import { toDate } from "../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 
@@ -21,15 +21,14 @@ const transformers =  {
     timestamp: (value:Date)=>value.getTime()
 }  
 
-export const timeFormatter =  createFormatter<TimeFormatterArgs,TimeFormatterConfig>(()=>{
-    return {
+export const timeFormatter =  createFormatter<TimeFormatterArgs,TimeFormatterConfig>({
         name   : "time",
         args   : [ "format" ],
         default: { 
             format : "local" 
         },
         next(value,args,ctx){             
-            const config   = ctx.getConfig<TimeFormatterConfig>("time")
+            const config   = ctx.getConfig()
             const dateValue = toDate(value)
             const format    = args.format || 'local'
             if( format in transformers ){
@@ -43,8 +42,7 @@ export const timeFormatter =  createFormatter<TimeFormatterArgs,TimeFormatterCon
                 return formatDateTime(dateValue,format)
             }
         }
-    } 
-},{
+    },{
     en:{ 
         long        : "HH:mm:ss",
         short       : "HH:mm:ss",

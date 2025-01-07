@@ -21,7 +21,7 @@ import type { VoerkaI18nScope } from "@/scope"
 import { Dict } from "@/types" 
  
 export type VoerkaI18nFormatterContext<Config extends Dict = Dict> = {
-    getConfig: ()=>Config
+    getConfig: ()=> Config
     scope:VoerkaI18nScope
 }
 
@@ -36,20 +36,12 @@ export type VoerkaI18nFormatterName = string
 
 export interface VoerkaI18nFormatterConfig extends Record<VoerkaI18nFormatterName,Record<string,any>>{}
 
-export type VoerkaI18nFormatterCreator<
-    Args extends Dict =  Dict,
-    Config extends  Dict = Dict 
-> = (scope: VoerkaI18nScope) => VoerkaI18nFormatter<Args,Config>
-
 export interface VoerkaI18nFormatterBuilder<
-    Args extends Dict =  Dict,
-    Config extends  Dict = Args 
+    Args extends Dict = Dict,
+    Config extends Dict = Args
 > {
     (scope: VoerkaI18nScope): VoerkaI18nFormatter<Args,Config> 
 } 
 
 // 实例化VoerkaI18nScope时传入的格式化器配置
-export type VoerkaI18nFormatters =  VoerkaI18nFormatterBuilder<any,any>[]
-
-
- 
+export type VoerkaI18nFormatters =  VoerkaI18nFormatterBuilder<any,any>[] 

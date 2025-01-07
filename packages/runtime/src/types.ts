@@ -1,18 +1,15 @@
 import type { VoerkaI18nManager } from "./manager"
 import { VoerkaI18nFormatterConfig } from "./formatter/types"
 import type { VoerkaI18nScope } from "./scope" 
-import type { BCP47LanguageTagName } from "bcp47-language-tags"
-
+import type { BCP47LanguageTagName } from "bcp47-language-tags" 
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 // 语言包
-export type VoerkaI18nLanguageMessages =  {
-    $config?: VoerkaI18nFormatterConfig
-    $remote?: boolean
-} & {
-    [key : string] :  string | string[]
-}
+export type VoerkaI18nLanguageMessages = Record<
+    string, 
+    string | string[] | VoerkaI18nFormatterConfig | boolean
+>
 
 export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nLanguageLoader> 
 
