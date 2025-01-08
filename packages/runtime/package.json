@@ -15,6 +15,7 @@
     },
     "scripts": {
         "test": "vitest",
+        "test:coverage": "vitest --coverage",
         "build": "tsup"
     },
     "author": "wxzhang",
@@ -29,6 +30,7 @@
         "@swc/core": "^1.10.4",
         "@types/node": "^22.10.3",
         "@vitest/coverage-c8": "^0.33.0",
+        "@vitest/coverage-v8": "^2.1.8",
         "bcp47-language-tags": "^1.0.1",
         "esbuild-analyzer": "^0.2.0",
         "tsup": "^8.3.5",

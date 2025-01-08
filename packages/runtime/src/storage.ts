@@ -1,6 +1,4 @@
-import { IVoerkaI18nStorage } from "./types"
-
- 
+import { IVoerkaI18nStorage } from "./types" 
 
 export const LocalStorage = {
     get(key:string){

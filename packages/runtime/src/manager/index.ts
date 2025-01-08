@@ -1,9 +1,7 @@
-import { isFunction } from "flex-tools/typecheck/isFunction"     
 import type {  VoerkaI18nScope } from "../scope"
-import type { VoerkaI18nLanguageDefine,  VoerkaI18nLanguageLoader, VoerkaI18nEvents, IVoerkaI18nStorage }  from "../types"
-import { VoerkaI18nInvalidLanguageError } from '../errors';
+import type { VoerkaI18nLanguageDefine,  VoerkaI18nEvents }  from "../types"
 import { LiteEvent } from "flex-tools/events/liteEvent" 
-import { execAsyncs, isI18nScope, isStorage } from "../utils"  
+import { execAsyncs, isI18nScope } from "../utils"  
  
 /** 
  * 多语言管理类
@@ -27,11 +25,12 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     private _scopes               : VoerkaI18nScope[] = []    
     private _appScope!            : VoerkaI18nScope 
     
-    constructor(appScope:VoerkaI18nScope){
+    constructor(appScope?:VoerkaI18nScope){
         super()      
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }        
+        if(!appScope) throw new Error("VoerkaI18nManager必须传入一个应用作用域")
         this._registerAppScope(appScope)                                // 注册应用作用域     
         this._registerScopes()                                          // 注册所有作用域
         VoerkaI18nManager.instance = this                               // 加载初始格式化器   

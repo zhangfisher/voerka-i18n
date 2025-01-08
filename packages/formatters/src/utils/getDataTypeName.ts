@@ -1,4 +1,4 @@
-import { SupportedDateTypes } from '../types';
+import { SupportedDateTypes } from '@voerkai18n/runtime/src/types';
 
 /**
  * 获取指定变量类型名称

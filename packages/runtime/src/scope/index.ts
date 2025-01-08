@@ -12,7 +12,7 @@ import { Mixin } from "ts-mixer"
 import { EventEmitterMixin } from "./mixins/eventEmitter"
 import { PatchMessageMixin } from "./mixins/patch"
 import { ChangeLanguageMixin } from "./mixins/change"
-import { VoerkaI18nLogger } from "../logger";
+import { VoerkaI18nLogger, VoerkaI18nLoggerOutput } from "../logger";
 import { VoerkaI18nFormatters } from "../formatter/types"
 import { getId } from "@/utils/getId"  
 import { createLogger } from "@/logger";
@@ -26,6 +26,7 @@ import { VoerkaI18nOnlyOneAppScopeError } from "@/errors";
 import { isFunction } from "flex-tools/typecheck/isFunction" 
 import { assignObject } from "flex-tools/object/assignObject"
 import { VoerkaI18nManager } from "../manager"
+import { LocalStorage } from "@/storage";
 
 export interface VoerkaI18nScopeOptions {
     id?            : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
@@ -37,15 +38,12 @@ export interface VoerkaI18nScopeOptions {
     idMap?         : Voerkai18nIdMap                                         // 消息id映射列表
     storage?       : IVoerkaI18nStorage                                      // 语言包存储器
     formatters?    : VoerkaI18nFormatters                                    // 当前作用域的格式化
-    logger?        : VoerkaI18nLogger                                        // 日志记录器
+    log?           : VoerkaI18nLoggerOutput                                  // 日志记录器
     attached?      : boolean                                                 // 是否挂接到appScope
     sorageKey?     : string                                                  // 保存到Storeage时的Key
     loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包 
     cachePatch?    : boolean                                                 // 是否缓存补丁语言包
-}
-
-
- 
+} 
 
 export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeOptions> 
     extends Mixin(
@@ -150,7 +148,10 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
         } 
         this._activeLanguage  = activeLang!
         this._defaultLanguage = defaultLang!
-        
+
+        if(!this._options.library && !this._options.storage){
+            this._options.storage = LocalStorage
+        }        
         // 初始化时，默认和激活的语言包只能是静态语言包，不能是动态语言包
         // 因为初始化时激活语言需要马上显示，如果是异步语言包，会导致显示延迟
         if(isFunction(this.messages[this._defaultLanguage])){
@@ -164,9 +165,10 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      * - 确保提供了有效的默认语言和活动语言
      */
     private _init(){         
-        this._logger = createLogger()
+        this._logger = createLogger(this._options.log)
         // 处理初始化参数
         this._initOptions()
+
         // appScope需要从应用中恢复保存的
         if(!this.library) this.restoreLanguage()
         // 初始化格式化器

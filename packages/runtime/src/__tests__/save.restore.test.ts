@@ -12,11 +12,11 @@ describe('保存与恢复语言', () => {
     test('保存与恢复语言配置到存储', async () => {
         const storage = getTestStorage()
         const scope = createVoerkaI18nScope({storage});
-      expect(storage.get('language')).toBe(undefined);
-      await scope.change('en')
-      expect(storage.get('language')).toBe('en');
-      await scope.change('zh')
-      expect(storage.get('language')).toBe('zh');
+        expect(storage.get('language')).toBe(undefined);
+        await scope.change('en')
+        expect(storage.get('language')).toBe('en');
+        await scope.change('zh')
+        expect(storage.get('language')).toBe('zh');
     });
     test('从存储中恢复语言', async () => {
         const storage = getTestStorage({ language:'en'} )

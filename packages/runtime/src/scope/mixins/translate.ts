@@ -65,14 +65,14 @@ export class TranslateMixin{
         // 如果内容是复数，则其值是一个数组，数组中的每个元素是从1-N数量形式的文本内容
         let result:string | string[] = message
         if(!(typeof(message)==="string")) return message 
-        const finalArgs = (isFunction(args) ? args() : args) || []
+        const finalArgs = args===undefined ? [] : (isFunction(args) ? args() : args) 
         try{            
             if(isMessageId(message)){ // 如果是数字id,
                 result = (this.activeMessages as any)[message] || message
             }else{
                 const msgId = this.idMap[message]  
                 // 语言包可能是使用idMap映射过的，则需要转换                
-                result = (msgId ? (this.activeMessages as any)[msgId]  : (this.activeMessages as any)[message]) ?? message
+                result = ( this.activeMessages[msgId]  || this.activeMessages[message] || message ) as string | string[]
             }    
             const [pluraValue,vars] = this._getPluraValue(finalArgs)
              // 2. 处理复数

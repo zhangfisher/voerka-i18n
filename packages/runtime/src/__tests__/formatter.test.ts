@@ -184,7 +184,7 @@ describe('格式化器', () => {
             args:['beginChar','endChar'], 
             next:(value, args, ctx) => {       
                 if(!args.endChar) args.endChar = args.beginChar
-                assignObject(args,ctx.getConfig())                
+                args = assignObject({},ctx.getConfig(),args)                
                 return args.beginChar + value + args.endChar;
             }
         },{

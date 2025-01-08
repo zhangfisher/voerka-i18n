@@ -11,7 +11,14 @@ export type VoerkaI18nLanguageMessages = Record<
     string | string[] | VoerkaI18nFormatterConfig | boolean
 >
 
-export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nLanguageLoader> 
+export type VoerkaI18nLanguageMessagePack = Record<LanguageName, 
+    VoerkaI18nLanguageMessages 
+    | VoerkaI18nLanguageLoader
+    | VoerkaI18nLanguageAsyncChunk
+
+> 
+
+export type VoerkaI18nLanguageAsyncChunk = ()=> Promise<any>
 
 export type VoerkaI18nDynamicLanguageMessages = Record<string, string | string[]> & {
     $config?: VoerkaI18nFormatterConfig
