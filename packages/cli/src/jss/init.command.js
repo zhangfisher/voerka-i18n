@@ -12,7 +12,7 @@ const logger = createLogger()
 const { installPackage,isTypeScriptProject,getCurrentPackageJson,getProjectSourceFolder, isInstallDependent,getSettingsFromPackageJson} = require("@voerkai18n/utils")
 const artTemplate = require("art-template")
 const { Command } = require('commander'); 
-const { getCliLanguage } = require("./oslocate")
+const { getCliLanguage } = require("../utils/oslocate")
 
 function getLanguageList(langs,defaultLanguage,activeLanguage){
     try{

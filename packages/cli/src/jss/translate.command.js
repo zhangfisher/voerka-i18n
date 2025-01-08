@@ -31,7 +31,7 @@ const fs = require("fs-extra")
 const { glob } = require("glob") 
 const { deepMerge,getProjectSourceFolder,getSettingsFromPackageJson } = require("@voerkai18n/utils")
 const { Command } = require('commander');
-const { getCliLanguage } = require("./oslocate")
+const { getCliLanguage } = require("../utils/oslocate")
 const { getActiveLanguage,getDefaultLanguage  } = require("./utils")
 
 const delay = async (t) => new Promise(resolve=>setTimeout(resolve,t))

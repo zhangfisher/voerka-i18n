@@ -5,7 +5,7 @@ const semver = require('semver')
 const logger = createLogger()
 const { t,i18nScope}  = require("./i18nProxy")
 const { getPackageReleaseInfo }  = require("@voerkai18n/utils"); 
-const { getCliLanguage } = require("./oslocate")
+const { getCliLanguage } = require("../utils/oslocate")
 
 const replaceAll = require('string.prototype.replaceall');
 replaceAll.shim() 

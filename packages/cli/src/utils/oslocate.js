@@ -1,6 +1,6 @@
 // fork from https://github.com/sindresorhus/os-locale
 const lcid = require('lcid')
-const {exec, execSync} = require('./utils.js')
+const {exec, execSync} = require('../jss/utils.js')
 const fs = require('node:fs')
 const path = require('node:path')
 const os = require('node:os')

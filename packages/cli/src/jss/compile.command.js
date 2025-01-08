@@ -31,7 +31,7 @@ const { i18nScope,t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const artTemplate = require("art-template")
 const semver = require("semver") 
-const { getCliLanguage } = require("./oslocate")
+const { getCliLanguage } = require("../utils/oslocate")
 const { getActiveLanguage,getDefaultLanguage  } = require("./utils")
 
 const { 

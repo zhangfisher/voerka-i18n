@@ -15,7 +15,7 @@
         "internationalize"
     ],
     "scripts": {
-        "dev": "tsx src/index.ts",
+        "dev": "tsx src/index.ts --",
         "translate": "node ./index.js translate",
         "extract": "node ./index.js extract -D -e templates/** ",
         "compile": "node ./index.js compile",

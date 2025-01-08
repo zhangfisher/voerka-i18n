@@ -8,7 +8,7 @@ const extractor = require("./extract.plugin")
 const createLogger = require("logsets")
 const { getProjectSourceFolder,getSettingsFromPackageJson } = require("@voerkai18n/utils")
 const logger = createLogger()
-const { getCliLanguage } = require("./oslocate")
+const { getCliLanguage } = require("../utils/oslocate")
 
 
 function extract(srcPath,options={}){

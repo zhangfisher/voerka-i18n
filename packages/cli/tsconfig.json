@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "ES2015",
-    "moduleResolution": "node",
+    "target": "ES2018",
+    "module": "CommonJS",
+    "moduleResolution": "bundler",
     "importHelpers": true, 
     "esModuleInterop": true,
     "sourceMap": true,
