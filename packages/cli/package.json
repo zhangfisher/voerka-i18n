@@ -2,7 +2,7 @@
     "name": "@voerkai18n/cli",
     "version": "2.1.13",
     "description": "命令行工具,用来初始化/提取/编译/自动翻译等工具链",
-    "main": "index.js",
+    "main": "src/index.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
@@ -15,7 +15,7 @@
         "internationalize"
     ],
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "tsx src/index.ts",
         "translate": "node ./index.js translate",
         "extract": "node ./index.js extract -D -e templates/** ",
         "compile": "node ./index.js compile",
@@ -44,8 +44,9 @@
         "iso-639-1": "^3.1.3",
         "lcid": "^4.0.1",
         "locale-code": "^2.0.2",
-        "logsets": "^1.3.10",
+        "logsets": "^1.3.14",
         "md5": "^2.3.0",
+        "mixcli": "^3.2.0",
         "qs": "^6.10.3",
         "semver": "^7.3.7",
         "shelljs": "^0.8.5",
@@ -55,6 +56,8 @@
     },
     "lastPublish": "2023-03-30T08:53:48+08:00",
     "devDependencies": {
-        "iso-639-1-zh": "^2.0.4"
+        "iso-639-1-zh": "^2.0.4",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.19.2"
     }
 }

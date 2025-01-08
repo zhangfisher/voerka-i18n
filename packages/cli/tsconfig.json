@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "importHelpers": true, 
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": "./",
+    "strict": true,
+    "allowJs": true,
+    "paths": {
+      "@/*": ["src/*"], 
+    },
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "node_modules" 
+  ],
+  "ts-node": {
+    "esm": true
+  }
+}
