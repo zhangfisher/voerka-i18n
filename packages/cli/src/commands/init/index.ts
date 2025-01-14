@@ -16,20 +16,21 @@ function getPrimaryLanguages(){
             selected: ['zh-CN','en-US'].includes(lang.tag) 
         }))
 }
-function getSelectedLanguages(seelctedTags:string[]){
+function getSelectedLanguages(seelctedTags?:string[]){
     const primaryLangs = getPrimaryLanguages()
-    const selectedLangs = primaryLangs.filter(lang=>seelctedTags.includes(lang.value))
+    const selectedLangs = seelctedTags ? primaryLangs.filter(lang=>seelctedTags.includes(lang.value)) : primaryLangs
     return selectedLangs
 }
 
 
-function getDefaultLanguageDir(){
-    const packageRoot = getPackageRootPath() || "."
-    const srcDir = path.join(packageRoot,"src")
+function getDefaultLanguageDir(){    
+    const packageRoot = getPackageRootPath() || "."    
+    const srcDir = path.join(packageRoot,"src")    
     if(fs.existsSync(srcDir)){
-        return srcDir
+        return path.relative(packageRoot,path.join(srcDir,"languages"))
+    }else{
+        return path.relative(packageRoot,"languages")
     }
-    return path.join(packageRoot,"languages")
 }
 
 
@@ -38,10 +39,11 @@ export default (cli:MixCli)=>{
     initCommand
         .description("初始化VoerkaI18n支持")         
         .option("-d, --dir [name]", "语言目录",{
-            default:"./src/languages"
+            default: getDefaultLanguageDir(),
+            prompt : true
         })
         .option("--library", "是否开发库")
-        .option("-l, --languags <tags...>", "选择支持的语言",{
+        .option("-l, --languages <tags...>", "选择支持的语言",{
             prompt:{
                 type   : "multiselect", 
                 min    : 2,
@@ -52,7 +54,7 @@ export default (cli:MixCli)=>{
             prompt:{
                 type   : "select", 
                 initial : (answer:string[],answers:Record<string,any>)=>{
-                    return answers.languags[0].value
+                    return answers.languages[0].value
                 },
                 choices: (answer:string[],answers:Record<string,any>)=>{                    
                     return getSelectedLanguages(answer)
@@ -61,18 +63,23 @@ export default (cli:MixCli)=>{
         })
         .option("--activeLanguage <tag>", "激活语言",{
             prompt:{
-                type   : "select", 
-                initial : (answer:string[],answers:Record<string,any>)=>{
-                    return answers
-                },
+                type   : "select",                 
                 choices: (answer:string[],answers:Record<string,any>)=>{                    
-                    return getSelectedLanguages(answers.language)
-                },
+                    return getSelectedLanguages(answers.languages)
+                }
             }
+        })
+        .option("-t, --typescript", "启用Typescript",{
+            prompt: true
+        })
+        .option("-m, --module-type", "模块类型",{
+            hidden:true,
+            choices: [ "esm", "cjs"],
+            prompt: "select"
         })
         .action((options)=>{            
             console.log("Run init:",JSON.stringify(options))
-        })
 
+        })
     return initCommand
 }
