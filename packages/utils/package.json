@@ -9,9 +9,13 @@
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
+        "flex-tools": "^1.4.19",
         "fs-extra": "^10.0.1",
         "semver": "^7.3.7",
         "shelljs": "^0.8.5",
         "string.prototype.replaceall": "^1.0.7"
+    },
+    "devDependencies": {
+        "typescript": "^5.7.2"
     }
 }

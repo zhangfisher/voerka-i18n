@@ -241,7 +241,7 @@ function isTypeScriptProject(){
     let projectFolder = getProjectRootFolder(process.cwd(),false)
     if(projectFolder){
        return fileIsExists(path.join(projectFolder,"tsconfig.json"))
-             || fileIsExists(path.join(projectFolder,"Src","tsconfig.json"))
+             || fileIsExists(path.join(projectFolder,"src","tsconfig.json"))
     }
 }
 

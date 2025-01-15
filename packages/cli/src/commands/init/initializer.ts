@@ -9,7 +9,7 @@ import fs from "node:fs"
 import logsets from "logsets"
 import { getProjectModuleType } from "@/utils/getProjectModuleType";
 import { getPackageJson } from "flex-tools/package/getPackageJson";
-import { t,i18nScope } from "@/i18n";
+import { t,i18nScope } from "@/languages";
  
 const artTemplate = require("art-template") 
 

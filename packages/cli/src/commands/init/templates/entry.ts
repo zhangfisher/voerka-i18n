@@ -1,15 +1,11 @@
-/**
- * 注意：执行compile命令会重新生成本文件，所以请不要修改本文件
- */
+
 import idMap from "./idMap"                                             // 语言ID映射文件
 import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
 import defaultFormatters from "./formatters/{{defaultLanguage}}"  
 import defaultMessages from "./{{defaultLanguage}}"  
 import storage  from "./storage"
-{{if activeLanguage !== defaultLanguage}}
-import  activeFormatters from "./formatters/{{activeLanguage}}"{{/if}}
-{{if activeLanguage !== defaultLanguage}}
-import activeMessages  from "./{{activeLanguage}}"{{/if}}
+import settings from "./settings.json"
+
 
 const messages = {
     {{each languages}}{{if $value.name == defaultLanguage}}'{{defaultLanguage}}' :  defaultMessages{{if $index !== languages.length - 1}},{{/if}}

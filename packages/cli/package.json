@@ -62,5 +62,9 @@
     },
     "peerDependencies": {
         "@voerkai18n/runtime": "workspace:^"
+    },
+    "voerkai18n":{
+        "entry":1
     }
+
 }

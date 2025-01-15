@@ -6,6 +6,10 @@ import { translate,VoerkaI18nScope  } from "@voerkai18n/runtime"
 import defaultFormatters from "./formatters/{{defaultLanguage}}.js"             // 默认语言格式化器
 import defaultMessages from "./{{defaultLanguage}}.js"  
 import storage  from "./storage.js"
+import settings from "./settings.json"
+
+
+
 {{if activeLanguage !== defaultLanguage}}
 import  activeFormatters from "./formatters/{{activeLanguage}}.js"{{/if}}
 {{if activeLanguage !== defaultLanguage}}

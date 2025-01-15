@@ -1,4 +1,3 @@
-
 export default {
     get(key){
         if(globalThis.localStorage){
@@ -15,4 +14,4 @@ export default {
             globalThis.localStorage.removeItem(key)
         }
     }
-}
+} 

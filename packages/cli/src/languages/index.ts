@@ -1,5 +1,5 @@
+ 
 let i18nScope,t
-
 
 try{
     // @voerkai18n/cli工程本身使用了voerkai18n,即@voerkai18n/cli的extract和compile依赖于其自己生成的languages运行时

@@ -38,7 +38,7 @@ export default (cli:MixCli)=>{
     const initCommand = new MixCommand("init");
     initCommand
         .description("初始化VoerkaI18n支持")         
-        .option("-d, --dir [name]", "语言目录",{
+        .option("-e, --entry [path]", "语言目录",{
             default: getDefaultLanguageDir(),
             prompt : true
         })

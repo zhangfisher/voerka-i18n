@@ -1,0 +1,8 @@
+{
+    "languages":[
+        { "name":"zh-CN", "title":"中文", "default": true, "active": true },        
+        { "name":"en-US", "title":"英文" }
+    ],
+    "library":false,
+    "debug":false
+}
