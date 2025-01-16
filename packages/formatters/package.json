@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "flex-tools": "^1.4.19"
+    "flex-tools": "^1.4.23"
   },
   "devDependencies": {
     "@types/node": "^22.10.3",

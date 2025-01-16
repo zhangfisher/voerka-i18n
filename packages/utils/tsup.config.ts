@@ -12,11 +12,11 @@ export default defineConfig({
     sourcemap: true,
     clean: true,
     treeshake:true,  
-    minify: true,
+    minify: false,
     noExternal:['flex-tools'],
     banner: {
         js: `/***        
-*   ---=== VoerkaI18n Runtime ===---
-*   https://zhangfisher.github.io/voerka-i18n/*
+*   ---=== VoerkaI18n Utils ===---
+*   https://zhangfisher.github.io/voerka-i18n/
 */`}
 }) 

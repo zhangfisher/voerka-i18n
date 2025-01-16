@@ -2,13 +2,14 @@
     "name": "@voerkai18n/cli",
     "version": "2.1.13",
     "description": "命令行工具,用来初始化/提取/编译/自动翻译等工具链",
-    "main": "src/index.ts",
+    "main": "src/index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "keywords": [
+        "voerkai18n",
         "i18n",
         "language",
         "translation",
@@ -38,7 +39,7 @@
         "commander": "^9.0.0",
         "cross-env": "^7.0.3",
         "deepmerge": "^4.2.2",
-        "flex-tools": "^1.4.19",
+        "flex-tools": "^1.4.23",
         "fs-extra": "^10.0.1",
         "glob": "^7.2.0",
         "gulp": "^4.0.2",
@@ -63,8 +64,6 @@
     "peerDependencies": {
         "@voerkai18n/runtime": "workspace:^"
     },
-    "voerkai18n":{
-        "entry":1
+    "voerkai18n": { 
     }
-
 }

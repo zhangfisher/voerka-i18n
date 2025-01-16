@@ -10,22 +10,21 @@ import { getPackageRootPath } from "flex-tools/package/getPackageRootPath"
  * @param {*} location  项目根文件夹或者当前项目下的任意一个文件夹 
  * @returns 
  */
-function getIdMap(location:string="./"){
+export function getIdMap(location:string="./"){
 
     const { entry='languages' }  = getSettingsFromPackageJson(location)
-
-    let searchIdMapFiles = []
     if(!path.isAbsolute(location)){
         location =  path.join(process.cwd(),location)
     }
-    searchIdMapFiles.push(path.join(location,"src",`${entry}/idMap.js`))
-    searchIdMapFiles.push(path.join(location,`${entry}/idMap.js`))
-    searchIdMapFiles.push(path.join(location,"idMap.js"))
 
-    searchIdMapFiles.push(path.join(location,"src",`${entry}/idMap.ts`))
-    searchIdMapFiles.push(path.join(location,`${entry}/idMap.ts`))
-    searchIdMapFiles.push(path.join(location,"idMap.ts"))
-
+    let searchIdMapFiles = [
+        path.join(location,"src",`${entry}/idMap.js`),
+        path.join(location,`${entry}/idMap.js`),
+        path.join(location,"idMap.js"),
+        path.join(location,"src",`${entry}/idMap.ts`),
+        path.join(location,`${entry}/idMap.ts`),
+        path.join(location,"idMap.ts")
+    ]
     let projectRoot = getPackageRootPath(location)      
     if(projectRoot){
         searchIdMapFiles.push(path.join(projectRoot,"src",`${entry}/idMap.js`))

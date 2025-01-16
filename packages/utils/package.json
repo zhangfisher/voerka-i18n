@@ -1,21 +1,28 @@
 {
     "name": "@voerkai18n/utils",
     "version": "2.1.13",
-    "description": "公共工具库",
-    "main": "index.js",
+    "description": "utils for voerkai18n",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
     "scripts": {
-        "release": "npm publish"
+        "build": "tsup"
     },
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
-        "flex-tools": "^1.4.19",
+        "@ast-grep/napi": "^0.33.1",
+        "flex-tools": "^1.4.23",
         "fs-extra": "^10.0.1",
         "semver": "^7.3.7",
         "shelljs": "^0.8.5",
         "string.prototype.replaceall": "^1.0.7"
     },
     "devDependencies": {
+        "@types/node": "^22.10.3",
+        "ts-node": "^10.9.2",
+        "tsup": "^8.3.5",
         "typescript": "^5.7.2"
-    }
+    },
+    "voerkai18n": {}
 }

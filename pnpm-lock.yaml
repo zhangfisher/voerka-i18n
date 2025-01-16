@@ -62,12 +62,15 @@ importers:
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
       turbo:
         specifier: ^2.1.2
         version: 2.1.2
       vitepress:
         specifier: ^1.5.0
-        version: 1.5.0(@algolia/client-search@5.13.0)(@types/node@22.10.3)(@types/react@18.2.22)(postcss@8.5.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.18.2)(typescript@5.7.2)
+        version: 1.5.0(@algolia/client-search@5.13.0)(@types/node@22.10.3)(@types/react@18.2.22)(postcss@8.5.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.18.2)(typescript@5.7.2)
       yalc:
         specifier: 1.0.0-pre.53
         version: 1.0.0-pre.53
@@ -84,8 +87,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4(vue@3.5.13(typescript@5.7.2))
       flex-tools:
-        specifier: ^1.4.19
-        version: 1.4.19
+        specifier: ^1.4.23
+        version: 1.4.23
       flexstyled:
         specifier: ^2.1.2
         version: 2.1.2(@types/react@18.2.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -129,8 +132,8 @@ importers:
         specifier: ^4.2.2
         version: 4.3.1
       flex-tools:
-        specifier: ^1.4.19
-        version: 1.4.19
+        specifier: ^1.4.23
+        version: 1.4.23
       fs-extra:
         specifier: ^10.0.1
         version: 10.1.0
@@ -187,8 +190,8 @@ importers:
   packages/formatters:
     dependencies:
       flex-tools:
-        specifier: ^1.4.19
-        version: 1.4.19
+        specifier: ^1.4.23
+        version: 1.4.23
     devDependencies:
       '@types/node':
         specifier: ^22.10.3
@@ -198,7 +201,7 @@ importers:
         version: link:../runtime
       tsup:
         specifier: ^8.3.5
-        version: 8.3.5(@swc/core@1.10.4)(postcss@8.5.0)(tsx@4.19.2)(typescript@5.7.2)
+        version: 8.3.5(@swc/core@1.10.4)(postcss@8.5.1)(tsx@4.19.2)(typescript@5.7.2)
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
@@ -223,7 +226,7 @@ importers:
         version: link:../runtime
       tsup:
         specifier: ^6.7.0
-        version: 6.7.0(@swc/core@1.10.4)(postcss@8.5.0)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2)
+        version: 6.7.0(@swc/core@1.10.4)(postcss@8.5.1)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2)
 
   packages/react:
     devDependencies:
@@ -238,7 +241,7 @@ importers:
         version: 18.2.0
       tsup:
         specifier: ^6.7.0
-        version: 6.7.0(@swc/core@1.10.4)(postcss@8.5.0)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2)
+        version: 6.7.0(@swc/core@1.10.4)(postcss@8.5.1)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2)
 
   packages/runtime:
     dependencies:
@@ -246,8 +249,8 @@ importers:
         specifier: ^0.0.2
         version: 0.0.2
       flex-tools:
-        specifier: ^1.4.19
-        version: 1.4.19
+        specifier: ^1.4.23
+        version: 1.4.23
       flexvars:
         specifier: ^1.0.5
         version: 1.0.5
@@ -275,7 +278,7 @@ importers:
         version: 0.2.0
       tsup:
         specifier: ^8.3.5
-        version: 8.3.5(@swc/core@1.10.4)(postcss@8.5.0)(tsx@4.19.2)(typescript@5.7.2)
+        version: 8.3.5(@swc/core@1.10.4)(postcss@8.5.1)(tsx@4.19.2)(typescript@5.7.2)
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
@@ -285,9 +288,12 @@ importers:
 
   packages/utils:
     dependencies:
+      '@ast-grep/napi':
+        specifier: ^0.33.1
+        version: 0.33.1
       flex-tools:
-        specifier: ^1.4.19
-        version: 1.4.19
+        specifier: ^1.4.23
+        version: 1.4.23
       fs-extra:
         specifier: ^10.0.1
         version: 10.1.0
@@ -301,6 +307,15 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
     devDependencies:
+      '@types/node':
+        specifier: ^22.10.3
+        version: 22.10.3
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2)
+      tsup:
+        specifier: ^8.3.5
+        version: 8.3.5(@swc/core@1.10.4)(postcss@8.5.1)(tsx@4.19.2)(typescript@5.7.2)
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
@@ -326,7 +341,7 @@ importers:
         version: link:../runtime
       tsup:
         specifier: ^6.7.0
-        version: 6.7.0(@swc/core@1.10.4)(postcss@8.5.0)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2)
+        version: 6.7.0(@swc/core@1.10.4)(postcss@8.5.1)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2)
 
   packages/vue2:
     dependencies:
@@ -339,7 +354,7 @@ importers:
         version: link:../runtime
       tsup:
         specifier: ^6.7.0
-        version: 6.7.0(@swc/core@1.10.4)(postcss@8.5.0)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2)
+        version: 6.7.0(@swc/core@1.10.4)(postcss@8.5.1)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2)
 
   packages/webpack:
     dependencies:
@@ -432,6 +447,68 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@ast-grep/napi-darwin-arm64@0.33.1':
+    resolution: {integrity: sha512-HJcjxDhF1THn6VlUMpYFQoZBWWMk3flBJpLEDWLjH3Umk7/4tQvaJeKwhl32Snegj35p9SHGz1cS8D2k1nDsEg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@ast-grep/napi-darwin-x64@0.33.1':
+    resolution: {integrity: sha512-Gu3dd+7RZcLyte/xwBX4ErT12GYgGeQGQh6743NffChyVnpwZpj2aWmdkD8gHRKswXz2dp5R01QMCV0G5o8rDQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@ast-grep/napi-linux-arm64-gnu@0.33.1':
+    resolution: {integrity: sha512-4rvHBtq/0Ziwr93Mp86GQPMMySNHCMXnSIdJqJjTikt/LhJNdxmXtEVadashwxbBGWvcIy8dL6OCBHblzY/3ZQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@ast-grep/napi-linux-arm64-musl@0.33.1':
+    resolution: {integrity: sha512-+vTHYYP8iRG9lZHhcpQRxAuD8CBYXJHFXgsevmnurS/R53r0YjNtrtj6W33e7RYXY5hehmey2Cz/5h6OhdLcJw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@ast-grep/napi-linux-x64-gnu@0.33.1':
+    resolution: {integrity: sha512-Qm42//ZHIi2XvyvHboRPaNt32v143feG2aCqxZ2qhKJCI33abtH8pW8MF90Ix85d927xYtTwZX/ovOmJ4bghFQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@ast-grep/napi-linux-x64-musl@0.33.1':
+    resolution: {integrity: sha512-+ye9d8nwgi+f9yhA0NEv5lDcpfIF7xhCcF9FerIKpksX57oI68QWNz1bOWHOuebaf9Wc0hgEtfai7lzcDWcsnA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@ast-grep/napi-win32-arm64-msvc@0.33.1':
+    resolution: {integrity: sha512-0IrPtvqMUJmvmbBN3JcAmUoKUxsWMmrp0VAoJ+zUBHcz3GeWDISgxrUcx1z6edMeF+Ktm0SUG2LfqrzFhUqMyw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@ast-grep/napi-win32-ia32-msvc@0.33.1':
+    resolution: {integrity: sha512-rM6kK19Z9mknXQLZYvIGW1vR472n0dzhexWRM4O8BAL33B4NXA0qa7lX7I3ioHBTOUx0dGW10oNRm3yindUohg==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@ast-grep/napi-win32-x64-msvc@0.33.1':
+    resolution: {integrity: sha512-8ATNhuU28PoUBxSgsPQnPpY+rl8DPEQCuUS55X0BLAvNQwR+Tc4MHHHX1FwjQxLLSAPfd5weiG4XQA+l7sIr0w==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@ast-grep/napi@0.33.1':
+    resolution: {integrity: sha512-AfUsqmEa8NoYq1QhY2LWKCgKRBrCW89WB2D7t4hhTwXcfBB+CWRtY11vUughpfGLrdyziPst7kpdFzI9TC9Efw==}
+    engines: {node: '>= 10'}
 
   '@babel/cli@7.17.6':
     resolution: {integrity: sha512-l4w608nsDNlxZhiJ5tE3DbNmr61fIKMZ6fTBo171VEFuFMIYuJ3mHRhTLEkKKyvx2Mizkkv/0a8OJOnZqkKYNA==}
@@ -3369,6 +3446,9 @@ packages:
   flex-tools@1.4.19:
     resolution: {integrity: sha512-wSSNDPANU+qI6BxW+u7XyyD6ysJwPJzmBcIqt4l7t98j3yrWpif6jsVgTf7m/Zx0gxafSYQrXjox8oR3uoU9gw==}
 
+  flex-tools@1.4.23:
+    resolution: {integrity: sha512-cJB9NH7c0Wvi6xF8i6dIK2vQJ4g2lTPk1+ZhqDIkWWE5f6Ud2YxQZuqaANkaUlHcw9022vX4mejfxmVVIwCl/g==}
+
   flexstyled@2.1.2:
     resolution: {integrity: sha512-EBvH01pUOiU+pwAu2dLYIM1cqrFkYCp+ZTCyqBUlnjwrz1zlJIem7FQoPYV79TAgYHXSnitN98A7ilhnaO97oA==}
     peerDependencies:
@@ -4640,8 +4720,8 @@ packages:
     resolution: {integrity: sha512-GCRK8F6+Dl7xYniR5a4FYbpBzU8XnZVeowqsQFYdcXuSbChgiks7qybSkbvnaeqv0G0B+dd9/jJgH8kkLDQeEA==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.0:
-    resolution: {integrity: sha512-27VKOqrYfPncKA2NrFOVhP5MGAfHKLYn/Q0mz9cNQyRAKYi3VNHwYU2qKKqPCqgBmeeJ0uAFB56NumXZ5ZReXg==}
+  postcss@8.5.1:
+    resolution: {integrity: sha512-6oz2beyjc5VMn/KV1pPw8fliQkhBXrVn1Z3TVyqZxU8kZpzEKhBdmCFqI6ZbmGtamQvQGuU1sgPTk8ZrXDD7jQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   preact@10.24.3:
@@ -4927,6 +5007,11 @@ packages:
 
   semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.6.3:
+    resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -5966,6 +6051,45 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
+  '@ast-grep/napi-darwin-arm64@0.33.1':
+    optional: true
+
+  '@ast-grep/napi-darwin-x64@0.33.1':
+    optional: true
+
+  '@ast-grep/napi-linux-arm64-gnu@0.33.1':
+    optional: true
+
+  '@ast-grep/napi-linux-arm64-musl@0.33.1':
+    optional: true
+
+  '@ast-grep/napi-linux-x64-gnu@0.33.1':
+    optional: true
+
+  '@ast-grep/napi-linux-x64-musl@0.33.1':
+    optional: true
+
+  '@ast-grep/napi-win32-arm64-msvc@0.33.1':
+    optional: true
+
+  '@ast-grep/napi-win32-ia32-msvc@0.33.1':
+    optional: true
+
+  '@ast-grep/napi-win32-x64-msvc@0.33.1':
+    optional: true
+
+  '@ast-grep/napi@0.33.1':
+    optionalDependencies:
+      '@ast-grep/napi-darwin-arm64': 0.33.1
+      '@ast-grep/napi-darwin-x64': 0.33.1
+      '@ast-grep/napi-linux-arm64-gnu': 0.33.1
+      '@ast-grep/napi-linux-arm64-musl': 0.33.1
+      '@ast-grep/napi-linux-x64-gnu': 0.33.1
+      '@ast-grep/napi-linux-x64-musl': 0.33.1
+      '@ast-grep/napi-win32-arm64-msvc': 0.33.1
+      '@ast-grep/napi-win32-ia32-msvc': 0.33.1
+      '@ast-grep/napi-win32-x64-msvc': 0.33.1
+
   '@babel/cli@7.17.6(@babel/core@7.21.5)':
     dependencies:
       '@babel/core': 7.21.5
@@ -6930,7 +7054,6 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
-    optional: true
 
   '@docsearch/css@3.7.0': {}
 
@@ -7366,7 +7489,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
-    optional: true
 
   '@lite-tree/icons@1.0.6': {}
 
@@ -7573,17 +7695,13 @@ snapshots:
   '@tootallnate/once@1.1.2':
     optional: true
 
-  '@tsconfig/node10@1.0.11':
-    optional: true
+  '@tsconfig/node10@1.0.11': {}
 
-  '@tsconfig/node12@1.0.11':
-    optional: true
+  '@tsconfig/node12@1.0.11': {}
 
-  '@tsconfig/node14@1.0.3':
-    optional: true
+  '@tsconfig/node14@1.0.3': {}
 
-  '@tsconfig/node16@1.0.4':
-    optional: true
+  '@tsconfig/node16@1.0.4': {}
 
   '@types/estree@1.0.6': {}
 
@@ -7707,7 +7825,7 @@ snapshots:
 
   '@voerkai18n/runtime@2.1.13':
     dependencies:
-      flex-tools: 1.4.19
+      flex-tools: 1.4.23
 
   '@vue/compiler-core@3.3.2':
     dependencies:
@@ -7789,7 +7907,7 @@ snapshots:
       '@vue/shared': 3.5.13
       estree-walker: 2.0.2
       magic-string: 0.30.17
-      postcss: 8.5.0
+      postcss: 8.5.1
       source-map-js: 1.2.1
 
   '@vue/compiler-ssr@3.3.2':
@@ -7949,15 +8067,13 @@ snapshots:
   acorn-walk@8.3.4:
     dependencies:
       acorn: 8.14.0
-    optional: true
 
   acorn@5.7.4: {}
 
   acorn@7.4.1:
     optional: true
 
-  acorn@8.14.0:
-    optional: true
+  acorn@8.14.0: {}
 
   agent-base@6.0.2:
     dependencies:
@@ -8032,8 +8148,7 @@ snapshots:
 
   archy@1.0.0: {}
 
-  arg@4.1.3:
-    optional: true
+  arg@4.1.3: {}
 
   argparse@1.0.10:
     dependencies:
@@ -8497,8 +8612,7 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  create-require@1.1.1:
-    optional: true
+  create-require@1.1.1: {}
 
   cross-env@7.0.3:
     dependencies:
@@ -8619,8 +8733,7 @@ snapshots:
     dependencies:
       dequal: 2.0.3
 
-  diff@4.0.2:
-    optional: true
+  diff@4.0.2: {}
 
   dir-glob@3.0.1:
     dependencies:
@@ -9080,6 +9193,12 @@ snapshots:
       art-template: 4.13.2
       glob: 10.4.5
 
+  flex-tools@1.4.23:
+    dependencies:
+      art-template: 4.13.2
+      glob: 10.4.5
+      semver: 7.6.3
+
   flexstyled@2.1.2(@types/react@18.2.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@types/react': 18.2.22
@@ -9088,7 +9207,7 @@ snapshots:
 
   flexvars@1.0.5:
     dependencies:
-      flex-tools: 1.4.19
+      flex-tools: 1.4.23
 
   flush-write-stream@1.1.1:
     dependencies:
@@ -9901,7 +10020,7 @@ snapshots:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
       core-js: 3.27.1
-      flex-tools: 1.4.19
+      flex-tools: 1.4.23
 
   loose-envify@1.4.0:
     dependencies:
@@ -9951,10 +10070,9 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.3
 
-  make-error@1.3.6:
-    optional: true
+  make-error@1.3.6: {}
 
   make-iterator@1.0.1:
     dependencies:
@@ -10073,7 +10191,7 @@ snapshots:
       '@voerkai18n/runtime': 2.1.13
       art-template: 4.13.2
       commander: 13.0.0
-      flex-tools: 1.4.19
+      flex-tools: 1.4.23
       fs-extra: 11.2.0
       glob: 10.4.5
       logsets: 1.3.14
@@ -10395,19 +10513,19 @@ snapshots:
 
   posix-character-classes@0.1.1: {}
 
-  postcss-load-config@3.1.4(postcss@8.5.0)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2)):
+  postcss-load-config@3.1.4(postcss@8.5.1)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2)):
     dependencies:
       lilconfig: 2.1.0
       yaml: 1.10.2
     optionalDependencies:
-      postcss: 8.5.0
+      postcss: 8.5.1
       ts-node: 10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2)
 
-  postcss-load-config@6.0.1(postcss@8.5.0)(tsx@4.19.2):
+  postcss-load-config@6.0.1(postcss@8.5.1)(tsx@4.19.2):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
-      postcss: 8.5.0
+      postcss: 8.5.1
       tsx: 4.19.2
 
   postcss@8.4.24:
@@ -10422,7 +10540,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.0:
+  postcss@8.5.1:
     dependencies:
       nanoid: 3.3.8
       picocolors: 1.1.1
@@ -10727,6 +10845,8 @@ snapshots:
   semver@7.5.4:
     dependencies:
       lru-cache: 6.0.0
+
+  semver@7.6.3: {}
 
   set-blocking@2.0.0: {}
 
@@ -11135,11 +11255,10 @@ snapshots:
       yn: 3.1.1
     optionalDependencies:
       '@swc/core': 1.10.4
-    optional: true
 
   tslib@2.8.1: {}
 
-  tsup@6.7.0(@swc/core@1.10.4)(postcss@8.5.0)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2):
+  tsup@6.7.0(@swc/core@1.10.4)(postcss@8.5.1)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))(typescript@5.7.2):
     dependencies:
       bundle-require: 4.2.1(esbuild@0.17.19)
       cac: 6.7.14
@@ -11149,7 +11268,7 @@ snapshots:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 3.1.4(postcss@8.5.0)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))
+      postcss-load-config: 3.1.4(postcss@8.5.1)(ts-node@10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2))
       resolve-from: 5.0.0
       rollup: 3.29.5
       source-map: 0.8.0-beta.0
@@ -11157,13 +11276,13 @@ snapshots:
       tree-kill: 1.2.2
     optionalDependencies:
       '@swc/core': 1.10.4
-      postcss: 8.5.0
+      postcss: 8.5.1
       typescript: 5.7.2
     transitivePeerDependencies:
       - supports-color
       - ts-node
 
-  tsup@8.3.5(@swc/core@1.10.4)(postcss@8.5.0)(tsx@4.19.2)(typescript@5.7.2):
+  tsup@8.3.5(@swc/core@1.10.4)(postcss@8.5.1)(tsx@4.19.2)(typescript@5.7.2):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.24.2)
       cac: 6.7.14
@@ -11173,7 +11292,7 @@ snapshots:
       esbuild: 0.24.2
       joycon: 3.1.1
       picocolors: 1.1.1
-      postcss-load-config: 6.0.1(postcss@8.5.0)(tsx@4.19.2)
+      postcss-load-config: 6.0.1(postcss@8.5.1)(tsx@4.19.2)
       resolve-from: 5.0.0
       rollup: 4.27.4
       source-map: 0.8.0-beta.0
@@ -11183,7 +11302,7 @@ snapshots:
       tree-kill: 1.2.2
     optionalDependencies:
       '@swc/core': 1.10.4
-      postcss: 8.5.0
+      postcss: 8.5.1
       typescript: 5.7.2
     transitivePeerDependencies:
       - jiti
@@ -11358,8 +11477,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  v8-compile-cache-lib@3.0.1:
-    optional: true
+  v8-compile-cache-lib@3.0.1: {}
 
   v8-to-istanbul@9.1.0:
     dependencies:
@@ -11467,7 +11585,7 @@ snapshots:
       sass: 1.26.5
       terser: 5.18.2
 
-  vitepress@1.5.0(@algolia/client-search@5.13.0)(@types/node@22.10.3)(@types/react@18.2.22)(postcss@8.5.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.18.2)(typescript@5.7.2):
+  vitepress@1.5.0(@algolia/client-search@5.13.0)(@types/node@22.10.3)(@types/react@18.2.22)(postcss@8.5.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.18.2)(typescript@5.7.2):
     dependencies:
       '@docsearch/css': 3.7.0
       '@docsearch/js': 3.7.0(@algolia/client-search@5.13.0)(@types/react@18.2.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(search-insights@2.17.2)
@@ -11488,7 +11606,7 @@ snapshots:
       vite: 5.4.10(@types/node@22.10.3)(sass@1.26.5)(terser@5.18.2)
       vue: 3.5.12(typescript@5.7.2)
     optionalDependencies:
-      postcss: 8.5.0
+      postcss: 8.5.1
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/node'
@@ -11772,8 +11890,7 @@ snapshots:
       y18n: 3.2.2
       yargs-parser: 5.0.1
 
-  yn@3.1.1:
-    optional: true
+  yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
 

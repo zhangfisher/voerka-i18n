@@ -1,5 +1,7 @@
-
-export interface VoerkaI18nPackageJsonSettings {
+ 
+export interface VoerkaI18nPackageJsonSettings{
     entry?:string
 }
  
+
+

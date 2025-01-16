@@ -1,4 +1,7 @@
 export * from "./getIdMapFile"
 export * from "./getSettingsFromPackageJson"
-
+export * from "./getProjectSourceFolder"
+export * from "./getWorkDir"
 export * from "./types"
+export * from "./voerkaI18nInstalled"
+export * from "./applyIdMap"

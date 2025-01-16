@@ -38,6 +38,7 @@
     "prettier": "^2.7.1",
     "semver": "^7.5.4",
     "shelljs": "^0.8.5",
+    "tsx": "^4.19.2",
     "turbo": "^2.1.2",
     "vitepress": "^1.5.0",
     "yalc": "1.0.0-pre.53",

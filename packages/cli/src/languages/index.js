@@ -1,5 +1,8 @@
  
+ 
 let i18nScope,t
+
+
 
 try{
     // @voerkai18n/cli工程本身使用了voerkai18n,即@voerkai18n/cli的extract和compile依赖于其自己生成的languages运行时
@@ -9,7 +12,7 @@ try{
     t = language.t
     i18nScope = language.i18nScope
 }catch(e){
-    t=(v:string)=>v
+    t=(v)=>v
     i18nScope={change:()=>{} }
 }
 
@@ -17,6 +20,6 @@ try{
 export { 
     i18nScope,
     t
-}
+} 
 
 

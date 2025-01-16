@@ -2,9 +2,9 @@ const path = require("path")
 const shelljs = require("shelljs")
 const fs = require("fs-extra")  
 const semver = require('semver')
-const replaceAll = require("string.prototype.replaceall")
-// 由于replaceAll()方法在nodejs 15版本才支持，所以这里做兼容处理
-replaceAll.shim()
+// const replaceAll = require("string.prototype.replaceall")
+// // 由于replaceAll()方法在nodejs 15版本才支持，所以这里做兼容处理
+// replaceAll.shim()
 
 /**
  *  

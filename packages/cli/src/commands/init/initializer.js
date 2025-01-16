@@ -4,31 +4,34 @@
  */
 
 
-import path from "node:path"
-import fs from "node:fs"
-import logsets from "logsets"
-import { getProjectModuleType } from "@/utils/getProjectModuleType";
-import { getPackageJson } from "flex-tools/package/getPackageJson";
-import { t,i18nScope } from "@/languages";
+const path = require("node:path");
+const fs = require("node:fs");
+const logsets = require("logsets");
+const { getProjectModuleType } = require("@voerkai18n/utils");
+const { getPackageJson } = require("flex-tools/package/getPackageJson");
+const { t, i18nScope } = require("../../languages");
+const artTemplate = require("art-template"); 
+const { getLanguageDir } = require("packages/utils/src");
  
-const artTemplate = require("art-template") 
 
- 
-
-export async function initializer(srcPath:string,{entry='languages',library=false,moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
+async function initializer(srcPath,{entry='languages',library=false,moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
+    
     let settings = {}
    
     if(!['esm',"cjs"].includes(moduleType)){
         moduleType = getProjectModuleType(srcPath,isTypeScript)
     } 
-    const projectPackageJson = getPackageJson(srcPath)
 
+    const projectPackageJson = getPackageJson(srcPath)
+    const workDir = getLanguageDir()
 
     const tasks = logsets.createTasks([
         {
-            title:"创建语言包文件夹",
+            title:"创建语言工作文件夹",
             execute:async ()=>{
-                if(!fs.existsSync(lngPath)){
+                if(fs.existsSync(lngPath)){
+                    return 'skip'
+                }else{
                     fs.mkdirSync(lngPath)
                     if(debug) logsets.log(t("创建语言包文件夹: {}"),lngPath)
                 }
@@ -169,3 +172,6 @@ export async function initializer(srcPath:string,{entry='languages',library=fals
     logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")    
 } 
 
+
+
+module.exports = initializer
