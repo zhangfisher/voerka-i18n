@@ -6,13 +6,11 @@
 
 import { getSettingsFromPackageJson } from "./getSettingsFromPackageJson"
 import fs from "node:fs"
-import path from "node:path" 
-import { getExistedDir } from "flex-tools/fs/getExistedDir"
-import { getProjectSourceFolder } from "./getProjectSourceFolder"
+import path from "node:path"  
 import { getDefaultWorkDir } from "./getDefaultWorkDir"
 
 
-export type WorkDirOptions = {
+export type LanguagesDirOptions = {
     location?   : string
     autoCreate? : boolean
 
@@ -34,7 +32,7 @@ export type WorkDirOptions = {
  * @param location 指定入口文件夹
  * @param created 是否创建
  */
-export function getWorkDir(options?:WorkDirOptions):string{    
+export function getLanguagesDir(options?:LanguagesDirOptions):string{    
     const { location,autoCreate } = Object.assign({
         autoCreate:true
     }, options)

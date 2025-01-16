@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const MixCli = require("mixcli");
+const { MixCli } = require("mixcli");
 const InitCommand = require("./commands/init");
 const osLocale = require("os-locale");
 

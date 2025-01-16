@@ -7,12 +7,10 @@
 const path = require("node:path");
 const fs = require("node:fs");
 const logsets = require("logsets");
-const { getProjectModuleType } = require("@voerkai18n/utils");
+const { getProjectModuleType,getWorkDir } = require("@voerkai18n/utils");
 const { getPackageJson } = require("flex-tools/package/getPackageJson");
 const { t, i18nScope } = require("../../languages");
 const artTemplate = require("art-template"); 
-const { getLanguageDir } = require("packages/utils/src");
- 
 
 async function initializer(srcPath,{entry='languages',library=false,moduleType,isTypeScript,debug = true,languages=["zh","en"],defaultLanguage="zh",activeLanguage="zh",reset=false}={}){
     
@@ -23,17 +21,18 @@ async function initializer(srcPath,{entry='languages',library=false,moduleType,i
     } 
 
     const projectPackageJson = getPackageJson(srcPath)
-    const workDir = getLanguageDir()
+    const langDir = getLanguageDir()
 
     const tasks = logsets.createTasks([
         {
-            title:"创建语言工作文件夹",
+            title:"创建语言文件夹",
             execute:async ()=>{
                 if(fs.existsSync(lngPath)){
                     return 'skip'
                 }else{
                     fs.mkdirSync(lngPath)
                     if(debug) logsets.log(t("创建语言包文件夹: {}"),lngPath)
+
                 }
             }
         },
@@ -41,9 +40,8 @@ async function initializer(srcPath,{entry='languages',library=false,moduleType,i
             title:"生成语言配置文件settings.json",
             execute:async ()=>{
                 const settingsFile = path.join(lngPath,"settings.json")
-                if(fs.existsSync(settingsFile) && !reset){
-                    if(debug) logsets.log(t("语言配置文件{}文件已存在，跳过创建。\n使用{}可以重新覆盖创建"),settingsFile,"-r")
-                    return 
+                if(fs.existsSync(settingsFile) && !reset){                    
+                    return 'skip'
                 }
                 settings = {
                     languages:getLanguageList(languages,defaultLanguage,activeLanguage),

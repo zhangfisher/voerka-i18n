@@ -156,8 +156,8 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
       mixcli:
-        specifier: ^3.2.3
-        version: 3.2.3
+        specifier: ^3.2.4
+        version: 3.2.4
       os-locale:
         specifier: ^6.0.2
         version: 6.0.2
@@ -4329,8 +4329,8 @@ packages:
   mitt@3.0.1:
     resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
 
-  mixcli@3.2.3:
-    resolution: {integrity: sha512-xobg2Ibz0AA589EwAjKAbV62yN7ByUfIFpJ9akIHBXeQjTh8Ou0QIUSvVCb17v8bLN0qR+h7AKkQTtmvLYHvMw==}
+  mixcli@3.2.4:
+    resolution: {integrity: sha512-MPthWNViZ4qQEmeG/sDO6wTH+fN4qcBAUac3sGXU5T3+SfBxGATR+13pg3XH5q+Y3jpZeBQ5zeHHEBOISnGLWA==}
 
   mixin-deep@1.3.2:
     resolution: {integrity: sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==}
@@ -10185,7 +10185,7 @@ snapshots:
 
   mitt@3.0.1: {}
 
-  mixcli@3.2.3:
+  mixcli@3.2.4:
     dependencies:
       '@types/prompts': 2.4.9
       '@voerkai18n/runtime': 2.1.13

@@ -104,7 +104,14 @@ module.exports = (cli) => {
         }
         
         initCommand.action((options) => {
-            
+            const opts = Object.assign({
+                moduleType     : isTypeScript ? "esm" : "cjs",
+                library        : false,
+                languages      : [],
+                defaultLanguage: "",
+                activeLanguage : "",
+                typescript     : isTypeScript,
+            }, options);
             console.log("Run init:", JSON.stringify(options));
         });
     return initCommand;

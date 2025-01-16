@@ -9,7 +9,7 @@ import fs from "node:fs"
 import path from "node:path" 
 import { getExistedDir } from "flex-tools/fs/getExistedDir"
 import { getProjectSourceFolder } from "./getProjectSourceFolder"
-import { WorkDirOptions } from "./getWorkDir"
+import { LanguagesDirOptions } from "./getLanguagesDir"
 
  
 /**
@@ -28,7 +28,7 @@ import { WorkDirOptions } from "./getWorkDir"
  * @param location 指定入口文件夹
  * @param created 是否创建
  */
-export function getDefaultWorkDir(options?:WorkDirOptions):string{    
+export function getDefaultWorkDir(options?:LanguagesDirOptions):string{    
     const { location,autoCreate } = Object.assign({
         autoCreate:true
     }, options)
