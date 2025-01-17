@@ -10,11 +10,10 @@ const logsets = require("logsets");
 const { getLanguageDir } = require("@voerkai18n/utils");
 const { getPackageJson } = require("flex-tools/package/getPackageJson");
 const { t } = require("../../languages");
-const artTemplate = require("art-template"); 
 const { pick } = require("flex-tools/object/pick")
 const { copyFiles } = require("flex-tools/fs/copyFiles")
-
-
+const { packageIsInstalled } = require("flex-tools/package/packageIsInstalled")
+const { installPackage } = require("flex-tools/package/installPackage")
 
 async function initializer(options={}){
 
@@ -42,16 +41,14 @@ async function initializer(options={}){
         {
             title:["创建语言文件夹:{}",langRelDir],
             execute:async ()=>{
-                if(fs.existsSync(langDir)){
-                    return 'skip'
-                }else{
+                if(!fs.existsSync(langDir)){
                     fs.mkdirSync(langDir) 
-                    opts.scopeId =projectPackageJson?.name || 'scope'+parseInt(Math.random()*10000)
-                    await copyFiles("*.*",langDir, {
-                        cwd : path.join(__dirname,"templatges",isTypeScript ? "ts" : moduleType),
-                        vars: opts
-                    }) 
-                }
+                }                    
+                opts.scopeId =projectPackageJson?.name || 'scope'+parseInt(Math.random()*10000)
+                await copyFiles("*.*",langDir, {
+                    cwd : path.join(__dirname,"templatges",isTypeScript ? "ts" : moduleType),
+                    vars: opts
+                }) 
             }
         }, 
         {
@@ -85,7 +82,7 @@ async function initializer(options={}){
         {
             title: ["安装{}依赖","@voerkai18n/runtime"],
             execute:async ()=>{
-                if(isInstallDependent("@voerkai18n/runtime")){
+                if(await packageIsInstalled("@voerkai18n/runtime")){
                     return 
                 }else{
                     await installPackage.call(this,'@voerkai18n/runtime')
