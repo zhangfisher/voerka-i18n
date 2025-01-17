@@ -1,11 +1,9 @@
 const { MixCommand } = require("mixcli");
-const path = require("node:path");
-const fs = require("node:fs");
 const { t } = require("../../i18n");
 const { getLanguageDir } = require("@voerkai18n/utils")
 const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage");
 const { getBcp47LanguageApi } = require("@voerkai18n/utils");
-
+const initializer = require("./initializer");
 /**
  * 获取主要语言列表
  * 根据操作系统语言或默认的 "en-US"，从 allTags 中获取对应的主要语言信息
@@ -96,7 +94,7 @@ module.exports = (cli) => {
             choices: ["esm", "cjs"],
             prompt: "select",
         })
-        .action((options) => {
+        .action(async (options) => {
             const opts = Object.assign({
                 reset          : false,
                 moduleType     : "esm",
@@ -106,9 +104,8 @@ module.exports = (cli) => {
                 activeLanguage : "zh-CN",
                 typescript     : isTypeScript
             }, options);
- 
-
-            console.log("Run init:", JSON.stringify(opts));
+            await initializer(opts);
+            
         });
     return initCommand;
 };

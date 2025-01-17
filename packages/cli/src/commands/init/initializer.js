@@ -16,7 +16,7 @@ const { copyFiles } = require("flex-tools/fs/copyFiles")
 
 
 
-async function initializer(srcPath,options={}){
+async function initializer(options={}){
 
     const opts = Object.assign({
         entry          : "src/languages",
@@ -30,31 +30,36 @@ async function initializer(srcPath,options={}){
         activeLanguage : "zh-CN"
     },options)    
 
-    const { entry,library,moduleType,typeScript,debug,languages,reset } =  opts
+    const { entry,library,moduleType,reset } =  opts
 
-    const projectPackageJson = getPackageJson(srcPath)
+    const projectPackageJson = getPackageJson()
     const langDir = getLanguageDir()
-    
+    const langRelDir = path.relative(process.cwd(),langDir)
+    const settingsFile = path.join(langDir,"settings.json")
+    const settingsRelFile = path.relative(process.cwd(),settingsFile)
 
     const tasks = logsets.createTasks([
         {
-            title:"创建语言文件夹",
+            title:["创建语言文件夹:{}",langRelDir],
             execute:async ()=>{
-                if(fs.existsSync(lngPath)){
+                if(fs.existsSync(langDir)){
                     return 'skip'
                 }else{
-                    fs.mkdirSync(lngPath) 
+                    fs.mkdirSync(langDir) 
+                    opts.scopeId =projectPackageJson?.name || 'scope'+parseInt(Math.random()*10000)
+                    await copyFiles("*.*",langDir, {
+                        cwd : path.join(__dirname,"templatges",isTypeScript ? "ts" : moduleType),
+                        vars: opts
+                    }) 
                 }
             }
-        },
+        }, 
         {
-            title:["生成语言配置文件{}","settings.json"],
-            execute:async ()=>{
-                const settingsFile = path.join(langDir,"settings.json")
+            title:["创建配置文件{}","settings.json"],
+            execute:async ()=>{ 
                 if(fs.existsSync(settingsFile) && !reset){                    
                     return 'skip'
                 }
-
                 const settings = pick(opts,[
                     "languages",
                     "debug",
@@ -78,38 +83,7 @@ async function initializer(srcPath,options={}){
             }
         },
         {
-            title:"复制语言文件",
-            execute:async ()=>{
-                const files = []
-                 
-                await copyFiles("*.*",langDir, {cwd:path.join(__dirname,"templatges") } )
-
-                const tmpFile = path.join(__dirname,"templates","guage.js")                
-                const entryContent = artTemplate(path.join(__dirname,"templates",`init-entry.${isTypeScript ? 'ts' : (moduleType=='esm' ? 'mjs' :  'cjs')}`), templateContext )
-                fs.writeFileSync(path.join(lngPath,`index.${isTypeScript ? 'ts' : 'js'}`),entryContent)
-            }
-        },
-        // {
-        //     title:"初始化语言上下文",
-        //     execute:async ()=>{
-        //         const templateContext = {
-        //             moduleType,
-        //             library,
-        //             scopeId:projectPackageJson ? projectPackageJson.name : 'scope'+parseInt(Math.random()*10000)
-        //         }
-        //         const entryContent = artTemplate(path.join(__dirname,"templates",`init-entry.${isTypeScript ? 'ts' : (moduleType=='esm' ? 'mjs' :  'cjs')}`), templateContext )
-        //         fs.writeFileSync(path.join(lngPath,`index.${isTypeScript ? 'ts' : 'js'}`),entryContent)
-        //     }
-        // },
-        // {
-        //     title:"生成IdMap文件",
-        //     execute:async ()=>{
-        //         const entryContent = isTypeScript ? "export default {}" : (moduleType=='cjs' ? "module.exports={}" :"export default {}")
-        //         fs.writeFileSync(path.join(lngPath,`idMap.${isTypeScript ? 'ts' : 'js'}`),entryContent)
-        //     }
-        // },
-        {
-            title:"安装@voerkai18n/runtime",
+            title: ["安装{}依赖","@voerkai18n/runtime"],
             execute:async ()=>{
                 if(isInstallDependent("@voerkai18n/runtime")){
                     return 
@@ -120,17 +94,17 @@ async function initializer(srcPath,options={}){
         }
     ]) 
  
-    
+    await tasks.run(t("初始化VoerkaI18n"))
         
-    logger.log(t("生成语言配置文件:{}"),`./${entry}/settings.json`)
-    logger.log(t("拟支持的语言：{}"),opts.languages.join(","))    
-    logger.log(t("已安装运行时:{}"),'@voerkai18n/runtime')
-    logger.log(t("本工程运行在: {}"),library ? "库模式" : "应用模式")
-    logger.log(t("初始化成功,下一步："))    
-    logger.log(t(" - 编辑{}确定拟支持的语言种类等参数"),`${entry}/settings.json`)
-    logger.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
-    logger.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
-    logger.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")    
+    logsets.log(t("生成语言配置文件:{}"),settingsRelFile)
+    logsets.log(t("拟支持的语言：{}"),opts.languages.join(","))    
+    logsets.log(t("已安装运行时:{}"),'@voerkai18n/runtime')
+    logsets.log(t("本工程运行在: {}"),library ? t("库模式") : t("应用模式"))
+    logsets.log(t("初始化成功,下一步："))    
+    logsets.log(t(" - 编辑{}确定拟支持的语言种类等参数"),`${entry}/settings.json`)
+    logsets.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
+    logsets.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
+    logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")    
 } 
 
 
