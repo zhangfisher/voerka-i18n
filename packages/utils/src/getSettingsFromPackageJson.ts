@@ -8,9 +8,7 @@ import { getPackageJson } from "flex-tools/package/getPackageJson"
  */
 export function getSettingsFromPackageJson(entry?:string):VoerkaI18nPackageJsonSettings{
 	const pkg =  getPackageJson(entry)
-    const settings = {
-        entry: undefined
-    }
+    const settings = { entry: undefined }
 	if(typeof(pkg)=='object' &&  "voerkai18n" in pkg){
 		Object.assign(settings,pkg.voerkai18n)
 	} 

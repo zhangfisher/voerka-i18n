@@ -7,13 +7,13 @@
 import { getSettingsFromPackageJson } from "./getSettingsFromPackageJson"
 import fs from "node:fs"
 import path from "node:path"  
-import { getDefaultWorkDir } from "./getDefaultWorkDir"
+import { getDefaultLanguageDir } from "./getDefaultLanguageDir"
 
 
 export type LanguagesDirOptions = {
     location?   : string
     autoCreate? : boolean
-
+    absolute?   : boolean           // 是否返回绝对路径
 }
 
 /**
@@ -32,14 +32,15 @@ export type LanguagesDirOptions = {
  * @param location 指定入口文件夹
  * @param created 是否创建
  */
-export function getLanguagesDir(options?:LanguagesDirOptions):string{    
-    const { location,autoCreate } = Object.assign({
-        autoCreate:true
-    }, options)
+export function getLanguageDir(options?:LanguagesDirOptions):string{    
+    const { location,autoCreate,absolute } = Object.assign({
+        autoCreate:true,
+        absolute:true
+    }, options)        
+    const cwd = process.cwd()
     try{
         // 从package.json/voerkai18n中读取
         const { entry } = getSettingsFromPackageJson(location) 
-        const cwd = process.cwd()
         let langDir :string = ""
         if(entry){         
             langDir = path.isAbsolute(entry) ?  entry : path.join(cwd,entry)            
@@ -47,12 +48,11 @@ export function getLanguagesDir(options?:LanguagesDirOptions):string{
                 fs.mkdirSync(langDir)
             }
         }else{        
-            langDir = getDefaultWorkDir(options)
+            langDir = getDefaultLanguageDir(options)
         }
-        return langDir
+        return absolute ? langDir : path.relative(cwd,langDir)
     }catch(e){
         console.error("获取语言文件夹失败",e)
-        return ""
-    }
-    
+        return "src/languages"
+    }    
 }

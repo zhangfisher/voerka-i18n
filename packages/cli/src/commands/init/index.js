@@ -1,12 +1,10 @@
 const { MixCommand } = require("mixcli");
-const allTags = require("bcp47-language-tags");
 const path = require("node:path");
 const fs = require("node:fs");
 const { t } = require("../../i18n");
-const { getWorkDir } = require("@voerkai18n/utils")
-const {
-  isTypeScriptPackage,
-} = require("flex-tools/package/isTypeScriptPackage");
+const { getLanguageDir } = require("@voerkai18n/utils")
+const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage");
+const { getBcp47LanguageApi } = require("@voerkai18n/utils");
 
 /**
  * 获取主要语言列表
@@ -15,17 +13,16 @@ const {
  * @returns {Array} 主要语言的对象数组，每个对象包含 title、value 和 selected 属性
  */
 function getPrimaryLanguages() {
-  // @ts-ignore
-  const osLang = global.OSLanguage || "en-US";
-  // @ts-ignore
-  const primaryLangs = allTags[osLang] || allTags["en-US"];
-  return Object.values(primaryLangs)
-    .filter((lang) => lang.primary)
-    .map((lang) => ({
-      title: lang.tag + "\t" + lang.name,
-      value: lang.tag,
-      selected: ["zh-CN", "en-US"].includes(lang.tag),
-    }));
+    const osLang = global.OSLanguage || "en-US";
+    const langApi = getBcp47LanguageApi(osLang)
+    const langs = langApi.getTags()
+    return Object.values(langs)
+        .filter((lang) => lang.primary)
+        .map((lang) => ({
+            title: lang.tag + "\t" + lang.name,
+            value: lang.tag,
+            selected: ["zh-CN", "en-US"].includes(lang.tag),
+        }));
 }
 
 /**
@@ -36,7 +33,7 @@ function getPrimaryLanguages() {
  *
  * @example
  * // 如果选中标签为 ['en', 'zh']
- * getSelectedLanguages(['en', 'zh']);
+ * // getSelectedLanguages(['en', 'zh']);
  * // 返回包含英语和中文的主要语言数组
  */
 function getSelectedLanguages(seelctedTags) {
@@ -46,29 +43,29 @@ function getSelectedLanguages(seelctedTags) {
     : primaryLangs;
   return selectedLangs;
 }
-
-function getDefaultLanguageDir(){
-    getWorkDir()
-}
+ 
 
 /**
  * @param {import('mixcli').MixCli} cli
  */
 module.exports = (cli) => {
+
     const isTypeScript = isTypeScriptPackage();
+
     const initCommand = new MixCommand("init");
+
     initCommand
         .description(t("初始化VoerkaI18n支持"))
-        .option("-r, --reset",t("重新初始化"))
-        .option("-w, --work-dir [path]", t("语言工作目录"), {
-            default: getDefaultLanguageDir(),
-            prompt: true,
+        .option("-r, --reset",t("重新初始化"),{default:false,prompt:false})
+        .option("-d, --language-dir [path]", t("语言目录"), {
+            default: getLanguageDir({autoCreate:false,absolute:false}),
+            prompt : true,
         })
         .option("--library", t("是否开发库工程"))
         .option("-l, --languages <tags...>", t("选择支持的语言"), {
             prompt: {
-                type: "multiselect",
-                min: 2,
+                type   : "multiselect",
+                min    : 2,
                 choices: getPrimaryLanguages(),
             },
         })
@@ -95,24 +92,23 @@ module.exports = (cli) => {
             default: isTypeScript,
             prompt: true,
         })
-
-        if(!isTypeScript){
-            initCommand.option("-m, --module-type", t("模块类型"), {
-                choices: ["esm", "cjs"],
-                prompt: "select",
-            })
-        }
-        
-        initCommand.action((options) => {
+        .option("-m, --module-type", t("模块类型"), {
+            choices: ["esm", "cjs"],
+            prompt: "select",
+        })
+        .action((options) => {
             const opts = Object.assign({
-                moduleType     : isTypeScript ? "esm" : "cjs",
+                reset          : false,
+                moduleType     : "esm",
                 library        : false,
                 languages      : [],
-                defaultLanguage: "",
-                activeLanguage : "",
-                typescript     : isTypeScript,
+                defaultLanguage: "zh-CN",
+                activeLanguage : "zh-CN",
+                typescript     : isTypeScript
             }, options);
-            console.log("Run init:", JSON.stringify(options));
+ 
+
+            console.log("Run init:", JSON.stringify(opts));
         });
     return initCommand;
 };

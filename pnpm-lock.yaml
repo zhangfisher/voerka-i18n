@@ -120,8 +120,8 @@ importers:
         specifier: ^0.26.1
         version: 0.26.1
       bcp47-language-tags:
-        specifier: ^1.0.6
-        version: 1.0.6
+        specifier: ^1.0.7
+        version: 1.0.7
       commander:
         specifier: ^9.0.0
         version: 9.4.0
@@ -291,6 +291,9 @@ importers:
       '@ast-grep/napi':
         specifier: ^0.33.1
         version: 0.33.1
+      bcp47-language-tags:
+        specifier: ^1.0.7
+        version: 1.0.7
       flex-tools:
         specifier: ^1.4.23
         version: 1.4.23
@@ -310,6 +313,9 @@ importers:
       '@types/node':
         specifier: ^22.10.3
         version: 22.10.3
+      '@voerkai18n/runtime':
+        specifier: workspace:*
+        version: link:../runtime
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.10.4)(@types/node@22.10.3)(typescript@5.7.2)
@@ -2765,8 +2771,8 @@ packages:
   bcp47-language-tags@1.0.1:
     resolution: {integrity: sha512-d/EUt7Bj9hBkXdDns/Bjfj5ldzJXV3pIvxRw7IP6G3Wt0/JXGoD/Lgjf2hpYWV8TGUKUEibOmTJJV/BPkRpIyA==}
 
-  bcp47-language-tags@1.0.6:
-    resolution: {integrity: sha512-7bQVLKzc7sATcN0XBZ30EVHVCYB/Glk7tr9ZSk78DrmxGYTUyVzXDFDZE20UWok1C3hKMB9SQDyXXxNSRL0Xwg==}
+  bcp47-language-tags@1.0.7:
+    resolution: {integrity: sha512-36tIhHWgzW5or7AwCOQq9sejBj6UtTAuQd5CXZaqoA36hiBHldlyt+D26Ew8ehR7rRDThmQ3eU5K5SBdoXBPLg==}
 
   better-path-resolve@1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
@@ -8289,7 +8295,7 @@ snapshots:
 
   bcp47-language-tags@1.0.1: {}
 
-  bcp47-language-tags@1.0.6: {}
+  bcp47-language-tags@1.0.7: {}
 
   better-path-resolve@1.0.0:
     dependencies:

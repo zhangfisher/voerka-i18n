@@ -10,10 +10,10 @@ import { getPackageJson } from "flex-tools/package/getPackageJson"
  * 
  */
 
-export function getProjectModuleType(srcPath:string,isTypeScript:boolean): "esm" | "cjs"{
+export function getProjectModuleType(srcPath:string): "esm" | "cjs"{
      try{
         let packageJson = getPackageJson(srcPath)
         if( packageJson && packageJson.type=="module") return "esm"
     }catch{}
-    return isTypeScript ? 'esm' : 'cjs'       
+    return 'cjs'       
 }

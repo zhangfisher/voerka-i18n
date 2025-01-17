@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { getLanguagesDir } from "./getLanguagesDir";
+import { getLanguageDir } from "./getLanguageDir";
 
 /**
  * 
@@ -8,8 +8,8 @@ import { getLanguagesDir } from "./getLanguagesDir";
  * 
  * @returns 
  */
-export function voerkaI18nInstalled(): boolean {
-    const langDir = getLanguagesDir({
+export function isVoerkaI18nInstalled(): boolean {
+    const langDir = getLanguageDir({
         autoCreate: false
     });
     const settingsFile = path.join(langDir, "settings.json");

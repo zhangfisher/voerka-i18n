@@ -1,6 +1,6 @@
 import type { VoerkaI18nManager } from "./manager"
 import { VoerkaI18nFormatterConfig } from "./formatter/types"
-import type { VoerkaI18nScope } from "./scope" 
+import type { VoerkaI18nScope, VoerkaI18nScopeOptions } from "./scope" 
 import type { BCP47LanguageTagName } from "bcp47-language-tags" 
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
@@ -31,11 +31,12 @@ export interface VoerkaI18nLanguagePack {
 export type Voerkai18nIdMap = Record<string, number>
 
 export interface VoerkaI18nLanguageDefine {
-    name     : string               // 语言代码
-    title?   : string               // 语言标题
-    default? : boolean              // 是否默认语言
-    active?  : boolean              // 是否激活      
-    fallback?: string               // 回退语言
+    name        : string               // 语言代码
+    title?      : string               // 语言标题
+    nativetitle?: string               // 用原语言表达的标题
+    default?    : boolean              // 是否默认语言
+    active?     : boolean              // 是否激活      
+    fallback?   : string               // 回退语言
 }
 
 // 提供一个简单的KV存储接口,用来加载相关的存储
@@ -91,3 +92,9 @@ export interface VoerkaI18nPackageJsonSettings {
     entry?:string
 }
  
+export type VoerkaI18nSettings ={
+    entry?     : string
+    namespaces?: Record<string,string>
+    languages? : LanguageCodes[]
+} & Omit<VoerkaI18nScopeOptions, 
+    'storage' | 'idMap' | 'formatters' | 'log' | 'attached' | 'loader' | 'messages' | 'languages'>  
