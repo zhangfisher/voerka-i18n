@@ -1,10 +1,10 @@
-import { VoerkaI18nScope } from "@voerkai18n/runtime"
-import storage  from "./storage"
-import formatters from "./formatters"
-import idMap from "./idMap"
-import settings from "./settings.json"
-import defaultMessages from "./{{defaultLanguage}}"  
-{{if activeLanguage !== defaultLanguage}}import activeMessages from "./{{activeLanguage}}"{{/if}}
+const { VoerkaI18nScope } = require("@voerkai18n/runtime")
+const storage = require("./storage")
+const formatters = require("./formatters")
+const idMap = require("./idMap")
+const settings = require("./settings.json")
+const defaultMessages = require("./{{defaultLanguage}}")
+{{if activeLanguage !== defaultLanguage}}const activeMessages = require("./{{activeLanguage}}"){{/if}}
  
 
 const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
@@ -12,7 +12,7 @@ const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
 {{/each}}}
 
 
-export const i18nScope = new VoerkaI18nScope({    
+const i18nScope = new VoerkaI18nScope({    
     id: "{{scopeId}}",                                  // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 扩展自定义格式化器
@@ -22,5 +22,10 @@ export const i18nScope = new VoerkaI18nScope({
 }) 
 
 
-export const t = i18nScope.t
+const t = i18nScope.t
 
+
+module.exports = {
+    i18nScope,
+    t
+}

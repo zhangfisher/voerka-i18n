@@ -3,17 +3,22 @@ import storage  from "./storage"
 import formatters from "./formatters"
 import idMap from "./idMap"
 import settings from "./settings.json"
-import defaultMessages from "./{{defaultLanguage}}"  
-{{if activeLanguage !== defaultLanguage}}import activeMessages from "./{{activeLanguage}}"{{/if}}
+import defaultMessages from "./en-US"  
+
  
 
-const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
-    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>import("./{{$value.name}}"),{{/if}}
-{{/each}}}
+const messages = {     'zh-CN'    : ()=>import("./zh-CN"),
+
+    'en-US'    : defaultMessages,
+    'es-ES'    : ()=>import("./es-ES"),
+    'ar-EG'    : ()=>import("./ar-EG"),
+    'pt-PT'    : ()=>import("./pt-PT"),
+    'ru-RU'    : ()=>import("./ru-RU"),
+}
 
 
 export const i18nScope = new VoerkaI18nScope({    
-    id: "{{scopeId}}",                                  // 当前作用域的id
+    id: "@voerkai18n/cli",                                  // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 扩展自定义格式化器
     storage,                                            // 语言配置存储器

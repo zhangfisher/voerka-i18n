@@ -104,8 +104,7 @@ module.exports = (cli) => {
                 activeLanguage : "zh-CN",
                 typescript     : isTypeScript
             }, options);
-            await initializer(opts);
-            
+            await initializer(opts);            
         });
     return initCommand;
 };

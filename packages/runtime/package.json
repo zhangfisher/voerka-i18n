@@ -22,7 +22,7 @@
     "license": "MIT",
     "dependencies": {
         "asyncsignal": "^0.0.2",
-        "flex-tools": "^1.4.23",
+        "flex-tools": "^1.4.27",
         "flexvars": "^1.0.5",
         "ts-mixer": "^6.0.4"
     },
