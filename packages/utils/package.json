@@ -12,7 +12,7 @@
     "license": "MIT",
     "dependencies": {
         "@ast-grep/napi": "^0.33.1",
-        "bcp47-language-tags": "^1.0.7",
+        "bcp47-language-tags": "^1.0.8",
         "flex-tools": "^1.4.27",
         "fs-extra": "^10.0.1",
         "semver": "^7.3.7",

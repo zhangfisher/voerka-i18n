@@ -20,6 +20,7 @@ import { VoerkaI18nFormatterManager } from "../formatter/manager";
 import { isI18nManger } from "@/utils/isI18nManger"
 import { LanguageMixin } from "./mixins/language"
 import { TranslateMixin } from "./mixins/translate"
+import type { TranslateArgs, TranslateOptions } from "./mixins/translate"
 import { RestoreMixin } from "./mixins/restore";
 import { InterpolatorMixin } from "./mixins/interpolator";
 import { VoerkaI18nOnlyOneAppScopeError } from "@/errors";
@@ -43,10 +44,39 @@ export interface VoerkaI18nScopeOptions {
     sorageKey?     : string                                                  // 保存到Storeage时的Key
     loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包 
     cachePatch?    : boolean                                                 // 是否缓存补丁语言包
+    
+    /**
+     * 
+     * 自定义翻译函数，可以用来返回自定义的翻译结果，比如可以返回一个React组件
+     *  scope = new VoerkaI18nScope({
+     *    translate(result,message,args,options){
+     *        // 返回一个React组件
+     *        const T = ()=>{
+     *            const [result,setResult] = useState('')  
+    *              useEffect(()=>{
+    *                  const listener = this.on('change',()=>{
+    *                      setResult(this.t(message,args,options))
+    *                  })
+    *                  return ()=>listener.off()
+    *             },[])
+    *              return <span>{result}</span> 
+    *          }
+    *        return <T/>
+     *    })
+     *  })
+     * 
+     * { t('hello {}',{name:'world'},{}) }  =>  <span>hello,world</span>    
+     * 
+     */
+    translate?     : (
+        result     : string,
+        message    : string, 
+        args?      : TranslateArgs, 
+        options?   : TranslateOptions 
+    )=>any                       // 翻译函数
 } 
 
-export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeOptions> 
-    extends Mixin(
+export class VoerkaI18nScope extends Mixin(
         EventEmitterMixin,
         PatchMessageMixin,
         ChangeLanguageMixin,
@@ -70,7 +100,7 @@ export class VoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeO
      * @param options 
      * @param callback  当前作用域初始化完成后的回调函数 
      */
-	constructor(options:T) {
+	constructor(options:VoerkaI18nScopeOptions) {
         super()
         this._options = assignObject({
             id             : getId(),                       // 作用域唯一id

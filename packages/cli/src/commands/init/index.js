@@ -89,12 +89,14 @@ module.exports = (cli) => {
         .option("-t, --typescript", t("启用Typescript"), {
             default: isTypeScript,
             prompt: true,
-        })
-        .option("-m, --module-type", t("模块类型"), {
-            choices: ["esm", "cjs"],
-            prompt: "select",
-        })
-        .action(async (options) => {
+        }) 
+        if(!isTypeScript){
+            initCommand.option("-m, --module-type", t("模块类型"), {
+                choices: ["esm", "cjs"],
+                prompt: "select",
+            });
+        }
+        initCommand.action(async (options) => {
             const opts = Object.assign({
                 reset          : false,
                 moduleType     : "esm",

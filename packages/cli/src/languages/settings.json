@@ -3,34 +3,24 @@
     {
         "name": "zh-CN",
         "title": "简体中文",
-        "nativeTitle": "简体中文"
-    },
-    {
-        "name": "en-US",
-        "title": "英语（美国）",
-        "nativeTitle": "English (United States)",
+        "nativeTitle": "简体中文",
         "active": true,
         "default": true
     },
     {
+        "name": "en-US",
+        "title": "英语(美国)",
+        "nativeTitle": "English (United States)"
+    },
+    {
         "name": "es-ES",
-        "title": "西班牙语（西班牙）",
+        "title": "西班牙语(西班牙)",
         "nativeTitle": "Español (España)"
     },
     {
         "name": "ar-EG",
-        "title": "阿拉伯语（埃及）",
+        "title": "阿拉伯语(埃及)",
         "nativeTitle": "العربية (مصر)"
-    },
-    {
-        "name": "pt-PT",
-        "title": "葡萄牙语（葡萄牙）",
-        "nativeTitle": "Português (Portugal)"
-    },
-    {
-        "name": "ru-RU",
-        "title": "俄语",
-        "nativeTitle": "Русский (Россия)"
     }
 ],
     "library":false,

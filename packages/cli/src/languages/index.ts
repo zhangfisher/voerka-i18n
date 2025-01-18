@@ -3,17 +3,15 @@ import storage  from "./storage"
 import formatters from "./formatters"
 import idMap from "./idMap"
 import settings from "./settings.json"
-import defaultMessages from "./en-US"  
+import defaultMessages from "./zh-CN"  
 
  
 
-const messages = {     'zh-CN'    : ()=>import("./zh-CN"),
-
-    'en-US'    : defaultMessages,
+const messages = { 
+    'zh-CN'    : defaultMessages,
+    'en-US'    : ()=>import("./en-US"),
     'es-ES'    : ()=>import("./es-ES"),
     'ar-EG'    : ()=>import("./ar-EG"),
-    'pt-PT'    : ()=>import("./pt-PT"),
-    'ru-RU'    : ()=>import("./ru-RU"),
 }
 
 

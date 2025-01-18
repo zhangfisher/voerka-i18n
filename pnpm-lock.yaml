@@ -292,8 +292,8 @@ importers:
         specifier: ^0.33.1
         version: 0.33.1
       bcp47-language-tags:
-        specifier: ^1.0.7
-        version: 1.0.7
+        specifier: ^1.0.8
+        version: 1.0.8
       flex-tools:
         specifier: ^1.4.27
         version: 1.4.27
@@ -2773,6 +2773,9 @@ packages:
 
   bcp47-language-tags@1.0.7:
     resolution: {integrity: sha512-36tIhHWgzW5or7AwCOQq9sejBj6UtTAuQd5CXZaqoA36hiBHldlyt+D26Ew8ehR7rRDThmQ3eU5K5SBdoXBPLg==}
+
+  bcp47-language-tags@1.0.8:
+    resolution: {integrity: sha512-egs4zJl430/Oepojtorp/dhe5MXOtWJr13+B8CTAcAHyYrI0Oh+P6+5dIynmamxMxq4GmYAVuSl/BNMjmhCoNQ==}
 
   better-path-resolve@1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
@@ -8296,6 +8299,8 @@ snapshots:
   bcp47-language-tags@1.0.1: {}
 
   bcp47-language-tags@1.0.7: {}
+
+  bcp47-language-tags@1.0.8: {}
 
   better-path-resolve@1.0.0:
     dependencies:

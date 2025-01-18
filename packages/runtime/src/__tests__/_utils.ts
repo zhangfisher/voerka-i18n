@@ -3,9 +3,9 @@ import { VoerkaI18nScope, VoerkaI18nScopeOptions } from '../scope'
 import { VoerkaI18nManager } from "@/manager"
 import { deepMerge } from 'flex-tools/object/deepMerge'
 
-export function createVoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeOptions>(opts?:Partial<T>,useDeepMerge?:boolean): VoerkaI18nScope {
+export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>,useDeepMerge?:boolean): VoerkaI18nScope {
     const merge = useDeepMerge ? deepMerge : Object.assign
-    return new VoerkaI18nScope<T>(merge({
+    return new VoerkaI18nScope(merge({
         id       : 'test-scope',
         debug    : false,
         library  : false,
@@ -21,7 +21,7 @@ export function createVoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI
         storage   : undefined,
         formatters: [],
         ready     : () => {},    
-      }, opts) as T)
+      }, opts) as VoerkaI18nScopeOptions)
 }
 
 
