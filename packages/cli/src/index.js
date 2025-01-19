@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { MixCli } = require("mixcli");
 const InitCommand = require("./commands/init");
+const ExtractCommand = require("./commands/extract");
 const { getCliLanguage } = require("./oslocale");
 const {  isVoerkaI18nInstalled, getVoerkaI18nSettings } = require("@voerkai18n/utils");
     
@@ -20,4 +21,5 @@ const cli = new MixCli({
   });
 
 cli.register(InitCommand);
+cli.register(ExtractCommand);
 cli.run();

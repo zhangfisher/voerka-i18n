@@ -1,37 +1,27 @@
 const { MixCommand } = require("mixcli");
 const { t } = require("../../i18n");
-const { getLanguageDir } = require("@voerkai18n/utils")
-const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage");
-const { getBcp47LanguageApi } = require("@voerkai18n/utils");
- 
+const extractor = require("./extractor");
 
 /**
  * @param {import('mixcli').MixCli} cli
  */
 module.exports = (cli) => {
-
-    const isTypeScript = isTypeScriptPackage();
-
     const extractCommand = new MixCommand("extract");
 
     extractCommand
+        .disablePrompts()
         .description(t("提取要翻译的文本"))
-        .option("-m, --mode [value]", t("更新模式"),{
-            default:false,
-            choices:["sync","overwrite","merge"],
-            prompt:true
+        .option("-m, --mode [value]", t("更新模式,取值sync,overwrite,merge"),{
+            default:"sync",
+            choices:["sync","overwrite","merge"]
         })
+        .option("-p, --patterns [patterns...]", t("文件匹配规则"))
         .action(async (options) => {
             const opts = Object.assign({
-                reset          : false,
-                moduleType     : "esm",
-                library        : false,
-                languages      : [],
-                defaultLanguage: "zh-CN",
-                activeLanguage : "zh-CN",
-                typescript     : isTypeScript
+                mode          : "sync" 
             }, options);
-            await initializer(opts);            
+
+            await extractor(opts);            
         });
-    return initCommand;
+    return extractCommand;
 };

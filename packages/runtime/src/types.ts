@@ -46,6 +46,7 @@ export interface IVoerkaI18nStorage{
     remove(key:string):any
 }
 
+export type VoerkaI18nNamespaces = Record<string, string | string[] | ((file: string) => boolean)>
  
 export type VoerkaI18nLanguageLoader = (newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages | undefined | void>
 

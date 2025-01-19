@@ -29,6 +29,8 @@ import { assignObject } from "flex-tools/object/assignObject"
 import { VoerkaI18nManager } from "../manager"
 import { LocalStorage } from "@/storage";
 
+
+
 export interface VoerkaI18nScopeOptions {
     id?            : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
     debug?         : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
@@ -43,8 +45,9 @@ export interface VoerkaI18nScopeOptions {
     attached?      : boolean                                                 // 是否挂接到appScope
     sorageKey?     : string                                                  // 保存到Storeage时的Key
     loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包 
-    cachePatch?    : boolean                                                 // 是否缓存补丁语言包
-    
+    cachePatch?    : boolean                                                 // 是否缓存补丁语言包    
+    namespaces?    : Record<string,string>                                   // 命名空间
+    patterns       : string[]                                                  // 源文件匹配清单，使用fast-glob匹配文件
     /**
      * 
      * 自定义翻译函数，可以用来返回自定义的翻译结果，比如可以返回一个React组件
@@ -74,6 +77,9 @@ export interface VoerkaI18nScopeOptions {
         args?      : TranslateArgs, 
         options?   : TranslateOptions 
     )=>any                       // 翻译函数
+
+    
+    
 } 
 
 export class VoerkaI18nScope extends Mixin(

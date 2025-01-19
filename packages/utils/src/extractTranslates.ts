@@ -39,7 +39,7 @@ export type TranslateNode = {
  * 
  * 
  */
-export function parseTranslates(code:string):TranslateNode[]{
+export function extractTranslates(code:string,extras?:Record<string,any>):TranslateNode[]{
     const ast = parse(Lang.JavaScript,code);
     const root = ast.root() 
     const nodes = [
@@ -51,7 +51,8 @@ export function parseTranslates(code:string):TranslateNode[]{
     for(let node of nodes){
         const textNode = node.getMatch("TEXT")!        
         result.push({
-            text:textNode.text(),
+            ...extras || {},
+            text: textNode.text().replace(/^['"`]/g,"").replace(/['"`]$/g,""),
             rang:textNode.range(),
             args:node.getMatch("ARGS")?.text(),
             options:node.getMatch("OPTIONS")?.text() 
