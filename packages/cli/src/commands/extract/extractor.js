@@ -229,7 +229,7 @@ async function extractor(options){
     logsets.separator()
     logsets.log(t("下一步："))
     logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
-    logsets.log(t(" - 在源码中从[{}]导入编译后的语言包"),options.entry)
+    logsets.log(t(" - 在源码中从<{}>导入编译后的语言包"), settings.langRelDir )
 
 }
 
