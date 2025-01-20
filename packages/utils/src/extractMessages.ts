@@ -41,7 +41,7 @@ export type TranslateNode = {
  * 
  * 
  */
-export function extractTranslates<T extends Record<string,any> = Record<string,any>>(code:string, namespaces: VoerkaI18nNamespaces, extras?:T):(TranslateNode & T)[]{
+export function extractMessages<T extends Record<string,any> = Record<string,any>>(code:string, namespaces?: VoerkaI18nNamespaces, extras?:T):(TranslateNode & T)[]{
     const ast = parse(Lang.JavaScript,code);
     const root = ast.root() 
     const nodes = [

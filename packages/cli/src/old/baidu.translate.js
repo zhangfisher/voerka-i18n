@@ -66,3 +66,7 @@ module.exports = function(options={}){
 
     }
 }
+
+
+
+t("插值变量无法识别")

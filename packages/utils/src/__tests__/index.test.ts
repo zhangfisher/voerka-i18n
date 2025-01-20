@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { extractTranslates, TranslateNode } from '../extractTranslates';
+import { extractMessages, TranslateNode } from '../extractMessages';
 import { getFileNamespace } from '../getNamespace';
 
-describe('extractTranslates', () => {
+describe('extractMessages', () => {
     it('should extract simple string literals', () => {
         const code = `
             t("aaa")
@@ -12,7 +12,7 @@ describe('extractTranslates', () => {
             { text: "aaa", rang: expect.any(Object) },
             { text: "bbb", rang: expect.any(Object) }
         ];
-        expect(extractTranslates(code)).toEqual(expected);
+        expect(extractMessages(code)).toEqual(expected);
     });
 
     it('should extract string literals with object arguments', () => {
@@ -22,7 +22,7 @@ describe('extractTranslates', () => {
         const expected: TranslateNode[] = [
             { text: "ccc", rang: expect.any(Object), args: "{xxx:xxx}" }
         ];
-        expect(extractTranslates(code)).toEqual(expected);
+        expect(extractMessages(code)).toEqual(expected);
     });
 
     it('should extract string literals with array arguments', () => {
@@ -32,7 +32,7 @@ describe('extractTranslates', () => {
         const expected: TranslateNode[] = [
             { text: "ddd", rang: expect.any(Object), args: "[1,2,3,\"\"]" }
         ];
-        expect(extractTranslates(code)).toEqual(expected);
+        expect(extractMessages(code)).toEqual(expected);
     });
 
     it('should extract string literals with object and object options', () => {
@@ -42,7 +42,7 @@ describe('extractTranslates', () => {
         const expected: TranslateNode[] = [
             { text: "eee", rang: expect.any(Object), args: "{xxx:xxx}", options: "{}" }
         ];
-        expect(extractTranslates(code)).toEqual(expected);
+        expect(extractMessages(code)).toEqual(expected);
     });
 
     it('should extract string literals with array and object options', () => {
@@ -52,7 +52,7 @@ describe('extractTranslates', () => {
         const expected: TranslateNode[] = [
             { text: "fff", rang: expect.any(Object), args: "[1,2,3,\"\"]", options: "{}" }
         ];
-        expect(extractTranslates(code)).toEqual(expected);
+        expect(extractMessages(code)).toEqual(expected);
     });
 
     it('should extract string literals with object and function options', () => {
@@ -62,7 +62,7 @@ describe('extractTranslates', () => {
         const expected: TranslateNode[] = [
             { text: "ggg", rang: expect.any(Object), args: "{xxx:xxx}", options: "()=>{}" }
         ];
-        expect(extractTranslates(code)).toEqual(expected);
+        expect(extractMessages(code)).toEqual(expected);
     });
 
     it('should extract string literals with array and function options', () => {
@@ -72,7 +72,7 @@ describe('extractTranslates', () => {
         const expected: TranslateNode[] = [
             { text: "hhh", rang: expect.any(Object), args: "[1,2,3,\"\"]", options: "()=>{}" }
         ];
-        expect(extractTranslates(code)).toEqual(expected);
+        expect(extractMessages(code)).toEqual(expected);
     });
 });
 

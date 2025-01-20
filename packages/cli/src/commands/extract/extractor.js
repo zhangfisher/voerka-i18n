@@ -1,13 +1,28 @@
 const { t } = require("../../i18n");
 const fastGlob = require("fast-glob");
-const { getLanguageDir, getVoerkaI18nSettings, extractTranslates } = require("@voerkai18n/utils")
+const { getSeq, getLanguageDir, getVoerkaI18nSettings, extractMessages } = require("@voerkai18n/utils")
 const logsets = require("logsets");
 const path = require("path");
 const fs = require("node:fs");
 const { readFile, writeFile } = require('flex-tools/fs/nodefs');
 
 
-
+async function getMessageIds(settings){
+    const { langDir } = settings
+    const files = await fastGlob("*.json",{
+        cwd: path.join(langDir,"translates"),
+        absolute: true
+    })
+    const ids = []
+    for(let file of files){
+        const content = await readFile(file,{ encoding: "utf-8" })
+        const messages = JSON.parse(content)
+        for(let message of Object.values(messages)){
+            if(message.$id) ids.push(message.$id)
+        }        
+    }
+    return [...new Set(ids)]
+}
 
 /**
  * 
@@ -25,11 +40,11 @@ const { readFile, writeFile } = require('flex-tools/fs/nodefs');
  * 
  * 该函数首先定义了一组默认的文件匹配模式，然后合并了用户自定义的模式。
  * 使用 fastGlob 函数查找匹配的文件，并逐个读取文件内容。
- * 对每个文件的内容调用 extractTranslates 函数来提取翻译文本。
+ * 对每个文件的内容调用 extractMessages 函数来提取翻译文本。
  * 提取过程中会记录任务进度和结果。
  * 最终返回所有提取出的翻译文本的数组。
  */
-async function extractMessages(settings){
+async function scanMessages(settings){
     const { langDir, langRelDir } = settings
     const patterns = [
         "**/*.{js,jsx,ts,tsx,vue}",
@@ -56,15 +71,15 @@ async function extractMessages(settings){
     logsets.log(t(" - 您可以通过修改{}文件的{}参数来调整提取范围"),`${langRelDir}/settings.json`,"patterns")    
 
     const files = await fastGlob(patterns,{
-        cwd:process.cwd(),
-        absolute:true
+        cwd     : process.cwd(),
+        absolute: true
     })
 
-    logsets.separator()
+    logsets.separator(90)
 
     logsets.header(t("共找到{}个文件"),files.length)
 
-    const tasks = logsets.tasklist()
+    const tasks = logsets.tasklist({ width:80 })
 
     const results = []
 
@@ -75,23 +90,23 @@ async function extractMessages(settings){
             const relFile= path.relative(process.cwd(),file)        
             tasks.add("提取{}",relFile)
             const code   = await readFile(file,{ encoding: "utf-8" }) 
-            const result = await extractTranslates(code,settings.namespaces,{
+            const result = await extractMessages(code,settings.namespaces,{
                 file      : relFile
             }) 
-            if(result && result.length>0){
+            if( result && result.length>0 ){
                 results.push(...result)
             }
             if(result.length === 0){
                 tasks.skip()
             }else{
-                tasks.complete(["发现{}个文本",result.length])
+                tasks.complete(["发现{}条文本",result.length])
             }
-            total += result.length            
+            total += result.length
         }catch(e){
             tasks.error(e)
-        }       
+        }
     }
-    logsets.separator()
+    logsets.separator(90)
     logsets.header(t("提取完成，发现名称空间：{}, 提取{}个文本"), Object.keys(settings.namespaces).join(", "),total)
     return results
 }
@@ -103,11 +118,11 @@ function getTextRange(rang){
 function getDefaultLanguage(languages){
     return languages.find(lng=>lng.default) || languages[0]
 }
+
 /**
  * 生成要翻译的文本内容
  * {
- *    text:{
- *    }
+ *    text:{ }
  * }
  * @param {*} messages 
  * @returns 
@@ -124,12 +139,14 @@ function formatMessages(messages,settings){
         const text = message.text
         if(!results[message.namespace]){
             results[message.namespace] = {}
-        }        
+        }
+        
         const messageRecord = text in results[message.namespace] ? results[message.namespace][text] : defaultMessageRecord(text)        
 
         if(!messageRecord.$files) messageRecord.$files = []
         const relFile = path.relative(process.cwd(),message.file)
         messageRecord.$files.push(`${relFile}(${getTextRange(message.rang)})`)        
+        messageRecord.$id = getSeq()
         results[message.namespace][message.text] = messageRecord        
         return results
     },{})
@@ -149,20 +166,24 @@ async function syncMessages(namespaceFile,newMessages,settings){
     let oldMessages = await readFile(namespaceFile,{encoding:"utf-8"})
     oldMessages = JSON.parse(oldMessages) || {}
     const results = {}
-    for(let [text,message] of Object.entries(newMessages)){
+    for(let [text,newMessage] of Object.entries(newMessages)){
         if(text in oldMessages){
+            results[text] = {}
             const oldMessage = oldMessages[text]
-            Object.entries(message).forEach(([langName,langText])=>{
-                if(langName === '$files'){
-                    results[text].$files = message.$files
+            Object.entries(newMessage).forEach(([langName,langText])=>{
+                if(langName.startsWith("$")){
+                    results[text][langName] = newMessage[langName]
                 }else{
-                    if(!(langName in oldMessage) || (oldMessage[langName] !== text)){                        
+                    if(oldMessage[langName] !== text){
+                        results[text][langName] = oldMessage[langName]                        
+                    }else{
                         results[text][langName] = langText
                     }
                 }
             })
+            if(oldMessage['$id']) results[text]['$id'] = oldMessage['$id']
         }else{
-            results[text] = message
+            results[text] = newMessage
         }
     }
     await writeFile(namespaceFile,JSON.stringify(results,null,4))
@@ -177,10 +198,10 @@ async function overwriteMessages(namespaceFile,newMessages,settings){
  * @param {*} messages 
  */
 async function updateMessages(formattedMessages,settings){    
-    const langDir = getLanguageDir()
+    const { langDir } = settings
     const mode = settings.mode || 'sync'
 
-    const tasks = logsets.tasklist()
+    const tasks = logsets.tasklist({ width:80 })
 
     const translateDir = path.join(langDir,"translates")
     if(!fs.existsSync(translateDir)){
@@ -218,16 +239,28 @@ async function extractor(options){
     settings.langDir = getLanguageDir()
     settings.langRelDir = path.relative(process.cwd(),settings.langDir).replaceAll(path.sep,"/")
     Object.assign(settings,options)
+
+    settings.ids = await getMessageIds(settings)
+    // 获取自由的id
+    settings.getId = ()=>{
+        const ids = settings.ids
+        let id = settings.ids.length + 1
+        while(ids.includes(id)){
+            id++            
+        }
+        ids.push(id)
+        return id
+    }
     // 1. 提取文本
-    const messages = await extractMessages(settings)
+    const messages = await scanMessages(settings)
     // 2. 格式化文本
     const formattedMessages = formatMessages(messages,settings)
-    // 3. 保存文本
+    // 3. 保存文本    
+    await updateMessages(formattedMessages,settings)
     
-    await updateMessages(formattedMessages,settings) 
-    
-    logsets.separator()
-    logsets.log(t("下一步："))
+    logsets.separator(90)
+    logsets.header(t("下一步："))
+    logsets.log(t(" - 翻译{}文件"),"translates/*.json")
     logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
     logsets.log(t(" - 在源码中从<{}>导入编译后的语言包"), settings.langRelDir )
 
