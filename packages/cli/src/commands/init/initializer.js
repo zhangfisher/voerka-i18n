@@ -102,10 +102,10 @@ async function initializer(options={}){
     logsets.log(t("已安装运行时: {}"),'@voerkai18n/runtime')
     logsets.log(t("本工程运行在: {}"),library ? t("库模式") : t("应用模式"))
     logsets.log(t("初始化成功,下一步："))    
-    logsets.log(t(" - 编辑{}确定拟支持的语言种类等参数"),`${entry}/settings.json`)
+    logsets.log(t(" - 修改{}文件编辑语言参数"),`${entry}/settings.json`)
     logsets.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
     logsets.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
-    logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")    
+    logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
 } 
 
 

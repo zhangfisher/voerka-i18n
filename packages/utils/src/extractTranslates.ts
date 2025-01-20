@@ -8,6 +8,8 @@
  */
 
 import { parse,Lang,Range } from '@ast-grep/napi' 
+import { getFileNamespace } from './getNamespace'
+import { VoerkaI18nNamespaces } from '@voerkai18n/runtime'
 
 export type TranslateNode = {
     text    : string
@@ -39,7 +41,7 @@ export type TranslateNode = {
  * 
  * 
  */
-export function extractTranslates(code:string,extras?:Record<string,any>):TranslateNode[]{
+export function extractTranslates<T extends Record<string,any> = Record<string,any>>(code:string, namespaces: VoerkaI18nNamespaces, extras?:T):(TranslateNode & T)[]{
     const ast = parse(Lang.JavaScript,code);
     const root = ast.root() 
     const nodes = [
@@ -47,18 +49,23 @@ export function extractTranslates(code:string,extras?:Record<string,any>):Transl
         ...root.findAll("t($TEXT,$ARGS)"),
         ...root.findAll("t($TEXT,$ARGS,$OPTIONS)")
     ]
+
+    const namespace = getFileNamespace(extras?.file, namespaces ||{})
+    
     const result = []
+
     for(let node of nodes){
         const textNode = node.getMatch("TEXT")!        
         result.push({
             ...extras || {},
-            text: textNode.text().replace(/^['"`]/g,"").replace(/['"`]$/g,""),
-            rang:textNode.range(),
-            args:node.getMatch("ARGS")?.text(),
-            options:node.getMatch("OPTIONS")?.text() 
+            text     : textNode.text().replace(/^['"`]/g,"").replace(/['"`]$/g,""),
+            rang     : textNode.range(),
+            args     : node.getMatch("ARGS")?.text(),
+            options  : node.getMatch("OPTIONS")?.text(),
+            namespace
         })
     }
-    return result
+    return result as unknown as (TranslateNode & T)[]
 }
 
 

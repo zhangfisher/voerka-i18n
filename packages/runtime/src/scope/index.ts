@@ -47,7 +47,7 @@ export interface VoerkaI18nScopeOptions {
     loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包 
     cachePatch?    : boolean                                                 // 是否缓存补丁语言包    
     namespaces?    : Record<string,string>                                   // 命名空间
-    patterns       : string[]                                                  // 源文件匹配清单，使用fast-glob匹配文件
+    patterns?      : string[]                                                  // 源文件匹配清单，使用fast-glob匹配文件
     /**
      * 
      * 自定义翻译函数，可以用来返回自定义的翻译结果，比如可以返回一个React组件

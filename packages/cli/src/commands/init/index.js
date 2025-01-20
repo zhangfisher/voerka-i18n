@@ -4,6 +4,8 @@ const { getLanguageDir } = require("@voerkai18n/utils")
 const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage");
 const { getBcp47LanguageApi } = require("@voerkai18n/utils");
 const initializer = require("./initializer");
+
+
 /**
  * 获取主要语言列表
  * 根据操作系统语言或默认的 "en-US"，从 allTags 中获取对应的主要语言信息

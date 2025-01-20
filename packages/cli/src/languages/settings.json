@@ -24,5 +24,8 @@
     }
 ],
     "library":false,
-    "debug":false
+    "debug":false,
+    "namespaces":{
+        "old": "src/old"
+    }
 }

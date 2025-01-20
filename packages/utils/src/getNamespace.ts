@@ -34,6 +34,7 @@ function inNamespace(filePath:string,nsPath:string){
  */
  export function getFileNamespace(file:string,namespaces?:VoerkaI18nNamespaces):string{
     if(!namespaces) return "default"
+    if(!file) return "default"
     file = path.isAbsolute(file) ? file : path.join(process.cwd(),file)
     for(let [name,value] of Object.entries(namespaces)){
         if(typeof(value)=== 'function'){
