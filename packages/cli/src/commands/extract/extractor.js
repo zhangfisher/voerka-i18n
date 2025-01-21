@@ -1,12 +1,19 @@
 const { t } = require("../../i18n");
 const fastGlob = require("fast-glob");
-const { getSeq, getLanguageDir, getVoerkaI18nSettings, extractMessages } = require("@voerkai18n/utils")
+const { getLanguageDir, getVoerkaI18nSettings, extractMessages } = require("@voerkai18n/utils")
 const logsets = require("logsets");
 const path = require("path");
 const fs = require("node:fs");
 const { readFile, writeFile } = require('flex-tools/fs/nodefs');
 
 
+let messageIds = []
+
+/**
+ * 提取消息id
+ * @param {*} settings 
+ * @returns 
+ */
 async function getMessageIds(settings){
     const { langDir } = settings
     const files = await fastGlob("*.json",{
@@ -21,8 +28,23 @@ async function getMessageIds(settings){
             if(message.$id) ids.push(message.$id)
         }        
     }
-    return [...new Set(ids)]
+    messageIds = [...new Set(ids)]
+    if(messageIds.length !== ids.length){ // 选出ids中的重复的id       
+        const repeatIds = ids.filter((id, index) => ids.indexOf(id) !== index && ids.lastIndexOf(id) === index);
+        logsets.log(logsets.colors.red(t("发现重复的文本id: {}")),repeatIds.join(", ")) 
+    }
+    return messageIds
 }
+
+function getNextId(){
+    let id = messageIds.length + 1
+    while(messageIds.includes(id)){
+        id++
+    }
+    messageIds.push(id)
+    return id
+}
+
 
 /**
  * 
@@ -75,7 +97,7 @@ async function scanMessages(settings){
         absolute: true
     })
 
-    logsets.separator(90)
+    logsets.separator(88)
 
     logsets.header(t("共找到{}个文件"),files.length)
 
@@ -106,8 +128,8 @@ async function scanMessages(settings){
             tasks.error(e)
         }
     }
-    logsets.separator(90)
-    logsets.header(t("提取完成，发现名称空间：{}, 提取{}个文本"), Object.keys(settings.namespaces).join(", "),total)
+    logsets.separator(88)
+    logsets.header(t("提取完成，名称空间：{}, 提取{}个文本,保存到："), ["default",...Object.keys(settings.namespaces ||[])].join(", "),total)
     return results
 }
 
@@ -134,20 +156,17 @@ function formatMessages(messages,settings){
         if(lng!=defaultLanguage) acc[lng] = text
         return acc
     },{})
-
     return messages.reduce((results,message)=>{        
         const text = message.text
         if(!results[message.namespace]){
             results[message.namespace] = {}
         }
-        
-        const messageRecord = text in results[message.namespace] ? results[message.namespace][text] : defaultMessageRecord(text)        
-
+        const messageRecord = text in results[message.namespace] ? results[message.namespace][text] : defaultMessageRecord(text) 
         if(!messageRecord.$files) messageRecord.$files = []
         const relFile = path.relative(process.cwd(),message.file)
-        messageRecord.$files.push(`${relFile}(${getTextRange(message.rang)})`)        
-        messageRecord.$id = getSeq()
-        results[message.namespace][message.text] = messageRecord        
+        messageRecord.$files.push(`${relFile}(${getTextRange(message.rang)})`)
+        messageRecord.$id = getNextId()
+        results[message.namespace][message.text] = messageRecord
         return results
     },{})
 }
@@ -174,16 +193,21 @@ async function syncMessages(namespaceFile,newMessages,settings){
                 if(langName.startsWith("$")){
                     results[text][langName] = newMessage[langName]
                 }else{
-                    if(oldMessage[langName] !== text){
+                    if(oldMessage[langName] !== text || Array.isArray(oldMessage[langName])){
                         results[text][langName] = oldMessage[langName]                        
                     }else{
                         results[text][langName] = langText
                     }
                 }
             })
-            if(oldMessage['$id']) results[text]['$id'] = oldMessage['$id']
+            if(oldMessage['$id']) {
+                results[text]['$id'] = oldMessage['$id']
+            }else{
+                results[text]['$id'] = getNextId()
+            }
         }else{
             results[text] = newMessage
+            results[text]['$id'] = getNextId()
         }
     }
     await writeFile(namespaceFile,JSON.stringify(results,null,4))
@@ -191,8 +215,12 @@ async function syncMessages(namespaceFile,newMessages,settings){
 }
 
 async function overwriteMessages(namespaceFile,newMessages,settings){    
+    for(let newMessage of Object.values(newMessages)){
+        newMessage.$id = getNextId()
+    }
     await writeFile(namespaceFile,JSON.stringify(newMessages,null,4))
 }
+
 /**
  * 根据从extraceTexts提取的文本按namespace进行分组
  * @param {*} messages 
@@ -211,7 +239,7 @@ async function updateMessages(formattedMessages,settings){
     for(let [namespace,messages] of Object.entries(formattedMessages)){
         const namespaceFile = path.join(langDir,"translates",`${namespace}.json`)
         const namespaceRelFile = path.relative(process.cwd(),namespaceFile).replaceAll(path.sep,"/")
-        const task = tasks.add("保存到{}",namespaceRelFile)
+        const task = tasks.add("{}",namespaceRelFile)
         try{
             if(fs.existsSync(namespaceFile)){
                 if(mode === 'overwrite'){
@@ -230,27 +258,17 @@ async function updateMessages(formattedMessages,settings){
         }        
     }
 
-}
- 
+} 
 
 async function extractor(options){   
 
     const settings = await getVoerkaI18nSettings();
     settings.langDir = getLanguageDir()
     settings.langRelDir = path.relative(process.cwd(),settings.langDir).replaceAll(path.sep,"/")
-    Object.assign(settings,options)
+    Object.assign(settings,options) 
 
-    settings.ids = await getMessageIds(settings)
-    // 获取自由的id
-    settings.getId = ()=>{
-        const ids = settings.ids
-        let id = settings.ids.length + 1
-        while(ids.includes(id)){
-            id++            
-        }
-        ids.push(id)
-        return id
-    }
+    await getMessageIds(settings)
+
     // 1. 提取文本
     const messages = await scanMessages(settings)
     // 2. 格式化文本
@@ -258,7 +276,7 @@ async function extractor(options){
     // 3. 保存文本    
     await updateMessages(formattedMessages,settings)
     
-    logsets.separator(90)
+    logsets.separator(88)
     logsets.header(t("下一步："))
     logsets.log(t(" - 翻译{}文件"),"translates/*.json")
     logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")

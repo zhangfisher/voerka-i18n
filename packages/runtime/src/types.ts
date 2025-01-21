@@ -87,15 +87,10 @@ export type VoerkaI18nEvents = {
 export type Dict<T=any> = Record<string,T>
 
 export type LanguageCodes = BCP47LanguageTagName
+ 
 
- 
-export interface VoerkaI18nPackageJsonSettings {
-    entry?:string
-}
- 
 export type VoerkaI18nSettings ={
-    entry?     : string
-    namespaces?: Record<string,string>
-    languages? : LanguageCodes[]
-} & Omit<VoerkaI18nScopeOptions, 
-    'storage' | 'idMap' | 'formatters' | 'log' | 'attached' | 'loader' | 'messages' | 'languages'>  
+    entry?                  : string    // 语言包入口，默认为"languages"
+    readonly defaultLanguage: string
+    readonly activeLanguage : string
+} & Omit<VoerkaI18nScopeOptions, 'storage' | 'idMap' | 'formatters' | 'log' | 'attached' | 'loader' | 'messages'>  

@@ -4,12 +4,12 @@ import formatters from "./formatters"
 import idMap from "./idMap"
 import settings from "./settings.json"
 import defaultMessages from "./zh-CN"  
-
+import activeMessages from "./en-US"
  
 
 const messages = { 
     'zh-CN'    : defaultMessages,
-    'en-US'    : ()=>import("./en-US"),
+    'en-US'    : activeMessages,
     'es-ES'    : ()=>import("./es-ES"),
     'ar-EG'    : ()=>import("./ar-EG"),
 }

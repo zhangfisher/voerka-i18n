@@ -4,13 +4,13 @@
         "name": "zh-CN",
         "title": "简体中文",
         "nativeTitle": "简体中文",
-        "active": true,
         "default": true
     },
     {
         "name": "en-US",
         "title": "英语(美国)",
-        "nativeTitle": "English (United States)"
+        "nativeTitle": "English (United States)",
+        "active": true
     },
     {
         "name": "es-ES",
@@ -24,8 +24,5 @@
     }
 ],
     "library":false,
-    "debug":false,
-    "namespaces":{
-        "old": "src/old"
-    }
+    "debug":false
 }

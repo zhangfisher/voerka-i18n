@@ -1,4 +1,22 @@
-{ 
+{
+    "插值变量无法识别": {
+        "en-US": "插值变量无法识别",
+        "es-ES": "插值变量无法识别",
+        "ar-EG": "插值变量无法识别",
+        "$files": [
+            "src\\old\\baidu.translate.js(71:2-71:12)"
+        ],
+        "$id": 143
+    },
+    "xxxxxx": {
+        "en-US": "xxxxxx--1",
+        "es-ES": "xxxxxx--2",
+        "ar-EG": "xxxxxx",
+        "$files": [
+            "src\\old\\baidu.translate.js(72:2-72:10)"
+        ],
+        "$id": 145
+    },
     " - 格式化器:{}": {
         "en-US": " - 格式化器:{}",
         "es-ES": " - 格式化器:{}",

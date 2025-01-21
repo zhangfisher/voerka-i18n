@@ -1,99 +1,775 @@
 {
-    "开始提取要翻译的文本": {
-        "en-US": "开始提取要翻译的文本11",
-        "es-ES": "开始提取要翻译的文本22",
-        "ar-EG": "开始提取要翻译的文本33",
+    "插值变量无法识别": {
+        "en-US": "插值变量无法识别",
         "$files": [
-            "src\\commands\\extract\\extractor.js(51:21-51:33)"
+            "src\\old\\baidu.translate.js(71:2-71:12)"
         ],
-        "$id": 109
+        "$id": 302
     },
-    " - 更新模式: {}": {
-        "en-US": " - 更新模式: {}",
-        "es-ES": " - 更新模式: {}",
-        "ar-EG": " - 更新模式: {}",
+    "xxxxxx": {
+        "en-US": "xxxxxx",
         "$files": [
-            "src\\commands\\extract\\extractor.js(52:18-52:31)"
+            "src\\old\\baidu.translate.js(72:2-72:10)"
         ],
-        "$id": 110
+        "$id": 303
     },
-    " - 提取范围: {}": {
-        "en-US": " - 提取范围: {}",
-        "es-ES": " - 提取范围: {}",
-        "ar-EG": " - 提取范围: {}",
+    " - 格式化器:{}": {
+        "en-US": " - 格式化器:{}",
         "$files": [
-            "src\\commands\\extract\\extractor.js(53:18-53:31)"
+            "src\\old\\compile.command.js(67:21-67:33)"
         ],
-        "$id": 111
+        "$id": 304
     },
-    " - 通过{}参数增加文件匹配规则": {
-        "en-US": " - 通过{}参数增加文件匹配规则",
-        "es-ES": " - 通过{}参数增加文件匹配规则",
-        "ar-EG": " - 通过{}参数增加文件匹配规则",
+    " - 更新格式化器:{}": {
+        "en-US": " - 更新格式化器:{}",
         "$files": [
-            "src\\commands\\extract\\extractor.js(54:18-54:37)"
+            "src\\old\\compile.command.js(78:21-78:35)"
         ],
-        "$id": 112
+        "$id": 305
     },
-    " - 您可以通过修改{}文件的{}参数来调整提取范围": {
-        "en-US": " - 您可以通过修改{}文件的{}参数来调整提取范围",
-        "es-ES": " - 您可以通过修改{}文件的{}参数来调整提取范围",
-        "ar-EG": " - 您可以通过修改{}文件的{}参数来调整提取范围",
+    " - 配置存储文件:{}": {
+        "en-US": " - 配置存储文件:{}",
         "$files": [
-            "src\\commands\\extract\\extractor.js(55:18-55:46)"
+            "src\\old\\compile.command.js(87:21-87:35)",
+            "src\\old\\compile.command.js(98:21-98:35)"
         ],
-        "$id": 113
+        "$id": 306
     },
-    "共找到{}个文件": {
-        "en-US": "共找到{}个文件",
-        "es-ES": "共找到{}个文件",
-        "ar-EG": "共找到{}个文件",
+    "更新@voerkai18n/runtime运行时": {
+        "en-US": "更新@voerkai18n/runtime运行时",
         "$files": [
-            "src\\commands\\extract\\extractor.js(64:21-64:31)"
+            "src\\old\\compile.command.js(106:31-106:57)"
         ],
-        "$id": 114
+        "$id": 307
     },
-    "提取完成，发现名称空间：{}, 提取{}个文本": {
-        "en-US": "提取完成，发现名称空间：{}, 提取{}个文本",
-        "es-ES": "提取完成，发现名称空间：{}, 提取{}个文本",
-        "ar-EG": "提取完成，发现名称空间：{}, 提取{}个文本",
+    "已经是最新的": {
+        "en-US": "已经是最新的",
         "$files": [
-            "src\\commands\\extract\\extractor.js(94:21-94:46)"
+            "src\\old\\compile.command.js(116:24-116:32)"
         ],
-        "$id": 115
+        "$id": 308
+    },
+    "更新@voerkai18n/runtime失败,请手动更新!": {
+        "en-US": "更新@voerkai18n/runtime失败,请手动更新!",
+        "$files": [
+            "src\\old\\compile.command.js(118:21-118:53)"
+        ],
+        "$id": 309
+    },
+    "支持的语言\\t: {}": {
+        "en-US": "支持的语言\\t: {}",
+        "$files": [
+            "src\\old\\compile.command.js(146:21-146:34)",
+            "src\\old\\extract.plugin.js(382:18-382:31)"
+        ],
+        "$id": 310
+    },
+    "默认语言\\t: {}": {
+        "en-US": "默认语言\\t: {}",
+        "$files": [
+            "src\\old\\compile.command.js(147:21-147:33)",
+            "src\\old\\extract.plugin.js(383:18-383:30)"
+        ],
+        "$id": 311
+    },
+    "激活语言\\t: {}": {
+        "en-US": "激活语言\\t: {}",
+        "$files": [
+            "src\\old\\compile.command.js(148:21-148:33)",
+            "src\\old\\extract.plugin.js(384:18-384:30)"
+        ],
+        "$id": 312
+    },
+    "名称空间\\t: {}": {
+        "en-US": "名称空间\\t: {}",
+        "$files": [
+            "src\\old\\compile.command.js(149:21-149:33)",
+            "src\\old\\extract.plugin.js(385:18-385:30)"
+        ],
+        "$id": 313
+    },
+    "模块类型\\t: {}": {
+        "en-US": "模块类型\\t: {}",
+        "$files": [
+            "src\\old\\compile.command.js(150:21-150:33)"
+        ],
+        "$id": 314
+    },
+    "库模式\\t\\t: {}": {
+        "en-US": "库模式\\t\\t: {}",
+        "$files": [
+            "src\\old\\compile.command.js(151:21-151:34)"
+        ],
+        "$id": 315
+    },
+    "TypeScript\\t: {}": {
+        "en-US": "TypeScript\\t: {}",
+        "$files": [
+            "src\\old\\compile.command.js(152:21-152:39)"
+        ],
+        "$id": 316
+    },
+    "编译结果输出至：{}": {
+        "en-US": "编译结果输出至：{}",
+        "$files": [
+            "src\\old\\compile.command.js(154:21-154:33)"
+        ],
+        "$id": 317
+    },
+    "读取语言文件{}失败:{}": {
+        "en-US": "读取语言文件{}失败:{}",
+        "$files": [
+            "src\\old\\compile.command.js(169:29-169:44)"
+        ],
+        "$id": 318
+    },
+    " - 共合成{}条文本": {
+        "en-US": " - 共合成{}条文本",
+        "$files": [
+            "src\\old\\compile.command.js(172:21-172:34)"
+        ],
+        "$id": 319
+    },
+    " - 语言包文件: {}": {
+        "en-US": " - 语言包文件: {}",
+        "$files": [
+            "src\\old\\compile.command.js(193:25-193:39)"
+        ],
+        "$id": 320
+    },
+    " - idMap文件: {}": {
+        "en-US": " - idMap文件: {}",
+        "$files": [
+            "src\\old\\compile.command.js(203:21-203:37)"
+        ],
+        "$id": 321
+    },
+    " - 跳过更新访问入口文件: {}": {
+        "en-US": " - 跳过更新访问入口文件: {}",
+        "$files": [
+            "src\\old\\compile.command.js(230:25-230:44)"
+        ],
+        "$id": 322
+    },
+    " - 访问入口文件: {}": {
+        "en-US": " - 访问入口文件: {}",
+        "$files": [
+            "src\\old\\compile.command.js(235:25-235:40)"
+        ],
+        "$id": 323
+    },
+    "加载多语言配置文件<{}>失败: {} ": {
+        "en-US": "加载多语言配置文件<{}>失败: {} ",
+        "$files": [
+            "src\\old\\compile.command.js(240:21-240:43)"
+        ],
+        "$id": 324
+    },
+    "编译指定项目的语言包": {
+        "en-US": "编译指定项目的语言包",
+        "$files": [
+            "src\\old\\compile.command.js(247:19-247:31)",
+            "src\\old\\index.js(39:25-39:37)"
+        ],
+        "$id": 325
+    },
+    "输出调试信息": {
+        "en-US": "输出调试信息",
+        "$files": [
+            "src\\old\\compile.command.js(248:29-248:37)",
+            "src\\old\\extract.command.js(80:29-80:37)",
+            "src\\old\\init.command.js(180:29-180:37)"
+        ],
+        "$id": 326
+    },
+    "输出typescript代码": {
+        "en-US": "输出typescript代码",
+        "$files": [
+            "src\\old\\compile.command.js(249:33-249:49)",
+            "src\\old\\init.command.js(183:33-183:49)"
+        ],
+        "$id": 327
+    },
+    "开发库模式": {
+        "en-US": "开发库模式",
+        "$files": [
+            "src\\old\\compile.command.js(250:30-250:37)",
+            "src\\old\\init.command.js(184:30-184:37)"
+        ],
+        "$id": 328
+    },
+    "自动更新runtime": {
+        "en-US": "自动更新runtime",
+        "$files": [
+            "src\\old\\compile.command.js(251:37-251:50)"
+        ],
+        "$id": 329
+    },
+    "跳过更新language/index.(ts|js)文件": {
+        "en-US": "跳过更新language/index.(ts|js)文件",
+        "$files": [
+            "src\\old\\compile.command.js(253:23-253:53)"
+        ],
+        "$id": 330
+    },
+    "工程项目所在目录": {
+        "en-US": "工程项目所在目录",
+        "$files": [
+            "src\\old\\compile.command.js(254:31-254:41)",
+            "src\\old\\init.command.js(178:30-178:40)",
+            "src\\old\\translate.command.js(259:30-259:40)"
+        ],
+        "$id": 331
+    },
+    "Updated:{}": {
+        "en-US": "Updated:{}",
+        "$files": [
+            "src\\old\\compile.command.js(113:28-113:40)"
+        ],
+        "$id": 332
+    },
+    "语言包文件夹<{}>不存在": {
+        "en-US": "语言包文件夹<{}>不存在",
+        "$files": [
+            "src\\old\\compile.command.js(265:27-265:42)"
+        ],
+        "$id": 333
+    },
+    "目标文件夹<{}>不存在": {
+        "en-US": "目标文件夹<{}>不存在",
+        "$files": [
+            "src\\old\\extract.command.js(44:21-44:35)"
+        ],
+        "$id": 334
+    },
+    "扫描提取范围：": {
+        "en-US": "扫描提取范围：",
+        "$files": [
+            "src\\old\\extract.command.js(48:21-48:30)"
+        ],
+        "$id": 335
+    },
+    "扫描并提取所有待翻译的字符串到<languages/translates>文件夹中": {
+        "en-US": "扫描并提取所有待翻译的字符串到<languages/translates>文件夹中",
+        "$files": [
+            "src\\old\\extract.command.js(79:19-79:62)"
+        ],
+        "$id": 336
+    },
+    "支持的语言": {
+        "en-US": "支持的语言",
+        "$files": [
+            "src\\old\\extract.command.js(81:51-81:58)"
+        ],
+        "$id": 337
+    },
+    "默认语言": {
+        "en-US": "默认语言",
+        "$files": [
+            "src\\old\\extract.command.js(82:39-82:45)",
+            "src\\old\\init.command.js(186:46-186:52)",
+            "src\\commands\\init\\index.js(71:45-71:51)"
+        ],
+        "$id": 127
+    },
+    "激活语言": {
+        "en-US": "激活语言",
+        "$files": [
+            "src\\old\\extract.command.js(83:38-83:44)",
+            "src\\old\\init.command.js(187:45-187:51)",
+            "src\\commands\\init\\index.js(82:44-82:50)"
+        ],
+        "$id": 128
+    },
+    "翻译名称空间": {
+        "en-US": "翻译名称空间",
+        "$files": [
+            "src\\old\\extract.command.js(84:35-84:43)"
+        ],
+        "$id": 338
+    },
+    "排除要扫描的文件夹，多个用逗号分隔": {
+        "en-US": "排除要扫描的文件夹，多个用逗号分隔",
+        "$files": [
+            "src\\old\\extract.command.js(85:41-85:60)"
+        ],
+        "$id": 339
+    },
+    "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并": {
+        "en-US": "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并",
+        "$files": [
+            "src\\old\\extract.command.js(86:42-86:97)"
+        ],
+        "$id": 340
+    },
+    "要扫描的文件类型": {
+        "en-US": "要扫描的文件类型",
+        "$files": [
+            "src\\old\\extract.command.js(87:46-87:56)"
+        ],
+        "$id": 341
+    },
+    "指定从该目录提取": {
+        "en-US": "指定从该目录提取",
+        "$files": [
+            "src\\old\\extract.command.js(88:30-88:40)"
+        ],
+        "$id": 342
+    },
+    "工程目录：{}": {
+        "en-US": "工程目录：{}",
+        "$files": [
+            "src\\old\\extract.command.js(99:21-99:30)",
+            "src\\old\\init.command.js(197:21-197:30)"
+        ],
+        "$id": 343
+    },
+    "语言目录：{}": {
+        "en-US": "语言目录：{}",
+        "$files": [
+            "src\\old\\extract.command.js(100:21-100:30)",
+            "src\\old\\init.command.js(198:21-198:30)"
+        ],
+        "$id": 344
+    },
+    "读取语言文件<{}>出错: {}": {
+        "en-US": "读取语言文件<{}>出错: {}",
+        "$files": [
+            "src\\old\\extract.plugin.js(346:22-346:40)"
+        ],
+        "$id": 345
+    },
+    "提取<{}>, 发现 [{}] 名称空间，{} 条信息。": {
+        "en-US": "提取<{}>, 发现 [{}] 名称空间，{} 条信息。",
+        "$files": [
+            "src\\old\\extract.plugin.js(407:30-407:60)"
+        ],
+        "$id": 346
+    },
+    "从<{}>提取信息时出错 : {}": {
+        "en-US": "从<{}>提取信息时出错 : {}",
+        "$files": [
+            "src\\old\\extract.plugin.js(410:26-410:45)"
+        ],
+        "$id": 347
+    },
+    "翻译信息提取完成。": {
+        "en-US": "翻译信息提取完成。",
+        "$files": [
+            "src\\old\\extract.plugin.js(416:22-416:33)"
+        ],
+        "$id": 348
+    },
+    " - 文件总数\\t: {}": {
+        "en-US": " - 文件总数\\t: {}",
+        "$files": [
+            "src\\old\\extract.plugin.js(417:22-417:37)"
+        ],
+        "$id": 349
+    },
+    " - 输出路径\\t: {}": {
+        "en-US": " - 输出路径\\t: {}",
+        "$files": [
+            "src\\old\\extract.plugin.js(418:22-418:37)"
+        ],
+        "$id": 350
+    },
+    "    √ 更新语言文件 : {}": {
+        "en-US": "    √ 更新语言文件 : {}",
+        "$files": [
+            "src\\old\\extract.plugin.js(430:30-430:49)"
+        ],
+        "$id": 351
+    },
+    "    √ 保存语言文件 : {}": {
+        "en-US": "    √ 保存语言文件 : {}",
+        "$files": [
+            "src\\old\\extract.plugin.js(433:30-433:49)"
+        ],
+        "$id": 352
+    },
+    " - 生成语言配置文件: {}": {
+        "en-US": " - 生成语言配置文件: {}",
+        "$files": [
+            "src\\old\\extract.plugin.js(444:26-444:43)"
+        ],
+        "$id": 353
+    },
+    " - 应用语言配置文件: {}": {
+        "en-US": " - 应用语言配置文件: {}",
+        "$files": [
+            "src\\old\\extract.plugin.js(446:26-446:43)"
+        ],
+        "$id": 354
     },
     "下一步：": {
         "en-US": "下一步：",
-        "es-ES": "下一步：",
-        "ar-EG": "下一步：",
         "$files": [
-            "src\\commands\\extract\\extractor.js(235:21-235:27)"
+            "src\\old\\extract.plugin.js(449:22-449:28)",
+            "src\\commands\\extract\\extractor.js(279:21-279:27)"
         ],
         "$id": 116
     },
     " - 运行<{}>编译语言包": {
         "en-US": " - 运行<{}>编译语言包",
-        "es-ES": " - 运行<{}>编译语言包",
-        "ar-EG": " - 运行<{}>编译语言包",
         "$files": [
-            "src\\commands\\extract\\extractor.js(236:18-236:34)",
-            "src\\commands\\init\\initializer.js(107:18-107:34)"
+            "src\\old\\extract.plugin.js(450:22-450:38)",
+            "src\\old\\init.command.js(172:17-172:33)",
+            "src\\commands\\extract\\extractor.js(281:18-281:34)",
+            "src\\commands\\init\\initializer.js(111:18-111:34)"
         ],
         "$id": 142
     },
+    " - 在源码中从[{}]导入编译后的语言包": {
+        "en-US": " - 在源码中从[{}]导入编译后的语言包",
+        "$files": [
+            "src\\old\\extract.plugin.js(451:22-451:45)"
+        ],
+        "$id": 355
+    },
+    "初始化项目国际化配置": {
+        "en-US": "初始化项目国际化配置",
+        "$files": [
+            "src\\old\\index.js(37:22-37:34)",
+            "src\\old\\init.command.js(179:19-179:31)"
+        ],
+        "$id": 356
+    },
+    "扫描并提取待翻译的文本到<languages/translates>": {
+        "en-US": "扫描并提取待翻译的文本到<languages/translates>",
+        "$files": [
+            "src\\old\\index.js(38:25-38:61)"
+        ],
+        "$id": 357
+    },
+    "在线翻译语言包,如使用百度云翻译服务": {
+        "en-US": "在线翻译语言包,如使用百度云翻译服务",
+        "$files": [
+            "src\\old\\index.js(40:27-40:47)"
+        ],
+        "$id": 358
+    },
+    "初始化VoerkaI18n多语言支持": {
+        "en-US": "初始化VoerkaI18n多语言支持",
+        "$files": [
+            "src\\old\\init.command.js(88:34-88:54)"
+        ],
+        "$id": 359
+    },
+    "创建语言包文件夹": {
+        "en-US": "创建语言包文件夹",
+        "$files": [
+            "src\\old\\init.command.js(94:20-94:30)"
+        ],
+        "$id": 360
+    },
+    "创建语言包文件夹: {}": {
+        "en-US": "创建语言包文件夹: {}",
+        "$files": [
+            "src\\old\\init.command.js(98:35-98:49)"
+        ],
+        "$id": 361
+    },
+    "生成语言配置文件settings.json": {
+        "en-US": "生成语言配置文件settings.json",
+        "$files": [
+            "src\\old\\init.command.js(107:20-107:43)"
+        ],
+        "$id": 362
+    },
+    "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建": {
+        "en-US": "语言配置文件{}文件已存在，跳过创建。\\n使用{}可以重新覆盖创建",
+        "$files": [
+            "src\\old\\init.command.js(110:35-110:70)"
+        ],
+        "$id": 363
+    },
+    "初始化语言上下文": {
+        "en-US": "初始化语言上下文",
+        "$files": [
+            "src\\old\\init.command.js(127:20-127:30)"
+        ],
+        "$id": 364
+    },
+    "生成IdMap文件": {
+        "en-US": "生成IdMap文件",
+        "$files": [
+            "src\\old\\init.command.js(141:20-141:31)"
+        ],
+        "$id": 365
+    },
+    "安装@voerkai18n/runtime": {
+        "en-US": "安装@voerkai18n/runtime",
+        "$files": [
+            "src\\old\\init.command.js(151:20-151:43)"
+        ],
+        "$id": 366
+    },
+    "生成语言配置文件:{}": {
+        "en-US": "生成语言配置文件:{}",
+        "$files": [
+            "src\\old\\init.command.js(164:17-164:30)"
+        ],
+        "$id": 367
+    },
+    "拟支持的语言：{}": {
+        "en-US": "拟支持的语言：{}",
+        "$files": [
+            "src\\old\\init.command.js(165:17-165:28)"
+        ],
+        "$id": 368
+    },
+    "已安装运行时:{}": {
+        "en-US": "已安装运行时:{}",
+        "$files": [
+            "src\\old\\init.command.js(166:17-166:28)"
+        ],
+        "$id": 369
+    },
+    "本工程运行在: {}": {
+        "en-US": "本工程运行在: {}",
+        "$files": [
+            "src\\old\\init.command.js(167:17-167:29)",
+            "src\\commands\\init\\initializer.js(105:18-105:30)"
+        ],
+        "$id": 135
+    },
+    "初始化成功,下一步：": {
+        "en-US": "初始化成功,下一步：",
+        "$files": [
+            "src\\old\\init.command.js(168:17-168:29)",
+            "src\\commands\\init\\initializer.js(107:21-107:33)"
+        ],
+        "$id": 138
+    },
+    " - 编辑{}确定拟支持的语言种类等参数": {
+        "en-US": " - 编辑{}确定拟支持的语言种类等参数",
+        "$files": [
+            "src\\old\\init.command.js(169:17-169:39)"
+        ],
+        "$id": 370
+    },
+    " - 运行<{}>扫描提取要翻译的文本": {
+        "en-US": " - 运行<{}>扫描提取要翻译的文本",
+        "$files": [
+            "src\\old\\init.command.js(170:17-170:38)",
+            "src\\commands\\init\\initializer.js(109:18-109:39)"
+        ],
+        "$id": 140
+    },
+    " - 运行<{}>在线自动翻译": {
+        "en-US": " - 运行<{}>在线自动翻译",
+        "$files": [
+            "src\\old\\init.command.js(171:17-171:34)",
+            "src\\commands\\init\\initializer.js(110:18-110:35)"
+        ],
+        "$id": 141
+    },
+    "输出模块类型,取值auto,esm,cjs": {
+        "en-US": "输出模块类型,取值auto,esm,cjs",
+        "$files": [
+            "src\\old\\init.command.js(181:42-181:65)"
+        ],
+        "$id": 371
+    },
+    "重新生成当前项目的语言配置": {
+        "en-US": "重新生成当前项目的语言配置",
+        "$files": [
+            "src\\old\\init.command.js(182:29-182:44)"
+        ],
+        "$id": 372
+    },
+    "支持的语言列表": {
+        "en-US": "支持的语言列表",
+        "$files": [
+            "src\\old\\init.command.js(185:51-185:60)"
+        ],
+        "$id": 373
+    },
+    "正在翻译文件:{}": {
+        "en-US": "正在翻译文件:{}",
+        "$files": [
+            "src\\old\\translate.command.js(200:18-200:29)"
+        ],
+        "$id": 374
+    },
+    "翻译 {} -> {}": {
+        "en-US": "翻译 {} -> {}",
+        "$files": [
+            "src\\old\\translate.command.js(210:24-210:37)"
+        ],
+        "$id": 375
+    },
+    "需要指定翻译脚本或者appkey和appid": {
+        "en-US": "需要指定翻译脚本或者appkey和appid",
+        "$files": [
+            "src\\old\\translate.command.js(232:59-232:83)"
+        ],
+        "$id": 376
+    },
+    "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务": {
+        "en-US": "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务",
+        "$files": [
+            "src\\old\\translate.command.js(260:19-260:56)"
+        ],
+        "$id": 377
+    },
+    "备份原始文件": {
+        "en-US": "备份原始文件",
+        "$files": [
+            "src\\old\\translate.command.js(261:29-261:37)"
+        ],
+        "$id": 378
+    },
+    "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译": {
+        "en-US": "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译",
+        "$files": [
+            "src\\old\\translate.command.js(262:24-262:55)"
+        ],
+        "$id": 379
+    },
+    "在线翻译服务提供者名称或翻译脚本文件": {
+        "en-US": "在线翻译服务提供者名称或翻译脚本文件",
+        "$files": [
+            "src\\old\\translate.command.js(263:40-263:60)"
+        ],
+        "$id": 380
+    },
+    "将多个文本合并提交的最大包字节数": {
+        "en-US": "将多个文本合并提交的最大包字节数",
+        "$files": [
+            "src\\old\\translate.command.js(264:48-264:66)"
+        ],
+        "$id": 381
+    },
+    "API ID": {
+        "en-US": "API ID",
+        "$files": [
+            "src\\old\\translate.command.js(265:30-265:38)"
+        ],
+        "$id": 382
+    },
+    "API密钥": {
+        "en-US": "API密钥",
+        "$files": [
+            "src\\old\\translate.command.js(266:32-266:39)"
+        ],
+        "$id": 383
+    },
+    "翻译速度限制,即每秒可调用的API次数": {
+        "en-US": "翻译速度限制,即每秒可调用的API次数",
+        "$files": [
+            "src\\old\\translate.command.js(267:35-267:56)"
+        ],
+        "$id": 384
+    },
+    "调用翻译API时出错:{}": {
+        "en-US": "调用翻译API时出错:{}",
+        "$files": [
+            "src\\old\\translate.command.js(115:26-115:41)"
+        ],
+        "$id": 385
+    },
+    "开始编译语言包: {}": {
+        "en-US": "开始编译语言包: {}",
+        "$files": [
+            "src\\commands\\compile\\index.js(65:21-65:34)"
+        ],
+        "$id": 301
+    },
+    "编译语言包": {
+        "en-US": "编译语言包",
+        "$files": [
+            "src\\commands\\compile\\index.js(101:23-101:30)"
+        ],
+        "$id": 254
+    },
+    "启用typescript": {
+        "en-US": "启用typescript",
+        "$files": [
+            "src\\commands\\compile\\index.js(103:38-103:52)"
+        ],
+        "$id": 255
+    },
+    "模块类型,取值:cjs,esm": {
+        "en-US": "模块类型,取值:cjs,esm",
+        "$files": [
+            "src\\commands\\compile\\index.js(104:51-104:68)"
+        ],
+        "$id": 256
+    },
+    "发现重复的文本id: {}": {
+        "en-US": "发现重复的文本id: {}",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(33:41-33:56)"
+        ],
+        "$id": 262
+    },
+    "开始提取要翻译的文本": {
+        "en-US": "开始提取要翻译的文本11",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(88:21-88:33)"
+        ],
+        "$id": 109
+    },
+    " - 更新模式: {}": {
+        "en-US": " - 更新模式: {}",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(89:18-89:31)"
+        ],
+        "$id": 110
+    },
+    " - 提取范围: {}": {
+        "en-US": " - 提取范围: {}",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(90:18-90:31)"
+        ],
+        "$id": 111
+    },
+    " - 通过{}参数增加文件匹配规则": {
+        "en-US": " - 通过{}参数增加文件匹配规则",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(91:18-91:37)"
+        ],
+        "$id": 112
+    },
+    " - 您可以通过修改{}文件的{}参数来调整提取范围": {
+        "en-US": " - 您可以通过修改{}文件的{}参数来调整提取范围",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(92:18-92:46)"
+        ],
+        "$id": 113
+    },
+    "共找到{}个文件": {
+        "en-US": "共找到{}个文件",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(101:21-101:31)"
+        ],
+        "$id": 114
+    },
+    "提取完成，名称空间：{}, 提取{}个文本,保存到：": {
+        "en-US": "提取完成，名称空间：{}, 提取{}个文本,保存到：",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(131:21-131:49)"
+        ],
+        "$id": 269
+    },
+    " - 翻译{}文件": {
+        "en-US": " - 翻译{}文件",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(280:18-280:29)"
+        ],
+        "$id": 260
+    },
     " - 在源码中从<{}>导入编译后的语言包": {
         "en-US": " - 在源码中从<{}>导入编译后的语言包",
-        "es-ES": " - 在源码中从<{}>导入编译后的语言包",
-        "ar-EG": " - 在源码中从<{}>导入编译后的语言包",
         "$files": [
-            "src\\commands\\extract\\extractor.js(237:18-237:41)"
+            "src\\commands\\extract\\extractor.js(282:18-282:41)"
         ],
         "$id": 118
     },
     "提取要翻译的文本": {
         "en-US": "提取要翻译的文本",
-        "es-ES": "提取要翻译的文本",
-        "ar-EG": "提取要翻译的文本",
         "$files": [
             "src\\commands\\extract\\index.js(12:23-12:33)"
         ],
@@ -101,8 +777,6 @@
     },
     "更新模式,取值sync,overwrite,merge": {
         "en-US": "更新模式,取值sync,overwrite,merge",
-        "es-ES": "更新模式,取值sync,overwrite,merge",
-        "ar-EG": "更新模式,取值sync,overwrite,merge",
         "$files": [
             "src\\commands\\extract\\index.js(13:40-13:69)"
         ],
@@ -110,8 +784,6 @@
     },
     "文件匹配规则": {
         "en-US": "文件匹配规则",
-        "es-ES": "文件匹配规则",
-        "ar-EG": "文件匹配规则",
         "$files": [
             "src\\commands\\extract\\index.js(17:50-17:58)"
         ],
@@ -119,8 +791,6 @@
     },
     "初始化VoerkaI18n支持": {
         "en-US": "初始化VoerkaI18n支持",
-        "es-ES": "初始化VoerkaI18n支持",
-        "ar-EG": "初始化VoerkaI18n支持",
         "$files": [
             "src\\commands\\init\\index.js(57:23-57:40)"
         ],
@@ -128,8 +798,6 @@
     },
     "重新初始化": {
         "en-US": "重新初始化",
-        "es-ES": "重新初始化",
-        "ar-EG": "重新初始化",
         "$files": [
             "src\\commands\\init\\index.js(58:32-58:39)"
         ],
@@ -137,8 +805,6 @@
     },
     "语言目录": {
         "en-US": "语言目录",
-        "es-ES": "语言目录",
-        "ar-EG": "语言目录",
         "$files": [
             "src\\commands\\init\\index.js(59:47-59:53)"
         ],
@@ -146,8 +812,6 @@
     },
     "是否开发库工程": {
         "en-US": "是否开发库工程",
-        "es-ES": "是否开发库工程",
-        "ar-EG": "是否开发库工程",
         "$files": [
             "src\\commands\\init\\index.js(63:31-63:40)"
         ],
@@ -155,35 +819,13 @@
     },
     "选择支持的语言": {
         "en-US": "选择支持的语言",
-        "es-ES": "选择支持的语言",
-        "ar-EG": "选择支持的语言",
         "$files": [
             "src\\commands\\init\\index.js(64:47-64:56)"
         ],
         "$id": 126
     },
-    "默认语言": {
-        "en-US": "默认语言",
-        "es-ES": "默认语言",
-        "ar-EG": "默认语言",
-        "$files": [
-            "src\\commands\\init\\index.js(71:45-71:51)"
-        ],
-        "$id": 127
-    },
-    "激活语言": {
-        "en-US": "激活语言",
-        "es-ES": "激活语言",
-        "ar-EG": "激活语言",
-        "$files": [
-            "src\\commands\\init\\index.js(82:44-82:50)"
-        ],
-        "$id": 128
-    },
     "启用Typescript": {
         "en-US": "启用Typescript",
-        "es-ES": "启用Typescript",
-        "ar-EG": "启用Typescript",
         "$files": [
             "src\\commands\\init\\index.js(90:38-90:52)"
         ],
@@ -191,110 +833,58 @@
     },
     "模块类型": {
         "en-US": "模块类型",
-        "es-ES": "模块类型",
-        "ar-EG": "模块类型",
         "$files": [
             "src\\commands\\init\\index.js(95:54-95:60)"
         ],
         "$id": 130
     },
-    "初始化VoerkaI18n": {
-        "en-US": "初始化VoerkaI18n",
-        "es-ES": "初始化VoerkaI18n",
-        "ar-EG": "初始化VoerkaI18n",
+    "开始初始化VoerkaI18n": {
+        "en-US": "开始初始化VoerkaI18n",
         "$files": [
-            "src\\commands\\init\\initializer.js(97:22-97:37)"
+            "src\\commands\\init\\initializer.js(98:22-98:39)"
         ],
-        "$id": 131
+        "$id": 386
     },
     "语言配置文件: {}": {
         "en-US": "语言配置文件: {}",
-        "es-ES": "语言配置文件: {}",
-        "ar-EG": "语言配置文件: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(99:18-99:30)"
+            "src\\commands\\init\\initializer.js(102:18-102:30)"
         ],
         "$id": 132
     },
     "拟支持的语言: {}": {
         "en-US": "拟支持的语言: {}",
-        "es-ES": "拟支持的语言: {}",
-        "ar-EG": "拟支持的语言: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(100:18-100:30)"
+            "src\\commands\\init\\initializer.js(103:18-103:30)"
         ],
         "$id": 133
     },
     "已安装运行时: {}": {
         "en-US": "已安装运行时: {}",
-        "es-ES": "已安装运行时: {}",
-        "ar-EG": "已安装运行时: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(101:18-101:30)"
+            "src\\commands\\init\\initializer.js(104:18-104:30)"
         ],
         "$id": 134
     },
-    "本工程运行在: {}": {
-        "en-US": "本工程运行在: {}",
-        "es-ES": "本工程运行在: {}",
-        "ar-EG": "本工程运行在: {}",
-        "$files": [
-            "src\\commands\\init\\initializer.js(102:18-102:30)"
-        ],
-        "$id": 135
-    },
     "库模式": {
         "en-US": "库模式",
-        "es-ES": "库模式",
-        "ar-EG": "库模式",
         "$files": [
-            "src\\commands\\init\\initializer.js(102:44-102:49)"
+            "src\\commands\\init\\initializer.js(105:44-105:49)"
         ],
         "$id": 136
     },
     "应用模式": {
         "en-US": "应用模式",
-        "es-ES": "应用模式",
-        "ar-EG": "应用模式",
         "$files": [
-            "src\\commands\\init\\initializer.js(102:55-102:61)"
+            "src\\commands\\init\\initializer.js(105:55-105:61)"
         ],
         "$id": 137
     },
-    "初始化成功,下一步：": {
-        "en-US": "初始化成功,下一步：",
-        "es-ES": "初始化成功,下一步：",
-        "ar-EG": "初始化成功,下一步：",
-        "$files": [
-            "src\\commands\\init\\initializer.js(103:18-103:30)"
-        ],
-        "$id": 138
-    },
     " - 修改{}文件编辑语言参数": {
         "en-US": " - 修改{}文件编辑语言参数",
-        "es-ES": " - 修改{}文件编辑语言参数",
-        "ar-EG": " - 修改{}文件编辑语言参数",
         "$files": [
-            "src\\commands\\init\\initializer.js(104:18-104:35)"
+            "src\\commands\\init\\initializer.js(108:18-108:35)"
         ],
         "$id": 139
-    },
-    " - 运行<{}>扫描提取要翻译的文本": {
-        "en-US": " - 运行<{}>扫描提取要翻译的文本",
-        "es-ES": " - 运行<{}>扫描提取要翻译的文本",
-        "ar-EG": " - 运行<{}>扫描提取要翻译的文本",
-        "$files": [
-            "src\\commands\\init\\initializer.js(105:18-105:39)"
-        ],
-        "$id": 140
-    },
-    " - 运行<{}>在线自动翻译": {
-        "en-US": " - 运行<{}>在线自动翻译",
-        "es-ES": " - 运行<{}>在线自动翻译",
-        "ar-EG": " - 运行<{}>在线自动翻译",
-        "$files": [
-            "src\\commands\\init\\initializer.js(106:18-106:35)"
-        ],
-        "$id": 141
     }
 }

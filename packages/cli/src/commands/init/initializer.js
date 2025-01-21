@@ -55,13 +55,13 @@ async function initializer(options={}){
     },options)        
     formatLanguages(opts)
 
-    const { entry,library,moduleType,reset,typescript:isTypeScript } =  opts
+    const { entry, library, moduleType, typescript:isTypeScript } =  opts
 
     const projectPackageJson = getPackageJson()
-    const langDir = getLanguageDir()
-    const langRelDir = path.relative(process.cwd(),langDir)
-    const settingsFile = path.join(langDir,"settings.json")
-    const settingsRelFile = path.relative(process.cwd(),settingsFile)
+    const langDir            = getLanguageDir()
+    const langRelDir         = path.relative(process.cwd(),langDir)
+    const settingsFile       = path.join(langDir,"settings.json")
+    const settingsRelFile    = path.relative(process.cwd(),settingsFile)
 
     const tasks = logsets.createTasks([
         {
@@ -70,15 +70,15 @@ async function initializer(options={}){
                 if(!fs.existsSync(langDir)){
                     fs.mkdirSync(langDir) 
                 }                    
-                opts.scopeId =projectPackageJson?.name || 'scope'+parseInt(Math.random()*10000)
+                opts.scopeId =projectPackageJson?.name || 'scope'+ parseInt(Math.random()*10000)
                 await copyFiles("*.*",langDir, {
-                    cwd : path.join(__dirname,"templates",isTypeScript ? "ts" : moduleType),
-                    vars: opts,
-                    overwrite:true
+                    cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : moduleType),
+                    vars     : opts,
+                    overwrite: true
                 }) 
                 opts.languages.forEach(lng=>{
-                    const msgFile = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : moduleType}`)
-                    const msgContent = moduleType==='cjs' ? `module.exports = {}` : `export default {}`
+                    const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : moduleType}`)
+                    const msgContent = moduleType === 'cjs' ? `module.exports = {}` : `export default {}`
                     fs.writeFileSync(msgFile,msgContent)
                 })
             }
@@ -95,13 +95,17 @@ async function initializer(options={}){
         }
     ]) 
  
-    await tasks.run(t("初始化VoerkaI18n"))
-        
+    logsets.separator()
+    await tasks.run(t("开始初始化VoerkaI18n"))
+
+    logsets.separator()
+
     logsets.log(t("语言配置文件: {}"),settingsRelFile)
     logsets.log(t("拟支持的语言: {}"),opts.languages.map(lng=>`${lng.title}(${lng.name})`).join(","))    
     logsets.log(t("已安装运行时: {}"),'@voerkai18n/runtime')
     logsets.log(t("本工程运行在: {}"),library ? t("库模式") : t("应用模式"))
-    logsets.log(t("初始化成功,下一步："))    
+    logsets.separator()
+    logsets.header(t("初始化成功,下一步："))    
     logsets.log(t(" - 修改{}文件编辑语言参数"),`${entry}/settings.json`)
     logsets.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
     logsets.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")

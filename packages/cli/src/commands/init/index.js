@@ -51,12 +51,17 @@ function getSelectedLanguages(seelctedTags) {
 module.exports = (cli) => {
 
     const isTypeScript = isTypeScriptPackage();
-
+    
     const initCommand = new MixCommand("init");
+    
+    const initOptions = Object.assign({},VoerkaI18nSettings)
+    initOptions.languages = initOptions.languages.map(lang=>lang.name)
 
     initCommand
         .description(t("初始化VoerkaI18n支持"))
-        .option("-r, --reset",t("重新初始化"),{default:false,prompt:false})
+        // .enablePrompts()
+        // .initial(initOptions)
+        .option("-r, --reset",t("重新初始化"),{default:false,prompt:false})        
         .option("-d, --language-dir [path]", t("语言目录"), {
             default: getLanguageDir({autoCreate:false,absolute:false}),
             prompt : true,
@@ -71,19 +76,19 @@ module.exports = (cli) => {
         })
         .option("--defaultLanguage <tag>", t("默认语言"), {
             prompt: {
-                type: "select",
-                initial: (_, answers) => {
+                type    : "select",
+                initial : (_, answers) => {
                     return answers.languages[0].value;
                 },
-                choices: (answer) => {
+                choices : (answer) => {
                     return getSelectedLanguages(answer);
                 },
             },
         })
         .option("--activeLanguage <tag>", t("激活语言"), {
             prompt: {
-                type: "select",
-                choices: (_, answers) => {
+                type    : "select",
+                choices : (_, answers) => {
                     return getSelectedLanguages(answers.languages);
                 },
             },
