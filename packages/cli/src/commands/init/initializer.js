@@ -55,13 +55,13 @@ async function initializer(options={}){
     },options)        
     formatLanguages(opts)
 
-    const { entry, library, moduleType, typescript:isTypeScript } =  opts
+    const { library, moduleType, typescript:isTypeScript } =  opts
 
     const projectPackageJson = getPackageJson()
     const langDir            = getLanguageDir()
-    const langRelDir         = path.relative(process.cwd(),langDir)
+    const langRelDir         = path.relative(process.cwd(),langDir).replace(/\\/g,'/')
     const settingsFile       = path.join(langDir,"settings.json")
-    const settingsRelFile    = path.relative(process.cwd(),settingsFile)
+    const settingsRelFile    = path.relative(process.cwd(),settingsFile).replace(/\\/g,'/')
 
     const tasks = logsets.createTasks([
         {
@@ -100,13 +100,14 @@ async function initializer(options={}){
 
     logsets.separator()
 
-    logsets.log(t("语言配置文件: {}"),settingsRelFile)
-    logsets.log(t("拟支持的语言: {}"),opts.languages.map(lng=>`${lng.title}(${lng.name})`).join(","))    
-    logsets.log(t("已安装运行时: {}"),'@voerkai18n/runtime')
-    logsets.log(t("本工程运行在: {}"),library ? t("库模式") : t("应用模式"))
+    logsets.header(t("配置信息："))    
+    logsets.log(t(" - 语言配置文件: {}"),settingsRelFile)
+    logsets.log(t(" - 拟支持的语言: {}"),opts.languages.map(lng=>`${lng.title}(${lng.name})`).join(","))    
+    logsets.log(t(" - 已安装运行时: {}"),'@voerkai18n/runtime')
+    logsets.log(t(" - 工作模式    :  {}"),library ? t("库模式") : t("应用模式"))
     logsets.separator()
     logsets.header(t("初始化成功,下一步："))    
-    logsets.log(t(" - 修改{}文件编辑语言参数"),`${entry}/settings.json`)
+    logsets.log(t(" - 修改{}文件编辑语言参数"),`${langRelDir}/settings.json`)
     logsets.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
     logsets.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
     logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")

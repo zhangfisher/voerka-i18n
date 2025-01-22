@@ -59,9 +59,9 @@ module.exports = (cli) => {
 
     initCommand
         .description(t("初始化VoerkaI18n支持"))
-        // .enablePrompts()
-        // .initial(initOptions)
-        .option("-r, --reset",t("重新初始化"),{default:false,prompt:false})        
+        .alias("config")
+        .enablePrompts()
+        .initial(initOptions) 
         .option("-d, --language-dir [path]", t("语言目录"), {
             default: getLanguageDir({autoCreate:false,absolute:false}),
             prompt : true,

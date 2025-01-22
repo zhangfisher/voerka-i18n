@@ -21,6 +21,11 @@
         "name": "ar-EG",
         "title": "阿拉伯语(埃及)",
         "nativeTitle": "العربية (مصر)"
+    },
+    {
+        "name": "pt-PT",
+        "title": "葡萄牙语(葡萄牙)",
+        "nativeTitle": "Português (Portugal)"
     }
 ],
     "library":false,

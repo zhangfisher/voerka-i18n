@@ -12,6 +12,7 @@ const messages = {
     'en-US'    : activeMessages,
     'es-ES'    : ()=>import("./es-ES"),
     'ar-EG'    : ()=>import("./ar-EG"),
+    'pt-PT'    : ()=>import("./pt-PT"),
 }
 
 

@@ -138,14 +138,14 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       logsets:
-        specifier: ^1.3.16
-        version: 1.3.16
+        specifier: ^1.3.18
+        version: 1.3.18
       md5:
         specifier: ^2.3.0
         version: 2.3.0
       mixcli:
-        specifier: ^3.2.6
-        version: 3.2.6
+        specifier: ^3.2.8
+        version: 3.2.8
       qs:
         specifier: ^6.10.3
         version: 6.10.3
@@ -4141,8 +4141,8 @@ packages:
   logsets@1.3.1:
     resolution: {integrity: sha512-28oiKdbEttEzvcUiJvp/kE7+0v3VkV5IsOe5g7uuEjSa0xxoCNunsAG53Wsvm6ClUYBKIni0A74GbjSSb6+k3A==}
 
-  logsets@1.3.16:
-    resolution: {integrity: sha512-q/g1NW4ciuwstaT1gyuxBCNiQgnvAIb/8izseaStri8K0JtbxM4zfsxlqXD2Xz7Ey0q00QQn7wE5+e5p/Lt0Rg==}
+  logsets@1.3.18:
+    resolution: {integrity: sha512-bqbyzzu9YQFxk/MNWVJ02TuOfTV/W0kca87Px768n60YMWapPJwEQgc0coE+n/IlCepoQxufpelVHfWYOt/FCQ==}
 
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -4274,8 +4274,8 @@ packages:
   mitt@3.0.1:
     resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
 
-  mixcli@3.2.6:
-    resolution: {integrity: sha512-N1zP0bYARIo+vxK1Af9dNvOV4Ua4LNhnS0EYIZ8zVKTvHA++jzXfewT2gKMs5G/Ed4ENmcA5OdeHLBOdvdC8Ng==}
+  mixcli@3.2.8:
+    resolution: {integrity: sha512-+G61C0wdIifndAqkoWP+m9MvcddSfGSh1AF01vZYV6szAQDQuZL8FEEf6V9PR1FelU0ul8P7ldV1O8rAfr4niQ==}
 
   mixin-deep@1.3.2:
     resolution: {integrity: sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==}
@@ -9893,7 +9893,7 @@ snapshots:
       core-js: 3.27.1
       flex-tools: 1.4.27
 
-  logsets@1.3.16:
+  logsets@1.3.18:
     dependencies:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
@@ -10058,7 +10058,7 @@ snapshots:
 
   mitt@3.0.1: {}
 
-  mixcli@3.2.6:
+  mixcli@3.2.8:
     dependencies:
       '@types/prompts': 2.4.9
       '@voerkai18n/runtime': 2.1.13
@@ -10067,7 +10067,7 @@ snapshots:
       flex-tools: 1.4.27
       fs-extra: 11.2.0
       glob: 10.4.5
-      logsets: 1.3.16
+      logsets: 1.3.18
       prompts: 2.4.2
       string.prototype.replaceall: 1.0.7
 
