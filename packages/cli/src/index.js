@@ -3,6 +3,7 @@ const { MixCli } = require("mixcli");
 const InitCommand = require("./commands/init");
 const ExtractCommand = require("./commands/extract");
 const CompileCommand = require("./commands/compile");
+const WrapCommand = require("./commands/wrap");
 const { getCliLanguage } = require("./oslocale");
 const {  isVoerkaI18nInstalled, getVoerkaI18nSettings } = require("@voerkai18n/utils");
     
@@ -24,4 +25,5 @@ const cli = new MixCli({
 cli.register(InitCommand)
 cli.register(ExtractCommand)
 cli.register(CompileCommand)
+cli.register(WrapCommand)
 cli.run();

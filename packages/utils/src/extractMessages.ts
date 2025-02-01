@@ -16,6 +16,7 @@ export type TranslateNode = {
     rang    : Range
     args?   : string,
     options?: string
+    namespace?:string
 } 
 
 /**

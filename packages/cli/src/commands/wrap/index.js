@@ -1,121 +1,44 @@
 const { MixCommand } = require("mixcli");
-const { t } = require("../../i18n"); 
-const path = require("node:path");
+const { t } = require("../../i18n");
+const { wrap } = require("./wrap");
 const logsets = require("logsets");
-const fastGlob = require("fast-glob");
-const { getVoerkaI18nSettings, getLanguageDir } = require("@voerkai18n/utils");
-const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage");
-const { getPackageModuleType } = require("flex-tools/package/getPackageModuleType");
-const { readFile,writeFile } = require("flex-tools/fs/nodefs");
-
-
-
-async function compileLanguageFile(language,allMessages,settings){
-    const { isTypescript, moduleType,langDir } = settings;
-
-    const langFile = path.join(langDir,  `${language.name}.${isTypescript ? "ts" : moduleType === "cjs" ? "js" : "mjs"}`)    
-    const compiledMessages = {}
-
-    for(let [ text,translated ] of Object.entries(allMessages)){
-        const id = translated.$id
-        if(!id){
-            throw new Error(`翻译文本没有id: ${text}`)
-        }
-        if(language.name in translated){
-            compiledMessages[id] = translated[language.name]
-        }else{
-            if(language.name === settings.defaultLanguage){
-                compiledMessages[id] = text
-            }
-        }
-    }    
-    const content = `${ moduleType==='cjs' ? 'module.exports =' : 'export default '} ${JSON.stringify(compiledMessages,null,4)}`
-    await writeFile(langFile,content,{ encoding: "utf-8" })    
-}
-
-async function generateIdMap(allMessages,settings){
-    const { isTypescript, moduleType,langDir } = settings;
-    const idMapFile = path.join(langDir,  `idMap.${isTypescript ? "ts" : moduleType === "cjs" ? "js" : "mjs"}`)    
-    const idMap = {}
-    for(let [ text,translated ] of Object.entries(allMessages)){
-        idMap[text] = translated.$id
-    }
-    const content = `${ moduleType==='cjs' ? 'module.exports =' : 'export default '} ${JSON.stringify(idMap,null,4)}`
-    await writeFile(idMapFile,content,{ encoding: "utf-8" })
-}
-
-async function mergeTranslatedMessages(settings){
-    
-    const translateDir = path.join(settings.langDir,"translates")
-
-    const files = await fastGlob("*.json",{
-        cwd     : translateDir,
-        absolute: true
-    })
-
-    const messages = {}
-
-    for(let file of files){
-        const content = await readFile(file, { encoding: "utf-8" })
-        Object.assign(messages,JSON.parse(content,null,4))
-    }
-
-    return messages
-
-}
-
-
-async function compileLanguagePack(options){
-    
-    const settings      = await getVoerkaI18nSettings();
-    const langDir       = getLanguageDir();
-    const langRelDir     = path.relative(process.cwd(),langDir).replace(/\\/g,"/");
-    settings.langDir     = langDir;
-    settings.langRelDir   = langRelDir
-    settings.isTypescript =  isTypeScriptPackage()
-    Object.assign(settings,options)
-
- 
-    logsets.header(t("开始编译语言包: {}"),langRelDir)
-
-    // 1. 合并所有翻译后的文本
-
-    const allMessages = await mergeTranslatedMessages(settings)
-    const langExtName = settings.isTypescript ? "ts" : settings.moduleType === "cjs" ? "js" : "mjs"
-
-    const tasks = logsets.tasklist()
-
-    for(let language of settings.languages){
-        try{
-            tasks.add(["编译语言文件: {}",`${langRelDir}/${language.name}.${langExtName}`])
-            await compileLanguageFile( language, allMessages,settings)
-            tasks.complete()
-        }catch(e){
-            tasks.error(e)
-        }
-    }
-}
-
+const { getCliContext, getApi } = require("@voerkai18n/utils");
 
 /**
  * @param {import('mixcli').MixCli} cli
- */
+*/
 module.exports = (cli) => {
-    const extractCommand = new MixCommand("compile");
+    const wrapCommand = new MixCommand("wrap");
 
-    extractCommand
+    wrapCommand
         .disablePrompts()
-        .description(t("编译语言包"))
+        .description(t("扫描源代码并自动应用翻译函数t"))
         .disablePrompts()
-        .option("-t, --typescript", t("启用typescript"))
-        .option("-m, --module-type [values...]", t("模块类型,取值:cjs,esm"))
+        .option("-p, --patterns <patterns...>", t("扫描匹配规则"),{require:true}) 
+        .option("-o, --output [path]", t("输出目录，默认是直接修改原文件"))
+        .option("--api-url [value]", t("AI大模型API地址"))
+        .option("--api-key [value]", t("AI大模型API密钥"))
+        .option("--api-model [value]", t("AI大模型"))        
+        .option("--api [value]", t("languages/apis.json中预设AI服务"))        
         .action(async (options) => {
-            const isTypescript = options.typescript || isTypeScriptPackage()
-            const moduleType = options.moduleType || getPackageModuleType()
-            await compileLanguagePack({
-                isTypescript,
-                moduleType
-            });
+            if(!options.patterns){
+                logsets.log(t("使用{}提供扫描匹配规则,例如：{}"),"-p, --patterns","-p ./src/**/*.{js,ts,tsx}")
+                return
+            }                
+            const settings = await getCliContext(options);             
+            const api = getApi(options.api,{                
+                apiUrl      : options.apiUrl,
+                apiKey      : options.apiKey,
+                model    : options.apiModel
+            }); 
+            settings.api = api;
+            if(!api || (api && (!api.apiKey || !api.apiUrl || !api.model))){
+                logsets.header(t("此命令使用AI对代码进行分析和自动应用t函数,需要提供访问AI大模型的API地址、密钥以及模型名称"));
+                logsets.log(t(" - 通过{},{},{}参数提供"),"--api-url","--api-key","--api-model");
+                logsets.log(t(" - 或者在<{}>中声明，然后通过{}参数提供"), settings.langRelDir+"/.apis.json","--api" )
+                return
+            }
+            await wrap(settings);
         });
-    return extractCommand;
+    return wrapCommand;
 };

@@ -67,12 +67,12 @@ async function mergeTranslatedMessages(settings){
 
 async function compileLanguagePack(options){
     
-    const settings      = await getVoerkaI18nSettings();
-    const langDir       = getLanguageDir();
-    const langRelDir     = path.relative(process.cwd(),langDir).replace(/\\/g,"/");
-    settings.langDir     = langDir;
+    const settings        = await getVoerkaI18nSettings();
+    const langDir         = getLanguageDir();
+    const langRelDir      = path.relative(process.cwd(),langDir).replace(/\\/g,"/");
+    settings.langDir      = langDir;
     settings.langRelDir   = langRelDir
-    settings.isTypescript =  isTypeScriptPackage()
+    settings.isTypescript = isTypeScriptPackage()
     Object.assign(settings,options)
 
  

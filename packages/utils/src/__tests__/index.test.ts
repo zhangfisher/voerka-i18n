@@ -9,8 +9,8 @@ describe('extractMessages', () => {
             t('bbb')
         `;
         const expected: TranslateNode[] = [
-            { text: "aaa", rang: expect.any(Object) },
-            { text: "bbb", rang: expect.any(Object) }
+            { text: "aaa", rang: expect.any(Object)  ,namespace:"default"},
+            { text: "bbb", rang: expect.any(Object)  ,namespace:"default"}
         ];
         expect(extractMessages(code)).toEqual(expected);
     });
@@ -20,7 +20,7 @@ describe('extractMessages', () => {
             t("ccc", {xxx:xxx})
         `;
         const expected: TranslateNode[] = [
-            { text: "ccc", rang: expect.any(Object), args: "{xxx:xxx}" }
+            { text: "ccc", rang: expect.any(Object), args: "{xxx:xxx}" ,namespace:"default" }
         ];
         expect(extractMessages(code)).toEqual(expected);
     });
@@ -30,7 +30,7 @@ describe('extractMessages', () => {
             t('ddd', [1,2,3,""])
         `;
         const expected: TranslateNode[] = [
-            { text: "ddd", rang: expect.any(Object), args: "[1,2,3,\"\"]" }
+            { text: "ddd", rang: expect.any(Object), args: "[1,2,3,\"\"]" ,namespace:"default" }
         ];
         expect(extractMessages(code)).toEqual(expected);
     });
@@ -40,7 +40,7 @@ describe('extractMessages', () => {
             t("eee", {xxx:xxx},{})
         `;
         const expected: TranslateNode[] = [
-            { text: "eee", rang: expect.any(Object), args: "{xxx:xxx}", options: "{}" }
+            { text: "eee", rang: expect.any(Object), args: "{xxx:xxx}", options: "{}"  ,namespace:"default"}
         ];
         expect(extractMessages(code)).toEqual(expected);
     });
@@ -50,7 +50,7 @@ describe('extractMessages', () => {
             t('fff', [1,2,3,""],{})
         `;
         const expected: TranslateNode[] = [
-            { text: "fff", rang: expect.any(Object), args: "[1,2,3,\"\"]", options: "{}" }
+            { text: "fff", rang: expect.any(Object), args: "[1,2,3,\"\"]", options: "{}"  ,namespace:"default"}
         ];
         expect(extractMessages(code)).toEqual(expected);
     });
@@ -60,7 +60,7 @@ describe('extractMessages', () => {
             t("ggg", {xxx:xxx},()=>{})
         `;
         const expected: TranslateNode[] = [
-            { text: "ggg", rang: expect.any(Object), args: "{xxx:xxx}", options: "()=>{}" }
+            { text: "ggg", rang: expect.any(Object), args: "{xxx:xxx}", options: "()=>{}" ,namespace:"default" }
         ];
         expect(extractMessages(code)).toEqual(expected);
     });
@@ -70,7 +70,7 @@ describe('extractMessages', () => {
             t('hhh', [1,2,3,""],()=>{})
         `;
         const expected: TranslateNode[] = [
-            { text: "hhh", rang: expect.any(Object), args: "[1,2,3,\"\"]", options: "()=>{}" }
+            { text: "hhh", rang: expect.any(Object), args: "[1,2,3,\"\"]", options: "()=>{}" ,namespace:"default"}
         ];
         expect(extractMessages(code)).toEqual(expected);
     });

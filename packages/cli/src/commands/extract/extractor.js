@@ -1,11 +1,11 @@
 const { t } = require("../../i18n");
 const fastGlob = require("fast-glob");
-const { getLanguageDir, getVoerkaI18nSettings, extractMessages } = require("@voerkai18n/utils")
+const { extractMessages } = require("@voerkai18n/utils")
 const logsets = require("logsets");
 const path = require("path");
 const fs = require("node:fs");
 const { readFile, writeFile } = require('flex-tools/fs/nodefs');
-
+const { getCliContext } = require("@voerkai18n/utils");
 
 let messageIds = []
 
@@ -67,25 +67,7 @@ function getNextId(){
  * 最终返回所有提取出的翻译文本的数组。
  */
 async function scanMessages(settings){
-    const { langDir, langRelDir } = settings
-    const patterns = [
-        "**/*.{js,jsx,ts,tsx,vue}",
-        "!coverage",
-        "!.pnpm",
-        "!**/*.test.*",
-        "!**/*.spec.*",
-        "!.vscode",
-        "!dist",
-        "!.git",
-        "!.turbo",
-        "!**/*.d.ts",
-        "!node_modules",
-        "!"+langRelDir 
-    ]
-    if(Array.isArray(settings.patterns)){
-        patterns.push(...settings.patterns)
-    } 
-
+    const { langDir, langRelDir,patterns } = settings 
     logsets.header(t("开始提取要翻译的文本"))
     logsets.log(t(" - 更新模式: {}"),settings.mode)    
     logsets.log(t(" - 提取范围: {}"),patterns.join(", "))        
@@ -260,12 +242,9 @@ async function updateMessages(formattedMessages,settings){
 
 } 
 
-async function extractor(options){   
+async function extractor(options){    
 
-    const settings = await getVoerkaI18nSettings();
-    settings.langDir = getLanguageDir()
-    settings.langRelDir = path.relative(process.cwd(),settings.langDir).replaceAll(path.sep,"/")
-    Object.assign(settings,options) 
+    const settings = await getCliContext(options)
 
     await getMessageIds(settings)
 

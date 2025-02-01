@@ -350,7 +350,7 @@
     "下一步：": {
         "$files": [
             "src\\old\\extract.plugin.js(449:22-449:28)",
-            "src\\commands\\extract\\extractor.js(279:21-279:27)"
+            "src\\commands\\extract\\extractor.js(276:21-276:27)"
         ],
         "$id": 116
     },
@@ -358,8 +358,8 @@
         "$files": [
             "src\\old\\extract.plugin.js(450:22-450:38)",
             "src\\old\\init.command.js(172:17-172:33)",
-            "src\\commands\\extract\\extractor.js(281:18-281:34)",
-            "src\\commands\\init\\initializer.js(111:18-111:34)"
+            "src\\commands\\extract\\extractor.js(278:18-278:34)",
+            "src\\commands\\init\\initializer.js(112:18-112:34)"
         ],
         "$id": 142
     },
@@ -456,15 +456,14 @@
     },
     "本工程运行在: {}": {
         "$files": [
-            "src\\old\\init.command.js(167:17-167:29)",
-            "src\\commands\\init\\initializer.js(105:18-105:30)"
+            "src\\old\\init.command.js(167:17-167:29)"
         ],
         "$id": 135
     },
     "初始化成功,下一步：": {
         "$files": [
             "src\\old\\init.command.js(168:17-168:29)",
-            "src\\commands\\init\\initializer.js(107:21-107:33)"
+            "src\\commands\\init\\initializer.js(108:21-108:33)"
         ],
         "$id": 138
     },
@@ -477,14 +476,14 @@
     " - 运行<{}>扫描提取要翻译的文本": {
         "$files": [
             "src\\old\\init.command.js(170:17-170:38)",
-            "src\\commands\\init\\initializer.js(109:18-109:39)"
+            "src\\commands\\init\\initializer.js(110:18-110:39)"
         ],
         "$id": 140
     },
     " - 运行<{}>在线自动翻译": {
         "$files": [
             "src\\old\\init.command.js(171:17-171:34)",
-            "src\\commands\\init\\initializer.js(110:18-110:35)"
+            "src\\commands\\init\\initializer.js(111:18-111:35)"
         ],
         "$id": 141
     },
@@ -580,7 +579,8 @@
     },
     "开始编译语言包: {}": {
         "$files": [
-            "src\\commands\\compile\\index.js(78:21-78:34)"
+            "src\\commands\\compile\\index.js(78:21-78:34)",
+            "src\\commands\\wrap\\index.js(78:21-78:34)"
         ],
         "$id": 301
     },
@@ -652,13 +652,13 @@
     },
     " - 翻译{}文件": {
         "$files": [
-            "src\\commands\\extract\\extractor.js(280:18-280:29)"
+            "src\\commands\\extract\\extractor.js(277:18-277:29)"
         ],
         "$id": 260
     },
     " - 在源码中从<{}>导入编译后的语言包": {
         "$files": [
-            "src\\commands\\extract\\extractor.js(282:18-282:41)"
+            "src\\commands\\extract\\extractor.js(279:18-279:41)"
         ],
         "$id": 118
     },
@@ -676,7 +676,8 @@
     },
     "文件匹配规则": {
         "$files": [
-            "src\\commands\\extract\\index.js(17:50-17:58)"
+            "src\\commands\\extract\\index.js(17:50-17:58)",
+            "src\\commands\\wrap\\index.js(109:50-109:58)"
         ],
         "$id": 121
     },
@@ -685,12 +686,6 @@
             "src\\commands\\init\\index.js(60:23-60:40)"
         ],
         "$id": 122
-    },
-    "重新初始化": {
-        "$files": [
-            "src\\commands\\init\\index.js(63:32-63:39)"
-        ],
-        "$id": 123
     },
     "语言目录": {
         "$files": [
@@ -728,40 +723,92 @@
         ],
         "$id": 386
     },
-    "语言配置文件: {}": {
+    "配置信息：": {
+        "en-US": "配置信息：",
+        "es-ES": "配置信息：",
+        "ar-EG": "配置信息：",
+        "pt-PT": "配置信息：",
         "$files": [
-            "src\\commands\\init\\initializer.js(102:18-102:30)"
+            "src\\commands\\init\\initializer.js(102:21-102:28)"
         ],
-        "$id": 132
+        "$id": 462
     },
-    "拟支持的语言: {}": {
+    " - 语言配置文件: {}": {
+        "en-US": " - 语言配置文件: {}",
+        "es-ES": " - 语言配置文件: {}",
+        "ar-EG": " - 语言配置文件: {}",
+        "pt-PT": " - 语言配置文件: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(103:18-103:30)"
+            "src\\commands\\init\\initializer.js(103:18-103:33)"
         ],
-        "$id": 133
+        "$id": 463
     },
-    "已安装运行时: {}": {
+    " - 拟支持的语言: {}": {
+        "en-US": " - 拟支持的语言: {}",
+        "es-ES": " - 拟支持的语言: {}",
+        "ar-EG": " - 拟支持的语言: {}",
+        "pt-PT": " - 拟支持的语言: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(104:18-104:30)"
+            "src\\commands\\init\\initializer.js(104:18-104:33)"
         ],
-        "$id": 134
+        "$id": 464
+    },
+    " - 已安装运行时: {}": {
+        "en-US": " - 已安装运行时: {}",
+        "es-ES": " - 已安装运行时: {}",
+        "ar-EG": " - 已安装运行时: {}",
+        "pt-PT": " - 已安装运行时: {}",
+        "$files": [
+            "src\\commands\\init\\initializer.js(105:18-105:33)"
+        ],
+        "$id": 465
+    },
+    " - 工作模式    :  {}": {
+        "en-US": " - 工作模式    :  {}",
+        "es-ES": " - 工作模式    :  {}",
+        "ar-EG": " - 工作模式    :  {}",
+        "pt-PT": " - 工作模式    :  {}",
+        "$files": [
+            "src\\commands\\init\\initializer.js(106:18-106:36)"
+        ],
+        "$id": 466
     },
     "库模式": {
         "$files": [
-            "src\\commands\\init\\initializer.js(105:44-105:49)"
+            "src\\commands\\init\\initializer.js(106:50-106:55)"
         ],
         "$id": 136
     },
     "应用模式": {
         "$files": [
-            "src\\commands\\init\\initializer.js(105:55-105:61)"
+            "src\\commands\\init\\initializer.js(106:61-106:67)"
         ],
         "$id": 137
     },
     " - 修改{}文件编辑语言参数": {
         "$files": [
-            "src\\commands\\init\\initializer.js(108:18-108:35)"
+            "src\\commands\\init\\initializer.js(109:18-109:35)"
         ],
         "$id": 139
+    },
+    "扫描源代码并自动应用翻译函数t": {
+        "en-US": "扫描源代码并自动应用翻译函数t",
+        "es-ES": "扫描源代码并自动应用翻译函数t",
+        "ar-EG": "扫描源代码并自动应用翻译函数t",
+        "pt-PT": "扫描源代码并自动应用翻译函数t",
+        "$files": [
+            "src\\commands\\wrap\\index.js(107:23-107:40)"
+        ],
+        "$id": 467
+    },
+    "输出目录，默认是直接修改原文件": {
+        "en-US": "输出目录，默认是直接修改原文件",
+        "es-ES": "输出目录，默认是直接修改原文件",
+        "ar-EG": "输出目录，默认是直接修改原文件",
+        "pt-PT": "输出目录，默认是直接修改原文件",
+        "$files": [
+            "src\\commands\\wrap\\index.js(110:41-110:58)"
+        ],
+        "$id": 468
     }
 }
