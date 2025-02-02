@@ -7,4 +7,4 @@ node_modules
 coverage
 .turbo
 dist/
-packages/cli/src/languages/apis.json
+packages/cli/src/languages/api.json

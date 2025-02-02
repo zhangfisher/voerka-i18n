@@ -1,9 +1,12 @@
 #!/usr/bin/env node
+require("flex-tools/string")
 const { MixCli } = require("mixcli");
 const InitCommand = require("./commands/init");
 const ExtractCommand = require("./commands/extract");
 const CompileCommand = require("./commands/compile");
 const WrapCommand = require("./commands/wrap");
+const TranslateCommand = require("./commands/translate");
+
 const { getCliLanguage } = require("./oslocale");
 const {  isVoerkaI18nInstalled, getVoerkaI18nSettings } = require("@voerkai18n/utils");
     
@@ -12,8 +15,8 @@ global.VoerkaI18nSettings = getVoerkaI18nSettings()
 global.isVoerkaI18nInstalled = isVoerkaI18nInstalled() 
 
 const cli = new MixCli({
-  name: "Voerkai18n",
-  version: "1.0.0",
+  name: "VoerkaI18n",
+  version: "3.0.0",
   logo: String.raw`
       __     __        _         ___ _  ___        
       \ \   / /__ _ __| | ____ _|_ _/ |( _ ) _ __  
@@ -26,4 +29,5 @@ cli.register(InitCommand)
 cli.register(ExtractCommand)
 cli.register(CompileCommand)
 cli.register(WrapCommand)
+cli.register(TranslateCommand)
 cli.run();

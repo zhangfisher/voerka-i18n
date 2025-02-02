@@ -1,35 +1,6 @@
-<template>
-  <div class="todo-container">
-    <h1>t('任务列表')</h1>
-    <div class="input-container">
-      <input
-        v-model="newTask"
-        @keyup.enter="addTask"
-        :placeholder="t('增加新任务...')"
-      />
-      <button @click="addTask">t('增加')</button>
-    </div>
-    
-    <ul v-if="tasks.length > 0">
-      <li v-for="(task, index) in tasks" :key="index">
-        <input
-          type="checkbox"
-          v-model="task.completed"
-          @change="toggleTask(index)"
-        />
-        <span :class="{ completed: task.completed }">{{ task.text }}</span>
-        <button @click="removeTask(index)" placeholder="删除" >t('删除')</button>
-        <button @click="editTask(index)">t('编辑')</button>
-        <button @click="openTask(index)">t('打开')</button>
-      </li>
-    </ul>
-    <p v-else>t('No tasks yet. Add one!')</p>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { t } from '../../src/languages'
+import { t } from '../src/languages'
 
 interface Task {
   text: string
@@ -57,7 +28,6 @@ const openTask = (index: number) => {
   tasks.value[index].text = t('打开任务')
 }
 
-
 const toggleTask = (index: number) => {
   tasks.value[index].completed = !tasks.value[index].completed
 }
@@ -66,6 +36,36 @@ const removeTask = (index: number) => {
   tasks.value.splice(index, 1)
 }
 </script>
+
+<template>
+  <div class="todo-container">
+    <h1>{{ t('任务列表') }}</h1>
+    <div class="input-container">
+      <input
+        v-model="newTask"
+        @keyup.enter="addTask"
+        :placeholder="t('增加新任务...')"
+      />
+      <button @click="addTask">{{ t('增加') }}</button>
+    </div>
+    
+    <ul v-if="tasks.length > 0">
+      <li v-for="(task, index) in tasks" :key="index">
+        <input
+          type="checkbox"
+          v-model="task.completed"
+          @change="toggleTask(index)"
+        />
+        <span :class="{ completed: task.completed }">{{ task.text }}</span>
+        <button @click="removeTask(index)" :placeholder="t('删除')">{{ t('删除') }}</button>
+        <button @click="editTask(index)" :placeholder="t('编辑')">{{ t('编辑') }}</button>
+        <button @click="openTask(index)" :placeholder="t('打开')">{{ t('打开') }}</button>
+        <button @click="viewTask(index)" :placeholder="t('属性')">{{ t(task.id + '属性') }}</button>
+      </li>
+    </ul>
+    <p v-else>{{ t('No tasks yet. Add one!') }}</p>
+  </div>
+</template>
 
 <style scoped>
 .todo-container {

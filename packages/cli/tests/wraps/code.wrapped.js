@@ -1,9 +1,32 @@
 #!/usr/bin/env node
 
-const t = require("../../src/languages").t;
+/**
+ * 将extract插件扫描的文件编译为语言文件
+ * 
+ * 编译后的语言文件用于运行环境使用
+ * 
+ * 编译原理如下：
+ * 
+ * 
+ * 编译后会在目标文件夹输出:
+ *    
+ *    - languages
+ *        translates
+ *          - en.json
+ *          - zh.json
+ *          - ...
+ *       idMap.js                    // id映射列表
+ *       settings.json                 // 配置文件
+ *       zh.js                       // 中文语言包
+ *       en.js                       // 英文语言包
+ *       [lang].js                   // 其他语言包
+ * 
+ * @param {*} opts 
+ */
+
 const logsets = require("logsets") 
 const path = require("path")
-const { i18nScope } = require("./i18nProxy")
+const { i18nScope,t } = require("./i18nProxy")
 const fs = require("fs-extra")
 const { glob } = require("glob") 
 const { deepMerge,getProjectSourceFolder,getSettingsFromPackageJson } = require("@voerkai18n/utils")
@@ -78,7 +101,7 @@ function restoreInterpVars(messages,interpVars){
  * @param {*} options 
  * @returns 
  */
-async function translateMessages(messages={},from="zh",to="en",options={}){
+async function translateMessages(messages={},from="zh",to="en",options={}) {
     let { qps=1 } = options
     if(messages.length===0) return;
     const provider = getTranslateProvider(options)
@@ -107,7 +130,7 @@ async function translateMessages(messages={},from="zh",to="en",options={}){
  * @param {*} options 
  * @returns 
  */
-async function translateMultiLineMessage(messages=[],from,to,options={}){
+async function translateMultiLineMessage(messages=[],from,to,options={}) {
     if(messages.length===0) return;
     const qps = options.qps || 1
     const provider = getTranslateProvider(options)    
@@ -129,7 +152,7 @@ async function translateMultiLineMessage(messages=[],from,to,options={}){
  * @param {*} options 
  * @returns 
  */
-async function translateLanguage(messages,from,to,options={}){
+async function translateLanguage(messages,from,to,options={}) {
     const { maxPackageSize,mode  } = options;
     let result = {}
     let translatedMessages = {} ,packageSize =0
@@ -173,9 +196,9 @@ async function translateLanguage(messages,from,to,options={}){
  * @param {*} langSettings 
  * @param {*} options 
  */
-async function translateMessageFile(file,langSettings,options={}){    
+async function translateMessageFile(file,langSettings,options={}) {    
     let context = this
-    logsets.log(t('正在翻译文件:{}",path.basename(file)'),path.basename(file))
+    logsets.log(t("正在翻译文件:{}"),path.basename(file))
     let messages = fs.readJSONSync(file);
     // texts = {text:{zh:"",en:"",...,jp:""}}
     let results = {}
@@ -185,7 +208,7 @@ async function translateMessageFile(file,langSettings,options={}){
     for(let lng  of langSettings.languages){
         if(lng.name === defaultLanguage) continue
         try{
-            tasks.add(t('翻译 {} -> {}',[defaultLanguage,lng.name]))
+            tasks.add(t("翻译 {} -> {}"),[defaultLanguage,lng.name])
             const msgs = await translateLanguage(messages,defaultLanguage,lng.name,options)
             if(Object.keys(msgs).length>0){
                 results = deepMerge(results,msgs)
@@ -207,7 +230,7 @@ async function translateMessageFile(file,langSettings,options={}){
 async function translate(srcFolder,opts={}) {
     const options = normalizeTranslateOptions(opts);
     let {   backup, appkey,appid,provider="baidu",entry="languages" } = options;
-    if(!provider && !(appkey && appid) ) throw new Error(t('需要指定翻译脚本或者appkey和appid'))
+    if(!provider && !(appkey && appid) ) throw new Error(t("需要指定翻译脚本或者appkey和appid"))
 
     const langFolder = path.join(srcFolder,entry);
     const files = glob.sync(path.join(langFolder,"translates/*.json"))

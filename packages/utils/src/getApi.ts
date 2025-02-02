@@ -24,7 +24,7 @@ import fs from 'node:fs';
 export function getApi<T extends Record<string,any> =Record<string,any>>(name:string,defaultValue?:Partial<T>):T | undefined{
     // 读取.apikey.json文件
     const langDir = getLanguageDir()
-    const apikeyFile = path.join(langDir,"./apis.json")
+    const apikeyFile = path.join(langDir,"./api.json")
     if(fs.existsSync(apikeyFile)){                    
         const apikeys = JSON.parse(fs.readFileSync(apikeyFile,"utf-8"))
         return apikeys[name] || defaultValue  

@@ -5,7 +5,7 @@ const logsets = require("logsets");
 const path = require("path");
 const fs = require("node:fs");
 const { readFile, writeFile } = require('flex-tools/fs/nodefs');
-const { getCliContext } = require("@voerkai18n/utils");
+const { getProjectContext } = require("@voerkai18n/utils");
 
 let messageIds = []
 
@@ -244,7 +244,7 @@ async function updateMessages(formattedMessages,settings){
 
 async function extractor(options){    
 
-    const settings = await getCliContext(options)
+    const settings = await getProjectContext(options)
 
     await getMessageIds(settings)
 

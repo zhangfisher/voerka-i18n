@@ -18,6 +18,7 @@
     "scripts": {
         "dev": "node src/index.js --",
         "dev:wrap": "node src/index.js wrap --api qwen -p ./tests/wraps/**/*.{js,ts,tsx,vue,jsx,svelte,astro} !./tests/wraps/**/*.wrapped.{js,ts,tsx,vue,jsx,svelte,astro}",
+        "dev:translate": "node src/index.js translate --api qwen",
         "translate": "node ./index.js translate",
         "extract": "node ./index.js extract -D -e templates/** ",
         "compile": "node ./index.js compile",
