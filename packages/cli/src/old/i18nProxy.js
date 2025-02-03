@@ -8,7 +8,7 @@ try{
     t = language.t
     i18nScope = language.i18nScope
 }catch(e){
-    t=v=>v
+    t=(message,...args)=>message.params(...args)
     i18nScope={change:()=>{} }
 }
 

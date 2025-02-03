@@ -1,30 +1,62 @@
-const axios = require("axios")
 const md5 = require("md5");
 const qs = require("qs");
+const baiduTagMap = require('bcp47-language-tags/mapper/baidu').default;
+ 
+
+/**
+ * 文本中的插值变量不进行翻译，所以需要进行替换为特殊字符，翻译后再替换回来
+ * 
+ * 如“My name is {},I am {} years old” 先替换为“My name is __$_$_$__,I am __$_$_$__ years old” 
+ * 翻译后再替换回来
+ *  
+ * @param {String | Object} messages 
+ */
+function replaceInterpVars(messages){
+    const interpVars = []
+    const msgs = Array.isArray(messages) ? messages : Object.keys(messages)
+    const replacedMessages = msgs.map((message)=>{
+        let vars=[]
+        let result = message.replaceAll(/\{\s*.*?\s*\}/gm,(matched)=>{
+            vars.push(matched)
+            return `TranslatePlaceholder`
+        })
+        interpVars.push(vars)
+        return result
+    })
+    return [replacedMessages,interpVars]
+}
+
+/**
+ * 将翻译后的内容还原为插值变量
+ * @param {String[]} messages   翻译后的内容
+ * @param {*} interpVars 
+ */
+function restoreInterpVars(messages,interpVars){ 
+    return messages.map((message,index)=>{
+        let i = 0
+        return message.replaceAll(/__\$_\$_\$__/gm,()=>interpVars[index][i++])
+    })
+}
 
 
 /**
  * q	string	是	请求翻译query	UTF-8编码
-from	string	是	翻译源语言	可设置为auto
-to	string	是	翻译目标语言	不可设置为auto
-appid	string	是	APPID	可在管理控制台查看
-salt	string	是	随机数	可为字母或数字的字符串
-sign	string	是	签名	appid+q+salt+密钥的MD5值
+ * from	string	是	翻译源语言	可设置为auto
+ * to	string	是	翻译目标语言	不可设置为auto
+ * appid	string	是	APPID	可在管理控制台查看
+ * salt	string	是	随机数	可为字母或数字的字符串
+ * sign	string	是	签名	appid+q+salt+密钥的MD5值
 *
- * 
- */
-module.exports = function(options={}){
-    const { appkey,appid ,baseurl = "http://api.fanyi.baidu.com/api/trans/vip/translate" } = options;
+*  @param {} ctx  {id,key,url}
+*/
+module.exports = function(params){
+    const { key:appkey,id:appid ,url:baseurl = "http://api.fanyi.baidu.com/api/trans/vip/translate" } = params
     return {
-        /**
-         * 
-         * @param {*} texts 多条文本
-         * @returns 
-         */
         translate:async (texts=[],from="zh",to="en")=>{           
-
+            from = baiduTagMap[from] || from;
+            to = baiduTagMap[to] || to;
             if(Array.isArray(texts)){
-                texts = texts.join("\n");
+                texts = replaceInterpVars(texts.join("\n"));
             }
             // 在翻译内容中如果包含|,()等在插值变量里面需要的符号时，百度翻译会将其转成全角符号，这会导致插值变量无法识别，所以需要转回来
             let isIncludeSensitiveChar = texts.includes("|") || texts.includes(",") || texts.includes("(") || texts.includes(")")
@@ -44,23 +76,25 @@ module.exports = function(options={}){
                 sign
             });   
             return new Promise((resolve,reject)=>{             
-                axios.get(`${baseurl}?${params}`).then(res=>{
-                    const { data } = res;
-                    if(data.error_code){
-                        reject(new Error(data.error_msg))
-                    }else{
-                        resolve(res.data.trans_result.map(item=>{
-                            // 在翻译时会将一些|,等符号转成全角符号，这会导致插值变量无法识别，所以需要转回来                            
-                            if(isIncludeSensitiveChar){
-                                return item.dst.replaceAll("｜","|").replaceAll("，",",").replaceAll("（","(").replaceAll("）",")")
-                            }else{
-                                return item.dst
-                            }                            
-                        }));
-                    }                    
-                }).catch(err=>{
-                    reject(err);
-                })
+                fetch(`${baseurl}?${params}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error_code) {
+                            reject(new Error(`${data.error_msg}(${data.error_code})`));
+                        } else {
+                            resolve(data.trans_result.map(item => {
+                                // 在翻译时会将一些|,等符号转成全角符号，这会导致插值变量无法识别，所以需要转回来
+                                if (isIncludeSensitiveChar) {
+                                    return item.dst.replaceAll("｜", "|").replaceAll("，", ",").replaceAll("（", "(").replaceAll("）", ")");
+                                } else {
+                                    return item.dst;
+                                }
+                            }));
+                        }
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
             });
         }
 

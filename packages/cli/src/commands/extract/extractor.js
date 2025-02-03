@@ -16,7 +16,7 @@ let messageIds = []
  */
 async function getMessageIds(settings){
     const { langDir } = settings
-    const files = await fastGlob("*.json",{
+    const files = await fastGlob(["*.json","!*.bak*.json"],{
         cwd: path.join(langDir,"translates"),
         absolute: true
     })
@@ -54,10 +54,10 @@ function getNextId(){
 /**
  * 异步函数 `extractTexts` 用于从指定文件中提取需要翻译的文本。
  * 
- * @param {Object} settings - 设置对象，包含提取文本的相关配置。
- * @param {string} settings.langDir - 语言目录的路径。
- * @param {string} settings.langRelDir - 相对于项目根目录的语言目录路径。
- * @param {Array<string>} [settings.patterns] - 可选的文件匹配模式数组，用于扩展默认的匹配规则。
+ * @param {Object} ctx - 设置对象，包含提取文本的相关配置。
+ * @param {string} ctx.langDir - 语言目录的路径。
+ * @param {string} ctx.langRelDir - 相对于项目根目录的语言目录路径。
+ * @param {Array<string>} [ctx.patterns] - 可选的文件匹配模式数组，用于扩展默认的匹配规则。
  * @returns {Promise<{ text,rang,args,options,file }>} 返回一个包含提取出的翻译文本的数组。
  * 
  * 该函数首先定义了一组默认的文件匹配模式，然后合并了用户自定义的模式。
@@ -66,35 +66,33 @@ function getNextId(){
  * 提取过程中会记录任务进度和结果。
  * 最终返回所有提取出的翻译文本的数组。
  */
-async function scanMessages(settings){
-    const { langDir, langRelDir,patterns } = settings 
-    logsets.header(t("开始提取要翻译的文本"))
-    logsets.log(t(" - 更新模式: {}"),settings.mode)    
-    logsets.log(t(" - 提取范围: {}"),patterns.join(", "))        
-    logsets.log(t(" - 通过{}参数增加文件匹配规则"),"--patterns")
-    logsets.log(t(" - 您可以通过修改{}文件的{}参数来调整提取范围"),`${langRelDir}/settings.json`,"patterns")    
+async function scanMessages(ctx,tasks){
+    const {  langRelDir,patterns } = ctx 
+
+    tasks.addGroup(t("提取参数："))
+    tasks.create(t(" 更新模式: {}"),ctx.mode)    
+    tasks.create(t(" 提取范围: {}"),patterns.join(", "))        
+    tasks.create(t(" 通过{}参数增加文件匹配规则"),"--patterns")
+    tasks.create(t(" 您可以通过修改{}文件的{}参数来调整提取范围"),`${langRelDir}/settings.json`,"patterns")    
 
     const files = await fastGlob(patterns,{
         cwd     : process.cwd(),
         absolute: true
     })
-
-    logsets.separator(88)
-
-    logsets.header(t("共找到{}个文件"),files.length)
-
-    const tasks = logsets.tasklist({ width:80 })
+ 
 
     const results = []
 
     let total = 0
+
+    tasks.addGroup(t("开始提取："))    
 
     for(let file of files){
         try{
             const relFile= path.relative(process.cwd(),file)        
             tasks.add("提取{}",relFile)
             const code   = await readFile(file,{ encoding: "utf-8" }) 
-            const result = await extractMessages(code,settings.namespaces,{
+            const result = await extractMessages(code,ctx.namespaces,{
                 file      : relFile
             }) 
             if( result && result.length>0 ){
@@ -110,8 +108,9 @@ async function scanMessages(settings){
             tasks.error(e)
         }
     }
-    logsets.separator(88)
-    logsets.header(t("提取完成，名称空间：{}, 提取{}个文本,保存到："), ["default",...Object.keys(settings.namespaces ||[])].join(", "),total)
+    tasks.addGroup(t("提取结果:"))
+    tasks.addMemo(t("名称空间：{}"), ["default",...Object.keys(ctx.namespaces ||[])].join(","))
+    tasks.addMemo(t("共提取{}个文本"), total) 
     return results
 }
 
@@ -207,12 +206,9 @@ async function overwriteMessages(namespaceFile,newMessages,settings){
  * 根据从extraceTexts提取的文本按namespace进行分组
  * @param {*} messages 
  */
-async function updateMessages(formattedMessages,settings){    
-    const { langDir } = settings
-    const mode = settings.mode || 'sync'
-
-    const tasks = logsets.tasklist({ width:80 })
-
+async function updateMessages(formattedMessages,ctx,tasks){    
+    const { langDir } = ctx
+    const mode = ctx.mode || 'sync'
     const translateDir = path.join(langDir,"translates")
     if(!fs.existsSync(translateDir)){
         fs.mkdirSync(translateDir)
@@ -220,47 +216,38 @@ async function updateMessages(formattedMessages,settings){
 
     for(let [namespace,messages] of Object.entries(formattedMessages)){
         const namespaceFile = path.join(langDir,"translates",`${namespace}.json`)
-        const namespaceRelFile = path.relative(process.cwd(),namespaceFile).replaceAll(path.sep,"/")
-        const task = tasks.add("{}",namespaceRelFile)
-        try{
-            if(fs.existsSync(namespaceFile)){
-                if(mode === 'overwrite'){
-                    await overwriteMessages(namespaceFile,messages,settings)
-                    task.complete('overwrite')
-                }else{
-                    await syncMessages(namespaceFile,messages,settings)
-                    task.complete('sync')
-                }
+        if(fs.existsSync(namespaceFile)){
+            if(mode === 'overwrite'){
+                await overwriteMessages(namespaceFile,messages,ctx)
             }else{
-                await overwriteMessages(namespaceFile,messages,settings)
-                task.complete()
-            }            
-        }catch(e){
-            task.error(e)
-        }        
+                await syncMessages(namespaceFile,messages,ctx)
+            }
+        }else{
+            await overwriteMessages(namespaceFile,messages,ctx)
+        }                 
     }
-
 } 
 
 async function extractor(options){    
 
-    const settings = await getProjectContext(options)
+    const ctx = await getProjectContext(options)
 
-    await getMessageIds(settings)
+    const tasks = logsets.tasklist({ width:88,grouped:true })
+
+    await getMessageIds(ctx)
 
     // 1. 提取文本
-    const messages = await scanMessages(settings)
+    const messages = await scanMessages(ctx,tasks)
     // 2. 格式化文本
-    const formattedMessages = formatMessages(messages,settings)
+    const formattedMessages = formatMessages(messages,ctx)
     // 3. 保存文本    
-    await updateMessages(formattedMessages,settings)
-    
-    logsets.separator(88)
-    logsets.header(t("下一步："))
-    logsets.log(t(" - 翻译{}文件"),"translates/*.json")
-    logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
-    logsets.log(t(" - 在源码中从<{}>导入编译后的语言包"), settings.langRelDir )
+    await updateMessages(formattedMessages,ctx,tasks)
 
+    tasks.addGroup(t("下一步："))    
+    tasks.addMemo(t("翻译{}文件"),"translates/*.json")
+    tasks.addMemo(t("运行<{}>编译语言包"),"voerkai18n compile")
+    tasks.addMemo(t("在源码中从<{}>导入编译后的语言包"), ctx.langRelDir )
+    tasks.addMemo("Done!")
 }
 
 

@@ -111,8 +111,8 @@ importers:
         specifier: ^4.13.2
         version: 4.13.2
       bcp47-language-tags:
-        specifier: ^1.0.9
-        version: 1.0.9
+        specifier: ^1.1.0
+        version: 1.1.0
       commander:
         specifier: ^9.0.0
         version: 9.4.0
@@ -138,8 +138,8 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       logsets:
-        specifier: ^1.3.21
-        version: 1.3.21
+        specifier: ^1.3.24
+        version: 1.3.24
       md5:
         specifier: ^2.3.0
         version: 2.3.0
@@ -2733,8 +2733,8 @@ packages:
   bcp47-language-tags@1.0.8:
     resolution: {integrity: sha512-egs4zJl430/Oepojtorp/dhe5MXOtWJr13+B8CTAcAHyYrI0Oh+P6+5dIynmamxMxq4GmYAVuSl/BNMjmhCoNQ==}
 
-  bcp47-language-tags@1.0.9:
-    resolution: {integrity: sha512-I366aUduejvT4rvPbecWYdjoIAo95tZEQ3txWW9YoUki+bj9n7VxeeRKqADYXhdAdUb9mLpV3RK2L2qlseLvXw==}
+  bcp47-language-tags@1.1.0:
+    resolution: {integrity: sha512-JPPjQjl7NBQf38PSZRM9hx2R4nHeLvN84mkrD/orci80MEq2rVN78hbraxQhp33DhIU/8cNE+/ukt9pVPPKNNg==}
 
   better-path-resolve@1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
@@ -4141,8 +4141,8 @@ packages:
   logsets@1.3.1:
     resolution: {integrity: sha512-28oiKdbEttEzvcUiJvp/kE7+0v3VkV5IsOe5g7uuEjSa0xxoCNunsAG53Wsvm6ClUYBKIni0A74GbjSSb6+k3A==}
 
-  logsets@1.3.21:
-    resolution: {integrity: sha512-pDcYCTVN8o1BBgAwClC/HXBfahOiH2SvUZ6RK/pIe+E6XczxHd3DMCH53V+5jVRr0En5NyI+KfTP4+0z9e2L3A==}
+  logsets@1.3.24:
+    resolution: {integrity: sha512-mCwm47lsu70sIfz2jVpcbEGINCLwC4HBIpA9wSeQSMjCt2uharYVu5D8Nnnj1gQdl+orUU0vIcQWkEU8xgiIqA==}
 
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -8185,7 +8185,7 @@ snapshots:
 
   bcp47-language-tags@1.0.8: {}
 
-  bcp47-language-tags@1.0.9: {}
+  bcp47-language-tags@1.1.0: {}
 
   better-path-resolve@1.0.0:
     dependencies:
@@ -9893,7 +9893,7 @@ snapshots:
       core-js: 3.27.1
       flex-tools: 1.4.27
 
-  logsets@1.3.21:
+  logsets@1.3.24:
     dependencies:
       '@babel/runtime-corejs3': 7.20.7
       ansicolor: 1.1.100
@@ -10067,7 +10067,7 @@ snapshots:
       flex-tools: 1.4.27
       fs-extra: 11.2.0
       glob: 10.4.5
-      logsets: 1.3.21
+      logsets: 1.3.24
       prompts: 2.4.2
       string.prototype.replaceall: 1.0.7
 

@@ -72,13 +72,14 @@ function getApi(this:VoerkaI18nProjectContext,name:string,defaultValue?:Record<s
 
 function getApiParams(this:VoerkaI18nProjectContext,options?:Record<string,any>){
     if(typeof(options)==='object'){
-        const api:Record<string,any> = {}
+        let api:Record<string,any> | undefined
         if(typeof(options.api)==='string'){
-            Object.assign(api, getApi.call(this,options.api,{}))
+            api = getApi.call(this,options.api,{})
         }
         Object.entries(options).forEach(([key,value])=>{
             if(key.startsWith("api") && key.length>3){
                 const name = key.substring(3)                
+                if(!api) api = {}
                 api[name[0].toLowerCase() + name.substring(1)] = value
             }
         })
@@ -100,10 +101,9 @@ export async function getProjectContext(options?:Record<string,any>) {
     ctx.getPrompt = getPromptTemplate.bind(ctx) 
     ctx.patterns = getDefaultPatterns.call(ctx,options)
     ctx.getApi = getApi.bind(ctx)
-    ctx.api = getApiParams.call(ctx,options)
-
     if(!ctx.typescript) ctx.typescript = isTypeScriptPackage()
     if(!ctx.moduleType) ctx.moduleType = getPackageModuleType()    
     Object.assign(ctx,options)
+    ctx.api = getApiParams.call(ctx,options)
     return ctx
 }
