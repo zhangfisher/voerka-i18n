@@ -6,7 +6,7 @@ import { getPackageModuleType } from "flex-tools/package/getPackageModuleType"
 import { isTypeScriptPackage } from "flex-tools/package/isTypeScriptPackage"
 import { readFile } from "flex-tools/fs/nodefs"
 import path from "node:path"
-import fs from "node:fs"
+import fs from "node:fs" 
 
 export type VoerkaI18nProjectContext= VoerkaI18nSettings & { 
     langDir         : string
@@ -16,6 +16,7 @@ export type VoerkaI18nProjectContext= VoerkaI18nSettings & {
     promptDir       : string 
     getPrompt       : (name:string)=>Promise<string>
     getApi          : (name:string,defaultValue?:Record<string,any>)=>Record<string,any> | undefined
+    api             : Record<string,any> | undefined
 }
 
 
@@ -67,6 +68,22 @@ function getApi(this:VoerkaI18nProjectContext,name:string,defaultValue?:Record<s
         }
     }catch{}  
     return apis[name] || defaultValue  
+} 
+
+function getApiParams(this:VoerkaI18nProjectContext,options?:Record<string,any>){
+    if(typeof(options)==='object'){
+        const api:Record<string,any> = {}
+        if(typeof(options.api)==='string'){
+            Object.assign(api, getApi.call(this,options.api,{}))
+        }
+        Object.entries(options).forEach(([key,value])=>{
+            if(key.startsWith("api") && key.length>3){
+                const name = key.substring(3)                
+                api[name[0].toLowerCase() + name.substring(1)] = value
+            }
+        })
+        return api
+    }
 }
 
 /**
@@ -83,6 +100,7 @@ export async function getProjectContext(options?:Record<string,any>) {
     ctx.getPrompt = getPromptTemplate.bind(ctx) 
     ctx.patterns = getDefaultPatterns.call(ctx,options)
     ctx.getApi = getApi.bind(ctx)
+    ctx.api = getApiParams.call(ctx,options)
 
     if(!ctx.typescript) ctx.typescript = isTypeScriptPackage()
     if(!ctx.moduleType) ctx.moduleType = getPackageModuleType()    

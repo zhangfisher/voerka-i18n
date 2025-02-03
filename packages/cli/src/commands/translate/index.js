@@ -15,23 +15,19 @@ module.exports = () => {
         .disablePrompts()
         .description(t("执行自动翻译"))
         .disablePrompts()
-        .option("--prompt [value]", t("languages/prompts文件夹里的提示模板文件名称"),{default:"translate"})
-        .option("--api-url [value]", t("AI大模型API地址"))
-        .option("--api-key [value]", t("AI大模型API密钥"))
-        .option("--api-model [value]", t("AI大模型"))        
-        .option("--api [value]", t("languages/api.json中预设AI服务"))        
+        .option('--mode', t('翻译模式,取值auto=仅翻译未翻译的,full=全部翻译'), {default:'auto'})
+        .option('-p, --provider <value>', t('在线翻译服务提供者名称或翻译脚本文件'), {default:'baidu'})
+        .option('-m, --max-package-size <value>', t('将多个文本合并提交的最大包字节数'), {default:200})
+        .option('--api-url [url]', t('API URL'),{default:"http://api.fanyi.baidu.com/api/trans/vip/translate"})
+        .option('--api-id [id]', t('API ID'))
+        .option('--api-key [key]', t('API密钥'))
+        .option('--api [name]', t('API服务名称,声明在languages/api.json中'),{default:'baidu'})
+        .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), {default:1})  
         .action(async (options) => {          
-            const ctx = await getProjectContext(options);       
-            const api = ctx.api = ctx.getApi(options.api,{                
-                apiUrl      : options.apiUrl,
-                apiKey      : options.apiKey,
-                model    : options.apiModel
-            });  
+            const ctx = await getProjectContext(options);   
 
-            if(!api || (api && (!api.apiKey || !api.apiUrl || !api.model))){
-                logsets.header(t("此命令使用AI对代码进行分析和自动应用t函数,需要提供访问AI大模型的API地址、密钥以及模型名称"));
-                logsets.log(t(" - 通过{},{},{}参数提供"),"--api-url","--api-key","--api-model");
-                logsets.log(t(" - 或者在<{}>中声明，然后通过{}参数提供"), ctx.langRelDir + "/api.json","--api" )
+            if(!ctx.appid || !ctx.appkey){                
+                logsets.log(t("缺少{},{}参数"),"--appid","--appkey");
                 return
             }
             await translate(ctx);
