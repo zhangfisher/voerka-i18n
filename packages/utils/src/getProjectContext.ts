@@ -21,12 +21,14 @@ export type VoerkaI18nProjectContext= VoerkaI18nSettings & {
 
 
 
-async function getPromptTemplate(this:VoerkaI18nProjectContext,name:string){
+async function getPromptTemplate(this:VoerkaI18nProjectContext,name:string,defaultPrompt?:string){
     const { promptDir } = this;
+    if(!name) return defaultPrompt
     const promptFile = path.isAbsolute(name) ? name : path.join(promptDir,name.endsWith(".md") ? name : name+".md");
     if(fs.existsSync(promptFile)){
         return await readFile(promptFile,{ encoding: "utf-8" });
     }
+    return defaultPrompt
 }
 
 function getDefaultPatterns(this:VoerkaI18nProjectContext,options?:Record<string,any>){

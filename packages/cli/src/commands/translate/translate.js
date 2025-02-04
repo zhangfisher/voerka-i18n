@@ -6,7 +6,7 @@ const { delay } = require("flex-tools/async/delay")
 const fastGlob = require("fast-glob")
 const { t } = require("../../i18n");
 const { getBackupFile } = require("@voerkai18n/utils")
-const { readFile, writeFile } = require('flex-tools/fs/nodefs');
+const { writeFile } = require('flex-tools/fs/nodefs');
 
 
 function getTranslateProvider(ctx={}){
@@ -23,56 +23,18 @@ function getTranslateProvider(ctx={}){
     }
     
 } 
-
-/**
- * 文本中的插值变量不进行翻译，所以需要进行替换为特殊字符，翻译后再替换回来
- * 
- * 如“My name is {},I am {} years old” 先替换为“My name is {VARIABLE},I am {VARIABLE} years old” 
- * 翻译后再替换回来
- *  
- * @param {String | Object} messages 
- */
-function replaceInterpVars(messages){
-    const interpVars = []
-    const msgs = Array.isArray(messages) ? messages : Object.keys(messages)
-    const replacedMessages = msgs.map((message)=>{
-        let vars=[]
-        let result = message.replaceAll(/\{\s*.*?\s*\}/gm,(matched)=>{
-            vars.push(matched)
-            return `{VARIABLE}`
-        })
-        interpVars.push(vars)
-        return result
-    })
-    return [replacedMessages,interpVars]
-}
-
-/**
- * 将翻译后的内容还原为插值变量
- * @param {String[]} messages   翻译后的内容
- * @param {*} interpVars 
- */
-function restoreInterpVars(messages,interpVars){ 
-    return messages.map((message,index)=>{
-        let i = 0
-        return message.replaceAll(/\{VARIABLE\}/gm,()=>interpVars[index][i++])
-    })
-}
-
+ 
 async function startTranslate(messages={},from="zh",to="en",ctx={}){
     let { qps=1 } = ctx
     if(messages.length===0) return;
     const provider = getTranslateProvider(ctx)
     await delay(1000/qps)
-    // 将文本中的插值变量替换为特殊字符，避免翻译时对插值变量进行翻译
-    const [replacedMessages,interpVars] = replaceInterpVars(messages)
     let translatedMessages
     try{
-        translatedMessages = await provider.translate(replacedMessages,from,to)
+        translatedMessages = await provider.translate(Object.keys(messages),from,to,ctx)
     }catch(e){
         throw new Error(t('调用翻译API服务时出错:{}',e.message))
     }
-    translatedMessages = restoreInterpVars(translatedMessages,interpVars)
     Object.keys(messages).forEach((key,index)=>{
         messages[key][to] = translatedMessages[index]
     })
@@ -87,8 +49,8 @@ async function startTranslate(messages={},from="zh",to="en",ctx={}){
  * @param {*} options 
  * @returns 
  */
-async function translateSingleLineMessage(messages={},from="zh",to="en",options={}){
-    const translatedMessages = await startTranslate(messages,from,to,options)
+async function translateSingleLineMessage(messages={},from="zh",to="en",ctx={}){
+    const translatedMessages = await startTranslate(messages,from,to,ctx)
     Object.keys(messages).forEach((key)=>{
         messages[key][to] = translatedMessages[key][to]
     })
@@ -123,7 +85,7 @@ function isMessageChanged(message,lngMessage){
  */
 async function translateLanguage(messages,from,to,ctx,task){
     const { maxPackageSize,mode } = ctx;
-    const result = {}                   // 保存翻译结果    
+    const result = messages                // 保存翻译结果    
     const msgCount = Object.keys(messages).length    
     const items  = Object.entries(messages)
     let translatedMessages = {}       // 保存已经翻译的内容    
@@ -132,20 +94,21 @@ async function translateLanguage(messages,from,to,ctx,task){
     for(let i=0;i<msgCount;i++){
         const [message,lngs ] = items[i]
         const langMessage = lngs[to]
-
+        const hasChanged = isMessageChanged(message,langMessage)
+        
         task.note(`${i+1}/${msgCount}`)
         
         if(Array.isArray(langMessage)){// 由于复数需要手动配置，不进行翻译
             result[message][to] = langMessage
-        }else if(mode == "auto" && isMessageChanged(message,langMessage)){
+        }else if(mode == "auto" && hasChanged){
             result[message][to] = langMessage
         }else{
             if(!(message in result)) result[message] = {}
             // 由于百度翻译按\n来分行翻译，如果有\n则会出现多行翻译的情况。因此，如果有\n则就不将多条文件合并翻译
             if(message.includes("\n")){
                 result[message][to] = await translateMultiLineMessage(message.split("\n"),from,to,ctx)
-            }else{            
-                translatedMessages[message]={[to]:''}
+            }else if(!hasChanged){            
+                translatedMessages[message]={[to]:langMessage}
                 packageSize += message.length           
                 // 多个信息合并进行翻译，减少请求次数
                 if(packageSize>=maxPackageSize || i==msgCount-1){
