@@ -218,7 +218,7 @@
         "en-US": "Compile the language pack for the specified project",
         "es-ES": "编译指定项目的语言包",
         "ar-EG": "ترجمة حزمة لغة المشروع المحدد",
-        "pt-PT": "Compilar o pacote de idiomas do projeto especificado",
+        "pt-PT": "编译指定项目的语言包",
         "$files": [
             "src\\old\\compile.command.js(247:19-247:31)",
             "src\\old\\index.js(39:25-39:37)"
@@ -229,7 +229,7 @@
         "en-US": "Output debug information",
         "es-ES": "输出调试信息",
         "ar-EG": "إظهار معلومات التصحيح",
-        "pt-PT": "Produzir informações de depuração",
+        "pt-PT": "输出调试信息",
         "$files": [
             "src\\old\\compile.command.js(248:29-248:37)",
             "src\\old\\extract.command.js(80:29-80:37)",
@@ -241,7 +241,7 @@
         "en-US": "Output TypeScript code",
         "es-ES": "输出typescript代码",
         "ar-EG": "إظهار كود TypeScript",
-        "pt-PT": "Produzir código TypeScript",
+        "pt-PT": "输出typescript代码",
         "$files": [
             "src\\old\\compile.command.js(249:33-249:49)",
             "src\\old\\init.command.js(183:33-183:49)"
@@ -252,7 +252,7 @@
         "en-US": "Development library mode",
         "es-ES": "开发库模式",
         "ar-EG": "وضع مكتبة التطوير",
-        "pt-PT": "Modo de biblioteca de desenvolvimento",
+        "pt-PT": "开发库模式",
         "$files": [
             "src\\old\\compile.command.js(250:30-250:37)",
             "src\\old\\init.command.js(184:30-184:37)"
@@ -263,7 +263,7 @@
         "en-US": "Auto update runtime",
         "es-ES": "自动更新runtime",
         "ar-EG": "تحديث وقت التشغيل تلقائيًا",
-        "pt-PT": "Atualização automática do runtime",
+        "pt-PT": "自动更新runtime",
         "$files": [
             "src\\old\\compile.command.js(251:37-251:50)"
         ],
@@ -273,7 +273,7 @@
         "en-US": "Skip updating language/index.(ts|js) file",
         "es-ES": "跳过更新language/index.(ts|js)文件",
         "ar-EG": "تخطي تحديث ملف language/index.(ts|js)",
-        "pt-PT": "Ignorar atualização do arquivo language/index.(ts|js)",
+        "pt-PT": "跳过更新language/index.(ts|js)文件",
         "$files": [
             "src\\old\\compile.command.js(253:23-253:53)"
         ],
@@ -283,7 +283,7 @@
         "en-US": "Project directory",
         "es-ES": "工程项目所在目录",
         "ar-EG": "دليل مشروع الهندسة",
-        "pt-PT": "Diretório do projeto",
+        "pt-PT": "工程项目所在目录",
         "$files": [
             "src\\old\\compile.command.js(254:31-254:41)",
             "src\\old\\init.command.js(178:30-178:40)",
@@ -295,7 +295,7 @@
         "en-US": "Updated:{}",
         "es-ES": "Updated:{}",
         "ar-EG": "مُحدّث:{} ",
-        "pt-PT": "Atualizado:{}",
+        "pt-PT": "Updated:{}",
         "$files": [
             "src\\old\\compile.command.js(113:28-113:40)"
         ],
@@ -305,7 +305,7 @@
         "en-US": "Language pack folder<{}> does not exist",
         "es-ES": "语言包文件夹<{}>不存在",
         "ar-EG": "مجلد الحزم اللغوية <{}> غير موجود",
-        "pt-PT": "A pasta de pacotes de idiomas <{}> não existe",
+        "pt-PT": "语言包文件夹<{}>不存在",
         "$files": [
             "src\\old\\compile.command.js(265:27-265:42)"
         ],
@@ -315,7 +315,7 @@
         "en-US": "Target folder<{}> does not exist",
         "es-ES": "目标文件夹<{}>不存在",
         "ar-EG": "المجلد المستهدف <{}> غير موجود",
-        "pt-PT": "A pasta de destino <{}> não existe",
+        "pt-PT": "目标文件夹<{}>不存在",
         "$files": [
             "src\\old\\extract.command.js(44:21-44:35)"
         ],
@@ -325,7 +325,7 @@
         "en-US": "Scan extraction range:",
         "es-ES": "扫描提取范围：",
         "ar-EG": "نطاق المسح الاستخراجي:",
-        "pt-PT": "Intervalo de varredura e extração:",
+        "pt-PT": "扫描提取范围：",
         "$files": [
             "src\\old\\extract.command.js(48:21-48:30)"
         ],
@@ -345,7 +345,7 @@
         "en-US": "Supported languages",
         "es-ES": "Idiomas soportados  ",
         "ar-EG": "支持的语言",
-        "pt-PT": "Idiomas suportados",
+        "pt-PT": "支持的语言",
         "$files": [
             "src\\old\\extract.command.js(81:51-81:58)"
         ],
@@ -355,7 +355,7 @@
         "en-US": "Default language",
         "es-ES": "Idioma predeterminado  ",
         "ar-EG": "默认语言",
-        "pt-PT": "Idioma padrão",
+        "pt-PT": "默认语言",
         "$files": [
             "src\\old\\extract.command.js(82:39-82:45)",
             "src\\old\\init.command.js(186:46-186:52)",
@@ -367,7 +367,7 @@
         "en-US": "Active language",
         "es-ES": "Activar idioma  ",
         "ar-EG": "激活语言",
-        "pt-PT": "Idioma ativo",
+        "pt-PT": "激活语言",
         "$files": [
             "src\\old\\extract.command.js(83:38-83:44)",
             "src\\old\\init.command.js(187:45-187:51)",
@@ -379,7 +379,7 @@
         "en-US": "Translation namespace",
         "es-ES": "Espacio de nombres de traducción  ",
         "ar-EG": "翻译名称空间",
-        "pt-PT": "Namespace de tradução",
+        "pt-PT": "翻译名称空间",
         "$files": [
             "src\\old\\extract.command.js(84:35-84:43)"
         ],
@@ -389,7 +389,7 @@
         "en-US": "Folders to exclude from scanning, separated by commas",
         "es-ES": "Excluir carpetas para escanear, separadas por comas  ",
         "ar-EG": "排除要扫描的文件夹，多个用逗号分隔",
-        "pt-PT": "Excluir pastas a serem varridas, separadas por vírgulas",
+        "pt-PT": "排除要扫描的文件夹，多个用逗号分隔",
         "$files": [
             "src\\old\\extract.command.js(85:41-85:60)"
         ],
@@ -551,7 +551,7 @@
         "en-US": "Next step:",
         "es-ES": "下一步：",
         "ar-EG": "下一步：",
-        "pt-PT": "Próximo passo:",
+        "pt-PT": "下一步：",
         "$files": [
             "src\\old\\extract.plugin.js(449:22-449:28)",
             "src\\commands\\extract\\extractor.js(245:21-245:27)"
@@ -562,7 +562,7 @@
         "en-US": " - Run <{}> to compile the language package",
         "es-ES": " - 运行<{}>编译语言包",
         "ar-EG": " - 运行<{}>编译语言包",
-        "pt-PT": " - Execute <{}> para compilar o pacote de idiomas",
+        "pt-PT": " - 运行<{}>编译语言包",
         "$files": [
             "src\\old\\extract.plugin.js(450:22-450:38)",
             "src\\old\\init.command.js(172:17-172:33)",
@@ -574,7 +574,7 @@
         "en-US": " - Import the compiled language package from [{}] in the source code",
         "es-ES": " - 在源码中从[{}]导入编译后的语言包",
         "ar-EG": " - 在源码中从[{}]导入编译后的语言包",
-        "pt-PT": " - Importe o pacote de idiomas compilado no código-fonte de [{}]",
+        "pt-PT": " - 在源码中从[{}]导入编译后的语言包",
         "$files": [
             "src\\old\\extract.plugin.js(451:22-451:45)"
         ],

@@ -35,13 +35,14 @@ function trimAll(str,chars=["\n","\r"," ",'"',"'"]){
 
 
 const defaultPrompt = `
-你是一名专业的翻译人员，请将以下内容从{from}翻译成{to}语言,并直接返回翻译结果，不需要任何解释。
+你是一名专业的翻译人员，请将以下内容从{from}翻译成{to}语言,语言编码采用的是BCP47标准,并直接返回翻译结果，不需要任何解释。
 
 {content}
 
 翻译要求：
 - 请尽量保持原文的意思，不要随意改动原文
 - 保留内容中的所有标点符号以及特殊字符,每行内容之间请用换行符分隔
+- 内容中非空白字符不要转义，如换行符、制表符等
 - 内容中使用了{}包裹的内容为插值变量，不需要翻译，请保留原样并符合上下文语义要求。
 `
  
@@ -54,7 +55,7 @@ module.exports = function(params){
                 throw new Error(t("未找到提示模板{}"),ctx.prompt)
             }
             const prompt = replaceVars(promptTemplate,{
-                content: JSON.stringify(texts.join("\n")),
+                content: texts.join("\n"),
                 from,
                 to
             })

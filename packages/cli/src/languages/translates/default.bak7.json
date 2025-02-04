@@ -13,7 +13,7 @@
         "en-US": " - Update formatter: {}",
         "es-ES": " - Actualizar formateador:{}",
         "ar-EG": "- تحديث المدقق: {}",
-        "pt-PT": "- Atualizar formatador:{}\\n - Configurar arquivo de armazenamento:{}\\nAtualizar @voerkai18n/runtime runtime\\nJá está atualizado\\nFalha ao atualizar @voerkai18n/runtime, por favor, atualize manualmente!\\nIdiomas suportados\\\\t: {}\\nIdioma padrão\\\\t: {}\\nIdioma ativo\\\\t: {}\\nNamespace\\\\t: {}\\nTipo de módulo\\\\t: {}\\nModo de biblioteca\\\\t\\\\t: {}\\nTypeScript\\\\t: {}\\nResultado da compilação será exportado para: {}\\nFalha ao ler o arquivo de idioma {}: {}\\n - Textos combinados no total: {}\\n - Arquivo idMap: {}",
+        "pt-PT": " - 更新格式化器:{}",
         "$files": [
             "src\\old\\compile.command.js(78:21-78:35)"
         ],
@@ -23,7 +23,7 @@
         "en-US": " - Configuration storage file: {}",
         "es-ES": " - Archivo de configuración de almacenamiento:{}",
         "ar-EG": "- ملف تخزين التكوين: {}",
-        "pt-PT": "- Configuração de ficheiros de armazenamento: {}",
+        "pt-PT": " - 配置存储文件:{}",
         "$files": [
             "src\\old\\compile.command.js(87:21-87:35)",
             "src\\old\\compile.command.js(98:21-98:35)"
@@ -34,7 +34,7 @@
         "en-US": "Update @voerkai18n/runtime runtime",
         "es-ES": "Actualizar @voerkai18n/runtime en tiempo de ejecución",
         "ar-EG": "تحديث وقت تشغيل @voerkai18n/runtime",
-        "pt-PT": "Atualizar @voerkai18n/runtime em tempo de execução",
+        "pt-PT": "更新@voerkai18n/runtime运行时",
         "$files": [
             "src\\old\\compile.command.js(106:31-106:57)"
         ],
@@ -44,7 +44,7 @@
         "en-US": "Already up to date",
         "es-ES": "Ya está actualizado",
         "ar-EG": "بالفعل أحدث",
-        "pt-PT": "Já está atualizado",
+        "pt-PT": "已经是最新的",
         "$files": [
             "src\\old\\compile.command.js(116:24-116:32)"
         ],
@@ -54,7 +54,7 @@
         "en-US": "Failed to update @voerkai18n/runtime, please update manually!",
         "es-ES": "Fallo al actualizar @voerkai18n/runtime, actualícelo manualmente!",
         "ar-EG": "فشل تحديث @voerkai18n/runtime، يرجى تحديثه يدويًا!",
-        "pt-PT": "Falha ao atualizar @voerkai18n/runtime, por favor, atualize manualmente!",
+        "pt-PT": "更新@voerkai18n/runtime失败,请手动更新!",
         "$files": [
             "src\\old\\compile.command.js(118:21-118:53)"
         ],
@@ -64,7 +64,7 @@
         "en-US": "Supported languages\\t: {}",
         "es-ES": "Idiomas soportados\\t: {}",
         "ar-EG": "اللغات المدعومة\\t: {}",
-        "pt-PT": "Idiomas suportados\\t: {}",
+        "pt-PT": "支持的语言\\t: {}",
         "$files": [
             "src\\old\\compile.command.js(146:21-146:34)",
             "src\\old\\extract.plugin.js(382:18-382:31)"
@@ -75,7 +75,7 @@
         "en-US": "Default language\\t: {}",
         "es-ES": "Idioma predeterminado\\t: {}",
         "ar-EG": "اللغة الافتراضية\\t: {}",
-        "pt-PT": "Idioma padrão\\t: {}",
+        "pt-PT": "默认语言\\t: {}",
         "$files": [
             "src\\old\\compile.command.js(147:21-147:33)",
             "src\\old\\extract.plugin.js(383:18-383:30)"
@@ -86,7 +86,7 @@
         "en-US": "Active language\\t: {}",
         "es-ES": "Idioma activo\\t: {}",
         "ar-EG": "اللغة النشطة\\t: {}",
-        "pt-PT": "Idioma ativo\\t: {}",
+        "pt-PT": "激活语言\\t: {}",
         "$files": [
             "src\\old\\compile.command.js(148:21-148:33)",
             "src\\old\\extract.plugin.js(384:18-384:30)"
@@ -97,7 +97,7 @@
         "en-US": "Namespace\\t: {}",
         "es-ES": "Espacio de nombres\\t: {}",
         "ar-EG": "مجلس الأسماء\\t: {}",
-        "pt-PT": "Espaço de nomes\\t: {}",
+        "pt-PT": "名称空间\\t: {}",
         "$files": [
             "src\\old\\compile.command.js(149:21-149:33)",
             "src\\old\\extract.plugin.js(385:18-385:30)"
@@ -108,7 +108,7 @@
         "en-US": "Module type\\t: {}",
         "es-ES": "Tipo de módulo\\t: {}",
         "ar-EG": "نوع الوحدة\\t: {}",
-        "pt-PT": "Tipo de módulo\\t: {}",
+        "pt-PT": "模块类型\\t: {}",
         "$files": [
             "src\\old\\compile.command.js(150:21-150:33)"
         ],
@@ -118,7 +118,7 @@
         "en-US": "Library mode\\t\\t: {}",
         "es-ES": "Modo de biblioteca\\t\\t: {}",
         "ar-EG": "نمط المكتبة\\t\\t: {}",
-        "pt-PT": "Modo de biblioteca\\t\\t: {}",
+        "pt-PT": "库模式\\t\\t: {}",
         "$files": [
             "src\\old\\compile.command.js(151:21-151:34)"
         ],
@@ -126,8 +126,8 @@
     },
     "TypeScript\\t: {}": {
         "en-US": "TypeScript\\t: {}",
-        "es-ES": "TypeScript\\t: {}\\n - archivo idMap: {}\\n - saltar actualización del archivo de entrada de acceso: {}\\n - archivo de entrada de acceso: {}\\nfalló la carga del archivo de configuración multilingüe <{}>: {}\\ncompilar el paquete de idiomas del proyecto especificado\\nsalida de información de depuración\\nsalida de código TypeScript\\ndesarrollo en modo de biblioteca\\nactualización automática de runtime\\nsaltar actualización del archivo language/index.(ts|js)\\ndirectorio del proyecto\\nActualizado: {}\\nel directorio del paquete de idiomas <{}> no existe\\nel directorio de destino <{}> no existe\\nrango de escaneo y extracción:",
-        "ar-EG": "TypeScript\\\\t: {}\\nاللغات المدعومة\\nاللغة الافتراضية\\nتنشيط اللغة\\nمساحة الأسماء للترجمة\\nاستبعاد مجلدات المسح، افصل بينها بفواصل\\nاستراتيجية دمج البيانات للسياق المستخرج مع البيانات الموجودة، القيمة الافتراضية هي sync=المزامنة،overwrite=التجاوز،merge=الدمج\\nأنواع ملفات المسح\\nتحديد الاستخراج من هذا الدليل\\nدليل المشروع: {}\\nدليل اللغة: {}\\nخطأ في قراءة ملف اللغة <{}>: {}\\nاستخراج <{}>، وجدت مساحة أسماء [{}]، {} معلومة.\\nاكتمال استخراج معلومات الترجمة.\\n - إجمالي عدد الملفات\\\\t: {}",
+        "es-ES": "TypeScript\\t: {}",
+        "ar-EG": "TypeScript\\t: {}",
         "pt-PT": "TypeScript\\t: {}",
         "$files": [
             "src\\old\\compile.command.js(152:21-152:39)"
@@ -138,7 +138,7 @@
         "en-US": "Compilation result output to: {}",
         "es-ES": "Resultado de compilación salido a: {}",
         "ar-EG": "أيضاخ النتيجة المجمعة إلى: {}",
-        "pt-PT": "Resultado da compilação saída para: {}",
+        "pt-PT": "编译结果输出至：{}",
         "$files": [
             "src\\old\\compile.command.js(154:21-154:33)"
         ],
@@ -148,7 +148,7 @@
         "en-US": "Failed to read language file {}: {}",
         "es-ES": "Error al leer el archivo de idioma {}: {}",
         "ar-EG": "فشل قراءة ملف اللغة {}: {}",
-        "pt-PT": "Falha ao ler o ficheiro de idioma {}: {}",
+        "pt-PT": "读取语言文件{}失败:{}",
         "$files": [
             "src\\old\\compile.command.js(169:29-169:44)"
         ],
@@ -158,7 +158,7 @@
         "en-US": " - Total synthesized {} lines",
         "es-ES": " - Se sintetizaron un total de {} textos",
         "ar-EG": "- تم دمج {} نصوصًا",
-        "pt-PT": " - Textos sintetizados no total: {}",
+        "pt-PT": " - 共合成{}条文本",
         "$files": [
             "src\\old\\compile.command.js(172:21-172:34)"
         ],
@@ -175,50 +175,50 @@
         "$id": 367
     },
     " - idMap文件: {}": {
-        "en-US": " - idMap file: {}",
+        "en-US": " - idMap文件: {}",
         "es-ES": " - idMap文件: {}",
         "ar-EG": "- ملف idMap: {}",
-        "pt-PT": " - Ficheiro idMap: {}",
+        "pt-PT": " - idMap文件: {}",
         "$files": [
             "src\\old\\compile.command.js(203:21-203:37)"
         ],
         "$id": 368
     },
     " - 跳过更新访问入口文件: {}": {
-        "en-US": " - Skip updating access entry file: {}",
+        "en-US": " - 跳过更新访问入口文件: {}",
         "es-ES": " - 跳过更新访问入口文件: {}",
         "ar-EG": "- تخطي تحديث ملف نقطة الدخول: {}",
-        "pt-PT": "- Ignorar atualização do arquivo de entrada: {}\\n- Arquivo de entrada: {}\\nFalha ao carregar o arquivo de configuração multilíngue <{}>: {}\\nCompilar pacote de idioma do projeto especificado\\nExibir informações de depuração\\nExibir código TypeScript\\nModo de biblioteca de desenvolvimento\\nAtualização automática do runtime\\nIgnorar atualização do arquivo language/index.(ts|js)\\nDiretório do projeto\\nAtualizado:{}\\nPasta de pacotes de idioma <{}> não existe\\nPasta de destino <{}> não existe\\nIntervalo de varredura e extração:\\nIdiomas suportados\\nIdioma padrão\\nIdioma ativo\\nNamespace de tradução\\nPastas a serem excluídas da varredura, separadas por vírgulas",
+        "pt-PT": " - 跳过更新访问入口文件: {}",
         "$files": [
             "src\\old\\compile.command.js(230:25-230:44)"
         ],
         "$id": 369
     },
     " - 访问入口文件: {}": {
-        "en-US": " - Access entry file: {}",
+        "en-US": " - 访问入口文件: {}",
         "es-ES": " - 访问入口文件: {}",
         "ar-EG": "- ملف نقطة الدخول: {}",
-        "pt-PT": " - Ficheiro de entrada de acesso: {}",
+        "pt-PT": " - 访问入口文件: {}",
         "$files": [
             "src\\old\\compile.command.js(235:25-235:40)"
         ],
         "$id": 370
     },
     "加载多语言配置文件<{}>失败: {} ": {
-        "en-US": "Failed to load multilingual configuration file<{}>: {}",
+        "en-US": "加载多语言配置文件<{}>失败: {} ",
         "es-ES": "加载多语言配置文件<{}>失败: {} ",
         "ar-EG": "فشل تحميل ملف التكوين المتعدد اللغات <{}>: {}",
-        "pt-PT": "Falha ao carregar o ficheiro de configuração multilíngue <{}>: {} \\nCompilar o pacote linguístico do projeto especificado\\nProduzir informações de depuração\\nProduzir código TypeScript\\Modo de biblioteca de desenvolvimento\\nAtualização automática do runtime\\nIgnorar atualização do ficheiro language/index.(ts|js)\\nDiretório do projeto\\nAtualizado:{}\\nPasta do pacote linguístico <{}> não existe\\nPasta de destino <{}> não existe\\nÂmbito da varredura e extração:\\nIdiomas suportados\\nIdioma padrão\\nIdioma ativo\\nEspaço de nomes de tradução\\nExcluir pastas a serem varridas, separadas por vírgulas\\nPróximo passo:\\n - Executar <{}> para compilar o pacote linguístico\\n - Importar o pacote linguístico compilado no código-fonte de [{}]",
+        "pt-PT": "加载多语言配置文件<{}>失败: {} ",
         "$files": [
             "src\\old\\compile.command.js(240:21-240:43)"
         ],
         "$id": 371
     },
     "编译指定项目的语言包": {
-        "en-US": "Compile the language pack for the specified project",
+        "en-US": "编译指定项目的语言包",
         "es-ES": "编译指定项目的语言包",
         "ar-EG": "ترجمة حزمة لغة المشروع المحدد",
-        "pt-PT": "Compilar o pacote de idiomas do projeto especificado",
+        "pt-PT": "编译指定项目的语言包",
         "$files": [
             "src\\old\\compile.command.js(247:19-247:31)",
             "src\\old\\index.js(39:25-39:37)"
@@ -226,10 +226,10 @@
         "$id": 372
     },
     "输出调试信息": {
-        "en-US": "Output debug information",
+        "en-US": "输出调试信息",
         "es-ES": "输出调试信息",
         "ar-EG": "إظهار معلومات التصحيح",
-        "pt-PT": "Produzir informações de depuração",
+        "pt-PT": "输出调试信息",
         "$files": [
             "src\\old\\compile.command.js(248:29-248:37)",
             "src\\old\\extract.command.js(80:29-80:37)",
@@ -238,10 +238,10 @@
         "$id": 373
     },
     "输出typescript代码": {
-        "en-US": "Output TypeScript code",
+        "en-US": "输出typescript代码",
         "es-ES": "输出typescript代码",
         "ar-EG": "إظهار كود TypeScript",
-        "pt-PT": "Produzir código TypeScript",
+        "pt-PT": "输出typescript代码",
         "$files": [
             "src\\old\\compile.command.js(249:33-249:49)",
             "src\\old\\init.command.js(183:33-183:49)"
@@ -249,10 +249,10 @@
         "$id": 374
     },
     "开发库模式": {
-        "en-US": "Development library mode",
+        "en-US": "开发库模式",
         "es-ES": "开发库模式",
         "ar-EG": "وضع مكتبة التطوير",
-        "pt-PT": "Modo de biblioteca de desenvolvimento",
+        "pt-PT": "开发库模式",
         "$files": [
             "src\\old\\compile.command.js(250:30-250:37)",
             "src\\old\\init.command.js(184:30-184:37)"
@@ -260,30 +260,30 @@
         "$id": 376
     },
     "自动更新runtime": {
-        "en-US": "Auto update runtime",
+        "en-US": "自动更新runtime",
         "es-ES": "自动更新runtime",
         "ar-EG": "تحديث وقت التشغيل تلقائيًا",
-        "pt-PT": "Atualização automática do runtime",
+        "pt-PT": "自动更新runtime",
         "$files": [
             "src\\old\\compile.command.js(251:37-251:50)"
         ],
         "$id": 377
     },
     "跳过更新language/index.(ts|js)文件": {
-        "en-US": "Skip updating language/index.(ts|js) file",
+        "en-US": "跳过更新language/index.(ts|js)文件",
         "es-ES": "跳过更新language/index.(ts|js)文件",
         "ar-EG": "تخطي تحديث ملف language/index.(ts|js)",
-        "pt-PT": "Ignorar atualização do arquivo language/index.(ts|js)",
+        "pt-PT": "跳过更新language/index.(ts|js)文件",
         "$files": [
             "src\\old\\compile.command.js(253:23-253:53)"
         ],
         "$id": 378
     },
     "工程项目所在目录": {
-        "en-US": "Project directory",
+        "en-US": "工程项目所在目录",
         "es-ES": "工程项目所在目录",
         "ar-EG": "دليل مشروع الهندسة",
-        "pt-PT": "Diretório do projeto",
+        "pt-PT": "工程项目所在目录",
         "$files": [
             "src\\old\\compile.command.js(254:31-254:41)",
             "src\\old\\init.command.js(178:30-178:40)",
@@ -295,37 +295,37 @@
         "en-US": "Updated:{}",
         "es-ES": "Updated:{}",
         "ar-EG": "مُحدّث:{} ",
-        "pt-PT": "Atualizado:{}",
+        "pt-PT": "Updated:{}",
         "$files": [
             "src\\old\\compile.command.js(113:28-113:40)"
         ],
         "$id": 380
     },
     "语言包文件夹<{}>不存在": {
-        "en-US": "Language pack folder<{}> does not exist",
+        "en-US": "语言包文件夹<{}>不存在",
         "es-ES": "语言包文件夹<{}>不存在",
         "ar-EG": "مجلد الحزم اللغوية <{}> غير موجود",
-        "pt-PT": "A pasta de pacotes de idiomas <{}> não existe",
+        "pt-PT": "语言包文件夹<{}>不存在",
         "$files": [
             "src\\old\\compile.command.js(265:27-265:42)"
         ],
         "$id": 381
     },
     "目标文件夹<{}>不存在": {
-        "en-US": "Target folder<{}> does not exist",
+        "en-US": "目标文件夹<{}>不存在",
         "es-ES": "目标文件夹<{}>不存在",
         "ar-EG": "المجلد المستهدف <{}> غير موجود",
-        "pt-PT": "A pasta de destino <{}> não existe",
+        "pt-PT": "目标文件夹<{}>不存在",
         "$files": [
             "src\\old\\extract.command.js(44:21-44:35)"
         ],
         "$id": 382
     },
     "扫描提取范围：": {
-        "en-US": "Scan extraction range:",
+        "en-US": "扫描提取范围：",
         "es-ES": "扫描提取范围：",
         "ar-EG": "نطاق المسح الاستخراجي:",
-        "pt-PT": "Intervalo de varredura e extração:",
+        "pt-PT": "扫描提取范围：",
         "$files": [
             "src\\old\\extract.command.js(48:21-48:30)"
         ],
@@ -343,9 +343,9 @@
     },
     "支持的语言": {
         "en-US": "Supported languages",
-        "es-ES": "Idiomas soportados  ",
+        "es-ES": "支持的语言",
         "ar-EG": "支持的语言",
-        "pt-PT": "Idiomas suportados",
+        "pt-PT": "支持的语言",
         "$files": [
             "src\\old\\extract.command.js(81:51-81:58)"
         ],
@@ -353,9 +353,9 @@
     },
     "默认语言": {
         "en-US": "Default language",
-        "es-ES": "Idioma predeterminado  ",
+        "es-ES": "默认语言",
         "ar-EG": "默认语言",
-        "pt-PT": "Idioma padrão",
+        "pt-PT": "默认语言",
         "$files": [
             "src\\old\\extract.command.js(82:39-82:45)",
             "src\\old\\init.command.js(186:46-186:52)",
@@ -365,9 +365,9 @@
     },
     "激活语言": {
         "en-US": "Active language",
-        "es-ES": "Activar idioma  ",
+        "es-ES": "激活语言",
         "ar-EG": "激活语言",
-        "pt-PT": "Idioma ativo",
+        "pt-PT": "激活语言",
         "$files": [
             "src\\old\\extract.command.js(83:38-83:44)",
             "src\\old\\init.command.js(187:45-187:51)",
@@ -377,9 +377,9 @@
     },
     "翻译名称空间": {
         "en-US": "Translation namespace",
-        "es-ES": "Espacio de nombres de traducción  ",
+        "es-ES": "翻译名称空间",
         "ar-EG": "翻译名称空间",
-        "pt-PT": "Namespace de tradução",
+        "pt-PT": "翻译名称空间",
         "$files": [
             "src\\old\\extract.command.js(84:35-84:43)"
         ],
@@ -387,9 +387,9 @@
     },
     "排除要扫描的文件夹，多个用逗号分隔": {
         "en-US": "Folders to exclude from scanning, separated by commas",
-        "es-ES": "Excluir carpetas para escanear, separadas por comas  ",
+        "es-ES": "排除要扫描的文件夹，多个用逗号分隔",
         "ar-EG": "排除要扫描的文件夹，多个用逗号分隔",
-        "pt-PT": "Excluir pastas a serem varridas, separadas por vírgulas",
+        "pt-PT": "排除要扫描的文件夹，多个用逗号分隔",
         "$files": [
             "src\\old\\extract.command.js(85:41-85:60)"
         ],
@@ -397,9 +397,9 @@
     },
     "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并": {
         "en-US": "Data merging strategy for extracted content compared to existing content, default value sync=synchronize, overwrite=overwrite, merge=merge",
-        "es-ES": "Estrategia de combinación de datos del contenido extraído con el existente en esta extracción, valor predeterminado sync=sincronizar, overwrite=sobrescribir, merge=combinar  ",
+        "es-ES": "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并",
         "ar-EG": "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并",
-        "pt-PT": "A estratégia de fusão de dados do conteúdo extraído com o conteúdo existente, o valor padrão é sync=sincronizar, overwrite=substituir, merge=fusão",
+        "pt-PT": "本次提取内容与已存在内容的数据合并策略,默认取值sync=同步,overwrite=覆盖,merge=合并",
         "$files": [
             "src\\old\\extract.command.js(86:42-86:97)"
         ],
@@ -407,9 +407,9 @@
     },
     "要扫描的文件类型": {
         "en-US": "File types to scan",
-        "es-ES": "Tipos de archivos para escanear  ",
+        "es-ES": "要扫描的文件类型",
         "ar-EG": "要扫描的文件类型",
-        "pt-PT": "Os tipos de ficheiros a escanear",
+        "pt-PT": "要扫描的文件类型",
         "$files": [
             "src\\old\\extract.command.js(87:46-87:56)"
         ],
@@ -417,9 +417,9 @@
     },
     "指定从该目录提取": {
         "en-US": "Specify the directory to extract from",
-        "es-ES": "Especificar desde qué directorio extraer  ",
+        "es-ES": "指定从该目录提取",
         "ar-EG": "指定从该目录提取",
-        "pt-PT": "Especifique o diretório de onde extrair",
+        "pt-PT": "指定从该目录提取",
         "$files": [
             "src\\old\\extract.command.js(88:30-88:40)"
         ],
@@ -427,9 +427,9 @@
     },
     "工程目录：{}": {
         "en-US": "Project directory: {}",
-        "es-ES": "Directorio del proyecto: {}  ",
+        "es-ES": "工程目录：{}",
         "ar-EG": "工程目录：{}",
-        "pt-PT": "Diretório do projeto: {}",
+        "pt-PT": "工程目录：{}",
         "$files": [
             "src\\old\\extract.command.js(99:21-99:30)",
             "src\\old\\init.command.js(197:21-197:30)"
@@ -438,9 +438,9 @@
     },
     "语言目录：{}": {
         "en-US": "Language directory: {}",
-        "es-ES": "Directorio de idiomas: {}  ",
+        "es-ES": "语言目录：{}",
         "ar-EG": "语言目录：{}",
-        "pt-PT": "Diretório de idioma: {}",
+        "pt-PT": "语言目录：{}",
         "$files": [
             "src\\old\\extract.command.js(100:21-100:30)",
             "src\\old\\init.command.js(198:21-198:30)"
@@ -449,9 +449,9 @@
     },
     "读取语言文件<{}>出错: {}": {
         "en-US": "Error reading language file <{}>: {}",
-        "es-ES": "Error al leer el archivo de idioma <{}>: {}  ",
+        "es-ES": "读取语言文件<{}>出错: {}",
         "ar-EG": "读取语言文件<{}>出错: {}",
-        "pt-PT": "Erro ao ler o ficheiro de idioma <{}>: {}",
+        "pt-PT": "读取语言文件<{}>出错: {}",
         "$files": [
             "src\\old\\extract.plugin.js(346:22-346:40)"
         ],
@@ -459,9 +459,9 @@
     },
     "提取<{}>, 发现 [{}] 名称空间，{} 条信息。": {
         "en-US": "Extracting <{}>, found [{}] namespace, {} entries.",
-        "es-ES": "Extrayendo <{}>, se encontraron [{}] espacios de nombres, {} entradas de información.  ",
+        "es-ES": "提取<{}>, 发现 [{}] 名称空间，{} 条信息。",
         "ar-EG": "提取<{}>, 发现 [{}] 名称空间，{} 条信息。",
-        "pt-PT": "Extraindo <{}>, foram encontrados [{}] espaços de nomes, {} informações.",
+        "pt-PT": "提取<{}>, 发现 [{}] 名称空间，{} 条信息。",
         "$files": [
             "src\\old\\extract.plugin.js(407:30-407:60)"
         ],
@@ -478,80 +478,80 @@
         "$id": 397
     },
     "翻译信息提取完成。": {
-        "en-US": "Translation information extraction completed.",
-        "es-ES": "Extracción de información de traducción completada.  ",
+        "en-US": "翻译信息提取完成。",
+        "es-ES": "翻译信息提取完成。",
         "ar-EG": "翻译信息提取完成。",
-        "pt-PT": "Extração de informações de tradução concluída.",
+        "pt-PT": "翻译信息提取完成。",
         "$files": [
             "src\\old\\extract.plugin.js(416:22-416:33)"
         ],
         "$id": 398
     },
     " - 文件总数\\t: {}": {
-        "en-US": " - Total number of files\\\\t: {}",
-        "es-ES": " - Total de archivos\\t: {}  ",
+        "en-US": " - 文件总数\\t: {}",
+        "es-ES": " - 文件总数\\t: {}",
         "ar-EG": " - 文件总数\\t: {}",
-        "pt-PT": " - Número total de ficheiros\\t: {}",
+        "pt-PT": " - 文件总数\\t: {}",
         "$files": [
             "src\\old\\extract.plugin.js(417:22-417:37)"
         ],
         "$id": 399
     },
     " - 输出路径\\t: {}": {
-        "en-US": " - Output path\\\\t: {}",
-        "es-ES": " - Ruta de salida\\t: {}  ",
-        "ar-EG": "- مسار الإخراج\\\\t: {}\\n    √ تحديث ملف اللغة : {}\\n    √ حفظ ملف اللغة : {}\\n- إنشاء ملف تكوين اللغة: {}\\n- تطبيق ملف تكوين اللغة: {}\\nالخطوة التالية:\\n- تشغيل<{}> لترجمة الحزم\\n- استيراد الحزمة المترجمة من [{}] إلى الكود المصدر\\nتهيئة تكوين الترجمة الدولية للمشروع\\nمسح واستخراج النصوص التي تحتاج إلى ترجمة إلى <languages/translates>\\nترجمة الحزمة عبر الإنترنت، مثل استخدام خدمة ترجمة بaidu Cloud\\nتحضير ترجمة {} ملف\\nتنفيذ الترجمة الآلية\\nنمط الترجمة، القيم مسموح بها هي auto=ترجمة ما لم يتم ترجمته بالفعل، full=ترجمة الكل",
-        "pt-PT": " - Caminho de saída\\t: {}",
+        "en-US": " - 输出路径\\t: {}",
+        "es-ES": " - 输出路径\\t: {}",
+        "ar-EG": " - 输出路径\\t: {}",
+        "pt-PT": " - 输出路径\\t: {}",
         "$files": [
             "src\\old\\extract.plugin.js(418:22-418:37)"
         ],
         "$id": 400
     },
     "    √ 更新语言文件 : {}": {
-        "en-US": "    √ Update language file : {}",
-        "es-ES": "    √ Actualizar archivo de idioma : {}",
+        "en-US": "    √ 更新语言文件 : {}",
+        "es-ES": "    √ 更新语言文件 : {}",
         "ar-EG": "    √ 更新语言文件 : {}",
-        "pt-PT": "    √ Atualizar ficheiro de idioma : {}",
+        "pt-PT": "    √ 更新语言文件 : {}",
         "$files": [
             "src\\old\\extract.plugin.js(430:30-430:49)"
         ],
         "$id": 401
     },
     "    √ 保存语言文件 : {}": {
-        "en-US": "    √ Save language file : {}",
-        "es-ES": "√ Guardar archivo de idioma : {}\\n - Generar archivo de configuración de idioma: {}\\n - Aplicar archivo de configuración de idioma: {}\\nSiguiente paso:\\n - Ejecutar <{}> para compilar el paquete de idiomas\\n - Importar el paquete de idiomas compilado en el código fuente desde [{}]\\nInicializar la configuración de internacionalización del proyecto\\nEscanear y extraer texto por traducir a <languages/translates>\\nTraducir el paquete de idiomas en línea, como usando el servicio de traducción de Baidu Cloud\\nSalida del tipo de módulo, valores posibles auto, esm, cjs\\nRegenerar la configuración de idioma del proyecto actual\\nLista de idiomas soportados\\nTraduciendo archivo: {}\\nTraducir {} -> {}",
+        "en-US": "    √ 保存语言文件 : {}",
+        "es-ES": "    √ 保存语言文件 : {}",
         "ar-EG": "    √ 保存语言文件 : {}",
-        "pt-PT": "    √ Guardar ficheiro de idioma : {}",
+        "pt-PT": "    √ 保存语言文件 : {}",
         "$files": [
             "src\\old\\extract.plugin.js(433:30-433:49)"
         ],
         "$id": 402
     },
     " - 生成语言配置文件: {}": {
-        "en-US": " - Generate language configuration file: {}",
+        "en-US": " - 生成语言配置文件: {}",
         "es-ES": " - 生成语言配置文件: {}",
         "ar-EG": " - 生成语言配置文件: {}",
-        "pt-PT": " - Gerar ficheiro de configuração de idioma: {}",
+        "pt-PT": " - 生成语言配置文件: {}",
         "$files": [
             "src\\old\\extract.plugin.js(444:26-444:43)"
         ],
         "$id": 403
     },
     " - 应用语言配置文件: {}": {
-        "en-US": " - Apply language configuration file: {}",
+        "en-US": " - 应用语言配置文件: {}",
         "es-ES": " - 应用语言配置文件: {}",
         "ar-EG": " - 应用语言配置文件: {}",
-        "pt-PT": "- Ficheiro de configuração de idioma da aplicação: {}\\nPróximo passo:\\n - Execute <{}> para compilar o pacote de idiomas\\n - Importe o pacote de idiomas compilado no código-fonte de [{}]\\nInicializar configuração de internacionalização do projeto\\nDigitalizar e extrair texto para tradução para <languages/translates>\\nTraduzir pacote de idiomas online, como usar o serviço de tradução da Baidu Cloud\\nExtrair texto para tradução\\nModo de atualização, valores possíveis: sync, overwrite, merge\\nRegras de correspondência de ficheiros\\nInicializar suporte a VoerkaI18n\\nDiretório de idiomas\\nÉ um projeto de biblioteca de desenvolvimento?\\nSelecionar idiomas suportados\\nHabilitar Typescript",
+        "pt-PT": " - 应用语言配置文件: {}",
         "$files": [
             "src\\old\\extract.plugin.js(446:26-446:43)"
         ],
         "$id": 404
     },
     "下一步：": {
-        "en-US": "Next step:",
+        "en-US": "下一步：",
         "es-ES": "下一步：",
         "ar-EG": "下一步：",
-        "pt-PT": "Próximo passo:",
+        "pt-PT": "下一步：",
         "$files": [
             "src\\old\\extract.plugin.js(449:22-449:28)",
             "src\\commands\\extract\\extractor.js(245:21-245:27)"
@@ -559,10 +559,10 @@
         "$id": 405
     },
     " - 运行<{}>编译语言包": {
-        "en-US": " - Run <{}> to compile the language package",
+        "en-US": " - 运行<{}>编译语言包",
         "es-ES": " - 运行<{}>编译语言包",
         "ar-EG": " - 运行<{}>编译语言包",
-        "pt-PT": " - Execute <{}> para compilar o pacote de idiomas",
+        "pt-PT": " - 运行<{}>编译语言包",
         "$files": [
             "src\\old\\extract.plugin.js(450:22-450:38)",
             "src\\old\\init.command.js(172:17-172:33)",
@@ -571,20 +571,20 @@
         "$id": 406
     },
     " - 在源码中从[{}]导入编译后的语言包": {
-        "en-US": " - Import the compiled language package from [{}] in the source code",
+        "en-US": " - 在源码中从[{}]导入编译后的语言包",
         "es-ES": " - 在源码中从[{}]导入编译后的语言包",
         "ar-EG": " - 在源码中从[{}]导入编译后的语言包",
-        "pt-PT": " - Importe o pacote de idiomas compilado no código-fonte de [{}]",
+        "pt-PT": " - 在源码中从[{}]导入编译后的语言包",
         "$files": [
             "src\\old\\extract.plugin.js(451:22-451:45)"
         ],
         "$id": 407
     },
     "初始化项目国际化配置": {
-        "en-US": "Initialize project internationalization configuration",
+        "en-US": "初始化项目国际化配置",
         "es-ES": "初始化项目国际化配置",
         "ar-EG": "初始化项目国际化配置",
-        "pt-PT": "Inicializar a configuração internacionalização do projeto",
+        "pt-PT": "初始化项目国际化配置",
         "$files": [
             "src\\old\\index.js(37:22-37:34)",
             "src\\old\\init.command.js(179:19-179:31)"
@@ -592,20 +592,20 @@
         "$id": 408
     },
     "扫描并提取待翻译的文本到<languages/translates>": {
-        "en-US": "Scan and extract text to be translated to <languages/translates>",
+        "en-US": "扫描并提取待翻译的文本到<languages/translates>",
         "es-ES": "扫描并提取待翻译的文本到<languages/translates>",
         "ar-EG": "扫描并提取待翻译的文本到<languages/translates>",
-        "pt-PT": "Escanear e extrair texto para tradução para <languages/translates>",
+        "pt-PT": "扫描并提取待翻译的文本到<languages/translates>",
         "$files": [
             "src\\old\\index.js(38:25-38:61)"
         ],
         "$id": 409
     },
     "在线翻译语言包,如使用百度云翻译服务": {
-        "en-US": "Online translate the language package, e.g., using Baidu Cloud Translation Service",
+        "en-US": "在线翻译语言包,如使用百度云翻译服务",
         "es-ES": "在线翻译语言包,如使用百度云翻译服务",
         "ar-EG": "在线翻译语言包,如使用百度云翻译服务",
-        "pt-PT": "Traduzir pacote de idiomas online, como usar o serviço de tradução da Baidu Cloud",
+        "pt-PT": "在线翻译语言包,如使用百度云翻译服务",
         "$files": [
             "src\\old\\index.js(40:27-40:47)"
         ],
@@ -827,7 +827,7 @@
     },
     "需要指定翻译脚本或者appkey和appid": {
         "en-US": "Need to specify translation script or appkey and appid",
-        "es-ES": "Se necesita especificar el script de traducción o appkey y appid  ",
+        "es-ES": "需要指定翻译脚本或者appkey和appid",
         "ar-EG": "يجب تحديد نص البرمجة للترجمة أو appkey وappid  ",
         "pt-PT": "É necessário especificar o script de tradução ou appkey e appid",
         "$files": [
@@ -837,7 +837,7 @@
     },
     "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务": {
         "en-US": "Call the online translation service provider's API to translate the specified project's language pack, such as using Baidu Cloud Translation Service",
-        "es-ES": "Llamar a la API del proveedor de servicios de traducción en línea para traducir el paquete de idiomas del proyecto especificado, como usar el servicio de traducción de Baidu Cloud  ",
+        "es-ES": "调用在线翻译服务商的API翻译译指定项目的语言包,如使用百度云翻译服务",
         "ar-EG": "استدعاء واجهة برمجة التطبيقات (API) لخدمة الترجمة عبر الإنترنت لمترجمة حزمة اللغة لمشروع محدد، مثل استخدام خدمة ترجمة بaidu Cloud  ",
         "pt-PT": "Chamar a API do provedor de serviço de tradução online para traduzir o pacote de idiomas do projeto especificado, como o serviço de tradução da Baidu Cloud",
         "$files": [
@@ -847,7 +847,7 @@
     },
     "备份原始文件": {
         "en-US": "Backup original files",
-        "es-ES": "Respaldar el archivo original  ",
+        "es-ES": "备份原始文件",
         "ar-EG": "สำรอง الملف الأصلي  ",
         "pt-PT": "Fazer backup do arquivo original",
         "$files": [
@@ -857,7 +857,7 @@
     },
     "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译": {
         "en-US": "Translation mode, values auto=only translate untranslated, full=translate all",
-        "es-ES": "Modo de traducción, valores posibles: auto=solo traducir sin traducir, full=traducir todo  ",
+        "es-ES": "翻译模式，取值auto=仅翻译未翻译的,full=全部翻译",
         "ar-EG": "نمط الترجمة، قيمتها يمكن أن تكون auto=ترجمة الجمل غير المتعرف عليها فقط، full=ترجمة كل شيء  ",
         "pt-PT": "Modo de tradução, valores possíveis: auto=somente traduz o que não foi traduzido, full=todas as traduções",
         "$files": [
@@ -867,7 +867,7 @@
     },
     "在线翻译服务提供者名称或翻译脚本文件": {
         "en-US": "Name of the online translation service provider or translation script file",
-        "es-ES": "Nombre del proveedor de servicios de traducción en línea o archivo de script de traducción  ",
+        "es-ES": "在线翻译服务提供者名称或翻译脚本文件",
         "ar-EG": "اسم مزود خدمة الترجمة عبر الإنترنت أو ملف نص البرمجة للترجمة  ",
         "pt-PT": "Nome do provedor de serviço de tradução online ou arquivo de script de tradução",
         "$files": [
@@ -878,7 +878,7 @@
     },
     "将多个文本合并提交的最大包字节数": {
         "en-US": "Maximum number of bytes for merging and submitting multiple texts",
-        "es-ES": "Número máximo de bytes de paquete para combinar y enviar varios textos  ",
+        "es-ES": "将多个文本合并提交的最大包字节数",
         "ar-EG": "أقصى عدد بايت للمحزمة التي يمكن دمج فيها وتقديم عدة نصوص",
         "pt-PT": "Número máximo de bytes para submissão de múltiplos textos combinados",
         "$files": [
@@ -1102,9 +1102,9 @@
     },
     "提取要翻译的文本": {
         "en-US": "Extract the text to be translated",
-        "es-ES": "Extraer el texto a traducir  ",
+        "es-ES": "提取要翻译的文本",
         "ar-EG": "استخراج النص المطلوب ترجمته",
-        "pt-PT": "Extrair texto para tradução",
+        "pt-PT": "提取要翻译的文本",
         "$files": [
             "src\\commands\\extract\\index.js(12:23-12:33)"
         ],
@@ -1112,9 +1112,9 @@
     },
     "更新模式,取值sync,overwrite,merge": {
         "en-US": "Update mode, values: sync, overwrite, merge",
-        "es-ES": "Modo de actualización, valores posibles: sync, overwrite, merge  ",
+        "es-ES": "更新模式,取值sync,overwrite,merge",
         "ar-EG": "تحديث الوضع، القيم ممكنة هي sync, overwrite, merge",
-        "pt-PT": "Modo de atualização, valores possíveis: sync, overwrite, merge",
+        "pt-PT": "更新模式,取值sync,overwrite,merge",
         "$files": [
             "src\\commands\\extract\\index.js(13:40-13:69)"
         ],
@@ -1122,9 +1122,9 @@
     },
     "文件匹配规则": {
         "en-US": "File matching rules",
-        "es-ES": "Reglas de coincidencia de archivos  ",
+        "es-ES": "文件匹配规则",
         "ar-EG": "قواعد مطابقة الملفات",
-        "pt-PT": "Regras de correspondência de arquivos",
+        "pt-PT": "文件匹配规则",
         "$files": [
             "src\\commands\\extract\\index.js(17:50-17:58)"
         ],
@@ -1132,9 +1132,9 @@
     },
     "初始化VoerkaI18n支持": {
         "en-US": "Initialize VoerkaI18n support",
-        "es-ES": "Inicializar el soporte para VoerkaI18n  ",
+        "es-ES": "初始化VoerkaI18n支持",
         "ar-EG": "تهيئة دعم VoerkaI18n",
-        "pt-PT": "Inicializar suporte ao VoerkaI18n",
+        "pt-PT": "初始化VoerkaI18n支持",
         "$files": [
             "src\\commands\\init\\index.js(60:23-60:40)"
         ],
@@ -1142,9 +1142,9 @@
     },
     "语言目录": {
         "en-US": "Language directory",
-        "es-ES": "Directorio de idiomas  ",
+        "es-ES": "语言目录",
         "ar-EG": "مجلد اللغات",
-        "pt-PT": "Diretório de idiomas",
+        "pt-PT": "语言目录",
         "$files": [
             "src\\commands\\init\\index.js(64:47-64:53)"
         ],
@@ -1152,9 +1152,9 @@
     },
     "是否开发库工程": {
         "en-US": "Is it a development library project",
-        "es-ES": "¿Es un proyecto de biblioteca de desarrollo?  ",
+        "es-ES": "是否开发库工程",
         "ar-EG": "هل مشروع مكتبة للتطوير",
-        "pt-PT": "Se é um projeto de biblioteca de desenvolvimento",
+        "pt-PT": "是否开发库工程",
         "$files": [
             "src\\commands\\init\\index.js(68:31-68:40)"
         ],
@@ -1162,9 +1162,9 @@
     },
     "选择支持的语言": {
         "en-US": "Select supported languages",
-        "es-ES": "Seleccionar los idiomas soportados",
+        "es-ES": "选择支持的语言",
         "ar-EG": "اختيار اللغات المدعومة",
-        "pt-PT": "Selecionar idiomas suportados",
+        "pt-PT": "选择支持的语言",
         "$files": [
             "src\\commands\\init\\index.js(69:47-69:56)"
         ],
@@ -1172,9 +1172,9 @@
     },
     "启用Typescript": {
         "en-US": "Enable Typescript",
-        "es-ES": "Habilitar Typescript",
+        "es-ES": "启用Typescript",
         "ar-EG": "تمكين TypeScript",
-        "pt-PT": "Habilitar Typescript",
+        "pt-PT": "启用Typescript",
         "$files": [
             "src\\commands\\init\\index.js(95:38-95:52)"
         ],
@@ -1182,9 +1182,9 @@
     },
     "模块类型": {
         "en-US": "Module type",
-        "es-ES": "Tipo de módulo",
+        "es-ES": "模块类型",
         "ar-EG": "نوع الوحدة",
-        "pt-PT": "Tipo de módulo",
+        "pt-PT": "模块类型",
         "$files": [
             "src\\commands\\init\\index.js(100:54-100:60)"
         ],
@@ -1192,9 +1192,9 @@
     },
     "开始初始化VoerkaI18n": {
         "en-US": "Start initializing VoerkaI18n",
-        "es-ES": "Comenzar la inicialización de VoerkaI18n",
+        "es-ES": "开始初始化VoerkaI18n",
         "ar-EG": "بدء تهيئة VoerkaI18n",
-        "pt-PT": "Iniciar inicialização do VoerkaI18n",
+        "pt-PT": "开始初始化VoerkaI18n",
         "$files": [
             "src\\commands\\init\\initializer.js(98:22-98:39)"
         ],
@@ -1202,9 +1202,9 @@
     },
     "配置信息：": {
         "en-US": "Configuration information:",
-        "es-ES": "Información de configuración:",
+        "es-ES": "配置信息：",
         "ar-EG": "معلومات التكوين:",
-        "pt-PT": "Informações de configuração:",
+        "pt-PT": "配置信息：",
         "$files": [
             "src\\commands\\init\\initializer.js(102:21-102:28)"
         ],
@@ -1212,9 +1212,9 @@
     },
     " - 语言配置文件: {}": {
         "en-US": " - Language configuration file: {}",
-        "es-ES": " - Archivo de configuración de idioma: {}",
+        "es-ES": " - 语言配置文件: {}",
         "ar-EG": " - ملف تكوين اللغة: {}",
-        "pt-PT": " - Ficheiro de configuração de idiomas: {}",
+        "pt-PT": " - 语言配置文件: {}",
         "$files": [
             "src\\commands\\init\\initializer.js(103:18-103:33)"
         ],
@@ -1222,9 +1222,9 @@
     },
     " - 拟支持的语言: {}": {
         "en-US": " - Proposed supported languages: {}",
-        "es-ES": " - Idiomas soportados: {}",
+        "es-ES": " - 拟支持的语言: {}",
         "ar-EG": " - اللغات المتوقعة الدعم لها: {}",
-        "pt-PT": " - Idiomas pretendidos: {}",
+        "pt-PT": " - 拟支持的语言: {}",
         "$files": [
             "src\\commands\\init\\initializer.js(104:18-104:33)"
         ],
@@ -1232,9 +1232,9 @@
     },
     " - 已安装运行时: {}": {
         "en-US": " - Installed runtime: {}",
-        "es-ES": " - Runtimes instalados: {}",
+        "es-ES": " - 已安装运行时: {}",
         "ar-EG": " - وقت تشغيل مثبت: {}",
-        "pt-PT": " - Tempo de execução instalado: {}",
+        "pt-PT": " - 已安装运行时: {}",
         "$files": [
             "src\\commands\\init\\initializer.js(105:18-105:33)"
         ],
@@ -1242,9 +1242,9 @@
     },
     " - 工作模式    :  {}": {
         "en-US": " - Operation mode    :  {}",
-        "es-ES": " - Modo de trabajo    :  {}",
+        "es-ES": " - 工作模式    :  {}",
         "ar-EG": " - وضع العمل    :  {}",
-        "pt-PT": " - Modo de trabalho    :  {}",
+        "pt-PT": " - 工作模式    :  {}",
         "$files": [
             "src\\commands\\init\\initializer.js(106:18-106:36)"
         ],
@@ -1252,9 +1252,9 @@
     },
     "库模式": {
         "en-US": "Library mode",
-        "es-ES": "Modo de biblioteca",
+        "es-ES": "库模式",
         "ar-EG": "وضع المكتبة",
-        "pt-PT": "Modo de biblioteca",
+        "pt-PT": "库模式",
         "$files": [
             "src\\commands\\init\\initializer.js(106:50-106:55)"
         ],
@@ -1262,9 +1262,9 @@
     },
     "应用模式": {
         "en-US": "Application mode",
-        "es-ES": "Modo de aplicación",
+        "es-ES": "应用模式",
         "ar-EG": "وضع التطبيق",
-        "pt-PT": "Modo de aplicação",
+        "pt-PT": "应用模式",
         "$files": [
             "src\\commands\\init\\initializer.js(106:61-106:67)"
         ],
@@ -1272,9 +1272,9 @@
     },
     " - 修改{}文件编辑语言参数": {
         "en-US": " - Modify {} file to edit language parameters",
-        "es-ES": " - Modificar el archivo {} para editar los parámetros de idioma",
+        "es-ES": " - 修改{}文件编辑语言参数",
         "ar-EG": " - تعديل ملف {} وتحرير معلمات اللغة",
-        "pt-PT": " - Modificar o ficheiro {} para editar os parâmetros de idioma",
+        "pt-PT": " - 修改{}文件编辑语言参数",
         "$files": [
             "src\\commands\\init\\initializer.js(109:18-109:35)"
         ],
@@ -1293,9 +1293,9 @@
     },
     "准备翻译{}个文件": {
         "en-US": "准备翻译{}个文件",
-        "es-ES": "Preparando la traducción de {} archivos",
+        "es-ES": "准备翻译{}个文件",
         "ar-EG": "准备翻译{}个文件",
-        "pt-PT": "Preparar a tradução de {} ficheiros",
+        "pt-PT": "准备翻译{}个文件",
         "$files": [
             "src\\commands\\translate\\ai.provider.js(60:21-60:32)",
             "src\\commands\\translate\\translate.js(221:21-221:32)"
@@ -1304,9 +1304,9 @@
     },
     "执行自动翻译": {
         "en-US": "执行自动翻译",
-        "es-ES": "Ejecutando traducción automática",
+        "es-ES": "执行自动翻译",
         "ar-EG": "执行自动翻译",
-        "pt-PT": "Executar tradução automática",
+        "pt-PT": "执行自动翻译",
         "$files": [
             "src\\commands\\translate\\index.js(15:23-15:31)"
         ],
@@ -1314,9 +1314,9 @@
     },
     "翻译模式,取值auto=仅翻译未翻译的,full=全部翻译": {
         "en-US": "翻译模式,取值auto=仅翻译未翻译的,full=全部翻译",
-        "es-ES": "Modo de traducción, valores posibles: auto=solo traducir no traducido, full=todas las traducciones",
+        "es-ES": "翻译模式,取值auto=仅翻译未翻译的,full=全部翻译",
         "ar-EG": "翻译模式,取值auto=仅翻译未翻译的,full=全部翻译",
-        "pt-PT": "Modo de tradução, valores possíveis: auto=somente traduzir não traduzido, full=todas as traduções",
+        "pt-PT": "翻译模式,取值auto=仅翻译未翻译的,full=全部翻译",
         "$files": [
             "src\\commands\\translate\\index.js(17:28-17:59)"
         ],
@@ -1324,9 +1324,9 @@
     },
     "只翻译指定的语言": {
         "en-US": "只翻译指定的语言",
-        "es-ES": "Traducir solo idiomas especificados",
+        "es-ES": "只翻译指定的语言",
         "ar-EG": "只翻译指定的语言",
-        "pt-PT": "Traduzir apenas idiomas especificados",
+        "pt-PT": "只翻译指定的语言",
         "$files": [
             "src\\commands\\translate\\index.js(18:43-18:53)"
         ],
@@ -1334,9 +1334,9 @@
     },
     "API URL": {
         "en-US": "API URL",
-        "es-ES": "URL de API",
+        "es-ES": "API URL",
         "ar-EG": "API URL",
-        "pt-PT": "URL da API",
+        "pt-PT": "API URL",
         "$files": [
             "src\\commands\\translate\\index.js(21:36-21:45)"
         ],
@@ -1344,9 +1344,9 @@
     },
     "API服务名称,声明在languages/api.json中": {
         "en-US": "API服务名称,声明在languages/api.json中",
-        "es-ES": "Nombre del servicio de API, declarado en languages/api.json",
+        "es-ES": "API服务名称,声明在languages/api.json中",
         "ar-EG": "API服务名称,声明在languages/api.json中",
-        "pt-PT": "Nome do serviço de tradução API, declarado em languages/api.json",
+        "pt-PT": "API服务名称,声明在languages/api.json中",
         "$files": [
             "src\\commands\\translate\\index.js(24:34-24:66)"
         ],
@@ -1356,7 +1356,7 @@
         "en-US": "需要指定翻译API服务",
         "es-ES": "需要指定翻译API服务",
         "ar-EG": "需要指定翻译API服务",
-        "pt-PT": "É necessário especificar o serviço de tradução API",
+        "pt-PT": "需要指定翻译API服务",
         "$files": [
             "src\\commands\\translate\\index.js(29:33-29:46)"
         ],
@@ -1366,7 +1366,7 @@
         "en-US": "- 通过{},{},{}参数指定",
         "es-ES": "- 通过{},{},{}参数指定",
         "ar-EG": "- 通过{},{},{}参数指定",
-        "pt-PT": "- Especifique através dos parâmetros {},{},{}\\n- Configure os parâmetros do serviço de API de tradução no ficheiro {}, consulte a documentação para mais detalhes\\nFalha ao carregar o fornecedor de tradução {}: {}\\nErro ao chamar o serviço de API de tradução: {}\\nEscaneando o código-fonte e aplicando automaticamente a função de tradução t\\nEscaneando regras de correspondência\\n - Âmbito de aplicação: {}\\nForam processados {} ficheiros no total",
+        "pt-PT": "- 通过{},{},{}参数指定",
         "$files": [
             "src\\commands\\translate\\index.js(30:30-30:48)"
         ],
@@ -1376,7 +1376,7 @@
         "en-US": "- 在{}文件中配置翻译API服务参数,详见文档",
         "es-ES": "- 在{}文件中配置翻译API服务参数,详见文档",
         "ar-EG": "- 在{}文件中配置翻译API服务参数,详见文档",
-        "pt-PT": "- Configurar parâmetros de serviço de API de tradução no arquivo {}, consulte a documentação",
+        "pt-PT": "- 在{}文件中配置翻译API服务参数,详见文档",
         "$files": [
             "src\\commands\\translate\\index.js(31:30-31:56)"
         ],
@@ -1386,7 +1386,7 @@
         "en-US": "加载翻译提供者{}失败: {}",
         "es-ES": "加载翻译提供者{}失败: {}",
         "ar-EG": "加载翻译提供者{}失败: {}",
-        "pt-PT": "Falha ao carregar provedor de tradução {}: {}",
+        "pt-PT": "加载翻译提供者{}失败: {}",
         "$files": [
             "src\\commands\\translate\\translate.js(21:26-21:43)"
         ],
@@ -1396,7 +1396,7 @@
         "en-US": "调用翻译API服务时出错:{}",
         "es-ES": "调用翻译API服务时出错:{}",
         "ar-EG": "调用翻译API服务时出错:{}",
-        "pt-PT": "Erro ao chamar o serviço de API de tradução: {}",
+        "pt-PT": "调用翻译API服务时出错:{}",
         "$files": [
             "src\\commands\\translate\\translate.js(72:26-72:43)"
         ],
@@ -1406,7 +1406,7 @@
         "en-US": "扫描源代码并自动应用翻译函数t",
         "es-ES": "扫描源代码并自动应用翻译函数t",
         "ar-EG": "扫描源代码并自动应用翻译函数t",
-        "pt-PT": "Digitalizar o código-fonte e aplicar automaticamente a função de tradução t",
+        "pt-PT": "扫描源代码并自动应用翻译函数t",
         "$files": [
             "src\\commands\\wrap\\index.js(15:23-15:40)"
         ],
@@ -1416,7 +1416,7 @@
         "en-US": "扫描匹配规则",
         "es-ES": "扫描匹配规则",
         "ar-EG": "扫描匹配规则",
-        "pt-PT": "Regras de correspondência de escaneamento",
+        "pt-PT": "扫描匹配规则",
         "$files": [
             "src\\commands\\wrap\\index.js(17:50-17:58)"
         ],
@@ -1536,7 +1536,7 @@
         "en-US": " - Application scope: {}",
         "es-ES": " - Alcance de aplicación: {}",
         "ar-EG": " - نطاق التطبيق: {}",
-        "pt-PT": " - Âmbito de aplicação: {}",
+        "pt-PT": " - 应用范围: {}",
         "$files": [
             "src\\commands\\wrap\\wrap.js(15:18-15:31)"
         ],
@@ -1546,7 +1546,7 @@
         "en-US": "Total processing of {} files",
         "es-ES": "Se procesaron un total de {} archivos",
         "ar-EG": "تم معالجة {} ملفات في إجمالي",
-        "pt-PT": "Foram processados {} arquivos",
+        "pt-PT": "共处理{}个文件",
         "$files": [
             "src\\commands\\wrap\\wrap.js(29:21-29:31)"
         ],

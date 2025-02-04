@@ -26,12 +26,13 @@ function getTranslateProvider(ctx={}){
  
 async function startTranslate(messages={},from="zh",to="en",ctx={}){
     let { qps=1 } = ctx
-    if(messages.length===0) return;
+    const texts = Object.keys(messages)
+    if(texts.length===0) return;
     const provider = getTranslateProvider(ctx)
     await delay(1000/qps)
     let translatedMessages
     try{
-        translatedMessages = await provider.translate(Object.keys(messages),from,to,ctx)
+        translatedMessages = await provider.translate(texts,from,to,ctx)
     }catch(e){
         throw new Error(t('调用翻译API服务时出错:{}',e.message))
     }
@@ -95,7 +96,7 @@ async function translateLanguage(messages,from,to,ctx,task){
         const [message,lngs ] = items[i]
         const langMessage = lngs[to]
         const hasChanged = isMessageChanged(message,langMessage)
-        
+
         task.note(`${i+1}/${msgCount}`)
         
         if(Array.isArray(langMessage)){// 由于复数需要手动配置，不进行翻译
