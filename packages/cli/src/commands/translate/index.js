@@ -25,7 +25,7 @@ module.exports = () => {
         .option('--api-key <key>', t('API密钥'))
         .option('--api <name>', t('API服务名称,声明在languages/api.json中'),{default:"baidu"})
         .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), {default:1})  
-        .option('--prompt <value>', t('languages/prompts文件夹中的提示文件名称'))  
+        .option('--prompt <value>', t('languages/prompts文件夹中的提示文件名称'),{default:"translate"})  
         .action(async (options) => {          
             const ctx = await getProjectContext(options);   
             if(!ctx.api){ 

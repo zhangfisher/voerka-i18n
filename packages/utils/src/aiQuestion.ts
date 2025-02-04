@@ -75,7 +75,8 @@ export async function  aiQuestion<T=string>(prompt:string,options?:AiQuestionOpt
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization":`Bearer ${apiKey}`
+                "Authorization":`Bearer ${apiKey}`,
+                "Cache-Control": "no-cache" // 禁用缓存
             },
             body:JSON.stringify(request)
         })

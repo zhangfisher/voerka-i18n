@@ -49,8 +49,8 @@ const defaultPrompt = `
 module.exports = function(params){
     const { key:apiKey,model ,url:apiUrl } = params
     return {
-        translate:async (texts=[],from="zh",to="en",ctx)=>{     
-            const promptTemplate =await ctx.getPrompt(ctx.prompt,defaultPrompt) 
+        translate:async (texts=[],from,to,ctx)=>{     
+            const promptTemplate =await ctx.getPrompt(ctx.prompt) 
             if(!promptTemplate){
                 throw new Error(t("未找到提示模板{}"),ctx.prompt)
             }

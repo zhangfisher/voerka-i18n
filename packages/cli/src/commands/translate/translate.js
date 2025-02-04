@@ -27,12 +27,16 @@ function getTranslateProvider(ctx={}){
 async function startTranslate(messages={},from="zh",to="en",ctx={}){
     let { qps=1 } = ctx
     const texts = Object.keys(messages)
-    if(texts.length===0) return;
+    const lineCount = texts.length
+    if(lineCount===0) return;
     const provider = getTranslateProvider(ctx)
     await delay(1000/qps)
     let translatedMessages
     try{
         translatedMessages = await provider.translate(texts,from,to,ctx)
+        if(lineCount!==translatedMessages.length){
+            throw new Error(t("翻译后的内容与原始内容行数不一致"))
+        }
     }catch(e){
         throw new Error(t('调用翻译API服务时出错:{}',e.message))
     }
@@ -64,7 +68,7 @@ async function translateSingleLineMessage(messages={},from="zh",to="en",ctx={}){
  * @param {*} ctx 
  * @returns 
  */
-async function translateMultiLineMessage(messages=[],from,to,ctx={}){
+async function translateMultiLineMessage(messages={},from,to,ctx={}){
     const translatedMessages = await startTranslate(messages,from,to,ctx)
     return translatedMessages.join("\n")
 }
@@ -72,7 +76,7 @@ async function translateMultiLineMessage(messages=[],from,to,ctx={}){
 /**
  * 判断是否翻译内容已经变化
  */
-function isMessageChanged(message,lngMessage){
+function isMessageUpdated(message,lngMessage){
     return typeof(lngMessage)==="string" && (lngMessage!=message && lngMessage.trim()!="")
 }
 
@@ -92,23 +96,26 @@ async function translateLanguage(messages,from,to,ctx,task){
     let translatedMessages = {}       // 保存已经翻译的内容    
     let packageSize = 0
 
+    let translatedCount = 0
+
     for(let i=0;i<msgCount;i++){
         const [message,lngs ] = items[i]
         const langMessage = lngs[to]
-        const hasChanged = isMessageChanged(message,langMessage)
+        const hasUpdated = isMessageUpdated(message,langMessage)
+        if(!hasUpdated)  translatedCount++ 
 
-        task.note(`${i+1}/${msgCount}`)
+        task.note(`${translatedCount}/${msgCount}`)
         
         if(Array.isArray(langMessage)){// 由于复数需要手动配置，不进行翻译
             result[message][to] = langMessage
-        }else if(mode == "auto" && hasChanged){
+        }else if(mode == "auto" && hasUpdated){
             result[message][to] = langMessage
         }else{
             if(!(message in result)) result[message] = {}
             // 由于百度翻译按\n来分行翻译，如果有\n则会出现多行翻译的情况。因此，如果有\n则就不将多条文件合并翻译
             if(message.includes("\n")){
                 result[message][to] = await translateMultiLineMessage(message.split("\n"),from,to,ctx)
-            }else if(!hasChanged){            
+            }else if(!hasUpdated){            
                 translatedMessages[message]={[to]:langMessage}
                 packageSize += message.length           
                 // 多个信息合并进行翻译，减少请求次数
@@ -121,7 +128,7 @@ async function translateLanguage(messages,from,to,ctx,task){
             } 
         }  
     }
-    return result 
+    return [result,translatedCount]
 }
 
 /**
@@ -142,10 +149,10 @@ async function translateFile(file,ctx,tasks){
         let task
         try{
             task = tasks.add(t("翻译 {} -> {}"),[defaultLanguage,lng.name])
-            const msgs = await translateLanguage(messages,defaultLanguage,lng.name,ctx,task)
-            if(Object.keys(msgs).length>0){
+            const [msgs,count] = await translateLanguage(messages,defaultLanguage,lng.name,ctx,task)
+            if(count>0){
                 results = deepMerge(results,msgs)
-                task.complete()
+                task.complete(`${count}/${Object.keys(messages).length}`)
             }else{
                 task.skip()
             }
@@ -178,7 +185,7 @@ async function translate(ctx) {
 
     const translateDir = path.join(langDir,"translates")
 
-    const files = await fastGlob(["*.json","!*.bak*.json"],{
+    const files = await fastGlob(["*.json","!*.bak.*.json"],{
         cwd     : translateDir,
         absolute: true
     })
