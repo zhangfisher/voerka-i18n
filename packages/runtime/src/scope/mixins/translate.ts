@@ -94,7 +94,7 @@ export class TranslateMixin {
         }catch(e:any){
             this.logger.error(`翻译失败：${e.stack}`) 
         } 
-        if(typeof(this.options.translate)){
+        if(typeof(this.options.translate)==='function'){
             result = this.options.translate(result as string,message,finalArgs,options)
         }
         return result as T

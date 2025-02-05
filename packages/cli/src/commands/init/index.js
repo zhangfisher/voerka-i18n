@@ -28,7 +28,7 @@ function getPrimaryLanguages() {
 /**
  * 根据选中的标签获取所选语言列表。
  *
- * @param {Array} seelctedTags - 选中的语言标签数组。
+ * @param {Array} selectedTags - 选中的语言标签数组。
  * @returns {Array} 返回一个包含符合选中标签的主要语言的数组。如果没有提供标签，则返回所有主要语言。
  *
  * @example
@@ -36,10 +36,10 @@ function getPrimaryLanguages() {
  * // getSelectedLanguages(['en', 'zh']);
  * // 返回包含英语和中文的主要语言数组
  */
-function getSelectedLanguages(seelctedTags) {
+function getSelectedLanguages(selectedTags) {
   const primaryLangs = getPrimaryLanguages();
-  const selectedLangs = seelctedTags
-    ? primaryLangs.filter((lang) => seelctedTags.includes(lang.value))
+  const selectedLangs = selectedTags
+    ? primaryLangs.filter((lang) => selectedTags.includes(lang.value))
     : primaryLangs;
   return selectedLangs;
 }
@@ -54,8 +54,8 @@ module.exports = (cli) => {
     
     const initCommand = new MixCommand("init");
     
-    const initOptions = Object.assign({},VoerkaI18nSettings)
-    initOptions.languages = initOptions.languages.map(lang=>lang.name)
+    const initOptions = Object.assign({},VoerkaI18nProjectContext)
+    initOptions.languages = (initOptions.languages || []).map(lang=>lang.name)
 
     initCommand
         .description(t("初始化VoerkaI18n支持"))

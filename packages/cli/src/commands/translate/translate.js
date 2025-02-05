@@ -19,7 +19,7 @@ function getTranslateProvider(ctx={}){
             return require(provider)(ctx)
         }        
     }catch(e){
-        throw new Error(t("加载翻译提供者{}失败: {}",[provider,e.message]))
+        throw new Error(t("加载翻译提供者{}失败: {}").params([provider,e.message]))
     }
     
 } 
@@ -38,7 +38,7 @@ async function startTranslate(messages={},from="zh",to="en",ctx={}){
             throw new Error(t("翻译后的内容与原始内容行数不一致"))
         }
     }catch(e){
-        throw new Error(t('调用翻译API服务时出错:{}',e.message))
+        throw new Error(t('调用翻译API服务时出错:{}').params(e.message))
     }
     Object.keys(messages).forEach((key,index)=>{
         messages[key][to] = translatedMessages[index]

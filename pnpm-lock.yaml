@@ -231,8 +231,8 @@ importers:
         specifier: ^1.4.27
         version: 1.4.27
       flexvars:
-        specifier: ^1.0.5
-        version: 1.0.5
+        specifier: ^1.0.6
+        version: 1.0.6
       ts-mixer:
         specifier: ^6.0.4
         version: 6.0.4
@@ -3421,8 +3421,8 @@ packages:
       react: ^18.2.0
       react-dom: ^18.2.0
 
-  flexvars@1.0.5:
-    resolution: {integrity: sha512-93qyWUI3NOL4CgaX8qnxw+PTjVtp00O1MR+nFJbZddjYwN2tZov6xFkuGTFTaCDtQFC3+Tt94slwUWWhdN+Kig==}
+  flexvars@1.0.6:
+    resolution: {integrity: sha512-FalxTYvA+oqG5415a5cX4qSqcUrV7NLyLuqRe6BZ/zyc6wXjJcpzqH90pMeoV5hEmshdA42LkjsMbTOQbiMBCw==}
 
   flush-write-stream@1.1.1:
     resolution: {integrity: sha512-3Z4XhFZ3992uIq0XOqb9AreonueSYphE6oYbpt5+3u06JWklbsPkNv3ZKkP9Bz/r+1MWCaMoSQ28P85+1Yc77w==}
@@ -9091,7 +9091,7 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  flexvars@1.0.5:
+  flexvars@1.0.6:
     dependencies:
       flex-tools: 1.4.27
 

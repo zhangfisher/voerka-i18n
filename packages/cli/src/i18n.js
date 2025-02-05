@@ -1,9 +1,5 @@
- 
- 
 let i18nScope,t
-
-
-
+ 
 try{
     // @voerkai18n/cli工程本身使用了voerkai18n,即@voerkai18n/cli的extract和compile依赖于其自己生成的languages运行时
     // 而@voerkai18n/cli又用来编译多语言包，这样产生了鸡生蛋问题
@@ -17,9 +13,8 @@ try{
 }
 
 
-export { 
+module.exports = { 
     i18nScope,
     t
 } 
-
 

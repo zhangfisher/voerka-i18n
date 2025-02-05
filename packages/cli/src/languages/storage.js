@@ -1,19 +1,17 @@
-import { IVoerkaI18nStorage } from "@voerkai18n/runtime" 
-
-export default {
-    get(key:string){
+module.exports = {
+    get(key){
         if(globalThis.localStorage){
             return globalThis.localStorage.getItem(key)
         }
     },
-    set(key:string,value:any){
+    set(key,value){
         if(globalThis.localStorage){
             globalThis.localStorage.setItem(key,value)
         }
     },
-    remove(key:string){
+    remove(key){
         if(globalThis.localStorage){
             globalThis.localStorage.removeItem(key)
         }
     }
-} as IVoerkaI18nStorage
+} 

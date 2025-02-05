@@ -2,16 +2,13 @@
     "name": "@voerkai18n/runtime",
     "version": "2.1.13",
     "description": "runtime of voerkai18n",
-    "main": "./src/index.ts",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
-    },
-    "publishConfig": {
-        "main": "./dist/index.js",
-        "module": "./dist/index.mjs",
-        "typings": "./dist/index.d.ts"
     },
     "scripts": {
         "test": "vitest",
@@ -23,7 +20,7 @@
     "dependencies": {
         "asyncsignal": "^0.0.2",
         "flex-tools": "^1.4.27",
-        "flexvars": "^1.0.5",
+        "flexvars": "^1.0.6",
         "ts-mixer": "^6.0.4"
     },
     "devDependencies": {

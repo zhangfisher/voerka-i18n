@@ -40,24 +40,24 @@ function formatLanguages(options){
 
 }
 
-async function initializer(options={}){
 
-    const opts = Object.assign({
-        entry          : "src/languages",
-        library        : false,
-        moduleType     : "esm",
-        typeScript     : false,
-        debug          : true,
-        languages      : ["zh-CN","en-US"],
-        reset          : false,
-        defaultLanguage: "zh-CN",
-        activeLanguage : "zh-CN"
-    },options)        
+
+function getDefaultScopeId(){
+    const pkg = getPackageJson()
+    if(pkg){
+        return `${pkg.name || 'scope'+ parseInt(Math.random()*10000)}${pkg.version ? "_"+pkg.version.replaceAll(".","_") : ""}`
+    }else{
+        return  'scope'+ parseInt(Math.random()*10000)
+    } 
+
+}
+async function initializer(opts={}){
+
+        
     formatLanguages(opts)
 
     const { library, moduleType, typescript:isTypeScript } =  opts
 
-    const projectPackageJson = getPackageJson()
     const langDir            = getLanguageDir()
     const langRelDir         = path.relative(process.cwd(),langDir).replace(/\\/g,'/')
     const settingsFile       = path.join(langDir,"settings.json")
@@ -70,16 +70,18 @@ async function initializer(options={}){
                 if(!fs.existsSync(langDir)){
                     fs.mkdirSync(langDir) 
                 }                    
-                opts.scopeId =projectPackageJson?.name || 'scope'+ parseInt(Math.random()*10000)
-                await copyFiles("*.*",langDir, {
-                    cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : moduleType),
+                opts.scopeId = getDefaultScopeId()
+                await copyFiles("**/*.*",langDir, {
+                    cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : (moduleType=='cjs' ? moduleType : "esm")),
                     vars     : opts,
                     overwrite: true
                 }) 
                 opts.languages.forEach(lng=>{
-                    const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : moduleType}`)
+                    const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : "js"}`)
                     const msgContent = moduleType === 'cjs' ? `module.exports = {}` : `export default {}`
-                    fs.writeFileSync(msgFile,msgContent)
+                    if(!fs.existsSync(msgFile)){
+                        fs.writeFileSync(msgFile,msgContent)
+                    }
                 })
             }
         },  
@@ -100,19 +102,23 @@ async function initializer(options={}){
 
     logsets.separator()
 
-    logsets.header(t("配置信息："))    
-    logsets.log(t(" - 语言配置文件: {}"),settingsRelFile)
-    logsets.log(t(" - 拟支持的语言: {}"),opts.languages.map(lng=>`${lng.title}(${lng.name})`).join(","))    
-    logsets.log(t(" - 已安装运行时: {}"),'@voerkai18n/runtime')
-    logsets.log(t(" - 工作模式    :  {}"),library ? t("库模式") : t("应用模式"))
-    logsets.separator()
-    logsets.header(t("初始化成功,下一步："))    
-    logsets.log(t(" - 修改{}文件编辑语言参数"),`${langRelDir}/settings.json`)
-    logsets.log(t(" - 运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
-    logsets.log(t(" - 运行<{}>在线自动翻译"),"voerkai18n translate")
-    logsets.log(t(" - 运行<{}>编译语言包"),"voerkai18n compile")
+    const summary = logsets.tasklist({grouped:true})
+    summary.addGroup(t("配置信息："))    
+    summary.addMemo(t("语言配置文件: {}"),settingsRelFile)
+    summary.addMemo(t("拟支持的语言: {}"),opts.languages.map(lng=>`${lng.title}(${lng.name})`).join(","))    
+    summary.addMemo(t("已安装运行时: {}"),'@voerkai18n/runtime')
+    summary.addMemo(t("工作模式    :  {}"),library ? t("库模式") : t("应用模式"))
+    summary.addGroup(t("初始化成功,下一步："))    
+    summary.addMemo(t("修改{}文件编辑语言参数"),`${langRelDir}/settings.json`)
+    summary.addMemo(t("运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
+    summary.addMemo(t("运行<{}>在线自动翻译"),"voerkai18n translate")
+    summary.addMemo(t("运行<{}>编译语言包"),"voerkai18n compile")
+    summary.addMemo(t("Done"))
 } 
 
 
 
 module.exports = initializer
+
+
+t("a\n\tv")

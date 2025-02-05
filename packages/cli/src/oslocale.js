@@ -139,28 +139,19 @@ function osLocaleSync(options = defaultOptions) {
 }
 
 
-function getCliLanguage(){
-    const voerkai18nSettings = getVoerkaI18nSettings()
-    const supportedLanguages = voerkai18nSettings.languages || []
-    const savedLangFile = path.join(os.tmpdir(),"voerkai18n_cli_language")
+function getCliLanguage(){    
+	const settings = getVoerkaI18nSettings() 
+	const supportedLanguages = settings.languages || []
     let result 
     const envLang = process.env.LANGUAGE;
     if(envLang){
         result = envLang.trim()
     }else{
-        if(fs.existsSync(savedLangFile)){
-            try{
-				result = fs.readFileSync(savedLangFile).trim()
-			}catch{}
-        }
-        if(!result || !supportedLanguages.some(lng=>lng.name==result) ){
-            result = osLocaleSync()           
-        }         
+		result = osLocaleSync()
     }
-    if(!supportedLanguages.some(lng=>lng.name==result) ){
-        result = "zh-CN"
-    }   
-    fs.writeFileSync(savedLangFile,result)        // 记住上次使用的语言
+	if(supportedLanguages.length > 0 && !supportedLanguages.some(lng=>lng.name==result) ){
+		result = "en-US"
+	}
     return result
 }
 
