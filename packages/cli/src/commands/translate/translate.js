@@ -195,7 +195,7 @@ async function translate(ctx) {
     for(let file of files){
         const relFile= path.relative(process.cwd(),file)        
         tasks.addGroup("翻译{}",relFile)            
-        await translateFile(file,ctx,tasks)       // 翻译文件
+        await translateFile(file,ctx,tasks)        
     }   
 }
 
