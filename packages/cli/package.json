@@ -23,7 +23,7 @@
         "dev:translate": "node src/index.js translate",
         "ai:translate": "node src/index.js translate --api qwen --provider ai",
         "dev:compile": "node src/index.js compile",
-        "compile:en": "cross-env LANGUAGE=en node ./index.js compile -d" 
+        "extract:en": "cross-env LANGUAGE=en-US node src/index.js extract"
     },
     "author": "wxzhang",
     "license": "MIT",
@@ -43,7 +43,7 @@
         "fs-extra": "^10.0.1",
         "lcid": "^4.0.1",
         "locale-code": "^2.0.2",
-        "logsets": "^1.3.25",
+        "logsets": "^1.3.26",
         "md5": "^2.3.0",
         "mixcli": "^3.2.8",
         "qs": "^6.10.3",

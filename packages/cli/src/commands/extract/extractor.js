@@ -247,7 +247,7 @@ async function extractor(options){
     tasks.addMemo(t("翻译{}文件"),"translates/*.json")
     tasks.addMemo(t("运行<{}>编译语言包"),"voerkai18n compile")
     tasks.addMemo(t("在源码中从<{}>导入编译后的语言包"), ctx.langRelDir )
-    tasks.addMemo("Done!")
+    tasks.done()
 }
 
 

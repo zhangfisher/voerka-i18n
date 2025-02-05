@@ -29,7 +29,7 @@ export type AiError = Error & {
  * @param text 
  */
 function removeCodeBlock(text:string){
-    return text.replace(/^```\s*.*?\n/gm,"")
+    return text.replace(/^```\w?.*?[\n\r]+/gm,"")
                     .replace(/```\s*$/gm,"")
 }
 
