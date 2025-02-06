@@ -1,8 +1,5 @@
 // fork from https://github.com/sindresorhus/os-locale
-const lcid = require('lcid') 
-const fs = require('node:fs')
-const path = require('node:path')
-const os = require('node:os');
+const lcid = require('lcid')  
 const { getVoerkaI18nSettings } = require('@voerkai18n/utils');
 const defaultOptions = {spawn: true};
 const defaultLocale = 'en-US';

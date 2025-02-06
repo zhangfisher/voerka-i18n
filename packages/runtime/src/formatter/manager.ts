@@ -4,7 +4,6 @@
  * 
  * 
  */
-import { create } from 'domain';
 import type { VoerkaI18nScope } from '../scope';        
 import { VoerkaI18nFormatter, VoerkaI18nFormatterBuilder, VoerkaI18nFormatters } from './types';
 import { createFormatter } from './utils';

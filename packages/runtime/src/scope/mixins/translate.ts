@@ -7,6 +7,9 @@ import type { VoerkaI18nScope } from ".."
 export type TranslateOptions = Record<string,any>
 export type TranslateArgs    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>TranslateArgs)
 
+
+export type VoerkaI18nTranslate = <T=string>(this:VoerkaI18nScope,message:string, args?:TranslateArgs, options?:TranslateOptions)=>T
+
 export class TranslateMixin {    
     /**
      * 根据值的单数和复数形式，从messages中取得相应的消息
