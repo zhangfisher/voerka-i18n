@@ -697,23 +697,6 @@
         ],
         "$id": 322
     },
-    "Done": {
-        "en-US": "Done",
-        "es-ES": "Done",
-        "ar-EG": "Done",
-        "pt-PT": "Concluído",
-        "ru-RU": "Выполнено",
-        "ja-JP": "Done",
-        "de-DE": "Done",
-        "fr-FR": "Done",
-        "ko-KR": "완료",
-        "it-IT": "Done",
-        "nl-NL": "Klaar",
-        "$files": [
-            "src\\commands\\init\\initializer.js(115:22-115:28)"
-        ],
-        "$id": 323
-    },
     "a\\n\\tv": {
         "en-US": "a\\n\\tv",
         "es-ES": "a\\n\\tv",

@@ -7,6 +7,4 @@ node_modules
 coverage
 .turbo
 dist/
-packages/cli/src/languages/api.json
-packages/cli/src/languages/translates/*.bak.*.json
 

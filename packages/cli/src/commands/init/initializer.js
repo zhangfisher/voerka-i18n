@@ -113,7 +113,7 @@ async function initializer(opts={}){
     summary.addMemo(t("运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
     summary.addMemo(t("运行<{}>在线自动翻译"),"voerkai18n translate")
     summary.addMemo(t("运行<{}>编译语言包"),"voerkai18n compile")
-    summary.addMemo(t("Done"))
+    summary.done()
 } 
 
 
