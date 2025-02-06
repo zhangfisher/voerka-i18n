@@ -11,6 +11,8 @@ import fs from "node:fs"
 export type VoerkaI18nProjectContext= VoerkaI18nSettings & { 
     langDir         : string
     langRelDir      : string
+    settingFile     : string
+    settingRelFile  : string
     typescript      : boolean
     moduleType      : "esm" | "cjs" | undefined
     promptDir       : string 
@@ -99,6 +101,8 @@ export async function getProjectContext(options?:Record<string,any>) {
     const ctx = await getVoerkaI18nSettings() as VoerkaI18nProjectContext
     ctx.langDir = getLanguageDir()
     ctx.langRelDir = path.relative(process.cwd(),ctx.langDir).replaceAll(path.sep,"/")    
+    ctx.settingFile = path.join(ctx.langDir, "settings.json")
+    ctx.settingRelFile = path.relative(process.cwd(),ctx.settingFile).replace(/\\/g,'/')
     ctx.promptDir = path.join(ctx.langDir,"prompts")
     ctx.getPrompt = getPromptTemplate.bind(ctx) 
     ctx.patterns = getDefaultPatterns.call(ctx,options)

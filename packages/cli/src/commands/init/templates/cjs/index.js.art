@@ -8,7 +8,7 @@ const defaultMessages = require("./{{defaultLanguage}}")
  
 
 const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
-    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>import("./{{$value.name}}"),{{/if}}
+    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>require("./{{$value.name}}.js"),{{/if}}
 {{/each}}}
 
 

@@ -28,6 +28,7 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { assignObject } from "flex-tools/object/assignObject"
 import { VoerkaI18nManager } from "../manager"
 import { LocalStorage } from "@/storage";
+import { isBrowser } from "@/utils/isBrowser";
 
 
 
@@ -139,7 +140,7 @@ export class VoerkaI18nScope extends Mixin(
 	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars    
     get logger(){ return this._logger!}                                         // 日志记录器
     get t(){ return this.translate.bind(this)}
-
+    
     /**
      * 激活语言名称： 以appScope为准    
      */
@@ -278,7 +279,18 @@ export class VoerkaI18nScope extends Mixin(
             return await this._manager.change(language)
         }else{
             await this.refresh(language)
-        }        
+        }   
+        this._applyLangAttrToHTML()     
     }  
+    /**
+     * 检查当前环境是是否是在浏览器环境中，如果是，则在body上添加language=<activeLanguage>属性
+     */
+    private _applyLangAttrToHTML(){        
+        if(this.library) return
+        if(!isBrowser()) return
+        try{
+            document.documentElement.setAttribute("language",this.activeLanguage)
+        }catch{}
+    }
 }
 

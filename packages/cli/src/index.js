@@ -14,9 +14,9 @@ const { i18nScope } = require("./i18n");
 getProjectContext().then(async ctx=>{
     const cliLanguage = getCliLanguage()
     global.OSLanguage = cliLanguage
-    await i18nScope.change(cliLanguage)
-    global.VoerkaI18nProjectContext = ctx
+    await i18nScope.change(cliLanguage) 
     global.isVoerkaI18nInstalled = isVoerkaI18nInstalled() 
+
     const cli = new MixCli({
       name: "VoerkaI18n",
       version: require("../package.json").version,
@@ -27,11 +27,12 @@ getProjectContext().then(async ctx=>{
             \ V /  __/ |  |   < (_| || || | (_) | | | |
              \_/ \___|_|  |_|\_\__,_|___|_|\___/|_| |_|`
       })    
+
     cli.register(InitCommand)
     cli.register(ExtractCommand)
     cli.register(CompileCommand)
     cli.register(WrapCommand)
     cli.register(TranslateCommand)
     cli.run();
+    
 })
-

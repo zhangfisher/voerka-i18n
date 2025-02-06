@@ -2,7 +2,7 @@ const { MixCommand } = require("mixcli");
 const { t } = require("../../i18n");
 const { getLanguageDir } = require("@voerkai18n/utils")
 const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage");
-const { getBcp47LanguageApi } = require("@voerkai18n/utils");
+const { getBcp47LanguageApi,getProjectContext } = require("@voerkai18n/utils");
 const initializer = require("./initializer");
 
 
@@ -48,20 +48,19 @@ function getSelectedLanguages(selectedTags) {
 /**
  * @param {import('mixcli').MixCli} cli
  */
-module.exports = (cli) => {
+module.exports = () => {
 
-    const isTypeScript = isTypeScriptPackage();
-    
-    const initCommand = new MixCommand("init");
-    
-    const initOptions = Object.assign({},VoerkaI18nProjectContext)
-    initOptions.languages = (initOptions.languages || []).map(lang=>lang.name)
-
+    const isTypeScript = isTypeScriptPackage();    
+    const initCommand = new MixCommand("init"); 
     initCommand
         .description(t("初始化VoerkaI18n支持"))
         .alias("config")
         .enablePrompts()
-        .initial(initOptions) 
+        .initial(async ()=>{
+            const ctx = await getProjectContext()
+            ctx.languages = (ctx.languages || []).map(lang=>lang.name)
+            return ctx
+        })
         .option("-d, --language-dir [path]", t("语言目录"), {
             default: getLanguageDir({autoCreate:false,absolute:false}),
             prompt : true,

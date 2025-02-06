@@ -1,10 +1,7 @@
-const { MixCommand } = require("mixcli");
 const { t } = require("../../i18n"); 
 const path = require("node:path");
 const logsets = require("logsets");
-const fastGlob = require("fast-glob");
-const { getProjectContext, getLanguageDir } = require("@voerkai18n/utils");
-const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage"); 
+const fastGlob = require("fast-glob"); 
 const { readFile,writeFile } = require("flex-tools/fs/nodefs");
 
 
@@ -21,7 +18,7 @@ async function compileLanguageFile(language,allMessages,ctx){
     for(let [ text,translated ] of Object.entries(allMessages)){
         const id = translated.$id
         if(!id){
-            throw new Error(`翻译文本没有id: ${text}`)
+            throw new Error(t("翻译文本没有id: {}",text))
         }
         if(language.name in translated){
             compiledMessages[id] = translated[language.name]
@@ -84,10 +81,10 @@ async function compile(ctx){
     const langExtName = typescript ? "ts" : moduleType === "cjs" ? "js" : "mjs"
 
     const tasks = logsets.tasklist({grouped:true})
-
+    
     for(let language of languages){
         try{
-            tasks.add(["编译语言文件: {}",`${langRelDir}/${language.name}.${langExtName}`])
+            tasks.add([t("编译: {}"),`${langRelDir}/${language.name}.${langExtName}`])
             await compileLanguageFile( language, allMessages,ctx)
             tasks.complete()
         }catch(e){
@@ -95,13 +92,14 @@ async function compile(ctx){
         }
     }
     try{
-        tasks.add(["生成IDMap文件: {}",`${langRelDir}/idMap.${langExtName}`])
+        tasks.add([t("生成IDMap文件: {}"),`${langRelDir}/idMap.${langExtName}`])
         await generateIdMap(allMessages,ctx)
         tasks.complete()
     }catch(e){
         tasks.error(e)
     }
     
+    tasks.done()
 }
 
  

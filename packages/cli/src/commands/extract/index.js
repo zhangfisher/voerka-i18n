@@ -10,7 +10,7 @@ module.exports = (cli) => {
 
     extractCommand
         .disablePrompts()
-        .description(t("提取要翻译的文本"))
+        .description(t("提取要翻译的文本"))    
         .option("-m, --mode [value]", t("更新模式,取值sync,overwrite,merge"),{
             default:"sync",
             choices:["sync","overwrite","merge"]

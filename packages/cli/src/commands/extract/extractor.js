@@ -90,7 +90,7 @@ async function scanMessages(ctx,tasks){
     for(let file of files){
         try{
             const relFile= path.relative(process.cwd(),file)        
-            tasks.add("提取{}",relFile)
+            tasks.add(t("提取 {}"),relFile)
             const code   = await readFile(file,{ encoding: "utf-8" }) 
             const result = await extractMessages(code,ctx.namespaces,{
                 file      : relFile
@@ -101,7 +101,7 @@ async function scanMessages(ctx,tasks){
             if(result.length === 0){
                 tasks.skip()
             }else{
-                tasks.complete(["发现{}条文本",result.length])
+                tasks.complete([t("发现{}条文本"),result.length])
             }
             total += result.length
         }catch(e){

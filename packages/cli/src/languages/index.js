@@ -9,17 +9,17 @@ const defaultMessages = require("./zh-CN")
 
 const messages = { 
     'zh-CN'    : defaultMessages,
-    'en-US'    : ()=>import("./en-US"),
-    'es-ES'    : ()=>import("./es-ES"),
-    'ar-EG'    : ()=>import("./ar-EG"),
-    'pt-PT'    : ()=>import("./pt-PT"),
-    'ru-RU'    : ()=>import("./ru-RU"),
-    'ja-JP'    : ()=>import("./ja-JP"),
-    'de-DE'    : ()=>import("./de-DE"),
-    'fr-FR'    : ()=>import("./fr-FR"),
-    'ko-KR'    : ()=>import("./ko-KR"),
-    'it-IT'    : ()=>import("./it-IT"),
-    'nl-NL'    : ()=>import("./nl-NL"),
+    'en-US'    : ()=>require("./en-US.js"),
+    'es-ES'    : ()=>require("./es-ES.js"),
+    'ar-EG'    : ()=>require("./ar-EG.js"),
+    'pt-PT'    : ()=>require("./pt-PT.js"),
+    'ru-RU'    : ()=>require("./ru-RU.js"),
+    'ja-JP'    : ()=>require("./ja-JP.js"),
+    'de-DE'    : ()=>require("./de-DE.js"),
+    'fr-FR'    : ()=>require("./fr-FR.js"),
+    'ko-KR'    : ()=>require("./ko-KR.js"),
+    'it-IT'    : ()=>require("./it-IT.js"),
+    'nl-NL'    : ()=>require("./nl-NL.js"),
 }
 
 

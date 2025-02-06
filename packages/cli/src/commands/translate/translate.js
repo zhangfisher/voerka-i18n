@@ -38,7 +38,7 @@ async function startTranslate(messages={},from="zh",to="en",ctx={}){
             throw new Error(t("翻译后的内容与原始内容行数不一致"))
         }
     }catch(e){
-        throw new Error(t('调用翻译API服务时出错:{}').params(e.message))
+        throw new Error(e.message)
     }
     Object.keys(messages).forEach((key,index)=>{
         messages[key][to] = translatedMessages[index]
@@ -108,8 +108,10 @@ async function translateLanguage(messages,from,to,ctx,task){
         
         if(Array.isArray(langMessage)){// 由于复数需要手动配置，不进行翻译
             result[message][to] = langMessage
+            if(i<msgCount-1) continue
         }else if(mode == "auto" && hasUpdated){
             result[message][to] = langMessage
+            if(i<msgCount-1) continue
         }else{
             if(!(message in result)) result[message] = {}
             // 由于百度翻译按\n来分行翻译，如果有\n则会出现多行翻译的情况。因此，如果有\n则就不将多条文件合并翻译
@@ -117,16 +119,16 @@ async function translateLanguage(messages,from,to,ctx,task){
                 result[message][to] = await translateMultiLineMessage(message.split("\n"),from,to,ctx)
             }else if(!hasUpdated){            
                 translatedMessages[message]={[to]:langMessage}
-                packageSize += message.length           
-                // 多个信息合并进行翻译，减少请求次数
-                if(packageSize>=maxPackageSize || i==msgCount-1){
-                    await translateSingleLineMessage(translatedMessages,from,to,ctx)
-                    deepMerge(result,translatedMessages)
-                    packageSize        = 0
-                    translatedMessages = {}
-                }
+                packageSize += message.length        
             } 
-        }  
+        }
+        // 多个信息合并进行翻译，减少请求次数
+        if(packageSize>=maxPackageSize || i==msgCount-1){
+            await translateSingleLineMessage(translatedMessages,from,to,ctx)
+            deepMerge(result,translatedMessages)
+            packageSize        = 0
+            translatedMessages = {}
+        }
     }
     return [result,translatedCount]
 }
@@ -194,9 +196,10 @@ async function translate(ctx) {
     
     for(let file of files){
         const relFile= path.relative(process.cwd(),file)        
-        tasks.addGroup("翻译{}",relFile)            
+        tasks.addGroup(t("翻译{}"),relFile)            
         await translateFile(file,ctx,tasks)        
     }   
+    tasks.done()
 }
 
 module.exports = {

@@ -62,6 +62,8 @@ export class TranslateMixin {
         return [pluraValue,vars]
     } 
     translate<T=string>(this:VoerkaI18nScope,message:string, args?:TranslateArgs, options?:TranslateOptions):T{ 
+        // 为什么样要转义换行符？因为在translates/*.json中key不允许换行符存在，需要转义为\\n，这里需要转回来
+        message = message.replaceAll(/\n/g,"\\n")
         // 如果内容是复数，则其值是一个数组，数组中的每个元素是从1-N数量形式的文本内容
         let result:string | string[] = message        
         if(!(typeof(message)==="string")) return message 

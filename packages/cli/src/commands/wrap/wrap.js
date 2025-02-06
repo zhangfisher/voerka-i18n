@@ -32,7 +32,7 @@ async function wrap(ctx) {
     for(let file of files){
         try{
             const relFile= path.relative(process.cwd(),file)        
-            tasks.add("处理{}",relFile)        
+            tasks.add(t("处理{}"),relFile)        
             const code = await readFile(file,{ encoding: "utf-8" })    
             ctx.file = file
             ctx.code = code
@@ -46,8 +46,6 @@ async function wrap(ctx) {
         }
     }   
 }
-
-
 
 module.exports = {
     wrap

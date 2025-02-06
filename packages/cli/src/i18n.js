@@ -6,7 +6,7 @@ try{
     // extract与compile调试阶段如果t函数无法使用(即编译的languages无法正常使用)，则需要提供t函数
     const language = require('./languages'); 
     t = language.t
-    i18nScope = language.i18nScope
+    i18nScope = language.i18nScope 
 }catch(e){
     t=(message)=>message
     i18nScope={change:()=>{} }

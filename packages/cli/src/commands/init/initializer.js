@@ -9,7 +9,7 @@
 const path = require("node:path");
 const fs = require("node:fs");
 const logsets = require("logsets");
-const { getLanguageDir,getBcp47LanguageApi } = require("@voerkai18n/utils");
+const { getBcp47LanguageApi } = require("@voerkai18n/utils");
 const { getPackageJson } = require("flex-tools/package/getPackageJson");
 const { t } = require("../../i18n"); 
 const { copyFiles } = require("flex-tools/fs/copyFiles")
@@ -38,9 +38,7 @@ function formatLanguages(options){
             return lng
         })
 
-}
-
-
+} 
 
 function getDefaultScopeId(){
     const pkg = getPackageJson()
@@ -52,20 +50,14 @@ function getDefaultScopeId(){
 
 }
 async function initializer(opts={}){
-
-        
+ 
     formatLanguages(opts)
 
-    const { library, moduleType, typescript:isTypeScript } =  opts
-
-    const langDir            = getLanguageDir()
-    const langRelDir         = path.relative(process.cwd(),langDir).replace(/\\/g,'/')
-    const settingsFile       = path.join(langDir,"settings.json")
-    const settingsRelFile    = path.relative(process.cwd(),settingsFile).replace(/\\/g,'/')
+    const { langDir,langRelDir,library, settingRelFile, moduleType, typescript:isTypeScript } =  opts
 
     const tasks = logsets.createTasks([
         {
-            title:["初始化语言文件夹:{}",langRelDir],
+            title:[t("初始化语言文件夹:{}"),langRelDir],
             execute:async ()=>{
                 if(!fs.existsSync(langDir)){
                     fs.mkdirSync(langDir) 
@@ -74,7 +66,9 @@ async function initializer(opts={}){
                 await copyFiles("**/*.*",langDir, {
                     cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : (moduleType=='cjs' ? moduleType : "esm")),
                     vars     : opts,
-                    overwrite: true
+                    overwrite: (file)=>{
+                        return !file.endsWith("api.json")
+                    }
                 }) 
                 opts.languages.forEach(lng=>{
                     const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : "js"}`)
@@ -86,7 +80,7 @@ async function initializer(opts={}){
             }
         },  
         {
-            title: ["安装{}依赖","@voerkai18n/runtime"],
+            title: [t("安装{}依赖"),"@voerkai18n/runtime"],
             execute:async ()=>{
                 if(await packageIsInstalled("@voerkai18n/runtime")){
                     return 
@@ -104,7 +98,7 @@ async function initializer(opts={}){
 
     const summary = logsets.tasklist({grouped:true})
     summary.addGroup(t("配置信息："))    
-    summary.addMemo(t("语言配置文件: {}"),settingsRelFile)
+    summary.addMemo(t("语言配置文件: {}"),settingRelFile)
     summary.addMemo(t("拟支持的语言: {}"),opts.languages.map(lng=>`${lng.title}(${lng.name})`).join(","))    
     summary.addMemo(t("已安装运行时: {}"),'@voerkai18n/runtime')
     summary.addMemo(t("工作模式    :  {}"),library ? t("库模式") : t("应用模式"))
@@ -120,5 +114,4 @@ async function initializer(opts={}){
 
 module.exports = initializer
 
-
-t("a\n\tv")
+ 

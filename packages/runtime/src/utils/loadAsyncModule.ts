@@ -6,5 +6,6 @@ export async function loadAsyncModule(context:any,module:Function):Promise<any>{
         return  (loadResult as any).default 
     }else{
         return  loadResult
-    }
+    }  
+    
 } 

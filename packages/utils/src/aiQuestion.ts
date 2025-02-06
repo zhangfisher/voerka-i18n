@@ -70,13 +70,14 @@ export async function  aiQuestion<T=string>(prompt:string,options?:AiQuestionOpt
         temperature
     }
     // 使用fetch向API发送请求
+    let data:any 
     try {
         const res = await fetch(apiUrl,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
                 "Authorization":`Bearer ${apiKey}`,
-                "Cache-Control": "no-cache" // 禁用缓存
+                "Cache-Control": "no-cache" 
             },
             body:JSON.stringify(request)
         })
@@ -84,15 +85,12 @@ export async function  aiQuestion<T=string>(prompt:string,options?:AiQuestionOpt
         if (!res.ok) {
             throw new Error(`API request failed with status ${res.status}`)
         }
-
-        const data = await res.json() as AiResponse
+        data = await res.json() 
         const result = removeCodeBlock(data.choices[0].message.content.trim()) as T
         return result
 
-    } catch (err) {
-        const error = err as AiError
-        console.error('Error in aiQuestion:', error)
-        throw new Error(`Failed to get AI response: ${error.message}`)
+    } catch (err:any) {
+        throw new Error(`Error when calling AI api: ${err.message}`)
     }
 }
 

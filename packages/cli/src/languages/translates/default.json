@@ -12,9 +12,60 @@
         "it-IT": "Inizio la compilazione del pacchetto di lingua: {}",
         "nl-NL": "Start taalpakket compileren: {}",
         "$files": [
-            "src\\commands\\compile\\compile.js(78:21-78:34)"
+            "src\\commands\\compile\\compile.js(75:21-75:34)"
         ],
         "$id": 80
+    },
+    "编译: {}": {
+        "en-US": "编译: {}",
+        "es-ES": "编译: {}",
+        "ar-EG": "编译: {}",
+        "pt-PT": "编译: {}",
+        "ru-RU": "编译: {}",
+        "ja-JP": "编译: {}",
+        "de-DE": "编译: {}",
+        "fr-FR": "编译: {}",
+        "ko-KR": "编译: {}",
+        "it-IT": "编译: {}",
+        "nl-NL": "编译: {}",
+        "$files": [
+            "src\\commands\\compile\\compile.js(86:25-86:33)"
+        ],
+        "$id": 238
+    },
+    "生成IDMap文件: {}": {
+        "en-US": "Generate IDMap file: {}",
+        "es-ES": "Generar archivo IDMap: {}",
+        "ar-EG": "إنشاء ملف IDMap: {}",
+        "pt-PT": "Gerar ficheiro IDMap: {}",
+        "ru-RU": "Создать IDMap файл: {}",
+        "ja-JP": "IDMapファイルを生成: {}",
+        "de-DE": "IDMap-Datei generieren: {}",
+        "fr-FR": "Générer le fichier IDMap : {}",
+        "ko-KR": "IDMap 파일 생성: {}",
+        "it-IT": "Genera file IDMap: {}",
+        "nl-NL": "Genereer IDMap-bestand: {}",
+        "$files": [
+            "src\\commands\\compile\\compile.js(94:21-94:36)"
+        ],
+        "$id": 241
+    },
+    "翻译文本没有id: {}": {
+        "en-US": "Translated text without id: {}",
+        "es-ES": "El texto traducido no tiene id: {}",
+        "ar-EG": "النص المترجم لا يحتوي على معرف: {}",
+        "pt-PT": "Texto de tradução sem id: {}",
+        "ru-RU": "Текст перевода без id: {}",
+        "ja-JP": "idのない翻訳テキスト: {}",
+        "de-DE": "Übersetzter Text ohne ID: {}",
+        "fr-FR": "Le texte traduit n'a pas d'id : {}",
+        "ko-KR": "id가 없는 번역 텍스트: {}",
+        "it-IT": "Testo tradotto senza id: {}",
+        "nl-NL": "Vertaaltekst zonder id: {}",
+        "$files": [
+            "src\\commands\\compile\\compile.js(20:30-20:44)"
+        ],
+        "$id": 242
     },
     "编译语言包": {
         "en-US": "Compiling language pack",
@@ -186,6 +237,40 @@
         ],
         "$id": 90
     },
+    "提取 {}": {
+        "en-US": "Extract {}",
+        "es-ES": "Extraer {}",
+        "ar-EG": "استخراج{}",
+        "pt-PT": "Extração {}",
+        "ru-RU": "Извлечение {}",
+        "ja-JP": "抽出 {}",
+        "de-DE": "Extrahieren {}",
+        "fr-FR": "Extraire le {}",
+        "ko-KR": "추출 {}",
+        "it-IT": "Estrazione {}",
+        "nl-NL": "Extractie {}",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(92:24-92:31)"
+        ],
+        "$id": 228
+    },
+    "发现{}条文本": {
+        "en-US": "发现{}条文本",
+        "es-ES": "发现{}条文本",
+        "ar-EG": "发现{}条文本",
+        "pt-PT": "发现{}条文本",
+        "ru-RU": "发现{}条文本",
+        "ja-JP": "发现{}条文本",
+        "de-DE": "发现{}条文本",
+        "fr-FR": "发现{}条文本",
+        "ko-KR": "发现{}条文本",
+        "it-IT": "发现{}条文本",
+        "nl-NL": "发现{}条文本",
+        "$files": [
+            "src\\commands\\extract\\extractor.js(103:34-103:43)"
+        ],
+        "$id": 239
+    },
     "提取结果:": {
         "en-US": "Extraction results:",
         "es-ES": "Resultado de la extracción:",
@@ -285,7 +370,7 @@
         "nl-NL": "Voer <{}> uit om taalpakket te compileren",
         "$files": [
             "src\\commands\\extract\\extractor.js(247:20-247:33)",
-            "src\\commands\\init\\initializer.js(114:22-114:35)"
+            "src\\commands\\init\\initializer.js(108:22-108:35)"
         ],
         "$id": 96
     },
@@ -370,7 +455,7 @@
         "it-IT": "Inizializzazione del supporto VoerkaI18n",
         "nl-NL": "Initialiseer VoerkaI18n-ondersteuning",
         "$files": [
-            "src\\commands\\init\\index.js(60:23-60:40)"
+            "src\\commands\\init\\index.js(55:23-55:40)"
         ],
         "$id": 101
     },
@@ -387,7 +472,7 @@
         "it-IT": "Directory delle lingue",
         "nl-NL": "Taalmap",
         "$files": [
-            "src\\commands\\init\\index.js(64:47-64:53)"
+            "src\\commands\\init\\index.js(63:47-63:53)"
         ],
         "$id": 102
     },
@@ -404,7 +489,7 @@
         "it-IT": "Se è un progetto di libreria di sviluppo",
         "nl-NL": "Is ontwikkelbibliotheekproject",
         "$files": [
-            "src\\commands\\init\\index.js(68:31-68:40)"
+            "src\\commands\\init\\index.js(67:31-67:40)"
         ],
         "$id": 103
     },
@@ -421,7 +506,7 @@
         "it-IT": "Scegliere le lingue da supportare",
         "nl-NL": "Kies ondersteunde talen",
         "$files": [
-            "src\\commands\\init\\index.js(69:47-69:56)"
+            "src\\commands\\init\\index.js(68:47-68:56)"
         ],
         "$id": 104
     },
@@ -438,7 +523,7 @@
         "it-IT": "Lingua predefinita",
         "nl-NL": "Standaardtaal",
         "$files": [
-            "src\\commands\\init\\index.js(76:45-76:51)"
+            "src\\commands\\init\\index.js(75:45-75:51)"
         ],
         "$id": 105
     },
@@ -455,7 +540,7 @@
         "it-IT": "Lingua attiva",
         "nl-NL": "Actieve taal",
         "$files": [
-            "src\\commands\\init\\index.js(87:44-87:50)"
+            "src\\commands\\init\\index.js(86:44-86:50)"
         ],
         "$id": 106
     },
@@ -472,7 +557,7 @@
         "it-IT": "Abilita Typescript",
         "nl-NL": "Schakel Typescript in",
         "$files": [
-            "src\\commands\\init\\index.js(95:38-95:52)"
+            "src\\commands\\init\\index.js(94:38-94:52)"
         ],
         "$id": 107
     },
@@ -489,9 +574,43 @@
         "it-IT": "Tipo di modulo",
         "nl-NL": "Moduletype",
         "$files": [
-            "src\\commands\\init\\index.js(100:54-100:60)"
+            "src\\commands\\init\\index.js(99:54-99:60)"
         ],
         "$id": 108
+    },
+    "初始化语言文件夹:{}": {
+        "en-US": "Initialize language folder: {}",
+        "es-ES": "Inicializar carpeta de idioma:{}",
+        "ar-EG": "تهيئة مجلد اللغة:{}",
+        "pt-PT": "Inicializar pasta de idiomas: {}",
+        "ru-RU": "Инициализировать папку языков: {}",
+        "ja-JP": "言語フォルダを初期化:{}",
+        "de-DE": "Sprachordner initialisieren: {}",
+        "fr-FR": "Initialiser le dossier de langues : {}",
+        "ko-KR": "언어 폴더 초기화:{}",
+        "it-IT": "Inizializza cartella lingua:{}",
+        "nl-NL": "Initialiseer taalmap:{}",
+        "$files": [
+            "src\\commands\\init\\initializer.js(59:21-59:34)"
+        ],
+        "$id": 243
+    },
+    "安装{}依赖": {
+        "en-US": "Install {} dependencies",
+        "es-ES": "Instalar dependencias de {}",
+        "ar-EG": "تثبيت {} الاعتماديات",
+        "pt-PT": "Instalar dependências de {}",
+        "ru-RU": "Установить {} зависимости",
+        "ja-JP": "{}依存関係をインストール",
+        "de-DE": "Installiere {} Abhängigkeiten",
+        "fr-FR": "Installer les dépendances {}",
+        "ko-KR": "{} 종속성 설치",
+        "it-IT": "Installa {} dipendenze",
+        "nl-NL": "Installeer {} afhankelijkheden",
+        "$files": [
+            "src\\commands\\init\\initializer.js(82:22-82:30)"
+        ],
+        "$id": 244
     },
     "开始初始化VoerkaI18n": {
         "en-US": "Start initializing VoerkaI18n",
@@ -506,7 +625,7 @@
         "it-IT": "Avvio dell'inizializzazione di VoerkaI18n",
         "nl-NL": "Start met initialiseren van VoerkaI18n",
         "$files": [
-            "src\\commands\\init\\initializer.js(100:22-100:39)"
+            "src\\commands\\init\\initializer.js(94:22-94:39)"
         ],
         "$id": 109
     },
@@ -523,7 +642,7 @@
         "it-IT": "Informazioni di configurazione:",
         "nl-NL": "Configuratie-informatie:",
         "$files": [
-            "src\\commands\\init\\initializer.js(105:23-105:30)"
+            "src\\commands\\init\\initializer.js(99:23-99:30)"
         ],
         "$id": 110
     },
@@ -540,7 +659,7 @@
         "it-IT": "File di configurazione delle lingue: {}",
         "nl-NL": "Taalconfiguratiebestand: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(106:22-106:34)"
+            "src\\commands\\init\\initializer.js(100:22-100:34)"
         ],
         "$id": 316
     },
@@ -557,7 +676,7 @@
         "it-IT": "Lingue supportate: {}",
         "nl-NL": "Voorgestelde ondersteunde talen: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(107:22-107:34)"
+            "src\\commands\\init\\initializer.js(101:22-101:34)"
         ],
         "$id": 317
     },
@@ -574,7 +693,7 @@
         "it-IT": "Runtime installato: {}",
         "nl-NL": "Geïnstalleerde runtime: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(108:22-108:34)"
+            "src\\commands\\init\\initializer.js(102:22-102:34)"
         ],
         "$id": 318
     },
@@ -591,7 +710,7 @@
         "it-IT": "Modalità di lavoro: {}",
         "nl-NL": "Werkmodus:  {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(109:22-109:37)"
+            "src\\commands\\init\\initializer.js(103:22-103:37)"
         ],
         "$id": 319
     },
@@ -608,7 +727,7 @@
         "it-IT": "Modalità libreria",
         "nl-NL": "Bibliothekmodus",
         "$files": [
-            "src\\commands\\init\\initializer.js(109:51-109:56)"
+            "src\\commands\\init\\initializer.js(103:51-103:56)"
         ],
         "$id": 115
     },
@@ -625,7 +744,7 @@
         "it-IT": "Modalità applicazione",
         "nl-NL": "Toepassingsmodus",
         "$files": [
-            "src\\commands\\init\\initializer.js(109:62-109:68)"
+            "src\\commands\\init\\initializer.js(103:62-103:68)"
         ],
         "$id": 116
     },
@@ -642,7 +761,7 @@
         "it-IT": "Inizializzazione completata, passo successivo:",
         "nl-NL": "Initialisatie geslaagd, volgende stap:",
         "$files": [
-            "src\\commands\\init\\initializer.js(110:23-110:35)"
+            "src\\commands\\init\\initializer.js(104:23-104:35)"
         ],
         "$id": 117
     },
@@ -659,7 +778,7 @@
         "it-IT": "Modifica il file {} per modificare i parametri della lingua",
         "nl-NL": "Bewerk het {} bestand om de taalparameters te bewerken",
         "$files": [
-            "src\\commands\\init\\initializer.js(111:22-111:36)"
+            "src\\commands\\init\\initializer.js(105:22-105:36)"
         ],
         "$id": 320
     },
@@ -676,7 +795,7 @@
         "it-IT": "Esegui <{}> per scansionare e estrarre i testi da tradurre",
         "nl-NL": "Voer <{}> uit om de tekst die moet worden vertaald te scannen en te extraheren",
         "$files": [
-            "src\\commands\\init\\initializer.js(112:22-112:40)"
+            "src\\commands\\init\\initializer.js(106:22-106:40)"
         ],
         "$id": 321
     },
@@ -693,26 +812,9 @@
         "it-IT": "Esegui <{}> per la traduzione automatica online",
         "nl-NL": "Voer <{}> uit voor online automatische vertaling",
         "$files": [
-            "src\\commands\\init\\initializer.js(113:22-113:36)"
+            "src\\commands\\init\\initializer.js(107:22-107:36)"
         ],
         "$id": 322
-    },
-    "a\\n\\tv": {
-        "en-US": "a\\n\\tv",
-        "es-ES": "a\\n\\tv",
-        "ar-EG": "a\\n\\tv",
-        "pt-PT": "a\\n\\tv",
-        "ru-RU": "a\\n\\tv",
-        "ja-JP": "a\\n\\tv",
-        "de-DE": "a\\n\\tv",
-        "fr-FR": "a\\n\\tv",
-        "ko-KR": "a\\n\\tv",
-        "it-IT": "a\\n\\tv",
-        "nl-NL": "a\\n\\tv",
-        "$files": [
-            "src\\commands\\init\\initializer.js(123:2-123:10)"
-        ],
-        "$id": 237
     },
     "未找到提示模板{}": {
         "en-US": "Prompt template {} not found",
@@ -1021,23 +1123,6 @@
         ],
         "$id": 139
     },
-    "调用翻译API服务时出错:{}": {
-        "en-US": "Error when calling translation API service: {}",
-        "es-ES": "Error al llamar al servicio de API de traducción: {}",
-        "ar-EG": "حدث خطأ أثناء استدعاء خدمة ترجمة API: {}",
-        "pt-PT": "Erro ao chamar o serviço de API de tradução: {}",
-        "ru-RU": "Ошибка при вызове службы перевода API: {}",
-        "ja-JP": "翻訳APIサービスの呼び出し時にエラーが発生しました: {}",
-        "de-DE": "Fehler beim Aufrufen des Übersetzung-API-Dienstes: {}",
-        "fr-FR": "Erreur lors de l'appel au service d'API de traduction : {}",
-        "ko-KR": "번역 API 서비스 호출 시 오류: {}",
-        "it-IT": "Errore durante la chiamata al servizio API di traduzione: {}",
-        "nl-NL": "Fout tijdens het aanroepen van de vertaal-API-service: {}",
-        "$files": [
-            "src\\commands\\translate\\translate.js(40:26-40:43)"
-        ],
-        "$id": 140
-    },
     "翻译 {} -> {}": {
         "en-US": "Translation {} -> {}",
         "es-ES": "Traducción {} -> {}",
@@ -1051,7 +1136,7 @@
         "it-IT": "Traduzione {} -> {}",
         "nl-NL": "Vertaling {} -> {}",
         "$files": [
-            "src\\commands\\translate\\translate.js(150:31-150:44)"
+            "src\\commands\\translate\\translate.js(152:31-152:44)"
         ],
         "$id": 141
     },
@@ -1068,9 +1153,26 @@
         "it-IT": "Preparazione per la traduzione di {} file",
         "nl-NL": "Voorbereiding voor het vertalen van {} bestanden",
         "$files": [
-            "src\\commands\\translate\\translate.js(192:21-192:32)"
+            "src\\commands\\translate\\translate.js(194:21-194:32)"
         ],
         "$id": 142
+    },
+    "翻译{}": {
+        "en-US": "Translate {}",
+        "es-ES": "Traducir {}",
+        "ar-EG": "ترجمة {}",
+        "pt-PT": "Traduzir {}",
+        "ru-RU": "Перевести {}",
+        "ja-JP": "{}を翻訳",
+        "de-DE": "Übersetze {}",
+        "fr-FR": "Traduire {}",
+        "ko-KR": "{} 번역",
+        "it-IT": "Traduci {}",
+        "nl-NL": "Vertaal {}",
+        "$files": [
+            "src\\commands\\translate\\translate.js(198:25-198:31)"
+        ],
+        "$id": 245
     },
     "扫描源代码并自动应用翻译函数t": {
         "en-US": "Scan source code and automatically apply translation function t",
@@ -1326,5 +1428,22 @@
             "src\\commands\\wrap\\wrap.js(29:21-29:31)"
         ],
         "$id": 157
+    },
+    "处理{}": {
+        "en-US": "Process {}",
+        "es-ES": "Procesar {}",
+        "ar-EG": "معالجة {}",
+        "pt-PT": "Processar {}",
+        "ru-RU": "Обработать {}",
+        "ja-JP": "{}を処理",
+        "de-DE": "Verarbeite {}",
+        "fr-FR": "Traiter {}",
+        "ko-KR": "{} 처리",
+        "it-IT": "Processa {}",
+        "nl-NL": "Verwerk {}",
+        "$files": [
+            "src\\commands\\wrap\\wrap.js(34:24-34:30)"
+        ],
+        "$id": 246
     }
 }
