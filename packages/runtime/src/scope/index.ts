@@ -5,7 +5,10 @@ import type {
     VoerkaI18nLanguageMessagePack,
     IVoerkaI18nStorage,  
     VoerkaI18nLanguagePack,
-    VoerkaI18nLanguageLoader
+    VoerkaI18nLanguageLoader,
+    VoerkaI18nTranslate,
+    VoerkaI18nTranslateArgs,
+    VoerkaI18nTranslateOptions
 } from "@/types" 
 import { DefaultLanguageSettings } from '../consts';
 import { Mixin } from "ts-mixer"
@@ -20,7 +23,6 @@ import { VoerkaI18nFormatterManager } from "../formatter/manager";
 import { isI18nManger } from "@/utils/isI18nManger"
 import { LanguageMixin } from "./mixins/language"
 import { TranslateMixin } from "./mixins/translate"
-import type { TranslateArgs, TranslateOptions } from "./mixins/translate"
 import { RestoreMixin } from "./mixins/restore";
 import { InterpolatorMixin } from "./mixins/interpolator";
 import { VoerkaI18nOnlyOneAppScopeError } from "@/errors";
@@ -75,9 +77,9 @@ export interface VoerkaI18nScopeOptions {
     translate?     : (
         result     : string,
         message    : string, 
-        args?      : TranslateArgs, 
-        options?   : TranslateOptions 
-    )=>any                       // 翻译函数
+        args?      : VoerkaI18nTranslateArgs, 
+        options?   : VoerkaI18nTranslateOptions 
+    ) => any                       
 
     
     
@@ -94,18 +96,17 @@ export class VoerkaI18nScope extends Mixin(
     ){
     __VoerkaI18nScope__ = true
     private _options          : Required<VoerkaI18nScopeOptions>
-    private _manager!         : VoerkaI18nManager                                  // 引用全局VoerkaI18nManager配置，注册后自动引用
+    private _manager!         : VoerkaI18nManager                                   // 引用全局VoerkaI18nManager配置，注册后自动引用
     private _formatterManager : VoerkaI18nFormatterManager | null = null
     private _logger!          : VoerkaI18nLogger    
-    protected _defaultLanguage: string ='en'                                       // 默认语言名称
-    protected _activeLanguage : string ='en'                                       // 默认语言名称    
-    protected _activeMessages : VoerkaI18nLanguageMessages = {}                    // 当前语言包
-    protected _patchedMessages: VoerkaI18nLanguagePack = {}                        // 补丁语言包
+    protected _defaultLanguage: string ='zh-CN'                                     // 默认语言名称
+    protected _activeLanguage : string ='zh-CN'                                     // 默认语言名称    
+    protected _activeMessages : VoerkaI18nLanguageMessages = {}                     // 当前语言包
+    protected _patchedMessages: VoerkaI18nLanguagePack = {}                         // 补丁语言包
     
     /**
      * 
-     * @param options 
-     * @param callback  当前作用域初始化完成后的回调函数 
+     * @param options  
      */
 	constructor(options:VoerkaI18nScopeOptions) {
         super()
@@ -139,7 +140,7 @@ export class VoerkaI18nScope extends Mixin(
     get appScope() { return this._manager.scope}                                // 全局作用域
 	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars    
     get logger(){ return this._logger!}                                         // 日志记录器
-    get t(){ return this.translate.bind(this)}
+    get t():VoerkaI18nTranslate{ return this.translate.bind(this) as VoerkaI18nTranslate}
     
     /**
      * 激活语言名称： 以appScope为准    

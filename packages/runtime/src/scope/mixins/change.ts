@@ -17,6 +17,7 @@ import { loadAsyncModule } from "@/utils/loadAsyncModule";
 
 export class ChangeLanguageMixin{     
     protected _refreshSignal? :IAsyncSignal 
+
     /** 
      * 刷新语言包 
      * @param language 
@@ -24,7 +25,7 @@ export class ChangeLanguageMixin{
     async refresh(this:VoerkaI18nScope,language?:string,options?:{fallback?:boolean,patch:boolean}):Promise<string>{
         if(!this._refreshSignal) this._refreshSignal = asyncSignal() 
         if (!language) language   = this.activeLanguage;        
-        let finalLanguage: string = language; 
+        let finalLanguage : string = language; 
         let finalMessages : VoerkaI18nLanguageMessages | undefined = undefined
         const { patch,fallback } = Object.assign({ fallback:false,patch:true },options)
 

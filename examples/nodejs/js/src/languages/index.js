@@ -3,17 +3,18 @@ const storage = require("./storage")
 const formatters = require("@voerkai18n/formatters")
 const idMap = require("./idMap")
 const settings = require("./settings.json")
-const defaultMessages = require("./{{defaultLanguage}}")
-{{if activeLanguage !== defaultLanguage}}const activeMessages = require("./{{activeLanguage}}"){{/if}}
+const defaultMessages = require("./zh-CN")
+
  
 
-const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
-    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>require("./{{$value.name}}.js"),{{/if}}
-{{/each}}}
+const messages = { 
+    'zh-CN'    : defaultMessages,
+    'en-US'    : ()=>require("./en-US.js"),
+}
 
 
 const i18nScope = new VoerkaI18nScope({    
-    id: "{{scopeId}}",                                  // 当前作用域的id
+    id: "voerkai18n-example-nodejs",                                  // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器

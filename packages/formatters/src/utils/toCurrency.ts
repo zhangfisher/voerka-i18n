@@ -28,8 +28,8 @@ function addSplitChars(str:string,bits:number=3){
  * @param {*} format      格式模块板字符串
  * @returns 
  */
-export function toCurrency(value:string|number ,params:Record<string,any>={},$config={}){
-    let { symbol="",division=3,prefix="",precision=2,suffix="",unit=0,radix=3,format="{symbol}{value}{unit}" }  = params
+export function toCurrency(value:string|number ,params:Record<string,any>){
+    let { symbol="",division=3,prefix="",precision=-1,suffix="",unit=0,radix=3,units=[],format="{symbol}{value}{unit}" }  = params
 
     // 1. 分离出整数和小数部分
     let [ wholeDigits,decimalDigits ] = String(value).split(".")
@@ -68,7 +68,7 @@ export function toCurrency(value:string|number ,params:Record<string,any>={},$co
         }                   
     } 
     // 5. 模板替换 
-    const unitName =  getByPath($config,`units`,{defaultValue:[]})[unit] || ""
+    const unitName = units[unit] || ""
     return format.replace("{value}",result.join(""))
                     .replace("{symbol}",symbol)
                     .replace("{prefix}",prefix)

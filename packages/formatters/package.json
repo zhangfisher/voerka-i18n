@@ -2,17 +2,62 @@
   "name": "@voerkai18n/formatters",
   "version": "1.0.0",
   "description": "formatters for voerkai18n",
-  "main": "src/index.ts",
-  "publishConfig": {
-    "access": "public",
-    "main": "dist/index.js",
-    "module": "dist/index.mjs",
-    "types": "dist/index.d.ts"
-  },
   "scripts": {
     "build": "tsup"
   },
-  "keywords": [],
+  "exports":{
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./number": {      
+      "types": "./dist/number/index.d.ts",
+      "require": "./dist/number/index.js",
+      "import": "./dist/number/index.mjs"
+    },
+    "./currency": {      
+      "types": "./dist/currency/index.d.ts",
+      "require": "./dist/currency/index.js",
+      "import": "./dist/currency/index.mjs"
+    },
+    "./date": {      
+      "types": "./dist/datetime/date.d.ts",
+      "require": "./dist/datetime/date.js",
+      "import": "./dist/datetime/date.mjs"
+    },
+    "./time": {      
+      "types": "./dist/datetime/time.d.ts",
+      "require": "./dist/datetime/time.js",
+      "import": "./dist/datetime/time.mjs"
+    },
+    "./timeSlots":{
+      "types": "./dist/datetime/timeSlots.d.ts",
+      "require": "./dist/datetime/timeSlots.js",
+      "import": "./dist/datetime/timeSlots.mjs"
+    },
+    "./relativeTime": {      
+      "types": "./dist/datetime/relativeTime.d.ts",
+      "require": "./dist/datetime/relativeTime.js",
+      "import": "./dist/datetime/relativeTime.mjs"
+    },
+    "./month": {      
+      "types": "./dist/datetime/month.d.ts",
+      "require": "./dist/datetime/month.js",
+      "import": "./dist/datetime/month.mjs"
+    },
+    "./weekday": {      
+      "types": "./dist/datetime/weekday.d.ts",
+      "require": "./dist/datetime/weekday.js",
+      "import": "./dist/datetime/weekday.mjs"
+    },
+    "./quarter": {      
+      "types": "./dist/datetime/quarter.d.ts",
+      "require": "./dist/datetime/quarter.js",
+      "import": "./dist/datetime/quarter.mjs"
+    }
+  },
+  "keywords": ["voerkai18n", "formatters"],
   "author": "",
   "license": "ISC",
   "dependencies": {

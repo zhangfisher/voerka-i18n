@@ -1,22 +1,21 @@
-import { createFormatter } from "../utils"
+import { createFormatter } from "@voerkai18n/runtime"
 import { toDate } from "../utils/toDate" 
 import { relativeTime } from "flex-tools/misc/relativeTime"
 
  
 
-export type RelativeTimeFormatterConfig = {
+type RelativeTimeFormatterConfig = {
     units       : string[]
     now         : string
     before      : string
     after       : string
 }
 
-
-export type RelativeTimeFormatterArgs = {
+type RelativeTimeFormatterArgs = {
     base: Date
 }
  
-export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>({
+export default createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>({
         name   : "relativeTime",
         args   : [ "base" ],
         default: ()=>({
@@ -28,13 +27,13 @@ export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,
             return relativeTime(toDate(value),baseTime,config)   
         }
     },{
-    en:{ 
+    "en-US":{ 
         units       : ["seconds","minutes","hours","days","weeks","months","years"],
         now         : "Just now",
         before      : "{value} {unit} ago",
         after       : "after {value} {unit}"
     },
-    zh:{ 
+    "zh-CN":{ 
         units       : ["秒","分钟","小时","天","周","个月","年"],
         now         : "刚刚",
         before      : "{value}{unit}前",

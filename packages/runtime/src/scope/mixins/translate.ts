@@ -3,12 +3,9 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import type { VoerkaI18nScope } from ".."
-
-export type TranslateOptions = Record<string,any>
-export type TranslateArgs    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>TranslateArgs)
+import type { VoerkaI18nTranslateArgs, VoerkaI18nTranslateOptions } from "@/types"
 
 
-export type VoerkaI18nTranslate = <T=string>(this:VoerkaI18nScope,message:string, args?:TranslateArgs, options?:TranslateOptions)=>T
 
 export class TranslateMixin {    
     /**
@@ -64,7 +61,7 @@ export class TranslateMixin {
         }
         return [pluraValue,vars]
     } 
-    translate<T=string>(this:VoerkaI18nScope,message:string, args?:TranslateArgs, options?:TranslateOptions):T{ 
+    translate<T=string>(this:VoerkaI18nScope,message:string, args?:VoerkaI18nTranslateArgs, options?:VoerkaI18nTranslateOptions):T{ 
         // 为什么样要转义换行符？因为在translates/*.json中key不允许换行符存在，需要转义为\\n，这里需要转回来
         message = message.replaceAll(/\n/g,"\\n")
         // 如果内容是复数，则其值是一个数组，数组中的每个元素是从1-N数量形式的文本内容

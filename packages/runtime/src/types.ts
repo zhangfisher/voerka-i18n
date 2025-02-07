@@ -49,14 +49,14 @@ export interface IVoerkaI18nStorage{
 export type VoerkaI18nNamespaces = Record<string, string | string[] | ((file: string) => boolean)>
  
 export type VoerkaI18nLanguageLoader = (newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages | undefined | void>
+ 
 
-export type TranslateMessageVars = number | boolean | string | Function | Date
+export type VoerkaI18nTranslateOptions = Record<string,any>
+export type VoerkaI18nTranslateArgs    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>VoerkaI18nTranslateArgs)
 
-export interface VoerkaI18nTranslate {
-    (message: string, ...vars: TranslateMessageVars[]): string
-    (message: string, vars: TranslateMessageVars[]): string
-    (message: string, vars?: Record<string, TranslateMessageVars>): string
-}
+
+export type VoerkaI18nTranslate = <T=string>(message:string, args?:VoerkaI18nTranslateArgs, options?:VoerkaI18nTranslateOptions)=>T
+ 
 
 
 export interface VoerkaI18nSupportedLanguages {

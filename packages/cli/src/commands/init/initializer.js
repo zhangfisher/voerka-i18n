@@ -66,6 +66,9 @@ async function initializer(opts={}){
                 await copyFiles("**/*.*",langDir, {
                     cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : (moduleType=='cjs' ? moduleType : "esm")),
                     vars     : opts,
+                    before : (info)=>{
+                        console.log("Copy:",info.file)
+                    },
                     overwrite: (file)=>{
                         return !file.endsWith("api.json")
                     }
@@ -83,9 +86,19 @@ async function initializer(opts={}){
             title: [t("安装{}依赖"),"@voerkai18n/runtime"],
             execute:async ()=>{
                 if(await packageIsInstalled("@voerkai18n/runtime")){
-                    return 
+                    return 'skip'
                 }else{
                     await installPackage.call(this,'@voerkai18n/runtime')
+                }            
+            }
+        },
+        {
+            title: [t("安装{}依赖"),"@voerkai18n/formatters"],
+            execute:async ()=>{
+                if(await packageIsInstalled("@voerkai18n/formatters")){
+                    return 'skip'
+                }else{
+                    await installPackage.call(this,'@voerkai18n/formatters')
                 }            
             }
         }

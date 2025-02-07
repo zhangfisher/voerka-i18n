@@ -1,23 +1,24 @@
 import { VoerkaI18nManager, VoerkaI18nScope, VoerkaI18nScopeOptions,VoerkaI18nLanguageLoader } from '@voerkai18n/runtime'
 import { deepMerge } from 'flex-tools/object/deepMerge'
+import formatters from "../"
 
 export function createVoerkaI18nScope<T extends VoerkaI18nScopeOptions = VoerkaI18nScopeOptions>(opts?:Partial<T>,useDeepMerge?:boolean): VoerkaI18nScope {
     const merge = useDeepMerge ? deepMerge : Object.assign
-    return new VoerkaI18nScope<T>(merge({
+    return new VoerkaI18nScope(merge({
         id       : 'test-scope',
         debug    : false,
         library  : false,
         languages: {
-            zh: { name: 'Chinese', title: '中文', active: true,default: true },
-            en: { name: 'English', title: 'English'} 
+            "en-US" : { name: 'English', title: 'English'} ,
+            "zh-CN" : { name: 'Chinese', title: '中文', active: true,default: true }            
         }, 
         messages: {
-          en: { message: 'Hello' },
-          zh: { message: '你好' } 
+          "en-US" : { message: 'Hello' },
+          "zh-CN" : { message: '你好' } 
         },
         idMap     : {},
         storage   : undefined,
-        formatters: [],
+        formatters,
         ready     : () => {},    
       }, opts) as T)
 }

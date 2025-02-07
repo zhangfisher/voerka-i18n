@@ -1,8 +1,7 @@
 /**
  * 
  *  保存所有格式化器数据
- * 
- * 
+ *  
  */
 import type { VoerkaI18nScope } from '../scope';        
 import { VoerkaI18nFormatter, VoerkaI18nFormatterBuilder, VoerkaI18nFormatters } from './types';
@@ -52,7 +51,7 @@ export class VoerkaI18nFormatterManager{
                 this.scope.manager.scope.formatters.register(filter)
             }
         }catch(e:any){
-            this.scope.logger.error(`注册格式化器<${filter.name}>失败：${e.stack}`)
+            this.scope.logger.error(`fail while register formatter<${filter.name}>：${e.stack}`)
         }
     }
     /**
