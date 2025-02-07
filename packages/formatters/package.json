@@ -5,63 +5,66 @@
   "scripts": {
     "build": "tsup"
   },
-  "exports":{
+  "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./number": {      
+    "./number": {
       "types": "./dist/number/index.d.ts",
       "require": "./dist/number/index.js",
       "import": "./dist/number/index.mjs"
     },
-    "./currency": {      
+    "./currency": {
       "types": "./dist/currency/index.d.ts",
       "require": "./dist/currency/index.js",
       "import": "./dist/currency/index.mjs"
     },
-    "./date": {      
+    "./date": {
       "types": "./dist/datetime/date.d.ts",
       "require": "./dist/datetime/date.js",
       "import": "./dist/datetime/date.mjs"
     },
-    "./time": {      
+    "./time": {
       "types": "./dist/datetime/time.d.ts",
       "require": "./dist/datetime/time.js",
       "import": "./dist/datetime/time.mjs"
     },
-    "./timeSlots":{
+    "./timeSlots": {
       "types": "./dist/datetime/timeSlots.d.ts",
       "require": "./dist/datetime/timeSlots.js",
       "import": "./dist/datetime/timeSlots.mjs"
     },
-    "./relativeTime": {      
+    "./relativeTime": {
       "types": "./dist/datetime/relativeTime.d.ts",
       "require": "./dist/datetime/relativeTime.js",
       "import": "./dist/datetime/relativeTime.mjs"
     },
-    "./month": {      
+    "./month": {
       "types": "./dist/datetime/month.d.ts",
       "require": "./dist/datetime/month.js",
       "import": "./dist/datetime/month.mjs"
     },
-    "./weekday": {      
+    "./weekday": {
       "types": "./dist/datetime/weekday.d.ts",
       "require": "./dist/datetime/weekday.js",
       "import": "./dist/datetime/weekday.mjs"
     },
-    "./quarter": {      
+    "./quarter": {
       "types": "./dist/datetime/quarter.d.ts",
       "require": "./dist/datetime/quarter.js",
       "import": "./dist/datetime/quarter.mjs"
     }
   },
-  "keywords": ["voerkai18n", "formatters"],
+  "keywords": [
+    "voerkai18n",
+    "formatters"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "flex-tools": "^1.4.27"
+    "flex-tools": "^1.4.28"
   },
   "devDependencies": {
     "@types/node": "^22.10.3",

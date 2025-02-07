@@ -7,8 +7,9 @@
         "@voerkai18n/runtime": "workspace:*"
     },
     "scripts": {
+        "dev":"node ./src/index.js",
         "i18n:init": "voerkai18n init",
-        "translate": "voerkai18n translate --api qwen",
+        "translate": "voerkai18n translate --api qwen --provider ai",
         "extract": "voerkai18n extract",
         "compile": "voerkai18n compile"
     }

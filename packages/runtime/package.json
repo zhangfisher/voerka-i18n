@@ -19,7 +19,7 @@
     "license": "MIT",
     "dependencies": {
         "asyncsignal": "^0.0.2",
-        "flex-tools": "^1.4.27",
+        "flex-tools": "^1.4.28",
         "flexvars": "^1.0.6",
         "ts-mixer": "^6.0.4"
     },
