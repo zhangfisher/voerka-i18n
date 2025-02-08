@@ -65,10 +65,7 @@ async function initializer(opts={}){
                 opts.scopeId = getDefaultScopeId()
                 await copyFiles("**/*.*",langDir, {
                     cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : (moduleType=='cjs' ? moduleType : "esm")),
-                    vars     : opts,
-                    before : (info)=>{
-                        console.log("Copy:",info.file)
-                    },
+                    vars     : opts, 
                     overwrite: (file)=>{
                         return !file.endsWith("api.json")
                     }

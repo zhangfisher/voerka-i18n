@@ -7,16 +7,25 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "i18n:init": "voerkai18n init",
+    "i18n:extract": "voerkai18n extract",
+    "i18n:translate": "voerkai18n translate --api qwen --provider ai",    
+    "i18n:compile": "voerkai18n compile",
+    "i18n:wrap": "voerkai18n wrap --api qwen"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.4",
+    "classnames": "^2.5.1",
     "flowbite": "^3.1.2",
     "flowbite-react": "^0.10.2",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwindcss": "^4.0.4"
+    "tailwindcss": "^4.0.4",
+    "@voerkai18n/cli": "workspace:*",
+    "@voerkai18n/runtime": "workspace:*",
+    "@voerkai18n/formatters": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

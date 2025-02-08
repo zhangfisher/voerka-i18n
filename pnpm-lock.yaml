@@ -110,6 +110,18 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.0.4
         version: 4.0.4(vite@6.1.0(@types/node@22.10.3)(jiti@2.4.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.18.2)(tsx@4.19.2)(yaml@1.10.2))
+      '@voerkai18n/cli':
+        specifier: workspace:*
+        version: link:../../packages/cli
+      '@voerkai18n/formatters':
+        specifier: workspace:*
+        version: link:../../packages/formatters
+      '@voerkai18n/runtime':
+        specifier: workspace:*
+        version: link:../../packages/runtime
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
       flowbite:
         specifier: ^3.1.2
         version: 3.1.2(rollup@4.34.6)

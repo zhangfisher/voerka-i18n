@@ -9,17 +9,8 @@ const { readFile, writeFile } = require('flex-tools/fs/nodefs');
  * 将代码中的字符串字面量用i18n翻译函数包裹 
  * @param {import('@voerkai18n/utils').VoerkaI18nProjectContext} ctx
  */
-async function wrap(ctx) { 
+async function wrap(ctx,tasks) { 
     const { patterns } = ctx 
-
-    logsets.header(t("开始自动应用翻译{}函数"),'t')
-    logsets.log(t(" - 应用范围: {}"),patterns.join(", "))         
-
-    const tasks = logsets.tasklist({ width:80 })
-
-    const files = await fastGlob(patterns,{
-        absolute: true
-    })
 
     const promptTemplate = await ctx.getPrompt(ctx.prompt)
     if(!promptTemplate){
@@ -27,8 +18,15 @@ async function wrap(ctx) {
         return
     }
 
-    logsets.header(t("共处理{}个文件"),files.length)
-    logsets.separator(88)
+    tasks.addGroup(t("开始自动应用翻译{}函数"),'t')
+    tasks.addMemo(t(" - 应用范围: {}"),patterns.join(", "))         
+ 
+    const files = await fastGlob(patterns,{
+        absolute: true
+    })
+ 
+    tasks.addMemo(t("共处理{}个文件"),files.length)
+
     for(let file of files){
         try{
             const relFile= path.relative(process.cwd(),file)        
@@ -38,8 +36,10 @@ async function wrap(ctx) {
             ctx.code = code
             const prompt = promptTemplate.params(ctx)
             const result =await aiQuestion(prompt,ctx.api)
-            const outfile = ctx.debug ? file.replace(path.extname(file),".wrapped"+path.extname(file)) : file
-            await writeFile(outfile,result,{ encoding: "utf-8" })
+            const outfile = file.replace(path.extname(file),".wrapped"+path.extname(file)) 
+            if(ctx.apply){
+                await writeFile(outfile,result,{ encoding: "utf-8" })
+            }
             tasks.complete()
         }catch(e){
             tasks.error(e)
