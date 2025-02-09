@@ -9,7 +9,7 @@
 const path = require("node:path");
 const fs = require("node:fs");
 const logsets = require("logsets");
-const { getBcp47LanguageApi } = require("@voerkai18n/utils");
+const { getBcp47LanguageApi,addToGitIgnore } = require("@voerkai18n/utils");
 const { getPackageJson } = require("flex-tools/package/getPackageJson");
 const { t } = require("../../i18n"); 
 const { copyFiles } = require("flex-tools/fs/copyFiles")
@@ -77,6 +77,11 @@ async function initializer(opts={}){
                         fs.writeFileSync(msgFile,msgContent)
                     }
                 })
+                addToGitIgnore([
+                    `${langRelDir}/api.json`,                    
+                    "**/translates/*.bak.*.json",
+                    "**/*.wrapped.*",
+                ])
             }
         },  
         {

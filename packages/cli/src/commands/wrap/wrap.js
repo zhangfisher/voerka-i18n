@@ -12,6 +12,8 @@ const { readFile, writeFile } = require('flex-tools/fs/nodefs');
 async function wrap(ctx,tasks) { 
     const { patterns } = ctx 
 
+
+
     const promptTemplate = await ctx.getPrompt(ctx.prompt)
     if(!promptTemplate){
         logsets.log(t("未找到提示模板{}"),ctx.prompt)
@@ -45,8 +47,27 @@ async function wrap(ctx,tasks) {
             tasks.error(e)
         }
     }   
+    
+    tasks.addGroup(t("注意："));
+    tasks.addMemo(t("命令结果保存到同名的.wrapped文件,不会修改原文件"));
+    tasks.addMemo(t("接下来可以使用{}命令更新到原文件"),"voerkai18n wrap --apply");
+}
+
+
+async function applyWrap(ctx,tasks){
+    const { patterns } = ctx 
+ 
+
+    tasks.addGroup(t("开始应用"),'t')
+ 
+    const files = await fastGlob(patterns,{
+        absolute: true
+    })
+ 
+    tasks.addMemo(t("共处理{}个文件"),files.length)
 }
 
 module.exports = {
-    wrap
+    wrap,
+    applyWrap
 }

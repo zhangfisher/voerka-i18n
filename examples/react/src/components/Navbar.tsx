@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import classNames from 'classnames'
+import { i18nScope } from '../languages'
  
 type NavItem = {
   name     : string,
@@ -15,24 +16,18 @@ type NavBarProps = {
     onClick:(item:NavItem)=>void
 }
 
-const languages = [
-  {name:"中文",value:"zh"},
-  {name:"英文",value:"en"},
-  {name:"日语",value:"jp"},
-]
-
 
 function Languages(){ 
   const [activeIndex,setActiveIndex] = useState(0)
   const onClick = useCallback((lang:any)=>{    
-    const index = languages.findIndex((l)=>l.value === lang.value)
+    const index = i18nScope.languages.findIndex((l)=>l.name === lang.name)
     if(index !== -1){
       setActiveIndex(index)
     }
   },[])
   return (
     <div className="flex md:order-2 flex-row justify-items-center align-middle">            
-      {languages.map((lang,index)=>{
+      {i18nScope.languages.map((lang,index)=>{
           return <button key={index} type="button" onClick={()=>onClick(lang)}
             className={classNames(
               "cursor-pointer border border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700",
