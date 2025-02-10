@@ -1,3 +1,5 @@
+import { t } from '../languages';
+
 export default function Hero() {
   return (
     <div className="relative  px-4 pt-0">
@@ -16,10 +18,10 @@ export default function Hero() {
       <div className="mx-auto max-w-2xl py-8 border-b-1 border-gray-200">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
           <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-           支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....{"  "}
+           {t('支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....')}{"  "}
             <a href="#" className="font-semibold text-indigo-600">
               <span aria-hidden="true" className="absolute inset-0" />
-              访问官网 <span aria-hidden="true">&rarr;</span>
+              {t('访问官网')} <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
         </div>
@@ -28,15 +30,15 @@ export default function Hero() {
               VoerkaI18n
           </div>
           <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
-          全流程国际化解决方案
+          {t('全流程国际化解决方案')}
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <button type="button" className="cursor-pointer	text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-              快速入门
+              {t('快速入门')}
             </button>
 
             <a href="#" className="text-sm/6 font-semibold text-gray-900">
-              了解更多 <span aria-hidden="true">→</span>
+              {t('了解更多')} <span aria-hidden="true">→</span>
             </a>
           </div>
         </div>

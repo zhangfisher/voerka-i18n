@@ -4,8 +4,12 @@ const fastGlob = require("fast-glob");
 const logsets = require("logsets");
 const path = require("node:path");
 const fs = require("node:fs");
-const { readFile, writeFile, deleteFile } = require('flex-tools/fs/nodefs');
+const { readFile, writeFile, rm:deleteFile } = require('flex-tools/fs/nodefs');
 
+
+function hasImportTranslteFunc(code) {
+    return /import\s+\{.*\bt\b.*\}\s+from\s+(['"])[^'"]+\1/gm.test(code) || /const\s+\{.*\bt\b.*\}\s*=\s*require\(['"][^'"]+['"]\)/gm.test(code);
+}
 
 /**
  * 将代码中的字符串字面量用i18n翻译函数包裹 
@@ -42,16 +46,19 @@ async function wrap(ctx){
                 tasks.skip()
             }else{
                 const code = await readFile(file,{ encoding: "utf-8" })    
-                ctx.file = file
+
+                ctx.file = path.normalize(file)
                 ctx.code = code
+                ctx.importPath = path.relative(path.dirname(file),path.join(ctx.langDir,"index")).replaceAll("\\","/").slice(0,-6)
+                if(!ctx.importPath.startsWith(".")) ctx.importPath="./"+ctx.importPath                
                 const prompt = promptTemplate.params(ctx)
                 const result = await aiQuestion(prompt,{
                     apiUrl,
                     apiKey,
                     model
                 })              
-                 
-                if(result.trim()===''){
+
+                if(result.trim()==='' || !hasImportTranslteFunc(result)){
                     tasks.skip()
                 }else{
                     await writeFile(wrappedFile,result,{ encoding: "utf-8" })            
@@ -63,7 +70,7 @@ async function wrap(ctx){
         }
     }       
     tasks.addGroup(t("注意："));
-    tasks.addMemo(t("命令结果保存到同名的.wrapped文件,不会修改原文件"));
+    tasks.addMemo(t("保存结果到同名的{}文件,不会修改原文件"),".wrapped.*");
     tasks.addMemo(t("接下来可以使用{}命令更新到原文件"),"voerkai18n wrap --apply");
     tasks.done()
 }
@@ -84,15 +91,15 @@ async function applyWrap(ctx){
     }else{
         const tasks = logsets.tasklist()
         tasks.addGroup(t("开始应用{}修改,共应用{}个文件"),'Wrap',files.length)
-        for(let file of files){
+        for(let wrappedFile of files){
             try{
-                const relFile= path.relative(process.cwd(),file)        
+                const relFile= path.relative(process.cwd(),wrappedFile)        
                 tasks.add(t("应用{}"),relFile)        
-                const code = await readFile(file,{ encoding: "utf-8" })    
-                const outfile = file.replace(".wrapped","") 
+                const code = await readFile(wrappedFile,{ encoding: "utf-8" })    
+                const outfile = wrappedFile.replace(".wrapped","") 
                 try{
                     await writeFile(outfile,code,{ encoding: "utf-8" })
-                    await deleteFile(outfile)
+                    await deleteFile(wrappedFile)
                     tasks.complete()
                 }catch(e){
                     throw e

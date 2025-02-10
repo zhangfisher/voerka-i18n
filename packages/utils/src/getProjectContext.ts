@@ -45,6 +45,7 @@ function getDefaultPatterns(this:VoerkaI18nProjectContext,options?:Record<string
         "!.git",
         "!.turbo",
         "!**/*.d.ts",
+        "!*.config.{js,ts}",
         "!node_modules",
         "!"+this.langRelDir 
     ]

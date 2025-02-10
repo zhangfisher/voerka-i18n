@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { t } from './languages'
 import Navbar from './components/Navbar'
 import HomePage from './home'
 import TaskPage from './task' 
@@ -6,9 +7,9 @@ import RepoPage from './repos'
 import { Footer } from './components/Footer'
 
 const pages = [
-  { name: 'home', title:"首页",active:true, component:HomePage},
-  { name: 'task',title:"任务", component:TaskPage},
-  { name: 'repos',title:"开源项目", component:RepoPage} 
+  { name: 'home', title:t('首页'),active:true, component:HomePage},
+  { name: 'task',title:t('任务'), component:TaskPage},
+  { name: 'repos',title:t('开源项目'), component:RepoPage} 
 ]
 
 export default function App() {
