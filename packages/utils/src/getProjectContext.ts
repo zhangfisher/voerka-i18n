@@ -51,10 +51,15 @@ function getDefaultPatterns(this:VoerkaI18nProjectContext,options?:Record<string
     if(Array.isArray(this.patterns)){
         patterns.push(...this.patterns)
     }
+    
     if(Array.isArray(options?.patterns)){
         patterns.push(...options.patterns)
         delete options.patterns
+    }else if(typeof(options?.patterns)==='string'){
+        patterns.push(options.patterns)
+        delete options.patterns
     }
+
     // 如果所有的patterns都是排除模式，则添加默认的包含模式
     if(patterns.every(p=>p.startsWith("!"))){
         patterns.push("**/*.{js,jsx,ts,tsx,vue,astro,svelte,mdx}")

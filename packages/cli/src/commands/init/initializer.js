@@ -70,6 +70,7 @@ async function initializer(opts={}){
                         return !file.endsWith("api.json")
                     }
                 }) 
+                await copyFiles("**/*.*",path.join(langDir,"prompts"), { cwd: path.join(__dirname,"prompts") }) 
                 opts.languages.forEach(lng=>{
                     const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : "js"}`)
                     const msgContent = moduleType === 'cjs' ? `module.exports = {}` : `export default {}`
@@ -95,7 +96,8 @@ async function initializer(opts={}){
             }
         },
         {
-            title: [t("安装{}依赖"),"@voerkai18n/formatters"],
+            title: [t("安装{}依赖"),"@voerkai18n/formatters"], 
+            end:false,
             execute:async ()=>{
                 if(await packageIsInstalled("@voerkai18n/formatters")){
                     return 'skip'
@@ -105,21 +107,21 @@ async function initializer(opts={}){
             }
         }
     ]) 
- 
-    logsets.separator()
-    await tasks.run(t("开始初始化VoerkaI18n"))
 
-    logsets.separator()
+    logsets.separator(80)
+
+    await tasks.run(t("开始初始化")) 
 
     const summary = logsets.tasklist({grouped:true})
     summary.addGroup(t("配置信息："))    
     summary.addMemo(t("语言配置文件: {}"),settingRelFile)
     summary.addMemo(t("拟支持的语言: {}"),opts.languages.map(lng=>`${lng.title}(${lng.name})`).join(","))    
     summary.addMemo(t("已安装运行时: {}"),'@voerkai18n/runtime')
-    summary.addMemo(t("工作模式    :  {}"),library ? t("库模式") : t("应用模式"))
-    summary.addGroup(t("初始化成功,下一步："))    
+    summary.addMemo(t("工作模式   :  {}"),library ? t("库模式") : t("应用模式"))
+    summary.addGroup(t("下一步："))    
     summary.addMemo(t("修改{}文件编辑语言参数"),`${langRelDir}/settings.json`)
-    summary.addMemo(t("运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")
+    summary.addMemo(t("运行<{}>自动包裹要翻译的文本"),"voerkai18n wrap")
+    summary.addMemo(t("运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")    
     summary.addMemo(t("运行<{}>在线自动翻译"),"voerkai18n translate")
     summary.addMemo(t("运行<{}>编译语言包"),"voerkai18n compile")
     summary.done()

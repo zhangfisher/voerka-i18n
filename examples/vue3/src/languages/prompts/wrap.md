@@ -34,6 +34,7 @@ type TranslateArgs = Record<string,any> | number | boolean | string
     - 如果是.svelte文件,则在script标签中第一行导入t函数.
     - 其他文件均在代码第一行导入t函数.
 - 如果字符串字面量已经使用了t函数包裹,则不要重复处理. 
+- 如果代码为空,则直接返回空字符串.
 - 对.vue文件,template需要进行特殊处理,如下：
     1. template中的字符串需要自动转换为插值表达式,例如`<div>hello</div>`,需要转换为`<div>{{t('hello')}}</div>`。
     2. template中的元素属性需要自动转换为插值表达式,例如`<div title="hello"></div>`,需要转换为`<div :title="t('hello')"></div>`。
@@ -41,5 +42,4 @@ type TranslateArgs = Record<string,any> | number | boolean | string
 
 # 输出
 
-如果代码为空或代码不存在需要t函数包裹的内容,则不需要导入t函数,直接返回空字符串.
-否则返回替换后原始字符串,不需要任何额外的解释,也不需要任何额外的多余的说明.
+返回替换后原始字符串,不需要任何额外的解释,也不需要任何额外的多余的说明.
