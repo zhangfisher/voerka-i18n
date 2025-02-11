@@ -30,10 +30,23 @@ export interface VoerkaI18nLanguagePack {
 
 export type Voerkai18nIdMap = Record<string, number>
 
+export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:VoerkaI18nTranslateVars,options?: VoerkaI18nTranslateOptions)=>string)
+
+
+export type VoerkaI18nTranslatedComponentProps= {
+    message: VoerkaI18nToBeTranslatedMessage,
+    vars?   : VoerkaI18nTranslateVars,
+    options?: VoerkaI18nTranslateOptions
+    loading?: any
+}
+export type VoerkaI18nTranslatedComponent<T=any> = (props:VoerkaI18nTranslatedComponentProps)=>T
+
+
+
 export interface VoerkaI18nLanguageDefine {
     name        : string               // 语言代码
     title?      : string               // 语言标题
-    nativetitle?: string               // 用原语言表达的标题
+    nativeTitle?: string               // 用原语言表达的标题
     default?    : boolean              // 是否默认语言
     active?     : boolean              // 是否激活      
     fallback?   : string               // 回退语言
@@ -52,10 +65,10 @@ export type VoerkaI18nLanguageLoader = (newLanguage:string,scope:VoerkaI18nScope
  
 
 export type VoerkaI18nTranslateOptions = Record<string,any>
-export type VoerkaI18nTranslateArgs    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>VoerkaI18nTranslateArgs)
+export type VoerkaI18nTranslateVars    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>VoerkaI18nTranslateVars)
 
 
-export type VoerkaI18nTranslate = <T=string>(message:string, args?:VoerkaI18nTranslateArgs, options?:VoerkaI18nTranslateOptions)=>T
+export type VoerkaI18nTranslate = <T=string>(message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions)=>T
  
 
 

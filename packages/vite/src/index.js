@@ -11,6 +11,9 @@ const {
 } = require("@voerkai18n/utils")
 
 
+const importFFF =   /\b(import|export)\b([\w$*{},\s]+?)\bfrom\s*["']/gm
+
+
 
 /**
    options = {

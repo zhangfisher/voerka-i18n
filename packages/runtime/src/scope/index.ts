@@ -7,7 +7,7 @@ import type {
     VoerkaI18nLanguagePack,
     VoerkaI18nLanguageLoader,
     VoerkaI18nTranslate,
-    VoerkaI18nTranslateArgs,
+    VoerkaI18nTranslateVars,
     VoerkaI18nTranslateOptions
 } from "@/types" 
 import { DefaultLanguageSettings } from '../consts';
@@ -55,31 +55,26 @@ export interface VoerkaI18nScopeOptions {
      * 
      * 自定义翻译函数，可以用来返回自定义的翻译结果，比如可以返回一个React组件
      *  scope = new VoerkaI18nScope({
-     *    translate(result,message,args,options){
-     *        // 返回一个React组件
-     *        const T = ()=>{
-     *            const [result,setResult] = useState('')  
-    *              useEffect(()=>{
-    *                  const listener = this.on('change',()=>{
-    *                      setResult(this.t(message,args,options))
-    *                  })
-    *                  return ()=>listener.off()
-    *             },[])
-    *              return <span>{result}</span> 
-    *          }
-    *        return <T/>
+     *    component:({message,args,options})=>{
+     *        const [result,setResult] = useState('')  
+    *         useEffect(()=>{
+    *              const listener = this.on('change',()=>{
+    *                setResult(this.t(message,args,options))
+    *              })
+    *              return ()=>listener.off()
+    *         },[])
+    *        return <span>{result}</span> 
      *    })
      *  })
      * 
      * { t('hello {}',{name:'world'},{}) }  =>  <span>hello,world</span>    
      * 
      */
-    translate?     : (
-        result     : string,
-        message    : string, 
-        args?      : VoerkaI18nTranslateArgs, 
-        options?   : VoerkaI18nTranslateOptions 
-    ) => any                       
+    component? : ( props: {
+            message : string | ((language:string)=>any), 
+            args?   : VoerkaI18nTranslateVars, 
+            options?: VoerkaI18nTranslateOptions 
+        }) => any                      
 
     
     

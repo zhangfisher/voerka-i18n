@@ -118,7 +118,6 @@ export class ChangeLanguageMixin{
             return await this.loader.call(this,language,this)      
         }
     }
-
     /**
      * 如果正在刷新语言包，则等待刷新完成
      * @param this 
@@ -132,24 +131,4 @@ export class ChangeLanguageMixin{
 
 
 
-
-            // 静态加载不是异步块,因此只需要简单的替换即可
-            // if(language in this.messages && isPlainObject(this.messages[language])) {
-            //     finalMessages = this.messages[language] as VoerkaI18nLanguageMessages;                
-            // }else if(isFunction(this.loader)){ // 异步加载语言包
-            //     try{
-            //         const messages = await this._loadLanguageMessages(language)
-            //         if(messages && isPlainObject(messages)){                        // 语言包加载成功
-            //             finalMessages = messages   
-            //             this.messages[language]  = messages                         // 覆盖当前语言包，这样当再次切换时就可以直接使用
-            //         }else{                    
-            //             this.logger.warn(`无法加载语言包<${language}>(scope=${this.id}),将回退到默认语言`);
-            //             throw new VoerkaI18nLoadLanguageError()
-            //         }
-            //     }catch(e:any){
-            //         this.logger.warn(`当加载语言包<${language}>时出错(scope=${this.id}): ${e.message}`);
-            //         throw new VoerkaI18nLoadLanguageError(e.message)
-            //     }  
-            // }else{
-            //     throw new VoerkaI18nInvalidLanguageError(language)
-            // } 
+ 
