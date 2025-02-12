@@ -3,7 +3,7 @@ import Hero from "./Hero"
 
 export default function Home(){
     return (<div className="min-h-full mt-18">
-        <Hero/>
+        <Hero/> 
         <Features/>
         </div>
     )

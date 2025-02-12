@@ -5,7 +5,7 @@
  */ 
 import { VoerkaI18nEvents } from "@/types"
 import type { VoerkaI18nScope } from ".."  
-import { LiteEvent, LiteEventListener } from "flex-tools/events/liteEvent" 
+import { LiteEvent, LiteEventListener,LiteEventSubscriber } from "flex-tools/events/liteEvent" 
 
 
  
@@ -21,10 +21,10 @@ export class EventEmitterMixin{
     } 
 	// 以下方法引用全局VoerkaI18n实例的方法
 	on(this:VoerkaI18nScope,event: keyof VoerkaI18nEvents,callback:LiteEventListener) {
-        return this._getEventEmitter().on(event,callback);	
+        return this._getEventEmitter().on(event,callback) as LiteEventSubscriber
     }
     once(this:VoerkaI18nScope,event: keyof VoerkaI18nEvents,callback:LiteEventListener) {
-        return this._getEventEmitter().once(event,callback);
+        return this._getEventEmitter().once(event,callback)  as LiteEventSubscriber
     }
 	off(this:VoerkaI18nScope,event: keyof VoerkaI18nEvents,callback:LiteEventListener) {
         return this._getEventEmitter().off(event,callback); 

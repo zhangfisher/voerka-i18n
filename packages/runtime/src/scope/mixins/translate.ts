@@ -3,11 +3,12 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import type { VoerkaI18nScope } from ".."
-import type { VoerkaI18nToBeTranslatedMessage, VoerkaI18nTranslateVars, VoerkaI18nTranslatedComponentProps, VoerkaI18nTranslateOptions } from "@/types"
+import type { VoerkaI18nTranslateVars, VoerkaI18nTranslatedComponentProps, VoerkaI18nTranslateOptions } from "@/types"
 
 
 
 export class TranslateMixin {    
+    private _translateComponent?:any
     /**
      * 根据值的单数和复数形式，从messages中取得相应的消息
      * 
@@ -63,12 +64,11 @@ export class TranslateMixin {
     } 
  
     private _getTranslateComponent(this:VoerkaI18nScope){
-        const component = this.options.component || this.appScope.options.component
-        if(typeof(component)==='function'){
-            return component
+        if(!this._translateComponent){
+            return this.options.component || this.appScope.options.component
         }
+        return this._translateComponent
     }
-
     /**
      * 翻译组件
      * import { Translate } from './languages'
@@ -76,27 +76,28 @@ export class TranslateMixin {
      * <Translate 
      *      message={ async ({ language,vars })=>"hello"} 
      *      vars={{ name:"world" }}
-     *      options={options}                   // 用来传递给组件的额外参数
+     *      options={ options }         // 用来传递给组件的额外参数
      *  />
+     * 
      */
-    Translate<T = any>(this: VoerkaI18nScope, props: VoerkaI18nTranslatedComponentProps): T {
+    protected _Translate<T = any>(this: VoerkaI18nScope, props: VoerkaI18nTranslatedComponentProps): T {
         let result = props.options?.default
         const component = this._getTranslateComponent()
         if(typeof(component)==='function'){
             result = component.call(this,props)
         }else{
-            throw new Error("No translate component found")
+            throw new Error("No translate component configured")
         }
         return result
     }
 
-    translate<T=string>(this:VoerkaI18nScope, message:string, args?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions):T{ 
+    translate(this:VoerkaI18nScope, message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions):string{ 
         // 为什么样要转义换行符？因为在translates/*.json中key不允许换行符存在，需要转义为\\n，这里需要转回来
         message = message.replaceAll(/\n/g,"\\n")
         // 如果内容是复数，则其值是一个数组，数组中的每个元素是从1-N数量形式的文本内容
         let result:string | string[] = message        
         if(!(typeof(message)==="string")) return message 
-        const finalArgs = args===undefined ? [] : (isFunction(args) ? args() : args) 
+        const finalArgs = vars===undefined ? [] : (isFunction(vars) ? vars() : vars) 
         try{            
             if(isMessageId(message)){ // 如果是数字id,
                 result = (this.activeMessages as any)[message] || message
@@ -125,6 +126,6 @@ export class TranslateMixin {
         }catch(e:any){
             this.logger.error(`翻译失败：${e.stack}`) 
         }  
-        return result as T
+        return result as string
     } 
 }

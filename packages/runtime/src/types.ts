@@ -30,14 +30,14 @@ export interface VoerkaI18nLanguagePack {
 
 export type Voerkai18nIdMap = Record<string, number>
 
-export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:VoerkaI18nTranslateVars,options?: VoerkaI18nTranslateOptions)=>string)
+export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:VoerkaI18nTranslateVars,options?: VoerkaI18nTranslateOptions)=>string | Promise<string>)
 
 
 export type VoerkaI18nTranslatedComponentProps= {
-    message: VoerkaI18nToBeTranslatedMessage,
+    message : VoerkaI18nToBeTranslatedMessage,
     vars?   : VoerkaI18nTranslateVars,
+    default?: any
     options?: VoerkaI18nTranslateOptions
-    loading?: any
 }
 export type VoerkaI18nTranslatedComponent<T=any> = (props:VoerkaI18nTranslatedComponentProps)=>T
 
@@ -68,7 +68,7 @@ export type VoerkaI18nTranslateOptions = Record<string,any>
 export type VoerkaI18nTranslateVars    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>VoerkaI18nTranslateVars)
 
 
-export type VoerkaI18nTranslate = <T=string>(message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions)=>T
+export type VoerkaI18nTranslate =(message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions)=>string
  
 
 
@@ -76,11 +76,13 @@ export interface VoerkaI18nSupportedLanguages {
     [key: string]: VoerkaI18nLanguageDefine
 }
 
+export type VoerkaI18nPlugin = (manager:VoerkaI18nManager)=>void
 
 export type LanguageName = string
 declare global {   
     export var VoerkaI18n: VoerkaI18nManager
     export var __VoerkaI18nScopes__: VoerkaI18nScope[]
+    export var __VoerkaI18nPlugins__: VoerkaI18nPlugin[]
 }
 
    

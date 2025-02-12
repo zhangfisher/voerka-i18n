@@ -33,6 +33,7 @@ export type TranslateNode = {
  * - t("xxxx", {xxx:xxx},()=>{})
  * - t('xxxx', [1,2,3,""],()=>{})
  * 
+ * - <Translate message="">
  * 
  * @param code 
  * @returns
@@ -48,7 +49,8 @@ export function extractMessages<T extends Record<string,any> = Record<string,any
     const nodes = [
         ...root.findAll("t($TEXT)"),
         ...root.findAll("t($TEXT,$ARGS)"),
-        ...root.findAll("t($TEXT,$ARGS,$OPTIONS)")
+        ...root.findAll("t($TEXT,$ARGS,$OPTIONS)"),
+        ...root.findAll("<Translate t($TEXT,$ARGS,$OPTIONS,$ARGS)")
     ]
 
     const namespace = getFileNamespace(extras?.file, namespaces ||{})

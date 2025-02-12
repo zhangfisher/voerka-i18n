@@ -8,7 +8,8 @@ import type {
     VoerkaI18nLanguageLoader,
     VoerkaI18nTranslate,
     VoerkaI18nTranslateVars,
-    VoerkaI18nTranslateOptions
+    VoerkaI18nTranslateOptions,
+    VoerkaI18nTranslatedComponent
 } from "@/types" 
 import { DefaultLanguageSettings } from '../consts';
 import { Mixin } from "ts-mixer"
@@ -136,6 +137,7 @@ export class VoerkaI18nScope extends Mixin(
 	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars    
     get logger(){ return this._logger!}                                         // 日志记录器
     get t():VoerkaI18nTranslate{ return this.translate.bind(this) as VoerkaI18nTranslate}
+    get Translate(){ return this._Translate.bind(this) as VoerkaI18nTranslatedComponent }
     
     /**
      * 激活语言名称： 以appScope为准    

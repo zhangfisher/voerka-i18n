@@ -29,9 +29,16 @@
  * 
  */
 
-export * from './component'
-export * from "./context"
-export * from "./hooks"
-export * from "./plugin"
+import { definePlugin, VoerkaI18nManager } from "@voerkai18n/runtime"
+import { createTranslateComponent } from "./component"
 
-import "./plugin"
+
+
+
+definePlugin((manager:VoerkaI18nManager)=>{
+    const component = createTranslateComponent()
+    manager.scopes.forEach(scope=>{
+        scope.options.component = component
+    })
+})
+ 

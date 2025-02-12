@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import classNames from 'classnames'
-import { i18nScope,t } from '../languages'
+import { i18nScope,Translate } from '../languages'
 
 type NavItem = {
   name     : string,
@@ -23,6 +23,7 @@ function Languages(){
     const index = i18nScope.languages.findIndex((l)=>l.name === lang.name)
     if(index !== -1){
       setActiveIndex(index)
+      i18nScope.change(lang.name)
     }
   },[])
   return (
@@ -46,7 +47,7 @@ export default function Navbar(props:NavBarProps) {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="https://github.com/zhangfisher/voerka-i18n" className="flex items-center space-x-3 rtl:space-x-reverse">
             <span className="self-center text-gray-600 text-2xl font-semibold whitespace-nowrap dark:text-white">
-              {t('VoerkaI18n')}
+              VoerkaI18n
             </span>
         </a>
         <div className="flex md:order-2 flex-row justify-items-center align-middle">            
@@ -63,9 +64,8 @@ export default function Navbar(props:NavBarProps) {
                     "focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-1 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700",
                        item.active ? "text-blue-700 bg-gray-50 border-gray-300" :"text-gray-900"
                   )}>
-                    {t(item.title)}{item.active}
+                    <Translate message={()=>item.title}/>
                 </a>
-               
               </li>              
             })}            
           </ul>

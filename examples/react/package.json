@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.0.4",
     "@voerkai18n/cli": "workspace:*",
     "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/react": "workspace:*",
     "@voerkai18n/runtime": "workspace:*",
     "classnames": "^2.5.1",
     "flowbite": "^3.1.2",
@@ -25,12 +26,14 @@
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-syntax-highlighter": "^15.6.1",
     "tailwindcss": "^4.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",

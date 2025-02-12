@@ -1,5 +1,5 @@
 import type {  VoerkaI18nScope } from "../scope"
-import type { VoerkaI18nLanguageDefine,  VoerkaI18nEvents }  from "../types"
+import type { VoerkaI18nLanguageDefine, VoerkaI18nEvents, VoerkaI18nPlugin }  from "../types"
 import { LiteEvent } from "flex-tools/events/liteEvent" 
 import { execAsyncs, isI18nScope } from "../utils"  
  
@@ -30,9 +30,10 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         if(VoerkaI18nManager.instance){
             return VoerkaI18nManager.instance;
         }        
-        if(!appScope) throw new Error("VoerkaI18nManager必须传入一个应用作用域")
+        if(!appScope) throw new Error("create VoerkaI18nManager failed, appScope is required")
         this._registerAppScope(appScope)                                // 注册应用作用域     
         this._registerScopes()                                          // 注册所有作用域
+        this._loadPlugins()
         VoerkaI18nManager.instance = this                               // 加载初始格式化器   
         // @ts-ignore
         globalThis.VoerkaI18n = this     
@@ -60,6 +61,22 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         // @ts-ignore
         delete globalThis.__VoerkaI18nScopes__
     }
+
+    private _loadPlugins(){
+        const plugins = globalThis.__VoerkaI18nPlugins__
+        if(plugins && Array.isArray(plugins)){
+            plugins.forEach(plugin=>plugin(this)) 
+        }        
+        // @ts-ignore
+        delete globalThis.__VoerkaI18nPlugins__
+    }    
+
+    registerPlugin(plugin:VoerkaI18nPlugin){
+        if(typeof(plugin)==='function'){
+            plugin(this)
+        }
+    }
+
     /**
      * 
      * 将应用Scope注册到管理器中

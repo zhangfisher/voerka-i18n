@@ -4,6 +4,7 @@ import formatters from "@voerkai18n/formatters"
 import idMap from "./idMap"
 import settings from "./settings.json"
 import defaultMessages from "./zh-CN"  
+import "@voerkai18n/react"
 
  
 
@@ -19,10 +20,10 @@ export const i18nScope = new VoerkaI18nScope({
     idMap,                                              // 消息id映射列表
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器
-    messages,                                           // 语言包
+    messages,                                           // 语言包 
     ...settings
 }) 
 
 
 export const t = i18nScope.t
-
+export const Translate = i18nScope.Translate

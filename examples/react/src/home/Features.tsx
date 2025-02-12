@@ -1,23 +1,20 @@
-import { t } from "../languages";
+import { t, Translate } from "../languages";
 import { Archive, Beef, Bird, ChartNoAxesCombined, Component, Flower } from "lucide-react";
 
 const features = [
   {
     name: t('适用任意场景'),
-    description:
-      t('全面支持React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...等任何ts/js场景'),
+    description: t('全面支持React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...等任何ts/js场景'),
     icon: <Beef />,
   },
   {
     name: t('全流程工具链'),
-    description:
-      t('覆盖从语言提取、编译、自动翻译、插件集成等国际化全流程支持，为大型应用提供工程化支持'),
+    description: t('覆盖从语言提取、编译、自动翻译、插件集成等国际化全流程支持，为大型应用提供工程化支持'),
     icon: <Bird />,
   },
   {
     name: t('自动翻译'),
-    description:
-      t('支持在线翻译服务和基于AI大模型的翻译工具,可以实现自动化翻译'),
+    description: t('支持在线翻译服务和基于AI大模型的翻译工具,可以实现自动化翻译'),
     icon: <Archive />,
   },
   {
@@ -32,8 +29,7 @@ const features = [
   },
   {
     name: t('测试覆盖率'),
-    description:
-      t('核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率，保证品质'),
+    description: t('核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率，保证品质'),
     icon: <ChartNoAxesCombined />,
   },
 ];
@@ -54,10 +50,10 @@ export default function Features() {
                 </button>
 
                 <h3 className="mb-2 text-xl text-gray-600 font-bold dark:text-white">
-                  {feature.name}
+                  <Translate message={() => feature.name} />
                 </h3>
                 <p className="text-gray-500 dark:text-gray-400">
-                  {feature.description}
+                  <Translate message={() => feature.description} />
                 </p>
               </div>
             );
