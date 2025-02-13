@@ -1,7 +1,9 @@
-import { defineConfig } from 'tsup'  
+import { defineConfig } from 'tsup' 
+import copyFiles from "esbuild-plugin-copy"
+
 // 分析包大小 https://www.bundle-buddy.com/
 
-export default defineConfig([
+export default defineConfig(
     {
         entry: [
             'src/index.ts'
@@ -14,10 +16,17 @@ export default defineConfig([
         treeshake:true,  
         minify: false,
         noExternal:['flex-tools'], 
+        esbuildPlugins: [
+            copyFiles({
+                assets:{
+                    from:"./src/schemas/*.yaml",
+                    to:'./'
+                }
+            })
+        ],
         banner: {
             js: `/***        
-    *   ---=== VoerkaI18n Utils ===---
+    *   ---=== VoerkaI18n Extract Tool ===---
     *   https://zhangfisher.github.io/voerka-i18n/
     */`}
-    }
-]) 
+    }) 

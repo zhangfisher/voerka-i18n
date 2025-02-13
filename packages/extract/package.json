@@ -1,23 +1,26 @@
 {
-    "name": "@voerkai18n/utils",
+    "name": "@voerkai18n/extract",
     "version": "2.1.13",
-    "description": "utils for voerkai18n",
-    "main": "dist/index.js",
-    "module": "dist/index.mjs",
-    "types": "dist/index.d.ts",
+    "description": "extract translate message tool for voerkai18n",
+    "main": "src/index.ts",
+    "publishConfig": {
+        "access": "public",
+        "main": "dist/index.js",
+        "module": "dist/index.mjs",
+        "types": "dist/index.d.ts"
+    },
     "scripts": {
-        "build": "tsup"
+        "build": "tsup",
+        "dev:vue": "tsx src/tests/vue"
     },
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
         "@ast-grep/napi": "^0.33.1",
-        "bcp47-language-tags": "^1.0.8",
         "flex-tools": "^1.4.29",
-        "fs-extra": "^10.0.1",
+        "remove": "^0.1.5",
         "semver": "^7.3.7",
-        "shelljs": "^0.8.5",
-        "string.prototype.replaceall": "^1.0.7",
+        "@voerkai18n/utils": "workspace:*",
         "yaml": "^2.7.0"
     },
     "devDependencies": {
@@ -26,6 +29,7 @@
         "esbuild-plugin-copy": "^2.1.1",
         "ts-node": "^10.9.2",
         "tsup": "^8.3.6",
+        "tsx": "^4.19.2",
         "typescript": "^5.7.3",
         "vitest": "^2.1.8"
     },

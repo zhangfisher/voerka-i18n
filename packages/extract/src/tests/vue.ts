@@ -1,4 +1,4 @@
-import { extractMessages } from ".."; 
+import { extractMessages } from "../"; 
  
 const code = `
 <template>

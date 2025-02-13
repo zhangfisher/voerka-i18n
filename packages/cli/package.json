@@ -37,7 +37,7 @@
         "bcp47-language-tags": "^1.1.0",
         "deepmerge": "^4.2.2",
         "fast-glob": "^3.3.3",
-        "flex-tools": "^1.4.28",
+        "flex-tools": "^1.4.29",
         "fs-extra": "^10.0.1",
         "lcid": "^4.0.1",
         "logsets": "^1.3.30",

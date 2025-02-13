@@ -2,14 +2,14 @@
 /**
  * 移除字符串前后的字符
  * 
- * trimAll(" hello world  ") => "hello world"
- * trimAll(" \nhello world\n ") => "hello world"
+ * trimChars(" hello world  ") => "hello world"
+ * trimChars(" \nhello world\n ") => "hello world"
  * 
  * @param {*} str 
  * @param {*} chars 
  * @returns 
  */
-export function trimAll(str:string,chars=['"',"'"]){
+export function trimChars(str:string,chars=['"',"'"]){
     let start = 0
     let end = str.length
     while(start<end && chars.includes(str[start])){

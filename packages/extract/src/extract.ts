@@ -8,17 +8,21 @@
  */
 
 import { parse, Lang, Range, NapiConfig } from '@ast-grep/napi' 
-import { getFileNamespace } from '../getNamespace' 
 import { getMatch } from './utils'
 import VuePreset from "./schemas/vue"
 import { ExtractMessagesOptions, ExtractSchema, TranslateNode } from './types'
-import { trimAll } from '../trimAll';
+import { trimChars,  getFileNamespace } from '@voerkai18n/utils';
 import { parseTranslateMessages } from './utils/parseTranslateMessage';
 
 const Schemas = {
     vue : VuePreset
 } as unknown as Record<string,ExtractSchema>
 
+
+
+function extractSectionMessages(){
+
+}
 
 /**
  * 使用@ast-grep/napi解析code中的t("xxxx")的内容 
@@ -60,7 +64,7 @@ export function extractMessages<T extends Record<string,any> = Record<string,any
             const namespace = file ? getFileNamespace(file, namespaces) :'default'
             const msgNode = node.getMatch("MESSAGE")!   
             if(msgNode){
-                const text = trimAll(msgNode.text())
+                const text = trimChars(msgNode.text())
                 results.push({
                     text,
                     rang     : msgNode.range(),
