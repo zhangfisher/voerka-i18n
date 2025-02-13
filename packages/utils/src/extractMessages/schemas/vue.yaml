@@ -1,0 +1,25 @@
+rule:
+  any:
+    - pattern:
+        selector: attribute
+        context: "<Translate message=$MESSAGE />" 
+    - pattern: 
+        selector: attribute
+        context: "<Translate vars=$VARS />"
+    - pattern:
+        selector: attribute
+        context: "<Translate options=$OPTIONS />" 
+    - pattern:
+        selector: attribute
+        context: "<$$$ $ATTR_NAME=$ATTR_VALUE />" 
+    - 
+      pattern: $TEXT
+      kind: text
+      regex: "^\\{\\{[\\s\\S]*\\}\\}$" 
+constraints:
+  TEXT:
+    regex: "t\\(.*?\\)" 
+  ATTR_NAME: 
+    regex: "^[:@]"
+  ATTR_VALUE:
+    regex: "t\\(.*?\\)"    

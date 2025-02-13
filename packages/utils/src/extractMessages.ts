@@ -71,8 +71,6 @@ export function extractMessages<T extends Record<string,any> = Record<string,any
     return result as unknown as (TranslateNode & T)[]
 }
 
-
-
 // console.log(parseTranslates(String.raw`
 //   t("aaa") 
 //   t('bbb')
