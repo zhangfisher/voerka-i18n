@@ -7,21 +7,46 @@
  * 
  */
 
-import { parse, Lang, Range, NapiConfig } from '@ast-grep/napi' 
-import { getMatch } from './utils'
-import VuePreset from "./schemas/vue"
-import { ExtractMessagesOptions, ExtractSchema, TranslateNode } from './types'
+import { parse, Lang, SgNode } from '@ast-grep/napi' 
+import { getMatch } from './utils' 
+import { ExtractMessagesOptions, TranslateNode } from './types'
 import { trimChars,  getFileNamespace } from '@voerkai18n/utils';
 import { parseTranslateMessages } from './utils/parseTranslateMessage';
+import Schemas from "./schemas"
 
-const Schemas = {
-    vue : VuePreset
-} as unknown as Record<string,ExtractSchema>
-
-
-
-function extractSectionMessages(){
-
+function extractSectionMessages(node:SgNode,options:ExtractMessagesOptions){
+    const { namespaces,file } = options
+    const namespace = file ? getFileNamespace(file, namespaces) :'default'
+    const msgNode = node.getMatch("MESSAGE")!   
+    const results:any = [] 
+    if(msgNode){ // 是有效的SgNode
+        const text = trimChars(msgNode.text())
+        results.push({
+            text,
+            rang     : msgNode.range(),
+            vars     : node.getMatch("VARS")?.text(),
+            options  : node.getMatch("OPTIONS")?.text(),
+            namespace
+        })
+    }else{                
+        const text = node.text()
+        const nodeCtx = {
+            rang     : node.range(),
+            vars     : node.getMatch("VARS")?.text(),
+            options  : node.getMatch("OPTIONS")?.text(),
+            namespace
+        }
+        if(text){
+            const messages = parseTranslateMessages(text)
+            messages.forEach(message=>{
+                results.push({
+                    text:message,
+                    ...nodeCtx
+                })
+            })
+        }
+    }
+    return results
 }
 
 /**
@@ -30,67 +55,39 @@ function extractSectionMessages(){
  * @param code 
  * @returns
  * [
- *      {text:"xxxx",rang,args:[],options:{}},
+ *      {text:"xxxx",rang,vars:[],options:{}},
  * ]
  */
 export function extractMessages<T extends Record<string,any> = Record<string,any>>(code:string,options?:ExtractMessagesOptions):(TranslateNode & T)[]{
     
-    let { sections, type: fileType, language:defaultLanguage,namespaces,file } = Object.assign({
+    let opts = Object.assign({
         type      : 'ts',
         sections  : [],        
         language  : Lang.TypeScript, 
         namespaces:{}
     },options) as Required<ExtractMessagesOptions>
 
-    
+    let { type: fileType, language:defaultLanguage } = opts
+
     if(fileType && fileType in Schemas){        
-       sections = Schemas[fileType].sections 
+        opts.sections = Schemas[fileType].sections 
     } 
+
     const results:any = [] 
-    sections.forEach(({ language,regex,config })=>{
+    opts.sections.forEach(({ language,regex,config })=>{
         let sectionCode:string
         if(regex instanceof RegExp){
             sectionCode = getMatch(code,regex) || code
         }else{
-            sectionCode = code      // 使用正则表达式regex从源码中提取出需要的部分，取第一个匹配组的内容
+            sectionCode = code      // 使用正则表达式regex从源码中提取出需要的部分，取第一个匹配组的内容            
         }
-
         const sectionAst = parse(language || defaultLanguage, sectionCode)        
         if(!config) return
         
         const nodes = sectionAst.root().findAll(config)
  
         nodes.forEach(node=>{
-            const namespace = file ? getFileNamespace(file, namespaces) :'default'
-            const msgNode = node.getMatch("MESSAGE")!   
-            if(msgNode){
-                const text = trimChars(msgNode.text())
-                results.push({
-                    text,
-                    rang     : msgNode.range(),
-                    vars     : node.getMatch("VARS")?.text(),
-                    options  : node.getMatch("OPTIONS")?.text(),
-                    namespace
-                })
-            }else{                
-                const text = node.text()
-                const nodeCtx = {
-                    rang     : node.range(),
-                    vars     : node.getMatch("VARS")?.text(),
-                    options  : node.getMatch("OPTIONS")?.text(),
-                    namespace
-                }
-                if(text){
-                    const messages = parseTranslateMessages(text)
-                    messages.forEach(message=>{
-                        results.push({
-                            text:message,
-                            ...nodeCtx
-                        })
-                    })
-                }
-            }
-            
+            results.push(...extractSectionMessages(node,opts))
         }) 
     })
  
@@ -98,31 +95,4 @@ export function extractMessages<T extends Record<string,any> = Record<string,any
 
 }
  
- 
-
-
-// const nodes = [
-//     ...root.findAll("t($TEXT)"),
-//     ...root.findAll("t($TEXT,$ARGS)"),
-//     ...root.findAll("t($TEXT,$ARGS,$OPTIONS)"),
-//     ...root.findAll("<Translate t($TEXT,$ARGS,$OPTIONS,$ARGS)")
-// ]
-
-
-
-// const namespace = getFileNamespace(extras?.file, namespaces ||{})
-
-// const result = []
-
-// for(let node of nodes){
-//     const textNode = node.getMatch("TEXT")!        
-//     result.push({
-//         ...extras || {},
-//         text     : textNode.text().replace(/^['"`]/g,"").replace(/['"`]$/g,""),
-//         rang     : textNode.range(),
-//         args     : node.getMatch("ARGS")?.text(),
-//         options  : node.getMatch("OPTIONS")?.text(),
-//         namespace
-//     })
-// }
-// return result as unknown as (TranslateNode & T)[]
+         

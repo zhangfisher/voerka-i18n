@@ -21,7 +21,7 @@ export type ExtractSchema = {
 }
 
 export type ExtractMessagesOptions = {
-    type?       : "vue" | "react" | "svelte" | "html" | "astro" | "mdx" | "js" | "ts"
+    type?       : "vue" | "react" | "svelte" | "html" | "astro" | "mdx" | "js" | "ts" | "jsx" | "tsx"
     language?   : Lang
     namespaces? : VoerkaI18nNamespaces
     file?       : string

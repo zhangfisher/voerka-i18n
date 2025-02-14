@@ -11,16 +11,18 @@
     },
     "scripts": {
         "build": "tsup",
-        "dev:vue": "tsx src/tests/vue"
+        "dev:vue": "tsx src/tests/vue",
+        "dev:tsx": "tsx src/tests/tsx",
+        "dev:astro": "tsx src/tests/astro"
     },
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
-        "@ast-grep/napi": "^0.33.1",
+        "@ast-grep/napi": "^0.34.4",
+        "@voerkai18n/utils": "workspace:*",
         "flex-tools": "^1.4.29",
         "remove": "^0.1.5",
         "semver": "^7.3.7",
-        "@voerkai18n/utils": "workspace:*",
         "yaml": "^2.7.0"
     },
     "devDependencies": {

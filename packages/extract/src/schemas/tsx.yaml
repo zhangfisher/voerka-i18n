@@ -1,0 +1,31 @@
+rule:
+  any:
+    - 
+      kind: string
+      pattern: $MESSAGE
+      inside:
+        all:
+          - kind: jsx_expression  
+          - kind: binary_expression  
+    - pattern:
+        selector: jsx_attribute
+        context: <Translate message='$MESSAGE' />            
+    - 
+      pattern:
+        selector: jsx_attribute
+        context: <Translate message="$MESSAGE" />
+    - pattern:
+        selector: jsx_attribute
+        context: <Translate message={"$MESSAGE"} />            
+    - pattern:
+        selector: jsx_attribute
+        context: <Translate vars=$VARS/>         
+    - pattern:
+        selector: jsx_attribute
+        context: <Translate options=$OPTIONS/> 
+    - pattern: 
+        selector: call_expression
+        context: t($MESSAGE)
+    - pattern: t($MESSAGE)
+    - pattern: t($MESSAGE,$VARS)
+    - pattern: t($MESSAGE,$VARS,$OPTIONS)        

@@ -14,6 +14,7 @@ export const jsConfig = {
         OPTIONS:{
             kind: "object"
         }
-    }
-    
-}
+    }    
+} 
+
+export const tsConfig = jsConfig
