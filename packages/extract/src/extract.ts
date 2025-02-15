@@ -1,10 +1,7 @@
 /**
  * 
  * 解析源码中的t("xxxx")的内容
- * 
- * 
- * 
- * 
+ *  
  */
 
 import { parse, Lang, SgNode } from '@ast-grep/napi' 
@@ -19,7 +16,7 @@ function extractSectionMessages(node:SgNode,options:ExtractMessagesOptions){
     const namespace = file ? getFileNamespace(file, namespaces) :'default'
     const msgNode = node.getMatch("MESSAGE")!   
     const results:any = [] 
-    if(msgNode){ // 是有效的SgNode
+    if(msgNode){  
         const text = trimChars(msgNode.text())
         results.push({
             text,

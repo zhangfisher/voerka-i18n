@@ -13,7 +13,7 @@ export default {
         },
         {
             name    : "template",
-            language: Lang.Html,
+            language: Lang.Tsx,
             regex   : /^\s*---[\s\S]*?^---\s*([\s\S]*)/gm,
             config  : loadAstConfig(path.join(__dirname,"./tsx.yaml"))
         } 

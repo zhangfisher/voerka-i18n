@@ -1,31 +1,54 @@
+utils:
+  is-t-component:
+    any:
+      - kind: jsx_self_closing_element
+      - kind: jsx_opening_element
+      - kind: jsx_element
+    has:
+      kind: identifier
+      regex: Translate
+  is-message:
+    kind: jsx_attribute
+    has:
+      kind: property_identifier
+      regex: message
+    inside:  
+      matches: is-t-component
+  is-vars:
+    kind: jsx_attribute
+    has:
+      kind: property_identifier
+      regex: vars
+    inside:        
+      matches: is-t-component     
+  is-options:
+    kind: jsx_attribute
+    has:
+      kind: property_identifier
+      regex: options
+    inside:        
+      matches: is-t-component        
 rule:
-  any:
+  any: 
     - 
       kind: string
       pattern: $MESSAGE
       inside:
-        all:
-          - kind: jsx_expression  
-          - kind: binary_expression  
-    - pattern:
-        selector: jsx_attribute
-        context: <Translate message='$MESSAGE' />            
+        matches: is-message
     - 
-      pattern:
-        selector: jsx_attribute
-        context: <Translate message="$MESSAGE" />
-    - pattern:
-        selector: jsx_attribute
-        context: <Translate message={"$MESSAGE"} />            
-    - pattern:
-        selector: jsx_attribute
-        context: <Translate vars=$VARS/>         
-    - pattern:
-        selector: jsx_attribute
-        context: <Translate options=$OPTIONS/> 
-    - pattern: 
-        selector: call_expression
-        context: t($MESSAGE)
+      any:
+        - kind: jsx_expression
+        - kind: string
+      pattern: $VARS
+      inside:
+        matches: is-vars
+    - 
+      any:
+        - kind: jsx_expression
+        - kind: string
+      pattern: $OPTIONS
+      inside:
+        matches: is-options   
     - pattern: t($MESSAGE)
     - pattern: t($MESSAGE,$VARS)
-    - pattern: t($MESSAGE,$VARS,$OPTIONS)        
+    - pattern: t($MESSAGE,$VARS,$OPTIONS)
