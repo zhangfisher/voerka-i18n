@@ -6,26 +6,26 @@ utils:
       - kind: jsx_element
     has:
       kind: identifier
-      regex: Translate
+      regex: ^Translate$
   is-message:
     kind: jsx_attribute
     has:
       kind: property_identifier
-      regex: message
+      regex: ^message$
     inside:  
       matches: is-t-component
   is-vars:
     kind: jsx_attribute
     has:
       kind: property_identifier
-      regex: vars
+      regex: ^vars$
     inside:        
       matches: is-t-component     
   is-options:
     kind: jsx_attribute
     has:
       kind: property_identifier
-      regex: options
+      regex: ^options$
     inside:        
       matches: is-t-component        
 rule:
