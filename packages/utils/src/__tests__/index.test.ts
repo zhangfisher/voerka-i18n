@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { extractMessages, TranslateNode } from '../extractMessages';
-import { getFileNamespace } from '../getNamespace';
+import { getFileNamespace } from '../getFileNamespace';
 
 describe('extractMessages', () => {
     it('should extract simple string literals', () => {

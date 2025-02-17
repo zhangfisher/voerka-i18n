@@ -8,7 +8,7 @@
  */
 
 import { parse,Lang,Range } from '@ast-grep/napi' 
-import { getFileNamespace } from './getNamespace'
+import { getFileNamespace } from './getFileNamespace'
 import { VoerkaI18nNamespaces } from '@voerkai18n/runtime'
 
 export type TranslateNode = {

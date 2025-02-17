@@ -1,5 +1,5 @@
 import type { ExtractorOptions, MessageNode } from "..";
-import { getFileNamespace } from "@voerkai18n/utils";
+import { getFileNamespace } from "../../getFileNamespace";
 import { parseTranslateMessagesByRegex } from "../utils";
 
 

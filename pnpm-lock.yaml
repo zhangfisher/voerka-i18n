@@ -223,6 +223,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@voerkai18n/extract':
+        specifier: workspace:^
+        version: link:../extract
       '@voerkai18n/formatters':
         specifier: workspace:^
         version: link:../formatters
@@ -444,6 +447,9 @@ importers:
       fs-extra:
         specifier: ^10.0.1
         version: 10.1.0
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
       semver:
         specifier: ^7.3.7
         version: 7.5.0
@@ -457,6 +463,9 @@ importers:
         specifier: ^2.7.0
         version: 2.7.0
     devDependencies:
+      '@types/js-yaml':
+        specifier: ^4.0.9
+        version: 4.0.9
       '@types/node':
         specifier: ^22.13.2
         version: 22.13.2
@@ -472,6 +481,9 @@ importers:
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@swc/core@1.10.4(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.1)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0)
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
       typescript:
         specifier: ^5.7.3
         version: 5.7.3

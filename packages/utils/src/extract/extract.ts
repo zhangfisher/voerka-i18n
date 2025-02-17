@@ -4,11 +4,12 @@
  *  
  */
  
-import { getMatchs } from './utils' 
+import { getMatchs, parseTranslateMessagesByRegex } from './utils' 
 import { ExtractMessagesOptions, ExtractSection, MessageNode } from './types' 
 import Schemas from "./schemas"
 import astExtractor from './extractors/ast'
 import regexExtractor from './extractors/regex'
+import { getFileNamespace } from '../'
  
 
 function extractSessionCode(code:string,extractArg:ExtractSection['extract'] ):string[]{
@@ -68,7 +69,16 @@ export function extractMessagesUseAst(code:string,options:ExtractMessagesOptions
     return results
 }
 export function extractMessagesUseRegex(code:string,options:ExtractMessagesOptions):MessageNode[]{
+    const { file,namespaces }  = options   
+    const namespace = file ? getFileNamespace(file, namespaces) :'default'
 
+    const messages = parseTranslateMessagesByRegex(code)
+    return messages.map(message=>({        
+        vars:undefined,
+        options:undefined,
+        namespace,
+        ...message
+    }))
 }
 /**
  * 提取要翻译的文本信息

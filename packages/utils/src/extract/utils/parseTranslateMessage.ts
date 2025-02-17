@@ -1,7 +1,5 @@
-import { trimChars } from '@voerkai18n/utils/src/trimChars';
-import { parse, Lang, Range, NapiConfig, pattern } from '@ast-grep/napi' 
-import { loadAstConfig } from "../utils/loadAstConfig";
-import path from "node:path"
+import { trimChars } from '../../trimChars';
+import { parse, Lang } from '@ast-grep/napi'  
 import { MessageNode } from '..';
 
 

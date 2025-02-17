@@ -57,7 +57,7 @@ const todos = ref([
 
 `
 
-console.log(extractMessages(code,{
-    language:'vue'
-}).map(({message})=>message))
+console.log(extractMessages(code,{ 
+    extractor:"regex"
+}).map(({message})=>message  ))
   

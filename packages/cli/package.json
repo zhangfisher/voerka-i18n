@@ -34,6 +34,7 @@
         "@voerkai18n/formatters": "workspace:^",
         "@voerkai18n/runtime": "workspace:^",
         "@voerkai18n/utils": "workspace:^",
+        "@voerkai18n/extract": "workspace:^",
         "bcp47-language-tags": "^1.1.0",
         "deepmerge": "^4.2.2",
         "fast-glob": "^3.3.3",

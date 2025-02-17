@@ -6,8 +6,10 @@
 
 import { parse, Lang, SgNode } from '@ast-grep/napi' 
 import { MessageNode, ExtractorOptions  } from '../types'
-import { trimChars,  getFileNamespace } from '@voerkai18n/utils';
+import { getFileNamespace } from '../../getFileNamespace';
 import { parseTranslateMessages } from '../utils/parseTranslateMessage'; 
+import { trimChars } from '../../trimChars';
+
 
 export function extractSectionMessages(node:SgNode,options:ExtractorOptions){
     const { namespaces,file } = options
