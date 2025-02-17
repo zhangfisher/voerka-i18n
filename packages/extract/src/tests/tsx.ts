@@ -16,7 +16,7 @@ function myComponent(){
         description: t("联系活动策划公司,讨论团建方案,预算控制在每人500元以内,时间定在下个月第一个周末。"), 
       },
       { 
-        title: t('更新个人简历'),  
+        title: t('更新个人简历',1,3),  
       },
       { 
         title: t(()=>"学习新的编程语言",1,()=>{}),  
@@ -33,13 +33,14 @@ function myComponent(){
       console.log('d1')
       console.log(t('d2'))
     }/>
-    <Translate message={()=>t('e')}/>
+    <Translate vars={[a,b,c]} message={()=>t('e')}/>
+    <Translate vars={[a,b,c]} message={f} ></Translate>
     { t("f1") + t('f2') }
   </div>
 }
 `
 
 console.log(extractMessages(code,{
-    type:'tsx'
-}).map(({text})=>text))
+    language:'tsx'
+}).map(({message})=>message))
   

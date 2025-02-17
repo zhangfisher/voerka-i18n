@@ -9,6 +9,8 @@ const TranslateCommand = require("./commands/translate");
 const { getCliLanguage } = require("./oslocale");
 const {  isVoerkaI18nInstalled, getProjectContext } = require("@voerkai18n/utils");
 const { i18nScope } = require("./i18n");
+const replaceAll = require('string.prototype.replaceall');
+replaceAll.shim()
 
 
 getProjectContext().then(async ctx=>{

@@ -13,7 +13,8 @@
         "build": "tsup",
         "dev:vue": "tsx src/tests/vue",
         "dev:tsx": "tsx src/tests/tsx",
-        "dev:astro": "tsx src/tests/astro"
+        "dev:astro": "tsx src/tests/astro",
+        "dev:svelte": "tsx src/tests/svelte"
     },
     "author": "wxzhang",
     "license": "MIT",
@@ -21,11 +22,12 @@
         "@ast-grep/napi": "^0.34.4",
         "@voerkai18n/utils": "workspace:*",
         "flex-tools": "^1.4.29",
+        "js-yaml": "^4.1.0",
         "remove": "^0.1.5",
-        "semver": "^7.3.7",
-        "yaml": "^2.7.0"
+        "semver": "^7.3.7"
     },
     "devDependencies": {
+        "@types/js-yaml": "^4.0.9",
         "@types/node": "^22.13.2",
         "@voerkai18n/runtime": "workspace:*",
         "esbuild-plugin-copy": "^2.1.1",

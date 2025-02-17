@@ -2,6 +2,7 @@ import { trimChars } from '@voerkai18n/utils/src/trimChars';
 import { parse, Lang, Range, NapiConfig, pattern } from '@ast-grep/napi' 
 import { loadAstConfig } from "../utils/loadAstConfig";
 import path from "node:path"
+import { MessageNode } from '..';
 
 
 const config = {
@@ -34,7 +35,7 @@ export function parseTranslateMessages(code:string){
     const nodes = ast.root().findAll(config)
     const messages:string[]= []
     if(nodes.length === 0){    
-        messages.push(...parseTranslateMessagesByRegex(code))    
+        messages.push(...parseTranslateMessagesByRegex(code).map(node=>node.message))    
     }else{
       nodes.forEach(node=>{
           let message = node.getMatch("MESSAGE")?.text()
@@ -65,15 +66,19 @@ const TranslateExtractor = /\bt\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/
 //  */
 export function parseTranslateMessagesByRegex(code:string){
     let result
-    let messages:string[] = []
+    let messages:MessageNode[] = []
     while ((result = TranslateExtractor.exec(code)) !== null) {
         // 这对于避免零宽度匹配的无限循环是必要的
         if (result.index === TranslateExtractor.lastIndex) {
             TranslateExtractor.lastIndex++;
         }           
-        const text = result.groups?.text
+        const text = result.groups?.text 
+
         if(text){
-            messages.push(text)
+            messages.push({
+              message:text,
+              rang:{start:result.index,end:result.index}
+            })
         }
     }
     return messages 

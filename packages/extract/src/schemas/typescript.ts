@@ -1,12 +1,10 @@
-import { Lang } from "@ast-grep/napi";
-import { jsConfig } from "./common"; 
+import { Lang } from "@ast-grep/napi"; 
+import { loadAstConfig } from "../utils/loadAstConfig"; 
 
-export default {
-    sections: [ 
-        {
-            name: "typescript",
-            language:Lang.TypeScript, 
-            config: jsConfig
-        }
-    ]
-}
+export default [ 
+    {
+        name    : "typescript",
+        language: Lang.TypeScript, 
+        ast     : loadAstConfig("./ts.yaml",__dirname)
+    }
+]

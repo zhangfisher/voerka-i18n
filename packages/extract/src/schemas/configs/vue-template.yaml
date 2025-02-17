@@ -8,57 +8,53 @@ utils:
       kind: tag_name
       regex: ^Translate$
   is-message:
-    kind: attribute    
+    kind: attribute
     has:
-      kind: attribute_name    
+      kind: attribute_name
       regex: ^message$
-    inside:  
-      matches: is-t-component     
+    inside:
+      matches: is-t-component
   is-vars:
     kind: attribute
     has:
       kind: attribute_name
       regex: ^vars$
-    inside:        
-      matches: is-t-component     
+    inside:
+      matches: is-t-component
   is-options:
     kind: attribute
     has:
       kind: attribute_name
       regex: ^options$
-    inside:        
-      matches: is-t-component  
+    inside:
+      matches: is-t-component
 rule:
   any:
-    -
-      kind: attribute_value
-      pattern: $MESSAGE  
-      inside:        
+    - kind: attribute_value
+      pattern: $MESSAGE
+      inside:
         matches: is-message
-        stopBy: end    
-    -
-      kind: attribute_value
+        stopBy: end
+    - kind: attribute_value
       pattern: $VARS
-      inside:        
+      inside:
         matches: is-vars
         stopBy: end
-    -
-      kind: attribute_value
+    - kind: attribute_value
       pattern: $OPTIONS
-      inside:        
+      inside:
         matches: is-options
-        stopBy: end        
+        stopBy: end
     - pattern:
         selector: attribute
-        context: "<$$$ $ATTR_NAME=$ATTR_VALUE />" 
-    - 
-      pattern: $TEXT
+        context: "<$$$ $ATTR_NAME=$ATTR_VALUE />"
+    - pattern: $TEXT
       kind: text
-      regex: "^\\{\\{[\\s\\S]*\\}\\}$" 
+      regex: "^\\{\\{[\\s\\S]*\\}\\}$"
 constraints:
-  TEXT:    
-    regex: "t\\(.*?\\)" 
-  ATTR_NAME: 
+  TEXT:
+    regex: "t\\(.*?\\)"
+  ATTR_NAME:
     regex: "^[:@]"
   ATTR_VALUE:
-    regex: "t\\(.*?\\)"    
+    regex: "t\\(.*?\\)"

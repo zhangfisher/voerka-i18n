@@ -58,10 +58,9 @@ const MyComponent()=>{
   <div>
   { 
     t("T19")
-    +
-    t("T20",1,{o:1})
-    +t("T21","a",{o2:"2"})
-    +t("T22",["a","b"],{})
+    + t("T20",1,{o:1})
+    + t("T21","a",{o2:"2"})
+    + t("T22",["a","b"],{})
   }
   </div>
   <div>t("Tx1")</div>
@@ -72,6 +71,6 @@ const MyComponent()=>{
 `
 
 console.log(extractMessages(code,{
-    type:'astro'
-}).map(({text})=>text))
+    language:'astro'
+}).map(({message})=>message))
   

@@ -1,0 +1,32 @@
+utils: !include utils.yaml
+rule:
+  any: 
+    - 
+      kind: string
+      pattern: $MESSAGE
+      inside:
+        matches: is-message-attr
+        stopBy: neighbor
+    - 
+      any:
+        - kind: jsx_expression
+        - kind: string
+      pattern: $VARS
+      inside:
+        matches: is-vars-attr
+        stopBy: end
+    - 
+      any:
+        - kind: jsx_expression
+        - kind: string
+      pattern: $OPTIONS
+      inside:
+        matches: is-options-attr
+        stopBy: end
+    - pattern: t($MESSAGE)
+    - pattern: t($MESSAGE,$VARS)
+    - pattern: t($MESSAGE,$VARS,$OPTIONS)
+
+constraints:
+  MESSAGE:
+    kind: string

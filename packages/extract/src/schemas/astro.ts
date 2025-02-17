@@ -1,21 +1,17 @@
-import { Lang } from "@ast-grep/napi";
-import { jsConfig } from "./common";
-import { loadAstConfig } from "../utils/loadAstConfig";
-import path from "node:path"
+import { Lang } from "@ast-grep/napi"; 
+import { loadAstConfig } from "../utils/loadAstConfig"; 
 
-export default {
-    sections: [
+export default [
         {
             name    : "frontmatter",
-            regex   : /^\s*^---([\s\S]*?)^---/gm,
+            extract : /^\s*^---([\s\S]*?)^---/gm,
             language: Lang.TypeScript,
-            config  : jsConfig
+            ast     : loadAstConfig("./ts.yaml",__dirname)
         },
         {
             name    : "template",
             language: Lang.Tsx,
-            regex   : /^\s*---[\s\S]*?^---\s*([\s\S]*)/gm,
-            config  : loadAstConfig(path.join(__dirname,"./tsx.yaml"))
+            extract : /^\s*---[\s\S]*?^---\s*([\s\S]*)/gm,
+            ast     : loadAstConfig("./tsx.yaml",__dirname)
         } 
-    ]
-}
+    ] 
