@@ -32,7 +32,7 @@ function inNamespace(filePath:string,nsPath:string){
  * @param {*} file 
  * @param {*} options.namespaces  名称空间配置 {<name>:[path,...,path],<name>:path,<name>:(file)=>{}}
  */
- export function getFileNamespace(file:string,namespaces?:VoerkaI18nNamespaces):string{
+export function getFileNamespace(file:string,namespaces?:VoerkaI18nNamespaces):string{
     if(!namespaces) return "default"
     if(!file) return "default"
     file = path.isAbsolute(file) ? file : path.join(process.cwd(),file)

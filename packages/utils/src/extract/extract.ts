@@ -47,6 +47,7 @@ export function extractMessagesUseAst(code:string,options:ExtractMessagesOptions
     const  { language,file,namespaces }  = options
     const sections = (language && language in Schemas)? Schemas[language] : Schemas['ts']
     const results:any = [] 
+
     sections.forEach((section)=>{        
         // 1. 先分割源码为多个部分，如vue文件的template,script,style
         const { extract,type  } = section 
@@ -55,8 +56,9 @@ export function extractMessagesUseAst(code:string,options:ExtractMessagesOptions
 
         // 2. 使用ast或者regex提取每个部分要翻译的文本        
         sectionCodes.filter((sCode)=>sCode && sCode.trim().length>0).forEach(sCode=>{
-            const extractorOpts = Object.assign({
-                file ,
+            const extractorOpts = Object.assign({                
+                sectionFlag:section.name?.[0].toUpperCase() || 'S',
+                file,
                 namespaces
             },section)
             if(type==='ast' || section.ast){
@@ -99,19 +101,14 @@ export function extractMessages(code:string,options?:ExtractMessagesOptions):Mes
         extractor : 'ast',
         language  : 'ts', 
         namespaces: {}
-    },options) as Required<ExtractMessagesOptions>
-
-    const results:any = [] 
+    },options) as Required<ExtractMessagesOptions> 
 
     if(opts.extractor==='regex'){
         return extractMessagesUseRegex(code,opts)
     }else{
         return extractMessagesUseAst(code,opts)
     }
-
-    
  
-    return results
 
 }
  

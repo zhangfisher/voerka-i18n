@@ -4,11 +4,20 @@
  *  
  */
 
-import { parse, Lang, SgNode } from '@ast-grep/napi' 
+import { parse, Lang, SgNode, Range } from '@ast-grep/napi' 
 import { MessageNode, ExtractorOptions  } from '../types'
 import { getFileNamespace } from '../../getFileNamespace';
 import { parseTranslateMessages } from '../utils/parseTranslateMessage'; 
 import { trimChars } from '../../trimChars';
+
+
+function getMessageRange(range:Range,options:ExtractorOptions){
+    const { sectionFlag } = options
+    return {
+        start: `${sectionFlag}${range.start.line}:${range.start.column}`,
+        end: `${sectionFlag}${range.end.line}:${range.end.column}`
+    }
+}
 
 
 export function extractSectionMessages(node:SgNode,options:ExtractorOptions){
@@ -20,18 +29,20 @@ export function extractSectionMessages(node:SgNode,options:ExtractorOptions){
         const message = trimChars(msgNode.text())
         results.push({
             message,
-            rang     : msgNode.range(),
+            rang     : getMessageRange(msgNode.range(),options),
             vars     : node.getMatch("VARS")?.text(),
             options  : node.getMatch("OPTIONS")?.text(),
-            namespace
+            namespace,
+            file
         })
     }else{                
         const text = node.text()
         const nodeCtx = {
-            rang     : node.range(),
+            rang     : getMessageRange(node.range(),options),
             vars     : node.getMatch("VARS")?.text(),
             options  : node.getMatch("OPTIONS")?.text(),
-            namespace
+            namespace,
+            file
         }
         if(text){
             const messages = parseTranslateMessages(text)

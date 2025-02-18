@@ -12,5 +12,5 @@ rule:
 constraints:
   MESSAGE:
     kind: string
-    OPTIONS:
-      kind: object
+  OPTIONS:
+    kind: object

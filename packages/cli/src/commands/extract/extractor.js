@@ -1,6 +1,6 @@
 const { t } = require("../../i18n");
 const fastGlob = require("fast-glob");
-const { extractMessages } = require("@voerkai18n/utils")
+const { extractMessages } = require("@voerkai18n/utils/extract")
 const logsets = require("logsets");
 const path = require("path");
 const fs = require("node:fs");
@@ -67,18 +67,19 @@ function getNextId(){
  * 最终返回所有提取出的翻译文本的数组。
  */
 async function scanMessages(ctx,tasks){
-    const {  langRelDir,patterns } = ctx 
+    const {  langRelDir,patterns,file } = ctx 
 
     tasks.addGroup(t("提取参数："))
-    tasks.create(t(" 更新模式: {}"),ctx.mode)    
-    tasks.create(t(" 提取范围: {}"),patterns.join(", "))        
-    tasks.create(t(" 通过{}参数增加文件匹配规则"),"--patterns")
-    tasks.create(t(" 您可以通过修改{}文件的{}参数来调整提取范围"),`${langRelDir}/settings.json`,"patterns")    
+    tasks.create(t("更新模式: {}"),ctx.mode)    
+    tasks.create(t("提取方式: {}"),ctx.regex ? 'regex' : 'ast')    
+    tasks.create(t("提取范围: {}"),patterns.join(", "))        
+    tasks.create(t("通过{}参数增加文件匹配规则"),"--patterns")
+    tasks.create(t("您可以通过修改{}文件的{}参数来调整提取范围"),`${langRelDir}/settings.json`,"patterns")    
 
     const files = await fastGlob(patterns,{
-        cwd     : process.cwd(),
-        absolute: true
-    })
+            cwd     : process.cwd(),
+            absolute: true
+        })
  
 
     const results = []
@@ -90,11 +91,15 @@ async function scanMessages(ctx,tasks){
     for(let file of files){
         try{
             const relFile= path.relative(process.cwd(),file)        
+            const codeLang = path.extname(file).slice(1)
             tasks.add(t("提取 {}"),relFile)
             const code   = await readFile(file,{ encoding: "utf-8" }) 
-            const result = await extractMessages(code,ctx.namespaces,{
-                file      : relFile
-            }) 
+            const result = await extractMessages(code,{
+                namespaces: ctx.namespaces,
+                file      : file,
+                language  : codeLang || "ts",
+                extractor : ctx.regex ? "regex" : "ast"
+            })
             if( result && result.length>0 ){
                 results.push(...result)
             }
@@ -113,10 +118,7 @@ async function scanMessages(ctx,tasks){
     tasks.addMemo(t("共提取{}个文本"), total) 
     return results
 }
-
-function getTextRange(rang){
-    return `${rang.start.line}:${rang.start.column}-${rang.end.line}:${rang.end.column}`
-}
+ 
 
 function getDefaultLanguage(languages){
     return languages.find(lng=>lng.default) || languages[0]
@@ -125,7 +127,7 @@ function getDefaultLanguage(languages){
 /**
  * 生成要翻译的文本内容
  * {
- *    text:{ }
+ *    message:{ }
  * }
  * @param {*} messages 
  * @returns 
@@ -137,17 +139,17 @@ function formatMessages(messages,settings){
         if(lng!=defaultLanguage) acc[lng] = text
         return acc
     },{})
-    return messages.reduce((results,message)=>{        
-        const text = message.text
-        if(!results[message.namespace]){
-            results[message.namespace] = {}
+    return messages.reduce((results,record)=>{        
+        const message = record.message
+        if(!results[record.namespace]){
+            results[record.namespace] = {}
         }
-        const messageRecord = text in results[message.namespace] ? results[message.namespace][text] : defaultMessageRecord(text) 
+        const messageRecord = message in results[record.namespace] ? results[record.namespace][message] : defaultMessageRecord(message) 
         if(!messageRecord.$files) messageRecord.$files = []
-        const relFile = path.relative(process.cwd(),message.file)
-        messageRecord.$files.push(`${relFile}(${getTextRange(message.rang)})`)
+        const relFile = path.relative(process.cwd(),record.file).replaceAll("\\","/")
+        messageRecord.$files.push(`${relFile}(${record.rang.start}-${record.rang.end})`)
         messageRecord.$id = getNextId()
-        results[message.namespace][message.text] = messageRecord
+        results[record.namespace][record.message] = messageRecord
         return results
     },{})
 }
@@ -166,29 +168,29 @@ async function syncMessages(namespaceFile,newMessages,settings){
     let oldMessages = await readFile(namespaceFile,{encoding:"utf-8"})
     oldMessages = JSON.parse(oldMessages) || {}
     const results = {}
-    for(let [text,newMessage] of Object.entries(newMessages)){
-        if(text in oldMessages){
-            results[text] = {}
-            const oldMessage = oldMessages[text]
-            Object.entries(newMessage).forEach(([langName,langText])=>{
+    for(let [message,newMessage] of Object.entries(newMessages)){
+        if(message in oldMessages){
+            results[message] = {}
+            const oldMessage = oldMessages[message]
+            Object.entries(newMessage).forEach(([langName,langMessage])=>{
                 if(langName.startsWith("$")){
-                    results[text][langName] = newMessage[langName]
+                    results[message][langName] = newMessage[langName]
                 }else{
-                    if(oldMessage[langName] !== text || Array.isArray(oldMessage[langName])){
-                        results[text][langName] = oldMessage[langName]                        
+                    if(oldMessage[langName] !== message || Array.isArray(oldMessage[langName])){
+                        results[message][langName] = oldMessage[langName]                        
                     }else{
-                        results[text][langName] = langText
+                        results[message][langName] = langMessage
                     }
                 }
             })
             if(oldMessage['$id']) {
-                results[text]['$id'] = oldMessage['$id']
+                results[message]['$id'] = oldMessage['$id']
             }else{
-                results[text]['$id'] = getNextId()
+                results[message]['$id'] = getNextId()
             }
         }else{
-            results[text] = newMessage
-            results[text]['$id'] = getNextId()
+            results[message] = newMessage
+            results[message]['$id'] = getNextId()
         }
     }
     await writeFile(namespaceFile,JSON.stringify(results,null,4))

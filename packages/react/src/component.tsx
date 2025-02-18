@@ -42,37 +42,32 @@ export type TranslateWrapperComponent =React.FC<React.PropsWithChildren<{
 }>>  
 
 export type CreateTranslateComponentOptions = {
-    default?: string,
-    loading?: React.ReactNode
+    default?: string
 }
 
 export function createTranslateComponent(Component?:TranslateWrapperComponent,options?:CreateTranslateComponentOptions){    
     
-    const { default:defaultMessage ='',loading:LoadingComponent } = Object.assign({},options) as CreateTranslateComponentOptions
-    const showLoading = !!LoadingComponent
+    const { default:defaultMessage ='' } = Object.assign({},options) as CreateTranslateComponentOptions
 
     return function(this:VoerkaI18nScope,props:VoerkaI18nTranslatedComponentProps){
         const { message, vars, options:tOptions,default:tDefault } = props                
-        const [ result, setResult ] = useState(typeof(message)==='function' ? tDefault || defaultMessage : message)
-        const [ loading, setLoading ] = useState(false)
+        const [ result, setResult ] = useState(()=>{
+            return typeof(message)==='function' 
+                                    ? tDefault || defaultMessage 
+                                    : this.translate(message,vars,tOptions)
+        })
 
         const isFirst = useRef(false)
         
         const loadMessage = useCallback(async (language:string) => {
             const loader = typeof(message)==='function' ? ()=>message(language,vars,tOptions) : ()=>message
-            if(showLoading) setLoading(true)
             return Promise.resolve(loader()).then((result)=>{                    
                 setResult(this.translate(result,vars,tOptions))
-            }).finally(()=>{
-                if(showLoading) setLoading(false)
             })
-
         },[message,vars,tOptions]) 
 
-
-
         useEffect(()=>{            
-            if(!isFirst.current){
+            if(!isFirst.current && typeof(message)==='function' ){
                 loadMessage(this.activeLanguage)
                 isFirst.current = true
             }
@@ -80,11 +75,9 @@ export function createTranslateComponent(Component?:TranslateWrapperComponent,op
             return ()=>listener.off()
         }) 
         
-        return Component ? (
-            showLoading && loading ? 
-                    LoadingComponent
-                    : <Component message={result} vars={vars} language={ this.activeLanguage } options={tOptions} />
-            ) : <>{result}</>
+        return Component ? 
+            <Component message={result} vars={vars} language={ this.activeLanguage } options={tOptions} />
+            : <>{result}</>
     }
 }
 

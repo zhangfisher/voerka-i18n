@@ -24,7 +24,7 @@ function getTranslateProvider(ctx={}){
     
 } 
  
-async function startTranslate(messages={},from="zh",to="en",ctx={}){
+async function startTranslate(messages={},from,to,ctx={}){
     let { qps=1 } = ctx
     const texts = Object.keys(messages)
     const lineCount = texts.length
@@ -102,7 +102,9 @@ async function translateLanguage(messages,from,to,ctx,task){
         const [message,lngs ] = items[i]
         const langMessage = lngs[to]
         const hasUpdated = isMessageUpdated(message,langMessage)
-        if(!hasUpdated)  translatedCount++ 
+        
+        const needTranslate = mode=='full' || (mode=='auto' && !hasUpdated)
+        if(needTranslate)  translatedCount++ 
 
         task.note(`${translatedCount}/${msgCount}`)
         
@@ -114,13 +116,16 @@ async function translateLanguage(messages,from,to,ctx,task){
             if(i<msgCount-1) continue
         }else{
             if(!(message in result)) result[message] = {}
+
+
             // 由于百度翻译按\n来分行翻译，如果有\n则会出现多行翻译的情况。因此，如果有\n则就不将多条文件合并翻译
-            if(message.includes("\n")){
+            if(message.includes("\n") && needTranslate){
                 result[message][to] = await translateMultiLineMessage(message.split("\n"),from,to,ctx)
-            }else if(!hasUpdated){            
+            }else if(needTranslate){            
                 translatedMessages[message]={[to]:langMessage}
                 packageSize += message.length        
             } 
+
         }
         // 多个信息合并进行翻译，减少请求次数
         if(packageSize>=maxPackageSize || i==msgCount-1){
@@ -185,6 +190,15 @@ async function translate(ctx) {
 
     const tasks = logsets.tasklist({ width:80,grouped:true}) 
 
+    tasks.addGroup(t("准备翻译"))
+    tasks.addMemo(t("翻译模式：{}"),ctx.mode)
+    tasks.addMemo(t("语言目录：{}"),langDir)
+    tasks.addMemo(t("翻译服务：{}"),ctx.provider)
+    tasks.addMemo(t("翻译速度：{}"),ctx.qps)
+    tasks.addMemo(t("翻译语言：{}"),ctx.language ? ctx.language : ctx.languages.map(lng=>lng.name).join(", "))
+    tasks.addMemo(t("请求数据包限制: {}" ),ctx.maxPackageSize)
+
+
     const translateDir = path.join(langDir,"translates")
 
     const files = await fastGlob(["*.json","!*.bak.*.json"],{
@@ -192,7 +206,7 @@ async function translate(ctx) {
         absolute: true
     })
 
-    logsets.header(t("准备翻译{}个文件"),files.length)
+    tasks.addMemo(t("文件数量: {}"),files.length)
     
     for(let file of files){
         const relFile= path.relative(process.cwd(),file)        

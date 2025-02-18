@@ -10,9 +10,9 @@ const { readFile,writeFile } = require("flex-tools/fs/nodefs");
  * @param {import("@voerkai18n/utils").VoerkaI18nProjectContext} ctx
  */
 async function compileLanguageFile(language,allMessages,ctx){
-    const { isTypescript, moduleType,langDir,defaultLanguage } = ctx;
+    const { typescript, moduleType,langDir,defaultLanguage } = ctx;
 
-    const langFile = path.join(langDir,  `${language.name}.${isTypescript ? "ts" : moduleType === "cjs" ? "js" : "mjs"}`)    
+    const langFile = path.join(langDir,  `${language.name}.${typescript ? "ts" : moduleType === "cjs" ? "js" : "mjs"}`)    
     const compiledMessages = {}
 
     for(let [ text,translated ] of Object.entries(allMessages)){

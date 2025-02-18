@@ -8,33 +8,33 @@ const WrapCommand = require("./commands/wrap");
 const TranslateCommand = require("./commands/translate");
 const { getCliLanguage } = require("./oslocale");
 const {  isVoerkaI18nInstalled, getProjectContext } = require("@voerkai18n/utils");
+const { rainbow } = require("gradient-string")
 const { i18nScope } = require("./i18n");
 const replaceAll = require('string.prototype.replaceall');
 replaceAll.shim()
-
-
+ 
 getProjectContext().then(async ctx=>{
     const cliLanguage = getCliLanguage()
-    global.OSLanguage = cliLanguage
+    global.OSLanguage = cliLanguage 
     await i18nScope.change(cliLanguage) 
     global.isVoerkaI18nInstalled = isVoerkaI18nInstalled() 
 
     const cli = new MixCli({
-      name: "VoerkaI18n",
+      name: "voerkai18n",
       version: require("../package.json").version,
-      logo: String.raw`
-          __     __        _         ___ _  ___        
-          \ \   / /__ _ __| | ____ _|_ _/ |( _ ) _ __  
-           \ \ / / _ \ '__| |/ / _\` || || |/ _ \| '_ \ 
-            \ V /  __/ |  |   < (_| || || | (_) | | | |
-             \_/ \___|_|  |_|\_\__,_|___|_|\___/|_| |_|`
+      logo: rainbow.multiline(String.raw`
+        __     __        _         ___ _  ___        
+        \ \   / /__ _ __| | ____ _|_ _/ |( _ ) _ __  
+         \ \ / / _ \ '__| |/ / _\` || || |/ _ \| '_ \ 
+          \ V /  __/ |  |   < (_| || || | (_) | | | |
+           \_/ \___|_|  |_|\_\__,_|___|_|\___/|_| |_|`)
       })    
 
     cli.register(InitCommand)
     cli.register(ExtractCommand)
     cli.register(CompileCommand)
-    cli.register(WrapCommand)
     cli.register(TranslateCommand)
-    cli.run();
-    
-})
+    cli.register(WrapCommand)
+    cli.run();       
+  })
+

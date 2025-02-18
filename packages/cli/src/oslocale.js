@@ -3,6 +3,7 @@ const lcid = require('lcid')
 const { getVoerkaI18nSettings } = require('@voerkai18n/utils');
 const defaultOptions = {spawn: true};
 const defaultLocale = 'en-US';
+const childProcess = require('child_process');
 
 /**
 @param {string} command
@@ -118,17 +119,17 @@ function osLocaleSync(options = defaultOptions) {
 	let locale;
 	try {
 		const envLocale = getEnvLocale();
-
 		if (envLocale || options.spawn === false) {
 			locale = getLocale(envLocale);
 		} else if (process.platform === 'win32') {
 			locale = getWinLocaleSync();
+			console.log("envLocale=",locale)
 		} else if (process.platform === 'darwin') {
 			locale = getAppleLocaleSync();
 		} else {
 			locale = getUnixLocaleSync();
 		}
-	} catch {}
+	} catch{}
 
 	const normalised = normalise(locale || defaultLocale);
 	cache.set(options.spawn, normalised);

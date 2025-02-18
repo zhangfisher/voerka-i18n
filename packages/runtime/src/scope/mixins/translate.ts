@@ -123,6 +123,10 @@ export class TranslateMixin {
             if(finalArgs.length===0) result as string
             // 进行插值处理
             result = this.interpolator.replace(result as string,...vars)
+            
+            if(typeof(this.options.translate)==='function'){
+                result = this.options.translate.call(this,{message:result,vars,options})
+            }
         }catch(e:any){
             this.logger.error(`翻译失败：${e.stack}`) 
         }  

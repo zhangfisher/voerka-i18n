@@ -119,16 +119,28 @@ export class ChangeLanguageMixin{
         }
     }
     /**
-     * 如果正在刷新语言包，则等待刷新完成
+     * 
+     * - 如果正在刷新语言包，则等待刷新完成
+     *  
+     * i18nScope.ready(callback,timeout)
+     *   
      * @param this 
      * @returns 
      */
-    async ready(this:VoerkaI18nScope,timeout?:number){
-        if(!this._refreshSignal && !this._patching) return        
-        await Promise.all([this._refreshSignal?.(timeout), this._patching?.(timeout)])
+    ready(this:VoerkaI18nScope,callback:(activeLanguage:string)=>void,timeout?:number):void{  
+        this.manager.ready(callback,timeout)      
+    }
+    /**
+     * await changing()
+     * 
+     * @param this 
+     * @param timeout 
+     * @returns 
+     */
+    async changing(this:VoerkaI18nScope,timeout?:number){
+        if(!this._refreshSignal && !this._patching) {
+            return        
+        }
+        await Promise.all([this._refreshSignal?.(timeout), this._patching?.(timeout)]) 
     }
 }
-
-
-
- 

@@ -3,15 +3,23 @@
         "en-US": "Home",
         "ja-JP": "ホーム",
         "$files": [
-            "src\\App.tsx(9:26-9:30)"
+            "src/App.tsx(T10:26-T10:30)"
         ],
         "$id": 74
+    },
+    "特性": {
+        "en-US": "Features",
+        "ja-JP": "特徴",
+        "$files": [
+            "src/App.tsx(T11:29-T11:33)"
+        ],
+        "$id": 222
     },
     "任务": {
         "en-US": "Tasks",
         "ja-JP": "タスク",
         "$files": [
-            "src\\App.tsx(10:25-10:29)"
+            "src/App.tsx(T12:25-T12:29)"
         ],
         "$id": 75
     },
@@ -19,7 +27,7 @@
         "en-US": "Open Source Projects",
         "ja-JP": "オープンソースプロジェクト",
         "$files": [
-            "src\\App.tsx(11:26-11:32)"
+            "src/App.tsx(T13:26-T13:32)"
         ],
         "$id": 76
     },
@@ -27,7 +35,7 @@
         "en-US": "Heartfelt Open Source, Exquisite Production",
         "ja-JP": "心を込めてオープンソース化し、精良に制作",
         "$files": [
-            "src\\components\\Footer.tsx(6:73-6:84)"
+            "src/components/Footer.tsx(T7:39-T7:50)"
         ],
         "$id": 78
     },
@@ -35,7 +43,7 @@
         "en-US": "About",
         "ja-JP": "概要",
         "$files": [
-            "src\\components\\Footer.tsx(9:115-9:119)"
+            "src/components/Footer.tsx(T12:47-T12:51)"
         ],
         "$id": 79
     },
@@ -43,7 +51,7 @@
         "en-US": "Contact Us",
         "ja-JP": "お問い合わせ",
         "$files": [
-            "src\\components\\Footer.tsx(12:115-12:121)"
+            "src/components/Footer.tsx(T17:47-T17:53)"
         ],
         "$id": 80
     },
@@ -51,7 +59,7 @@
         "en-US": "FAQ",
         "ja-JP": "よくある質問",
         "$files": [
-            "src\\components\\Footer.tsx(15:115-15:121)"
+            "src/components/Footer.tsx(T22:47-T22:53)"
         ],
         "$id": 81
     },
@@ -59,7 +67,7 @@
         "en-US": "Open Source Recommendations",
         "ja-JP": "オープンソース推薦",
         "$files": [
-            "src\\components\\Footer.tsx(18:114-18:120)"
+            "src/components/Footer.tsx(T27:47-T27:53)"
         ],
         "$id": 82
     },
@@ -67,31 +75,68 @@
         "en-US": "All rights reserved © 2021-2022",
         "ja-JP": "すべての権利予約 © 2021-2022",
         "$files": [
-            "src\\components\\Footer.tsx(22:23-22:41)"
+            "src/components/Footer.tsx(T32:39-T32:57)"
         ],
         "$id": 83
     },
-    "VoerkaI18n": {
-        "en-US": "VoerkaI18n",
-        "ja-JP": "VoerkaI18n",
+    "翻译组件": {
+        "en-US": "Translation Component",
+        "ja-JP": "翻訳コンポーネント",
         "$files": [
-            "src\\components\\Navbar.tsx(48:17-48:29)"
+            "src/features/index.tsx(T8:14-T8:20)",
+            "src/features/Trans.tsx(T12:35-T12:41)"
         ],
-        "$id": 84
+        "$id": 223
     },
-    "item.title": {
-        "en-US": "item.title",
-        "ja-JP": "item.title",
+    "语言补丁": {
+        "en-US": "Language patches",
+        "ja-JP": "言語パッチ",
         "$files": [
-            "src\\components\\Navbar.tsx(65:23-65:33)"
+            "src/features/index.tsx(T9:14-T9:20)",
+            "src/features/Patch.tsx(T4:26-T4:32)",
+            "src/home/Features.tsx(T25:12-T25:18)"
         ],
-        "$id": 85
+        "$id": 94
+    },
+    "输出:": {
+        "en-US": "Output:",
+        "ja-JP": "出力:",
+        "$files": [
+            "src/features/Trans.tsx(T18:56-T18:61)",
+            "src/features/Trans.tsx(T33:56-T33:61)",
+            "src/features/Trans.tsx(T50:56-T50:61)"
+        ],
+        "$id": 224
+    },
+    "异步翻译组件": {
+        "en-US": "Async Translation Component",
+        "ja-JP": "非同期翻訳コンポーネント",
+        "$files": [
+            "src/features/Trans.tsx(T27:35-T27:43)"
+        ],
+        "$id": 225
+    },
+    "异步翻译组件-加载出错": {
+        "en-US": "Async Translation Component - Load Error",
+        "ja-JP": "非同期翻訳コンポーネント-読み込みエラー",
+        "$files": [
+            "src/features/Trans.tsx(T42:35-T42:48)"
+        ],
+        "$id": 226
+    },
+    "加载中...": {
+        "en-US": "Loading...",
+        "ja-JP": "読み込み中...",
+        "$files": [
+            "src/features/Trans.tsx(T54:50-T54:58)"
+        ],
+        "$id": 227
     },
     "适用任意场景": {
         "en-US": "Suitable for Any Scenario",
         "ja-JP": "あらゆるシーンに適用可能",
         "$files": [
-            "src\\home\\Features.tsx(5:12-5:20)"
+            "src/home/Features.tsx(T5:12-T5:20)"
         ],
         "$id": 86
     },
@@ -99,7 +144,7 @@
         "en-US": "Comprehensive support for React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/... and any other ts/js scenarios",
         "ja-JP": "React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...など、すべてのts/jsシーンを全面的にサポート",
         "$files": [
-            "src\\home\\Features.tsx(7:8-7:72)"
+            "src/home/Features.tsx(T6:19-T6:83)"
         ],
         "$id": 87
     },
@@ -107,7 +152,7 @@
         "en-US": "Full Process Toolchain",
         "ja-JP": "全プロセスのツールチェーン",
         "$files": [
-            "src\\home\\Features.tsx(11:12-11:20)"
+            "src/home/Features.tsx(T10:12-T10:20)"
         ],
         "$id": 88
     },
@@ -115,7 +160,7 @@
         "en-US": "Covers the entire internationalization process including language extraction, compilation, automatic translation, plugin integration, providing engineering support for large-scale applications",
         "ja-JP": "言語抽出、コンパイル、自動翻訳、プラグイン統合などの国際化全プロセスをカバーし、大規模アプリケーションに工学的サポートを提供",
         "$files": [
-            "src\\home\\Features.tsx(13:8-13:52)"
+            "src/home/Features.tsx(T11:19-T11:63)"
         ],
         "$id": 89
     },
@@ -123,7 +168,7 @@
         "en-US": "Automatic Translation",
         "ja-JP": "自動翻訳",
         "$files": [
-            "src\\home\\Features.tsx(17:12-17:18)"
+            "src/home/Features.tsx(T15:12-T15:18)"
         ],
         "$id": 90
     },
@@ -131,7 +176,7 @@
         "en-US": "Supports online translation services and AI model-based translation tools to achieve automated translation",
         "ja-JP": "オンライン翻訳サービスやAI大規模モデルに基づく翻訳ツールをサポートし、自動翻訳が可能です",
         "$files": [
-            "src\\home\\Features.tsx(19:8-19:41)"
+            "src/home/Features.tsx(T16:19-T16:52)"
         ],
         "$id": 91
     },
@@ -139,7 +184,7 @@
         "en-US": "Multi-library linkage",
         "ja-JP": "多庫連携",
         "$files": [
-            "src\\home\\Features.tsx(23:12-23:18)"
+            "src/home/Features.tsx(T20:12-T20:18)"
         ],
         "$id": 92
     },
@@ -147,23 +192,15 @@
         "en-US": "Supports internationalization linkage of multiple external libraries in large applications, suitable for enterprise applications and third-party library development",
         "ja-JP": "大規模アプリケーションにおける複数の外部ライブラリの国際化連携をサポート、企業アプリケーションやサードパーティライブラリの開発に最適",
         "$files": [
-            "src\\home\\Features.tsx(24:19-24:53)"
+            "src/home/Features.tsx(T21:19-T21:53)"
         ],
         "$id": 93
-    },
-    "语言补丁": {
-        "en-US": "Language patches",
-        "ja-JP": "言語パッチ",
-        "$files": [
-            "src\\home\\Features.tsx(28:12-28:18)"
-        ],
-        "$id": 94
     },
     "应用发布后，可以通过语言补丁方式在线修复翻译错误，极致实用性": {
         "en-US": "After application release, translation errors can be fixed online via language patches, offering ultimate practicality",
         "ja-JP": "アプリケーションのリリース後、翻訳エラーをオンラインで修正するための言語パッチ方式を採用、極めて実用的",
         "$files": [
-            "src\\home\\Features.tsx(29:19-29:51)"
+            "src/home/Features.tsx(T26:19-T26:51)"
         ],
         "$id": 95
     },
@@ -171,7 +208,7 @@
         "en-US": "Test coverage",
         "ja-JP": "テストカバレッジ",
         "$files": [
-            "src\\home\\Features.tsx(33:12-33:19)"
+            "src/home/Features.tsx(T30:12-T30:19)"
         ],
         "$id": 96
     },
@@ -179,7 +216,7 @@
         "en-US": "Core runtime `@voerkai18n/runtime` has over 90% test coverage, ensuring quality",
         "ja-JP": "コアランタイム`@voerkai18n/runtime`は90%以上のテストカバレッジを達成し、品質を保証",
         "$files": [
-            "src\\home\\Features.tsx(35:8-35:52)"
+            "src/home/Features.tsx(T31:19-T31:63)"
         ],
         "$id": 97
     },
@@ -187,7 +224,7 @@
         "en-US": "Supports React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
         "ja-JP": "React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....をサポート",
         "$files": [
-            "src\\home\\Hero.tsx(20:14-20:71)"
+            "src/home/Hero.tsx(T20:29-T20:86)"
         ],
         "$id": 98
     },
@@ -195,7 +232,7 @@
         "en-US": "Visit the official website",
         "ja-JP": "公式サイトにアクセス",
         "$files": [
-            "src\\home\\Hero.tsx(23:17-23:23)"
+            "src/home/Hero.tsx(T23:33-T23:39)"
         ],
         "$id": 99
     },
@@ -203,8 +240,8 @@
         "en-US": "Full-process internationalization solution",
         "ja-JP": "フルプロセスの国際化ソリューション",
         "$files": [
-            "src\\home\\Hero.tsx(32:13-32:25)",
-            "src\\repos\\index.tsx(9:19-9:31)"
+            "src/home/Hero.tsx(T33:29-T33:41)",
+            "src/repos/index.tsx(T9:19-T9:31)"
         ],
         "$id": 100
     },
@@ -212,7 +249,7 @@
         "en-US": "Quick Start",
         "ja-JP": "クイックスタート",
         "$files": [
-            "src\\home\\Hero.tsx(36:17-36:23)"
+            "src/home/Hero.tsx(T37:33-T37:39)"
         ],
         "$id": 101
     },
@@ -220,7 +257,7 @@
         "en-US": "Learn More",
         "ja-JP": "さらに詳しく",
         "$files": [
-            "src\\home\\Hero.tsx(40:17-40:23)"
+            "src/home/Hero.tsx(T41:33-T41:39)"
         ],
         "$id": 102
     },
@@ -228,7 +265,7 @@
         "en-US": "Nodejs/Vue/React/ReactNative/UniApp/...",
         "ja-JP": "Nodejs/Vue/React/ReactNative/UniApp/...",
         "$files": [
-            "src\\repos\\index.tsx(12:13-12:54)"
+            "src/repos/index.tsx(T12:13-T12:54)"
         ],
         "$id": 103
     },
@@ -236,7 +273,7 @@
         "en-US": "A fully automatic state management library that supports asynchronous computation/signal components/form binding",
         "ja-JP": "非同期計算/シグナルコンポーネント/フォームバインディングをサポートする完全自動ステート管理ライブラリ",
         "$files": [
-            "src\\repos\\index.tsx(19:19-19:46)"
+            "src/repos/index.tsx(T19:19-T19:46)"
         ],
         "$id": 104
     },
@@ -244,7 +281,7 @@
         "en-US": "An efficient tree database storage management toolkit for Nodejs",
         "ja-JP": "Nodejs用の効率的なツリーデータベースストレージ管理ツールキット",
         "$files": [
-            "src\\repos\\index.tsx(29:19-29:42)"
+            "src/repos/index.tsx(T29:19-T29:42)"
         ],
         "$id": 105
     },
@@ -252,7 +289,7 @@
         "en-US": "A lightweight tree UI component designed for documentation websites like vitepress/dumi/docsify",
         "ja-JP": "vitepress/dumi/docsifyなどのドキュメントサイト専用の軽量ツリーUIコンポーネント",
         "$files": [
-            "src\\repos\\index.tsx(39:19-39:58)"
+            "src/repos/index.tsx(T39:19-T39:58)"
         ],
         "$id": 106
     },
@@ -260,7 +297,7 @@
         "en-US": "A lightweight React/CSS-IN-JS solution",
         "ja-JP": "軽量React/CSS-IN-JSソリューション",
         "$files": [
-            "src\\repos\\index.tsx(49:19-49:42)"
+            "src/repos/index.tsx(T49:19-T49:42)"
         ],
         "$id": 107
     },
@@ -268,7 +305,7 @@
         "en-US": "Finite state machine implementation",
         "ja-JP": "有限状態機械の実装",
         "$files": [
-            "src\\repos\\index.tsx(59:19-59:28)"
+            "src/repos/index.tsx(T59:19-T59:28)"
         ],
         "$id": 108
     },
@@ -276,7 +313,7 @@
         "en-US": "A practical utility function library",
         "ja-JP": "実用的なユーティリティ関数ライブラリ",
         "$files": [
-            "src\\repos\\index.tsx(69:19-69:29)"
+            "src/repos/index.tsx(T69:19-T69:29)"
         ],
         "$id": 109
     },
@@ -284,7 +321,7 @@
         "en-US": "A powerful string interpolation tool library",
         "ja-JP": "強力な文字列補間ツールキット",
         "$files": [
-            "src\\repos\\index.tsx(79:19-79:32)"
+            "src/repos/index.tsx(T79:19-T79:32)"
         ],
         "$id": 110
     },
@@ -292,7 +329,7 @@
         "en-US": "A toolkit to simplify decorator development",
         "ja-JP": "デコレータ開発を簡素化するツールキット",
         "$files": [
-            "src\\repos\\index.tsx(89:19-89:32)"
+            "src/repos/index.tsx(T89:19-T89:32)"
         ],
         "$id": 111
     },
@@ -300,7 +337,7 @@
         "en-US": "Logging utility library",
         "ja-JP": "ログツールキット",
         "$files": [
-            "src\\repos\\index.tsx(99:19-99:26)"
+            "src/repos/index.tsx(T99:19-T99:26)"
         ],
         "$id": 112
     },
@@ -308,7 +345,7 @@
         "en-US": "Vite plugin/inject styles from Vue components into JS files",
         "ja-JP": "Viteプラグイン/Vueコンポーネント内のスタイルをJSファイルに注入",
         "$files": [
-            "src\\repos\\index.tsx(109:19-109:46)"
+            "src/repos/index.tsx(T109:19-T109:46)"
         ],
         "$id": 113
     },
@@ -316,7 +353,7 @@
         "en-US": "Enhanced command-line development tools that automatically generate interactive prompts",
         "ja-JP": "拡張コマンドライン開発ツールで、インタラクティブなプロンプトを自動生成可能",
         "$files": [
-            "src\\repos\\index.tsx(119:19-119:41)"
+            "src/repos/index.tsx(T119:19-T119:41)"
         ],
         "$id": 114
     },
@@ -324,7 +361,7 @@
         "en-US": "Terminal output enhancement component",
         "ja-JP": "ターミナル出力を強化するコンポーネント",
         "$files": [
-            "src\\repos\\index.tsx(129:19-129:29)"
+            "src/repos/index.tsx(T129:19-T129:29)"
         ],
         "$id": 115
     },
@@ -332,7 +369,7 @@
         "en-US": "VSCODE plugin/support injecting comments into any JSON file",
         "ja-JP": "VSCODEプラグイン/任意のJSONファイルにコメントを注入可能",
         "$files": [
-            "src\\repos\\index.tsx(139:19-139:45)"
+            "src/repos/index.tsx(T139:19-T139:45)"
         ],
         "$id": 116
     },
@@ -340,7 +377,7 @@
         "en-US": "Asynchronous signal processing library",
         "ja-JP": "非同期信号処理ライブラリ",
         "$files": [
-            "src\\repos\\index.tsx(149:19-149:28)"
+            "src/repos/index.tsx(T149:19-T149:28)"
         ],
         "$id": 117
     },
@@ -348,7 +385,7 @@
         "en-US": "Prisma database interactive console",
         "ja-JP": "prismaデータベース対話型コンソール",
         "$files": [
-            "src\\repos\\index.tsx(159:19-159:36)"
+            "src/repos/index.tsx(T159:19-T159:36)"
         ],
         "$id": 118
     },
@@ -356,7 +393,7 @@
         "en-US": "A plugin for vite/webpack/esbuild/... that embeds files into source code in base64 format",
         "ja-JP": "ファイルをbase64形式でソースコードに埋め込むvite/webpack/esbuild/...プラグイン",
         "$files": [
-            "src\\repos\\index.tsx(169:19-169:66)"
+            "src/repos/index.tsx(T169:19-T169:66)"
         ],
         "$id": 119
     },
@@ -364,7 +401,7 @@
         "en-US": "Generate captcha images",
         "ja-JP": "captcha画像の生成",
         "$files": [
-            "src\\repos\\index.tsx(179:19-179:32)"
+            "src/repos/index.tsx(T179:19-T179:32)"
         ],
         "$id": 120
     },
@@ -372,7 +409,7 @@
         "en-US": "Language coding library compliant with simplified BCP47 specifications",
         "ja-JP": "簡略化されたBCP47規格に準拠した言語コードライブラリ",
         "$files": [
-            "src\\repos\\index.tsx(189:19-189:38)"
+            "src/repos/index.tsx(T189:19-T189:38)"
         ],
         "$id": 121
     },
@@ -380,7 +417,7 @@
         "en-US": "More open-source projects...",
         "ja-JP": "その他のオープンソースプロジェクト...",
         "$files": [
-            "src\\repos\\index.tsx(269:15-269:26)"
+            "src/repos/index.tsx(T269:31-T269:42)"
         ],
         "$id": 122
     },
@@ -388,7 +425,7 @@
         "en-US": "Complete project report",
         "ja-JP": "プロジェクトレポートの完了",
         "$files": [
-            "src\\task\\index.tsx(6:17-6:25)"
+            "src/task/index.tsx(T6:17-T6:25)"
         ],
         "$id": 123
     },
@@ -396,7 +433,7 @@
         "en-US": "Organize the progress of this quarter's projects, prepare PPT, and send it to the project manager for review by Friday.",
         "ja-JP": "今四半期のプロジェクト進捗を整理し、PPTを準備し、金曜日までにプロジェクトマネージャーに送付してレビューしてもらう。",
         "$files": [
-            "src\\task\\index.tsx(7:23-7:58)"
+            "src/task/index.tsx(T7:23-T7:58)"
         ],
         "$id": 124
     },
@@ -404,7 +441,7 @@
         "en-US": "Prepare presentation slides for the weekly meeting",
         "ja-JP": "週会プレゼンテーションの準備",
         "$files": [
-            "src\\task\\index.tsx(14:17-14:27)"
+            "src/task/index.tsx(T14:17-T14:27)"
         ],
         "$id": 125
     },
@@ -412,7 +449,7 @@
         "en-US": "Summarize the team's work content for this week, create a briefing, and highlight the completion of project milestones.",
         "ja-JP": "チームの今週の作業内容を集約し、簡報を作成し、プロジェクトのマイルストーン達成状況を強調する。",
         "$files": [
-            "src\\task\\index.tsx(15:23-15:56)"
+            "src/task/index.tsx(T15:23-T15:56)"
         ],
         "$id": 126
     },
@@ -420,7 +457,7 @@
         "en-US": "Arrange team building activities",
         "ja-JP": "チームビルディング活動の手配",
         "$files": [
-            "src\\task\\index.tsx(22:17-22:27)"
+            "src/task/index.tsx(T22:17-T22:27)"
         ],
         "$id": 127
     },
@@ -428,7 +465,7 @@
         "en-US": "Contact event planning companies, discuss team building plans, keep the budget within 500 yuan per person, and set the time for the first weekend of next month.",
         "ja-JP": "イベント企画会社に連絡を取り、団体建設プランを検討し、予算を1人当たり500元以内に抑え、時期を来月の第一週末に設定する。",
         "$files": [
-            "src\\task\\index.tsx(23:23-23:68)"
+            "src/task/index.tsx(T23:23-T23:68)"
         ],
         "$id": 128
     },
@@ -436,7 +473,7 @@
         "en-US": "Update personal resume",
         "ja-JP": "履歴書を更新する",
         "$files": [
-            "src\\task\\index.tsx(30:17-30:25)"
+            "src/task/index.tsx(T30:17-T30:25)"
         ],
         "$id": 129
     },
@@ -444,7 +481,7 @@
         "en-US": "Add recently completed project experience, update the skills list, and redesign the resume layout to make it more attractive.",
         "ja-JP": "最近完了したプロジェクトの経験を追加し、スキルリストを更新し、履歴書のレイアウトを再設計してより魅力的にする。",
         "$files": [
-            "src\\task\\index.tsx(31:23-31:60)"
+            "src/task/index.tsx(T31:23-T31:60)"
         ],
         "$id": 130
     },
@@ -452,7 +489,7 @@
         "en-US": "Learn a new programming language",
         "ja-JP": "新しいプログラミング言語を学ぶ",
         "$files": [
-            "src\\task\\index.tsx(38:17-38:27)"
+            "src/task/index.tsx(T38:17-T38:27)"
         ],
         "$id": 131
     },
@@ -460,7 +497,7 @@
         "en-US": "Start learning Python, complete the Python introductory course on Codecademy, and code at least 1 hour every day.",
         "ja-JP": "Pythonの学習を開始し、CodecademyのPython入門コースを完了し、毎日少なくとも1時間コーディングする。",
         "$files": [
-            "src\\task\\index.tsx(39:23-39:71)"
+            "src/task/index.tsx(T39:23-T39:71)"
         ],
         "$id": 132
     },
@@ -468,7 +505,7 @@
         "en-US": "My tasks",
         "ja-JP": "私のタスク",
         "$files": [
-            "src\\task\\index.tsx(51:19-51:25)"
+            "src/task/index.tsx(T52:31-T52:37)"
         ],
         "$id": 133
     },
@@ -476,7 +513,7 @@
         "en-US": "New",
         "ja-JP": "新規作成",
         "$files": [
-            "src\\task\\index.tsx(55:39-55:43)"
+            "src/task/index.tsx(T60:33-T60:37)"
         ],
         "$id": 134
     },
@@ -484,7 +521,7 @@
         "en-US": "All",
         "ja-JP": "すべて",
         "$files": [
-            "src\\task\\index.tsx(65:43-65:47)"
+            "src/task/index.tsx(T74:35-T74:39)"
         ],
         "$id": 135
     },
@@ -492,7 +529,7 @@
         "en-US": "Incomplete",
         "ja-JP": "未完了",
         "$files": [
-            "src\\task\\index.tsx(70:41-70:46)"
+            "src/task/index.tsx(T84:35-T84:40)"
         ],
         "$id": 136
     },
@@ -500,23 +537,23 @@
         "en-US": "Completed",
         "ja-JP": "完了済み",
         "$files": [
-            "src\\task\\index.tsx(75:41-75:46)"
+            "src/task/index.tsx(T93:35-T93:40)"
         ],
         "$id": 137
     },
-    "已过期": {
-        "en-US": "Expired",
-        "ja-JP": "期限切れ",
+    "已删除": {
+        "en-US": "Deleted",
+        "ja-JP": "削除済み",
         "$files": [
-            "src\\task\\index.tsx(80:37-80:42)"
+            "src/task/index.tsx(T102:35-T102:40)"
         ],
-        "$id": 138
+        "$id": 228
     },
     "标题": {
         "en-US": "Title",
         "ja-JP": "タイトル",
         "$files": [
-            "src\\task\\index.tsx(94:35-94:39)"
+            "src/task/index.tsx(T113:74-T113:78)"
         ],
         "$id": 139
     },
@@ -524,7 +561,7 @@
         "en-US": "Description",
         "ja-JP": "説明",
         "$files": [
-            "src\\task\\index.tsx(97:35-97:39)"
+            "src/task/index.tsx(T114:74-T114:78)"
         ],
         "$id": 140
     },
@@ -532,7 +569,7 @@
         "en-US": "Created at",
         "ja-JP": "作成日",
         "$files": [
-            "src\\task\\index.tsx(100:35-100:40)"
+            "src/task/index.tsx(T115:74-T115:79)"
         ],
         "$id": 141
     },
@@ -540,7 +577,7 @@
         "en-US": "Completed",
         "ja-JP": "完了",
         "$files": [
-            "src\\task\\index.tsx(103:35-103:39)"
+            "src/task/index.tsx(T116:74-T116:78)"
         ],
         "$id": 142
     },
@@ -548,7 +585,7 @@
         "en-US": "Action",
         "ja-JP": "アクション",
         "$files": [
-            "src\\task\\index.tsx(106:35-106:39)"
+            "src/task/index.tsx(T117:74-T117:78)"
         ],
         "$id": 143
     },
@@ -556,9 +593,16 @@
         "en-US": "Edit",
         "ja-JP": "編集",
         "$files": [
-            "src\\task\\index.tsx(134:68-134:72)",
-            "src\\task\\index.tsx(137:67-137:71)"
+            "src/task/index.tsx(T150:33-T150:37)"
         ],
         "$id": 144
+    },
+    "删除": {
+        "en-US": "Delete",
+        "ja-JP": "削除",
+        "$files": [
+            "src/task/index.tsx(T157:33-T157:37)"
+        ],
+        "$id": 229
     }
 }

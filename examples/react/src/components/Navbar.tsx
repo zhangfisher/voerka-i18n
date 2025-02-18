@@ -18,7 +18,7 @@ type NavBarProps = {
 
 
 function Languages(){ 
-  const [activeIndex,setActiveIndex] = useState(0)
+  const [activeIndex,setActiveIndex] = useState(()=>i18nScope.languages.findIndex((l)=>l.name === i18nScope.activeLanguage))
   const onClick = useCallback((lang:any)=>{    
     const index = i18nScope.languages.findIndex((l)=>l.name === lang.name)
     if(index !== -1){

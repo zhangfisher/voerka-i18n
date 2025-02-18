@@ -51,34 +51,22 @@ export interface VoerkaI18nScopeOptions {
     loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包 
     cachePatch?    : boolean                                                 // 是否缓存补丁语言包    
     namespaces?    : Record<string,string>                                   // 命名空间
-    patterns?      : string[]                                                  // 源文件匹配清单，使用fast-glob匹配文件
+    patterns?      : string[]                                                // 源文件匹配清单，使用fast-glob匹配文件
     /**
      * 
-     * 自定义翻译函数，可以用来返回自定义的翻译结果，比如可以返回一个React组件
-     *  scope = new VoerkaI18nScope({
-     *    component:({message,args,options})=>{
-     *        const [result,setResult] = useState('')  
-    *         useEffect(()=>{
-    *              const listener = this.on('change',()=>{
-    *                setResult(this.t(message,args,options))
-    *              })
-    *              return ()=>listener.off()
-    *         },[])
-    *        return <span>{result}</span> 
-     *    })
-     *  })
-     * 
-     * { t('hello {}',{name:'world'},{}) }  =>  <span>hello,world</span>    
+     * 自定义翻译组件
      * 
      */
     component? : ( props: {
             message : string | ((language:string)=>any), 
-            args?   : VoerkaI18nTranslateVars, 
+            vars?   : VoerkaI18nTranslateVars, 
             options?: VoerkaI18nTranslateOptions 
-        }) => any                      
-
-    
-    
+        }) => any            
+    translate? : ( props: {
+            message  : string, 
+            vars?    : VoerkaI18nTranslateVars, 
+            options? : VoerkaI18nTranslateOptions 
+        }) => any    
 } 
 
 export class VoerkaI18nScope extends Mixin(
@@ -237,11 +225,16 @@ export class VoerkaI18nScope extends Mixin(
     private _initRefresh(getInitLanguage?:()=>string){
         if(this.library){
             this.refresh(getInitLanguage && getInitLanguage())
-        }else{ // app            
+        }else{ // app
+            this._applyLangAttrToHTML()    
+            const tasks:any[]=[]
             if(this._defaultLanguage !== this._activeLanguage || isFunction(this.activeMessages)){
-                this.refresh(undefined,{patch:false})
+                tasks.push(this.refresh(undefined,{ patch:false }))                
             }    
-            this.patch()
+            tasks.push(this.patch())
+            Promise.all(tasks).then(()=>{
+                this.emit('ready',this.activeLanguage,true)
+            })
         }        
     }
 
@@ -273,12 +266,14 @@ export class VoerkaI18nScope extends Mixin(
         }
     }
 	async change(language:string) {
+        let finalLang:string = this.activeLanguage
         if(this.attached){
-            return await this._manager.change(language)
+            finalLang = await this._manager.change(language)
         }else{
-            await this.refresh(language)
+            finalLang = await this.refresh(language)
         }   
         this._applyLangAttrToHTML()     
+        return finalLang 
     }  
     /**
      * 检查当前环境是是否是在浏览器环境中，如果是，则在body上添加language=<activeLanguage>属性
@@ -287,7 +282,7 @@ export class VoerkaI18nScope extends Mixin(
         if(this.library) return
         if(!isBrowser()) return
         try{
-            document.documentElement.setAttribute("language",this.activeLanguage)
+            document.body.setAttribute("language",this.activeLanguage)
         }catch{}
     }
 }

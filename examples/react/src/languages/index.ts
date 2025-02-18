@@ -6,8 +6,6 @@ import settings from "./settings.json"
 import defaultMessages from "./zh-CN"  
 import "@voerkai18n/react"
 
- 
-
 const messages = { 
     'zh-CN'    : defaultMessages,
     'en-US'    : ()=>import("./en-US"),
@@ -23,7 +21,6 @@ export const i18nScope = new VoerkaI18nScope({
     messages,                                           // 语言包 
     ...settings
 }) 
-
 
 export const t = i18nScope.t
 export const Translate = i18nScope.Translate

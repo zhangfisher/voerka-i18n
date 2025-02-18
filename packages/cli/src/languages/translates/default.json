@@ -1,298 +1,315 @@
 {
+    "翻译文本没有id: {}": {
+        "en-US": "Translation text has no id: {}",
+        "es-ES": "El texto de traducción no tiene id: {}",
+        "ar-EG": "النص المترجم لا يحتوي على معرف: {}",
+        "pt-PT": "Texto de tradução sem id: {}",
+        "ru-RU": "Текст для перевода без id: {}",
+        "ja-JP": "翻訳テキストにidがありません: {}",
+        "de-DE": "Übersetzungsdatei hat keine ID: {}",
+        "fr-FR": "Le texte de traduction n'a pas d'id : {}",
+        "ko-KR": "번역 텍스트에 id가 없습니다: {}",
+        "it-IT": "Il testo da tradurre non ha id: {}",
+        "nl-NL": "Geen id voor de te vertalen tekst: {}",
+        "$files": [
+            "src/commands/compile/compile.js(S20:30-S20:44)"
+        ],
+        "$id": 100
+    },
     "开始编译语言包: {}": {
         "en-US": "Start compiling language pack: {}",
         "es-ES": "Comenzar a compilar el paquete de idioma: {}",
         "ar-EG": "بدء تجميع حزمة اللغة: {}",
-        "pt-PT": "Iniciar a compilação do pacote de idiomas: {}",
-        "ru-RU": "Начало компиляции языкового пакета: {}",
-        "ja-JP": "言語パッケージのコンパイルを開始: {}",
-        "de-DE": "Beginne die Erstellung des Sprachpakets: {}",
-        "fr-FR": "Commencer la compilation du package de langues : {}",
+        "pt-PT": "Iniciar compilação do pacote de idiomas: {}",
+        "ru-RU": "Начинается компиляция языкового пакета: {}",
+        "ja-JP": "言語パッケージのコンパイルを開始します: {}",
+        "de-DE": "Beginne mit der Kompilierung des Sprachpakets: {}",
+        "fr-FR": "Démarrer la compilation du package linguistique : {}",
         "ko-KR": "언어 패키지 컴파일 시작: {}",
-        "it-IT": "Inizio la compilazione del pacchetto di lingua: {}",
-        "nl-NL": "Start taalpakket compileren: {}",
+        "it-IT": "Inizio della compilazione del pacchetto linguistico: {}",
+        "nl-NL": "Start met compileren van taalpakket: {}",
         "$files": [
-            "src\\commands\\compile\\compile.js(75:21-75:34)"
+            "src/commands/compile/compile.js(S75:21-S75:34)"
         ],
-        "$id": 80
+        "$id": 101
     },
     "编译: {}": {
-        "en-US": "编译: {}",
-        "es-ES": "编译: {}",
-        "ar-EG": "编译: {}",
-        "pt-PT": "编译: {}",
-        "ru-RU": "编译: {}",
-        "ja-JP": "编译: {}",
-        "de-DE": "编译: {}",
-        "fr-FR": "编译: {}",
-        "ko-KR": "编译: {}",
-        "it-IT": "编译: {}",
-        "nl-NL": "编译: {}",
+        "en-US": "Compile: {}",
+        "es-ES": "Compilando: {}",
+        "ar-EG": "تجميع: {}",
+        "pt-PT": "Compilar: {}",
+        "ru-RU": "Компиляция: {}",
+        "ja-JP": "コンパイル: {}",
+        "de-DE": "Kompilieren: {}",
+        "fr-FR": "Compilation : {}",
+        "ko-KR": "컴파일: {}",
+        "it-IT": "Compilazione: {}",
+        "nl-NL": "Compileren: {}",
         "$files": [
-            "src\\commands\\compile\\compile.js(86:25-86:33)"
+            "src/commands/compile/compile.js(S86:25-S86:33)"
         ],
-        "$id": 238
+        "$id": 102
     },
     "生成IDMap文件: {}": {
         "en-US": "Generate IDMap file: {}",
         "es-ES": "Generar archivo IDMap: {}",
         "ar-EG": "إنشاء ملف IDMap: {}",
-        "pt-PT": "Gerar ficheiro IDMap: {}",
-        "ru-RU": "Создать IDMap файл: {}",
-        "ja-JP": "IDMapファイルを生成: {}",
-        "de-DE": "IDMap-Datei generieren: {}",
+        "pt-PT": "Gerar arquivo IDMap: {}",
+        "ru-RU": "Генерация файла IDMap: {}",
+        "ja-JP": "IDMapファイルを生成しています: {}",
+        "de-DE": "Generiere IDMap-Datei: {}",
         "fr-FR": "Générer le fichier IDMap : {}",
         "ko-KR": "IDMap 파일 생성: {}",
-        "it-IT": "Genera file IDMap: {}",
-        "nl-NL": "Genereer IDMap-bestand: {}",
+        "it-IT": "Generazione del file IDMap: {}",
+        "nl-NL": "IDMap-bestand genereren: {}",
         "$files": [
-            "src\\commands\\compile\\compile.js(94:21-94:36)"
+            "src/commands/compile/compile.js(S94:21-S94:36)"
         ],
-        "$id": 241
-    },
-    "翻译文本没有id: {}": {
-        "en-US": "Translated text without id: {}",
-        "es-ES": "El texto traducido no tiene id: {}",
-        "ar-EG": "النص المترجم لا يحتوي على معرف: {}",
-        "pt-PT": "Texto de tradução sem id: {}",
-        "ru-RU": "Текст перевода без id: {}",
-        "ja-JP": "idのない翻訳テキスト: {}",
-        "de-DE": "Übersetzter Text ohne ID: {}",
-        "fr-FR": "Le texte traduit n'a pas d'id : {}",
-        "ko-KR": "id가 없는 번역 텍스트: {}",
-        "it-IT": "Testo tradotto senza id: {}",
-        "nl-NL": "Vertaaltekst zonder id: {}",
-        "$files": [
-            "src\\commands\\compile\\compile.js(20:30-20:44)"
-        ],
-        "$id": 242
+        "$id": 103
     },
     "编译语言包": {
-        "en-US": "Compiling language pack",
+        "en-US": "Compile language pack",
         "es-ES": "Compilar paquete de idioma",
         "ar-EG": "تجميع حزمة اللغة",
         "pt-PT": "Compilar pacote de idiomas",
         "ru-RU": "Компиляция языкового пакета",
-        "ja-JP": "言語パッケージのコンパイル",
-        "de-DE": "Erstelle Sprachpaket",
-        "fr-FR": "Compilation du package de langues",
+        "ja-JP": "言語パッケージをコンパイル",
+        "de-DE": "Sprachpaket kompilieren",
+        "fr-FR": "Compiler le package linguistique",
         "ko-KR": "언어 패키지 컴파일",
-        "it-IT": "Compilazione del pacchetto di lingua",
+        "it-IT": "Compilazione del pacchetto linguistico",
         "nl-NL": "Taalpakket compileren",
         "$files": [
-            "src\\commands\\compile\\index.js(13:23-13:30)"
+            "src/commands/compile/index.js(S13:23-S13:30)"
         ],
-        "$id": 81
+        "$id": 104
     },
     "启用typescript": {
         "en-US": "Enable typescript",
         "es-ES": "Habilitar typescript",
         "ar-EG": "تمكين typescript",
         "pt-PT": "Ativar typescript",
-        "ru-RU": "Активация typescript",
-        "ja-JP": "TypeScriptの有効化",
-        "de-DE": "Aktiviere typescript",
-        "fr-FR": "Activer typescript",
-        "ko-KR": "타입스크립트 활성화",
-        "it-IT": "Abilita typescript",
-        "nl-NL": "Typescript inschakelen",
+        "ru-RU": "Включение typescript",
+        "ja-JP": "TypeScriptを有効化",
+        "de-DE": "TypeScript aktivieren",
+        "fr-FR": "Activer TypeScript",
+        "ko-KR": "typescript 활성화",
+        "it-IT": "Abilitazione di typescript",
+        "nl-NL": "TypeScript inschakelen",
         "$files": [
-            "src\\commands\\compile\\index.js(15:38-15:52)"
+            "src/commands/compile/index.js(S15:38-S15:52)"
         ],
-        "$id": 82
+        "$id": 105
     },
     "模块类型,取值:cjs,esm": {
         "en-US": "Module type, values: cjs, esm",
-        "es-ES": "Tipo de módulo, valores:cjs,esm",
-        "ar-EG": "نوع الوحدة, القيم: cjs,esm",
-        "pt-PT": "Tipo de módulo, valores:cjs,esm",
-        "ru-RU": "Тип модуля, значения: cjs, esm",
-        "ja-JP": "モジュールタイプ、値:cjs,esm",
-        "de-DE": "Modultyp, Werte:cjs,esm",
+        "es-ES": "Tipo de módulo, valores posibles: cjs, esm",
+        "ar-EG": "نوع الوحدة، القيم الممكنة: cjs, esm",
+        "pt-PT": "Tipo de módulo, valores possíveis: cjs, esm",
+        "ru-RU": "Тип модуля, возможные значения: cjs, esm",
+        "ja-JP": "モジュールタイプ, 値: cjs, esm",
+        "de-DE": "Modultyp, mögliche Werte: cjs, esm",
         "fr-FR": "Type de module, valeurs possibles : cjs, esm",
-        "ko-KR": "모듈 유형, 값:cjs,esm",
+        "ko-KR": "모듈 유형, 값: cjs, esm",
         "it-IT": "Tipo di modulo, valori possibili: cjs, esm",
-        "nl-NL": "Module type, waarden:cjs,esm",
+        "nl-NL": "Moduletype, mogelijke waarden: cjs, esm",
         "$files": [
-            "src\\commands\\compile\\index.js(16:51-16:68)"
+            "src/commands/compile/index.js(S16:51-S16:68)"
         ],
-        "$id": 83
+        "$id": 106
     },
     "发现重复的文本id: {}": {
         "en-US": "Duplicate text id found: {}",
-        "es-ES": "Se ha encontrado un ID de texto duplicado: {}",
-        "ar-EG": "تم اكتشاف معرف نص متكرر: {}",
-        "pt-PT": "Texto id duplicado encontrado: {}",
-        "ru-RU": "Обнаружены дублирующиеся текстовые идентификаторы: {}",
-        "ja-JP": "重複するテキストIDが見つかりました: {}",
-        "de-DE": "Doppelte Text-IDs gefunden: {}",
-        "fr-FR": "Texte avec ID en double trouvé : {}",
-        "ko-KR": "중복 텍스트 ID 발견: {}",
+        "es-ES": "Se ha encontrado un id de texto duplicado: {}",
+        "ar-EG": "اكتشاف معرف نصي مكرر: {}",
+        "pt-PT": "Encontrado id de texto duplicado: {}",
+        "ru-RU": "Обнаружен повторяющийся текстовый id: {}",
+        "ja-JP": "重複したテキストidを発見しました: {}",
+        "de-DE": "Doppelte Text-ID gefunden: {}",
+        "fr-FR": "ID de texte en double détecté : {}",
+        "ko-KR": "중복된 텍스트 id 발견: {}",
         "it-IT": "Trovato un ID di testo duplicato: {}",
-        "nl-NL": "Dubbele tekst-id's gevonden: {}",
+        "nl-NL": "Dubbele tekst-id gevonden: {}",
         "$files": [
-            "src\\commands\\extract\\extractor.js(33:41-33:56)"
+            "src/commands/extract/extractor.js(S33:41-S33:56)"
         ],
-        "$id": 84
+        "$id": 107
     },
     "提取参数：": {
         "en-US": "Extract parameters:",
         "es-ES": "Extraer parámetros:",
-        "ar-EG": "استخراج المعلمات:",
+        "ar-EG": "استخراج المعاملات:",
         "pt-PT": "Extrair parâmetros:",
         "ru-RU": "Извлечение параметров:",
-        "ja-JP": "パラメータの抽出：",
-        "de-DE": "Extrahiere Parameter:",
+        "ja-JP": "パラメーターの抽出：",
+        "de-DE": "Parameter extrahieren:",
         "fr-FR": "Extraire les paramètres :",
         "ko-KR": "매개변수 추출:",
-        "it-IT": "Estrai parametri:",
+        "it-IT": "Estrazione dei parametri:",
         "nl-NL": "Parameters extraheren:",
         "$files": [
-            "src\\commands\\extract\\extractor.js(71:21-71:28)"
+            "src/commands/extract/extractor.js(S71:21-S71:28)"
         ],
-        "$id": 85
+        "$id": 108
     },
-    " 更新模式: {}": {
-        "en-US": " Update mode: {}",
-        "es-ES": " Modo de actualización: {}",
+    "更新模式: {}": {
+        "en-US": "Update mode: {}",
+        "es-ES": "Modo de actualización: {}",
         "ar-EG": "وضع التحديث: {}",
-        "pt-PT": " Modo de atualização: {}",
-        "ru-RU": " Режим обновления: {}",
-        "ja-JP": " 更新モード: {}",
-        "de-DE": " Aktualisierungsmodus: {}",
-        "fr-FR": " Mode de mise à jour : {}",
-        "ko-KR": " 업데이트 모드: {}",
-        "it-IT": " Modalità di aggiornamento: {}",
-        "nl-NL": " Update modus: {}",
+        "pt-PT": "Modo de atualização: {}",
+        "ru-RU": "Режим обновления: {}",
+        "ja-JP": "更新モード: {}",
+        "de-DE": "Aktualisierungsmodus: {}",
+        "fr-FR": "Mode de mise à jour : {}",
+        "ko-KR": "업데이트 모드: {}",
+        "it-IT": "Modalità di aggiornamento: {}",
+        "nl-NL": "Update-modus: {}",
         "$files": [
-            "src\\commands\\extract\\extractor.js(72:19-72:30)"
+            "src/commands/extract/extractor.js(S72:19-S72:29)"
         ],
-        "$id": 86
+        "$id": 109
     },
-    " 提取范围: {}": {
-        "en-US": " Extraction scope: {}",
-        "es-ES": " Alcance de la extracción: {}",
+    "提取方式: {}": {
+        "en-US": "Extraction method: {}",
+        "es-ES": "Método de extracción: {}",
+        "ar-EG": "طريقة الاستخراج: {}",
+        "pt-PT": "Método de extração: {}",
+        "ru-RU": "Способ извлечения: {}",
+        "ja-JP": "抽出方法: {}",
+        "de-DE": "Extraktionsmethode: {}",
+        "fr-FR": "Méthode d'extraction : {}",
+        "ko-KR": "추출 방법: {}",
+        "it-IT": "Metodo di estrazione: {}",
+        "nl-NL": "Extractiemethode: {}",
+        "$files": [
+            "src/commands/extract/extractor.js(S73:19-S73:29)"
+        ],
+        "$id": 110
+    },
+    "提取范围: {}": {
+        "en-US": "Extraction scope: {}",
+        "es-ES": "Ámbito de extracción: {}",
         "ar-EG": "نطاق الاستخراج: {}",
-        "pt-PT": " Âmbito da extração: {}",
-        "ru-RU": " Область извлечения: {}",
-        "ja-JP": " 抽出範囲: {}",
-        "de-DE": " Extraktionsbereich: {}",
-        "fr-FR": " Portée d'extraction : {}",
-        "ko-KR": " 추출 범위: {}",
-        "it-IT": " Ambito di estrazione: {}",
-        "nl-NL": " Extractie bereik: {}",
+        "pt-PT": "Âmbito da extração: {}",
+        "ru-RU": "Область извлечения: {}",
+        "ja-JP": "抽出範囲: {}",
+        "de-DE": "Extraktionsbereich: {}",
+        "fr-FR": "Étendue de l'extraction : {}",
+        "ko-KR": "추출 범위: {}",
+        "it-IT": "Ambito di estrazione: {}",
+        "nl-NL": "Extractiebereik: {}",
         "$files": [
-            "src\\commands\\extract\\extractor.js(73:19-73:30)"
+            "src/commands/extract/extractor.js(S74:19-S74:29)"
         ],
-        "$id": 87
+        "$id": 111
     },
-    " 通过{}参数增加文件匹配规则": {
-        "en-US": " Add file matching rules through {} parameter",
-        "es-ES": " Añadir reglas de coincidencia de archivos a través del parámetro {}",
-        "ar-EG": "إضافة قواعد تطابق الملفات عبر معلمة {}",
-        "pt-PT": " Adicionar regras de correspondência de arquivos através do parâmetro{}",
-        "ru-RU": " Добавление правил сопоставления файлов через {} параметр",
-        "ja-JP": " {}パラメータを使用してファイルマッチングルールを追加",
-        "de-DE": " Füge Dateiabgleichsregeln durch {} Parameter hinzu",
-        "fr-FR": " Ajouter des règles de correspondance de fichiers via le paramètre {}",
-        "ko-KR": " {} 매개변수를 통해 파일 일치 규칙 추가",
-        "it-IT": " Aggiungi regole di corrispondenza dei file tramite il parametro {}",
-        "nl-NL": " Bestandsmatchingsregels toevoegen via {} parameter",
+    "通过{}参数增加文件匹配规则": {
+        "en-US": "Add file matching rules via {} parameter",
+        "es-ES": "Agregar reglas de coincidencia de archivos mediante el parámetro {}",
+        "ar-EG": "إضافة قاعدة مطابقة الملفات عبر المعامل {}",
+        "pt-PT": "Adicionar regras de correspondência de arquivos através do parâmetro {}",
+        "ru-RU": "Добавление правил соответствия файлов через параметр {}",
+        "ja-JP": "{}パラメーターでファイルのマッチングルールを追加",
+        "de-DE": "Durch den Parameter {} zusätzliche Dateianpassungsregeln hinzufügen",
+        "fr-FR": "Ajouter des règles de correspondance de fichiers via le paramètre {}",
+        "ko-KR": "{} 매개변수를 통해 파일 일치 규칙 추가",
+        "it-IT": "Aggiunta di regole di corrispondenza file tramite il parametro {}",
+        "nl-NL": "Voeg bestandsmatchregels toe via {} parameter",
         "$files": [
-            "src\\commands\\extract\\extractor.js(74:19-74:36)"
+            "src/commands/extract/extractor.js(S75:19-S75:35)"
         ],
-        "$id": 88
+        "$id": 112
     },
-    " 您可以通过修改{}文件的{}参数来调整提取范围": {
-        "en-US": " You can adjust the extraction scope by modifying the {} parameter in the {} file",
-        "es-ES": " Puede ajustar el alcance de la extracción modificando el parámetro {} en el archivo {}",
-        "ar-EG": "يمكنك تعديل نطاق الاستخراج عن طريق تغيير معلمة {} في ملف {}",
-        "pt-PT": " Você pode ajustar o âmbito de extração modificando o parâmetro{} no arquivo{}",
-        "ru-RU": "Вы можете настроить область извлечения, изменив {} параметр в {} файле",
-        "ja-JP": "{}ファイルの{}パラメータを変更することで抽出範囲を調整できます",
-        "de-DE": " Sie können den Extraktionsbereich anpassen, indem Sie den {} Parameter in der {} Datei ändern",
-        "fr-FR": " Vous pouvez ajuster la portée d'extraction en modifiant le paramètre {} dans le fichier {}",
-        "ko-KR": "{} 파일의 {} 매개변수를 수정하여 추출 범위 조정 가능",
-        "it-IT": " È possibile regolare l'ambito di estrazione modificando il parametro {} del file {}",
-        "nl-NL": " U kunt het extractiebereik aanpassen door de {} parameter in het {} bestand te wijzigen",
+    "您可以通过修改{}文件的{}参数来调整提取范围": {
+        "en-US": "You can adjust the extraction scope by modifying the {} parameter in the {} file",
+        "es-ES": "Puede ajustar el ámbito de extracción modificando el parámetro {} en el archivo {}",
+        "ar-EG": "يمكنك تعديل معامل {} في ملف {} لضبط نطاق الاستخراج",
+        "pt-PT": "Você pode ajustar o âmbito da extração modificando o parâmetro {} no arquivo {}",
+        "ru-RU": "Вы можете настроить область извлечения, изменив параметр {} в файле {}",
+        "ja-JP": "{}ファイルの{}パラメーターを修正することで抽出範囲を調整できます",
+        "de-DE": "Sie können den Extraktionsbereich anpassen, indem Sie den Parameter {} in der Datei {} ändern.",
+        "fr-FR": "Vous pouvez ajuster l'étendue de l'extraction en modifiant le paramètre {} dans le fichier {}",
+        "ko-KR": "{} 파일의 {} 매개변수를 수정하여 추출 범위를 조정할 수 있습니다",
+        "it-IT": "È possibile modificare l'ambito di estrazione modificando il parametro {} nel file {}",
+        "nl-NL": "U kunt het extractiebereik aanpassen door de {} parameter in het {} bestand te wijzigen",
         "$files": [
-            "src\\commands\\extract\\extractor.js(75:19-75:45)"
+            "src/commands/extract/extractor.js(S76:19-S76:44)"
         ],
-        "$id": 89
+        "$id": 113
     },
     "开始提取：": {
-        "en-US": "Start extracting:",
+        "en-US": "Start extraction:",
         "es-ES": "Comenzar la extracción:",
         "ar-EG": "بدء الاستخراج:",
-        "pt-PT": "Iniciar extração:",
+        "pt-PT": "Iniciar extração：",
         "ru-RU": "Начало извлечения:",
-        "ja-JP": "抽出を開始：",
-        "de-DE": "Beginne die Extraktion:",
-        "fr-FR": "Commencer l'extraction :",
+        "ja-JP": "抽出を開始します：",
+        "de-DE": "Beginne mit der Extraktion:",
+        "fr-FR": "Début de l'extraction :",
         "ko-KR": "추출 시작:",
         "it-IT": "Inizio dell'estrazione:",
         "nl-NL": "Start met extraheren:",
         "$files": [
-            "src\\commands\\extract\\extractor.js(87:21-87:28)"
+            "src/commands/extract/extractor.js(S88:21-S88:28)"
         ],
-        "$id": 90
+        "$id": 114
     },
     "提取 {}": {
         "en-US": "Extract {}",
-        "es-ES": "Extraer {}",
-        "ar-EG": "استخراج{}",
-        "pt-PT": "Extração {}",
+        "es-ES": "Extrayendo {}",
+        "ar-EG": "استخراج {}",
+        "pt-PT": "Extraindo {}",
         "ru-RU": "Извлечение {}",
-        "ja-JP": "抽出 {}",
-        "de-DE": "Extrahieren {}",
-        "fr-FR": "Extraire le {}",
-        "ko-KR": "추출 {}",
+        "ja-JP": "{}を抽出",
+        "de-DE": "Extrahiere {}",
+        "fr-FR": "Extraire {}",
+        "ko-KR": "{} 추출",
         "it-IT": "Estrazione {}",
-        "nl-NL": "Extractie {}",
+        "nl-NL": "Extraheren {}",
         "$files": [
-            "src\\commands\\extract\\extractor.js(92:24-92:31)"
+            "src/commands/extract/extractor.js(S94:24-S94:31)"
         ],
-        "$id": 228
+        "$id": 115
     },
     "发现{}条文本": {
-        "en-US": "发现{}条文本",
-        "es-ES": "发现{}条文本",
-        "ar-EG": "发现{}条文本",
-        "pt-PT": "发现{}条文本",
-        "ru-RU": "发现{}条文本",
-        "ja-JP": "发现{}条文本",
-        "de-DE": "发现{}条文本",
-        "fr-FR": "发现{}条文本",
-        "ko-KR": "发现{}条文本",
-        "it-IT": "发现{}条文本",
-        "nl-NL": "发现{}条文本",
+        "en-US": "Found {} texts",
+        "es-ES": "Se han encontrado {} textos",
+        "ar-EG": "تم اكتشاف {} نصوص",
+        "pt-PT": "Foram encontrados {} textos",
+        "ru-RU": "Найдено {} текстовых строк",
+        "ja-JP": "{}件のテキストを発見",
+        "de-DE": "{} Texte gefunden",
+        "fr-FR": "{} textes trouvés",
+        "ko-KR": "{} 개의 텍스트 발견",
+        "it-IT": "Trovati {} testi",
+        "nl-NL": "{} teksten gevonden",
         "$files": [
-            "src\\commands\\extract\\extractor.js(103:34-103:43)"
+            "src/commands/extract/extractor.js(S108:34-S108:43)"
         ],
-        "$id": 239
+        "$id": 116
     },
     "提取结果:": {
-        "en-US": "Extraction results:",
+        "en-US": "Extraction result:",
         "es-ES": "Resultado de la extracción:",
-        "ar-EG": "نتيجة الاستخراج:",
+        "ar-EG": "نتائج الاستخراج:",
         "pt-PT": "Resultado da extração:",
         "ru-RU": "Результат извлечения:",
         "ja-JP": "抽出結果:",
-        "de-DE": "Extraktionsresultat:",
+        "de-DE": "Extraktionsergebnis:",
         "fr-FR": "Résultat de l'extraction :",
         "ko-KR": "추출 결과:",
-        "it-IT": "Risultato dell'estrazione:",
-        "nl-NL": "Extractie resultaat:",
+        "it-IT": "Risultati dell'estrazione:",
+        "nl-NL": "Extractieresultaat:",
         "$files": [
-            "src\\commands\\extract\\extractor.js(110:21-110:28)"
+            "src/commands/extract/extractor.js(S115:21-S115:28)"
         ],
-        "$id": 91
+        "$id": 117
     },
     "名称空间：{}": {
         "en-US": "Namespace: {}",
         "es-ES": "Espacio de nombres: {}",
-        "ar-EG": "مساحة الأسماء: {}",
-        "pt-PT": "Namespace: {}",
+        "ar-EG": "مساحة الاسم: {}",
+        "pt-PT": "Namespace：{}",
         "ru-RU": "Пространство имен: {}",
         "ja-JP": "名前空間：{}",
         "de-DE": "Namespace: {}",
@@ -301,422 +318,441 @@
         "it-IT": "Spazio dei nomi: {}",
         "nl-NL": "Naamruimte: {}",
         "$files": [
-            "src\\commands\\extract\\extractor.js(111:20-111:29)"
+            "src/commands/extract/extractor.js(S116:20-S116:29)"
         ],
-        "$id": 92
+        "$id": 118
     },
     "共提取{}个文本": {
-        "en-US": "Total texts extracted: {}",
-        "es-ES": "Se han extraído {} textos",
+        "en-US": "A total of {} texts extracted",
+        "es-ES": "Se extrajeron un total de {} textos",
         "ar-EG": "تم استخراج {} نصوص",
-        "pt-PT": "Total de textos extraídos: {}",
-        "ru-RU": "Всего извлечено {} текстовых элементов",
+        "pt-PT": "Total de {} textos extraídos",
+        "ru-RU": "Всего извлечено {} текстов",
         "ja-JP": "合計{}個のテキストを抽出",
         "de-DE": "Insgesamt {} Texte extrahiert",
-        "fr-FR": "{} textes extraits au total",
-        "ko-KR": "총 {} 개의 텍스트 추출",
-        "it-IT": "{} testi estratti in totale",
-        "nl-NL": "Totaal {} teksten geëxtraheerd",
+        "fr-FR": "Un total de {} textes extraits",
+        "ko-KR": "총 {} 개의 텍스트 추출됨",
+        "it-IT": "Totale testi estratti: {}",
+        "nl-NL": "In totaal {} teksten geëxtraheerd",
         "$files": [
-            "src\\commands\\extract\\extractor.js(112:20-112:30)"
+            "src/commands/extract/extractor.js(S117:20-S117:30)"
         ],
-        "$id": 93
+        "$id": 119
     },
     "下一步：": {
         "en-US": "Next step:",
-        "es-ES": "Siguiente paso:",
+        "es-ES": "Próximo paso:",
         "ar-EG": "الخطوة التالية:",
-        "pt-PT": "Próximo passo:",
+        "pt-PT": "Próximo passo：",
         "ru-RU": "Следующий шаг:",
         "ja-JP": "次のステップ：",
         "de-DE": "Nächster Schritt:",
-        "fr-FR": "Étape suivante :",
+        "fr-FR": "Prochaine étape :",
         "ko-KR": "다음 단계:",
-        "it-IT": "Passo successivo:",
+        "it-IT": "Prossimo passo:",
         "nl-NL": "Volgende stap:",
         "$files": [
-            "src\\commands\\extract\\extractor.js(245:21-245:27)"
+            "src/commands/extract/extractor.js(S247:21-S247:27)",
+            "src/commands/init/initializer.js(S120:23-S120:29)"
         ],
-        "$id": 94
+        "$id": 120
     },
     "翻译{}文件": {
         "en-US": "Translate {} file",
         "es-ES": "Traducir el archivo {}",
         "ar-EG": "ترجمة ملف {}",
-        "pt-PT": "Traduzir arquivo{}",
-        "ru-RU": "Перевод {} файла",
-        "ja-JP": "{}ファイルの翻訳",
-        "de-DE": "Übersetze {} Datei",
+        "pt-PT": "Traduzir o arquivo {}",
+        "ru-RU": "Перевод файла {}",
+        "ja-JP": "{}ファイルを翻訳",
+        "de-DE": "Übersetze die Datei {}",
         "fr-FR": "Traduire le fichier {}",
         "ko-KR": "{} 파일 번역",
-        "it-IT": "Traduci il file {}",
-        "nl-NL": "{} bestand vertalen",
+        "it-IT": "Traduzione del file {}",
+        "nl-NL": "Vertaal {} bestand",
         "$files": [
-            "src\\commands\\extract\\extractor.js(246:20-246:28)"
+            "src/commands/extract/extractor.js(S248:20-S248:28)"
         ],
-        "$id": 95
+        "$id": 121
     },
     "运行<{}>编译语言包": {
-        "en-US": "Run <{}> to compile the language pack",
-        "es-ES": "Ejecutar <{}> para compilar el paquete de idioma",
-        "ar-EG": "تشغيل <{}> لتجميع حزمة اللغة",
-        "pt-PT": "Executar <{}> para compilar o pacote de idiomas",
-        "ru-RU": "Запустите <{}> для компиляции языкового пакета",
-        "ja-JP": "<{}>で言語パッケージをコンパイル",
-        "de-DE": "Führe <{}> aus, um das Sprachpaket zu erstellen",
-        "fr-FR": "Exécuter <{}> pour compiler le package de langues",
-        "ko-KR": "<{}> 실행하여 언어 패키지 컴파일",
-        "it-IT": "Esegui <{}> per compilare il pacchetto di lingua",
-        "nl-NL": "Voer <{}> uit om taalpakket te compileren",
+        "en-US": "Run <{}> to compile language pack",
+        "es-ES": "Ejecutar el paquete de idioma compilado <{}>\r",
+        "ar-EG": "تشغيل حزمة اللغة المترجمة <{}>\r",
+        "pt-PT": "Executar <{}> pacote de idiomas compilado",
+        "ru-RU": "Запуск компиляции пакета языков <{}>\r",
+        "ja-JP": "実行<{}>コンパイル言語パッケージ",
+        "de-DE": "Ausführen des kompilierten Sprachpakets <{}>",
+        "fr-FR": "Exécuter le package de langue compilé <{}>\r",
+        "ko-KR": "컴파일된 언어 패키지 실행<{}>\r",
+        "it-IT": "Esegui <{}> pacchetto di compilazione della lingua",
+        "nl-NL": "Voer de <{}> gecompileerde taalpakket uit",
         "$files": [
-            "src\\commands\\extract\\extractor.js(247:20-247:33)",
-            "src\\commands\\init\\initializer.js(108:22-108:35)"
+            "src/commands/extract/extractor.js(S249:20-S249:33)",
+            "src/commands/init/initializer.js(S125:22-S125:35)"
         ],
-        "$id": 96
+        "$id": 122
     },
     "在源码中从<{}>导入编译后的语言包": {
-        "en-US": "Import the compiled language pack from <{}> in the source code",
-        "es-ES": "Importar el paquete de idioma compilado desde <{}> en el código fuente",
-        "ar-EG": "استيراد حزمة اللغة المجمعة من <{}> في الكود المصدر",
-        "pt-PT": "Importar o pacote de idiomas compilado de <{}> no código fonte",
-        "ru-RU": "Импортируйте скомпилированный языковой пакет из <{}> в исходный код",
-        "ja-JP": "ソースコードから<{}>でコンパイル済みの言語パッケージをインポート",
-        "de-DE": "Importiere das kompilierte Sprachpaket in den Quellcode von <{}>",
-        "fr-FR": "Importer le package de langues compilé depuis <{}> dans le code source",
-        "ko-KR": "소스 코드에서 <{}>로부터 컴파일된 언어 패키지 가져오기",
+        "en-US": "Import compiled language pack from <{}> in source code",
+        "es-ES": "Importar el paquete de idioma compilado desde <{}> en el código fuente\r",
+        "ar-EG": "استيراد حزمة اللغة المترجمة من <{}> في الكود المصدري\r",
+        "pt-PT": "Importar o pacote de idiomas compilado de <{}> no código-fonte",
+        "ru-RU": "Импорт скомпилированного языкового пакета из исходного кода <{}>\r",
+        "ja-JP": "ソースコードから<{}>コンパイル済み言語パッケージをインポート",
+        "de-DE": "Importieren des kompilierten Sprachpakets aus der Quelle <{}>",
+        "fr-FR": "Importer le package de langue compilé depuis <{}> dans le code source\r",
+        "ko-KR": "소스 코드에서 컴파일된 언어 패키지 가져오기<{}>\r",
         "it-IT": "Importa il pacchetto di lingua compilato da <{}> nel codice sorgente",
-        "nl-NL": "Importeer gecompileerde taalpakketten vanuit <{}> in de broncode",
+        "nl-NL": "Importeer het gecompileerde taalpakket vanuit <{}> in de broncode",
         "$files": [
-            "src\\commands\\extract\\extractor.js(248:20-248:40)"
+            "src/commands/extract/extractor.js(S250:20-S250:40)"
         ],
-        "$id": 97
+        "$id": 123
     },
     "提取要翻译的文本": {
-        "en-US": "Extract texts for translation",
-        "es-ES": "Extraer los textos a traducir",
-        "ar-EG": "استخراج النصوص المطلوب ترجمتها",
-        "pt-PT": "Extrair texto para tradução",
-        "ru-RU": "Извлечение текста для перевода",
-        "ja-JP": "翻訳するテキストの抽出",
-        "de-DE": "Extrahiere zu übersetzende Texte",
-        "fr-FR": "Extraire les textes à traduire",
-        "ko-KR": "번역할 텍스트 추출",
-        "it-IT": "Estrai i testi da tradurre",
-        "nl-NL": "Tekst voor vertaling extraheren",
+        "en-US": "Extract text to be translated",
+        "es-ES": "Extraer el texto a traducir\r",
+        "ar-EG": "استخراج النصوص المطلوب ترجمتها\r",
+        "pt-PT": "Extrair o texto a ser traduzido",
+        "ru-RU": "Извлечение текста для перевода\r",
+        "ja-JP": "翻訳対象のテキストを抽出",
+        "de-DE": "Zu übersetzenden Text extrahieren",
+        "fr-FR": "Extraire le texte à traduire\r",
+        "ko-KR": "번역할 텍스트 추출\r",
+        "it-IT": "Estrai il testo da tradurre",
+        "nl-NL": "Extraheer de te vertalen tekst",
         "$files": [
-            "src\\commands\\extract\\index.js(12:23-12:33)"
+            "src/commands/extract/index.js(S11:23-S11:33)"
         ],
-        "$id": 98
+        "$id": 124
     },
     "更新模式,取值sync,overwrite,merge": {
         "en-US": "Update mode, values: sync, overwrite, merge",
-        "es-ES": "Modo de actualización, valores:sync,overwrite,merge",
-        "ar-EG": "وضع التحديث, القيم: sync,overwrite,merge",
-        "pt-PT": "Modo de atualização, valores:sync,overwrite,merge",
-        "ru-RU": "Режим обновления, значения: sync, overwrite, merge",
-        "ja-JP": "更新モード、値:sync,overwrite,merge",
-        "de-DE": "Aktualisierungsmodus, Werte:sync,overwrite,merge",
-        "fr-FR": "Mode de mise à jour, valeurs possibles : sync, overwrite, merge",
-        "ko-KR": "업데이트 모드, 값:sync,overwrite,merge",
-        "it-IT": "Modalità di aggiornamento, valori possibili: sync, overwrite, merge",
-        "nl-NL": "Update modus, waarden:sync,overwrite,merge",
+        "es-ES": "Actualizar el modo, los valores pueden ser: sync, overwrite, merge\r",
+        "ar-EG": "تحديث الوضع، القيم الممكنة: sync، overwrite، merge\r",
+        "pt-PT": "Atualizar modo, valores possíveis: sync, overwrite, merge",
+        "ru-RU": "Обновление режима, возможные значения: sync, overwrite, merge\r",
+        "ja-JP": "更新モード、値: sync, overwrite, merge",
+        "de-DE": "Aktualisierungsmodus, Werte: sync, overwrite, merge",
+        "fr-FR": "Mettre à jour le mode, valeurs possibles : sync, overwrite, merge\r",
+        "ko-KR": "업데이트 모드, 값: sync, overwrite, merge\r",
+        "it-IT": "Aggiorna modalità, valori possibili: sync, overwrite, merge",
+        "nl-NL": "Update-modus, waarden: sync, overwrite, merge",
         "$files": [
-            "src\\commands\\extract\\index.js(13:40-13:69)"
+            "src/commands/extract/index.js(S12:40-S12:69)"
         ],
-        "$id": 99
+        "$id": 125
+    },
+    "使用正则表达式提取": {
+        "en-US": "Use regular expressions to extract",
+        "es-ES": "Usar expresiones regulares para extraer\r",
+        "ar-EG": "استخدام التعبيرات النمطية للاستخراج\r",
+        "pt-PT": "Usar expressão regular para extrair",
+        "ru-RU": "Использование регулярных выражений для извлечения\r",
+        "ja-JP": "正規表現を使用して抽出",
+        "de-DE": "Extrahieren mit regulären Ausdrücken",
+        "fr-FR": "Utiliser des expressions régulières pour extraire\r",
+        "ko-KR": "정규식을 사용하여 추출\r",
+        "it-IT": "Usa espressioni regolari per estrarre",
+        "nl-NL": "Gebruik reguliere expressies om te extraheren",
+        "$files": [
+            "src/commands/extract/index.js(S16:33-S16:44)"
+        ],
+        "$id": 126
     },
     "文件匹配规则": {
         "en-US": "File matching rules",
-        "es-ES": "Reglas de coincidencia de archivos",
-        "ar-EG": "قواعد مطابقة الملفات",
+        "es-ES": "Reglas de coincidencia de archivos\r",
+        "ar-EG": "قواعد مطابقة الملفات\r",
         "pt-PT": "Regras de correspondência de arquivos",
-        "ru-RU": "Правила сопоставления файлов",
-        "ja-JP": "ファイルのマッチングルール",
-        "de-DE": "Dateiabgleichsregeln",
-        "fr-FR": "Règles de correspondance des fichiers",
-        "ko-KR": "파일 일치 규칙",
+        "ru-RU": "Правила соответствия файлов\r",
+        "ja-JP": "ファイルマッチングルール",
+        "de-DE": "Datei-Matching-Regeln",
+        "fr-FR": "Règles de correspondance des fichiers\r",
+        "ko-KR": "파일 매칭 규칙\r",
         "it-IT": "Regole di corrispondenza dei file",
-        "nl-NL": "Bestandsmatchingsregels",
+        "nl-NL": "Bestandsovereenkomstregels",
         "$files": [
-            "src\\commands\\extract\\index.js(17:50-17:58)"
+            "src/commands/extract/index.js(S17:50-S17:58)"
         ],
-        "$id": 100
+        "$id": 128
     },
     "初始化VoerkaI18n支持": {
         "en-US": "Initialize VoerkaI18n support",
-        "es-ES": "Iniciar soporte de VoerkaI18n",
-        "ar-EG": "تنشيط دعم VoerkaI18n",
-        "pt-PT": "Iniciar suporte VoerkaI18n",
-        "ru-RU": "Инициализация поддержки VoerkaI18n",
-        "ja-JP": "VoerkaI18nサポートの初期化",
-        "de-DE": "Initialisierung der VoerkaI18n-Unterstützung",
-        "fr-FR": "Initialisation du support VoerkaI18n",
-        "ko-KR": "VoerkaI18n 지원 초기화",
-        "it-IT": "Inizializzazione del supporto VoerkaI18n",
+        "es-ES": "Inicializar el soporte de VoerkaI18n\r",
+        "ar-EG": "تهيئة دعم VoerkaI18n\r",
+        "pt-PT": "Inicializar suporte VoerkaI18n",
+        "ru-RU": "Инициализация поддержки VoerkaI18n\r",
+        "ja-JP": "VoerkaI18nサポートを初期化",
+        "de-DE": "Initialisieren der VoerkaI18n-Unterstützung",
+        "fr-FR": "Initialiser le support VoerkaI18n\r",
+        "ko-KR": "VoerkaI18n 지원 초기화\r",
+        "it-IT": "Inizializza il supporto VoerkaI18n",
         "nl-NL": "Initialiseer VoerkaI18n-ondersteuning",
         "$files": [
-            "src\\commands\\init\\index.js(55:23-55:40)"
+            "src/commands/init/index.js(S55:23-S55:40)"
         ],
-        "$id": 101
+        "$id": 129
     },
     "语言目录": {
         "en-US": "Language directory",
-        "es-ES": "Directorio de idiomas",
-        "ar-EG": "دليل اللغة",
+        "es-ES": "Directorio de idiomas\r",
+        "ar-EG": "دليل اللغات\r",
         "pt-PT": "Diretório de idiomas",
-        "ru-RU": "Каталог языков",
+        "ru-RU": "Языковой каталог\r",
         "ja-JP": "言語ディレクトリ",
         "de-DE": "Sprachverzeichnis",
-        "fr-FR": "Répertoire des langues",
-        "ko-KR": "언어 디렉토리",
+        "fr-FR": "Répertoire des langues\r",
+        "ko-KR": "언어 디렉토리\r",
         "it-IT": "Directory delle lingue",
         "nl-NL": "Taalmap",
         "$files": [
-            "src\\commands\\init\\index.js(63:47-63:53)"
+            "src/commands/init/index.js(S63:47-S63:53)"
         ],
-        "$id": 102
+        "$id": 130
     },
     "是否开发库工程": {
-        "en-US": "Is it a library project",
-        "es-ES": "¿Es un proyecto de biblioteca?",
-        "ar-EG": "هل هو مشروع مكتبة تطوير",
+        "en-US": "Whether it is a development library project",
+        "es-ES": "¿Es un proyecto de biblioteca de desarrollo?\r",
+        "ar-EG": "هل هو مشروع مكتبة تطوير؟\r",
         "pt-PT": "Se é um projeto de biblioteca de desenvolvimento",
-        "ru-RU": "Является ли проект библиотекой для разработки",
+        "ru-RU": "Является ли проект библиотекой разработки\r",
         "ja-JP": "開発ライブラリプロジェクトかどうか",
-        "de-DE": "Ist es ein Bibliotheksprojekt",
-        "fr-FR": "Est-ce un projet de bibliothèque",
-        "ko-KR": "개발 라이브러리 프로젝트 여부",
-        "it-IT": "Se è un progetto di libreria di sviluppo",
-        "nl-NL": "Is ontwikkelbibliotheekproject",
+        "de-DE": "Entwicklungs-Bibliotheksprojekt oder nicht",
+        "fr-FR": "Est-ce un projet de bibliothèque de développement ?\r",
+        "ko-KR": "라이브러리 프로젝트 개발 여부\r",
+        "it-IT": "Se è un progetto di libreria in fase di sviluppo",
+        "nl-NL": "Is het een ontwikkelbibliotheekproject?",
         "$files": [
-            "src\\commands\\init\\index.js(67:31-67:40)"
+            "src/commands/init/index.js(S67:31-S67:40)"
         ],
-        "$id": 103
+        "$id": 131
     },
     "选择支持的语言": {
         "en-US": "Select supported languages",
-        "es-ES": "Seleccionar idiomas a soportar",
-        "ar-EG": "اختيار اللغات المدعومة",
+        "es-ES": "Seleccionar los idiomas soportados\r",
+        "ar-EG": "اختيار اللغات المدعومة\r",
         "pt-PT": "Selecionar idiomas suportados",
-        "ru-RU": "Выбор поддерживаемых языков",
-        "ja-JP": "サポートする言語の選択",
-        "de-DE": "Wählen Sie die unterstützten Sprachen",
-        "fr-FR": "Sélectionner les langues à supporter",
-        "ko-KR": "지원 언어 선택",
-        "it-IT": "Scegliere le lingue da supportare",
-        "nl-NL": "Kies ondersteunde talen",
+        "ru-RU": "Выбор поддерживаемых языков\r",
+        "ja-JP": "サポートする言語を選択",
+        "de-DE": "Auswahl unterstützter Sprachen",
+        "fr-FR": "Sélectionner les langues prises en charge\r",
+        "ko-KR": "지원할 언어 선택\r",
+        "it-IT": "Seleziona le lingue supportate",
+        "nl-NL": "Selecteer ondersteunde talen",
         "$files": [
-            "src\\commands\\init\\index.js(68:47-68:56)"
+            "src/commands/init/index.js(S68:47-S68:56)"
         ],
-        "$id": 104
+        "$id": 132
     },
     "默认语言": {
         "en-US": "Default language",
-        "es-ES": "Idioma por defecto",
-        "ar-EG": "اللغة الافتراضية",
+        "es-ES": "Idioma predeterminado\r",
+        "ar-EG": "اللغة الافتراضية\r",
         "pt-PT": "Idioma padrão",
-        "ru-RU": "Язык по умолчанию",
+        "ru-RU": "Язык по умолчанию\r",
         "ja-JP": "デフォルト言語",
         "de-DE": "Standardsprache",
-        "fr-FR": "Langue par défaut",
-        "ko-KR": "기본 언어",
+        "fr-FR": "Langue par défaut\r",
+        "ko-KR": "기본 언어\r",
         "it-IT": "Lingua predefinita",
         "nl-NL": "Standaardtaal",
         "$files": [
-            "src\\commands\\init\\index.js(75:45-75:51)"
+            "src/commands/init/index.js(S75:45-S75:51)"
         ],
-        "$id": 105
+        "$id": 133
     },
     "激活语言": {
         "en-US": "Active language",
-        "es-ES": "Idioma activo",
-        "ar-EG": "تفعيل اللغة",
+        "es-ES": "Idioma activo\r",
+        "ar-EG": "اللغة المفعلة\r",
         "pt-PT": "Idioma ativo",
-        "ru-RU": "Активный язык",
-        "ja-JP": "アクティブな言語",
-        "de-DE": "Aktive Sprache",
-        "fr-FR": "Langue activée",
-        "ko-KR": "활성 언어",
+        "ru-RU": "Активный язык\r",
+        "ja-JP": "アクティブ言語",
+        "de-DE": "Aktivierte Sprache",
+        "fr-FR": "Langue activée\r",
+        "ko-KR": "활성화된 언어\r",
         "it-IT": "Lingua attiva",
-        "nl-NL": "Actieve taal",
+        "nl-NL": "Actietaal",
         "$files": [
-            "src\\commands\\init\\index.js(86:44-86:50)"
+            "src/commands/init/index.js(S86:44-S86:50)"
         ],
-        "$id": 106
+        "$id": 134
     },
     "启用Typescript": {
         "en-US": "Enable Typescript",
-        "es-ES": "Habilitar Typescript",
-        "ar-EG": "تمكين Typescript",
+        "es-ES": "Habilitar Typescript\r",
+        "ar-EG": "تمكين Typescript\r",
         "pt-PT": "Habilitar Typescript",
-        "ru-RU": "Включение Typescript",
-        "ja-JP": "TypeScriptの有効化",
-        "de-DE": "Aktiviere Typescript",
-        "fr-FR": "Activer Typescript",
-        "ko-KR": "Typescript 사용",
+        "ru-RU": "Включение Typescript\r",
+        "ja-JP": "Typescriptを有効化",
+        "de-DE": "Typescript aktivieren",
+        "fr-FR": "Activer Typescript\r",
+        "ko-KR": "Typescript 사용\r",
         "it-IT": "Abilita Typescript",
         "nl-NL": "Schakel Typescript in",
         "$files": [
-            "src\\commands\\init\\index.js(94:38-94:52)"
+            "src/commands/init/index.js(S94:38-S94:52)"
         ],
-        "$id": 107
+        "$id": 135
     },
     "模块类型": {
         "en-US": "Module type",
-        "es-ES": "Tipo de módulo",
-        "ar-EG": "نوع الوحدة",
+        "es-ES": "Tipo de módulo\r",
+        "ar-EG": "نوع الوحدة\r",
         "pt-PT": "Tipo de módulo",
-        "ru-RU": "Тип модуля",
+        "ru-RU": "Тип модуля\r",
         "ja-JP": "モジュールタイプ",
         "de-DE": "Modultyp",
-        "fr-FR": "Type de module",
-        "ko-KR": "모듈 유형",
+        "fr-FR": "Type de module\r",
+        "ko-KR": "모듈 유형\r",
         "it-IT": "Tipo di modulo",
         "nl-NL": "Moduletype",
         "$files": [
-            "src\\commands\\init\\index.js(99:54-99:60)"
+            "src/commands/init/index.js(S99:54-S99:60)"
         ],
-        "$id": 108
+        "$id": 136
     },
     "初始化语言文件夹:{}": {
         "en-US": "Initialize language folder: {}",
-        "es-ES": "Inicializar carpeta de idioma:{}",
-        "ar-EG": "تهيئة مجلد اللغة:{}",
-        "pt-PT": "Inicializar pasta de idiomas: {}",
-        "ru-RU": "Инициализировать папку языков: {}",
-        "ja-JP": "言語フォルダを初期化:{}",
-        "de-DE": "Sprachordner initialisieren: {}",
-        "fr-FR": "Initialiser le dossier de langues : {}",
-        "ko-KR": "언어 폴더 초기화:{}",
-        "it-IT": "Inizializza cartella lingua:{}",
-        "nl-NL": "Initialiseer taalmap:{}",
+        "es-ES": "Inicializar carpeta de idiomas: {}\r",
+        "ar-EG": "تهيئة مجلد اللغة: {}\r",
+        "pt-PT": "Inicializando pasta de idiomas: {}",
+        "ru-RU": "Инициализация языковой папки: {}\r",
+        "ja-JP": "言語フォルダを初期化: {}",
+        "de-DE": "Initialisiere Sprachordner: {}",
+        "fr-FR": "Initialiser le dossier de langues : {}\r",
+        "ko-KR": "언어 폴더 초기화: {}\r",
+        "it-IT": "Inizializza la cartella delle lingue: {}",
+        "nl-NL": "Initialiseer taalmap: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(59:21-59:34)"
+            "src/commands/init/initializer.js(S59:21-S59:34)"
         ],
-        "$id": 243
+        "$id": 137
     },
     "安装{}依赖": {
         "en-US": "Install {} dependencies",
-        "es-ES": "Instalar dependencias de {}",
-        "ar-EG": "تثبيت {} الاعتماديات",
-        "pt-PT": "Instalar dependências de {}",
-        "ru-RU": "Установить {} зависимости",
+        "es-ES": "Instalar dependencias de {}\r",
+        "ar-EG": "تثبيت الاعتماديات {}\r",
+        "pt-PT": "Instalando dependências de {}",
+        "ru-RU": "Установка зависимостей {}\r",
         "ja-JP": "{}依存関係をインストール",
         "de-DE": "Installiere {} Abhängigkeiten",
-        "fr-FR": "Installer les dépendances {}",
-        "ko-KR": "{} 종속성 설치",
+        "fr-FR": "Installer les dépendances {}\r",
+        "ko-KR": "{} 종속성 설치\r",
         "it-IT": "Installa {} dipendenze",
-        "nl-NL": "Installeer {} afhankelijkheden",
+        "nl-NL": "Installeer {}-afhankelijkheden",
         "$files": [
-            "src\\commands\\init\\initializer.js(82:22-82:30)"
+            "src/commands/init/initializer.js(S88:22-S88:30)",
+            "src/commands/init/initializer.js(S98:22-S98:30)"
         ],
-        "$id": 244
+        "$id": 138
     },
-    "开始初始化VoerkaI18n": {
-        "en-US": "Start initializing VoerkaI18n",
-        "es-ES": "Comenzar inicialización de VoerkaI18n",
-        "ar-EG": "بدء تنشيط VoerkaI18n",
-        "pt-PT": "Iniciando VoerkaI18n",
-        "ru-RU": "Начало инициализации VoerkaI18n",
-        "ja-JP": "VoerkaI18nの初期化を開始",
-        "de-DE": "Beginne mit der Initialisierung von VoerkaI18n",
-        "fr-FR": "Démarrer l'initialisation de VoerkaI18n",
-        "ko-KR": "VoerkaI18n 초기화 시작",
-        "it-IT": "Avvio dell'inizializzazione di VoerkaI18n",
-        "nl-NL": "Start met initialiseren van VoerkaI18n",
+    "开始初始化": {
+        "en-US": "Start initialization",
+        "es-ES": "Comenzar inicialización\r",
+        "ar-EG": "بدء التهيئة\r",
+        "pt-PT": "Iniciando inicialização",
+        "ru-RU": "Начало инициализации\r",
+        "ja-JP": "初期化を開始",
+        "de-DE": "Initialisierung starten",
+        "fr-FR": "Commencer l'initialisation\r",
+        "ko-KR": "초기화 시작\r",
+        "it-IT": "Inizio dell'inizializzazione",
+        "nl-NL": "Start initialisatie",
         "$files": [
-            "src\\commands\\init\\initializer.js(94:22-94:39)"
+            "src/commands/init/initializer.js(S112:22-S112:29)"
         ],
-        "$id": 109
+        "$id": 139
     },
     "配置信息：": {
         "en-US": "Configuration information:",
-        "es-ES": "Información de configuración:",
-        "ar-EG": "معلومات التكوين:",
+        "es-ES": "Información de configuración:\r",
+        "ar-EG": "معلومات التكوين:\r",
         "pt-PT": "Informações de configuração:",
-        "ru-RU": "Информация о конфигурации:",
+        "ru-RU": "Конфигурационная информация:\r",
         "ja-JP": "設定情報：",
         "de-DE": "Konfigurationsinformationen:",
-        "fr-FR": "Informations de configuration :",
-        "ko-KR": "구성 정보:",
+        "fr-FR": "Informations de configuration :\r",
+        "ko-KR": "설정 정보:\r",
         "it-IT": "Informazioni di configurazione:",
         "nl-NL": "Configuratie-informatie:",
         "$files": [
-            "src\\commands\\init\\initializer.js(99:23-99:30)"
+            "src/commands/init/initializer.js(S115:23-S115:30)"
         ],
-        "$id": 110
+        "$id": 140
     },
     "语言配置文件: {}": {
         "en-US": "Language configuration file: {}",
-        "es-ES": "Archivo de configuración de idiomas: {}",
-        "ar-EG": "ملف تكوين اللغة: {}",
-        "pt-PT": "Arquivo de configuração de idiomas: {}",
-        "ru-RU": "Файлы конфигурации языка: {}",
+        "es-ES": "Archivo de configuración de idioma: {}\r",
+        "ar-EG": "ملف تكوين اللغة: {}\r",
+        "pt-PT": "Arquivo de configuração de idioma: {}",
+        "ru-RU": "Файл конфигурации языков: {}\r",
         "ja-JP": "言語設定ファイル: {}",
         "de-DE": "Sprachkonfigurationsdatei: {}",
-        "fr-FR": "Fichier de configuration des langues : {}",
-        "ko-KR": "언어 구성 파일: {}",
-        "it-IT": "File di configurazione delle lingue: {}",
+        "fr-FR": "Fichier de configuration des langues : {}\r",
+        "ko-KR": "언어 설정 파일: {}\r",
+        "it-IT": "File di configurazione della lingua: {}",
         "nl-NL": "Taalconfiguratiebestand: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(100:22-100:34)"
+            "src/commands/init/initializer.js(S116:22-S116:34)"
         ],
-        "$id": 316
+        "$id": 141
     },
     "拟支持的语言: {}": {
-        "en-US": "Languages to be supported: {}",
-        "es-ES": "Idiomas propuestos: {}",
-        "ar-EG": "اللغات المقترحة للدعم: {}",
-        "pt-PT": "Idiomas a serem suportados: {}",
-        "ru-RU": "Планируемые языки поддержки: {}",
+        "en-US": "Intended supported languages: {}",
+        "es-ES": "Idiomas planificados para ser soportados: {}\r",
+        "ar-EG": "اللغات المخطط دعمها: {}\r",
+        "pt-PT": "Idiomas planejados para suporte: {}",
+        "ru-RU": "Планируемые языки для поддержки: {}\r",
         "ja-JP": "サポート予定の言語: {}",
-        "de-DE": "Vorgesehene Sprachen: {}",
-        "fr-FR": "Langues proposées : {}",
-        "ko-KR": "지원 예정 언어: {}",
-        "it-IT": "Lingue supportate: {}",
-        "nl-NL": "Voorgestelde ondersteunde talen: {}",
+        "de-DE": "Geplante unterstützte Sprachen: {}",
+        "fr-FR": "Langues prévues à être prises en charge : {}\r",
+        "ko-KR": "지원 예정인 언어: {}\r",
+        "it-IT": "Lingue pianificate per il supporto: {}",
+        "nl-NL": "Te ondersteunen talen: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(101:22-101:34)"
+            "src/commands/init/initializer.js(S117:22-S117:34)"
         ],
-        "$id": 317
+        "$id": 142
     },
     "已安装运行时: {}": {
         "en-US": "Installed runtime: {}",
-        "es-ES": "Tiempo de ejecución instalado: {}",
-        "ar-EG": "البيئة التشغيلية المثبتة: {}",
-        "pt-PT": "Runtime instalado: {}",
-        "ru-RU": "Установленные среды выполнения: {}",
+        "es-ES": "Tiempo de ejecución instalado: {}\r",
+        "ar-EG": "وقت التشغيل المثبت: {}\r",
+        "pt-PT": "Tempo de execução instalado: {}",
+        "ru-RU": "Установленная среда выполнения: {}\r",
         "ja-JP": "インストール済みランタイム: {}",
-        "de-DE": "Installierte Laufzeit: {}",
-        "fr-FR": "Runtime installé : {}",
-        "ko-KR": "설치된 런타임: {}",
-        "it-IT": "Runtime installato: {}",
-        "nl-NL": "Geïnstalleerde runtime: {}",
+        "de-DE": "Installierte Laufzeitumgebung: {}",
+        "fr-FR": "Runtime installé : {}\r",
+        "ko-KR": "설치된 런타임: {}\r",
+        "it-IT": "Runtime installati: {}",
+        "nl-NL": "Reeds geïnstalleerde runtime: {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(102:22-102:34)"
+            "src/commands/init/initializer.js(S118:22-S118:34)"
         ],
-        "$id": 318
+        "$id": 143
     },
-    "工作模式    :  {}": {
-        "en-US": "Working mode:  {}",
-        "es-ES": "Modo de trabajo:  {}",
+    "工作模式   :  {}": {
+        "en-US": "Working mode   :  {}",
+        "es-ES": "Modo de trabajo   :  {}",
         "ar-EG": "وضع العمل: {}",
-        "pt-PT": "Modo de trabalho: {}",
-        "ru-RU": "Режим работы: {}",
-        "ja-JP": "動作モード    :  {}",
-        "de-DE": "Betriebsmodus:  {}",
-        "fr-FR": "Mode de travail : {}",
-        "ko-KR": "작업 모드:  {}",
-        "it-IT": "Modalità di lavoro: {}",
-        "nl-NL": "Werkmodus:  {}",
+        "pt-PT": "Modo de trabalho   :  {}",
+        "ru-RU": "Рабочий режим   :  {}",
+        "ja-JP": "動作モード   :  {}",
+        "de-DE": "Arbeitsmodus   :  {}",
+        "fr-FR": "Mode de travail   :  {}",
+        "ko-KR": "작업 모드   :  {}",
+        "it-IT": "Modalità di lavoro   :  {}",
+        "nl-NL": "Werkmodus   :  {}",
         "$files": [
-            "src\\commands\\init\\initializer.js(103:22-103:37)"
+            "src/commands/init/initializer.js(S119:22-S119:36)"
         ],
-        "$id": 319
+        "$id": 144
     },
     "库模式": {
         "en-US": "Library mode",
-        "es-ES": "Modo de biblioteca",
+        "es-ES": "Modo biblioteca",
         "ar-EG": "وضع المكتبة",
         "pt-PT": "Modo de biblioteca",
         "ru-RU": "Режим библиотеки",
@@ -725,15 +761,15 @@
         "fr-FR": "Mode bibliothèque",
         "ko-KR": "라이브러리 모드",
         "it-IT": "Modalità libreria",
-        "nl-NL": "Bibliothekmodus",
+        "nl-NL": "Bibliotheekmodus",
         "$files": [
-            "src\\commands\\init\\initializer.js(103:51-103:56)"
+            "src/commands/init/initializer.js(S119:50-S119:55)"
         ],
-        "$id": 115
+        "$id": 145
     },
     "应用模式": {
         "en-US": "Application mode",
-        "es-ES": "Modo de aplicación",
+        "es-ES": "Modo aplicación",
         "ar-EG": "وضع التطبيق",
         "pt-PT": "Modo de aplicação",
         "ru-RU": "Режим приложения",
@@ -744,540 +780,540 @@
         "it-IT": "Modalità applicazione",
         "nl-NL": "Toepassingsmodus",
         "$files": [
-            "src\\commands\\init\\initializer.js(103:62-103:68)"
+            "src/commands/init/initializer.js(S119:61-S119:67)"
         ],
-        "$id": 116
-    },
-    "初始化成功,下一步：": {
-        "en-US": "Initialization successful, next step:",
-        "es-ES": "Inicialización exitosa, siguiente paso:",
-        "ar-EG": "تم التنشيط بنجاح، الخطوة التالية:",
-        "pt-PT": "Inicialização bem-sucedida, próximo passo:",
-        "ru-RU": "Инициализация успешна, следующий шаг:",
-        "ja-JP": "初期化成功、次の手順：",
-        "de-DE": "Initialisierung erfolgreich, nächster Schritt:",
-        "fr-FR": "Initialisation réussie, étape suivante :",
-        "ko-KR": "초기화 성공, 다음 단계:",
-        "it-IT": "Inizializzazione completata, passo successivo:",
-        "nl-NL": "Initialisatie geslaagd, volgende stap:",
-        "$files": [
-            "src\\commands\\init\\initializer.js(104:23-104:35)"
-        ],
-        "$id": 117
+        "$id": 146
     },
     "修改{}文件编辑语言参数": {
         "en-US": "Modify {} file to edit language parameters",
-        "es-ES": "Modificar el archivo {} para editar los parámetros del idioma",
+        "es-ES": "Modificar el archivo {} para editar los parámetros de idioma",
         "ar-EG": "تعديل ملف {} لتحرير معلمات اللغة",
-        "pt-PT": "Modificar o arquivo {} para editar os parâmetros de idioma",
-        "ru-RU": "Измените файл {} для редактирования параметров языка",
-        "ja-JP": "{}ファイルの編集で言語パラメータを修正",
-        "de-DE": "Bearbeite die {}-Datei, um die Sprachparameter zu bearbeiten",
+        "pt-PT": "Modificar o parâmetro de idioma no arquivo {}",
+        "ru-RU": "Изменить параметр языка в файле {}",
+        "ja-JP": "{}ファイルを編集して言語パラメータを変更",
+        "de-DE": "Ändern Sie die Sprachparameter in der Datei {}",
         "fr-FR": "Modifier le fichier {} pour éditer les paramètres de langue",
-        "ko-KR": "{} 파일 편집하여 언어 매개변수 수정",
-        "it-IT": "Modifica il file {} per modificare i parametri della lingua",
-        "nl-NL": "Bewerk het {} bestand om de taalparameters te bewerken",
+        "ko-KR": "{} 파일 수정하여 언어 매개변수 편집",
+        "it-IT": "Modificare il file {} per modificare i parametri della lingua",
+        "nl-NL": "Wijzig {} bestand om taalparameters te bewerken",
         "$files": [
-            "src\\commands\\init\\initializer.js(105:22-105:36)"
+            "src/commands/init/initializer.js(S121:22-S121:36)"
         ],
-        "$id": 320
+        "$id": 147
+    },
+    "运行<{}>自动包裹要翻译的文本": {
+        "en-US": "Run <{}> to automatically wrap the text to be translated",
+        "es-ES": "Ejecutar <{}> para envolver automáticamente el texto a traducir",
+        "ar-EG": "تشغيل <{}> لتغليف النصوص المطلوب ترجمتها تلقائيًا",
+        "pt-PT": "Executar <{}> para envolver automaticamente o texto a ser traduzido",
+        "ru-RU": "Запустить <{}> для автоматической обертки текста, который нужно перевести",
+        "ja-JP": "<{}>を実行して自動的に翻訳対象のテキストをラップ",
+        "de-DE": "Führen Sie <{}> aus, um den zu übersetzenden Text automatisch zu umschließen",
+        "fr-FR": "Exécuter <{}> pour envelopper automatiquement le texte à traduire",
+        "ko-KR": "<{}> 실행하여 자동으로 번역할 텍스트 감싸기",
+        "it-IT": "Eseguire <{}> per avvolgere automaticamente il testo da tradurre",
+        "nl-NL": "Voer <{}> uit om automatisch de te vertalen tekst in te pakken",
+        "$files": [
+            "src/commands/init/initializer.js(S122:22-S122:40)"
+        ],
+        "$id": 148
     },
     "运行<{}>扫描提取要翻译的文本": {
-        "en-US": "Run <{}> to scan and extract text to be translated",
+        "en-US": "Run <{}> to scan and extract the text to be translated",
         "es-ES": "Ejecutar <{}> para escanear y extraer el texto a traducir",
-        "ar-EG": "تشغيل <{}> لمسح واستخراج النصوص المراد ترجمتها",
-        "pt-PT": "Executar <{}> para digitalizar e extrair o texto a ser traduzido",
-        "ru-RU": "Запустите <{}> для сканирования и извлечения текста для перевода",
-        "ja-JP": "<{}>を実行して翻訳対象のテキストをスキャン抽出",
-        "de-DE": "Führe <{}> aus, um den Text zu scannen und auszuziehen, der übersetzt werden soll",
-        "fr-FR": "Exécuter <{}> pour scanner et extraire les textes à traduire",
+        "ar-EG": "تشغيل <{}> لفحص واستخراج النصوص المطلوب ترجمتها",
+        "pt-PT": "Executar <{}> para escanear e extrair o texto a ser traduzido",
+        "ru-RU": "Запустить <{}> для сканирования и извлечения текста, который нужно перевести",
+        "ja-JP": "<{}>を実行してスキャンし、翻訳対象のテキストを抽出",
+        "de-DE": "Führen Sie <{}> aus, um den zu übersetzenden Text zu scannen und zu extrahieren",
+        "fr-FR": "Exécuter <{}> pour analyser et extraire le texte à traduire",
         "ko-KR": "<{}> 실행하여 번역할 텍스트 스캔 및 추출",
-        "it-IT": "Esegui <{}> per scansionare e estrarre i testi da tradurre",
-        "nl-NL": "Voer <{}> uit om de tekst die moet worden vertaald te scannen en te extraheren",
+        "it-IT": "Eseguire <{}> per scansionare ed estrarre il testo da tradurre",
+        "nl-NL": "Voer <{}> uit om de te vertalen tekst te scannen en te extraheren",
         "$files": [
-            "src\\commands\\init\\initializer.js(106:22-106:40)"
+            "src/commands/init/initializer.js(S123:22-S123:40)"
         ],
-        "$id": 321
+        "$id": 149
     },
     "运行<{}>在线自动翻译": {
         "en-US": "Run <{}> for online automatic translation",
-        "es-ES": "Ejecutar <{}> para la traducción automática en línea",
-        "ar-EG": "تشغيل <{}> للترجمة الآلية عبر الإنترنت",
+        "es-ES": "Ejecutar <{}> para traducción automática en línea",
+        "ar-EG": "تشغيل <{}> للترجمة التلقائية عبر الإنترنت",
         "pt-PT": "Executar <{}> para tradução automática online",
-        "ru-RU": "Запустите <{}> для автоматического онлайн-перевода",
-        "ja-JP": "<{}>を実行してオンライン自動翻訳",
-        "de-DE": "Führe <{}> aus, um automatisch online zu übersetzen",
+        "ru-RU": "Запустить <{}> для автоматического онлайн-перевода",
+        "ja-JP": "<{}>を実行してオンラインで自動翻訳",
+        "de-DE": "Führen Sie <{}> aus, um automatisch online zu übersetzen",
         "fr-FR": "Exécuter <{}> pour la traduction automatique en ligne",
         "ko-KR": "<{}> 실행하여 온라인 자동 번역",
-        "it-IT": "Esegui <{}> per la traduzione automatica online",
+        "it-IT": "Eseguire <{}> per la traduzione automatica online",
         "nl-NL": "Voer <{}> uit voor online automatische vertaling",
         "$files": [
-            "src\\commands\\init\\initializer.js(107:22-107:36)"
+            "src/commands/init/initializer.js(S124:22-S124:36)"
         ],
-        "$id": 322
+        "$id": 150
     },
     "未找到提示模板{}": {
         "en-US": "Prompt template {} not found",
-        "es-ES": "No se encontró la plantilla de sugerencias {}",
-        "ar-EG": "لم يتم العثور على قالب الإرشادات {}",
-        "pt-PT": "Modelo de dica não encontrado {}",
-        "ru-RU": "Не найден шаблон подсказок {}",
-        "ja-JP": "プロンプトテンプレート{}が見つかりません",
-        "de-DE": "Kein Promptschema gefunden {}",
-        "fr-FR": "Modèle d'indication introuvable {}",
-        "ko-KR": "프롬프트 템플릿을 찾을 수 없음{}",
-        "it-IT": "Template di prompt non trovato {}",
-        "nl-NL": "Geen prompttemplate gevonden {}",
+        "es-ES": "No se encontró la plantilla de sugerencia {}",
+        "ar-EG": "لم يتم العثور على قالب التلميح {}",
+        "pt-PT": "Modelo de sugestão {} não encontrado",
+        "ru-RU": "Шаблон подсказки {} не найден",
+        "ja-JP": "テンプレート{}が見つかりません",
+        "de-DE": "Hinweisvorlage {} nicht gefunden",
+        "fr-FR": "Modèle de suggestion {} non trouvé",
+        "ko-KR": "힌트 템플릿 {}를 찾을 수 없음",
+        "it-IT": "Modello di suggerimento non trovato {}",
+        "nl-NL": "Geen prompt-sjabloon {} gevonden",
         "$files": [
-            "src\\commands\\translate\\ai.provider.js(54:34-54:45)",
-            "src\\commands\\wrap\\wrap.js(25:22-25:33)"
+            "src/commands/translate/ai.provider.js(S43:34-S43:45)",
+            "src/commands/wrap/wrap.js(S26:22-S26:33)"
         ],
-        "$id": 122
+        "$id": 151
     },
     "执行自动翻译": {
-        "en-US": "Execute automatic translation",
+        "en-US": "Perform automatic translation",
         "es-ES": "Ejecutar traducción automática",
         "ar-EG": "تنفيذ الترجمة التلقائية",
         "pt-PT": "Executar tradução automática",
         "ru-RU": "Выполнить автоматический перевод",
-        "ja-JP": "自動翻訳を実行する",
+        "ja-JP": "自動翻訳を実行",
         "de-DE": "Automatische Übersetzung ausführen",
-        "fr-FR": "Exécuter la traduction automatique",
+        "fr-FR": "Effectuer une traduction automatique",
         "ko-KR": "자동 번역 실행",
-        "it-IT": "Esegui la traduzione automatica",
-        "nl-NL": "Automatische vertaling uitvoeren",
+        "it-IT": "Eseguire la traduzione automatica",
+        "nl-NL": "Uitvoeren van automatische vertaling",
         "$files": [
-            "src\\commands\\translate\\index.js(15:23-15:31)"
+            "src/commands/translate/index.js(S15:23-S15:31)"
         ],
-        "$id": 123
+        "$id": 152
     },
     "翻译模式,取值auto=仅翻译未翻译的,full=全部翻译": {
-        "en-US": "Translation mode, value can be auto=translate only untranslated, full=translate all",
-        "es-ES": "Modo de traducción, valores: auto=traducir solo lo no traducido, full=todas las traducciones",
-        "ar-EG": "نمط الترجمة، القيمة auto=ترجمة غير المترجم فقط, full=ترجمة الكل",
-        "pt-PT": "Modo de tradução, valores: auto=apenas traduzir o não traduzido, full=tudo traduzido",
-        "ru-RU": "Режим перевода, значение auto=только не переведенное, full=полностью перевести",
-        "ja-JP": "翻訳モード、値はauto=未翻訳のもののみ翻訳、full=すべて翻訳",
-        "de-DE": "Übersetzungsmodus, Werte: auto=nur nicht übersetzte Texte, full=alles übersetzen",
-        "fr-FR": "Mode de traduction, valeurs possibles : auto=traduire uniquement les non-traduits, full=tout traduire",
-        "ko-KR": "번역 모드, 값은 auto=미번역 항목만, full=전체 번역",
-        "it-IT": "Modalità di traduzione, i valori possibili sono auto=traduci solo ciò che non è stato tradotto, full=tutto il testo",
-        "nl-NL": "Vertaalmodus, waarde is auto=alleen onvertaalde teksten,full=alles vertalen",
+        "en-US": "Translation mode, values: auto=translate only untranslated, full=translate all",
+        "es-ES": "Modo de traducción, valores posibles: auto=solo traducir lo no traducido, full=traducir todo",
+        "ar-EG": "وضع الترجمة، القيم: auto=ترجمة غير المترجم فقط، full=ترجمة الكل",
+        "pt-PT": "Modo de tradução, valores: auto=apenas traduzir o não traduzido, full=traduzir tudo",
+        "ru-RU": "Режим перевода, значения: auto=только непереведенные, full=полный перевод",
+        "ja-JP": "翻訳モード、値:auto=未翻訳のみ,full=すべて翻訳",
+        "de-DE": "Übersetzungsmodus, Werte: auto=nur nicht übersetzte, full=alles übersetzen",
+        "fr-FR": "Mode de traduction, valeurs possibles : auto=seulement les textes non traduits, full=tout traduire",
+        "ko-KR": "번역 모드, 값: auto=번역되지 않은 것만 번역, full=전체 번역",
+        "it-IT": "Modalità di traduzione, valori possibili: auto=solo testi non tradotti, full=tutti i testi",
+        "nl-NL": "Vertaalmodus, waarden: auto=alleen onvertaalde vertalen, full=alles vertalen",
         "$files": [
-            "src\\commands\\translate\\index.js(17:28-17:59)"
+            "src/commands/translate/index.js(S17:28-S17:59)"
         ],
-        "$id": 124
+        "$id": 153
     },
     "只翻译指定的语言": {
         "en-US": "Translate only the specified language",
-        "es-ES": "Solo traducir los idiomas especificados",
+        "es-ES": "Traducir solo el idioma especificado",
         "ar-EG": "ترجمة اللغات المحددة فقط",
-        "pt-PT": "Apenas traduzir os idiomas especificados",
-        "ru-RU": "Переводить только указанные языки",
-        "ja-JP": "指定された言語のみを翻訳する",
-        "de-DE": "Nur bestimmte Sprachen übersetzen",
-        "fr-FR": "Traduire uniquement les langues spécifiées",
+        "pt-PT": "Traduzir apenas o idioma especificado",
+        "ru-RU": "Переводить только указанный язык",
+        "ja-JP": "指定された言語のみ翻訳",
+        "de-DE": "Nur die angegebene Sprache übersetzen",
+        "fr-FR": "Traduire uniquement la langue spécifiée",
         "ko-KR": "지정된 언어만 번역",
-        "it-IT": "Traduci solo le lingue specificate",
-        "nl-NL": "Alleen de aangegeven talen vertalen",
+        "it-IT": "Tradurre solo le lingue specificate",
+        "nl-NL": "Alleen de opgegeven taal vertalen",
         "$files": [
-            "src\\commands\\translate\\index.js(18:43-18:53)"
+            "src/commands/translate/index.js(S18:43-S18:53)"
         ],
-        "$id": 125
+        "$id": 154
     },
     "在线翻译服务提供者名称或翻译脚本文件": {
         "en-US": "Name of the online translation service provider or translation script file",
-        "es-ES": "Nombre del proveedor de servicios de traducción en línea o archivo de script de traducción",
-        "ar-EG": "اسم مزود الخدمة عبر الإنترنت للترجمة أو ملف نص الترجمة",
-        "pt-PT": "Nome do provedor de serviço de tradução online ou arquivo de script de tradução",
-        "ru-RU": "Название поставщика онлайн-услуг перевода или файл скрипта перевода",
-        "ja-JP": "オンライン翻訳サービス提供者名または翻訳スクリプトファイル",
-        "de-DE": "Name des Online-Übersetzungsdienstes oder Übersetzungsskriptdatei",
-        "fr-FR": "Nom du fournisseur de service de traduction en ligne ou fichier de script de traduction",
+        "es-ES": "Nombre del proveedor del servicio de traducción en línea o archivo de script de traducción",
+        "ar-EG": "اسم مزود خدمة الترجمة عبر الإنترنت أو ملف سكريبت الترجمة",
+        "pt-PT": "Nome do provedor de serviços de tradução online ou arquivo de script de tradução",
+        "ru-RU": "Название поставщика онлайн-услуг перевода или файла сценария перевода",
+        "ja-JP": "オンライン翻訳サービスプロバイダ名または翻訳スクリプトファイル",
+        "de-DE": "Name des Onlinedienstanbieters für Übersetzungen oder Übersetzungsskriptdatei",
+        "fr-FR": "Nom du fournisseur de services de traduction en ligne ou fichier de script de traduction",
         "ko-KR": "온라인 번역 서비스 제공자 이름 또는 번역 스크립트 파일",
-        "it-IT": "Nome del provider del servizio di traduzione online o file di script di traduzione",
-        "nl-NL": "Naam van de online vertaaldienst of bestandsnaam van het vertaalscript",
+        "it-IT": "Nome del provider del servizio di traduzione online o file script di traduzione",
+        "nl-NL": "Naam van de online vertalingsserviceprovider of vertaalscriptbestand",
         "$files": [
-            "src\\commands\\translate\\index.js(19:44-19:64)"
+            "src/commands/translate/index.js(S19:44-S19:64)"
         ],
-        "$id": 126
+        "$id": 155
     },
     "将多个文本合并提交的最大包字节数": {
-        "en-US": "Maximum byte size for a merged submission of multiple texts",
-        "es-ES": "Número máximo de bytes para el paquete al enviar múltiples textos juntos",
-        "ar-EG": "حجم الحزمة القصوى بالبايت عند دمج عدة نصوص للتقديم",
-        "pt-PT": "Tamanho máximo do pacote em bytes para submissão combinada de múltiplos textos",
-        "ru-RU": "Максимальный размер пакета в байтах для объединенной подачи нескольких текстов",
-        "ja-JP": "複数のテキストをマージして送信する最大パッケージサイズ（バイト）",
-        "de-DE": "Maximale Anzahl von Bytes, die in einem Paket zusammengefasst werden können",
-        "fr-FR": "Taille maximale en octets des paquets soumis en regroupant plusieurs textes",
-        "ko-KR": "여러 텍스트를 합쳐 제출할 수 있는 최대 패키지 바이트 수",
-        "it-IT": "Numero massimo di byte per il pacchetto di invio di più testi uniti",
-        "nl-NL": "Maximaal aantal bytes voor bundeling van meerdere teksten bij indienen",
+        "en-US": "Maximum package size in bytes for submitting multiple texts",
+        "es-ES": "Número máximo de bytes por paquete al enviar múltiples textos juntos",
+        "ar-EG": "أقصى عدد بايتات لتجميع النصوص المتعددة وتقديمها معًا",
+        "pt-PT": "Número máximo de bytes por pacote ao enviar múltiplos textos juntos",
+        "ru-RU": "Максимальный размер пакета в байтах для отправки нескольких текстов",
+        "ja-JP": "複数のテキストをまとめて送信する最大バイト数",
+        "de-DE": "Maximale Paketgröße in Bytes für das Zusammenfassen mehrerer Texte zur Übermittlung",
+        "fr-FR": "Nombre maximal d'octets par lot lors de la soumission de plusieurs textes fusionnés",
+        "ko-KR": "여러 텍스트를 병합하여 제출할 최대 패키지 바이트 수",
+        "it-IT": "Numero massimo di byte per pacchetto quando si uniscono più testi per l'invio",
+        "nl-NL": "Maximale pakketgrootte in bytes voor het indienen van meerdere teksten",
         "$files": [
-            "src\\commands\\translate\\index.js(20:52-20:70)"
+            "src/commands/translate/index.js(S20:52-S20:70)"
         ],
-        "$id": 127
+        "$id": 156
     },
     "API URL": {
         "en-US": "API URL",
         "es-ES": "URL de la API",
-        "ar-EG": "عنوان URL للواجهة البرمجية للتطبيقات",
+        "ar-EG": "عنوان URL الخاص بالـ API",
         "pt-PT": "URL da API",
         "ru-RU": "URL API",
         "ja-JP": "API URL",
         "de-DE": "API URL",
-        "fr-FR": "URL de l'API",
+        "fr-FR": "URL API",
         "ko-KR": "API URL",
         "it-IT": "URL API",
         "nl-NL": "API URL",
         "$files": [
-            "src\\commands\\translate\\index.js(21:36-21:45)"
+            "src/commands/translate/index.js(S21:36-S21:45)"
         ],
-        "$id": 128
+        "$id": 157
     },
     "API ID": {
         "en-US": "API ID",
         "es-ES": "ID de la API",
-        "ar-EG": "معرف الواجهة البرمجية للتطبيقات",
+        "ar-EG": "معرف الـ API",
         "pt-PT": "ID da API",
         "ru-RU": "ID API",
         "ja-JP": "API ID",
         "de-DE": "API ID",
-        "fr-FR": "ID de l'API",
+        "fr-FR": "ID API",
         "ko-KR": "API ID",
         "it-IT": "ID API",
         "nl-NL": "API ID",
         "$files": [
-            "src\\commands\\translate\\index.js(22:35-22:43)"
+            "src/commands/translate/index.js(S22:35-S22:43)"
         ],
-        "$id": 129
+        "$id": 158
     },
     "AI模型名称": {
         "en-US": "AI model name",
         "es-ES": "Nombre del modelo de IA",
-        "ar-EG": "اسم النموذج الذكي",
-        "pt-PT": "Nome do modelo AI",
-        "ru-RU": "Название AI модели",
+        "ar-EG": "اسم نموذج الذكاء الاصطناعي",
+        "pt-PT": "Nome do modelo de IA",
+        "ru-RU": "Название модели ИИ",
         "ja-JP": "AIモデル名",
         "de-DE": "AI-Modellname",
-        "fr-FR": "Nom du modèle d'IA",
+        "fr-FR": "Nom du modèle IA",
         "ko-KR": "AI 모델 이름",
         "it-IT": "Nome del modello AI",
         "nl-NL": "AI modelnaam",
         "$files": [
-            "src\\commands\\translate\\index.js(23:40-23:48)"
+            "src/commands/translate/index.js(S23:40-S23:48)"
         ],
-        "$id": 130
+        "$id": 159
     },
     "API密钥": {
         "en-US": "API key",
         "es-ES": "Clave de la API",
-        "ar-EG": "مفتاح واجهة برمجة التطبيقات",
+        "ar-EG": "مفتاح الـ API",
         "pt-PT": "Chave da API",
         "ru-RU": "Ключ API",
         "ja-JP": "APIキー",
         "de-DE": "API-Schlüssel",
-        "fr-FR": "Clé de l'API",
+        "fr-FR": "Clé API",
         "ko-KR": "API 키",
         "it-IT": "Chiave API",
         "nl-NL": "API sleutel",
         "$files": [
-            "src\\commands\\translate\\index.js(24:37-24:44)"
+            "src/commands/translate/index.js(S24:37-S24:44)"
         ],
-        "$id": 131
+        "$id": 160
     },
     "API服务名称,声明在languages/api.json中": {
         "en-US": "API service name, declared in languages/api.json",
-        "es-ES": "Nombre del servicio de API, declarado en languages/api.json",
-        "ar-EG": "اسم خدمة واجهة برمجة التطبيقات، يُحدد في languages/api.json",
-        "pt-PT": "Nome do serviço da API, declarado no languages/api.json",
-        "ru-RU": "Название API-сервиса, объявленного в languages/api.json",
-        "ja-JP": "APIサービス名、languages/api.jsonに記述",
+        "es-ES": "Nombre del servicio de la API, declarado en languages/api.json",
+        "ar-EG": "اسم خدمة الـ API، معلن عنه في languages/api.json",
+        "pt-PT": "Nome do serviço da API, declarado em languages/api.json",
+        "ru-RU": "Имя службы API, объявленное в languages/api.json",
+        "ja-JP": "APIサービス名、languages/api.jsonに宣言されています",
         "de-DE": "API-Dienstname, deklariert in languages/api.json",
         "fr-FR": "Nom du service API, déclaré dans languages/api.json",
-        "ko-KR": "API 서비스 이름, languages/api.json에 선언",
+        "ko-KR": "API 서비스 이름, languages/api.json에 선언됨",
         "it-IT": "Nome del servizio API, dichiarato in languages/api.json",
         "nl-NL": "API servicenaam, gedeclareerd in languages/api.json",
         "$files": [
-            "src\\commands\\translate\\index.js(25:34-25:66)"
+            "src/commands/translate/index.js(S25:34-S25:66)"
         ],
-        "$id": 132
+        "$id": 161
     },
     "翻译速度限制,即每秒可调用的API次数": {
-        "en-US": "Translation speed limit, i.e., number of API calls per second",
-        "es-ES": "Límite de velocidad de traducción, es decir, número de llamadas a la API permitidas por segundo",
-        "ar-EG": "حد سرعة الترجمة، أي عدد مرات استدعاء API المسموح بها لكل ثانية",
-        "pt-PT": "Limite de velocidade de tradução, isto é, número de chamadas de API permitidas por segundo",
-        "ru-RU": "Ограничение скорости перевода, т.е. количество вызовов API в секунду",
-        "ja-JP": "翻訳速度制限、つまり1秒あたりのAPI呼び出し回数",
-        "de-DE": "Übersetzungsgeschwindigkeitsbegrenzung, d.h. Anzahl der API-Aufrufe pro Sekunde",
-        "fr-FR": "Limite de vitesse de traduction, c'est-à-dire le nombre d'appels d'API par seconde autorisés",
-        "ko-KR": "번역 속도 제한, 즉 초당 호출 가능한 API 횟수",
-        "it-IT": "Limitazione della velocità di traduzione, cioè il numero di chiamate API al secondo",
-        "nl-NL": "Snelheidslimiet voor vertaling, d.w.z. het aantal API-aanroepen per seconde",
+        "en-US": "Translation speed limit, i.e., the number of API calls allowed per second",
+        "es-ES": "Límite de velocidad de traducción, es decir, el número de veces que se puede invocar la API por segundo",
+        "ar-EG": "حد سرعة الترجمة، وهو عدد مرات استدعاء API التي يمكن تنفيذها في الثانية",
+        "pt-PT": "Limite de velocidade de tradução, ou seja, o número de vezes que a API pode ser chamada por segundo",
+        "ru-RU": "Ограничение скорости перевода, то есть количество вызовов API в секунду",
+        "ja-JP": "翻訳速度制限、つまり1秒間に呼び出せるAPIの回数",
+        "de-DE": "Übersetzungsrate-Limit, d.h. die Anzahl der pro Sekunde aufrufbaren API-Aufrufe",
+        "fr-FR": "Limite de vitesse de traduction, c'est-à-dire le nombre d'appels d'API par seconde",
+        "ko-KR": "초당 API 호출 가능 횟수 제한",
+        "it-IT": "Limite di velocità di traduzione, ovvero il numero di chiamate API per secondo",
+        "nl-NL": "Vertaalsnelheidslimiet, het aantal keren dat de API per seconde kan worden aangeroepen",
         "$files": [
-            "src\\commands\\translate\\index.js(26:39-26:60)"
+            "src/commands/translate/index.js(S26:39-S26:60)"
         ],
-        "$id": 133
+        "$id": 162
     },
     "languages/prompts文件夹中的提示文件名称": {
-        "en-US": "Prompt file name in the languages/prompts folder",
+        "en-US": "Prompt file names in the languages/prompts folder",
         "es-ES": "Nombre del archivo de indicaciones en la carpeta languages/prompts",
-        "ar-EG": "اسم ملف التحفيز في مجلد languages/prompts",
-        "pt-PT": "Nome do arquivo de prompt na pasta languages/prompts",
-        "ru-RU": "Имя файла с подсказками в папке languages/prompts",
+        "ar-EG": "أسماء ملفات المطالبات في مجلد languages/prompts",
+        "pt-PT": "Nomes dos arquivos de prompts na pasta languages/prompts",
+        "ru-RU": "Имена файлов подсказок в папке languages/prompts",
         "ja-JP": "languages/promptsフォルダ内のプロンプトファイル名",
-        "de-DE": "Name der Promptdatei im Ordner languages/prompts",
-        "fr-FR": "Nom du fichier de prompt dans le dossier languages/prompts",
-        "ko-KR": "languages/prompts 폴더의 프롬프트 파일 이름",
-        "it-IT": "Nome del file di promemoria nella cartella languages/prompts",
-        "nl-NL": "Naam van het promptbestand in de map languages/prompts",
+        "de-DE": "Dateiname der Prompt-Dateien im Ordner languages/prompts",
+        "fr-FR": "Noms des fichiers de prompt dans le dossier languages/prompts",
+        "ko-KR": "languages/prompts 폴더에 있는 프롬프트 파일 이름",
+        "it-IT": "Nome dei file di suggerimenti nella cartella languages/prompts",
+        "nl-NL": "De naam van het promptbestand in de map languages/prompts",
         "$files": [
-            "src\\commands\\translate\\index.js(27:38-27:68)"
+            "src/commands/translate/index.js(S27:38-S27:68)"
         ],
-        "$id": 134
+        "$id": 163
     },
     "需要指定翻译API服务": {
-        "en-US": "Need to specify the translation API service",
-        "es-ES": "Se necesita especificar el servicio de API de traducción",
+        "en-US": "Translation API service needs to be specified",
+        "es-ES": "Es necesario especificar el servicio de API de traducción",
         "ar-EG": "يجب تحديد خدمة ترجمة API",
         "pt-PT": "É necessário especificar o serviço de API de tradução",
-        "ru-RU": "Необходимо указать сервис API перевода",
+        "ru-RU": "Необходимо указать службу API перевода",
         "ja-JP": "翻訳APIサービスを指定する必要があります",
-        "de-DE": "Der Übersetzung-API-Dienst muss angegeben werden",
+        "de-DE": "Es muss ein Übersetzungs-API-Dienst angegeben werden",
         "fr-FR": "Il est nécessaire de spécifier le service d'API de traduction",
-        "ko-KR": "번역 API 서비스 지정 필요",
+        "ko-KR": "번역 API 서비스를 지정해야 합니다",
         "it-IT": "È necessario specificare il servizio API di traduzione",
-        "nl-NL": "Moet de vertaal-APIdienst specificeren",
+        "nl-NL": "Er moet een vertaal-API-service worden opgegeven",
         "$files": [
-            "src\\commands\\translate\\index.js(31:33-31:46)"
+            "src/commands/translate/index.js(S31:33-S31:46)"
         ],
-        "$id": 135
+        "$id": 164
     },
     "- 通过{},{},{}参数指定": {
-        "en-US": "- Specify via {},{},{} parameters",
-        "es-ES": "- Especificado mediante los parámetros {},{},{}",
-        "ar-EG": "- عن طريق تحديد المعاملات {},{},{}",
-        "pt-PT": "- Especifique através dos parâmetros {},{},{}",
+        "en-US": "- Specified by the {},{},{} parameters",
+        "es-ES": "- Especificar mediante los parámetros {},{},{}",
+        "ar-EG": "- يتم تحديد عن طريق {},{},{} المعلمات",
+        "pt-PT": "- Especificado pelos parâmetros {},{},{}",
         "ru-RU": "- Указать через параметры {},{},{}",
-        "ja-JP": "- {}、{}、{}パラメータで指定",
-        "de-DE": "- über die Parameter {},{},{} festlegen",
-        "fr-FR": "- Spécifié via les paramètres {},{},{}",
-        "ko-KR": "- {}를 통해 지정",
-        "it-IT": "- Specificare tramite {},{},{} parametri",
-        "nl-NL": "- Specificeer via {},{},{} parameters",
+        "ja-JP": "- {},{},{}パラメータで指定",
+        "de-DE": "- Über die Parameter {}, {}, {} angeben",
+        "fr-FR": "- Spécifier via les paramètres {},{},{}",
+        "ko-KR": "- {},{},{} 매개변수로 지정",
+        "it-IT": "- Specificare tramite i parametri {}, {}, {}",
+        "nl-NL": "- Opgeven via {},{},{} parameters",
         "$files": [
-            "src\\commands\\translate\\index.js(32:30-32:48)"
+            "src/commands/translate/index.js(S32:30-S32:48)"
         ],
-        "$id": 136
+        "$id": 165
     },
     "- 在{}文件中配置翻译API服务参数,详见文档": {
         "en-US": "- Configure translation API service parameters in the {} file, see documentation for details",
-        "es-ES": "- Configura los parámetros del servicio de API de traducción en el archivo {}, consulta la documentación para más detalles",
-        "ar-EG": "- قم بتكوين معلمات خدمة ترجمة API في ملف {}، راجع الوثائق للتفاصيل",
-        "pt-PT": "- Configure os parâmetros do serviço de API de tradução no arquivo {}, veja a documentação",
-        "ru-RU": "- Настройте параметры службы перевода API в файле {}, см. документацию",
-        "ja-JP": "- {}ファイルで翻訳APIサービスのパラメータを設定します。詳細はドキュメントを参照してください。",
-        "de-DE": "- Konfigurieren Sie die Parameter des Übersetzung-API-Dienstes in der {}-Datei, siehe Dokumentation",
-        "fr-FR": "- Configurez les paramètres du service d'API de traduction dans le fichier {}, voir la documentation pour plus de détails",
-        "ko-KR": "- {} 파일에서 번역 API 서비스 매개변수를 구성합니다. 자세한 내용은 문서를 참조하세요.",
-        "it-IT": "- Configura i parametri del servizio API di traduzione nel file {}, consulta la documentazione per maggiori dettagli",
-        "nl-NL": "- Configureer de vertaal-API-serviceparameters in het {} bestand, zie de documentatie voor meer details",
+        "es-ES": "- Configurar los parámetros del servicio de API de traducción en el archivo {}, ver la documentación para más detalles",
+        "ar-EG": "- قم بتكوين معلمات خدمة ترجمة API في ملف {}، لمزيد من التفاصيل راجع الوثائق",
+        "pt-PT": "- Configure os parâmetros do serviço de API de tradução no arquivo {}, consulte a documentação para mais detalhes",
+        "ru-RU": "- Настроить параметры службы API перевода в файле {}, подробнее см. документацию",
+        "ja-JP": "- {}ファイルに翻訳APIサービスのパラメータを設定、詳細はドキュメントを参照",
+        "de-DE": "- Konfigurieren Sie die Übersetzungs-API-Dienstparameter in der Datei {}, siehe Dokumentation",
+        "fr-FR": "- Configurer les paramètres du service d'API de traduction dans le fichier {}, voir la documentation pour plus de détails",
+        "ko-KR": "- {} 파일에서 번역 API 서비스 매개변수를 구성합니다. 자세한 내용은 문서를 참조하세요",
+        "it-IT": "- Configurare i parametri del servizio API di traduzione nel file {}, vedere la documentazione per ulteriori dettagli",
+        "nl-NL": "- Configureer de vertaal-API-serviceparameters in het {} bestand, zie documentatie voor meer informatie",
         "$files": [
-            "src\\commands\\translate\\index.js(33:30-33:56)"
+            "src/commands/translate/index.js(S33:30-S33:56)"
         ],
-        "$id": 137
+        "$id": 166
     },
     "加载翻译提供者{}失败: {}": {
         "en-US": "Failed to load translation provider {}: {}",
-        "es-ES": "Error al cargar el proveedor de traducción {}: {}",
-        "ar-EG": "فشل تحميل مزود الترجمة {}: {}",
+        "es-ES": "Fallo al cargar el proveedor de traducción {}: {}",
+        "ar-EG": "فشل تحميل موفر الترجمة {}: {}",
         "pt-PT": "Falha ao carregar o provedor de tradução {}: {}",
-        "ru-RU": "Не удалось загрузить поставщика перевода {}: {}",
-        "ja-JP": "翻訳プロバイダー{}の読み込みに失敗しました: {}",
-        "de-DE": "Laden des Übersetzungsanbieters {} fehlgeschlagen: {}",
+        "ru-RU": "Ошибка загрузки провайдера перевода {}: {}",
+        "ja-JP": "翻訳プロバイダ{}のロードに失敗: {}",
+        "de-DE": "Fehler beim Laden des Übersetzungsdienstanbieters {}: {}",
         "fr-FR": "Échec du chargement du fournisseur de traduction {} : {}",
-        "ko-KR": "{} 제공자 로드 실패: {}",
-        "it-IT": "Caricamento del fornitore di traduzione {} non riuscito: {}",
-        "nl-NL": "Fout bij het laden van de vertaalprovider {}: {}",
+        "ko-KR": "번역 제공자 {} 로드 실패: {}",
+        "it-IT": "Caricamento del provider di traduzione {} fallito: {}",
+        "nl-NL": "Laden van vertaler {} mislukt: {}",
         "$files": [
-            "src\\commands\\translate\\translate.js(21:26-21:43)"
+            "src/commands/translate/translate.js(S21:26-S21:43)"
         ],
-        "$id": 138
+        "$id": 167
     },
     "翻译后的内容与原始内容行数不一致": {
         "en-US": "The number of lines in the translated content does not match the original content",
-        "es-ES": "El contenido traducido no tiene el mismo número de líneas que el contenido original",
-        "ar-EG": "لا يتطابق عدد السطور في المحتوى المترجم مع المحتوى الأصلي",
-        "pt-PT": "O conteúdo traduzido não tem o mesmo número de linhas que o conteúdo original",
-        "ru-RU": "Количество строк переведенного содержимого не совпадает с количеством строк исходного содержимого",
-        "ja-JP": "翻訳後の内容と元の内容の行数が一致しません",
-        "de-DE": "Die Anzahl der Zeilen des übersetzten Inhalts stimmt nicht mit der Anzahl der Zeilen des Originalinhalts überein",
-        "fr-FR": "Le nombre de lignes du contenu traduit ne correspond pas au nombre de lignes du contenu original",
-        "ko-KR": "번역된 내용의 줄 수와 원본 내용의 줄 수가 일치하지 않습니다.",
-        "it-IT": "Il contenuto tradotto non ha lo stesso numero di righe del contenuto originale",
-        "nl-NL": "Het aantal regels van het vertaalde content is niet consistent met het originele content",
+        "es-ES": "El número de líneas del contenido traducido no coincide con el del contenido original",
+        "ar-EG": "عدد أسطر المحتوى المترجم لا يتطابق مع المحتوى الأصلي",
+        "pt-PT": "O número de linhas do conteúdo traduzido é inconsistente com o conteúdo original",
+        "ru-RU": "Количество строк переведенного контента не совпадает с оригиналом",
+        "ja-JP": "翻訳後の内容と元の内容の行数が一致していません",
+        "de-DE": "Die Anzahl der Zeilen im übersetzten Inhalt stimmt nicht mit dem Originalinhalt überein",
+        "fr-FR": "Le nombre de lignes du contenu traduit ne correspond pas au contenu original",
+        "ko-KR": "번역된 내용과 원본 내용의 줄 수가 일치하지 않음",
+        "it-IT": "Il numero di righe del contenuto tradotto non corrisponde al contenuto originale",
+        "nl-NL": "Het aantal regels in de vertaalde inhoud komt niet overeen met het origineel",
         "$files": [
-            "src\\commands\\translate\\translate.js(37:30-37:48)"
+            "src/commands/translate/translate.js(S37:30-S37:48)"
         ],
-        "$id": 139
+        "$id": 168
     },
     "翻译 {} -> {}": {
-        "en-US": "Translation {} -> {}",
-        "es-ES": "Traducción {} -> {}",
+        "en-US": "Translate {} -> {}",
+        "es-ES": "Traduciendo {} -> {}",
         "ar-EG": "ترجمة {} -> {}",
-        "pt-PT": "Tradução {} -> {}",
+        "pt-PT": "Traduzindo {} -> {}",
         "ru-RU": "Перевод {} -> {}",
-        "ja-JP": "{} -> {} に翻訳中",
-        "de-DE": "Übersetzung {} -> {}",
+        "ja-JP": "翻訳 {} -> {}",
+        "de-DE": "Übersetzen {} -> {}",
         "fr-FR": "Traduction {} -> {}",
         "ko-KR": "{} -> {} 번역",
         "it-IT": "Traduzione {} -> {}",
-        "nl-NL": "Vertaling {} -> {}",
+        "nl-NL": "Vertalen {} -> {}",
         "$files": [
-            "src\\commands\\translate\\translate.js(152:31-152:44)"
+            "src/commands/translate/translate.js(S152:31-S152:44)"
         ],
-        "$id": 141
+        "$id": 169
     },
     "准备翻译{}个文件": {
         "en-US": "Preparing to translate {} files",
         "es-ES": "Preparando para traducir {} archivos",
-        "ar-EG": "إعداد الترجمة لـ {} ملفات",
+        "ar-EG": "تحضير لترجمة {} ملفات",
         "pt-PT": "Preparando para traduzir {} arquivos",
         "ru-RU": "Подготовка к переводу {} файлов",
-        "ja-JP": "{}個のファイルを翻訳準備中",
-        "de-DE": "Bereite {} Dateien zur Übersetzung vor",
+        "ja-JP": "{}個のファイルを翻訳する準備",
+        "de-DE": "{} Dateien zur Übersetzung vorbereiten",
         "fr-FR": "Préparation de la traduction de {} fichiers",
-        "ko-KR": "{}개의 파일을 번역 준비 중",
-        "it-IT": "Preparazione per la traduzione di {} file",
-        "nl-NL": "Voorbereiding voor het vertalen van {} bestanden",
+        "ko-KR": "{} 개 파일 준비 번역",
+        "it-IT": "Preparazione per tradurre {} file",
+        "nl-NL": "Voorbereiden om {} bestanden te vertalen",
         "$files": [
-            "src\\commands\\translate\\translate.js(194:21-194:32)"
+            "src/commands/translate/translate.js(S194:21-S194:32)"
         ],
-        "$id": 142
+        "$id": 170
     },
     "翻译{}": {
-        "en-US": "Translate {}",
-        "es-ES": "Traducir {}",
+        "en-US": "Translating {}",
+        "es-ES": "Traduciendo {}",
         "ar-EG": "ترجمة {}",
-        "pt-PT": "Traduzir {}",
-        "ru-RU": "Перевести {}",
-        "ja-JP": "{}を翻訳",
-        "de-DE": "Übersetze {}",
-        "fr-FR": "Traduire {}",
+        "pt-PT": "Traduzindo {}",
+        "ru-RU": "Перевод {}",
+        "ja-JP": "翻訳{}",
+        "de-DE": "Übersetzen {}",
+        "fr-FR": "Traduction {}",
         "ko-KR": "{} 번역",
-        "it-IT": "Traduci {}",
-        "nl-NL": "Vertaal {}",
+        "it-IT": "Traduzione {}",
+        "nl-NL": "Vertalen {}",
         "$files": [
-            "src\\commands\\translate\\translate.js(198:25-198:31)"
+            "src/commands/translate/translate.js(S198:25-S198:31)"
         ],
-        "$id": 245
+        "$id": 171
     },
-    "扫描源代码并自动应用翻译函数t": {
-        "en-US": "Scan source code and automatically apply translation function t",
-        "es-ES": "Escanear el código fuente y aplicar automáticamente la función de traducción t",
-        "ar-EG": "مسح الكود المصدر وتطبيق دالة الترجمة t تلقائيًا",
-        "pt-PT": "Digitalizando o código-fonte e aplicando automaticamente a função de tradução t",
-        "ru-RU": "Сканирование исходного кода и автоматическое применение функции перевода t",
-        "ja-JP": "ソースコードをスキャンし、自動的に翻訳関数tを適用",
-        "de-DE": "Scannen des Quellcodes und automatisches Anwenden der Übersetzungsfunktion t",
-        "fr-FR": "Balayage du code source et application automatique de la fonction de traduction t",
-        "ko-KR": "소스 코드를 스캔하고 번역 함수 t를 자동으로 적용",
-        "it-IT": "Scansione del codice sorgente e applicazione automatica della funzione di traduzione t",
-        "nl-NL": "Scan de broncode en pas automatisch de vertaalfunctie t toe",
+    "扫描源代码并为需要翻译的内容自动包裹t翻译函数": {
+        "en-US": "Scan source code and automatically wrap content that needs translation with the t translation function",
+        "es-ES": "Escanear el código fuente y envolver automáticamente con la función t el contenido que necesita ser traducido",
+        "ar-EG": "فحص شفرة المصدر ولف محتوى الترجمة المطلوب تلقائيًا بوظيفة الترجمة t",
+        "pt-PT": "Escaneando o código-fonte e automaticamente envolvendo o conteúdo que precisa ser traduzido com a função t",
+        "ru-RU": "Сканирование исходного кода и автоматическое обертывание содержимого, требующего перевода, в функцию t",
+        "ja-JP": "ソースコードをスキャンし、翻訳が必要な部分に自動的にt関数でラップ",
+        "de-DE": "Quellcode scannen und den zu übersetzenden Inhalt automatisch mit der t-Übersetzungsfunktion umschließen",
+        "fr-FR": "Analyse du code source et encapsulation automatique des contenus nécessitant une traduction avec la fonction t",
+        "ko-KR": "소스 코드를 스캔하고 번역이 필요한 부분을 자동으로 t 함수로 감싸기",
+        "it-IT": "Scansione del codice sorgente e avvolgimento automatico delle funzioni t di traduzione per i contenuti che necessitano di traduzione",
+        "nl-NL": "Scannen van broncode en automatisch inpakken van te vertalen inhoud in t vertaal functie",
         "$files": [
-            "src\\commands\\wrap\\index.js(15:23-15:40)"
+            "src/commands/wrap/index.js(S15:23-S15:48)"
         ],
-        "$id": 143
+        "$id": 172
     },
     "扫描匹配规则": {
-        "en-US": "Scan matching rules",
-        "es-ES": "Escanear las reglas de coincidencia",
-        "ar-EG": "مسح قواعد التوافق",
-        "pt-PT": "Regras de correspondência de digitalização",
-        "ru-RU": "Сканирование соответствий правилам",
-        "ja-JP": "スキャンマッチルール",
-        "de-DE": "Scan-Match-Regeln",
-        "fr-FR": "Règles de correspondance de balayage",
-        "ko-KR": "스캔 규칙 일치",
+        "en-US": "Scanning matching rules",
+        "es-ES": "Reglas de coincidencia de escaneo",
+        "ar-EG": "قواعد الفحص المطابقة",
+        "pt-PT": "Regras de correspondência de escaneamento",
+        "ru-RU": "Правила соответствия сканирования",
+        "ja-JP": "スキャンのマッチングルール",
+        "de-DE": "Scan-Musterregeln",
+        "fr-FR": "Règles de correspondance pour l'analyse",
+        "ko-KR": "스캔 매칭 규칙",
         "it-IT": "Regole di corrispondenza di scansione",
-        "nl-NL": "Scan matching regels",
+        "nl-NL": "Scannen van overeenkomstregels",
         "$files": [
-            "src\\commands\\wrap\\index.js(17:50-17:58)"
+            "src/commands/wrap/index.js(S17:50-S17:58)"
         ],
-        "$id": 144
+        "$id": 173
     },
-    "关闭调试模式,不会修改原文件,输出到.wrapped文件": {
-        "en-US": "Disable debug mode, will not modify the original file, output to .wrapped files",
-        "es-ES": "Modo de depuración desactivado, no se modificarán los archivos originales, se exportará a archivos .wrapped",
-        "ar-EG": "تعطيل وضع التصحيح، لن يتم تعديل الملف الأصلي، سيتم الإخراج إلى ملف .wrapped",
-        "pt-PT": "Modo de depuração desativado, não modificará o arquivo original, saída para o arquivo .wrapped",
-        "ru-RU": "Режим отладки выключен, оригинальные файлы не будут изменены, вывод будет направлен в файлы .wrapped",
-        "ja-JP": "デバッグモードをオフにすると、元のファイルは変更されず、.wrappedファイルに出力されます",
-        "de-DE": "Debug-Modus deaktiviert, ursprüngliche Dateien werden nicht geändert, Ausgabe in .wrapped-Dateien",
-        "fr-FR": "Mode de débogage désactivé, les fichiers originaux ne seront pas modifiés, sortie dans les fichiers .wrapped",
-        "ko-KR": "디버그 모드를 비활성화하면 원본 파일이 수정되지 않고 .wrapped 파일에 출력됩니다.",
-        "it-IT": "Modalità di debug disattivata, il file originale non sarà modificato, l'output verrà inviato al file .wrapped",
-        "nl-NL": "Sluit de debugmodus uit, het originele bestand wordt niet gewijzigd, uitvoer naar .wrapped-bestanden",
+    "应用包装修改到源文件": {
+        "en-US": "Apply wrapping modifications to the source file",
+        "es-ES": "Aplicar modificaciones de envoltura al archivo fuente",
+        "ar-EG": "تطبيق التعديلات على ملف المصدر",
+        "pt-PT": "Aplicando modificações de encapsulamento ao arquivo-fonte",
+        "ru-RU": "Применение изменений обертывания к исходному файлу",
+        "ja-JP": "ラッピングの変更をソースファイルに適用",
+        "de-DE": "Änderungen der Umhüllung auf Quelldateien anwenden",
+        "fr-FR": "Application des modifications d'encapsulation aux fichiers sources",
+        "ko-KR": "소스 파일에 래핑 수정 적용",
+        "it-IT": "Applicazione delle modifiche di wrapping al file sorgente",
+        "nl-NL": "Toepassen van verpakkingswijzigingen op bronbestand",
         "$files": [
-            "src\\commands\\wrap\\index.js(18:32-18:62)"
+            "src/commands/wrap/index.js(S18:29-S18:41)"
         ],
-        "$id": 145
+        "$id": 174
     },
     "languages/prompts文件夹里的提示模板文件名称": {
         "en-US": "Prompt template file names in the languages/prompts folder",
-        "es-ES": "Nombre de los archivos de plantillas de promt en la carpeta languages/prompts",
-        "ar-EG": "اسم ملف القالب في مجلد languages/prompts",
-        "pt-PT": "Nome do arquivo de modelo de prompt na pasta languages/prompts",
+        "es-ES": "Nombre del archivo de plantilla de indicaciones en la carpeta languages/prompts",
+        "ar-EG": "أسماء ملفات قوالب المطالبات داخل مجلد languages/prompts",
+        "pt-PT": "Nomes dos arquivos de modelo de prompt na pasta languages/prompts",
         "ru-RU": "Имена файлов шаблонов подсказок в папке languages/prompts",
         "ja-JP": "languages/promptsフォルダ内のプロンプトテンプレートファイル名",
-        "de-DE": "Name der Prompt-Vorlagendateien im Ordner languages/prompts",
-        "fr-FR": "Nom des fichiers de modèle de prompts dans le dossier languages/prompts",
-        "ko-KR": "languages/prompts 폴더의 프롬프트 템플릿 파일 이름",
-        "it-IT": "Nome del file modello di prompt nella cartella languages/prompts",
-        "nl-NL": "Naam van de prompt sjabloonbestanden in de map languages/prompts",
+        "de-DE": "Dateiname der Prompt-Vorlagendateien im Ordner languages/prompts",
+        "fr-FR": "Noms des fichiers de modèle de prompt dans le dossier languages/prompts",
+        "ko-KR": "languages/prompts 폴더에 있는 프롬프트 템플릿 파일 이름",
+        "it-IT": "Nome dei file di template di suggerimenti nella cartella languages/prompts",
+        "nl-NL": "De naam van het prompt sjabloonbestand in de map languages/prompts",
         "$files": [
-            "src\\commands\\wrap\\index.js(19:38-19:70)"
+            "src/commands/wrap/index.js(S19:38-S19:70)"
         ],
-        "$id": 146
+        "$id": 175
     },
     "AI大模型API地址": {
-        "en-US": "AI large model API address",
+        "en-US": "AI Large Model API Address",
         "es-ES": "Dirección de la API del gran modelo de IA",
-        "ar-EG": "عنوان API النموذج الكبير للذكاء الاصطناعي",
+        "ar-EG": "عنوان API للنموذج الكبير للذكاء الاصطناعي",
         "pt-PT": "Endereço da API do grande modelo de IA",
-        "ru-RU": "Адрес API для большой модели ИИ",
+        "ru-RU": "Адрес API большой модели ИИ",
         "ja-JP": "AI大規模モデルAPIアドレス",
         "de-DE": "API-Adresse des großen AI-Modells",
-        "fr-FR": "Adresse de l'API du grand modèle d'IA",
+        "fr-FR": "Adresse API du grand modèle d'IA",
         "ko-KR": "AI 대형 모델 API 주소",
-        "it-IT": "Indirizzo dell'API del grande modello AI",
-        "nl-NL": "AI-grootmodel API-adres",
+        "it-IT": "Indirizzo API del modello AI di grandi dimensioni",
+        "nl-NL": "API-adres van het grote AI-model",
         "$files": [
-            "src\\commands\\wrap\\index.js(20:39-20:51)"
+            "src/commands/wrap/index.js(S20:39-S20:51)"
         ],
-        "$id": 147
+        "$id": 176
     },
     "AI大模型API密钥": {
-        "en-US": "AI large model API key",
+        "en-US": "AI Large Model API Key",
         "es-ES": "Clave de la API del gran modelo de IA",
-        "ar-EG": "مفتاح API النموذج الكبير للذكاء الاصطناعي",
+        "ar-EG": "مفتاح API للنموذج الكبير للذكاء الاصطناعي",
         "pt-PT": "Chave da API do grande modelo de IA",
-        "ru-RU": "Ключ API для большой модели ИИ",
+        "ru-RU": "Ключ API большой модели ИИ",
         "ja-JP": "AI大規模モデルAPIキー",
         "de-DE": "API-Schlüssel des großen AI-Modells",
-        "fr-FR": "Clé de l'API du grand modèle d'IA",
+        "fr-FR": "Clé API du grand modèle d'IA",
         "ko-KR": "AI 대형 모델 API 키",
-        "it-IT": "Chiave API del grande modello AI",
-        "nl-NL": "AI-grootmodel API-sleutel",
+        "it-IT": "Chiave API del modello AI di grandi dimensioni",
+        "nl-NL": "API-sleutel van het grote AI-model",
         "$files": [
-            "src\\commands\\wrap\\index.js(21:39-21:51)"
+            "src/commands/wrap/index.js(S21:39-S21:51)"
         ],
-        "$id": 148
+        "$id": 177
     },
     "AI大模型": {
-        "en-US": "AI large model",
+        "en-US": "AI Large Model",
         "es-ES": "Gran modelo de IA",
         "ar-EG": "النموذج الكبير للذكاء الاصطناعي",
         "pt-PT": "Grande modelo de IA",
@@ -1286,164 +1322,266 @@
         "de-DE": "Großes AI-Modell",
         "fr-FR": "Grand modèle d'IA",
         "ko-KR": "AI 대형 모델",
-        "it-IT": "Grande modello AI",
-        "nl-NL": "AI-grootmodel",
+        "it-IT": "Modello AI di grandi dimensioni",
+        "nl-NL": "Groot AI-model",
         "$files": [
-            "src\\commands\\wrap\\index.js(22:41-22:48)"
+            "src/commands/wrap/index.js(S22:41-S22:48)"
         ],
-        "$id": 149
+        "$id": 178
     },
     "languages/api.json中预设AI服务": {
-        "en-US": "Preset AI services in languages/api.json",
-        "es-ES": "Servicios de IA predefinidos en languages/api.json",
-        "ar-EG": "خدمات AI المُعدة مسبقًا في languages/api.json",
-        "pt-PT": "Serviços de IA pré-definidos em languages/api.json",
-        "ru-RU": "Предустановленные службы ИИ в файле languages/api.json",
+        "en-US": "Predefined AI services in languages/api.json",
+        "es-ES": "Servicio de IA preconfigurado en languages/api.json",
+        "ar-EG": "خدمات الذكاء الاصطناعي المضمنة مسبقاً في languages/api.json",
+        "pt-PT": "Serviços de IA pré-configurados em languages/api.json",
+        "ru-RU": "Предустановленные сервисы ИИ в languages/api.json",
         "ja-JP": "languages/api.jsonにプリセットされたAIサービス",
-        "de-DE": "Vorkonfigurierte AI-Dienste in languages/api.json",
+        "de-DE": "Voreingestellte AI-Dienste in languages/api.json",
         "fr-FR": "Services d'IA prédéfinis dans languages/api.json",
         "ko-KR": "languages/api.json에서 미리 설정된 AI 서비스",
-        "it-IT": "Servizi AI predefiniti in languages/api.json",
-        "nl-NL": "Vooraf ingestelde AI-services in languages/api.json",
+        "it-IT": "Servizi AI preimpostati in languages/api.json",
+        "nl-NL": "Voorgedefinieerde AI-service in languages/api.json",
         "$files": [
-            "src\\commands\\wrap\\index.js(23:35-23:62)"
+            "src/commands/wrap/index.js(S23:35-S23:62)"
         ],
-        "$id": 150
+        "$id": 179
     },
     "使用{}提供扫描匹配规则,例如：{}": {
-        "en-US": "Use {} to provide scan matching rules, for example: {}",
-        "es-ES": "Usa {} para proporcionar las reglas de coincidencia de escaneo, por ejemplo: {}\r",
-        "ar-EG": "استخدم {} لتوفير قواعد التتطابق بالمسح, على سبيل المثال: {}\r",
-        "pt-PT": "Use {} para fornecer as regras de correspondência de varredura, por exemplo: {}\r",
-        "ru-RU": "Используйте {} для предоставления правил сопоставления при сканировании, например: {}",
-        "ja-JP": "{}を使用してスキャンマッチルールを提供します。例：{}",
-        "de-DE": "Verwenden Sie {} zur Bereitstellung von Scannen-Übereinstimmungsregeln, z.B.: {}\r",
-        "fr-FR": "Utilisez {} pour fournir les règles de correspondance de balayage, par exemple : {}",
-        "ko-KR": "{}를 사용하여 스캔 일치 규칙을 제공하십시오. 예: {}\r",
-        "it-IT": "Usa {} per fornire le regole di corrispondenza dello scanning, ad esempio: {}\r",
-        "nl-NL": "Gebruik {} voor het verstrekken van scanmatchingsregels, bijvoorbeeld: {}",
+        "en-US": "Use {} to provide scanning match rules, for example: {}",
+        "es-ES": "Usar {} para proporcionar reglas de coincidencia de escaneo, por ejemplo: {}",
+        "ar-EG": "استخدم {} لتوفير قواعد المطابقة، على سبيل المثال: {}",
+        "pt-PT": "Use {} para fornecer regras de correspondência de varredura, por exemplo: {}",
+        "ru-RU": "Используйте {} для предоставления правил сканирования и сопоставления, например: {}",
+        "ja-JP": "{}を使用してスキャン一致ルールを提供します。例：{}",
+        "de-DE": "Verwenden Sie {} zur Bereitstellung von Scan-Matching-Regeln, zum Beispiel: {}",
+        "fr-FR": "Utiliser {} pour fournir des règles de correspondance de balayage, par exemple : {}",
+        "ko-KR": "{}를 사용하여 스캔 매칭 규칙 제공, 예: {}",
+        "it-IT": "Utilizzare {} per fornire regole di corrispondenza per la scansione, ad esempio: {}",
+        "nl-NL": "Gebruik {} om scan-matchregels te bieden, bijvoorbeeld: {}",
         "$files": [
-            "src\\commands\\wrap\\index.js(26:30-26:50)"
+            "src/commands/wrap/index.js(S27:30-S27:50)"
         ],
-        "$id": 151
+        "$id": 180
     },
     "此命令使用AI对代码进行分析和自动应用t函数,需要提供访问AI大模型的API地址、密钥以及模型名称": {
-        "en-US": "This command uses AI to analyze the code and automatically apply the t function, requiring the API address, key, and model name for accessing the large AI model",
-        "es-ES": "Este comando utiliza IA para analizar el código y aplicar automáticamente la función t, se necesita proporcionar la dirección del API, la clave de acceso y el nombre del modelo de IA a gran escala\r",
-        "ar-EG": "يستخدم هذا الأمر الذكاء الاصطناعي لتحليل الكود وتطبيق دالة t تلقائيًا، ويتعين توفير عنوان API للوصول إلى النموذج الكبير للذكاء الاصطناعي والمفتاح السري واسم النموذج",
-        "pt-PT": "Este comando utiliza IA para analisar o código e aplicar automaticamente a função t, é necessário fornecer o endereço da API do modelo de IA, a chave e o nome do modelo",
-        "ru-RU": "Эта команда использует ИИ для анализа кода и автоматического применения функции t, необходимо предоставить адрес API для доступа к большой модели ИИ, ключ и название модели",
-        "ja-JP": "このコマンドはAIを使ってコードを分析し、t関数を自動的に適用します。AI大規模モデルへのAPIアドレス、キー、およびモデル名を提供する必要があります。",
-        "de-DE": "Dieser Befehl analysiert den Code mit KI und wendet die t-Funktion automatisch an. Es muss eine API-Adresse, ein Schlüssel und der Modellname für den Zugriff auf das KI-Großmodell bereitgestellt werden",
-        "fr-FR": "Cette commande utilise l'IA pour analyser le code et appliquer automatiquement la fonction t, il est nécessaire de fournir l'adresse API d'accès au grand modèle IA, la clé secrète ainsi que le nom du modèle",
-        "ko-KR": "이 명령은 AI를 사용하여 코드를 분석하고 t 함수를 자동으로 적용합니다. AI 대형 모델에 액세스하기 위한 API 주소, 키 및 모델 이름을 제공해야 합니다.",
-        "it-IT": "Questo comando utilizza l'AI per analizzare il codice e applicare automaticamente la funzione t, è necessario fornire l'indirizzo API, la chiave e il nome del modello dell'AI a grande scala",
-        "nl-NL": "Dit commando analyseert code en past automatisch de t-functie toe met behulp van AI, waarvoor een API-adres, een sleutel en de modelnaam nodig zijn die toegang bieden tot het grote AI-model",
+        "en-US": "This command uses AI to analyze code and automatically apply the t function, requiring the API address, key, and model name for accessing the AI large model",
+        "es-ES": "Este comando utiliza IA para analizar el código y aplicar automáticamente la función t, se requiere proporcionar la dirección de la API, la clave y el nombre del modelo del gran modelo de IA",
+        "ar-EG": "تستخدم هذه الأوامر الذكاء الاصطناعي لتحليل الكود وتطبيق دالة t تلقائياً، مع توفير عنوان API، المفتاح، واسم النموذج للوصول إلى النموذج الكبير للذكاء الاصطناعي",
+        "pt-PT": "Este comando utiliza IA para analisar o código e aplicar automaticamente a função t, sendo necessário fornecer o endereço da API, a chave e o nome do modelo do grande modelo de IA",
+        "ru-RU": "Эта команда использует ИИ для анализа кода и автоматического применения функции t, требуется предоставить адрес API, ключ и название модели большой модели ИИ",
+        "ja-JP": "このコマンドは、コードを分析し、自動的にt関数を適用するためにAIを使用します。AI大規模モデルにアクセスするためのAPIアドレス、キー、およびモデル名を提供する必要があります。",
+        "de-DE": "Dieser Befehl verwendet KI zur Analyse von Code und wendet automatisch die t-Funktion an. Es ist erforderlich, die API-Adresse, den Schlüssel und den Modellnamen für den Zugriff auf das große AI-Modell bereitzustellen.",
+        "fr-FR": "Cette commande utilise l'IA pour analyser le code et appliquer automatiquement la fonction t, nécessitant l'adresse API, la clé et le nom du modèle d'accès au grand modèle d'IA",
+        "ko-KR": "이 명령은 코드를 분석하고 자동으로 t 함수를 적용하기 위해 AI를 사용하며, AI 대형 모델에 접근하기 위한 API 주소, 키 및 모델 이름을 제공해야 함",
+        "it-IT": "Questo comando utilizza l'IA per analizzare il codice e applicare automaticamente la funzione t, richiedendo l'indirizzo API, la chiave e il nome del modello AI di grandi dimensioni",
+        "nl-NL": "Deze opdracht gebruikt AI om code te analyseren en automatisch de t-functie toe te passen. Het is vereist om het API-adres, de sleutel en de modelnaam voor toegang tot het grote AI-model te verstrekken.",
         "$files": [
-            "src\\commands\\wrap\\index.js(40:33-40:84)"
+            "src/commands/wrap/index.js(S40:33-S40:84)"
         ],
-        "$id": 152
+        "$id": 181
     },
     " - 通过{},{},{}参数提供": {
-        "en-US": " - Provide through {},{},{} parameters",
-        "es-ES": " - Proporciona a través de los parámetros {},{},{}\r",
-        "ar-EG": " - يتم تقديمها عبر معلمات {},{},{}",
-        "pt-PT": " - Forneça através dos parâmetros {},{},{}",
-        "ru-RU": " - Предоставьте через параметры {},{},{}",
-        "ja-JP": " - {}、{}、{}パラメータを通じて提供",
-        "de-DE": " - Über die Parameter {},{},{}",
-        "fr-FR": " - Fournissez via les paramètres {},{},{}",
-        "ko-KR": " - {},{},{} 매개변수를 통해 제공",
-        "it-IT": " - Fornisci tramite i parametri {},{},{}",
-        "nl-NL": " - Deze worden geleverd via de {},{},{} parameters",
+        "en-US": " - Provided via {},{},{} parameters",
+        "es-ES": " - Proveer a través de los parámetros {},{},{}",
+        "ar-EG": " - من خلال توفير {},{},{} كمعطيات",
+        "pt-PT": " - Fornecidos através dos parâmetros {},{},{}",
+        "ru-RU": " - Через параметры {},{},{}",
+        "ja-JP": " - {},{},{}パラメータで提供",
+        "de-DE": " - Über die Parameter {}, {}, {}",
+        "fr-FR": " - Fournis via les paramètres {},{},{}",
+        "ko-KR": " - {}, {}, {} 매개변수로 제공",
+        "it-IT": " - Forniti tramite i parametri {},{},{}",
+        "nl-NL": " - Verstrekt via {},{},{} parameters",
         "$files": [
-            "src\\commands\\wrap\\index.js(41:30-41:49)"
+            "src/commands/wrap/index.js(S41:30-S41:49)"
         ],
-        "$id": 153
+        "$id": 182
     },
-    " - 或者在<{}>中声明，然后通过{}参数提供": {
-        "en-US": " - Or declare in <{}>, then provide through {} parameter",
-        "es-ES": " - O decláralos en <{}> y luego proporciona a través del parámetro {}\r",
-        "ar-EG": " - أو الإعلان عنها داخل <{}>، ثم تقديمها عبر معلمة {}",
-        "pt-PT": " - Ou declare em <{}>, então forneça através do parâmetro {}",
-        "ru-RU": " - Или объявите в <{}>, а затем предоставьте через параметр {}",
-        "ja-JP": " - または<{}>で宣言し、その後{}パラメータを通じて提供",
-        "de-DE": " - Oder deklarieren Sie es in <{}>, und geben Sie es dann über den {}-Parameter an",
-        "fr-FR": " - Ou déclarez dans <{}>, puis fournissez via le paramètre {}",
-        "ko-KR": " - 또는 <{}>에서 선언한 후 {} 매개변수를 통해 제공",
-        "it-IT": " - Oppure dichiara in <{}> e poi fornisci tramite il parametro {}",
-        "nl-NL": " - Of gedeclareerd in <{}>, waarna ze worden verstrekt via de {} parameter",
+    " - 或者在<{}>中声明,然后通过{}参数提供": {
+        "en-US": " - Or declared in <{}> and then provided via {} parameter",
+        "es-ES": " - O declarar en <{}> y luego proveer a través del parámetro {}",
+        "ar-EG": " - أو الإعلان عنها في <{}>، ثم توفيرها عبر المعطى {}",
+        "pt-PT": " - Ou declarados em <{}> e depois fornecidos através do parâmetro {}",
+        "ru-RU": " - Или объявите в <{}>, затем предоставьте через параметр {}",
+        "ja-JP": " - または<{}>で宣言し、その後{}パラメータで提供",
+        "de-DE": " - Oder deklarieren Sie es in <{}> und stellen Sie es dann über den Parameter {} bereit",
+        "fr-FR": " - Ou déclarés dans <{}>, puis fournis via le paramètre {}",
+        "ko-KR": " - 또는 <{}>에서 선언한 후 {} 매개변수로 제공",
+        "it-IT": " - Oppure dichiarati in <{}> e quindi forniti tramite il parametro {}",
+        "nl-NL": " - Of declareer in <{}> en verstrekt vervolgens via {} parameter",
         "$files": [
-            "src\\commands\\wrap\\index.js(42:30-42:56)"
+            "src/commands/wrap/index.js(S42:30-S42:56)"
         ],
-        "$id": 154
+        "$id": 183
     },
     "开始自动应用翻译{}函数": {
-        "en-US": "Start auto-applying translation {} function",
-        "es-ES": "Comenzar a aplicar automáticamente la función {} de traducción\r",
-        "ar-EG": "بدء تطبيق دالة الترجمة {} تلقائيًا",
-        "pt-PT": "Iniciar a aplicação automática da função de tradução {}",
+        "en-US": "Start automatically applying translation {} function",
+        "es-ES": "Comienza la aplicación automática de la función de traducción {}",
+        "ar-EG": "بدء تطبيق دالة الترجمة {} تلقائياً",
+        "pt-PT": "Início da aplicação automática da função de tradução {}",
         "ru-RU": "Начать автоматическое применение функции перевода {}",
-        "ja-JP": "t{}関数の自動適用を開始",
-        "de-DE": "Beginnen Sie mit dem automatischen Anwenden der Übersetzungsfunktion {}",
-        "fr-FR": "Commencez à appliquer automatiquement la fonction {} de traduction",
+        "ja-JP": "翻訳{}関数の自動適用を開始",
+        "de-DE": "Beginne mit der automatischen Anwendung der Übersetzungsfunktion {}",
+        "fr-FR": "Début de l'application automatique de la fonction de traduction {}",
         "ko-KR": "자동 번역 {} 함수 적용 시작",
-        "it-IT": "Inizia l'applicazione automatica della funzione di traduzione {}",
-        "nl-NL": "Begin met automatisch toepassen van de {}-functie",
+        "it-IT": "Inizia ad applicare automaticamente la funzione di traduzione {}",
+        "nl-NL": "Start automatische toepassing van vertaling {} functie",
         "$files": [
-            "src\\commands\\wrap\\wrap.js(14:21-14:35)"
+            "src/commands/wrap/wrap.js(S30:21-S30:35)"
         ],
-        "$id": 155
+        "$id": 184
     },
-    " - 应用范围: {}": {
-        "en-US": " - Application scope: {}",
-        "es-ES": " - Rango de aplicación: {}\r",
-        "ar-EG": " - نطاق التطبيق: {}",
-        "pt-PT": " - Âmbito de aplicação: {}",
-        "ru-RU": " - Область применения: {}",
-        "ja-JP": " - 適用範囲: {}",
-        "de-DE": " - Anwendungsbereich: {}",
-        "fr-FR": " - Portée d'application : {}",
-        "ko-KR": " - 적용 범위: {}",
-        "it-IT": " - Ambito di applicazione: {}",
-        "nl-NL": " - Toepassingsbereik: {}",
+    "应用范围: {}": {
+        "en-US": "Application scope: {}",
+        "es-ES": "Ámbito de aplicación: {}",
+        "ar-EG": "نطاق التطبيق: {}",
+        "pt-PT": "Âmbito de aplicação: {}",
+        "ru-RU": "Область применения: {}",
+        "ja-JP": "適用範囲: {}",
+        "de-DE": "Anwendungsbereich: {}",
+        "fr-FR": "Portée d'application : {}",
+        "ko-KR": "적용 범위: {}",
+        "it-IT": "Ambito di applicazione: {}",
+        "nl-NL": "Toepassingsgebied: {}",
         "$files": [
-            "src\\commands\\wrap\\wrap.js(15:18-15:31)"
+            "src/commands/wrap/wrap.js(S31:20-S31:30)"
         ],
-        "$id": 156
+        "$id": 185
     },
     "共处理{}个文件": {
-        "en-US": "A total of {} files processed",
-        "es-ES": "Se procesaron {} archivos",
-        "ar-EG": "تم معالجة {} ملفات",
-        "pt-PT": "Foram processados {} arquivos",
-        "ru-RU": "Обработано {} файлов",
-        "ja-JP": "{}個のファイルが処理されました",
+        "en-US": "Total processed {} files",
+        "es-ES": "Se procesaron un total de {} archivos",
+        "ar-EG": "تمت معالجة ما مجموعه {} ملفات",
+        "pt-PT": "Total de {} arquivos processados",
+        "ru-RU": "Всего обработано {} файлов",
+        "ja-JP": "合計{}個のファイルを処理",
         "de-DE": "Insgesamt wurden {} Dateien verarbeitet",
-        "fr-FR": "Nombre total de fichiers traités : {}",
-        "ko-KR": "{} 개의 파일 처리",
-        "it-IT": "Sono stati processati {} file",
-        "nl-NL": "Er werden {} bestanden verwerkt",
+        "fr-FR": "Total de {} fichiers traités",
+        "ko-KR": "총 {}개 파일 처리",
+        "it-IT": "Totale {} file elaborati",
+        "nl-NL": "In totaal {} bestanden verwerkt",
         "$files": [
-            "src\\commands\\wrap\\wrap.js(29:21-29:31)"
+            "src/commands/wrap/wrap.js(S37:21-S37:31)"
         ],
-        "$id": 157
+        "$id": 186
     },
     "处理{}": {
-        "en-US": "Process {}",
-        "es-ES": "Procesar {}",
+        "en-US": "Processing {}",
+        "es-ES": "Procesando {}",
         "ar-EG": "معالجة {}",
-        "pt-PT": "Processar {}",
-        "ru-RU": "Обработать {}",
-        "ja-JP": "{}を処理",
+        "pt-PT": "Processando {}",
+        "ru-RU": "Обработка {}",
+        "ja-JP": "処理中: {}",
         "de-DE": "Verarbeite {}",
-        "fr-FR": "Traiter {}",
-        "ko-KR": "{} 처리",
-        "it-IT": "Processa {}",
-        "nl-NL": "Verwerk {}",
+        "fr-FR": "Traitement de {}",
+        "ko-KR": "처리 중: {}",
+        "it-IT": "Elaborazione {}",
+        "nl-NL": "Verwerken {}",
         "$files": [
-            "src\\commands\\wrap\\wrap.js(34:24-34:30)"
+            "src/commands/wrap/wrap.js(S43:24-S43:30)"
         ],
-        "$id": 246
+        "$id": 187
+    },
+    "注意：": {
+        "en-US": "Note:",
+        "es-ES": "Atención:",
+        "ar-EG": "ملاحظة:",
+        "pt-PT": "Atenção:",
+        "ru-RU": "Внимание:",
+        "ja-JP": "注意：",
+        "de-DE": "Hinweis:",
+        "fr-FR": "Attention :",
+        "ko-KR": "주의:",
+        "it-IT": "Attenzione:",
+        "nl-NL": "Let op:",
+        "$files": [
+            "src/commands/wrap/wrap.js(S71:21-S71:26)"
+        ],
+        "$id": 188
+    },
+    "保存结果到同名的{}文件,不会修改原文件": {
+        "en-US": "Save results to a {} file with the same name; the original file will not be modified",
+        "es-ES": "Guardar los resultados en el archivo {} con el mismo nombre, no se modificará el archivo original",
+        "ar-EG": "حفظ النتائج في ملف {} بالاسم نفسه، لن يتم تعديل الملف الأصلي",
+        "pt-PT": "Salvar os resultados no arquivo {} de mesmo nome, o arquivo original não será modificado",
+        "ru-RU": "Сохранить результат в файл {} с тем же именем, исходный файл не будет изменен",
+        "ja-JP": "結果は同名の{}ファイルに保存され、元のファイルは変更されません。",
+        "de-DE": "Speichern Sie das Ergebnis in der gleichnamigen {} Datei, die Originaldatei wird nicht geändert.",
+        "fr-FR": "Enregistrez les résultats dans un fichier {} de même nom, sans modifier le fichier original",
+        "ko-KR": "결과는 동일한 이름의 {} 파일에 저장되며, 원본 파일은 수정되지 않음",
+        "it-IT": "Salva i risultati nel file {} con lo stesso nome, senza modificare il file originale",
+        "nl-NL": "Sla de resultaten op in een bestand met dezelfde naam als {}, het originele bestand wordt niet gewijzigd",
+        "$files": [
+            "src/commands/wrap/wrap.js(S72:20-S72:42)"
+        ],
+        "$id": 189
+    },
+    "接下来可以使用{}命令更新到原文件": {
+        "en-US": "You can use the {} command to update to the original file next.",
+        "es-ES": "A continuación, puede usar el comando {} para actualizar el archivo original",
+        "ar-EG": "يمكنك استخدام الأمر {} لتحديث الملف الأصلي لاحقًا",
+        "pt-PT": "Em seguida, pode usar o comando {} para atualizar o ficheiro original",
+        "ru-RU": "Далее можно использовать команду {} для обновления исходного файла",
+        "ja-JP": "次に{}コマンドを使用して元のファイルを更新できます。",
+        "de-DE": "Als Nächstes können Sie den {}-Befehl verwenden, um auf die Originaldatei zu aktualisieren.",
+        "fr-FR": "Vous pouvez ensuite utiliser la commande {} pour mettre à jour le fichier d'origine",
+        "ko-KR": "다음으로 {} 명령을 사용하여 원본 파일로 업데이트할 수 있습니다.\r",
+        "it-IT": "Successivamente, è possibile utilizzare il comando {} per aggiornare il file originale",
+        "nl-NL": "Vervolgens kunt u de {} opdracht gebruiken om bij te werken naar het originele bestand",
+        "$files": [
+            "src/commands/wrap/wrap.js(S73:20-S73:39)"
+        ],
+        "$id": 190
+    },
+    "未找到任何{}文件": {
+        "en-US": "No {} files found.",
+        "es-ES": "No se encontró ningún archivo {}",
+        "ar-EG": "لم يتم العثور على أي ملفات {}",
+        "pt-PT": "Nenhum ficheiro {} encontrado",
+        "ru-RU": "Не найдено ни одного файла {}",
+        "ja-JP": "{}ファイルが見つかりません。",
+        "de-DE": "Keine {}-Dateien gefunden.",
+        "fr-FR": "Aucun fichier {} n'a été trouvé",
+        "ko-KR": "{} 파일을 찾을 수 없습니다.\r",
+        "it-IT": "Nessun file {} trovato",
+        "nl-NL": "Geen {} bestanden gevonden",
+        "$files": [
+            "src/commands/wrap/wrap.js(S88:22-S88:33)"
+        ],
+        "$id": 191
+    },
+    "开始应用{}修改,共应用{}个文件": {
+        "en-US": "Start applying {} changes, applying a total of {} files.",
+        "es-ES": "Comenzando a aplicar las modificaciones {}, se aplicarán un total de {} archivos",
+        "ar-EG": "بدء تطبيق التعديلات {}, تم تطبيق {} ملفات",
+        "pt-PT": "A aplicar as modificações de {}, num total de {} ficheiros",
+        "ru-RU": "Начинаю применять изменения {}, всего применяется {} файлов",
+        "ja-JP": "{}の修正を適用し始めます。合計{}個のファイルを適用します。",
+        "de-DE": "Beginne mit der Anwendung der {}-Änderungen, insgesamt werden {} Dateien angewendet.",
+        "fr-FR": "Commencer à appliquer les modifications {}, application sur un total de {} fichiers",
+        "ko-KR": "{} 수정 사항을 적용하기 시작합니다. 총 {} 개의 파일을 적용합니다.\r",
+        "it-IT": "Inizio applicazione delle modifiche {}, applicazione totale di {} file",
+        "nl-NL": "Begin met het toepassen van {} wijzigingen, in totaal {} bestanden toepassen",
+        "$files": [
+            "src/commands/wrap/wrap.js(S92:25-S92:44)"
+        ],
+        "$id": 192
+    },
+    "应用{}": {
+        "en-US": "Applying {}",
+        "es-ES": "Aplicando {}",
+        "ar-EG": "تطبيق {}",
+        "pt-PT": "Aplicando {}",
+        "ru-RU": "Применение {}",
+        "ja-JP": "適用{}",
+        "de-DE": "Anwenden {}",
+        "fr-FR": "Appliquer {}",
+        "ko-KR": "적용 {}",
+        "it-IT": "Applicazione {}",
+        "nl-NL": "Toepassen {}",
+        "$files": [
+            "src/commands/wrap/wrap.js(S96:28-S96:34)"
+        ],
+        "$id": 193
     }
 }

@@ -89,7 +89,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         this.emitAsync("init",()=>{
             return this._appScope.activeLanguage
         },true)
-            .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
+        // .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
     /**
      * 
@@ -133,10 +133,13 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     }
     /**
      * 等待管理器初始化完成
+     *  
      * @returns 
      */
-    async ready(){
-        return await this.waitFor("ready")
+    ready(callback:(language:string)=>void,timeout?:number){
+        this.waitFor("ready",timeout).then((lang)=>{
+            if(callback) callback.call(this,lang)
+        })
     } 
     /**
      * 清除所有作用域的翻译补丁信息

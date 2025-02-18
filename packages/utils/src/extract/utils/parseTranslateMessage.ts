@@ -3,15 +3,10 @@ import { parse, Lang } from '@ast-grep/napi'
 import { MessageNode } from '..';
 
 
-const config = {
+const messageAstConfig = {
     rule: {
       any: [
-        {
-          pattern: {
-            selector: 'call_expression',
-            context: 't($MESSAGE)'
-          }
-        },
+        { pattern: 't($MESSAGE)' },
         { pattern: 't($MESSAGE,$VARS)' },
         { pattern: 't($MESSAGE,$VARS,$OPTIONS)' }
       ]
@@ -30,7 +25,7 @@ const config = {
 
 export function parseTranslateMessages(code:string){
     const ast = parse(Lang.TypeScript,code)        
-    const nodes = ast.root().findAll(config)
+    const nodes = ast.root().findAll(messageAstConfig)
     const messages:string[]= []
     if(nodes.length === 0){    
         messages.push(...parseTranslateMessagesByRegex(code).map(node=>node.message))    
@@ -48,7 +43,7 @@ export function parseTranslateMessages(code:string){
 }
 
 // // 捕获翻译文本正则表达式二： 能够支持复杂的表达式，但是当提供不完整的t函数定义时，也会进行匹配提取 
-const TranslateExtractor = /\bt\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/gm
+const MessageExtractor = /\bt\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/gm
 
  
 // /**
@@ -65,17 +60,17 @@ const TranslateExtractor = /\bt\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/
 export function parseTranslateMessagesByRegex(code:string){
     let result
     let messages:MessageNode[] = []
-    while ((result = TranslateExtractor.exec(code)) !== null) {
+    while ((result = MessageExtractor.exec(code)) !== null) {
         // 这对于避免零宽度匹配的无限循环是必要的
-        if (result.index === TranslateExtractor.lastIndex) {
-            TranslateExtractor.lastIndex++;
+        if (result.index === MessageExtractor.lastIndex) {
+            MessageExtractor.lastIndex++;
         }           
         const text = result.groups?.text 
 
         if(text){
             messages.push({
               message:text,
-              rang:{start:result.index,end:result.index}
+              rang:{ start:String(result.index), end:String(result.index) }
             })
         }
     }

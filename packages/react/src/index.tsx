@@ -30,8 +30,10 @@
  */
 
 export * from './component'
-export * from "./context"
-export * from "./hooks"
 export * from "./plugin"
+
+// export * from "./context"
+// export * from "./hooks"
+
 
 import "./plugin"

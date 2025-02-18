@@ -5,9 +5,8 @@ const extractor = require("./extractor");
 /**
  * @param {import('mixcli').MixCli} cli
  */
-module.exports = (cli) => {
+module.exports = () => {
     const extractCommand = new MixCommand("extract");
-
     extractCommand
         .disablePrompts()
         .description(t("提取要翻译的文本"))    
@@ -15,6 +14,7 @@ module.exports = (cli) => {
             default:"sync",
             choices:["sync","overwrite","merge"]
         })
+        .option("-r, --regex", t("使用正则表达式提取")) 
         .option("-p, --patterns [patterns...]", t("文件匹配规则"))
         .action(async (options) => {
             const opts = Object.assign({
