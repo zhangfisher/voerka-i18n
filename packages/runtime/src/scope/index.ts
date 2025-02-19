@@ -67,7 +67,7 @@ export interface VoerkaI18nScopeOptions {
         }) => any    
 } 
 
-export class VoerkaI18nScope extends Mixin(
+export class VoerkaI18nScope<TranslatedComponent=any> extends Mixin(
         EventEmitterMixin,
         PatchMessageMixin,
         ChangeLanguageMixin,
@@ -123,7 +123,7 @@ export class VoerkaI18nScope extends Mixin(
 	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars    
     get logger(){ return this._logger!}                                         // 日志记录器
     get t():VoerkaI18nTranslate{ return this.translate.bind(this) as VoerkaI18nTranslate}
-    get Translate(){ return this._Translate.bind(this) as VoerkaI18nTranslatedComponent }
+    get Translate(){ return this._Translate.bind(this) as TranslatedComponent }
     
     /**
      * 激活语言名称： 以appScope为准    

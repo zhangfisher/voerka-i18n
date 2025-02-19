@@ -1,5 +1,5 @@
 <template>
-    <pre><code class="hljs" v-html="highlightedCode"></code></pre>
+    <div class="hljs" v-html="highlightedCode"></div>
 </template>
    
 <script setup lang="ts">
@@ -17,9 +17,15 @@ import { codeToHtml } from "shiki";
 
     codeToHtml(props.code, {
         lang: 'ts',
-        theme: 'vitesse-dark'
+        theme: 'ayu-dark'
     }).then((html) => {
         highlightedCode.value = html;
     })
 </script>
-    
+<style > 
+.hljs > pre{
+    padding: 4px;
+    border-radius: 8px!important;
+    padding-bottom: 16px;
+}
+</style>

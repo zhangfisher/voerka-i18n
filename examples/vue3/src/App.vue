@@ -1,9 +1,4 @@
-<script setup lang="ts">
 
-import  Footer from './components/Footer'
-import  Navbar from './components/Navbar'
-
- </script>
 
 <template> 
   <div class="min-h-full flex flex-col">
@@ -15,4 +10,9 @@ import  Navbar from './components/Navbar'
   </div> 
 </template>
 
- 
+<script setup>
+
+import  Footer from './components/Footer'
+import  Navbar from './components/Navbar'
+
+ </script>

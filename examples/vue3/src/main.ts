@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp,h } from 'vue'
 import './style.css'
 import App from './App.vue'
 import { i18nScope } from "./languages"

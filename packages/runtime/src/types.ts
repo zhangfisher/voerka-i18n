@@ -39,10 +39,12 @@ export type VoerkaI18nTranslatedComponentProps= {
     default?: any
     options?: VoerkaI18nTranslateOptions
 }
-export type VoerkaI18nTranslatedComponent<T=any> = (props:VoerkaI18nTranslatedComponentProps)=>T
+ 
+
+export type VoerkaI18nTranslatedComponent =  <T=any>(props:VoerkaI18nTranslatedComponentProps)=>T
 
 
-
+ 
 export interface VoerkaI18nLanguageDefine {
     name        : string               // 语言代码
     title?      : string               // 语言标题
