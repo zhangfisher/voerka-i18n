@@ -1,5 +1,5 @@
 {
-  "name": "vue3",
+  "name": "@voerkai18n-examples/vue3",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -17,11 +17,17 @@
     "@voerkai18n/cli": "workspace:*",
     "@voerkai18n/formatters": "workspace:*",
     "@voerkai18n/runtime": "workspace:*",
-    "vue": "^3.5.13"
+    "@voerkai18n/vue": "workspace:*",
+    "lucide-vue-next": "^0.475.0",
+    "shiki": "^3.0.0",
+    "vue": "^3.5.13",
+    "vue-router": "4"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.0.4",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",
+    "tailwindcss": "^4.0.4",
     "typescript": "~5.7.3",
     "vite": "^6.1.0",
     "vue-tsc": "^2.2.0"

@@ -21,9 +21,8 @@
   "baseBranch": "master",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "voerkai18n-example-**",
-    "voerkai18n-docs", 
-    "voerkai18n-example-main-app"
+    "@voerkai18n-examples/**",
+    "voerkai18n-docs" 
   ]
 
 }

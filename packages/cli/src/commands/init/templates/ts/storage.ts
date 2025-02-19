@@ -1,4 +1,4 @@
-import { IVoerkaI18nStorage } from "@voerkai18n/runtime" 
+import type { IVoerkaI18nStorage } from "@voerkai18n/runtime" 
 
 export default {
     get(key:string){

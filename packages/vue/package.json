@@ -1,33 +1,31 @@
 {
-    "name": "@voerkai18n/vue",
-    "version": "2.1.13",
-    "description": "voerkai18n for vue3",
-    "access": "public",
+  "name": "@voerkai18n/vue",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "publishConfig": {
     "main": "dist/index.js",
     "module": "dist/index.mjs",
-    "types": "dist/index.d.ts",
-    "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/zhangfisher/voerka-i18n"
-    },
-    "publishConfig": {
-        "main": "dist/index.js",
-        "module": "dist/index.mjs",
-        "types": "dist/index.d.ts"
-    },
-    "scripts": {
-        "release": "npm publish",
-        "build": "tsup"
-    },
-    "author": "wxzhang",
-    "license": "MIT",
-    "peerDependencies": {
-        "@voerkai18n/runtime": "workspace:^",
-        "vue": "^3.0.0"
-    },
-    "devDependencies": {
-        "tsup": "^6.7.0",
-        "@voerkai18n/runtime": "workspace:^"
-    }
+    "types": "dist/index.d.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@voerkai18n/runtime": "workspace:*",
+    "@vue/tsconfig": "^0.7.0",
+    "tsup": "^8.3.6",
+    "typescript": "~5.7.2",
+    "vite": "^6.1.0",
+    "vue-tsc": "^2.2.0"
+  },
+  "peerDependencies": {
+    "@voerkai18n/runtime": "workspace:*"
+  }
 }

@@ -53,9 +53,7 @@ export interface VoerkaI18nScopeOptions {
     namespaces?    : Record<string,string>                                   // 命名空间
     patterns?      : string[]                                                // 源文件匹配清单，使用fast-glob匹配文件
     /**
-     * 
      * 自定义翻译组件
-     * 
      */
     component? : ( props: {
             message : string | ((language:string)=>any), 

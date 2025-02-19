@@ -2,7 +2,7 @@ import { Translate } from "../languages"
 
 export function Footer(){
     return (
-        <footer className="p-4 bg-gray-100  md:p-8 lg:p-10 dark:bg-gray-800">
+        <footer className="p-4 bg-gray-100  md:p-8 lg:p-10 dark:bg-gray-800 w-full">
             <div className="mx-auto max-w-screen-xl text-center">
                 <h2 className="my-6 text-gray-500 dark:text-gray-400">
                     <Translate message="用心开源，精良制作"/>

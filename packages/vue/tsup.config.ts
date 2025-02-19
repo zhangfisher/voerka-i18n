@@ -13,8 +13,8 @@ export default defineConfig({
     treeshake:true,  
     minify: true,
     banner: {
-        js: `/***        
-*   ---=== VoerkaI18n for Vue3 ===---
+        js: `/***
+*   ---=== VoerkaI18n for React ===---
 *   https://zhangfisher.github.io/voerka-i18n
 */`}
 }) 

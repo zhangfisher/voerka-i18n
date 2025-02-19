@@ -1,5 +1,5 @@
 {
-    "name": "voerkai18n-example-nodejs",
+    "name": "@voerkai18n-examples/nodejs",
     "private": true,
     "dependencies": {
         "@voerkai18n/cli": "workspace:^",

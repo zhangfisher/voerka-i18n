@@ -4,8 +4,7 @@ import formatters from "@voerkai18n/formatters"
 import idMap from "./idMap"
 import settings from "./settings.json"
 import defaultMessages from "./zh-CN"  
-
- 
+import "@voerkai18n/vue"
 
 const messages = { 
     'zh-CN'    : defaultMessages,
@@ -25,4 +24,6 @@ export const i18nScope = new VoerkaI18nScope({
 
 
 export const t = i18nScope.t
+export const Translate= i18nScope.Translate
+
 

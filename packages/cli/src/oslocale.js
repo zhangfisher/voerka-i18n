@@ -122,8 +122,7 @@ function osLocaleSync(options = defaultOptions) {
 		if (envLocale || options.spawn === false) {
 			locale = getLocale(envLocale);
 		} else if (process.platform === 'win32') {
-			locale = getWinLocaleSync();
-			console.log("envLocale=",locale)
+			locale = getWinLocaleSync(); 
 		} else if (process.platform === 'darwin') {
 			locale = getAppleLocaleSync();
 		} else {
