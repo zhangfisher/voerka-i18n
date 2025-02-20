@@ -42,6 +42,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     get logger(){ return this.scope.logger! }                            // 日志记录器                        
     get scopes(){ return this._scopes }                                 // 注册VoerkaI18nScope实例 
     get activeLanguage(){ return this._appScope.activeLanguage }        // 当前激活语言名称   
+    get defaultLanguage(){ return this._appScope.defaultLanguage }      // 当前默认语言名称   
     get loader(){ return this._appScope.loader}                         // 默认语言包加载器 
     get storage(){return this.scope!.storage}
     get languages(){return this.scope.languages}

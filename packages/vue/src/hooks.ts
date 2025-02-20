@@ -1,33 +1,33 @@
+import type { VoerkaI18nManager, VoerkaI18nScope } from '@voerkai18n/runtime';
 import { ref, onMounted, onUnmounted } from 'vue';
 
-export function useVoerkaI18n() {
-    const manager = globalThis.VoerkaI18n;
-    if (!manager) {
+
+export function useVoerkaI18n(scope?:VoerkaI18nScope) {
+    const manager:VoerkaI18nManager = globalThis.VoerkaI18n;
+    const curScope = scope || manager.scope
+    if (!manager || !curScope) {
         throw new Error('VoerkaI18n is not defined');
     }
 
     const activeLanguage = ref(manager.activeLanguage);
 
-    let listener: (() => void) | undefined;
+
+    let listener:any
 
     onMounted(() => {
-        if (typeof manager.on === 'function') {
-            listener = () => {
-                activeLanguage.value = manager.activeLanguage;
-            };
-            manager.on("change", listener);
-        } else {
-            console.warn('VoerkaI18n does not have an "on" method');
-        }
+        listener = manager.on("change", ()=>{
+            activeLanguage.value = manager.activeLanguage;
+        });
     });
 
-    onUnmounted(() => {
-        if (listener && typeof manager.off === 'function') {
-            manager.off("change", listener);
-        }
-    });
+    onUnmounted(() => listener && listener.off()); 
 
     return {
-        activeLanguage
-    };
+        activeLanguage,
+        defaultLanguage: curScope.defaultLanguage,
+        languages      : curScope.languages,
+        changeLanguage : curScope.change,
+        t              : curScope.t
+    }; 
+
 }

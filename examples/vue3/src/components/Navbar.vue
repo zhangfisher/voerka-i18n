@@ -58,25 +58,10 @@
 
 import { ref, onMounted,onUnmounted } from 'vue'; 
 import { i18nScope, Translate,t } from '../languages';
+import { useVoerkaI18n } from '@voerkai18n/vue';
    
-const activeLanguage = ref(i18nScope.activeLangauge);
-const languages = i18nScope.languages;
+const { activeLanguage,languages } =  useVoerkaI18n()
 
 
-i18nScope.on('change', (lang) => {
-  activeLanguage.value = lang;
-});
- 
-const handleChange = (lang) => {
-  activeLanguage.value = lang;
-};
-
-onMounted(() => {
-  i18nScope.on('change',handleChange);
-});
-
-onUnmounted(() => {
-  i18nScope.off('change',handleChange);
-});
 
 </script>

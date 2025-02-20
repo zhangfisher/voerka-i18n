@@ -1,5 +1,4 @@
-export * from "./component"
-export * from "./plugin" 
-import "./plugin"
+export * from "./component" 
+export * from "./hooks"
 
  

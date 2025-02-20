@@ -1,0 +1,642 @@
+{
+    "用心开源，精良制作": {
+        "en-US": "用心开源，精良制作",
+        "ja-JP": "用心开源，精良制作",
+        "$files": [
+            "src/components/Footer.vue(T4:30-T4:39)"
+        ],
+        "$id": 123
+    },
+    "关于": {
+        "en-US": "关于",
+        "ja-JP": "关于",
+        "$files": [
+            "src/components/Footer.vue(T9:34-T9:36)"
+        ],
+        "$id": 124
+    },
+    "联系我们": {
+        "en-US": "联系我们",
+        "ja-JP": "联系我们",
+        "$files": [
+            "src/components/Footer.vue(T14:34-T14:38)"
+        ],
+        "$id": 125
+    },
+    "常见问题": {
+        "en-US": "常见问题",
+        "ja-JP": "常见问题",
+        "$files": [
+            "src/components/Footer.vue(T19:34-T19:38)"
+        ],
+        "$id": 126
+    },
+    "开源推荐": {
+        "en-US": "开源推荐",
+        "ja-JP": "开源推荐",
+        "$files": [
+            "src/components/Footer.vue(T24:34-T24:38)"
+        ],
+        "$id": 127
+    },
+    "版权所有 © 2021-2022": {
+        "en-US": "版权所有 © 2021-2022",
+        "ja-JP": "版权所有 © 2021-2022",
+        "$files": [
+            "src/components/Footer.vue(T29:30-T29:46)"
+        ],
+        "$id": 128
+    },
+    "首页": {
+        "en-US": "首页",
+        "ja-JP": "首页",
+        "$files": [
+            "src/components/Navbar.vue(T26:38-T26:40)"
+        ],
+        "$id": 129
+    },
+    "特性": {
+        "en-US": "特性",
+        "ja-JP": "特性",
+        "$files": [
+            "src/components/Navbar.vue(T33:38-T33:40)"
+        ],
+        "$id": 130
+    },
+    "任务": {
+        "en-US": "任务",
+        "ja-JP": "任务",
+        "$files": [
+            "src/components/Navbar.vue(T40:38-T40:40)"
+        ],
+        "$id": 131
+    },
+    "开源项目": {
+        "en-US": "开源项目",
+        "ja-JP": "开源项目",
+        "$files": [
+            "src/components/Navbar.vue(T47:38-T47:42)"
+        ],
+        "$id": 132
+    },
+    "翻译组件": {
+        "en-US": "翻译组件",
+        "ja-JP": "翻译组件",
+        "$files": [
+            "src/Features/index.vue(S8:14-S8:20)",
+            "src/Features/index.vue(S8:14-S8:20)",
+            "src/Features/Trans.vue(T4:36-T4:40)"
+        ],
+        "$id": 133
+    },
+    "语言补丁": {
+        "en-US": "语言补丁",
+        "ja-JP": "语言补丁",
+        "$files": [
+            "src/Features/index.vue(S9:14-S9:20)",
+            "src/Features/index.vue(S9:14-S9:20)",
+            "src/Features/Patch.vue(T2:27-T2:31)",
+            "src/Home/Features.vue(S49:12-S49:18)",
+            "src/Home/Features.vue(S49:12-S49:18)"
+        ],
+        "$id": 134
+    },
+    "输出:": {
+        "en-US": "输出:",
+        "ja-JP": "输出:",
+        "$files": [
+            "src/Features/Trans.vue(T9:40-T9:43)",
+            "src/Features/Trans.vue(T25:40-T25:43)",
+            "src/Features/Trans.vue(T41:40-T41:43)"
+        ],
+        "$id": 135
+    },
+    "My name is {}": {
+        "en-US": "My name is {}",
+        "ja-JP": "My name is {}",
+        "$files": [
+            "src/Features/Trans.vue(T12:40-T12:53)"
+        ],
+        "$id": 136
+    },
+    "异步翻译组件": {
+        "en-US": "异步翻译组件",
+        "ja-JP": "异步翻译组件",
+        "$files": [
+            "src/Features/Trans.vue(T20:36-T20:42)"
+        ],
+        "$id": 137
+    },
+    "异步翻译组件-加载出错": {
+        "en-US": "异步翻译组件-加载出错",
+        "ja-JP": "异步翻译组件-加载出错",
+        "$files": [
+            "src/Features/Trans.vue(T36:36-T36:47)"
+        ],
+        "$id": 138
+    },
+    "加载中...": {
+        "en-US": "加载中...",
+        "ja-JP": "加载中...",
+        "$files": [
+            "src/Features/Trans.vue(T44:92-T44:114)"
+        ],
+        "$id": 139
+    },
+    "适用任意场景": {
+        "en-US": "适用任意场景",
+        "ja-JP": "适用任意场景",
+        "$files": [
+            "src/Home/Features.vue(S29:12-S29:20)",
+            "src/Home/Features.vue(S29:12-S29:20)"
+        ],
+        "$id": 140
+    },
+    "全面支持React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...等任何ts/js场景": {
+        "en-US": "全面支持React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...等任何ts/js场景",
+        "ja-JP": "全面支持React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...等任何ts/js场景",
+        "$files": [
+            "src/Home/Features.vue(S30:19-S30:83)",
+            "src/Home/Features.vue(S30:19-S30:83)"
+        ],
+        "$id": 141
+    },
+    "全流程工具链": {
+        "en-US": "全流程工具链",
+        "ja-JP": "全流程工具链",
+        "$files": [
+            "src/Home/Features.vue(S34:12-S34:20)",
+            "src/Home/Features.vue(S34:12-S34:20)"
+        ],
+        "$id": 142
+    },
+    "覆盖从语言提取、编译、自动翻译、插件集成等国际化全流程支持，为大型应用提供工程化支持": {
+        "en-US": "覆盖从语言提取、编译、自动翻译、插件集成等国际化全流程支持，为大型应用提供工程化支持",
+        "ja-JP": "覆盖从语言提取、编译、自动翻译、插件集成等国际化全流程支持，为大型应用提供工程化支持",
+        "$files": [
+            "src/Home/Features.vue(S35:19-S35:63)",
+            "src/Home/Features.vue(S35:19-S35:63)"
+        ],
+        "$id": 143
+    },
+    "自动翻译": {
+        "en-US": "自动翻译",
+        "ja-JP": "自动翻译",
+        "$files": [
+            "src/Home/Features.vue(S39:12-S39:18)",
+            "src/Home/Features.vue(S39:12-S39:18)"
+        ],
+        "$id": 144
+    },
+    "支持在线翻译服务和基于AI大模型的翻译工具,可以实现自动化翻译": {
+        "en-US": "支持在线翻译服务和基于AI大模型的翻译工具,可以实现自动化翻译",
+        "ja-JP": "支持在线翻译服务和基于AI大模型的翻译工具,可以实现自动化翻译",
+        "$files": [
+            "src/Home/Features.vue(S40:19-S40:52)",
+            "src/Home/Features.vue(S40:19-S40:52)"
+        ],
+        "$id": 145
+    },
+    "多库联动": {
+        "en-US": "多库联动",
+        "ja-JP": "多库联动",
+        "$files": [
+            "src/Home/Features.vue(S44:12-S44:18)",
+            "src/Home/Features.vue(S44:12-S44:18)"
+        ],
+        "$id": 146
+    },
+    "支持大型应用中多个外部库的国际化联动,适合企业应用和第三方库开发": {
+        "en-US": "支持大型应用中多个外部库的国际化联动,适合企业应用和第三方库开发",
+        "ja-JP": "支持大型应用中多个外部库的国际化联动,适合企业应用和第三方库开发",
+        "$files": [
+            "src/Home/Features.vue(S45:19-S45:53)",
+            "src/Home/Features.vue(S45:19-S45:53)"
+        ],
+        "$id": 147
+    },
+    "应用发布后，可以通过语言补丁方式在线修复翻译错误，极致实用性": {
+        "en-US": "应用发布后，可以通过语言补丁方式在线修复翻译错误，极致实用性",
+        "ja-JP": "应用发布后，可以通过语言补丁方式在线修复翻译错误，极致实用性",
+        "$files": [
+            "src/Home/Features.vue(S50:19-S50:51)",
+            "src/Home/Features.vue(S50:19-S50:51)"
+        ],
+        "$id": 148
+    },
+    "测试覆盖率": {
+        "en-US": "测试覆盖率",
+        "ja-JP": "测试覆盖率",
+        "$files": [
+            "src/Home/Features.vue(S54:12-S54:19)",
+            "src/Home/Features.vue(S54:12-S54:19)"
+        ],
+        "$id": 149
+    },
+    "核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率，保证品质": {
+        "en-US": "核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率，保证品质",
+        "ja-JP": "核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率，保证品质",
+        "$files": [
+            "src/Home/Features.vue(S55:19-S55:63)",
+            "src/Home/Features.vue(S55:19-S55:63)"
+        ],
+        "$id": 150
+    },
+    "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....": {
+        "en-US": "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
+        "ja-JP": "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
+        "$files": [
+            "src/Home/Hero.vue(T16:26-T16:81)"
+        ],
+        "$id": 151
+    },
+    "访问官网": {
+        "en-US": "访问官网",
+        "ja-JP": "访问官网",
+        "$files": [
+            "src/Home/Hero.vue(T19:30-T19:34)"
+        ],
+        "$id": 152
+    },
+    "全流程国际化解决方案": {
+        "en-US": "全流程国际化解决方案",
+        "ja-JP": "全流程国际化解决方案",
+        "$files": [
+            "src/Home/Hero.vue(T29:26-T29:36)",
+            "src/Repos/index.vue(S11:19-S11:31)",
+            "src/Repos/index.vue(S11:19-S11:31)"
+        ],
+        "$id": 153
+    },
+    "快速入门": {
+        "en-US": "快速入门",
+        "ja-JP": "快速入门",
+        "$files": [
+            "src/Home/Hero.vue(T33:30-T33:34)"
+        ],
+        "$id": 154
+    },
+    "了解更多": {
+        "en-US": "了解更多",
+        "ja-JP": "了解更多",
+        "$files": [
+            "src/Home/Hero.vue(T37:30-T37:34)"
+        ],
+        "$id": 155
+    },
+    "更多开源项目...": {
+        "en-US": "更多开源项目...",
+        "ja-JP": "更多开源项目...",
+        "$files": [
+            "src/Repos/index.vue(T55:30-T55:39)"
+        ],
+        "$id": 156
+    },
+    "Nodejs/Vue/React/ReactNative/UniApp/...": {
+        "en-US": "Nodejs/Vue/React/ReactNative/UniApp/...",
+        "ja-JP": "Nodejs/Vue/React/ReactNative/UniApp/...",
+        "$files": [
+            "src/Repos/index.vue(S14:13-S14:54)",
+            "src/Repos/index.vue(S14:13-S14:54)"
+        ],
+        "$id": 157
+    },
+    "支持异步计算/信号组件/表单绑定的全自动状态管理库": {
+        "en-US": "支持异步计算/信号组件/表单绑定的全自动状态管理库",
+        "ja-JP": "支持异步计算/信号组件/表单绑定的全自动状态管理库",
+        "$files": [
+            "src/Repos/index.vue(S21:19-S21:46)",
+            "src/Repos/index.vue(S21:19-S21:46)"
+        ],
+        "$id": 158
+    },
+    "Nodejs下高效的树数据库存储管理工具库": {
+        "en-US": "Nodejs下高效的树数据库存储管理工具库",
+        "ja-JP": "Nodejs下高效的树数据库存储管理工具库",
+        "$files": [
+            "src/Repos/index.vue(S28:19-S28:42)",
+            "src/Repos/index.vue(S28:19-S28:42)"
+        ],
+        "$id": 159
+    },
+    "vitepress/dumi/docsify等文档网站专用的轻量树UI组件": {
+        "en-US": "vitepress/dumi/docsify等文档网站专用的轻量树UI组件",
+        "ja-JP": "vitepress/dumi/docsify等文档网站专用的轻量树UI组件",
+        "$files": [
+            "src/Repos/index.vue(S35:19-S35:58)",
+            "src/Repos/index.vue(S35:19-S35:58)"
+        ],
+        "$id": 160
+    },
+    "轻量React/CSS-IN-JS解决方案": {
+        "en-US": "轻量React/CSS-IN-JS解决方案",
+        "ja-JP": "轻量React/CSS-IN-JS解决方案",
+        "$files": [
+            "src/Repos/index.vue(S42:19-S42:42)",
+            "src/Repos/index.vue(S42:19-S42:42)"
+        ],
+        "$id": 161
+    },
+    "有限状态机实现": {
+        "en-US": "有限状态机实现",
+        "ja-JP": "有限状态机实现",
+        "$files": [
+            "src/Repos/index.vue(S49:19-S49:28)",
+            "src/Repos/index.vue(S49:19-S49:28)"
+        ],
+        "$id": 162
+    },
+    "实用的工具函数库": {
+        "en-US": "实用的工具函数库",
+        "ja-JP": "实用的工具函数库",
+        "$files": [
+            "src/Repos/index.vue(S56:19-S56:29)",
+            "src/Repos/index.vue(S56:19-S56:29)"
+        ],
+        "$id": 163
+    },
+    "强大的字符串插值工具库": {
+        "en-US": "强大的字符串插值工具库",
+        "ja-JP": "强大的字符串插值工具库",
+        "$files": [
+            "src/Repos/index.vue(S63:19-S63:32)",
+            "src/Repos/index.vue(S63:19-S63:32)"
+        ],
+        "$id": 164
+    },
+    "简化装饰器开发的工具库": {
+        "en-US": "简化装饰器开发的工具库",
+        "ja-JP": "简化装饰器开发的工具库",
+        "$files": [
+            "src/Repos/index.vue(S70:19-S70:32)",
+            "src/Repos/index.vue(S70:19-S70:32)"
+        ],
+        "$id": 165
+    },
+    "日志工具库": {
+        "en-US": "日志工具库",
+        "ja-JP": "日志工具库",
+        "$files": [
+            "src/Repos/index.vue(S77:19-S77:26)",
+            "src/Repos/index.vue(S77:19-S77:26)"
+        ],
+        "$id": 166
+    },
+    "Vite插件/将Vue组件中的样式注入到JS文件中": {
+        "en-US": "Vite插件/将Vue组件中的样式注入到JS文件中",
+        "ja-JP": "Vite插件/将Vue组件中的样式注入到JS文件中",
+        "$files": [
+            "src/Repos/index.vue(S84:19-S84:46)",
+            "src/Repos/index.vue(S84:19-S84:46)"
+        ],
+        "$id": 167
+    },
+    "增强型命令行开发工具，能自动生成交互提示": {
+        "en-US": "增强型命令行开发工具，能自动生成交互提示",
+        "ja-JP": "增强型命令行开发工具，能自动生成交互提示",
+        "$files": [
+            "src/Repos/index.vue(S91:19-S91:41)",
+            "src/Repos/index.vue(S91:19-S91:41)"
+        ],
+        "$id": 168
+    },
+    "终端输出增强组件": {
+        "en-US": "终端输出增强组件",
+        "ja-JP": "终端输出增强组件",
+        "$files": [
+            "src/Repos/index.vue(S98:19-S98:29)",
+            "src/Repos/index.vue(S98:19-S98:29)"
+        ],
+        "$id": 169
+    },
+    "VSCODE插件/支持为任意JSON文件注入注释": {
+        "en-US": "VSCODE插件/支持为任意JSON文件注入注释",
+        "ja-JP": "VSCODE插件/支持为任意JSON文件注入注释",
+        "$files": [
+            "src/Repos/index.vue(S105:19-S105:45)",
+            "src/Repos/index.vue(S105:19-S105:45)"
+        ],
+        "$id": 170
+    },
+    "异步信号处理库": {
+        "en-US": "异步信号处理库",
+        "ja-JP": "异步信号处理库",
+        "$files": [
+            "src/Repos/index.vue(S112:19-S112:28)",
+            "src/Repos/index.vue(S112:19-S112:28)"
+        ],
+        "$id": 171
+    },
+    "prisma数据库交互式控制台": {
+        "en-US": "prisma数据库交互式控制台",
+        "ja-JP": "prisma数据库交互式控制台",
+        "$files": [
+            "src/Repos/index.vue(S119:19-S119:36)",
+            "src/Repos/index.vue(S119:19-S119:36)"
+        ],
+        "$id": 172
+    },
+    "将文件以base64方式嵌入到了源码的vite/webpack/esbuild/...插件": {
+        "en-US": "将文件以base64方式嵌入到了源码的vite/webpack/esbuild/...插件",
+        "ja-JP": "将文件以base64方式嵌入到了源码的vite/webpack/esbuild/...插件",
+        "$files": [
+            "src/Repos/index.vue(S126:19-S126:66)",
+            "src/Repos/index.vue(S126:19-S126:66)"
+        ],
+        "$id": 173
+    },
+    "生成captcha图片": {
+        "en-US": "生成captcha图片",
+        "ja-JP": "生成captcha图片",
+        "$files": [
+            "src/Repos/index.vue(S133:19-S133:32)",
+            "src/Repos/index.vue(S133:19-S133:32)"
+        ],
+        "$id": 174
+    },
+    "符合简化BCP47规格的语言编码库": {
+        "en-US": "符合简化BCP47规格的语言编码库",
+        "ja-JP": "符合简化BCP47规格的语言编码库",
+        "$files": [
+            "src/Repos/index.vue(S140:19-S140:38)",
+            "src/Repos/index.vue(S140:19-S140:38)"
+        ],
+        "$id": 175
+    },
+    "我的任务": {
+        "en-US": "我的任务",
+        "ja-JP": "我的任务",
+        "$files": [
+            "src/Task/index.vue(T4:32-T4:36)"
+        ],
+        "$id": 176
+    },
+    "新建": {
+        "en-US": "新建",
+        "ja-JP": "新建",
+        "$files": [
+            "src/Task/index.vue(T12:34-T12:36)"
+        ],
+        "$id": 177
+    },
+    "全部": {
+        "en-US": "全部",
+        "ja-JP": "全部",
+        "$files": [
+            "src/Task/index.vue(T24:36-T24:38)"
+        ],
+        "$id": 178
+    },
+    "未完成": {
+        "en-US": "未完成",
+        "ja-JP": "未完成",
+        "$files": [
+            "src/Task/index.vue(T34:36-T34:39)"
+        ],
+        "$id": 179
+    },
+    "已完成": {
+        "en-US": "已完成",
+        "ja-JP": "已完成",
+        "$files": [
+            "src/Task/index.vue(T43:36-T43:39)"
+        ],
+        "$id": 180
+    },
+    "已删除": {
+        "en-US": "已删除",
+        "ja-JP": "已删除",
+        "$files": [
+            "src/Task/index.vue(T52:36-T52:39)"
+        ],
+        "$id": 181
+    },
+    "标题": {
+        "en-US": "标题",
+        "ja-JP": "标题",
+        "$files": [
+            "src/Task/index.vue(T63:71-T63:73)"
+        ],
+        "$id": 182
+    },
+    "描述": {
+        "en-US": "描述",
+        "ja-JP": "描述",
+        "$files": [
+            "src/Task/index.vue(T64:71-T64:73)"
+        ],
+        "$id": 183
+    },
+    "创建于": {
+        "en-US": "创建于",
+        "ja-JP": "创建于",
+        "$files": [
+            "src/Task/index.vue(T65:71-T65:74)"
+        ],
+        "$id": 184
+    },
+    "完成": {
+        "en-US": "完成",
+        "ja-JP": "完成",
+        "$files": [
+            "src/Task/index.vue(T66:71-T66:73)"
+        ],
+        "$id": 185
+    },
+    "动作": {
+        "en-US": "动作",
+        "ja-JP": "动作",
+        "$files": [
+            "src/Task/index.vue(T67:71-T67:73)"
+        ],
+        "$id": 186
+    },
+    "编辑": {
+        "en-US": "编辑",
+        "ja-JP": "编辑",
+        "$files": [
+            "src/Task/index.vue(T96:24-T96:40)"
+        ],
+        "$id": 187
+    },
+    "删除": {
+        "en-US": "删除",
+        "ja-JP": "删除",
+        "$files": [
+            "src/Task/index.vue(T103:24-T103:40)"
+        ],
+        "$id": 188
+    },
+    "准备周会演示文稿": {
+        "en-US": "准备周会演示文稿",
+        "ja-JP": "准备周会演示文稿",
+        "$files": [
+            "src/Task/index.vue(S129:17-S129:27)",
+            "src/Task/index.vue(S129:17-S129:27)"
+        ],
+        "$id": 189
+    },
+    "汇总团队本周工作内容,制作简报,重点突出项目里程碑的完成情况。": {
+        "en-US": "汇总团队本周工作内容,制作简报,重点突出项目里程碑的完成情况。",
+        "ja-JP": "汇总团队本周工作内容,制作简报,重点突出项目里程碑的完成情况。",
+        "$files": [
+            "src/Task/index.vue(S130:23-S130:56)",
+            "src/Task/index.vue(S130:23-S130:56)"
+        ],
+        "$id": 190
+    },
+    "安排团队建设活动": {
+        "en-US": "安排团队建设活动",
+        "ja-JP": "安排团队建设活动",
+        "$files": [
+            "src/Task/index.vue(S137:17-S137:27)",
+            "src/Task/index.vue(S137:17-S137:27)"
+        ],
+        "$id": 191
+    },
+    "联系活动策划公司,讨论团建方案,预算控制在每人500元以内,时间定在下个月第一个周末。": {
+        "en-US": "联系活动策划公司,讨论团建方案,预算控制在每人500元以内,时间定在下个月第一个周末。",
+        "ja-JP": "联系活动策划公司,讨论团建方案,预算控制在每人500元以内,时间定在下个月第一个周末。",
+        "$files": [
+            "src/Task/index.vue(S138:23-S138:68)",
+            "src/Task/index.vue(S138:23-S138:68)"
+        ],
+        "$id": 192
+    },
+    "更新个人简历": {
+        "en-US": "更新个人简历",
+        "ja-JP": "更新个人简历",
+        "$files": [
+            "src/Task/index.vue(S145:17-S145:25)",
+            "src/Task/index.vue(S145:17-S145:25)"
+        ],
+        "$id": 193
+    },
+    "添加最近完成的项目经验,更新技能列表,重新设计简历版式使其更有吸引力。": {
+        "en-US": "添加最近完成的项目经验,更新技能列表,重新设计简历版式使其更有吸引力。",
+        "ja-JP": "添加最近完成的项目经验,更新技能列表,重新设计简历版式使其更有吸引力。",
+        "$files": [
+            "src/Task/index.vue(S146:23-S146:60)",
+            "src/Task/index.vue(S146:23-S146:60)"
+        ],
+        "$id": 194
+    },
+    "学习新的编程语言": {
+        "en-US": "学习新的编程语言",
+        "ja-JP": "学习新的编程语言",
+        "$files": [
+            "src/Task/index.vue(S153:17-S153:27)",
+            "src/Task/index.vue(S153:17-S153:27)"
+        ],
+        "$id": 195
+    },
+    "开始学习Python,完成Codecademy上的Python入门课程,每天至少编程1小时。": {
+        "en-US": "开始学习Python,完成Codecademy上的Python入门课程,每天至少编程1小时。",
+        "ja-JP": "开始学习Python,完成Codecademy上的Python入门课程,每天至少编程1小时。",
+        "$files": [
+            "src/Task/index.vue(S154:23-S154:71)",
+            "src/Task/index.vue(S154:23-S154:71)"
+        ],
+        "$id": 196
+    }
+}
