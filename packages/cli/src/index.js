@@ -7,8 +7,7 @@ const CompileCommand                                = require("./commands/compil
 const WrapCommand                                   = require("./commands/wrap");
 const TranslateCommand                              = require("./commands/translate");
 const { getCliLanguage }                            = require("./oslocale");
-const {  isVoerkaI18nInstalled, getProjectContext } = require("@voerkai18n/utils");
-const { rainbow }                                   = require("gradient-string")
+const {  isVoerkaI18nInstalled, getProjectContext } = require("@voerkai18n/utils"); 
 const { i18nScope }                                 = require("./i18n");
 const replaceAll                                    = require('string.prototype.replaceall');
 replaceAll.shim()
@@ -22,12 +21,12 @@ getProjectContext().then(async ctx=>{
     const cli = new MixCli({
       name: "voerkai18n",
       version: require("../package.json").version,
-      logo: rainbow.multiline(String.raw`
+      logo: String.raw`
         __     __        _         ___ _  ___        
         \ \   / /__ _ __| | ____ _|_ _/ |( _ ) _ __  
          \ \ / / _ \ '__| |/ / _\` || || |/ _ \| '_ \ 
           \ V /  __/ |  |   < (_| || || | (_) | | | |
-           \_/ \___|_|  |_|\_\__,_|___|_|\___/|_| |_|`)
+           \_/ \___|_|  |_|\_\__,_|___|_|\___/|_| |_|`
       })    
 
     cli.register(InitCommand)

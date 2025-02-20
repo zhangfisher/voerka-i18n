@@ -33,14 +33,18 @@ export type LanguagesDirOptions = {
  * @param created 是否创建
  */
 export function getLanguageDir(options?:LanguagesDirOptions):string{    
+
     const { location,autoCreate,absolute } = Object.assign({
         autoCreate:true,
         absolute:true
     }, options)        
+
     const cwd = process.cwd()
+
     try{
         // 从package.json/voerkai18n中读取
         const { entry } = getSettingsFromPackageJson(location) 
+        
         let langDir :string = ""
         if(entry){         
             langDir = path.isAbsolute(entry) ?  entry : path.join(cwd,entry)            

@@ -7,8 +7,10 @@ import { isTypeScriptPackage } from "flex-tools/package/isTypeScriptPackage"
 import { readFile } from "flex-tools/fs/nodefs"
 import path from "node:path"
 import fs from "node:fs" 
+import { getPackageRootPath } from "flex-tools"
 
 export type VoerkaI18nProjectContext= VoerkaI18nSettings & { 
+    rootDir         : string
     langDir         : string
     langRelDir      : string
     settingFile     : string
@@ -102,8 +104,9 @@ function getApiParams(this:VoerkaI18nProjectContext,options?:Record<string,any>)
  * @param options 
  * @returns 
  */
-export async function getProjectContext(options?:Record<string,any>) { 
+export async function getProjectContext(options?:Record<string,any>) {     
     const ctx          = await getVoerkaI18nSettings() as VoerkaI18nProjectContext    
+    ctx.rootDir        = getPackageRootPath() || process.cwd()
     ctx.langDir        = getLanguageDir()
     ctx.langRelDir     = path.relative(process.cwd(),ctx.langDir).replaceAll(path.sep,"/")    
     ctx.settingFile    = path.join(ctx.langDir, "settings.json")

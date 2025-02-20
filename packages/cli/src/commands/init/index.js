@@ -2,7 +2,9 @@ const { MixCommand } = require("mixcli");
 const { t } = require("../../i18n");
 const { getLanguageDir } = require("@voerkai18n/utils")
 const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage");
+const { getPackageRootPath } = require("flex-tools/package/getPackageRootPath");
 const { getBcp47LanguageApi,getProjectContext } = require("@voerkai18n/utils");
+
 const initializer = require("./initializer");
 
 
@@ -52,15 +54,32 @@ module.exports = () => {
 
     const isTypeScript = isTypeScriptPackage();    
     const initCommand = new MixCommand("init"); 
+    const packageRoot = getPackageRootPath()
+    
+    const pkgFile = path.join(process.cwd(),"package.json")
+    const inProjectRoot = fs.existsSync(pkgFile)
+
     initCommand
-        .description(t("初始化VoerkaI18n支持"))
-        .alias("config")
+        .description(t("初始化VoerkaI18n配置"))
+        .alias("config")        
         .enablePrompts()
         .initial(async ()=>{
             const ctx = await getProjectContext()
             ctx.languages = (ctx.languages || []).map(lang=>lang.name)
             return ctx
         })
+
+        // 如果不在项目根目录下执行
+        if(!inProjectRoot){
+            initCommand.option("--location [path]", t("初始化位置"), {
+                default: '.',
+                prompt : true,
+            })
+        }else{
+
+        }
+        
+    initCommand
         .option("-d, --language-dir [path]", t("语言目录"), {
             default: getLanguageDir({autoCreate:false,absolute:false}),
             prompt : true,
@@ -103,8 +122,7 @@ module.exports = () => {
             });
         }
         initCommand.action(async (options) => {
-            const opts = Object.assign({
-                reset          : false,
+            const opts = Object.assign({ 
                 moduleType     : "esm",
                 library        : false,
                 languages      : [],
