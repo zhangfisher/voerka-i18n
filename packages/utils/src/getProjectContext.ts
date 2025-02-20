@@ -103,7 +103,7 @@ function getApiParams(this:VoerkaI18nProjectContext,options?:Record<string,any>)
  * @returns 
  */
 export async function getProjectContext(options?:Record<string,any>) { 
-    const ctx          = await getVoerkaI18nSettings() as VoerkaI18nProjectContext
+    const ctx          = await getVoerkaI18nSettings() as VoerkaI18nProjectContext    
     ctx.langDir        = getLanguageDir()
     ctx.langRelDir     = path.relative(process.cwd(),ctx.langDir).replaceAll(path.sep,"/")    
     ctx.settingFile    = path.join(ctx.langDir, "settings.json")
@@ -115,6 +115,6 @@ export async function getProjectContext(options?:Record<string,any>) {
     if(!ctx.typescript) ctx.typescript = isTypeScriptPackage()
     if(!ctx.moduleType) ctx.moduleType = getPackageModuleType()    
     Object.assign(ctx,options)
-    ctx.api = getApiParams.call(ctx,options)
+    ctx.api = getApiParams.call(ctx,options) 
     return ctx
 }

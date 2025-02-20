@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 require("flex-tools/string")
-const { MixCli } = require("mixcli");
-const InitCommand = require("./commands/init");
-const ExtractCommand = require("./commands/extract");
-const CompileCommand = require("./commands/compile");
-const WrapCommand = require("./commands/wrap");
-const TranslateCommand = require("./commands/translate");
-const { getCliLanguage } = require("./oslocale");
+const { MixCli }                                    = require("mixcli");
+const InitCommand                                   = require("./commands/init");
+const ExtractCommand                                = require("./commands/extract");
+const CompileCommand                                = require("./commands/compile");
+const WrapCommand                                   = require("./commands/wrap");
+const TranslateCommand                              = require("./commands/translate");
+const { getCliLanguage }                            = require("./oslocale");
 const {  isVoerkaI18nInstalled, getProjectContext } = require("@voerkai18n/utils");
-const { rainbow } = require("gradient-string")
-const { i18nScope } = require("./i18n");
-const replaceAll = require('string.prototype.replaceall');
+const { rainbow }                                   = require("gradient-string")
+const { i18nScope }                                 = require("./i18n");
+const replaceAll                                    = require('string.prototype.replaceall');
 replaceAll.shim()
  
 getProjectContext().then(async ctx=>{

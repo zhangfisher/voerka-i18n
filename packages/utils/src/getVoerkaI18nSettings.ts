@@ -6,6 +6,7 @@ import type { VoerkaI18nLanguageDefine, VoerkaI18nSettings } from "@voerkai18n/r
 
 
 export function getVoerkaI18nSettings():VoerkaI18nSettings{
+    
     const packageJsonSettings = getSettingsFromPackageJson()    
 
     const langDir = getLanguageDir({

@@ -4,11 +4,9 @@
  * 
  */
 
-import { getSettingsFromPackageJson } from "./getSettingsFromPackageJson"
 import fs from "node:fs"
 import path from "node:path" 
 import { getExistedDir } from "flex-tools/fs/getExistedDir"
-import { getProjectSourceFolder } from "./getProjectSourceFolder"
 import { LanguagesDirOptions } from "./getLanguageDir"
 
  
@@ -30,12 +28,12 @@ import { LanguagesDirOptions } from "./getLanguageDir"
  */
 export function getDefaultLanguageDir(options?:LanguagesDirOptions):string{    
     const { location,autoCreate } = Object.assign({
-        autoCreate:true
+        autoCreate:false
     }, options)
     try{ 
         const cwd = process.cwd()
         let langDir :string = ""         
-        const srcPath = getProjectSourceFolder(location) || cwd         
+        const srcPath = cwd         
         const existedLangDir = getExistedDir([
             path.join(srcPath,"languages"),
             path.join(cwd,"languages")
