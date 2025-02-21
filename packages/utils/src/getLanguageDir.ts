@@ -33,28 +33,25 @@ export type LanguagesDirOptions = {
  * @param created 是否创建
  */
 export function getLanguageDir(options?:LanguagesDirOptions):string{    
-
     const { location,autoCreate,absolute } = Object.assign({
         autoCreate:true,
         absolute:true
-    }, options)        
+    }, options)      
 
-    const cwd = process.cwd()
+    const cwd = process.env.INIT_CWD ||  process.cwd()
 
     try{
-        // 从package.json/voerkai18n中读取
-        const { entry } = getSettingsFromPackageJson(location) 
-        
-        let langDir :string = ""
-        if(entry){         
-            langDir = path.isAbsolute(entry) ?  entry : path.join(cwd,entry)            
-            if(autoCreate && !fs.existsSync(langDir)){
-                fs.mkdirSync(langDir)
-            }
-        }else{        
-            langDir = getDefaultLanguageDir(options)
+        const { entry } = getSettingsFromPackageJson(location)     
+
+        let langDir :string = entry || getDefaultLanguageDir() 
+        langDir = path.isAbsolute(langDir) ?  langDir : path.join(cwd,langDir)
+
+        if(autoCreate && !fs.existsSync(langDir)){
+            fs.mkdirSync(langDir)
         }
+
         return absolute ? langDir : path.relative(cwd,langDir)
+
     }catch(e){
         console.error("获取语言文件夹失败",e)
         return "src/languages"

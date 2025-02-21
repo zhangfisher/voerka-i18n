@@ -10,7 +10,8 @@ import fs from "node:fs"
  * @returns 
  */
 export function getProjectRoot(location?:string){ 
-    let projectRoot = process.cwd() || getPackageRootPath(location)
+    const cwd = process.env.INIT_CWD || process.cwd()
+    let projectRoot = cwd || getPackageRootPath(location)
     if(projectRoot){
         const srcPath = path.join(projectRoot,"src")
         if(fs.existsSync(srcPath)){

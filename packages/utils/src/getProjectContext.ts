@@ -106,7 +106,7 @@ function getApiParams(this:VoerkaI18nProjectContext,options?:Record<string,any>)
  */
 export async function getProjectContext(options?:Record<string,any>) {     
     const ctx          = await getVoerkaI18nSettings() as VoerkaI18nProjectContext    
-    ctx.rootDir        = getPackageRootPath() || process.cwd()
+    ctx.rootDir        = process.env.INIT_CWD || process.cwd()
     ctx.langDir        = getLanguageDir()
     ctx.langRelDir     = path.relative(process.cwd(),ctx.langDir).replaceAll(path.sep,"/")    
     ctx.settingFile    = path.join(ctx.langDir, "settings.json")

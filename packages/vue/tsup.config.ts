@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup' 
+import copyFiles from "esbuild-plugin-copy"
 
 
 export default defineConfig([
@@ -15,20 +16,29 @@ export default defineConfig([
         minify: true,
         banner: {
             js: `/***
-    *   ---=== VoerkaI18n for Vue ===---
-    *   https://zhangfisher.github.io/voerka-i18n
-    */`}
+            *   ---=== VoerkaI18n for Vue ===---
+            *   https://zhangfisher.github.io/voerka-i18n
+            */`}
     },
     {
         entry: [
-            'src/postinstall.ts'
+            'src/postinstall/index.ts'
         ],
+        outDir: 'dist/postinstall',
         format: ['esm','cjs'],
         dts: true,
         splitting: false,
         sourcemap: true,
         clean: true,
         treeshake:true,  
-        minify: true
+        minify: true, 
+        esbuildPlugins: [
+            copyFiles({
+                assets:{
+                    from:"./src/postinstall/templates/*.*",
+                    to:'./templates'
+                }
+            })
+        ]
     }
 ]) 

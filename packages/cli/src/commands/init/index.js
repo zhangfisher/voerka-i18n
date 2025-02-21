@@ -53,11 +53,7 @@ function getSelectedLanguages(selectedTags) {
 module.exports = () => {
 
     const isTypeScript = isTypeScriptPackage();    
-    const initCommand = new MixCommand("init"); 
-    const packageRoot = getPackageRootPath()
-    
-    const pkgFile = path.join(process.cwd(),"package.json")
-    const inProjectRoot = fs.existsSync(pkgFile)
+    const initCommand = new MixCommand("init");  
 
     initCommand
         .description(t("初始化VoerkaI18n配置"))
@@ -68,18 +64,6 @@ module.exports = () => {
             ctx.languages = (ctx.languages || []).map(lang=>lang.name)
             return ctx
         })
-
-        // 如果不在项目根目录下执行
-        if(!inProjectRoot){
-            initCommand.option("--location [path]", t("初始化位置"), {
-                default: '.',
-                prompt : true,
-            })
-        }else{
-
-        }
-        
-    initCommand
         .option("-d, --language-dir [path]", t("语言目录"), {
             default: getLanguageDir({autoCreate:false,absolute:false}),
             prompt : true,

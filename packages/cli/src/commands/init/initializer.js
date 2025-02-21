@@ -80,7 +80,7 @@ async function initializer(opts={}){
                 })
                 addToGitIgnore([
                     `${langRelDir}/api.json`,                    
-                    "**/translates/*.bak.*.json",
+                    `${langRelDir}/translates/*.bak.*.json`,
                     "**/*.wrapped.*",
                 ])
             }

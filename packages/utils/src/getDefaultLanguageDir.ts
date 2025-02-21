@@ -26,28 +26,12 @@ import { LanguagesDirOptions } from "./getLanguageDir"
  * @param location 指定入口文件夹
  * @param created 是否创建
  */
-export function getDefaultLanguageDir(options?:LanguagesDirOptions):string{    
-    const { location,autoCreate } = Object.assign({
-        autoCreate:false
-    }, options)
-    try{ 
-        const cwd = process.cwd()
-        let langDir :string = ""         
-        const srcPath = cwd         
-        const existedLangDir = getExistedDir([
-            path.join(srcPath,"languages"),
-            path.join(cwd,"languages")
-        ])
-        if(existedLangDir){
-            langDir = existedLangDir
-        }else{
-            langDir = path.join(srcPath,"languages")
-        } 
-        if(autoCreate && !fs.existsSync(langDir)){
-            fs.mkdirSync(langDir)
-        }
-        return langDir
-    }catch(e){ 
-        return "src/languages"
+export function getDefaultLanguageDir():string{    
+    const cwd = process.env.INIT_CWD || process.cwd()
+    const srcPath = path.join(cwd,"src")
+    if(fs.existsSync(srcPath)){
+        return  path.join(srcPath,"languages")
+    }else{
+        return path.join(cwd,"languages")
     } 
 }

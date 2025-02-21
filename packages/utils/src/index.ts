@@ -1,6 +1,5 @@
 export * from "./getIdMapFile"
 export * from "./getSettingsFromPackageJson"
-export * from "./getProjectSourceFolder"
 export * from "./getLanguageDir"
 export * from "./types"
 export * from "./isVoerkaI18nInstalled"

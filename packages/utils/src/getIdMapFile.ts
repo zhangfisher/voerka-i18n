@@ -14,7 +14,7 @@ export function getIdMap(location:string="./"){
 
     const { entry='languages' }  = getSettingsFromPackageJson(location)
     if(!path.isAbsolute(location)){
-        location =  path.join(process.cwd(),location)
+        location =  path.join(process.env.INIT_CWD || process.cwd(),location)
     }
 
     let searchIdMapFiles = [

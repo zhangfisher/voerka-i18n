@@ -35,14 +35,15 @@ function inNamespace(filePath:string,nsPath:string){
 export function getFileNamespace(file:string,namespaces?:VoerkaI18nNamespaces):string{
     if(!namespaces) return "default"
     if(!file) return "default"
-    file = path.isAbsolute(file) ? file : path.join(process.cwd(),file)
+    const cwd = process.env.INIT_CWD || process.cwd()
+    file = path.isAbsolute(file) ? file : path.join(cwd,file)
     for(let [name,value] of Object.entries(namespaces)){
         if(typeof(value)=== 'function'){
             if(value(file)===true) return name
         }else{
             const paths = Array.isArray(value) ? value : [value]
             for(let nsPath of paths){
-                nsPath = path.isAbsolute(nsPath) ? nsPath : path.join(process.cwd(),nsPath)
+                nsPath = path.isAbsolute(nsPath) ? nsPath : path.join(cwd,nsPath)
                 if(inNamespace(file,nsPath)){
                     return name
                 }

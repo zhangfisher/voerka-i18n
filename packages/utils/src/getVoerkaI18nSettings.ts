@@ -6,15 +6,18 @@ import type { VoerkaI18nLanguageDefine, VoerkaI18nSettings } from "@voerkai18n/r
 
 
 export function getVoerkaI18nSettings():VoerkaI18nSettings{
-    
+
     const packageJsonSettings = getSettingsFromPackageJson()    
 
     const langDir = getLanguageDir({
         autoCreate: false
     })
+
     const settings = Object.assign({
         namespaces : {},
     },packageJsonSettings) as VoerkaI18nSettings
+
+    
     const settingFile = path.join(langDir, "settings.json")
     if(fs.existsSync(settingFile)){
         Object.assign(settings, require(settingFile))
