@@ -4,7 +4,7 @@
     <p>      
       <Translate message="适用于Javascript/Vue/React/ReactNative的国际化解决方案"/>
     </p> 
-    <h3>{{ t("特性") }}</h3>
+    <h3>{{ t("主要特性") }}</h3>
     <ul>
       <li><Translate message="适用任意场景"/></li>
       <li><Translate message="全流程工具链"/></li>

@@ -91,6 +91,4 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
             return h(TranslateComponent,props as any)
         } 
     }
-    
-
 }

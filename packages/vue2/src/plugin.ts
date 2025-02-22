@@ -16,7 +16,10 @@ export const i18nPlugin = {
         Vue.prototype.t = (message:string,...args:any[])=>{
             state.langauge 
             return i18nScope.t(message,...args)
-        }         
+        }   
+        i18nScope.ready((language:string)=>{
+            state.langauge = language
+        })      
         i18nScope.on("change",(language:string)=>{
             state.langauge = language
         })

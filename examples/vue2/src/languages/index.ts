@@ -19,7 +19,6 @@ export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器
     messages,                                           // 语言包
-    // @ts-ignore
     component,                                          // 翻译组件
     ...settings
 }) 
