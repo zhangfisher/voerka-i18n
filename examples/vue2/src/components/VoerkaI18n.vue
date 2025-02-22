@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Translate } from '@voerkai18n/vue2';
+import { Translate } from '../languages';
 
 export default Vue.extend({
   name: 'i18n',

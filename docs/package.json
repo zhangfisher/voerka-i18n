@@ -14,8 +14,8 @@
     "docs:preview": "vitepress preview"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "wxzhang",
+  "license": "MIT",
   "dependencies": {
     "@lite-tree/icons": "^1.0.6",
     "@lite-tree/vue": "^1.1.4",

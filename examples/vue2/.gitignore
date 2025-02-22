@@ -25,3 +25,5 @@ pnpm-debug.log*
 src/languages/api.json
 src/languages/translates/*.bak.*.json
 **/*.wrapped.*
+src/languages/api.json
+src/languages/translates/*.bak.*.json

@@ -13,8 +13,8 @@
     "compile": "node ../../packages/cli/index.js compile"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "wxzhang",
+  "license": "MIT",
   "dependencies": {
     "@voerkai18n/openinula": "workspace:^",
     "@voerkai18n/runtime": "workspace:^",

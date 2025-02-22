@@ -12,13 +12,15 @@
     "i18n:wrap": "voerkai18n wrap --api qwen"
   },
   "dependencies": {
+    "@voerkai18n/formatters": "workspace:^",
+    "@voerkai18n/runtime": "workspace:^",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-router": "~5.0.0",
     "@voerkai18n/cli": "workspace:*",
+    "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",

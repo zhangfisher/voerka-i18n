@@ -43,7 +43,7 @@ importers:
         version: 2.4.2
       vitepress:
         specifier: ^1.6.3
-        version: 1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.2)(@types/react@19.0.8)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.39.0)(typescript@5.7.3)
+        version: 1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.2)(@types/react@18.2.22)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.1)(react@18.2.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.39.0)(typescript@5.7.3)
       yorkie:
         specifier: ^2.0.0
         version: 2.0.0
@@ -156,6 +156,12 @@ importers:
 
   examples/vue2:
     dependencies:
+      '@voerkai18n/formatters':
+        specifier: workspace:^
+        version: link:../../packages/formatters
+      '@voerkai18n/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
       vue:
         specifier: ^2.6.14
         version: 2.7.16
@@ -171,16 +177,16 @@ importers:
         version: link:../../packages/cli
       '@vue/cli-plugin-router':
         specifier: ~5.0.0
-        version: 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
+        version: 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
       '@vue/cli-plugin-typescript':
         specifier: ~5.0.0
-        version: 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))(eslint@9.20.0(jiti@2.4.2))(typescript@4.5.5)(vue-template-compiler@2.7.16)(vue@2.7.16)
+        version: 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))(eslint@9.20.0(jiti@2.4.2))(typescript@4.5.5)(vue-template-compiler@2.7.16)(vue@2.7.16)
       '@vue/cli-plugin-vuex':
         specifier: ~5.0.0
-        version: 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
+        version: 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
       '@vue/cli-service':
         specifier: ~5.0.0
-        version: 5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
+        version: 5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
       less:
         specifier: ^4.0.0
         version: 4.2.2
@@ -205,9 +211,9 @@ importers:
       '@voerkai18n/runtime':
         specifier: workspace:*
         version: link:../../packages/runtime
-      '@voerkai18n/vue':
+      '@voerkai18n/vue2':
         specifier: workspace:*
-        version: link:../../packages/vue
+        version: link:../../packages/vue2
       lucide-vue-next:
         specifier: ^0.475.0
         version: 0.475.0(vue@3.5.13(typescript@5.7.3))
@@ -481,7 +487,7 @@ importers:
         version: 2.2.0
       unplugin-starter:
         specifier: ^0.1.0
-        version: 0.1.0(rollup@4.34.6)(vite@6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(webpack@5.98.0)
+        version: 0.1.0(vite@6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(webpack@5.98.0)
       vite:
         specifier: ^6.1.0
         version: 6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0)
@@ -7688,9 +7694,9 @@ snapshots:
 
   '@docsearch/css@3.8.2': {}
 
-  '@docsearch/js@3.8.2(@algolia/client-search@5.20.3)(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.2)':
+  '@docsearch/js@3.8.2(@algolia/client-search@5.20.3)(@types/react@18.2.22)(react@18.2.0)(search-insights@2.17.2)':
     dependencies:
-      '@docsearch/react': 3.8.2(@algolia/client-search@5.20.3)(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.2)
+      '@docsearch/react': 3.8.2(@algolia/client-search@5.20.3)(@types/react@18.2.22)(react@18.2.0)(search-insights@2.17.2)
       preact: 10.24.3
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -7699,16 +7705,15 @@ snapshots:
       - react-dom
       - search-insights
 
-  '@docsearch/react@3.8.2(@algolia/client-search@5.20.3)(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.2)':
+  '@docsearch/react@3.8.2(@algolia/client-search@5.20.3)(@types/react@18.2.22)(react@18.2.0)(search-insights@2.17.2)':
     dependencies:
       '@algolia/autocomplete-core': 1.17.7(@algolia/client-search@5.20.3)(algoliasearch@5.20.3)(search-insights@2.17.2)
       '@algolia/autocomplete-preset-algolia': 1.17.7(@algolia/client-search@5.20.3)(algoliasearch@5.20.3)
       '@docsearch/css': 3.8.2
       algoliasearch: 5.20.3
     optionalDependencies:
-      '@types/react': 19.0.8
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
+      '@types/react': 18.2.22
+      react: 18.2.0
       search-insights: 2.17.2
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -8858,18 +8863,18 @@ snapshots:
 
   '@vue/cli-overlay@5.0.8': {}
 
-  '@vue/cli-plugin-router@5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))':
+  '@vue/cli-plugin-router@5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))':
     dependencies:
-      '@vue/cli-service': 5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
+      '@vue/cli-service': 5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
       '@vue/cli-shared-utils': 5.0.8
     transitivePeerDependencies:
       - encoding
 
-  '@vue/cli-plugin-typescript@5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))(eslint@9.20.0(jiti@2.4.2))(typescript@4.5.5)(vue-template-compiler@2.7.16)(vue@2.7.16)':
+  '@vue/cli-plugin-typescript@5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))(eslint@9.20.0(jiti@2.4.2))(typescript@4.5.5)(vue-template-compiler@2.7.16)(vue@2.7.16)':
     dependencies:
       '@babel/core': 7.21.5
       '@types/webpack-env': 1.18.8
-      '@vue/cli-service': 5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
+      '@vue/cli-service': 5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
       '@vue/cli-shared-utils': 5.0.8
       babel-loader: 8.4.1(@babel/core@7.21.5)(webpack@5.98.0)
       fork-ts-checker-webpack-plugin: 6.5.3(eslint@9.20.0(jiti@2.4.2))(typescript@4.5.5)(vue-template-compiler@2.7.16)(webpack@5.98.0)
@@ -8890,22 +8895,22 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@vue/cli-plugin-vuex@5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))':
+  '@vue/cli-plugin-vuex@5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))':
     dependencies:
-      '@vue/cli-service': 5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
+      '@vue/cli-service': 5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
 
-  '@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)':
+  '@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)':
     dependencies:
       '@babel/helper-compilation-targets': 7.23.6
       '@soda/friendly-errors-webpack-plugin': 1.8.1(webpack@5.98.0)
       '@soda/get-current-script': 1.0.2
       '@types/minimist': 1.2.5
       '@vue/cli-overlay': 5.0.8
-      '@vue/cli-plugin-router': 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
-      '@vue/cli-plugin-vuex': 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
+      '@vue/cli-plugin-router': 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
+      '@vue/cli-plugin-vuex': 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(less-loader@8.1.1(less@4.2.2)(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
       '@vue/cli-shared-utils': 5.0.8
-      '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)
-      '@vue/vue-loader-v15': vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(css-loader@6.11.0(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(webpack@5.98.0)
+      '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(react@18.2.0)(underscore@1.13.7)
+      '@vue/vue-loader-v15': vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(css-loader@6.11.0(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(webpack@5.98.0)
       '@vue/web-component-wrapper': 1.3.0
       acorn: 8.14.0
       acorn-walk: 8.3.4
@@ -9085,9 +9090,9 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  '@vue/component-compiler-utils@3.3.0(lodash@4.17.21)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)':
+  '@vue/component-compiler-utils@3.3.0(lodash@4.17.21)(react@18.2.0)(underscore@1.13.7)':
     dependencies:
-      consolidate: 0.15.1(lodash@4.17.21)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)
+      consolidate: 0.15.1(lodash@4.17.21)(react@18.2.0)(underscore@1.13.7)
       hash-sum: 1.0.2
       lru-cache: 4.1.5
       merge-source-map: 1.1.0
@@ -9857,13 +9862,12 @@ snapshots:
 
   consola@3.3.3: {}
 
-  consolidate@0.15.1(lodash@4.17.21)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7):
+  consolidate@0.15.1(lodash@4.17.21)(react@18.2.0)(underscore@1.13.7):
     dependencies:
       bluebird: 3.7.2
     optionalDependencies:
       lodash: 4.17.21
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
+      react: 18.2.0
       underscore: 1.13.7
 
   content-disposition@0.5.4:
@@ -13471,19 +13475,18 @@ snapshots:
 
   unpipe@1.0.0: {}
 
-  unplugin-starter@0.1.0(rollup@4.34.6)(vite@6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(webpack@5.98.0):
+  unplugin-starter@0.1.0(vite@6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(webpack@5.98.0):
     dependencies:
-      unplugin: 0.0.8(rollup@4.34.6)(vite@6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(webpack@5.98.0)
+      unplugin: 0.0.8(vite@6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(webpack@5.98.0)
     transitivePeerDependencies:
       - rollup
       - vite
       - webpack
 
-  unplugin@0.0.8(rollup@4.34.6)(vite@6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(webpack@5.98.0):
+  unplugin@0.0.8(vite@6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(webpack@5.98.0):
     dependencies:
       webpack-virtual-modules: 0.4.6
     optionalDependencies:
-      rollup: 4.34.6
       vite: 6.1.0(@types/node@22.13.2)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.26.5)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0)
       webpack: 5.98.0
 
@@ -13620,10 +13623,10 @@ snapshots:
       tsx: 4.19.2
       yaml: 2.7.0
 
-  vitepress@1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.2)(@types/react@19.0.8)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.39.0)(typescript@5.7.3):
+  vitepress@1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.2)(@types/react@18.2.22)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.1)(react@18.2.0)(sass@1.26.5)(search-insights@2.17.2)(terser@5.39.0)(typescript@5.7.3):
     dependencies:
       '@docsearch/css': 3.8.2
-      '@docsearch/js': 3.8.2(@algolia/client-search@5.20.3)(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.2)
+      '@docsearch/js': 3.8.2(@algolia/client-search@5.20.3)(@types/react@18.2.22)(react@18.2.0)(search-insights@2.17.2)
       '@iconify-json/simple-icons': 1.2.25
       '@shikijs/core': 2.5.0
       '@shikijs/transformers': 2.5.0
@@ -13709,9 +13712,9 @@ snapshots:
 
   vue-hot-reload-api@2.3.4: {}
 
-  vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(css-loader@6.11.0(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(webpack@5.98.0):
+  vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(css-loader@6.11.0(webpack@5.98.0))(lodash@4.17.21)(prettier@2.7.1)(react@18.2.0)(underscore@1.13.7)(vue-template-compiler@2.7.16)(webpack@5.98.0):
     dependencies:
-      '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(underscore@1.13.7)
+      '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(react@18.2.0)(underscore@1.13.7)
       css-loader: 6.11.0(webpack@5.98.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2

@@ -73,7 +73,7 @@ async function initializer(opts={}){
                 await copyFiles("**/*.*",path.join(langDir,"prompts"), { cwd: path.join(__dirname,"prompts") }) 
                 opts.languages.forEach(lng=>{
                     const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : "js"}`)
-                    const msgContent = moduleType === 'cjs' ? `module.exports = {}` : `export default {}`
+                    const msgContent = isTypeScript || moduleType === 'esm' ? `export default {}` : `module.exports = {}`
                     if(!fs.existsSync(msgFile)){
                         fs.writeFileSync(msgFile,msgContent)
                     }

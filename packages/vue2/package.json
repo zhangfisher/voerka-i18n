@@ -11,10 +11,8 @@
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts"
   },
-  "scripts": {
-    "release": "npm publish",
-    "build": "tsup",
-    "build:watch": "tsup --watch"
+  "scripts": { 
+    "build": "tsup" 
   },
   "keywords": [],
   "author": "wxzhang",
