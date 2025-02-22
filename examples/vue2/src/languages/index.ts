@@ -4,8 +4,7 @@ import formatters from "@voerkai18n/formatters"
 import idMap from "./idMap"
 import { component,TranslateComponentType } from "./component"
 import settings from "./settings.json"
-import defaultMessages from "./zh-CN"   
- 
+import defaultMessages from "./zh-CN"    
 
 const messages = { 
     'zh-CN'    : defaultMessages,
@@ -20,10 +19,11 @@ export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器
     messages,                                           // 语言包
+    // @ts-ignore
     component,                                          // 翻译组件
     ...settings
 }) 
 
 
 export const t = i18nScope.t
-
+export const Translate= i18nScope.Translate 

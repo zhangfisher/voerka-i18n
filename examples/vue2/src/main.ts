@@ -2,10 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import  {i18nPlugin } from '@voerkai18n/vue2'
+import  { i18nPlugin } from '@voerkai18n/vue2'
+import { i18nScope } from "./languages"
+
 Vue.config.productionTip = false
 
-Vue.use(i18nPlugin)
+Vue.use(i18nPlugin,{
+  i18nScope
+})
 
 new Vue({
   router,

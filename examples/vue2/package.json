@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "i18n:init": "voerkai18n init",
     "i18n:extract": "voerkai18n extract",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@voerkai18n/formatters": "workspace:^",
     "@voerkai18n/runtime": "workspace:^",
+    "@voerkai18n/vue2": "workspace:^",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
