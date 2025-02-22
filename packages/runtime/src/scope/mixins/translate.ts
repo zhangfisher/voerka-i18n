@@ -3,12 +3,11 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import type { VoerkaI18nScope } from ".."
-import type { VoerkaI18nTranslateVars, VoerkaI18nTranslatedComponentProps, VoerkaI18nTranslateOptions } from "@/types"
+import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateProps, VoerkaI18nTranslateOptions } from "@/types"
 
 
 
 export class TranslateMixin {    
-    private _translateComponent?:any
     /**
      * 根据值的单数和复数形式，从messages中取得相应的消息
      * 
@@ -63,32 +62,20 @@ export class TranslateMixin {
         return [pluraValue,vars]
     } 
  
-    private _getTranslateComponent(this:VoerkaI18nScope){
-        if(!this._translateComponent){
-            return this.options.component || this.appScope.options.component
-        }
-        return this._translateComponent
-    }
     /**
      * 翻译组件
-     * import { Translate } from './languages'
-     * <Translate message="hello" vars={{ name:"world" }} />
-     * <Translate 
-     *      message={ async ({ language,vars })=>"hello"} 
-     *      vars={{ name:"world" }}
-     *      options={ options }         // 用来传递给组件的额外参数
-     *  />
      * 
      */
-    protected _Translate<T = any>(this: VoerkaI18nScope, props: VoerkaI18nTranslatedComponentProps): T {
-        let result = props.options?.default
-        const component = this._getTranslateComponent()
-        if(typeof(component)==='function'){
-            result = component.call(this,props)
-        }else{
-            throw new Error("No translate component configured")
+    protected _getTranslateComponent(this: VoerkaI18nScope ): any {
+        if(!this._translateComponent){
+            const builder =  this.options.component || this.appScope.options.component
+            if(typeof(builder)==='function'){
+                this._translateComponent =  builder.call(this,this)
+            }else{
+                throw new Error("No translate component builder configured")
+            }
         }
-        return result
+        return this._translateComponent
     }
 
     translate(this:VoerkaI18nScope, message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions):string{ 

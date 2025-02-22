@@ -33,17 +33,14 @@ export type Voerkai18nIdMap = Record<string, number>
 export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:VoerkaI18nTranslateVars,options?: VoerkaI18nTranslateOptions)=>string | Promise<string>)
 
 
-export type VoerkaI18nTranslatedComponentProps= {
+export type VoerkaI18nTranslateProps= {
     message : VoerkaI18nToBeTranslatedMessage,
     vars?   : VoerkaI18nTranslateVars,
     default?: any
     options?: VoerkaI18nTranslateOptions
 }
- 
 
-export type VoerkaI18nTranslatedComponent =  <T=any>(props:VoerkaI18nTranslatedComponentProps)=>T
-
-
+export type VoerkaI18nTranslateComponentBuilder<T=any> = (scope:VoerkaI18nScope)=>T
  
 export interface VoerkaI18nLanguageDefine {
     name        : string               // 语言代码

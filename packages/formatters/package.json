@@ -2,8 +2,12 @@
   "name": "@voerkai18n/formatters",
   "version": "1.0.0",
   "description": "formatters for voerkai18n",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+      "build:watch": "tsup --watch"
   },
   "exports": {
     ".": {

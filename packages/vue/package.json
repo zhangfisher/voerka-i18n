@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "build:watch": "tsup --watch",
     "preview": "vite preview",
     "postinstall": "node ./dist/postinstall/index.cjs"
   },

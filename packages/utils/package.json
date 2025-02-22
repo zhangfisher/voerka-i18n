@@ -19,6 +19,7 @@
     },
     "scripts": {
         "build": "tsup",
+        "build:watch": "tsup --watch",
         "extract:vue": "tsx src/extract/tests/vue",
         "extract:tsx": "tsx src/extract/tests/tsx",
         "extract:astro": "tsx src/extract/tests/astro",

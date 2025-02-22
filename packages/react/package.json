@@ -19,7 +19,8 @@
         "voerkai18n"
     ],
     "scripts": { 
-        "build": "tsup"
+        "build": "tsup",
+        "build:watch": "tsup --watch"
     },
     "author": "wxzhang",
     "license": "MIT",

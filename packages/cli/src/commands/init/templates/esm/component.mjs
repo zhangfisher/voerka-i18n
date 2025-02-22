@@ -18,10 +18,6 @@
 
 // --- 无组件 ---
 
-export const component = undefined
-export type TranslateComponentType = any
+export const component = undefined 
 
-
-// 自定义组件
-// export const component = (props:VoerkaI18nTranslateProps)=>{....}
-// export type TranslateComponentType = typeof component
+ 

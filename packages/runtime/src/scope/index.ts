@@ -8,8 +8,9 @@ import type {
     VoerkaI18nLanguageLoader,
     VoerkaI18nTranslate,
     VoerkaI18nTranslateVars,
-    VoerkaI18nTranslateOptions,
-    VoerkaI18nTranslatedComponent
+    VoerkaI18nTranslateOptions, 
+    VoerkaI18nTranslateComponentBuilder,
+    VoerkaI18nTranslateProps
 } from "@/types" 
 import { DefaultLanguageSettings } from '../consts';
 import { Mixin } from "ts-mixer"
@@ -35,7 +36,7 @@ import { isBrowser } from "@/utils/isBrowser";
 
 
 
-export interface VoerkaI18nScopeOptions {
+export interface VoerkaI18nScopeOptions<TranslateComponent=any> {
     id?            : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
     debug?         : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
     library?       : boolean                                                 // 当使用在库中时应该置为true
@@ -52,22 +53,11 @@ export interface VoerkaI18nScopeOptions {
     cachePatch?    : boolean                                                 // 是否缓存补丁语言包    
     namespaces?    : Record<string,string>                                   // 命名空间
     patterns?      : string[]                                                // 源文件匹配清单，使用fast-glob匹配文件
-    /**
-     * 自定义翻译组件
-     */
-    component? : ( props: {
-            message : string | ((language:string)=>any), 
-            vars?   : VoerkaI18nTranslateVars, 
-            options?: VoerkaI18nTranslateOptions 
-        }) => any            
-    translate? : ( props: {
-            message  : string, 
-            vars?    : VoerkaI18nTranslateVars, 
-            options? : VoerkaI18nTranslateOptions 
-        }) => any    
+    component?     : VoerkaI18nTranslateComponentBuilder<TranslateComponent> // 翻译组件       
+    translate?     : ( props:VoerkaI18nTranslateProps )=>string     // 翻译函数
 } 
 
-export class VoerkaI18nScope<TranslatedComponent=any> extends Mixin(
+export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         EventEmitterMixin,
         PatchMessageMixin,
         ChangeLanguageMixin,
@@ -77,15 +67,16 @@ export class VoerkaI18nScope<TranslatedComponent=any> extends Mixin(
         RestoreMixin
     ){
     __VoerkaI18nScope__ = true
-    private _options          : Required<VoerkaI18nScopeOptions>
-    private _manager!         : VoerkaI18nManager                                   // 引用全局VoerkaI18nManager配置，注册后自动引用
-    private _formatterManager : VoerkaI18nFormatterManager | null = null
-    private _logger!          : VoerkaI18nLogger    
-    protected _defaultLanguage: string ='zh-CN'                                     // 默认语言名称
-    protected _activeLanguage : string ='zh-CN'                                     // 默认语言名称    
-    protected _activeMessages : VoerkaI18nLanguageMessages = {}                     // 当前语言包
-    protected _patchedMessages: VoerkaI18nLanguagePack = {}                         // 补丁语言包
-    
+    private _options              : Required<VoerkaI18nScopeOptions>
+    private _manager!             : VoerkaI18nManager                                   // 引用全局VoerkaI18nManager配置，注册后自动引用
+    private _formatterManager     : VoerkaI18nFormatterManager | null = null
+    private _logger!              : VoerkaI18nLogger    
+    protected _defaultLanguage    : string ='zh-CN'                                     // 默认语言名称
+    protected _activeLanguage     : string ='zh-CN'                                     // 默认语言名称    
+    protected _activeMessages     : VoerkaI18nLanguageMessages = {}                     // 当前语言包
+    protected _patchedMessages    : VoerkaI18nLanguagePack = {}                         // 补丁语言包
+    protected _translateComponent?: TranslateComponent
+
     /**
      * 
      * @param options  
@@ -123,7 +114,7 @@ export class VoerkaI18nScope<TranslatedComponent=any> extends Mixin(
 	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars    
     get logger(){ return this._logger!}                                         // 日志记录器
     get t():VoerkaI18nTranslate{ return this.translate.bind(this) as VoerkaI18nTranslate}
-    get Translate(){ return this._Translate.bind(this) as TranslatedComponent }
+    get Translate():TranslateComponent { return this._getTranslateComponent()!  }
     
     /**
      * 激活语言名称： 以appScope为准    

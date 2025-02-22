@@ -162,6 +162,9 @@ importers:
       '@voerkai18n/runtime':
         specifier: workspace:^
         version: link:../../packages/runtime
+      '@voerkai18n/vue2':
+        specifier: workspace:^
+        version: link:../../packages/vue2
       vue:
         specifier: ^2.6.14
         version: 2.7.16

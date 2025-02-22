@@ -6,14 +6,16 @@ export function i18nMixin(scope?:VoerkaI18nScope){
     return {
         data:()=>{
             return {
-                activeLanguage:curScope.activeLanguage, 
-                defaultLanguage:curScope.defaultLanguage,
-                languages:curScope.languages
+                activeLanguage : curScope.activeLanguage, 
+                defaultLanguage: curScope.defaultLanguage,
+                languages      : curScope.languages
             }
         },
         methods:{
-            changeLanguage(language:string){
-                VoerkaI18n.change(language)
+            async changeLanguage(language:string){
+                await VoerkaI18n.change(language)
+                // @ts-ignore                
+                this.activeLanguage = language
             }
         }
     }

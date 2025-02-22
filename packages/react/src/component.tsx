@@ -30,9 +30,9 @@
  * 
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import type { VoerkaI18nTranslateVars, VoerkaI18nTranslatedComponentProps, VoerkaI18nScope } from "@voerkai18n/runtime" 
-
+import React, { createElement,useState, useEffect, useCallback, useRef } from 'react';
+import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateProps, VoerkaI18nScope } from "@voerkai18n/runtime" 
+ 
  
 export type TranslateWrapperComponent =React.FC<React.PropsWithChildren<{
     message : string    
@@ -42,42 +42,47 @@ export type TranslateWrapperComponent =React.FC<React.PropsWithChildren<{
 }>>  
 
 export type CreateTranslateComponentOptions = {
-    default?: string
+    tagName?  : string
+    wrapper?: TranslateWrapperComponent
 }
 
-export function createTranslateComponent(Component?:TranslateWrapperComponent,options?:CreateTranslateComponentOptions){    
+export function createTranslateComponent(options?:CreateTranslateComponentOptions){    
     
-    const { default:defaultMessage ='' } = Object.assign({},options) as CreateTranslateComponentOptions
+    const { tagName,wrapper:Wrapper } = Object.assign({},options) as CreateTranslateComponentOptions
 
-    return function(this:VoerkaI18nScope,props:VoerkaI18nTranslatedComponentProps){
-        const { message, vars, options:tOptions,default:tDefault } = props                
-        const [ result, setResult ] = useState(()=>{
-            return typeof(message)==='function' 
-                                    ? tDefault || defaultMessage 
-                                    : this.translate(message,vars,tOptions)
-        })
-
-        const isFirst = useRef(false)
-        
-        const loadMessage = useCallback(async (language:string) => {
-            const loader = typeof(message)==='function' ? ()=>message(language,vars,tOptions) : ()=>message
-            return Promise.resolve(loader()).then((result)=>{                    
-                setResult(this.translate(result,vars,tOptions))
+    return function(scope:VoerkaI18nScope){
+        return (props:VoerkaI18nTranslateProps)=>{
+            const { message, vars, options:tOptions,default:tDefault = '' } = props                
+            const [ result, setResult ] = useState(()=>{
+                return typeof(message)==='function' ? tDefault : scope.translate(message,vars,tOptions)
             })
-        },[message,vars,tOptions]) 
-
-        useEffect(()=>{            
-            if(!isFirst.current && typeof(message)==='function' ){
-                loadMessage(this.activeLanguage)
-                isFirst.current = true
-            }
-            const listener = this.on("change",loadMessage) as any
-            return ()=>listener.off()
-        }) 
-        
-        return Component ? 
-            <Component message={result} vars={vars} language={ this.activeLanguage } options={tOptions} />
-            : <>{result}</>
+    
+            const isFirst = useRef(false) 
+            
+            const loadMessage = useCallback(async (language:string) => {
+                const loader = typeof(message)==='function' ? ()=>message(language,vars,tOptions) : ()=>message
+                return Promise.resolve(loader()).then((result)=>{                    
+                    setResult(scope.translate(result,vars,tOptions))
+                })
+            },[message,vars,tOptions]) 
+    
+            useEffect(()=>{            
+                // 第一次渲染时执行函数进行加载
+                if(!isFirst.current && typeof(message)==='function' ){
+                    loadMessage(scope.activeLanguage)
+                    isFirst.current = true 
+                }
+                const listener = scope.on("change",loadMessage) as any
+                return ()=>listener.off()
+            },[]) 
+            
+            return Wrapper ? 
+                <Wrapper message={result} vars={vars} language={ scope.activeLanguage } options={tOptions} />
+                : (tagName ?
+                    createElement(tagName,{dangerouslySetInnerHTML:{__html:result}})
+                    : <>{result}</>
+                )
+        } 
     }
 }
 

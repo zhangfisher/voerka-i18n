@@ -9,6 +9,14 @@
           "dist/**"
         ]
       },
+      "build:watch": {
+        "dependsOn": [
+          "^build:watch"
+        ],
+        "outputs": [
+          "dist/**"
+        ]
+      },
       "deploy": {
         "dependsOn": [
           "build",
