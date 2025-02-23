@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@voerkai18n/cli": "workspace:*",
+    "@voerkai18n/plugins": "workspace:*",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",

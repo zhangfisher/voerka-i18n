@@ -1,16 +1,17 @@
 {
     "name": "@voerkai18n/vite",
     "version": "2.1.13",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "src/index.d.ts",
     "description": "Vite插件,提供自动插入翻译函数和文本映射等功能",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
-    "main": "src/index.js",
-    "types": "src/index.d.ts",
     "scripts": {
-        "release": "npm publish"
+        "build": "tsup"
     },
     "author": "wxzhang",
     "license": "MIT",
@@ -18,8 +19,10 @@
         "@voerkai18n/utils": "workspace:^"
     },
     "devDependencies": {
+        "@types/node": "^22.13.2",
+        "tsup": "^8.3.6",
+        "typescript": "^5.7.3",
         "unplugin": "^2.2.0",
-        "unplugin-starter": "^0.1.0",
         "vite": "^6.1.0"
     }
 }

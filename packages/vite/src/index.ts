@@ -1,32 +1,10 @@
-import type { UnpluginFactory } from 'unplugin'
-import { createUnplugin } from 'unplugin'
+import plugins from "./plugin"
 
-export interface Options {
-  // define your plugin options here
-}
-
-export const unpluginFactory: UnpluginFactory<Options | undefined> = options => ({
-  name: '@voerkai18n/vite',
-  // webpack's id filter is outside of loader logic,
-  // an additional hook is needed for better perf on webpack
-  transformInclude(id) {
-    return id.endsWith('main.ts')
-  },
-  // just like rollup transform
-  transform(code) {
-    return code.replace(/<template>/, '<template><div>Injected</div>')
-  },
-  // more hooks coming
-})
-
-export const unplugin = /* #__PURE__ */ createUnplugin(unpluginFactory)
-
-export default unplugin
-
-export const vitePlugin = unplugin.vite
-export const rollupPlugin = unplugin.rollup
-export const rolldownPlugin = unplugin.rolldown
-export const webpackPlugin = unplugin.webpack
-export const rspackPlugin = unplugin.rspack
-export const esbuildPlugin = unplugin.esbuild
-export const farmPlugin = unplugin.farm
+export const vitePlugin = plugins.vite
+export const rollupPlugin = plugins.rollup
+export const rolldownPlugin = plugins.rolldown
+export const webpackPlugin = plugins.webpack
+export const rspackPlugin = plugins.rspack
+export const esbuildPlugin = plugins.esbuild
+export const farmPlugin = plugins.farm
+ 

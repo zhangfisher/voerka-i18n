@@ -1,0 +1,141 @@
+{
+  "name": "@voerkai18n/plugins",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.4.1",
+  "description": "",
+  "license": "MIT",
+  "homepage": "https://github.com/antfu/unplugin-starter#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unplugin-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/antfu/unplugin-starter/issues"
+  },
+  "keywords": [
+    "unplugin",
+    "vite",
+    "webpack",
+    "rollup",
+    "transform"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./astro": {
+      "import": "./dist/astro.js",
+      "require": "./dist/astro.cjs"
+    },
+    "./rspack": {
+      "import": "./dist/rspack.js",
+      "require": "./dist/rspack.cjs"
+    },
+    "./vite": {
+      "import": "./dist/vite.js",
+      "require": "./dist/vite.cjs"
+    },
+    "./webpack": {
+      "import": "./dist/webpack.js",
+      "require": "./dist/webpack.cjs"
+    },
+    "./rollup": {
+      "import": "./dist/rollup.js",
+      "require": "./dist/rollup.cjs"
+    },
+    "./esbuild": {
+      "import": "./dist/esbuild.js",
+      "require": "./dist/esbuild.cjs"
+    },
+    "./nuxt": {
+      "import": "./dist/nuxt.js",
+      "require": "./dist/nuxt.cjs"
+    },
+    "./farm": {
+      "import": "./dist/farm.js",
+      "require": "./dist/farm.cjs"
+    },
+    "./types": {
+      "import": "./dist/types.js",
+      "require": "./dist/types.cjs"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src",
+    "lint": "eslint .",
+    "play": "npm -C playground run dev",
+    "prepublishOnly": "npm run build",
+    "release": "bumpp && pnpm publish",
+    "start": "tsx src/index.ts",
+    "test": "vitest"
+  },
+  "peerDependencies": {
+    "@farmfe/core": ">=1",
+    "@nuxt/kit": "^3",
+    "@nuxt/schema": "^3",
+    "esbuild": "*",
+    "rollup": "^3",
+    "vite": ">=3",
+    "webpack": "^4 || ^5"
+  },
+  "peerDependenciesMeta": {
+    "@farmfe/core": {
+      "optional": true
+    },
+    "@nuxt/kit": {
+      "optional": true
+    },
+    "@nuxt/schema": {
+      "optional": true
+    },
+    "esbuild": {
+      "optional": true
+    },
+    "rollup": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "unplugin": "^2.1.2"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.2.0",
+    "@nuxt/kit": "^3.15.4",
+    "@nuxt/schema": "^3.15.4",
+    "@types/node": "^22.13.1",
+    "bumpp": "^10.0.2",
+    "eslint": "^9.20.0",
+    "nodemon": "^3.1.9",
+    "rollup": "^4.34.6",
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vitest": "^3.0.5",
+    "webpack": "^5.97.1"
+  }
+}

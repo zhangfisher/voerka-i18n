@@ -1,22 +1,15 @@
 import type { UnpluginFactory } from 'unplugin'
+import type { Options } from './types'
 import { createUnplugin } from 'unplugin'
 
-export interface Options {
-  // define your plugin options here
-  a:1
-}
-
 export const unpluginFactory: UnpluginFactory<Options | undefined> = options => ({
-  name: '@voerkai18n/vite',
-  // webpack's id filter is outside of loader logic,
-  // an additional hook is needed for better perf on webpack
+  name: 'unplugin-starter',
   transformInclude(id) {
     return id.endsWith('main.ts')
   },
-  // just like rollup transform
   transform(code) {
-    return code.replace(/<template>/, '<template><div>Injected</div>')
-  }, 
+    return code.replace('__UNPLUGIN__', `Hello Unplugin! ${options}`)
+  },
   vite:{
     configureServer(server) {
       server.middlewares.use('/api', (req, res) => {
