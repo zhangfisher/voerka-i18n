@@ -6,7 +6,7 @@ export interface Options {
 }
 
 export const unpluginFactory: UnpluginFactory<Options | undefined> = options => ({
-  name: 'unplugin-starter',
+  name: '@voerkai18n/vite',
   // webpack's id filter is outside of loader logic,
   // an additional hook is needed for better perf on webpack
   transformInclude(id) {
