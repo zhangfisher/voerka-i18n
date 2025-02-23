@@ -52,6 +52,7 @@ export class ChangeLanguageMixin{
                 await this.emit('scope/change',finalLanguage,true)
             }
         }
+        this._setLanguageAttr()    
         return finalLanguage
     }
     /**

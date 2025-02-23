@@ -28,7 +28,7 @@ async function compileLanguageFile(language,allMessages,ctx){
             }
         }
     }    
-    const content = `${ moduleType==='cjs' ? 'module.exports =' : 'export default '} ${JSON.stringify(compiledMessages,null,4)}`
+    const content = `${typescript || moduleType==='esm' ?  'export default ' : 'module.exports =' } ${JSON.stringify(compiledMessages,null,4)}`
     await writeFile(langFile,content,{ encoding: "utf-8" })    
 }
 
@@ -40,7 +40,7 @@ async function generateIdMap(allMessages,ctx){
     for(let [ text,translated ] of Object.entries(allMessages)){
         idMap[text] = translated.$id
     }
-    const content = `${ moduleType==='cjs' ? 'module.exports =' : 'export default '} ${JSON.stringify(idMap,null,4)}`
+    const content = `${ typescript || moduleType==='esm' ?  'export default ' : 'module.exports ='} ${JSON.stringify(idMap,null,4)}`
     await writeFile(idMapFile,content,{ encoding: "utf-8" })
 }
 

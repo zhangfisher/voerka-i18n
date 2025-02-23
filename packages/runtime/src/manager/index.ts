@@ -1,7 +1,7 @@
 import type {  VoerkaI18nScope } from "../scope"
 import type { VoerkaI18nLanguageDefine, VoerkaI18nEvents, VoerkaI18nPlugin }  from "../types"
 import { LiteEvent } from "flex-tools/events/liteEvent" 
-import { execAsyncs, isI18nScope } from "../utils"  
+import { execAsyncs, isBrowser, isI18nScope } from "../utils"  
  
 /** 
  * 多语言管理类
@@ -78,19 +78,16 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         }
     }
 
-    /**
-     * 
-     * 将应用Scope注册到管理器中
-     * 
+    /** 
+     * 将应用Scope注册到管理器中 
      */
     private _registerAppScope(scope:VoerkaI18nScope){ 
         this._scopes.push(scope)
         this._appScope = scope
-        this.logger.debug("注册应用I18nScope: "+scope.id)            
-        this.emitAsync("init",()=>{
+        this.logger.debug("注册应用I18nScope: "+scope.id)                        
+        this.emitAsync("init",()=>{ 
             return this._appScope.activeLanguage
         },true)
-        // .then(()=>this.emitAsync("ready",this.activeLanguage,true))         
     }
     /**
      * 
@@ -122,10 +119,11 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      * 当切换语言时调用此方法来加载更新语言包
      * @param {*} newLanguage 
      */
-     private async _refreshScopes(newLanguage:string){ 
+     private async _refreshScopes(newLanguage:string){       
         const scopeRefreshers = this._scopes.map(scope=>scope.refresh(newLanguage))
-        await execAsyncs(scopeRefreshers) 
+        await execAsyncs(scopeRefreshers)         
     }     
+
     /**
      * 刷新所有作用域
      */

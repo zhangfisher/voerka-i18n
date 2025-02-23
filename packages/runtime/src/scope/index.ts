@@ -6,9 +6,7 @@ import type {
     IVoerkaI18nStorage,  
     VoerkaI18nLanguagePack,
     VoerkaI18nLanguageLoader,
-    VoerkaI18nTranslate,
-    VoerkaI18nTranslateVars,
-    VoerkaI18nTranslateOptions, 
+    VoerkaI18nTranslate, 
     VoerkaI18nTranslateComponentBuilder,
     VoerkaI18nTranslateProps
 } from "@/types" 
@@ -214,15 +212,15 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     private _initRefresh(getInitLanguage?:()=>string){
         if(this.library){
             this.refresh(getInitLanguage && getInitLanguage())
-        }else{ // app
-            this._applyLangAttrToHTML()    
+        }else{ // app 
             const tasks:any[]=[]
             if(this._defaultLanguage !== this._activeLanguage || isFunction(this.activeMessages)){
                 tasks.push(this.refresh(undefined,{ patch:false }))                
             }    
             tasks.push(this.patch())
             Promise.all(tasks).then(()=>{
-                this.emit('ready',this.activeLanguage,true)
+                this.emit('ready',this.activeLanguage,true)                
+                this._setLanguageAttr()   
             })
         }        
     }
@@ -260,14 +258,13 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
             finalLang = await this._manager.change(language)
         }else{
             finalLang = await this.refresh(language)
-        }   
-        this._applyLangAttrToHTML()     
+        }            
         return finalLang 
     }  
     /**
      * 检查当前环境是是否是在浏览器环境中，如果是，则在body上添加language=<activeLanguage>属性
      */
-    private _applyLangAttrToHTML(){        
+    protected _setLanguageAttr(){        
         if(this.library) return
         if(!isBrowser()) return
         try{

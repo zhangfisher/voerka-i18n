@@ -1,14 +1,26 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">首页</router-link> |      
-      <router-link to="/repos">开源项目</router-link> |
-      <router-link to="/about">关于</router-link>
+      <router-link to="/">{{ t("首页") }}</router-link> |      
+      <router-link to="/repos">{{ t("开源项目") }}</router-link> |
+      <router-link to="/about">{{ t("关于") }}</router-link>
     </nav>
+    <LanguageBar />
     <router-view/>
   </div>
 </template>
 
+<script>
+import  LanguageBar from './components/LanguageBar.vue';
+
+export default {
+  name: 'App',
+  components: {
+    LanguageBar
+  },
+};
+
+</script>
 <style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
