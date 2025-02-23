@@ -29,6 +29,7 @@
     created() {
       this.languages = i18nScope.languages;
       this.activeLanguage = i18nScope.activeLanguage;
+      
     
     },
   })
