@@ -12,9 +12,9 @@
   <script lang="ts">
   import Vue from 'vue';
   import { Translate,i18nScope } from '../languages';
-  import { i18nMixin, WithI18nMixin } from '@voerkai18n/vue2';
+  import { i18nMixin,withI18n } from '@voerkai18n/vue2';
 
-  export default {   
+  export default withI18n({   
     name: 'language-bar',
     mixins: [ i18nMixin ],
     components: {
@@ -27,9 +27,11 @@
       
     },
     created() {
-        
+      this.languages = i18nScope.languages;
+      this.activeLanguage = i18nScope.activeLanguage;
+    
     },
-  }
+  })
   </script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -157,13 +157,13 @@ importers:
   examples/vue2:
     dependencies:
       '@voerkai18n/formatters':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/formatters
       '@voerkai18n/runtime':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/runtime
       '@voerkai18n/vue2':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/vue2
       vue:
         specifier: ^2.6.14
@@ -540,6 +540,9 @@ importers:
       vue:
         specifier: ^2.0.0
         version: 2.7.16
+      vue-typed-mixins:
+        specifier: ^0.2.0
+        version: 0.2.0
     devDependencies:
       '@voerkai18n/runtime':
         specifier: workspace:^
@@ -6911,6 +6914,9 @@ packages:
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
+
+  vue-typed-mixins@0.2.0:
+    resolution: {integrity: sha512-0OxuinandPWv3nm5k/reYkuKtX3jjPZ40Sy9roJz0ih8PUzmI7zSRiXFEJ62LsyRegw9Tqy+qMkajk7ipKP8Vg==}
 
   vue@2.7.16:
     resolution: {integrity: sha512-4gCtFXaAA3zYZdTp5s4Hl2sozuySsgz4jy1EnpBHNfpMa9dK1ZCG7viqBPCwXtmgc8nHqUsAu3G4gtmXkkY3Sw==}
@@ -13823,6 +13829,8 @@ snapshots:
       '@volar/typescript': 2.4.11
       '@vue/language-core': 2.2.0(typescript@5.7.3)
       typescript: 5.7.3
+
+  vue-typed-mixins@0.2.0: {}
 
   vue@2.7.16:
     dependencies:

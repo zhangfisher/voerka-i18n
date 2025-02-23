@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "access": "public", 
-  "scripts": { 
+  "access": "public",
+  "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch"
   },
@@ -18,7 +18,10 @@
     "vue": "^2.0.0"
   },
   "devDependencies": {
-    "tsup": "^6.7.0",
-    "@voerkai18n/runtime": "workspace:^"
+    "@voerkai18n/runtime": "workspace:^",
+    "tsup": "^6.7.0"
+  },
+  "dependencies": {
+    "vue-typed-mixins": "^0.2.0"
   }
 }
