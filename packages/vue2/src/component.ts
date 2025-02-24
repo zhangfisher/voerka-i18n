@@ -1,10 +1,15 @@
 import Vue from 'vue';
-import type { VoerkaI18nScope, VoerkaI18nTranslateComponentBuilder } from "@voerkai18n/runtime"
+import type { VoerkaI18nScope, VoerkaI18nTranslateComponentBuilder, VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
  
 
 export type CreateTranslateComponentOptions = {
-    tagName?: string
+  default?: string
+  tagName?: string 
+  class?:string
+  style?:string
 }
+
+ 
 
 export function createTranslateComponent<ComponentType=any>(options?: CreateTranslateComponentOptions) {
     const { tagName } = Object.assign({
@@ -25,6 +30,9 @@ export function createTranslateComponent<ComponentType=any>(options?: CreateTran
           options: {
             type: Object,
             default: () => ({})
+          },
+          tag: {
+              type: String
           },
           default: {
             type: String,

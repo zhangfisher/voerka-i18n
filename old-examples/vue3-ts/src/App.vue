@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { injectVoerkaI18n } from "@voerkai18n/vue"
+import { injectVoerkaI18n } from "packages/vue3/src"
 import { t } from "./languages"
 import China from './components/china.vue'
 import Formatters from './components/formatters.vue'

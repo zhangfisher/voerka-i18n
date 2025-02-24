@@ -1,6 +1,6 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
-import { injectVoerkaI18n } from "@voerkai18n/vue"  
+import { injectVoerkaI18n } from "packages/vue3/src"  
 const i18n = injectVoerkaI18n()
 </script>
 <template>

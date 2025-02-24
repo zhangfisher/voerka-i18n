@@ -10,15 +10,17 @@ export type TranslateWrapperComponent = {
 
 export type CreateTranslateComponentOptions = {
     default?: string
-    wrapper?: Parameters<typeof h>[0]
+    tagName?: string 
+    class?:string
+    style?:string
 }
-
+ 
 export function createTranslateComponent(options?: CreateTranslateComponentOptions) {
-    const { default: defaultMessage = '', wrapper } = options || {}
+    const { default: defaultMessage = '',  tagName, class:className,style } = Object.assign({ },options)
 
     return function(scope:VoerkaI18nScope){
         return function(props:VoerkaI18nTranslateProps){
-             const TranslateComponent = defineComponent({
+             const TranslateComponent = defineComponent<VoerkaI18nTranslateProps>({
                 name: 'VoerkaI18nTranslate',
                 props: {
                     message: {
@@ -33,6 +35,9 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                         type: Object,
                         default: () => ({})
                     },
+                    tag: {
+                        type: String
+                    },
                     default: {
                         type: String,
                         default: ''
@@ -45,6 +50,7 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                             : scope.translate(props.message, props.vars, props.options)
                     )
                     const isFirst = ref(false)
+                    const tag = props.tag || tagName
         
                     const loadMessage = async (language: string) => {
                         const loader = typeof props.message === 'function'
@@ -76,13 +82,11 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                     )
         
                     return () => {
-                        if (wrapper) {
-                            return h(wrapper, {
-                                message: result.value,
-                                vars: props.vars,
-                                language: scope.activeLanguage,
-                                options: props.options
-                            })
+                        if (tag) {
+                            return h(tag, {
+                                class: className,
+                                style
+                            }, result.value)
                         }
                         return result.value
                     }

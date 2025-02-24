@@ -1,14 +1,16 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
+import i18nPlugin from '@voerkai18n/plugins/vite'
 import { resolve } from 'path';
-// import ViteInspector from 'vite-plugin-inspect'
+import viteInspector from 'vite-plugin-inspect'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [  
-    // ViteInspector(),
+  plugins: [
+    viteInspector(),     
     tailwindcss(),
+    i18nPlugin({debug:true}),
     vue()
   ],
   resolve:{

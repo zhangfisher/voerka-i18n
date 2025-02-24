@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import { t, i18nScope } from './languages'
-import i18nPlugin,{type VoerkaI18nPluginOptions} from '@voerkai18n/vue'  
+import i18nPlugin,{type VoerkaI18nPluginOptions} from 'packages/vue3/src'  
 
 i18nScope.registerDefaultLoader(async (language,scope)=>{
     return await (await fetch(`/languages/${scope.id}/${language}.json`)).json()

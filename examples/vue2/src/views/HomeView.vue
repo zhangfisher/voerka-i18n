@@ -14,9 +14,6 @@ export default Vue.extend({
   name: 'HomeView',
   components: {
     VoerkaI18n,
-  },
-  created() {
-    console.log('HomeView created');    
-  },
+  } 
 });
 </script>

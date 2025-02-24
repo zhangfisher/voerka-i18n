@@ -12,8 +12,7 @@
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch",
-    "preview": "vite preview",
-    "postinstall": "node ./dist/postinstall/index.cjs"
+    "preview": "vite preview" 
   },
   "dependencies": {
     "flex-tools": "^1.4.30",

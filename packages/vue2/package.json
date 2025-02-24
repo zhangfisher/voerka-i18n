@@ -15,11 +15,12 @@
   "license": "MIT",
   "peerDependencies": {
     "@voerkai18n/runtime": "workspace:^",
-    "vue": "^2.0.0"
+    "vue": "^2.7.0"
   },
   "devDependencies": {
     "@voerkai18n/runtime": "workspace:^",
-    "tsup": "^6.7.0"
+    "tsup": "^6.7.0",
+    "vue": "^2.7.0"
   },
   "dependencies": {
     "vue-typed-mixins": "^0.2.0"

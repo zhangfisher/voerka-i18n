@@ -34,10 +34,11 @@ export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:V
 
 
 export type VoerkaI18nTranslateProps= {
-    message : VoerkaI18nToBeTranslatedMessage,
-    vars?   : VoerkaI18nTranslateVars,
-    default?: any
-    options?: VoerkaI18nTranslateOptions
+    message  : VoerkaI18nToBeTranslatedMessage
+    vars?    : VoerkaI18nTranslateVars
+    default? : any
+    tag?     :string
+    options? : VoerkaI18nTranslateOptions    
 }
 
 export type VoerkaI18nTranslateComponentBuilder<T=any> = (scope:VoerkaI18nScope)=>T

@@ -34,8 +34,9 @@
       "require": "./dist/rspack.cjs"
     },
     "./vite": {
-      "import": "./dist/vite.js",
-      "require": "./dist/vite.cjs"
+      "types": "./dist/vite/index.d.ts",
+      "import": "./dist/vite/index.js",
+      "require": "./dist/vite/index.cjs"
     },
     "./webpack": {
       "import": "./dist/webpack.js",
@@ -79,6 +80,7 @@
   ],
   "scripts": {
     "build": "tsup",
+    "build:watch": "tsup --watch",
     "dev": "tsup --watch src",
     "lint": "eslint .",
     "play": "npm -C playground run dev",
@@ -120,7 +122,8 @@
     }
   },
   "dependencies": {
-    "unplugin": "^2.1.2"
+    "unplugin": "^2.1.2",
+    "@voerkai18n/utils": "workspace:*"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.2.0",
