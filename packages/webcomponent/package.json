@@ -1,6 +1,6 @@
 {
-  "name": "@voerkai18n/webcomponents",
-  "private": true,
+  "name": "@voerkai18n/webcomponent",
+  "description": "translate web component for voerkai18n",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
