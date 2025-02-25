@@ -1,7 +1,7 @@
 const { VoerkaI18nScope } = require("@voerkai18n/runtime")
 const storage = require("./storage")
 const formatters = require("@voerkai18n/formatters")
-const idMap = require("./idMap")
+const idMap = require("./idMap.json")
 const { component } = require("./component")
 const settings = require("./settings.json")
 const defaultMessages = require("./{{defaultLanguage}}")

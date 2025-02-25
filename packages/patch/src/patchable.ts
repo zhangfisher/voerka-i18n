@@ -1,19 +1,18 @@
-import { scope } from './../../plugins/node_modules/.pnpm/webpack@5.97.1_esbuild@0.24.2/node_modules/webpack/types.d';
 import { VoerkaI18nManager } from "@voerkai18n/runtime";
 import { VoerkaI18nMessagePatchableOptions, VoerkaI18nMessagePatchArgs } from "./types";
 
 
 
 export class VoerkaI18nMessagePatchable{
-    el: HTMLElement | undefined                     // 当前编辑的元素
-    updating:boolean = false                        // 正在更新中
+    el     : HTMLElement | undefined                        // 当前编辑的元素
+    editing: boolean = false                                // 正在编辑中
     private _options:Required<VoerkaI18nMessagePatchableOptions> 
     private _eventListener:any
     constructor(public manager:VoerkaI18nManager,options?:VoerkaI18nMessagePatchableOptions){
         this._options = Object.assign({  
-            enable:false,
-            url:"/api/voerkai18n/patch",
-            markEdit:true
+            enable  : false,
+            url     : "/api/voerkai18n/patch",
+            showMark: true
         },options) as Required<VoerkaI18nMessagePatchableOptions>
         this.enable = this._options.enable
     }
@@ -47,7 +46,7 @@ export class VoerkaI18nMessagePatchable{
      * 
      */
     private _addMarkStyle(){
-        if(!this.options.markEdit) return 
+        if(!this.options.showMark) return 
         const style = document.createElement('style')
         style.id = 'voerkai18nt-patching-style'
         style.innerHTML = `
@@ -75,8 +74,8 @@ export class VoerkaI18nMessagePatchable{
         if(this._isMessageElement(targetEle)){     
             switch(e.type){
                 case 'click':                    
-                    if((targetEle != this.el) || this.el==undefined || (this.el==targetEle && !this.updating)){              
-                        if(this.updating) this._onLeaveEdit()
+                    if((targetEle != this.el) || this.el==undefined || (this.el==targetEle && !this.editing)){              
+                        if(this.editing) this._onLeaveEdit()
                         this.el = targetEle
                         this._onEnterEdit() 
                     }                    
@@ -85,17 +84,17 @@ export class VoerkaI18nMessagePatchable{
                     if(e instanceof KeyboardEvent && e.key === 'Enter'){
                         e.preventDefault()
                         this._onSubmit()
-                        if(this.updating) this._onLeaveEdit()
+                        if(this.editing) this._onLeaveEdit()
                     }
                     break
                 case 'focusin':
-                    if((targetEle != this.el) || this.el==undefined || (this.el==targetEle && !this.updating)){              
+                    if((targetEle != this.el) || this.el==undefined || (this.el==targetEle && !this.editing)){              
                         this.el = targetEle
                         this._onEnterEdit() 
                     }
                     break
                 case 'focusout':
-                    if(this.el == targetEle && this.updating){
+                    if(this.el == targetEle && this.editing){
                         this._onSubmit()
                     }
                     this._onLeaveEdit()
@@ -118,7 +117,7 @@ export class VoerkaI18nMessagePatchable{
         if(this.el){ 
             const msgId = this.el.getAttribute('data-id')    
             if(msgId){
-                this.updating = true
+                this.editing = true
                 this.el.setAttribute('contenteditable','true')
                 this.el.classList.add('editing')
                 this.el.style.backgroundColor = '#fbff002e'
@@ -127,7 +126,7 @@ export class VoerkaI18nMessagePatchable{
     }  
 
     private _onLeaveEdit(){
-        this.updating = false
+        this.editing = false
         if(this.el){
             this.el?.removeAttribute('contenteditable')
             this.el.classList.remove('editing')
@@ -139,15 +138,20 @@ export class VoerkaI18nMessagePatchable{
     private _onSubmit(){
         const el = this.el!
         const msgId = el.getAttribute('data-id')
-        const scopeId = el.getAttribute('data-scope')
+        const scopeIdAttr = el.getAttribute('data-scope')
         if(msgId){
             const appScopeId = this.manager.scope.id
-            const scope = scopeId ? appScopeId : this.manager.scopes.filter(scope=>scope.$id===scopeId)?.[0] || appScopeId
+            let scopeId:string = appScopeId
+            if(scopeIdAttr){
+                const index = this.manager.scopes.findIndex(scope=>String(scope.$id)===scopeIdAttr)
+                scopeId = index>-1 ? this.manager.scopes[index].id : appScopeId
+            } 
+ 
             const patch = {
                 id      : msgId,
                 message : el.innerText,
                 language: this.manager.activeLanguage,
-                scope
+                scope: scopeId
             }         
             // 使用fetch将path提交到服务器
             if(this._options.url){
@@ -173,7 +177,7 @@ export class VoerkaI18nMessagePatchable{
      * 
      */
     private _updateMessage(patch:VoerkaI18nMessagePatchArgs){
-        this.updating = false 
+        this.editing = false 
         const scope = this.manager.getScope(patch.scope)
         if(scope && (patch.id in scope.activeMessages)){
             scope.activeMessages[patch.id] = patch.message

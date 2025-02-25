@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
-    "build": "turbo run build --filter=@voerkai18n/runtime --filter=@voerkai18n/utils  --filter=@voerkai18n/react --filter=@voerkai18n/vue --filter=@voerkai18n/vue2 --filter=@voerkai18n/formatters",
-    "build:watch": "turbo run build:watch --filter=@voerkai18n/runtime --filter=@voerkai18n/utils  --filter=@voerkai18n/react --filter=@voerkai18n/vue --filter=@voerkai18n/vue2 --filter=@voerkai18n/formatters",
+    "build": "turbo run build --filter=@voerkai18n/*",
+    "build:watch": "turbo run build:watch --filter=@voerkai18n/*",
     "publish:all": "pnpm build && changeset version && changeset publish",
     "changeset": "changeset",
     "release:all": "changeset publish",

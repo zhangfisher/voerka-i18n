@@ -16,8 +16,7 @@ import { VoerkaI18nMessagePatchable } from './patchable';
  
 
 definePlugin((manager:VoerkaI18nManager)=>{
- 
-  manager.patch = (enable?:boolean,options?:VoerkaI18nMessagePatchableOptions)=>{ 
+   manager.patch = (enable?:boolean,options?:VoerkaI18nMessagePatchableOptions)=>{ 
     if(!manager._patchable){
       // @ts-ignore
       manager._patchable = new VoerkaI18nMessagePatchable(manager,options)

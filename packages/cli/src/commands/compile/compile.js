@@ -33,14 +33,13 @@ async function compileLanguageFile(language,allMessages,ctx){
 }
 
 async function generateIdMap(allMessages,ctx){
-    const { typescript,moduleType,langDir } = ctx
-    const langExtName = typescript ? "ts" : moduleType === "cjs" ? "js" : "mjs"
-    const idMapFile = path.join(langDir,  `idMap.${langExtName}`)    
+    const { langDir } = ctx
+    const idMapFile = path.join(langDir,  "idMap.json")    
     const idMap = {}
     for(let [ text,translated ] of Object.entries(allMessages)){
         idMap[text] = translated.$id
     }
-    const content = `${ typescript || moduleType==='esm' ?  'export default ' : 'module.exports ='} ${JSON.stringify(idMap,null,4)}`
+    const content = JSON.stringify(idMap,null,4)
     await writeFile(idMapFile,content,{ encoding: "utf-8" })
 }
 

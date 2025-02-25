@@ -1,16 +1,15 @@
 {
-    "name": "voerkai18n-loader",
+    "name": "@voerkai18n/webpack",
     "version": "2.1.13",
     "description": "voerkai18n loader for webpack",
-    "main": "loader.js",
+    "main": "src/index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "scripts": {
-        "release": "npm publish",
-        "build": "tsup"
+        "release": "npm publish" 
     },
     "keywords": [],
     "author": "wxzhang",

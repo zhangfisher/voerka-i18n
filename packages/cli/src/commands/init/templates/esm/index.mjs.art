@@ -1,7 +1,7 @@
 import { VoerkaI18nScope } from "@voerkai18n/runtime"
 import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
-import idMap from "./idMap"
+import idMap from "./idMap.json"
 import { component } from "./component"
 import settings from "./settings.json"
 import defaultMessages from "./{{defaultLanguage}}"  

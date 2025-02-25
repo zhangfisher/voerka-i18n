@@ -1,15 +1,14 @@
 {
     "name": "@voerkai18n/babel",
     "version": "2.1.13",
-    "description": "Babel插件,实现自动导入t函数和自动文本映射",
-    "main": "index.js",
+    "description": "Babel插件,实现自动文本映射",
+    "main": "src/index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
-    "scripts": {
-        "release": "npm publish"
+    "scripts": { 
     },
     "author": "wxzhang",
     "license": "MIT",

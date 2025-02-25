@@ -15,10 +15,7 @@
         "react",
         "voerkai18n"
     ],
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "release": "npm publish",
-        "build": "tsup"
+    "scripts": { 
     },
     "author": "wxzhang",
     "license": "MIT",
