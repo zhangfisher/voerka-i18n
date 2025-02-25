@@ -1,14 +1,8 @@
 import { LitElement, html } from 'lit'
-
 import { customElement,state, property } from 'lit/decorators.js' 
 import { VoerkaI18nManager, VoerkaI18nScope } from '@voerkai18n/runtime'; 
 
-/**
- * An example element.
- *
- * @slot - This element has a slot
- * @csspart button - The button
- */
+ 
 @customElement('v-translate')
 export class TranslateElement extends LitElement {
   

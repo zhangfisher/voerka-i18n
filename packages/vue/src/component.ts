@@ -11,12 +11,12 @@ export type TranslateWrapperComponent = {
 export type CreateTranslateComponentOptions = {
     default?: string
     tagName?: string 
-    class?:string
-    style?:string
+    class?  : string
+    style?  : string
 }
  
 export function createTranslateComponent(options?: CreateTranslateComponentOptions) {
-    const { default: defaultMessage = '',  tagName, class:className,style } = Object.assign({ },options)
+    const { default: defaultMessage = '',  tagName, class:className = 'vt-msg' ,style } = Object.assign({ },options)
 
     return function(scope:VoerkaI18nScope){
         return function(props:VoerkaI18nTranslateProps){
@@ -49,6 +49,8 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                             ? props.default || defaultMessage
                             : scope.translate(props.message, props.vars, props.options)
                     )
+                    const msgId = typeof props.message === 'function' ? '' : props.message
+
                     const isFirst = ref(false)
                     const tag = props.tag || tagName
         
@@ -84,8 +86,9 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                     return () => {
                         if (tag) {
                             return h(tag, {
-                                class: className,
-                                style
+                                class: className,           
+                                style,
+                                ...msgId ? { 'data-id': msgId } : {} 
                             }, result.value)
                         }
                         return result.value
