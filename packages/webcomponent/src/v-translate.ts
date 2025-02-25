@@ -55,3 +55,11 @@ export class TranslateElement extends LitElement {
     `
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'v-translate': TranslateElement
+  }
+
+}
+

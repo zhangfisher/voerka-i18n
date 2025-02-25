@@ -1,14 +1,25 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite' 
 import path from 'path'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  plugins: [],
+  plugins: [
+    dts()
+  ],
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/v-translate.ts'),
-      name: 'VTranslate',
-      fileName: (format) => `v-translate.${format}.js`
+      formats: ['es',"cjs","umd","iife","system"],
+      name: 'VoerkaI18nTranslate',
+      fileName: (format) => {
+        if(format === 'es') {
+          return 'v-translate.js'
+        }else if(format === 'cjs') {
+          return 'v-translate.cjs'          
+        }else{
+          return `v-translate.${format}.js`
+        }
+      }
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖

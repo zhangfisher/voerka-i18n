@@ -139,12 +139,15 @@ export class VoerkaI18nMessagePatchable{
     private _onSubmit(){
         const el = this.el!
         const msgId = el.getAttribute('data-id')
+        const scopeId = el.getAttribute('data-scope')
         if(msgId){
+            const appScopeId = this.manager.scope.id
+            const scope = scopeId ? appScopeId : this.manager.scopes.filter(scope=>scope.$id===scopeId)?.[0] || appScopeId
             const patch = {
                 id      : msgId,
                 message : el.innerText,
                 language: this.manager.activeLanguage,
-                scope   : this.manager.scope.id
+                scope
             }         
             // 使用fetch将path提交到服务器
             if(this._options.url){

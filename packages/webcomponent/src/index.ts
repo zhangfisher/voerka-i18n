@@ -1,3 +1,1 @@
-export * from "./v-translate" 
-export * from "./types"
-  
+export * from "./v-translate"  
