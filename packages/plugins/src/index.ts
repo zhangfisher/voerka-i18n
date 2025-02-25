@@ -1,58 +1,66 @@
 import type { UnpluginFactory } from 'unplugin'
-import type { Options } from './types'
-import { createUnplugin } from 'unplugin' 
-import { applyIdMap, getLanguageDir } from "@voerkai18n/utils"
-import viteConfig from "./vite/config"
-import path from 'node:path'
+import type { VoerkaI18nPluginOptions } from './types'
 import fs from 'node:fs'
+import path from 'node:path'
+import { applyIdMap, getLanguageDir } from '@voerkai18n/utils'
+import { createUnplugin } from 'unplugin'
+import getViteConfig from './vite/config'
 
+export const unpluginFactory: UnpluginFactory<VoerkaI18nPluginOptions | undefined> = (
+  options,
+) => {
+  const opts: Required<VoerkaI18nPluginOptions> = Object.assign(
+    {
+      debug: false,
+      patchUrl: '/api/voerkai18n/patch',
+      patterns: [/.(js|mjs|cjs|ts|jsx|tsx|vue|svelte|mdx|astro)$/],
+    },
+    options,
+  )
 
-export const unpluginFactory: UnpluginFactory<Options | undefined> = options => {
-
-  const { debug, patterns } = Object.assign({
-    debug:false,
-    patterns:[/.(js|mjs|cjs|ts|jsx|tsx|vue|svelte|mdx|astro)$/]
-  },options)
+  const { debug, patterns } = opts
   const langDir = getLanguageDir()
-  const projectDir = process.cwd()
-  
-  if(!langDir){
-    console.warn("VoerkaI18n is not availabled.")
+
+  if (!langDir) {
+    console.warn('VoerkaI18n is not availabled.')
   }
 
   const idMapFile = path.join(langDir, 'idMap.json')
   const idMap = JSON.parse(fs.readFileSync(idMapFile, 'utf-8'))
 
-
-  return ({
+  return {
     name: 'voerkai18n-plugins',
     transformInclude(id) {
-      if(/node_modules\//.test(id)) return false
-      const isMatched = patterns.some(pattern => {
-          if (pattern && pattern instanceof RegExp) {
-            return pattern.test(id)
-          } else if(typeof(pattern)==='string'){
-            return id.endsWith(pattern)
-          }else{
-            return false
-          }
-        })    
-      if(debug && isMatched) console.log(`[VoerkaI18n] apply ${id}`)
-      return isMatched 
+      if (/node_modules\//.test(id))
+        return false
+      const isMatched = patterns.some((pattern) => {
+        if (pattern && pattern instanceof RegExp) {
+          return pattern.test(id)
+        }
+        else if (typeof pattern === 'string') {
+          return id.endsWith(pattern)
+        }
+        else {
+          return false
+        }
+      })
+      if (debug && isMatched)
+        console.log(`[VoerkaI18n] apply ${id}`)
+      return isMatched
     },
     transform(code) {
-      if(!idMap) return 
-      try{
-        return applyIdMap(code,idMap)
+      if (!idMap)
+        return
+      try {
+        return applyIdMap(code, idMap)
       }
-      catch(e){
-        console.warn("Error while applyIdMap: ",e)
+      catch (e) {
+        console.warn('Error while applyIdMap: ', e)
       }
     },
-    vite: viteConfig 
-  })
+    vite: getViteConfig(opts),
+  }
 }
-
 
 export const unplugin = /* #__PURE__ */ createUnplugin(unpluginFactory)
 

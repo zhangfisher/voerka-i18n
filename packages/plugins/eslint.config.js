@@ -6,6 +6,6 @@ export default antfu({
     "no-console": "off",
     "jsonc/sort-keys": "off",
     "no-multiple-empty-lines": "off",
-    
+    "style/comma-dangle": "off",
   }
 })

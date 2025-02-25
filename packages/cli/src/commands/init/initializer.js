@@ -43,7 +43,7 @@ function formatLanguages(options){
 function getDefaultScopeId(){
     const pkg = getPackageJson()
     if(pkg){
-        return `${pkg.name || 'scope'+ parseInt(Math.random()*10000)}${pkg.version ? "_"+pkg.version.replaceAll(".","_") : ""}`
+        return `${pkg.name || 'scope'+ parseInt(Math.random()*10000)}_${pkg.version ? "_"+pkg.version.replaceAll(".","_") : ""}`
     }else{
         return  'scope'+ parseInt(Math.random()*10000)
     } 

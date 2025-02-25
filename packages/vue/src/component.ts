@@ -2,9 +2,9 @@ import { defineComponent, h, ref, watch, onMounted, onUnmounted } from 'vue'
 import type { VoerkaI18nTranslateVars, VoerkaI18nScope, VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
 
 export type TranslateWrapperComponent = {
-    message: string
+    message : string
     language: string
-    vars?: VoerkaI18nTranslateVars
+    vars?   : VoerkaI18nTranslateVars
     options?: Record<string, any>
 }
 
@@ -23,25 +23,11 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
              const TranslateComponent = defineComponent<VoerkaI18nTranslateProps>({
                 name: 'VoerkaI18nTranslate',
                 props: {
-                    message: {
-                        type: [String, Function],
-                        required: true
-                    },
-                    vars: {
-                        type: Array,
-                        default: () => []
-                    },
-                    options: {
-                        type: Object,
-                        default: () => ({})
-                    },
-                    tag: {
-                        type: String
-                    },
-                    default: {
-                        type: String,
-                        default: ''
-                    }
+                    message: { type: [String, Function], required: true },
+                    vars   : { type: Array, default: () => [] },
+                    options: { type: Object, default: () => ({}) },
+                    tag    : { type: String },
+                    default: { type: String, default: '' }
                 },
                 setup(props) {
                     const result = ref(
@@ -49,11 +35,10 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                             ? props.default || defaultMessage
                             : scope.translate(props.message, props.vars, props.options)
                     )
-                    const msgId = typeof props.message === 'function' ? '' : props.message
-
+ 
                     const isFirst = ref(false)
                     const tag = props.tag || tagName
-        
+                    const msgId = scope.getMessageId(props.message)
                     const loadMessage = async (language: string) => {
                         const loader = typeof props.message === 'function'
                             ? () => (props.message as Function)(language, props.vars, props.options)
@@ -82,14 +67,16 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                         () => [props.message, props.vars, props.options],
                         () => loadMessage(scope.activeLanguage)
                     )
-        
+                    
                     return () => {
                         if (tag) {
-                            return h(tag, {
-                                class: className,           
-                                style,
-                                ...msgId ? { 'data-id': msgId } : {} 
-                            }, result.value)
+                            const attrs:Record<string,any> = {
+                                class: className,
+                                style
+                            }
+                            if(msgId) attrs['data-id'] = msgId
+                            if(scope.library) attrs['data-scope'] = scope.$id
+                            return h(tag, attrs, result.value)
                         }
                         return result.value
                     }

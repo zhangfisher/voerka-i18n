@@ -15,7 +15,6 @@ export type VoerkaI18nLanguageMessagePack = Record<LanguageName,
     VoerkaI18nLanguageMessages 
     | VoerkaI18nLanguageLoader
     | VoerkaI18nLanguageAsyncChunk
-
 > 
 
 export type VoerkaI18nLanguageAsyncChunk = ()=> Promise<any>

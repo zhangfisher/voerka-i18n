@@ -19,7 +19,12 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = options => 
   }, 
   vite:{
     configureServer(server) {
-      server.middlewares.use('/api', (req, res) => {
+      // 接收传入的请求数据包：{language:string,scope,message:string,id:string}
+      server.middlewares.use('/api/voerkai18n/patch', (req, res) => {
+        const patch = req.body
+        // patch language message
+      
+
         res.end('Hello World')
       })
     }

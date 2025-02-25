@@ -31,6 +31,7 @@ import { assignObject } from "flex-tools/object/assignObject"
 import { VoerkaI18nManager } from "../manager"
 import { LocalStorage } from "@/storage";
 import { isBrowser } from "@/utils/isBrowser";
+import { isMessageId } from "@/utils/isMessageId";
 
 
 
@@ -65,6 +66,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         RestoreMixin
     ){
     __VoerkaI18nScope__ = true
+    static idSeq:number = 0
     private _options              : Required<VoerkaI18nScopeOptions>
     private _manager!             : VoerkaI18nManager                                   // 引用全局VoerkaI18nManager配置，注册后自动引用
     private _formatterManager     : VoerkaI18nFormatterManager | null = null
@@ -74,7 +76,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     protected _activeMessages     : VoerkaI18nLanguageMessages = {}                     // 当前语言包
     protected _patchedMessages    : VoerkaI18nLanguagePack = {}                         // 补丁语言包
     protected _translateComponent?: TranslateComponent
-
+    $id:number = ++VoerkaI18nScope.idSeq
     /**
      * 
      * @param options  
@@ -270,6 +272,29 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         try{
             document.body.setAttribute("language",this.activeLanguage)
         }catch{}
+    }
+    /**
+     * 
+     * @param message 
+     * @returns 
+     */
+    getRawMessage(message:string){
+        if(isMessageId(message)){
+            if(message in this.defaultMessages){
+                return (this.defaultMessages as any)[message]
+            }
+        }else{
+            return message
+        }
+    }
+    getMessageId(message:any){
+        if(isMessageId(message)){
+            return message
+        }else{
+            if(message in this.idMap){
+                return this.idMap[message]
+            }
+        }
     }
 }
 

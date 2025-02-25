@@ -3,7 +3,7 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import type { VoerkaI18nScope } from ".."
-import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateProps, VoerkaI18nTranslateOptions } from "@/types"
+import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateOptions } from "@/types"
 
 
 

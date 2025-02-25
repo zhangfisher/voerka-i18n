@@ -19,3 +19,4 @@ export const i18nPlugin: Plugin<VoerkaI18nVuePluginOptions> =   {
         app.component('Translate',curScope.Translate)
     }
 }
+
