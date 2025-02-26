@@ -7,6 +7,7 @@ import { getIdMap } from "./getIdMap"
 import path from "node:path"
 import fs from "node:fs"
 import { isMessageId } from "./isMessageId"
+import { default } from '../../plugins/src/vite/config';
 
 
 
@@ -18,6 +19,10 @@ export type VoerkaI18nMessagePatch = {
     id        : string
 }
 
+const langDir = getLanguageDir()
+const idMap = getIdMap()
+const langSettings = readJsonFile(path.join(langDir,"settings.json"))
+const defaultLanguage = langSettings?.languages.find((lang:any)=>lang.default)?.name
 
 
 /**
@@ -26,8 +31,8 @@ export type VoerkaI18nMessagePatch = {
 export async function applyPatch(patch:VoerkaI18nMessagePatch){
     if(!isPlainObject(patch)) return 
     
-    const langDir = getLanguageDir()
-    const idMap = getIdMap()
+    
+
     if(!langDir || !idMap) return
 
     const files = await fastGlob(['*.json'],{
@@ -50,7 +55,9 @@ export async function applyPatch(patch:VoerkaI18nMessagePatch){
             if(isMessageId(msgID)){ // 如果已经编译时，msgId是一个数字
 
             }else{ // 没有经过映射的
-
+                if(msgID in messages){
+                    messages[msgID][language] = message
+                }
             }
             const defaultMsg = isMessageId(msgID) ? idMap[msgID] : msgID
              
