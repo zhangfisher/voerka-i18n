@@ -26,11 +26,11 @@ definePlugin((manager:VoerkaI18nManager)=>{
     }
     manager._patchable.enable = enable === undefined ? true : enable 
   } 
-
 })
 
 declare module '@voerkai18n/runtime' {
   interface VoerkaI18nManager {
+    // @ts-ignore
     _patchable: VoerkaI18nMessagePatchable
     patch: (enable?:boolean,options?:VoerkaI18nMessagePatchableOptions)=>void
   }

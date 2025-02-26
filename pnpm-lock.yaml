@@ -57,8 +57,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4(vue@3.5.13(typescript@5.7.3))
       flex-tools:
-        specifier: ^1.4.30
-        version: 1.4.30
+        specifier: ^1.4.31
+        version: 1.4.31
       flexstyled:
         specifier: ^2.1.2
         version: 2.1.2(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -251,6 +251,9 @@ importers:
       tailwindcss:
         specifier: ^4.0.4
         version: 4.0.8
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.15))(@types/node@22.13.5)(typescript@5.7.3)
       typescript:
         specifier: ~5.7.3
         version: 5.7.3
@@ -291,8 +294,8 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
       flex-tools:
-        specifier: ^1.4.30
-        version: 1.4.30
+        specifier: ^1.4.31
+        version: 1.4.31
       fs-extra:
         specifier: ^10.0.1
         version: 10.1.0
@@ -331,27 +334,11 @@ importers:
         specifier: ^4.19.2
         version: 4.19.3
 
-  packages/components:
-    dependencies:
-      lit:
-        specifier: ^3.2.1
-        version: 3.2.1
-    devDependencies:
-      '@voerkai18n/runtime':
-        specifier: workspace:*
-        version: link:../runtime
-      typescript:
-        specifier: ~5.7.2
-        version: 5.7.3
-      vite:
-        specifier: ^6.1.0
-        version: 6.1.1(@types/node@22.13.5)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
-
   packages/formatters:
     dependencies:
       flex-tools:
-        specifier: ^1.4.30
-        version: 1.4.30
+        specifier: ^1.4.31
+        version: 1.4.31
     devDependencies:
       '@types/node':
         specifier: ^22.13.2
@@ -371,9 +358,6 @@ importers:
 
   packages/openinula:
     dependencies:
-      openinula:
-        specifier: ^0.1.1
-        version: 0.1.3
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -384,6 +368,9 @@ importers:
       '@voerkai18n/runtime':
         specifier: workspace:^
         version: link:../runtime
+      openinula:
+        specifier: 0.1.3-experimental-20240718-2
+        version: 0.1.3-experimental-20240718-2
       tsup:
         specifier: ^6.7.0
         version: 6.7.0(@swc/core@1.10.18(@swc/helpers@0.5.15))(postcss@8.5.3)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.15))(@types/node@22.13.5)(typescript@5.7.3))(typescript@5.7.3)
@@ -482,8 +469,8 @@ importers:
         specifier: ^0.0.2
         version: 0.0.2
       flex-tools:
-        specifier: ^1.4.30
-        version: 1.4.30
+        specifier: ^1.4.31
+        version: 1.4.31
       flexvars:
         specifier: ^1.0.6
         version: 1.0.6
@@ -527,9 +514,12 @@ importers:
       bcp47-language-tags:
         specifier: ^1.0.8
         version: 1.1.0
+      fast-glob:
+        specifier: ^3.3.3
+        version: 3.3.3
       flex-tools:
-        specifier: ^1.4.30
-        version: 1.4.30
+        specifier: ^1.4.31
+        version: 1.4.31
       fs-extra:
         specifier: ^10.0.1
         version: 10.1.0
@@ -577,33 +567,11 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.13.5)(less@4.2.2)(lightningcss@1.29.1)(terser@5.39.0)
 
-  packages/vite:
-    dependencies:
-      '@voerkai18n/utils':
-        specifier: workspace:^
-        version: link:../utils
-    devDependencies:
-      '@types/node':
-        specifier: ^22.13.2
-        version: 22.13.5
-      tsup:
-        specifier: ^8.3.6
-        version: 8.3.6(@microsoft/api-extractor@7.50.1(@types/node@22.13.5))(@swc/core@1.10.18(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.7.3)(yaml@2.7.0)
-      typescript:
-        specifier: ^5.7.3
-        version: 5.7.3
-      unplugin:
-        specifier: ^2.2.0
-        version: 2.2.0
-      vite:
-        specifier: ^6.1.0
-        version: 6.1.1(@types/node@22.13.5)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
-
   packages/vue:
     dependencies:
       flex-tools:
-        specifier: ^1.4.30
-        version: 1.4.30
+        specifier: ^1.4.31
+        version: 1.4.31
       vue:
         specifier: ^3.0.0
         version: 3.5.13(typescript@5.7.3)
@@ -4663,8 +4631,8 @@ packages:
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
 
-  flex-tools@1.4.30:
-    resolution: {integrity: sha512-Z/EfQKNWxeJqroHlreUffrkMDot6515O/VkU1TpG0VR9Ne0MeP1wReNRqQMfu9JYXp0DgxMw5Og3MXK5zAn8Xw==}
+  flex-tools@1.4.31:
+    resolution: {integrity: sha512-JYqOK8ubZ3zHK+73Lxv8SYAKskZPH+LaTQwrinfp0B4yuVdu0oXqX9D8GO+KCiKtaBZQ3LddLDhxt3MPnGoO1g==}
 
   flexstyled@2.1.2:
     resolution: {integrity: sha512-EBvH01pUOiU+pwAu2dLYIM1cqrFkYCp+ZTCyqBUlnjwrz1zlJIem7FQoPYV79TAgYHXSnitN98A7ilhnaO97oA==}
@@ -6308,8 +6276,8 @@ packages:
     resolution: {integrity: sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==}
     hasBin: true
 
-  openinula@0.1.3:
-    resolution: {integrity: sha512-4jvbnbsLkXQtfGXEHSqMAdqYRyKKLtnn7ch2o9BvN2bL1RGCYXQWKkINHMf5LnoMjlz1NnBbhngj6/CmyvDCqg==}
+  openinula@0.1.3-experimental-20240718-2:
+    resolution: {integrity: sha512-CXv5vZ8Y73jLkoU4cgKqU9R5N1H9chOv6q8OlTSHRSTxQj5PtRg6HFGkpZG/4GnxcNTrHYJGPkgYY4VBqz89Tg==}
     engines: {node: '>=0.10.0'}
 
   optionator@0.8.3:
@@ -7842,6 +7810,11 @@ packages:
 
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
+
+  uglify-js@3.19.3:
+    resolution: {integrity: sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ==}
+    engines: {node: '>=0.8.0'}
+    hasBin: true
 
   uglify-js@3.4.10:
     resolution: {integrity: sha512-Y2VsbPVs0FIshJztycsO2SfPk7/KAF/T72qzv9u5EpQ4kB2hQoHlhNQTsNyy6ul7lQtqJN/AoWeS23OzEiEFxw==}
@@ -10469,7 +10442,7 @@ snapshots:
 
   '@voerkai18n/runtime@2.1.13':
     dependencies:
-      flex-tools: 1.4.30
+      flex-tools: 1.4.31
 
   '@volar/language-core@2.4.11':
     dependencies:
@@ -12805,7 +12778,7 @@ snapshots:
 
   flatted@3.3.3: {}
 
-  flex-tools@1.4.30:
+  flex-tools@1.4.31:
     dependencies:
       art-template: 4.13.2
       glob: 10.4.5
@@ -12819,7 +12792,7 @@ snapshots:
 
   flexvars@1.0.6:
     dependencies:
-      flex-tools: 1.4.30
+      flex-tools: 1.4.31
 
   flowbite-datepicker@1.3.2(rollup@4.34.8):
     dependencies:
@@ -13107,7 +13080,7 @@ snapshots:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.4.10
+      uglify-js: 3.19.3
     optional: true
 
   has-bigints@1.1.0: {}
@@ -13955,7 +13928,7 @@ snapshots:
       '@babel/runtime-corejs3': 7.26.9
       ansicolor: 1.1.100
       core-js: 3.40.0
-      flex-tools: 1.4.30
+      flex-tools: 1.4.31
 
   longest-streak@3.1.0: {}
 
@@ -14444,7 +14417,7 @@ snapshots:
       '@voerkai18n/runtime': 2.1.13
       art-template: 4.13.2
       commander: 13.1.0
-      flex-tools: 1.4.30
+      flex-tools: 1.4.31
       fs-extra: 11.3.0
       glob: 10.4.5
       logsets: 1.3.30
@@ -14669,7 +14642,7 @@ snapshots:
 
   opener@1.5.2: {}
 
-  openinula@0.1.3: {}
+  openinula@0.1.3-experimental-20240718-2: {}
 
   optionator@0.8.3:
     dependencies:
@@ -16346,6 +16319,9 @@ snapshots:
   udc@1.0.1: {}
 
   ufo@1.5.4: {}
+
+  uglify-js@3.19.3:
+    optional: true
 
   uglify-js@3.4.10:
     dependencies:

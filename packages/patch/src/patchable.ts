@@ -47,16 +47,16 @@ export class VoerkaI18nMessagePatchable{
      */
     private _addMarkStyle(){
         if(!this.options.showMark) return 
-        const style = document.createElement('style')
-        style.id = 'voerkai18nt-patching-style'
+        const styleId  = 'voerkai18nt-patching-styles'
+        const style = document.getElementById(styleId) ||  document.createElement('style')
+        style.id = styleId
         style.innerHTML = `
             .vt-patching .vt-msg{
-                background-color:#fbff002e;
-                outline: none;
+                background-color:#fbff002e; 
+                border-radius: 4px;
             }
             .vt-patching .vt-msg.editing{
-                border:1px solid #ffeb3b;
-                border-radius: 4px;
+                outline:1px solid #ffeb3b;
             }
         `
         document.head.appendChild(style)
@@ -120,7 +120,6 @@ export class VoerkaI18nMessagePatchable{
                 this.editing = true
                 this.el.setAttribute('contenteditable','true')
                 this.el.classList.add('editing')
-                this.el.style.backgroundColor = '#fbff002e'
             }
         } 
     }  
@@ -128,9 +127,10 @@ export class VoerkaI18nMessagePatchable{
     private _onLeaveEdit(){
         this.editing = false
         if(this.el){
-            this.el?.removeAttribute('contenteditable')
-            this.el.classList.remove('editing')
-            this.el.style.backgroundColor = ''
+            try{
+                this.el?.removeAttribute('contenteditable')
+                this.el.classList.remove('editing') 
+            }catch(e){}
         }        
         this.el = undefined
     }
@@ -141,6 +141,7 @@ export class VoerkaI18nMessagePatchable{
         const scopeIdAttr = el.getAttribute('data-scope')
         if(msgId){
             const appScopeId = this.manager.scope.id
+
             let scopeId:string = appScopeId
             if(scopeIdAttr){
                 const index = this.manager.scopes.findIndex(scope=>String(scope.$id)===scopeIdAttr)

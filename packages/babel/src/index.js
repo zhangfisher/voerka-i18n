@@ -28,23 +28,13 @@
 
 const fs =  require("fs");
 const pathobj =  require("path");
-const { getProjectRootFolder, getSettingsFromPackageJson } = require("@voerkai18n/utils")
+const {  getSettingsFromPackageJson } = require("@voerkai18n/utils")
 
 
 const DefaultI18nPluginOptions = {
-    translateFunctionName:"t",          // 默认的翻译函数名称
-    // 翻译文件存放的目录，即编译后的语言文件的文件夹
-    // 默认从当前目录下的languages文件夹中导入 
-    location:"./",
-    // 自动创建import {t} from "#/languages"  或  const { t } = require("#/languages")  
-    // 如果此值是空，则不会自动创建import语句    
-    autoImport:"#/languages",       
-    // 自动导入时t函数时使用require或import,取值为 auto,require,import
-    // auto时会判断是否存在import语句，如果存在则使用import，否则使用require
-    // 也可以指定为require或import，主要用于测试时使用
-    moduleType:"auto",                          
+    autoImport:"#/languages",                               
     // 存放翻译函数的id和翻译内容的映射关系,此参数用于测试使用
-    // 正常情况下会读取<location>/idMap.js文件
+    // 正常情况下会读取<location>/idMap.json文件
     idMap:{}                            
 }
  

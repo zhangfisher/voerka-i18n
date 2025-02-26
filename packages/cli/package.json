@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/cli",
-    "version": "3.0.0-beta.1",
+    "version": "3.0.0",
     "description": "命令行工具,用来初始化/提取/编译/自动翻译等工具链",
     "main": "src/index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
@@ -37,7 +37,7 @@
         "bcp47-language-tags": "^1.1.0",
         "deepmerge": "^4.2.2",
         "fast-glob": "^3.3.3",
-        "flex-tools": "^1.4.30",
+        "flex-tools": "^1.4.31",
         "fs-extra": "^10.0.1",
         "lcid": "^4.0.1",
         "logsets": "^1.3.30",

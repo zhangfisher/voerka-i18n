@@ -15,18 +15,18 @@
         "react",
         "voerkai18n"
     ],
-    "scripts": { 
-    },
+    "scripts": {},
     "author": "wxzhang",
     "license": "MIT",
     "devDependencies": {
         "@types/react": "^18.2.15",
         "@voerkai18n/runtime": "workspace:^",
+        "openinula": "0.1.3-experimental-20240718-2",
         "tsup": "^6.7.0"
     },
     "peerDependencies": {
         "@voerkai18n/runtime": "workspace:^",
-        "openinula": "^0.1.1",
+        "openinula": "0.1.3-experimental-20240718-2",
         "react": "^18.2.0"
     }
 }

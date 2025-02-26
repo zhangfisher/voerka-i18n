@@ -19,7 +19,7 @@
   "dependencies": {
     "@lite-tree/icons": "^1.0.6",
     "@lite-tree/vue": "^1.1.4",
-    "flex-tools": "^1.4.30",
+    "flex-tools": "^1.4.31",
     "flexstyled": "^2.1.2"
   }
 }

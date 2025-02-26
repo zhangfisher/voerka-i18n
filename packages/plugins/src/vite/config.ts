@@ -11,7 +11,7 @@ export default (options: VoerkaI18nPluginOptions): any => {
         })
         req.on('end', () => {
           const patchData = JSON.parse(body)
-          console.log('patchData=', patchData)
+          if(options.debug) console.log('[VoerkaI18n] submit language patch=', patchData)
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify({ a: 1 }))
         }) 
