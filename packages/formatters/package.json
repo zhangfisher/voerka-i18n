@@ -68,7 +68,7 @@
   "author": "wxzhang",
   "license": "MIT",
   "dependencies": {
-    "flex-tools": "^1.4.31"
+    "flex-tools": "^1.4.32"
   },
   "devDependencies": {
     "@types/node": "^22.13.2",

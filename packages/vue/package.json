@@ -14,7 +14,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "flex-tools": "^1.4.31",
+    "flex-tools": "^1.4.32",
     "vue": "^3.0.0"
   },
   "devDependencies": {
