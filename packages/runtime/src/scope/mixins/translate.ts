@@ -3,7 +3,7 @@ import { isFunction } from "flex-tools/typecheck/isFunction"
 import { isNumber } from "flex-tools/typecheck/isNumber"
 import { isPlainObject } from "flex-tools/typecheck/isPlainObject"
 import type { VoerkaI18nScope } from ".."
-import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateOptions } from "@/types"
+import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateOptions, VoerkaI18nLanguageMessages } from "@/types"
 
 
 
@@ -78,7 +78,15 @@ export class TranslateMixin {
         return this._translateComponent
     }
 
+    private _getActiveMessages(language:string){
+        return this.messages[language] || this.activeMessages 
+    }
+
     translate(this:VoerkaI18nScope, message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions):string{ 
+
+        const activeLanguage = options?.language || this.activeLanguage
+        const activeMessages = ( this.messages[activeLanguage] || this.activeMessages ) as VoerkaI18nLanguageMessages
+        
         // 为什么样要转义换行符？因为在translates/*.json中key不允许换行符存在，需要转义为\\n，这里需要转回来
         message = message.replaceAll(/\n/g,"\\n")
         // 如果内容是复数，则其值是一个数组，数组中的每个元素是从1-N数量形式的文本内容
@@ -87,11 +95,11 @@ export class TranslateMixin {
         const finalArgs = vars===undefined ? [] : (isFunction(vars) ? vars() : vars) 
         try{            
             if(isMessageId(message)){ // 如果是数字id,
-                result = (this.activeMessages as any)[message] || message
+                result = (activeMessages as any)[message] || message
             }else{
                 const msgId = this.idMap[message]  
                 // 语言包可能是使用idMap映射过的，则需要转换
-                result = ( this.activeMessages[msgId]  || this.activeMessages[message] || message ) as string | string[]
+                result = ( activeMessages[msgId]  || activeMessages[message] || message ) as string | string[]
             }
             const [pluraValue,vars] = this._getPluraValue(finalArgs)
              // 2. 处理复数

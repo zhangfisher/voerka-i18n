@@ -128,8 +128,18 @@ export class ChangeLanguageMixin{
      * @param this 
      * @returns 
      */
-    ready(this:VoerkaI18nScope,callback:(activeLanguage:string)=>void,timeout?:number):void{  
-        this.manager.ready(callback,timeout)      
+    ready(this:VoerkaI18nScope,timeout?:number):Promise<void>  
+    ready(this:VoerkaI18nScope,callback:(activeLanguage:string)=>void,timeout?:number):void
+    ready(this:VoerkaI18nScope):any{  
+        const callback = typeof arguments[0] === 'function' ? arguments[0] : undefined
+        const timeout = typeof arguments[0] === 'number' ? arguments[0] : arguments[1]
+        if(typeof(callback)==='function'){
+            this.manager.ready(callback,timeout)      
+        }else{
+            return new Promise(resolve=>{
+                this.manager.ready(resolve,timeout)      
+            })
+        }        
     }
     /**
      * await changing()

@@ -62,8 +62,9 @@ export type VoerkaI18nNamespaces = Record<string, string | string[] | ((file: st
  
 export type VoerkaI18nLanguageLoader = (newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages | undefined | void>
  
-
-export type VoerkaI18nTranslateOptions = Record<string,any>
+export type VoerkaI18nTranslateOptions = {
+    language?:  LanguageCodes
+}
 export type VoerkaI18nTranslateVars    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>VoerkaI18nTranslateVars)
 
 

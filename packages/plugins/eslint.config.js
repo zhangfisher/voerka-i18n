@@ -9,5 +9,6 @@ export default antfu({
     "style/comma-dangle": "off",
     "antfu/if-newline": "off",
     "style/indent": "off",
+    "style/key-spacing": "off",
   }
 })

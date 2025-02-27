@@ -110,6 +110,7 @@ describe("格式化器", () => {
         expect(t("{ value | currency('short',3)}", 123456789.88)).toBe("$0.12345678988 billions")
         expect(t("{ value | currency('short',4)}", 123456789.88)).toBe("$0.00012345678988 trillions")
     });
+
     test("date", async () => {
         let now = new Date("2022/12/9 09:12:36")
         expect(t("{ value | date }", now)).toBe("2022/12/9 09:12:36")                      // Date类型

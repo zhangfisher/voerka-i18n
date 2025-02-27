@@ -208,8 +208,8 @@ describe('格式化器', () => {
         expect(t("hello { | bookname|bookname|bookname}", "tom")).toBe("hello <<<tom>>>");
         expect(t("hello { | bookname('#')}", "tom")).toBe("hello #tom#");
         expect(t("hello { | bookname('#','!')}", "tom")).toBe("hello #tom!");
-        
-
-
       });
+
+
+      
 })

@@ -138,7 +138,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      * @returns 
      */
     ready(callback:(language:string)=>void,timeout?:number){
-        this.waitFor("ready",timeout).then((lang)=>{
+        return this.waitFor("ready",timeout).then((lang)=>{
             if(callback) callback.call(this,lang)
         })
     } 

@@ -85,8 +85,8 @@ describe('语言包补丁功能', () => {
         const storage = getTestStorage()
         const loader = getTestLanguageLoader(async (language,scope)=>{            
            return { message: language==='en' ? 
-                    `Hello VoerkaI18n<${scope.id}>!` : 
-                    `你好VoerkaI18n<${scope.id}>!` 
+                        `Hello VoerkaI18n<${scope.id}>!` : 
+                        `你好VoerkaI18n<${scope.id}>!` 
                 }
         })
         const appScope = createVoerkaI18nScope({
