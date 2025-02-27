@@ -31,9 +31,9 @@
     "dependencies": {
         "@ast-grep/napi": "^0.33.1",
         "bcp47-language-tags": "^1.0.8",
-        "fast-glob": "^3.3.3",
         "flex-tools": "^1.4.32",
         "fs-extra": "^10.0.1",
+        "glob": "^11.0.1",
         "js-yaml": "^4.1.0",
         "semver": "^7.3.7",
         "shelljs": "^0.8.5",
