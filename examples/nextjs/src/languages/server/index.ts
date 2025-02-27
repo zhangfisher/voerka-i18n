@@ -1,5 +1,3 @@
-'use server'
-
 import { VoerkaI18nScope } from "@voerkai18n/runtime"
 import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
@@ -25,35 +23,5 @@ export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({
     ...settings
 }) 
 
-export const t = i18nScope.t
+export const $t = i18nScope.t
 export const Translate = i18nScope.Translate
-
-import {cache} from 'react';
-import { userAgent } from "next/server"
-
-
-let invalidFlag:number = 0
-
-i18nScope.on("change",()=>invalidFlag++)
-
-
-// 缓存版本的翻译函数，当语言变化时会自动刷新
-const tCache =cache((message,vars,options,invalidFlag)=>i18nScope.t(message,vars,options)
-
-const sc = ((message,vars,options)=>{
-    return tCache(message,vars,options,invalidFlag)
-})
-
-
-/**
- * 
- * const t = useTranslate(request)
- * 
- * @param request 
-
- */
-function useTranslate(request){
-    const { device,browser } = userAgent(request)
-    
-
-}
