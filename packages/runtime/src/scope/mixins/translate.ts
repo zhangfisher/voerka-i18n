@@ -78,14 +78,19 @@ export class TranslateMixin {
         return this._translateComponent
     }
 
-    private _getActiveMessages(language:string){
-        return this.messages[language] || this.activeMessages 
+    private _getActiveMessages(this:VoerkaI18nScope,language:string):VoerkaI18nLanguageMessages{
+        const messages = this.messages[language]         
+        if(typeof messages === 'function') {
+            this.logger.warn("When the t function specifies the language parameter, only synchronized language packs can be used")
+            return this.activeMessages 
+        }
+        return (this.messages as any)[language] as VoerkaI18nLanguageMessages
     }
 
     translate(this:VoerkaI18nScope, message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions):string{ 
 
         const activeLanguage = options?.language || this.activeLanguage
-        const activeMessages = ( this.messages[activeLanguage] || this.activeMessages ) as VoerkaI18nLanguageMessages
+        const activeMessages = this._getActiveMessages(activeLanguage)
         
         // 为什么样要转义换行符？因为在translates/*.json中key不允许换行符存在，需要转义为\\n，这里需要转回来
         message = message.replaceAll(/\n/g,"\\n")
