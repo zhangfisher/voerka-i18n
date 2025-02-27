@@ -1,5 +1,5 @@
 const { t } = require("../../i18n");
-const fastGlob = require("fast-glob");
+const glob = require("glob");
 const { extractMessages } = require("@voerkai18n/utils/extract")
 const logsets = require("logsets");
 const path = require("path");
@@ -16,7 +16,7 @@ let messageIds = []
  */
 async function getMessageIds(settings){
     const { langDir } = settings
-    const files = await fastGlob(["*.json","!*.bak*.json"],{
+    const files = await glob(["*.json","!*.bak*.json"],{
         cwd: path.join(langDir,"translates"),
         absolute: true
     })
@@ -76,7 +76,7 @@ async function scanMessages(ctx,tasks){
     tasks.create(t("通过{}参数增加文件匹配规则"),"--patterns")
     tasks.create(t("您可以通过修改{}文件的{}参数来调整提取范围"),`${langRelDir}/settings.json`,"patterns")    
 
-    const files = await fastGlob(patterns,{
+    const files = await glob(patterns,{
             cwd     : process.cwd(),
             absolute: true
         })

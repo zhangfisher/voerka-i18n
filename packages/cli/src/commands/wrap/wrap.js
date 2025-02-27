@@ -1,6 +1,6 @@
 const { aiQuestion } = require('@voerkai18n/utils');
 const { t } = require("../../i18n");
-const fastGlob = require("fast-glob"); 
+const glob = require("glob"); 
 const logsets = require("logsets");
 const path = require("node:path");
 const fs = require("node:fs");
@@ -31,7 +31,7 @@ async function wrap(ctx){
     tasks.addGroup(t("开始自动应用翻译{}函数"),'t')
     tasks.addMemo(t("应用范围: {}"),patterns.join(", "))         
  
-    const files = await fastGlob(patterns,{
+    const files = await glob(patterns,{
         absolute: true
     })
  
@@ -82,7 +82,7 @@ async function applyWrap(ctx){
     });
     patterns.push("**/*.wrapped.*")
  
-    const files = await fastGlob(patterns,{
+    const files = await glob(patterns,{
         absolute: true
     })
     if(files.length===0){

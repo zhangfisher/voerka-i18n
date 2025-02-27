@@ -7,12 +7,13 @@ import { isTypeScriptPackage } from "flex-tools/package/isTypeScriptPackage"
 import { readFile } from "flex-tools/fs/nodefs"
 import path from "node:path"
 import fs from "node:fs" 
-import { getPackageRootPath } from "flex-tools"
+import { getLanguageDomains } from "./getLanguageDomains"
 
 export type VoerkaI18nProjectContext= VoerkaI18nSettings & { 
     rootDir         : string
-    langDir         : string
+    langDir         : string    
     langRelDir      : string
+    domains         : Record<string,string>
     settingFile     : string
     settingRelFile  : string
     typescript      : boolean
@@ -115,6 +116,7 @@ export async function getProjectContext(options?:Record<string,any>) {
     ctx.getPrompt      = getPromptTemplate.bind(ctx) 
     ctx.patterns       = getDefaultPatterns.call(ctx,options)
     ctx.getApi         = getApi.bind(ctx)
+    ctx.domains        = getLanguageDomains(ctx.langDir)
     if(!ctx.typescript) ctx.typescript = isTypeScriptPackage()
     if(!ctx.moduleType) ctx.moduleType = getPackageModuleType()    
     Object.assign(ctx,options)

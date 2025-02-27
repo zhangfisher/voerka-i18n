@@ -1,8 +1,7 @@
 /**
  * 
  * 获取语言文件域Domains
- * 
- * 
+ *  
  */
 import { getLanguageDir } from "./getLanguageDir";
 import path from "node:path"
@@ -16,8 +15,8 @@ import { glob } from "glob"
  * @returns {Record<string,string>} 
  * 
  */
-export function getLanguageDomains():Record<string,string>{
-    const langDir = getLanguageDir();
+export function getLanguageDomains(langDir?: string):Record<string,string>{
+    langDir = langDir || getLanguageDir();
     const files = glob.sync( "*.*", {
                             cwd:langDir, 
                             mark:true,

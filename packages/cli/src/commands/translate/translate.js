@@ -3,7 +3,7 @@ const logsets = require("logsets")
 const path = require("node:path")
 const { deepMerge }  = require("flex-tools/object/deepmerge")
 const { delay } = require("flex-tools/async/delay")
-const fastGlob = require("fast-glob")
+const glob = require("glob")
 const { t } = require("../../i18n");
 const { getBackupFile } = require("@voerkai18n/utils")
 const { writeFile } = require('flex-tools/fs/nodefs');
@@ -201,7 +201,7 @@ async function translate(ctx) {
 
     const translateDir = path.join(langDir,"translates")
 
-    const files = await fastGlob(["*.json","!*.bak.*.json"],{
+    const files = await glob(["*.json","!*.bak.*.json"],{
         cwd     : translateDir,
         absolute: true
     })

@@ -6,6 +6,7 @@ const ExtractCommand                                = require("./commands/extrac
 const CompileCommand                                = require("./commands/compile");
 const WrapCommand                                   = require("./commands/wrap");
 const TranslateCommand                              = require("./commands/translate");
+const inspectCommand                                = require("./commands/inspect");
 const { getCliLanguage }                            = require("./oslocale");
 const {  isVoerkaI18nInstalled, getProjectContext } = require("@voerkai18n/utils"); 
 const { i18nScope }                                 = require("./i18n");
@@ -34,6 +35,7 @@ getProjectContext().then(async ctx=>{
     cli.register(CompileCommand)
     cli.register(TranslateCommand)
     cli.register(WrapCommand)
+    cli.register(inspectCommand)
     cli.run();       
   })
 

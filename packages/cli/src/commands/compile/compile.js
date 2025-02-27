@@ -1,7 +1,7 @@
 const { t } = require("../../i18n"); 
 const path = require("node:path");
 const logsets = require("logsets");
-const fastGlob = require("fast-glob"); 
+const glob = require("glob"); 
 const { readFile,writeFile } = require("flex-tools/fs/nodefs");
 
 
@@ -47,7 +47,7 @@ async function mergeTranslatedMessages(ctx){
     
     const translateDir = path.join(ctx.langDir,"translates")
 
-    const files = await fastGlob(["*.json","!*.bak.*.json"],{
+    const files = await glob(["*.json","!*.bak.*.json"],{
         cwd     : translateDir,
         absolute: true
     })
