@@ -7,5 +7,7 @@ export default antfu({
     "jsonc/sort-keys": "off",
     "no-multiple-empty-lines": "off",
     "style/comma-dangle": "off",
+    "antfu/if-newline": "off",
+    "style/indent": "off",
   }
 })
