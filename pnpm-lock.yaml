@@ -65,6 +65,9 @@ importers:
 
   examples/nextjs:
     dependencies:
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
       next:
         specifier: 15.2.0
         version: 15.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)

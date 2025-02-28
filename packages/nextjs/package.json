@@ -11,8 +11,6 @@
     "types": "dist/index.d.ts"
   },
   "scripts": {
-    "build": "tsup",
-    "build:watch": "tsup --watch"
   }, 
   "keywords": [
     "voerkai18n",
