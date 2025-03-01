@@ -23,9 +23,7 @@ async function compileLanguageFile(language,allMessages,ctx){
         if(language.name in translated){
             compiledMessages[id] = translated[language.name]
         }else{
-            if(language.name === defaultLanguage){
-                compiledMessages[id] = text
-            }
+            compiledMessages[id] = text
         }
     }    
     const content = `${typescript || moduleType==='esm' ?  'export default ' : 'module.exports =' } ${JSON.stringify(compiledMessages,null,4)}`
@@ -91,7 +89,7 @@ async function compile(ctx){
         }
     }
     try{
-        tasks.add([t("生成IDMap文件: {}"),`${langRelDir}/idMap.${langExtName}`])
+        tasks.add([t("生成IDMap文件: {}"),`${langRelDir}/idMap.json`])
         await generateIdMap(allMessages,ctx)
         tasks.complete()
     }catch(e){

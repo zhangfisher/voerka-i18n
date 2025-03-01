@@ -8,6 +8,7 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "i18n:init": "voerkai18n init",
+    "i18n:config": "voerkai18n config",
     "i18n:extract": "voerkai18n extract",
     "i18n:translate": "voerkai18n translate --api qwen --provider ai",
     "i18n:compile": "voerkai18n compile",

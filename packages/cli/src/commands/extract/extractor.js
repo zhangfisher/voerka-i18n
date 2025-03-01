@@ -176,7 +176,7 @@ async function syncMessages(namespaceFile,newMessages,settings){
                 if(langName.startsWith("$")){
                     results[message][langName] = newMessage[langName]
                 }else{
-                    if(oldMessage[langName] !== message || Array.isArray(oldMessage[langName])){
+                    if(langName in oldMessage && (oldMessage[langName] !== message || Array.isArray(oldMessage[langName]))){
                         results[message][langName] = oldMessage[langName]                        
                     }else{
                         results[message][langName] = langMessage

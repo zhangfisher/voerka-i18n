@@ -27,3 +27,5 @@ src/languages/api.json
 **/translates/*.bak.*.json
 **/*.wrapped.*
 src/languages/translates/*.bak.*.json
+src/languages/api.json
+**/*.wrapped.*

@@ -13,6 +13,11 @@
         "nativeTitle": "English (United States)"
     },
     {
+        "name": "ru-RU",
+        "title": "俄语",
+        "nativeTitle": "Русский (Россия)"
+    },
+    {
         "name": "ja-JP",
         "title": "日语",
         "nativeTitle": "日本語 (日本)"

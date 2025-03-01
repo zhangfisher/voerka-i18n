@@ -20,18 +20,18 @@
   },
   "author": "wxzhang@126.com",
   "license": "MIT",
-  "devDependencies": { 
+  "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.9",
     "changeset": "^0.2.6",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.2.2",
-    "fs-extra": "^10.1.0", 
+    "fs-extra": "^10.1.0",
     "oxlint": "^0.15.3",
     "prettier": "^2.7.1",
-    "semver": "^7.5.4", 
+    "semver": "^7.5.4",
     "tsx": "^4.19.2",
-    "turbo": "^2.4.2",
+    "turbo": "^2.4.4",
     "vitepress": "^1.6.3",
     "yorkie": "^2.0.0"
   },
