@@ -16,6 +16,13 @@
         "build": "tsup",
         "build:watch": "tsup --watch"
     },
+    "keywords": [
+        "voerkai18n",
+        "i18n",
+        "language",
+        "translation",
+        "internationalize"
+    ],
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {

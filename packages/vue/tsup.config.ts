@@ -18,7 +18,8 @@ export default defineConfig([
             js: `/***
             *   ---=== VoerkaI18n for Vue ===---
             *   https://zhangfisher.github.io/voerka-i18n
-            */`}
+            */`
+        }
     },
     {
         entry: [
@@ -33,6 +34,7 @@ export default defineConfig([
         treeshake:true,  
         minify: true, 
         esbuildPlugins: [
+            // @ts-ignore
             copyFiles({
                 assets:{
                     from:"./src/postinstall/templates/*.*",

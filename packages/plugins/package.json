@@ -14,22 +14,25 @@
     "url": "https://github.com/antfu/unplugin-starter/issues"
   },
   "keywords": [
-    "unplugin",
-    "vite",
-    "webpack",
-    "rollup",
-    "transform"
+    "voerkai18n",
+    "i18n",
+    "language",
+    "translation",
+    "internationalize"
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
     "./astro": {
+      "types": "./dist/astro.d.ts",
       "import": "./dist/astro.js",
       "require": "./dist/astro.cjs"
     },
     "./rspack": {
+      "types": "./dist/rspack.d.ts",
       "import": "./dist/rspack.js",
       "require": "./dist/rspack.cjs"
     },
@@ -39,26 +42,32 @@
       "require": "./dist/vite/index.cjs"
     },
     "./webpack": {
+      "types": "./dist/webpack.d.ts",
       "import": "./dist/webpack.js",
       "require": "./dist/webpack.cjs"
     },
     "./rollup": {
+      "types": "./dist/rollup.d.ts",
       "import": "./dist/rollup.js",
       "require": "./dist/rollup.cjs"
     },
     "./esbuild": {
+      "types": "./dist/esbuild.d.ts",
       "import": "./dist/esbuild.js",
       "require": "./dist/esbuild.cjs"
     },
     "./nuxt": {
+      "types": "./dist/nuxt.d.ts",
       "import": "./dist/nuxt.js",
       "require": "./dist/nuxt.cjs"
     },
     "./farm": {
+      "types": "./dist/farm.d.ts",
       "import": "./dist/farm.js",
       "require": "./dist/farm.cjs"
     },
     "./types": {
+      "types": "./dist/types.d.ts",
       "import": "./dist/types.js",
       "require": "./dist/types.cjs"
     },

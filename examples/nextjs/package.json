@@ -11,10 +11,15 @@
   "dependencies": {
     "classnames": "^2.5.1",
     "next": "15.2.0",
+    "@voerkai18n/runtime": "workspace:*",
+    "@voerkai18n/nextjs": "workspace:*",    
+    "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/patch": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@voerkai18n/cli": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

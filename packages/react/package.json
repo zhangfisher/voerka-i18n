@@ -14,9 +14,12 @@
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "keywords": [
+        "voerkai18n",
         "i18n",
-        "react",
-        "voerkai18n"
+        "language",
+        "translation",
+        "internationalize",
+        "react"
     ],
     "scripts": { 
         "build": "tsup",
@@ -26,13 +29,13 @@
     "license": "MIT",
     "devDependencies": {
         "@types/react": "^18.2.15",
-        "react": "^18.2.0",
+        "react": "^18.0.0",
         "tsup": "^6.7.0",
         "@voerkai18n/runtime": "workspace:^"
     },
     "peerDependencies": {
         "@types/react": "^16.9.0",
         "@voerkai18n/runtime": "workspace:^",
-        "react": "^16.9.0"
+        "react": "^18.0.0"
     }
 }

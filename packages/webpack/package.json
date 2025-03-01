@@ -4,6 +4,8 @@
     "description": "voerkai18n loader for webpack",
     "main": "src/index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+    "access": "public",
+    "private": false,
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
@@ -11,7 +13,13 @@
     "scripts": {
         "release": "npm publish" 
     },
-    "keywords": [],
+    "keywords": [
+        "voerkai18n",
+        "i18n",
+        "language",
+        "translation",
+        "internationalize"
+    ],
     "author": "wxzhang",
     "license": "MIT",
     "devDependencies": {

@@ -22,3 +22,8 @@ export const defaultLanguageSettings = {
         { name: "en", title: "英文" }
     ]
 }  
+
+
+export const TEleClassName   = "vt-msg"
+export const TEleMsgIdAttr   = "data-id"
+export const TEleScopeIdAttr = "data-scope"

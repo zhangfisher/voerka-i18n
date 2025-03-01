@@ -1,7 +1,6 @@
 {
   "name": "@voerkai18n/vue",
-  "version": "3.0.0",
-  "type": "module",
+  "version": "3.0.1", 
   "main": "./src/index.ts",
   "publishConfig": {
     "main": "dist/index.js",
@@ -13,6 +12,13 @@
     "build:watch": "tsup --watch",
     "preview": "vite preview"
   },
+  "keywords": [
+      "voerkai18n",
+      "i18n",
+      "language",
+      "translation",
+      "internationalize"
+  ],
   "dependencies": {
     "flex-tools": "^1.4.32",
     "vue": "^3.0.0"

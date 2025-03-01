@@ -1,9 +1,10 @@
 import { defineConfig } from 'tsup' 
 
 
-export default defineConfig({
+export default defineConfig([{
     entry: [
-        'src/index.ts'
+        'src/client/index.ts',
+        'src/server/index.ts'
     ],
     format: ['esm','cjs'],
     dts: true,
@@ -19,5 +20,4 @@ export default defineConfig({
     *   ---=== VoerkaI18n for Nextjs ===---
     *   https://zhangfisher.github.io/voerka-i18n/*
     */`}
-}
-) 
+}]) 

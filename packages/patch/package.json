@@ -12,8 +12,11 @@
     "build": "tsup"
   },
   "keywords": [
-    "voerkai18n",
-    "i18n"
+      "voerkai18n",
+      "i18n",
+      "language",
+      "translation",
+      "internationalize"
   ],
   "author": "wxzhang",
   "license": "MIT",

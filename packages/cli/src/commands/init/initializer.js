@@ -66,11 +66,12 @@ async function initializer(opts={}){
                 await copyFiles("**/*.*",langDir, {
                     cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : (moduleType=='cjs' ? moduleType : "esm")),
                     vars     : opts, 
-                    overwrite: (file)=>{
-                        return !file.endsWith("api.json")
-                    }
+                    overwrite: false
                 }) 
-                await copyFiles("**/*.*",path.join(langDir,"prompts"), { cwd: path.join(__dirname,"prompts") }) 
+                await copyFiles("**/*.*",path.join(langDir,"prompts"), { 
+                    cwd: path.join(__dirname,"prompts"),
+                    overwrite: false  
+                }) 
                 opts.languages.forEach(lng=>{
                     const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : "js"}`)
                     const msgContent = isTypeScript || moduleType === 'esm' ? `export default {}` : `module.exports = {}`

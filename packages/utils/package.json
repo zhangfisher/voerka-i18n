@@ -28,6 +28,13 @@
     },
     "author": "wxzhang",
     "license": "MIT",
+    "keywords": [
+        "voerkai18n",
+        "i18n",
+        "language",
+        "translation",
+        "internationalize"
+    ],
     "dependencies": {
         "@ast-grep/napi": "^0.33.1",
         "bcp47-language-tags": "^1.0.8",

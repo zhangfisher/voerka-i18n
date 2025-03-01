@@ -10,7 +10,14 @@
     "build": "tsup",
     "build:watch": "tsup --watch"
   },
-  "keywords": [],
+  "keywords": [
+      "voerkai18n",
+      "i18n",
+      "language",
+      "translation",
+      "internationalize",
+      "vue"
+  ],
   "author": "wxzhang",
   "license": "MIT",
   "peerDependencies": {

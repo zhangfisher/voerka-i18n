@@ -62,7 +62,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         // @ts-ignore
         delete globalThis.__VoerkaI18nScopes__
     }
-    getScope(id:string){
+    getScope(id:string | undefined | null){
         return this._scopes.find(scope=>scope.id===id)
     }
     private _loadPlugins(){

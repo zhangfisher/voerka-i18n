@@ -14,7 +14,7 @@ const messages = {
 
 
 export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({    
-    id: "react_0_0_0",                                  // 当前作用域的id
+    id: "nextjs_0_0_0",                                 // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器
