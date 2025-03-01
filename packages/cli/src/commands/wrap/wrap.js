@@ -1,6 +1,6 @@
 const { aiQuestion } = require('@voerkai18n/utils');
 const { t } = require("../../i18n");
-const glob = require("glob"); 
+const glob = require("fast-glob"); 
 const logsets = require("logsets");
 const path = require("node:path");
 const fs = require("node:fs");

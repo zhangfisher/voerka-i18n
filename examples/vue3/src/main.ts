@@ -1,5 +1,6 @@
 import { createApp,h } from 'vue'
 import './style.css'
+import "@voerkai18n/webcomponent"
 import App from './App.vue'
 import { i18nScope } from "./languages"
 import { router } from "./router"

@@ -257,6 +257,9 @@ importers:
       '@voerkai18n/vue':
         specifier: workspace:*
         version: link:../../packages/vue
+      '@voerkai18n/webcomponent':
+        specifier: workspace:*
+        version: link:../../packages/webcomponent
       lucide-vue-next:
         specifier: ^0.475.0
         version: 0.475.0(vue@3.5.13(typescript@5.7.3))

@@ -28,6 +28,7 @@
       </div>
       <p class="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
       <Translate message="全流程国际化解决方案" tag="div"/>
+      <v-translate message="全流程国际化解决方案"/>
       </p>
       <div class="mt-10 flex items-center justify-center gap-x-6">
         <button type="button" class="cursor-pointer	text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">

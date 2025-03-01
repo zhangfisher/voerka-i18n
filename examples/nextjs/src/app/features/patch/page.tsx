@@ -1,11 +1,15 @@
- 
 import { $Translate } from "@/components/$Translate";
 
-export default function Repos() {
+ 
+
+export default function Features() {
   return (
     <> 
     <div className="flex flex-row items-center justify-center gap-4 p-8 mt-18 ">       
-        <$Translate message="开源项目"/>
+        <div>
+          patch:
+          <$Translate message="特性"/>
+        </div>
     </div>
     </>
   );

@@ -15,7 +15,7 @@ is-t-component:
     - kind: jsx_element
   has:
     kind: identifier
-    regex: ^Translate$
+    regex: ^(Translate|v-translate)$
 is-message-attr:
   kind: jsx_attribute
   has:

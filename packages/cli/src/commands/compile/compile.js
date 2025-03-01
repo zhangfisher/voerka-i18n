@@ -1,7 +1,7 @@
 const { t } = require("../../i18n"); 
 const path = require("node:path");
 const logsets = require("logsets");
-const glob = require("glob"); 
+const glob = require("fast-glob"); 
 const { readFile,writeFile } = require("flex-tools/fs/nodefs");
 
 

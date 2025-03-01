@@ -1,4 +1,4 @@
-import { ServerTranslate } from "@/components/ServerTranslate";
+import { $Translate } from "@/components/$Translate";
 
  
 
@@ -7,7 +7,7 @@ export default function Features() {
     <> 
     <div className="flex flex-row items-center justify-center gap-4 p-8 mt-18 ">       
         <div>
-          <ServerTranslate message="特性"/>
+          <$Translate message="特性"/>
         </div>
     </div>
     </>

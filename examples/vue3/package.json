@@ -18,6 +18,7 @@
     "@voerkai18n/formatters": "workspace:*",
     "@voerkai18n/patch": "workspace:*",
     "@voerkai18n/runtime": "workspace:*",
+    "@voerkai18n/webcomponent": "workspace:*",
     "@voerkai18n/vue": "workspace:*",
     "lucide-vue-next": "^0.475.0",
     "shiki": "^3.0.0",

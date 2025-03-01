@@ -1,5 +1,5 @@
 const { t } = require("../../i18n");
-const glob = require("glob");
+const glob = require("fast-glob");
 const { extractMessages } = require("@voerkai18n/utils/extract")
 const logsets = require("logsets");
 const path = require("path");

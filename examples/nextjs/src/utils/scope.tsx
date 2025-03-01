@@ -78,40 +78,7 @@ export const scope = new I18nScope({
 }) 
 
 
-
-// let observered:boolean = false
-// function onMutationObserver(){
-//     'use client'
-//     if(observered)  return  
-//     if(!isBrowser()) return 
-//     const targetNode = document.body;
-
-//     // 配置观察选项
-//     const config = {
-//         childList: true, // 观察目标子节点的变化
-//         // subtree: true   // 观察整个子树
-//     };
-//     const self = scope
-//     // 当观察到变化时执行的回调函数
-//     const callback: MutationCallback= function(mutationsList, observer) {
-//         // 显示mutationsList
-//         for(const mutation of mutationsList) {
-//             if (mutation.type == 'childList') {
-//                 console.log(mutation.target.nodeName)
-//             }
-//         }
-//         scope._onChangeLanguage(scope.activeLangauge)
-//     };
-
-//     // 创建一个 MutationObserver 实例并传入回调函数
-//     const observer = new MutationObserver(callback);
-
-//     // 开始观察目标节点
-//     observer.observe(targetNode, config);
-//     observered = false
-// }
-
-// onMutationObserver()
+ 
 
 declare global {
     var I18n: I18nScope
