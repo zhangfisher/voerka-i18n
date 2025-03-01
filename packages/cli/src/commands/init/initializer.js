@@ -66,7 +66,9 @@ async function initializer(opts={}){
                 await copyFiles("**/*.*",langDir, {
                     cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : (moduleType=='cjs' ? moduleType : "esm")),
                     vars     : opts, 
-                    overwrite: false
+                    overwrite: file=>{
+                        return !file.endsWith(".json") 
+                    }
                 }) 
                 await copyFiles("**/*.*",path.join(langDir,"prompts"), { 
                     cwd: path.join(__dirname,"prompts"),
@@ -74,13 +76,13 @@ async function initializer(opts={}){
                 }) 
                 opts.languages.forEach(lng=>{
                     const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : "js"}`)
-                    const msgContent = isTypeScript || moduleType === 'esm' ? `export default {}` : `module.exports = {}`
+                    const msgContent = isTypeScript || moduleType === 'esm' ? "export default {}" : "module.exports = {}"
                     if(!fs.existsSync(msgFile)){
                         fs.writeFileSync(msgFile,msgContent)
                     }
                 })
                 addToGitIgnore([
-                    `${langRelDir}/api.json`,                    
+                    `${langRelDir}/api.json`, 
                     `${langRelDir}/translates/*.bak.*.json`,
                     "**/*.wrapped.*",
                 ])
