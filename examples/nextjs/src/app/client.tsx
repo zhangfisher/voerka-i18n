@@ -1,7 +1,7 @@
 'use client'
 
 import { Check } from "@/components/Check";
-import { Translate } from "@/components/Translate";
+import { Translate } from "@/languages/client";
 import { useVoerkaI18n } from "@/hooks/useVoerkaI18n"; 
 
  

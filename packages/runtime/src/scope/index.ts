@@ -33,8 +33,6 @@ import { LocalStorage } from "@/storage";
 import { isBrowser } from "@/utils/isBrowser";
 import { isMessageId } from "@/utils/isMessageId";
 
-
-
 export interface VoerkaI18nScopeOptions<TranslateComponent=any> {
     id?            : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
     debug?         : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
@@ -53,7 +51,7 @@ export interface VoerkaI18nScopeOptions<TranslateComponent=any> {
     namespaces?    : Record<string,string>                                   // 命名空间
     patterns?      : string[]                                                // 源文件匹配清单，使用fast-glob匹配文件
     component?     : VoerkaI18nTranslateComponentBuilder<TranslateComponent> // 翻译组件       
-    translate?     : ( props:VoerkaI18nTranslateProps )=>string     // 翻译函数
+    translate?     : ( props:VoerkaI18nTranslateProps )=>string              // 翻译函数
 } 
 
 export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(

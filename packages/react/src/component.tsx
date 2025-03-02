@@ -30,10 +30,11 @@
  * 
  */
 
-import React, { createElement,useState, useEffect, useCallback, useRef } from 'react';
-import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateProps, VoerkaI18nScope } from "@voerkai18n/runtime" 
- 
- 
+import React, { createElement,useState, useEffect, useCallback, useRef,ComponentType } from 'react';
+import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateProps, VoerkaI18nScope, VoerkaI18nTranslateComponentBuilder } from "@voerkai18n/runtime" 
+
+
+
 export type TranslateWrapperComponent =React.FC<React.PropsWithChildren<{
     message : string    
     language: string,
@@ -43,12 +44,14 @@ export type TranslateWrapperComponent =React.FC<React.PropsWithChildren<{
 
 export type CreateTranslateComponentOptions = {
     tagName?  : string
-    wrapper?: TranslateWrapperComponent
+    wrapper?  : TranslateWrapperComponent
 }
 
-export function createTranslateComponent(options?:CreateTranslateComponentOptions){    
+export type VoerkaI18nReactTranslateComponentBuilder = VoerkaI18nTranslateComponentBuilder<ComponentType<VoerkaI18nTranslateProps>>
+
+export function createTranslateComponent(options?:CreateTranslateComponentOptions):VoerkaI18nReactTranslateComponentBuilder{        
     
-    const { tagName,wrapper:Wrapper } = Object.assign({},options) as CreateTranslateComponentOptions
+    const { tagName, wrapper:Wrapper } = Object.assign({},options) as CreateTranslateComponentOptions
 
     return function(scope:VoerkaI18nScope){
         return (props:VoerkaI18nTranslateProps)=>{
@@ -84,6 +87,7 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
                 )
         } 
     }
+
 }
 
  

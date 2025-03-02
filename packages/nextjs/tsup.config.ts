@@ -13,7 +13,7 @@ export default defineConfig([{
     clean: true,
     treeshake:true,   
     minify: false,
-    noExternal:['flex-tools'],
+    noExternal:['flex-tools','@voerkai18n/react'],
     cjsInterop: false,
     banner: {
         js: `/***        

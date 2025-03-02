@@ -1,13 +1,13 @@
 
 import { Check } from "@/components/Check"; 
-import { $Translate } from "@/components/$Translate"; 
+import { Translate } from "@/languages/server";
  
 
 export default async function Server() {
   return (
     <div className="max-w-sm p-6 flex-col grow bg-white border border-gray-200 rounded-lg shadow-sm " >
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-600 text-center dark:text-white border-b-1 border-gray-200 pb-4 -mx-[24px]">
-        <$Translate message="服务端组件"/>
+        <Translate message="服务端组件"/>
       </h5>
       <div className="font-normal text-gray-700 dark:text-gray-400 py-4">
         <h2 className="mb-2 text-lg text-center font-semibold text-emerald-600 dark:text-white py-2">

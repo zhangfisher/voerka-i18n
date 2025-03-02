@@ -36,7 +36,7 @@ export type VoerkaI18nTranslateProps= {
     message  : VoerkaI18nToBeTranslatedMessage
     vars?    : VoerkaI18nTranslateVars
     default? : any
-    tag?     :string
+    tag?     : string
     options? : VoerkaI18nTranslateOptions    
 }
 

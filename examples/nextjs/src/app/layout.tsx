@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/NavBar";
 import "@/utils/scope"
-import { TranslateListener } from "@/components/TranslateListener";
+import { VoerkaI18nTranslateWatcher } from "@/languages/client";
 
 
 const geistSans = Geist({
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}  >
     <Navbar/>    
         {children}
-        <TranslateListener/>
+        <VoerkaI18nTranslateWatcher/>
       </body>
     </html>
   );

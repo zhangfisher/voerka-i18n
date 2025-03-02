@@ -438,6 +438,9 @@ importers:
 
   packages/nextjs:
     dependencies:
+      '@voerkai18n/react':
+        specifier: workspace:*
+        version: link:../react
       flex-tools:
         specifier: ^1.4.32
         version: 1.4.32
