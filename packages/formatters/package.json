@@ -68,13 +68,13 @@
   "author": "wxzhang",
   "license": "MIT",
   "dependencies": {
-    "flex-tools": "^1.4.32"
+    "flex-tools": "^1.4.33"
   },
   "devDependencies": {
-    "@types/node": "^22.13.2",
+    "@types/node": "^22.13.8",
     "@voerkai18n/runtime": "workspace:*",
-    "tsup": "^8.3.6",
-    "typescript": "^5.7.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2",
     "vitest": "^2.1.8"
   },
   "peerDependencies": {

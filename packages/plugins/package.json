@@ -131,21 +131,21 @@
     }
   },
   "dependencies": {
-    "unplugin": "^2.1.2",
-    "@voerkai18n/utils": "workspace:*"
+    "@voerkai18n/utils": "workspace:*",
+    "unplugin": "^2.1.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.2.0",
     "@nuxt/kit": "^3.15.4",
     "@nuxt/schema": "^3.15.4",
-    "@types/node": "^22.13.1",
+    "@types/node": "^22.13.8",
     "bumpp": "^10.0.2",
     "eslint": "^9.20.0",
     "nodemon": "^3.1.9",
     "rollup": "^4.34.6",
-    "tsup": "^8.3.6",
+    "tsup": "^8.4.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "vite": "^6.1.0",
     "vitest": "^3.0.5",
     "webpack": "^5.97.1"
