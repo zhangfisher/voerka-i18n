@@ -43,7 +43,7 @@ export function VoerkaI18nNextjsProvider(props: VoerkaI18nNextjsProviderProps){
         return ()=> { typeof(listener)==='object' && listener.off() }
     },[])
     
-    return <>
+    return (<>
         {  ready || (!ready && !fallback)? 
             (
                 <Suspense fallback={null}>
@@ -51,5 +51,5 @@ export function VoerkaI18nNextjsProvider(props: VoerkaI18nNextjsProviderProps){
                     {children}
                 </Suspense>
             ) : fallback }
-    </>  
+    </>)  
 }

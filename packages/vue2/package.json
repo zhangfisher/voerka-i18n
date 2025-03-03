@@ -11,12 +11,12 @@
     "build:watch": "tsup --watch"
   },
   "keywords": [
-      "voerkai18n",
-      "i18n",
-      "language",
-      "translation",
-      "internationalize",
-      "vue"
+    "voerkai18n",
+    "i18n",
+    "language",
+    "translation",
+    "internationalize",
+    "vue"
   ],
   "author": "wxzhang",
   "license": "MIT",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@voerkai18n/runtime": "workspace:^",
-    "tsup": "^6.7.0",
+    "tsup": "^8.3.6",
     "vue": "^2.7.0"
   },
   "dependencies": {

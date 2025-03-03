@@ -11,7 +11,7 @@
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "scripts": {
-        "release": "npm publish" 
+         
     },
     "keywords": [
         "voerkai18n",
@@ -23,7 +23,8 @@
     "author": "wxzhang",
     "license": "MIT",
     "devDependencies": {
-        "loader-runner": "^4.3.0"
+        "loader-runner": "^4.3.0",
+        "tsup": "8.3.6"
     },
     "dependencies": {
         "@voerkai18n/utils": "workspace:^"

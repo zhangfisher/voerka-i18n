@@ -40,10 +40,11 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.8",
+    "@types/react": "^19.0.10",
     "@voerkai18n/runtime": "workspace:*",
     "next": "15.0.0",
     "react": "^18.0.0",
-    "tsup": "^8.4.0",
+    "tsup": "^8.3.6",
     "typescript": "^5.8.2",
     "vitest": "^2.1.8"
   },

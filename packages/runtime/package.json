@@ -38,7 +38,7 @@
         "@vitest/coverage-v8": "^2.1.8",
         "bcp47-language-tags": "^1.0.1",
         "esbuild-analyzer": "^0.2.0",
-        "tsup": "^8.4.0",
+        "tsup": "^8.3.6",
         "typescript": "^5.8.2",
         "vitest": "^2.1.8"
     }
