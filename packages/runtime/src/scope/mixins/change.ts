@@ -41,12 +41,13 @@ export class ChangeLanguageMixin{
             if(e && e instanceof VoerkaI18nError){
                 const fallbackLanguage = this.getFallbackLanguage(language)
                 if(fallbackLanguage && fallbackLanguage!==language){
-                    finalLanguage = await this.refresh(fallbackLanguage,{patch,fallback:true})
+                    finalLanguage = await this.refresh(fallbackLanguage,{ patch,fallback:true })
                 }
             }
         }finally{
             if(!fallback){
                 this._activeLanguage = finalLanguage
+                if(typeof(this.messages[finalLanguage])==='function') this.messages[finalLanguage] = this._activeMessages
                 this._refreshSignal.resolve()
                 this._refreshSignal = undefined
                 await this.emit('scope/change',finalLanguage,true)

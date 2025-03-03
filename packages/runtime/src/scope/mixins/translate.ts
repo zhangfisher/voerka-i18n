@@ -81,7 +81,7 @@ export class TranslateMixin {
     private _getActiveMessages(this:VoerkaI18nScope,language:string):VoerkaI18nLanguageMessages{
         const messages = this.messages[language]         
         if(typeof messages === 'function') {
-            this.logger.warn("When the t function specifies the language parameter, only synchronized language packs can be used")
+            this.logger.warn(`When the t function specifies the language <${language}> , only synchronized language packs can be used`)
             return this.activeMessages 
         }
         return (this.messages as any)[language] as VoerkaI18nLanguageMessages

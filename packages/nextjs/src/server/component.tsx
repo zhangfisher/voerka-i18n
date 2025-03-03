@@ -1,5 +1,7 @@
 import { VoerkaI18nScope, VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
 import { createElement } from "react"
+import type { ReactTranslateComponentType } from "@voerkai18n/react"
+import { isNumber } from "flex-tools/typecheck/isNumber"
 
 export type createServerTranslateComponentOptions = {
     tagName?  : string 
@@ -11,17 +13,18 @@ export function createServerTranslateComponent(options?:createServerTranslateCom
         return async (props:VoerkaI18nTranslateProps & { message: string})=>{
             const { message, vars, options:tOptions } = props
             const scopeAttr = scope.library ? { 'data-scope': scope.$id } : {}
+            const msgId = isNumber(message) ? message : scope.options.idMap[message] || message
             return tagName ?
                     createElement(tagName,{
                         dangerouslySetInnerHTML: {__html:message},
                         className              : "vt-msg s" ,
-                        "data-id"              : props.message,
+                        "data-id"              : msgId,
                         ...scopeAttr
                     })
                     : (
                         <span 
                             className="vt-msg s" 
-                            data-id={props.message}
+                            data-id={msgId}
                             {...scopeAttr}
                
                         >{scope.t(message as string,vars,tOptions)}
@@ -31,3 +34,5 @@ export function createServerTranslateComponent(options?:createServerTranslateCom
     }
 }
   
+export type { ReactTranslateComponentType } from "@voerkai18n/react"
+export type ReactServerTranslateComponentType = ReactTranslateComponentType

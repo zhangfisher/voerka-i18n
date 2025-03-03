@@ -104,6 +104,6 @@
         }
     },
     "include":[
-        "src", "../formatters/src/number", "../formatters/src/datetime", "../formatters/src/currency", "../formatters/src/index.ts", "../formatters/src/utils/toCurrency.ts",
+        "src", "../formatters/src/number", "../formatters/src/datetime", "../formatters/src/currency", "../formatters/src/index.ts", "../formatters/src/utils/toCurrency.ts", "../react/src/provider.tsx",
     ]
 }

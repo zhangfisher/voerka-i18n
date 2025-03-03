@@ -30,28 +30,20 @@
  * 
  */
 
-import React, { createElement,useState, useEffect, useCallback, useRef,ComponentType } from 'react';
-import type { VoerkaI18nTranslateVars, VoerkaI18nTranslateProps, VoerkaI18nScope, VoerkaI18nTranslateComponentBuilder } from "@voerkai18n/runtime" 
+import { createElement,useState, useEffect, useCallback, useRef,ComponentType } from 'react';
+import type { VoerkaI18nTranslateProps, VoerkaI18nScope, VoerkaI18nTranslateComponentBuilder } from "@voerkai18n/runtime" 
 
-
-
-export type TranslateWrapperComponent =React.FC<React.PropsWithChildren<{
-    message : string    
-    language: string,
-    vars?   : VoerkaI18nTranslateVars 
-    options?: Record<string,any>
-}>>  
-
+ 
 export type CreateTranslateComponentOptions = {
     tagName?  : string
-    wrapper?  : TranslateWrapperComponent
+    attrs?    : Record<string,string>
 }
 
 export type VoerkaI18nReactTranslateComponentBuilder = VoerkaI18nTranslateComponentBuilder<ComponentType<VoerkaI18nTranslateProps>>
 
 export function createTranslateComponent(options?:CreateTranslateComponentOptions):VoerkaI18nReactTranslateComponentBuilder{        
     
-    const { tagName, wrapper:Wrapper } = Object.assign({},options) as CreateTranslateComponentOptions
+    const { tagName,attrs={} } = Object.assign({},options) as CreateTranslateComponentOptions
 
     return function(scope:VoerkaI18nScope){
         return (props:VoerkaI18nTranslateProps)=>{
@@ -79,10 +71,11 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
                 return ()=>listener.off()
             },[]) 
             
-            return Wrapper ? 
-                <Wrapper message={result} vars={vars} language={ scope.activeLanguage } options={tOptions} />
-                : (tagName ?
-                    createElement(tagName,{dangerouslySetInnerHTML:{__html:result}})
+            return (tagName ?
+                    createElement(tagName,{
+                        dangerouslySetInnerHTML:{__html:result},
+                        ...attrs
+                    })
                     : <>{result}</>
                 )
         } 
@@ -91,3 +84,5 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
 }
 
  
+
+export type ReactTranslateComponentType = ComponentType<VoerkaI18nTranslateProps>

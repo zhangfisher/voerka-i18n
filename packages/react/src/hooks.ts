@@ -7,7 +7,7 @@ export function useVoerkaI18n(scope?:VoerkaI18nScope) {
     if (!manager || !curScope) {
         throw new Error('VoerkaI18n is not defined');
     }
-    const [activeLanguage,setActiveLanguage ] = useState(curScope.activeLanguage);
+    const [ activeLanguage, setActiveLanguage ] = useState(curScope.activeLanguage);
     const isFirst = useRef(true)
     
     useEffect(() => {
@@ -25,10 +25,12 @@ export function useVoerkaI18n(scope?:VoerkaI18nScope) {
 
 
     return {
-        activeLanguage,
+        scope          : curScope,
+        manager ,
+        activeLanguage, 
         defaultLanguage: curScope.defaultLanguage,
         languages      : curScope.languages,
-        changeLanguage : curScope.change,
+        changeLanguage : curScope.change.bind(curScope),
         t              : curScope.t
     };
 } 

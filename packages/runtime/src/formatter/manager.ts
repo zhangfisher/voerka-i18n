@@ -48,7 +48,10 @@ export class VoerkaI18nFormatterManager{
             this.scope.interpolator.addFilter(filter)
             // 如果是全局格式化器，则注册到全局scope(即appCcope)里面
             if(filter.global){
-                this.scope.manager.scope.formatters.register(filter)
+                const appScope = this.scope.manager.scope
+                if(appScope.id !== this.scope.id){
+                    appScope.formatters.register(filter)
+                }                
             }
         }catch(e:any){
             this.scope.logger.error(`fail while register formatter<${filter.name}>：${e.stack}`)

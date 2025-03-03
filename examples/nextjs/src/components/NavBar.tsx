@@ -12,8 +12,7 @@ export function Navbar() {
         </div>
         <span className="flex flex-row justify-center space-x-3 grow text-center ">
             <Link href="/">首页</Link>
-            <Link href="/features">特性</Link>
-            <Link href="/features/patch">特性-Patch</Link>
+            <Link href="/features">特性</Link> 
             <Link href="/repos">开源推荐</Link>
         </span>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">

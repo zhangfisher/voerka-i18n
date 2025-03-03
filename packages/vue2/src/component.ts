@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import type { VoerkaI18nScope, VoerkaI18nTranslateComponentBuilder, VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
- 
+import type { Component } from 'vue';
+
 
 export type CreateTranslateComponentOptions = {
   default?: string
@@ -9,7 +10,7 @@ export type CreateTranslateComponentOptions = {
   style?:string
 }
 
- 
+export type VueTranslateComponentType = Component<any,any,any,VoerkaI18nTranslateProps>  
 
 export function createTranslateComponent<ComponentType=any>(options?: CreateTranslateComponentOptions) {
     const { tagName } = Object.assign({

@@ -1,7 +1,7 @@
 import type {  VoerkaI18nScope } from "../scope"
 import type { VoerkaI18nLanguageDefine, VoerkaI18nEvents, VoerkaI18nPlugin }  from "../types"
 import { LiteEvent } from "flex-tools/events/liteEvent" 
-import { execAsyncs, isBrowser, isI18nScope } from "../utils"  
+import { execAsyncs, isI18nScope } from "../utils"  
  
 /** 
  * 多语言管理类
@@ -36,7 +36,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         this._loadPlugins()
         VoerkaI18nManager.instance = this                               // 加载初始格式化器   
         // @ts-ignore
-        globalThis.VoerkaI18n = this     
+        globalThis.VoerkaI18n = this   
     }
     get debug(){return this.scope.debug }  
     get logger(){ return this.scope.logger! }                            // 日志记录器                        
@@ -86,7 +86,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
     private _registerAppScope(scope:VoerkaI18nScope){ 
         this._scopes.push(scope)
         this._appScope = scope
-        this.logger.debug("注册应用I18nScope: "+scope.id)                        
+        this.logger.debug("VoerkaI18nScope<"+scope.id+"> is registered as appScope")
         this.emitAsync("init",()=>{ 
             return this._appScope.activeLanguage
         },true)
@@ -101,10 +101,10 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
      * @param {*} scope 
      */
     register(scope:VoerkaI18nScope){ 
-        if(!isI18nScope(scope)) throw new Error("注册的作用域必须是VoerkaI18nScope的实例")
+        if(!isI18nScope(scope)) throw new Error("register scope failed, invalid scope")
         this._scopes.push(scope)     
         scope.bind(this)            
-        this.logger.debug(`VoerkaI18nScope<${scope.id}>已注册`)
+        this.logger.debug(`VoerkaI18nScope<${scope.id}> is registered`)
     }    
     /**
      *  切换语言
@@ -114,7 +114,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
         const activeLanguage = this._appScope.activeLanguage                                 
         this.scope.saveLanguage()                    // 保存语言配置到存储器        
         this.emit("change",activeLanguage,true)     
-        this.logger.info("语言已切换为："+ activeLanguage)
+        this.logger.info("language changed to: "+activeLanguage)
         return activeLanguage
     } 
      /**

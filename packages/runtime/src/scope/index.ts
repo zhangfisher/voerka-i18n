@@ -24,8 +24,7 @@ import { isI18nManger } from "@/utils/isI18nManger"
 import { LanguageMixin } from "./mixins/language"
 import { TranslateMixin } from "./mixins/translate"
 import { RestoreMixin } from "./mixins/restore";
-import { InterpolatorMixin } from "./mixins/interpolator";
-import { VoerkaI18nOnlyOneAppScopeError } from "@/errors";
+import { InterpolatorMixin } from "./mixins/interpolator"; 
 import { isFunction } from "flex-tools/typecheck/isFunction" 
 import { assignObject } from "flex-tools/object/assignObject"
 import { VoerkaI18nManager } from "../manager"
@@ -48,6 +47,7 @@ export interface VoerkaI18nScopeOptions<TranslateComponent=any> {
     sorageKey?     : string                                                  // 保存到Storeage时的Key
     loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包 
     cachePatch?    : boolean                                                 // 是否缓存补丁语言包    
+    injectLangAttr?: boolean | string                                        // 是否注入到html元素上注入一个langauge属性指向当前活动语言
     namespaces?    : Record<string,string>                                   // 命名空间
     patterns?      : string[]                                                // 源文件匹配清单，使用fast-glob匹配文件
     component?     : VoerkaI18nTranslateComponentBuilder<TranslateComponent> // 翻译组件       
@@ -85,6 +85,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
             id             : getId(),                       // 作用域唯一id
             library        : false,                         // 当使用在库中时应该置为true
             debug          : false,                         // 是否开启调试模式，开启后会输出调试信息
+            injectLangAttr : true,                          // 是否注入一个langauge属性到body元素，或者指定元素选择器
             languages      : [],                            // 当前作用域支持的语言列表
             messages       : {},                            // 所有语言包={[language]:VoerkaI18nLanguageMessages}
             idMap          : {},                            // 消息id映射列表
@@ -101,7 +102,6 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     get debug(){return this._options.debug }                                    // 是否开启调试模式
     get library(){return this._options.library }                                // 是否是库
     get formatters() {	return this._formatterManager! }                        // 格式化器管理器
-    get activeMessages() { return this._activeMessages;}                        // 当前语言包
     get defaultLanguage() { return this._defaultLanguage }                      // 默认语言名称    
     get defaultMessages() { return this.messages[this.defaultLanguage];}        // 默认语言包    
 	get messages() { return this._options.messages;	}                           // 所有语言包	
@@ -113,7 +113,8 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     get logger(){ return this._logger!}                                         // 日志记录器
     get t():VoerkaI18nTranslate{ return this.translate.bind(this) as VoerkaI18nTranslate}
     get Translate():TranslateComponent { return this._getTranslateComponent()!  }
-    
+    get activeMessages() { return this._activeMessages;}                        // 当前语言包 
+
     /**
      * 激活语言名称： 以appScope为准    
      */
@@ -138,10 +139,10 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     private _initOptions(){
         // 1. 检测语言配置列表是否有效
         if(!Array.isArray(this.languages)){
-            this.logger.warn("无效的语言配置，将使用默认语言配置")
+            this.logger.warn("[VoerkaI18n] invalid language settings, will use default language settings.")
             this._options.languages = Object.assign([],DefaultLanguageSettings)
-        }else if(this.languages.length==0){
-            throw new Error("[VoerkaI18n] 未提供语言配置")            
+        }else if(this.languages.length==0){      
+            throw new Error("[VoerkaI18n] must provide valid language settings.")
         }
         // 2.为语言配置默认回退语言，并且提取默认语言和活动语言
         let activeLang: string, defaultLang: string
@@ -154,7 +155,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         if (!(defaultLang! in lanMessages)) defaultLang = Object.keys(lanMessages)[0]
         if (!(activeLang! in lanMessages)) activeLang = defaultLang!
         if (!(defaultLang! in lanMessages)) {
-            throw new Error("[VoerkaI18n] 无效的语言配置，必须提供有效的默认语言和活动语言.")
+            throw new Error("[VoerkaI18n] invalid language configuration, must provide valid default and active languages.")
         } 
         this._activeLanguage  = activeLang!
         this._defaultLanguage = defaultLang!
@@ -165,7 +166,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         // 初始化时，默认和激活的语言包只能是静态语言包，不能是动态语言包
         // 因为初始化时激活语言需要马上显示，如果是异步语言包，会导致显示延迟
         if(isFunction(this.messages[this._defaultLanguage])){
-            throw new Error("[VoerkaI18n] 默认语言包必须是静态内容,不能使用异步加载的方式.")
+            throw new Error("[VoerkaI18n] default language pack must be static content, can't use async load way.")
         }
         this._activeMessages = this.messages[this._activeLanguage] as VoerkaI18nLanguageMessages
     } 
@@ -178,15 +179,14 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         this._logger = createLogger(this._options.log)
         // 处理初始化参数
         this._initOptions()
-
         // appScope需要从应用中恢复保存的
         if(!this.library) this.restoreLanguage()
         // 初始化格式化器
         this._initInterpolators()        
+        // 将当前实例注册到全局单例VoerkaI18nManager中
+		this.registerToManager()               
         // 初始化格式化器
         this._formatterManager = new VoerkaI18nFormatterManager(this)       
-        // 将当前实例注册到全局单例VoerkaI18nManager中
-		this.registerToManager()       
     } 
     /**
      * 
@@ -212,7 +212,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     private _initRefresh(getInitLanguage?:()=>string){
         if(this.library){
             this.refresh(getInitLanguage && getInitLanguage())
-        }else{ // app 
+        }else{  
             const tasks:any[]=[]
             if(this._defaultLanguage !== this._activeLanguage || isFunction(this.activeMessages)){
                 tasks.push(this.refresh(undefined,{ patch:false }))                
@@ -234,7 +234,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         const isAppScope = !this.options.library 
         if(isAppScope){
             if(globalThis.VoerkaI18n && globalThis.VoerkaI18n.scope){
-                throw new VoerkaI18nOnlyOneAppScopeError("应用只能有一个library=false的i18nScope")
+               console.warn("Only can have one i18nScope with library=false")
             }
             this._manager = new VoerkaI18nManager(this)            
         }
@@ -264,11 +264,15 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     /**
      * 检查当前环境是是否是在浏览器环境中，如果是，则在body上添加language=<activeLanguage>属性
      */
-    protected _setLanguageAttr(){        
-        if(this.library) return
-        if(!isBrowser()) return
+    protected _setLanguageAttr(){       
+        if(this.library || !isBrowser()) return
         try{
-            document.body.setAttribute("language",this.activeLanguage)
+            const injectLangAttr = this._options.injectLangAttr
+            if(!injectLangAttr) return
+            const ele = injectLangAttr===true ? document.body : document.body.querySelector(injectLangAttr as string)
+            if(ele){
+                ele.setAttribute("language",this.activeLanguage)
+            }            
         }catch{}
     }
     /**

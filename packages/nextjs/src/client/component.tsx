@@ -6,4 +6,6 @@ import { createTranslateComponent,CreateTranslateComponentOptions } from "@voerk
 export type createClientTranslateComponentOptions =  CreateTranslateComponentOptions
 export const createClientTranslateComponent = createTranslateComponent
 
+export * from "@voerkai18n/react"
+
 

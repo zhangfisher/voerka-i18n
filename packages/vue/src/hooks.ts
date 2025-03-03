@@ -23,6 +23,8 @@ export function useVoerkaI18n(scope?:VoerkaI18nScope) {
     onUnmounted(() => listener && listener.off()); 
 
     return {
+        manager,
+        scope:curScope,
         activeLanguage,
         defaultLanguage: curScope.defaultLanguage,
         languages      : curScope.languages,

@@ -1,12 +1,7 @@
-import { defineComponent, h, ref, watch, onMounted, onUnmounted } from 'vue'
-import type { VoerkaI18nTranslateVars, VoerkaI18nScope, VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
+import { defineComponent, h, ref, watch, onMounted, onUnmounted, Component  } from 'vue'
+import type { VoerkaI18nScope, VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
 
-export type TranslateWrapperComponent = {
-    message : string
-    language: string
-    vars?   : VoerkaI18nTranslateVars
-    options?: Record<string, any>
-}
+ 
 
 export type CreateTranslateComponentOptions = {
     default?: string
@@ -14,8 +9,10 @@ export type CreateTranslateComponentOptions = {
     class?  : string
     style?  : string
 }
+
+export type VueTranslateComponentType = Component<VoerkaI18nTranslateProps>
  
-export function createTranslateComponent(options?: CreateTranslateComponentOptions) {
+export function createTranslateComponent(options?: CreateTranslateComponentOptions){
     const { default: defaultMessage = '',  tagName, class:className = 'vt-msg' ,style } = Object.assign({ },options)
 
     return function(scope:VoerkaI18nScope){

@@ -1,6 +1,4 @@
-import { defineConfig } from 'tsup' 
-import copyFiles from "esbuild-plugin-copy"
-
+import { defineConfig } from 'tsup'  
 
 export default defineConfig([
     {
@@ -20,27 +18,5 @@ export default defineConfig([
             *   https://zhangfisher.github.io/voerka-i18n
             */`
         }
-    },
-    {
-        entry: [
-            'src/postinstall/index.ts'
-        ],
-        outDir: 'dist/postinstall',
-        format: ['esm','cjs'],
-        dts: true,
-        splitting: false,
-        sourcemap: true,
-        clean: true,
-        treeshake:true,  
-        minify: true, 
-        esbuildPlugins: [
-            // @ts-ignore
-            copyFiles({
-                assets:{
-                    from:"./src/postinstall/templates/*.*",
-                    to:'./templates'
-                }
-            })
-        ]
     }
 ]) 
