@@ -9,7 +9,7 @@ import { ExtractMessagesOptions, ExtractSection, MessageNode } from './types'
 import Schemas from "./schemas"
 import astExtractor from './extractors/ast'
 import regexExtractor from './extractors/regex'
-import { getFileNamespace } from '../'
+import { getFileNamespace } from '..'
  
 
 function extractSessionCode(code:string,extractArg:ExtractSection['extract'] ):string[]{
@@ -75,7 +75,7 @@ export function extractMessagesUseRegex(code:string,options:ExtractMessagesOptio
     const namespace = file ? getFileNamespace(file, namespaces) :'default'
 
     const messages = parseTranslateMessagesByRegex(code)
-    return messages.map(message=>({        
+    return messages.map((message:any)=>({        
         vars:undefined,
         options:undefined,
         namespace,

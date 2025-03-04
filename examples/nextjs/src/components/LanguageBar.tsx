@@ -1,6 +1,5 @@
 'use client'
 import classnames from "classnames"
-import "@/utils/scope"
 import { useVoerkaI18n } from "@voerkai18n/nextjs/client";
 
 

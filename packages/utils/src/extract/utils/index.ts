@@ -1,3 +1,3 @@
 export * from "./getMatchs";
-export * from "./parseTranslateMessage";
+export * from "./parseMessage";
 export * from "./loadAstConfig"

@@ -7,7 +7,7 @@
 import { parse, Lang, SgNode, Range } from '@ast-grep/napi' 
 import { MessageNode, ExtractorOptions  } from '../types'
 import { getFileNamespace } from '../../getFileNamespace';
-import { parseTranslateMessages } from '../utils/parseTranslateMessage'; 
+import { parseTranslateMessages } from '../utils/parseMessage'; 
 import { trimChars } from '../../trimChars';
 
 
@@ -22,7 +22,7 @@ function getMessageRange(range:Range,options:ExtractorOptions){
 
 export function extractSectionMessages(node:SgNode,options:ExtractorOptions){
     const { namespaces,file } = options
-    const namespace = file ? getFileNamespace(file, namespaces) :'default'
+    const namespace = file ? getFileNamespace(file, namespaces) : 'default'
     const msgNode = node.getMatch("MESSAGE")!   
     const results:any = [] 
     if(msgNode){  
@@ -46,7 +46,7 @@ export function extractSectionMessages(node:SgNode,options:ExtractorOptions){
         }
         if(text){
             const messages = parseTranslateMessages(text)
-            messages.forEach(message=>{
+            messages.forEach((message:any)=>{
                 results.push({
                     message,
                     ...nodeCtx
