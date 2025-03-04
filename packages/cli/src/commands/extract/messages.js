@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("node:fs");
 const {readFile, writeFile } = require('flex-tools/fs/nodefs'); 
 const glob = require("fast-glob");
+const { getDefaultLanguage } = require("./utils");
 
 
 let messageIds = []
@@ -43,14 +44,18 @@ function getNextId(){
 }
 
 
-function getDefaultLanguage(languages){
-    return languages.find(lng=>lng.default) || languages[0]
-}
 
 /**
  * 生成要翻译的文本内容
  * {
- *    message:{ }
+ *    名称空间:{
+ *      message:{
+ *         $id:1,
+ *         $files:["文件名(行号)"],
+ *         [lanauge.name]:   "message",
+ * 
+ *      }
+ *    }
  * }
  * @param {*} messages 
  * @returns 

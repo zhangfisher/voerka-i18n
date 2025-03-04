@@ -45,7 +45,6 @@ export type ParagraphNode = {
     scope?     : string
     options?   : string
     rang     : { start: string, end: string }
-    namespace?: string
     file?     : string
 }
 
@@ -68,12 +67,10 @@ export function extractParagraphs(code:string,options?:ExtractParagraphsOptions)
  
     const  opts   = Object.assign({
         extractor : 'ast',
-        language  : 'ts', 
-        namespaces: {}
+        language  : 'ts' 
     },options) as Required<ExtractParagraphsOptions> 
 
-    const { file,namespaces }  = opts   
-    const namespace = file ? getFileNamespace(file, namespaces) :'default'
+    const { file,namespaces }  = opts    
 
     const translatesAst = parse(Lang.Html,code)        
     const nodes = translatesAst.root().findAll({
@@ -91,8 +88,7 @@ export function extractParagraphs(code:string,options?:ExtractParagraphsOptions)
         attrs.rang = {
             start: `${range.start.line}:${range.start.column}`,
             end  : `${range.end.line}:${range.end.column}`
-        }
-        attrs.namespace = namespace
+        } 
         attrs.file = file
 
         if(attrs.message){

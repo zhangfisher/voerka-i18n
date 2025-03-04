@@ -2,10 +2,11 @@ const { t } = require("../../i18n");
 const glob = require("fast-glob");
 const { extractMessages } = require("@voerkai18n/utils/extract");
 const logsets = require("logsets");
-const path = require("path");
-const fs = require("node:fs");
-const { readFile, writeFile } = require("flex-tools/fs/nodefs");
+const path = require("path"); 
+const { readFile } = require("flex-tools/fs/nodefs");
 const { getProjectContext } = require("@voerkai18n/utils");
+const { updateMessages, formatMessages } = require("./messages");
+const { extractParagraphs } = require("packages/utils/src/extract");
 
 /**
  *
@@ -46,7 +47,8 @@ async function scanSourceFiles(ctx) {
     absolute: true,
   });
 
-  const results = [];
+  const messages = [];
+  const paragraphs = [];
 
   let msgCount = 0, paragraphCount = 0;
 
@@ -62,24 +64,30 @@ async function scanSourceFiles(ctx) {
 
 
       // 提取文本
-      const messages = await extractMessages(code, {
+      const msgs = await extractMessages(code, {
         namespaces: ctx.namespaces,
         file      : file,
         language  : codeLang || "ts",
         extractor : ctx.regex ? "regex" : "ast",
       });
+      if (msgs && msgs.length > 0)  messages.push(...msgs);
+
       // 提取段落
 
-      if (messages && messages.length > 0) {
-        results.push(...messages);
-      }
+      const pghs = await extractParagraphs(code, {
+        file      : file,
+        namespaces: ctx.namespaces,
+      }) 
+      if (pghs && pghs.length > 0)  paragraphs.push(...pghs);
 
-      if (messages.length === 0) {
+
+      if (msgs.length === 0 && pghs.length === 0) {
         tasks.skip();
       } else {
-        tasks.complete([t("发现{}条文本"), messages.length]);
+        tasks.complete([ t("发现{}文本, {}段落"), msgs.length, pghs.length ]);
       }
-      msgCount += messages.length;
+
+      msgCount += msgs.length;
     } catch (e) {
       tasks.error(e);
     }
@@ -91,7 +99,7 @@ async function scanSourceFiles(ctx) {
   );
   tasks.addMemo(t("共提取{}个文本"), msgCount);
   tasks.addMemo(t("共提取{}个段落"), paragraphCount);
-  return results;
+  return [ messages, paragraphs ]
 }
 
 
@@ -104,11 +112,14 @@ async function extractor(options) {
   await getMessageIds(ctx);
 
   // 1. 提取文本
-  const messages = await scanSourceFiles(ctx);
-  // 2. 格式化文本
+  const [ messages, paragraphs ] = await scanSourceFiles(ctx);
+  // 2. 将提取到的文本进行预处理：按名称空间分组
   const formattedMessages = formatMessages(messages, ctx);
   // 3. 保存文本
   await updateMessages(formattedMessages, ctx);
+
+  // 4. 保存段落
+  await updateParagraphs(paragraphs, ctx);
 
   tasks.addGroup(t("下一步："));
   tasks.addMemo(t("翻译{}文件"), "translates/messages/*.json");
