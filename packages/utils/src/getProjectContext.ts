@@ -6,22 +6,24 @@ import { getPackageModuleType } from "flex-tools/package/getPackageModuleType"
 import { isTypeScriptPackage } from "flex-tools/package/isTypeScriptPackage"
 import { readFile } from "flex-tools/fs/nodefs"
 import path from "node:path"
-import fs from "node:fs" 
-import { getLanguageDomains } from "./getLanguageDomains"
+import fs from "node:fs"  
 
 export type VoerkaI18nProjectContext= VoerkaI18nSettings & { 
-    rootDir         : string
-    langDir         : string    
-    langRelDir      : string
-    domains         : Record<string,string>
-    settingFile     : string
-    settingRelFile  : string
-    typescript      : boolean
-    moduleType      : "esm" | "cjs" | undefined
-    promptDir       : string 
-    getPrompt       : (name:string)=>Promise<string>
-    getApi          : (name:string,defaultValue?:Record<string,any>)=>Record<string,any> | undefined
-    api             : Record<string,any> | undefined
+    rootDir                  : string
+    langDir                  : string    
+    langRelDir               : string
+    settingFile              : string
+    settingRelFile           : string
+    typescript               : boolean
+    moduleType               : "esm" | "cjs" | undefined
+    promptDir                : string 
+    getTranslateMessagesDir  : (autoCreate?:boolean)=>string
+    getTranslateParagraphsDir: (autoCreate?:boolean)=>string
+    getMessagesDir           : (autoCreate?:boolean)=>string
+    getParagraphsDir         : (autoCreate?:boolean)=>string
+    getPrompt                : (name:string)=>Promise<string>
+    getApi                   : (name:string,defaultValue?:Record<string,any>)=>Record<string,any> | undefined
+    api                      : Record<string,any> | undefined
 }
 
 
@@ -99,7 +101,18 @@ function getApiParams(this:VoerkaI18nProjectContext,options?:Record<string,any>)
         return api
     }
 }
+ 
 
+function getDir(this:VoerkaI18nProjectContext,location:string){
+    return (autoCreate:boolean=true)=>{
+        const dir =  path.join(this.langDir,location)
+        if(autoCreate && !fs.existsSync(dir)){            
+            fs.mkdirSync(dir,{recursive:true})
+        }
+        return dir
+    }
+    
+} 
 /**
  * 
  * @param options 
@@ -114,9 +127,12 @@ export async function getProjectContext(options?:Record<string,any>) {
     ctx.settingRelFile = path.relative(process.cwd(),ctx.settingFile).replace(/\\/g,'/')
     ctx.promptDir      = path.join(ctx.langDir,"prompts")
     ctx.getPrompt      = getPromptTemplate.bind(ctx) 
-    ctx.patterns       = getDefaultPatterns.call(ctx,options)
-    ctx.getApi         = getApi.bind(ctx)
-    ctx.domains        = getLanguageDomains(ctx.langDir)
+    ctx.patterns       = getDefaultPatterns.call(ctx,options)    
+    ctx.getApi         = getApi.bind(ctx) 
+    ctx.getTranslateMessagesDir = getDir.call(ctx,"translates/messages").bind(ctx)
+    ctx.getTranslateParagraphsDir = getDir.call(ctx,"translates/paragraphs").bind(ctx)
+    ctx.getMessagesDir = getDir.call(ctx,"messages").bind(ctx)
+    ctx.getParagraphsDir = getDir.call(ctx,"paragraphs").bind(ctx)
     if(!ctx.typescript) ctx.typescript = isTypeScriptPackage()
     if(!ctx.moduleType) ctx.moduleType = getPackageModuleType()    
     Object.assign(ctx,options)

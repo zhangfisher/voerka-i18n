@@ -4,15 +4,15 @@ import formatters from "@voerkai18n/formatters"
 import idMap from "./idMap.json"
 import { component,type TranslateComponentType } from "./component"
 import settings from "./settings.json"
-import defaultMessages from "./zh-CN"  
+import defaultMessages from "./messages/zh-CN"  
 
  
 
 const messages = { 
     'zh-CN'    : defaultMessages,
-    'en-US'    : ()=>import("./en-US"),
-    'ru-RU'    : ()=>import("./ru-RU"),
-    'ja-JP'    : ()=>import("./ja-JP"),
+    'en-US'    : ()=>import("./messages/en-US"),
+    'ru-RU'    : ()=>import("./messages/ru-RU"),
+    'ja-JP'    : ()=>import("./messages/ja-JP"),
 }
 
 
