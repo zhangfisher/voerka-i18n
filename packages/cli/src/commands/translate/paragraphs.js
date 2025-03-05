@@ -4,7 +4,7 @@ const glob = require("fast-glob")
 const { t } = require("../../i18n");
 const { writeFile } = require('flex-tools/fs/nodefs');
 const htmlParser = require("node-html-parser")
-const { translateMultiLineMessage } = require("./translate");
+const { translateParagraph } = require("./translate");
 const { getDir } = require("@voerkai18n/utils");
 
 async function translateFileParagraphs(file){
@@ -30,11 +30,10 @@ async function translateFileParagraphs(file){
             }
             
             if(langParagraphEle.getAttribute("done")) continue
-
-            const messages = langParagraphEle.innerHTML
-            const [msgs,count] = await translateMultiLineMessage.call(this,messages.split("\n"),defaultLanguage,lng.name)
-            if(count>0){
-                langParagraphEle.innerHTML = msgs
+ 
+            const translated = await translateParagraph.call(this, langParagraphEle.innerHTML,defaultLanguage,lng.name)
+            if(translated){
+                langParagraphEle.innerHTML = translated
                 langParagraphEle.setAttribute("done",true)
                 task.complete()                    
             }else{
@@ -44,17 +43,33 @@ async function translateFileParagraphs(file){
             const targetDir = getDir(path.join(this.langDir,"paragraphs",lng.name))
             const exportCode = isTypeScript || moduleType=='esm' ? 'export default ' : 'module.exports = '
             const output = `${exportCode}\`${paragraphDoc.innerHTML}\``
+
             await writeFile(path.join(targetDir,path.basename(file),codeFileExtName),output)
 
         }catch(e){
             task.error(e)
         }
     } 
-
-    await writeFile(file,paragraphDoc.innerHTML)
-
 }
 
+
+async function outputLanguageParagraphsIndex(files){
+    const { typescript:isTypeScript,moduleType } = this
+
+    const codeFileExtName = isTypeScript ? ".ts" : ".js"    
+    for(let lng of lngs ){
+        const indexFile = path.join(this.langDir,"paragraphs",lng.name,`index.${codeFileExtName}`)
+        const exportCode = isTypeScript || moduleType=='esm' ? 'export default ' : 'module.exports = '
+        const output = []
+        for(let file of files){
+            const paragraphId = path.basename(file,path.extname(file))
+            output.push(isTypeScript || moduleType=='esm' ?
+                `'${paragraphId}' : () => import('./${paragraphId}')`
+                : `'${paragraphId}' : () => require('./${paragraphId}')`)
+        }
+        await writeFile(indexFile,`${exportCode}{\n${output.join(",\n")}\n}`)
+    }
+}
 
 
 /**
@@ -77,8 +92,10 @@ async function translateParagraphs(){
         const relFile= path.relative(process.cwd(),file)        
         tasks.addGroup(t("翻译{}"),relFile)            
         await translateFileParagraphs.call(file)        
-    }   
-    
+    }    
+
+    await outputLanguageParagraphsIndex.call(this,files) 
+
 }
 
 module.exports = {

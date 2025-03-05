@@ -22,8 +22,9 @@ function getTranslateProvider(){
     
 } 
  
-async function sendToTranslate(messages={},from,to){
+async function sendToTranslate(messages={},from,to,options){
     let { qps=0 } = this
+    const { strictLine } = options 
     const texts = Object.keys(messages)
     const lineCount = texts.length
     if(lineCount===0) return;
@@ -32,7 +33,7 @@ async function sendToTranslate(messages={},from,to){
     let translatedMessages
     try{
         translatedMessages = await provider.translate.call(this,texts,from,to,this)
-        if(lineCount!==translatedMessages.length){
+        if(strictLine && lineCount!==translatedMessages.length){
             throw new Error(t("翻译后的内容与原始内容行数不一致"))
         }
     }catch(e){
@@ -44,7 +45,12 @@ async function sendToTranslate(messages={},from,to){
     return messages
 }
 
-
+function getTranslateOptions(options){
+    return Object.assign({
+        strictLine: true,
+        promptFile: undefined
+    },options)
+}
 /**
  * 翻译多条单行文本
  * @param {*} to 
@@ -63,12 +69,30 @@ async function translateSingleLineMessage(messages={},from="zh",to="en"){
 /**
  * 翻译多行文本
  * @param {*} messages 
- * @param {*} ctx 
- * @returns 
+ * @param {*} from
+ * @param {*} to
+ * @param {Object} options  {
+ *      strictLine: false,  // 严格按行翻译
+ *     qps: 0,             // 每秒请求次数
+ *  }
+  * @returns 
  */
-async function translateMultiLineMessage(messages={},from,to){
-    const translatedMessages = await sendToTranslate.call(this,messages,from,to)
+async function translateMultiLineMessage(messages={},from,to,options){
+    const translatedMessages = await sendToTranslate.call(this,messages,from,to,getTranslateOptions(options))
     return translatedMessages.join("\n")
+}
+
+
+
+async function translateParagraph(paragraph, from,to,options){
+    const provider = getTranslateProvider.call(this)
+    let translatedParagraphs = [paragraph]
+    try{
+        translatedParagraphs = await provider.translate.call(this,[paragraph],from,to,this) 
+    }catch(e){
+        throw new Error(e.message)
+    } 
+    return translatedParagraphs.join("\n")
 }
 
 /**
@@ -138,5 +162,6 @@ async function startTranslate(messages,from,to){
 module.exports = {
     startTranslate,
     translateMultiLineMessage,
-    translateSingleLineMessage
+    translateSingleLineMessage,
+    translateParagraph
 }
