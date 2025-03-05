@@ -1,12 +1,12 @@
 const { t } = require("../../i18n");
 const glob = require("fast-glob");
-const { extractMessages } = require("@voerkai18n/utils/extract");
+const { extractMessages, extractParagraphs } = require("@voerkai18n/utils/extract");
 const logsets = require("logsets");
 const path = require("path"); 
 const { readFile } = require("flex-tools/fs/nodefs");
 const { getProjectContext } = require("@voerkai18n/utils");
-const { updateMessages, formatMessages } = require("./messages");
-const { extractParagraphs } = require("packages/utils/src/extract");
+const { updateMessages, formatMessages, getMessageIds } = require("./messages");
+const { updateParagraphs } = require("./paragraphs")
 
 /**
  *
@@ -75,11 +75,9 @@ async function scanSourceFiles(ctx) {
       // 提取段落
 
       const pghs = await extractParagraphs(code, {
-        file      : file,
-        namespaces: ctx.namespaces,
+        file      : file 
       }) 
       if (pghs && pghs.length > 0)  paragraphs.push(...pghs);
-
 
       if (msgs.length === 0 && pghs.length === 0) {
         tasks.skip();
@@ -88,6 +86,7 @@ async function scanSourceFiles(ctx) {
       }
 
       msgCount += msgs.length;
+      paragraphCount += pghs.length;
     } catch (e) {
       tasks.error(e);
     }

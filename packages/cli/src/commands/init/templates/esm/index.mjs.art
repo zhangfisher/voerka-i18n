@@ -1,15 +1,15 @@
 import { VoerkaI18nScope } from "@voerkai18n/runtime"
 import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
-import idMap from "./idMap.json"
+import idMap from "./messages/idMap.json"
 import { component } from "./component"
 import settings from "./settings.json"
-import defaultMessages from "./{{defaultLanguage}}"  
-{{if activeLanguage !== defaultLanguage}}import activeMessages from "./{{activeLanguage}}"{{/if}}
+import defaultMessages from "./messages/{{defaultLanguage}}"  
+{{if activeLanguage !== defaultLanguage}}import activeMessages from "./messages/{{activeLanguage}}"{{/if}}
  
 
 const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
-    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>import("./{{$value.name}}.mjs"),{{/if}}
+    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>import("./messages/{{$value.name}}.mjs"),{{/if}}
 {{/each}}}
 
 

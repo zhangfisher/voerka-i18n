@@ -25,7 +25,7 @@
 import { ref } from 'vue'
 import Trans from "./Trans"
 import Patch from './Patch'
-import { t,Translate } from "../languages"
+import { t,Translate } from "../languages.bak"
 
 const active = ref(0)
 const features = [

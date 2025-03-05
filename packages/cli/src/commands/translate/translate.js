@@ -1,22 +1,20 @@
-const fs = require("node:fs")
-const logsets = require("logsets") 
+ 
+
+const fs = require("node:fs") 
 const path = require("node:path")
 const { deepMerge }  = require("flex-tools/object/deepmerge")
-const { delay } = require("flex-tools/async/delay")
-const glob = require("fast-glob")
-const { t } = require("../../i18n");
-const { getBackupFile } = require("@voerkai18n/utils")
-const { writeFile } = require('flex-tools/fs/nodefs');
+const { delay } = require("flex-tools/async/delay") 
+const { t } = require("../../i18n"); 
 
 
-function getTranslateProvider(ctx={}){
-    const  { provider } = ctx;
+function getTranslateProvider(){
+    const  { provider } = this;
     const providerFile = path.join(__dirname,`${provider}.provider.js`)
     try{
         if(fs.existsSync(providerFile)){
-            return require(providerFile)(ctx.api)
+            return require(providerFile)(this.api)
         }else{
-            return require(provider)(ctx)
+            return require(provider)(this)
         }        
     }catch(e){
         throw new Error(t("加载翻译提供者{}失败: {}").params([provider,e.message]))
@@ -24,16 +22,16 @@ function getTranslateProvider(ctx={}){
     
 } 
  
-async function startTranslate(messages={},from,to,ctx={}){
-    let { qps=1 } = ctx
+async function sendToTranslate(messages={},from,to){
+    let { qps=0 } = this
     const texts = Object.keys(messages)
     const lineCount = texts.length
     if(lineCount===0) return;
-    const provider = getTranslateProvider(ctx)
-    await delay(1000/qps)
+    const provider = getTranslateProvider.call(this)
+    if(qps>0) await delay(1000/qps)
     let translatedMessages
     try{
-        translatedMessages = await provider.translate(texts,from,to,ctx)
+        translatedMessages = await provider.translate.call(this,texts,from,to,this)
         if(lineCount!==translatedMessages.length){
             throw new Error(t("翻译后的内容与原始内容行数不一致"))
         }
@@ -54,8 +52,8 @@ async function startTranslate(messages={},from,to,ctx={}){
  * @param {*} options 
  * @returns 
  */
-async function translateSingleLineMessage(messages={},from="zh",to="en",ctx={}){
-    const translatedMessages = await startTranslate(messages,from,to,ctx)
+async function translateSingleLineMessage(messages={},from="zh",to="en"){
+    const translatedMessages = await sendToTranslate.call(this,messages,from,to)
     Object.keys(messages).forEach((key)=>{
         messages[key][to] = translatedMessages[key][to]
     })
@@ -68,8 +66,8 @@ async function translateSingleLineMessage(messages={},from="zh",to="en",ctx={}){
  * @param {*} ctx 
  * @returns 
  */
-async function translateMultiLineMessage(messages={},from,to,ctx={}){
-    const translatedMessages = await startTranslate(messages,from,to,ctx)
+async function translateMultiLineMessage(messages={},from,to){
+    const translatedMessages = await sendToTranslate.call(this,messages,from,to)
     return translatedMessages.join("\n")
 }
 
@@ -88,8 +86,9 @@ function isMessageUpdated(message,lngMessage){
  * @param {*} options 
  * @returns 
  */
-async function translateLanguage(messages,from,to,ctx,task){
-    const { maxPackageSize,mode } = ctx;
+async function startTranslate(messages,from,to){
+    const ctx = this
+    const { maxPackageSize,mode,task } = this;
     const result = messages                // 保存翻译结果    
     const msgCount = Object.keys(messages).length    
     const items  = Object.entries(messages)
@@ -116,11 +115,9 @@ async function translateLanguage(messages,from,to,ctx,task){
             if(i<msgCount-1) continue
         }else{
             if(!(message in result)) result[message] = {}
-
-
             // 由于百度翻译按\n来分行翻译，如果有\n则会出现多行翻译的情况。因此，如果有\n则就不将多条文件合并翻译
             if(message.includes("\n") && needTranslate){
-                result[message][to] = await translateMultiLineMessage(message.split("\n"),from,to,ctx)
+                result[message][to] = await translateMultiLineMessage.call(this,message.split("\n"),from,to)
             }else if(needTranslate){            
                 translatedMessages[message]={[to]:langMessage}
                 packageSize += message.length        
@@ -129,7 +126,7 @@ async function translateLanguage(messages,from,to,ctx,task){
         }
         // 多个信息合并进行翻译，减少请求次数
         if(packageSize>=maxPackageSize || i==msgCount-1){
-            await translateSingleLineMessage(translatedMessages,from,to,ctx)
+            await translateSingleLineMessage.call(this,translatedMessages,from,to)
             deepMerge(result,translatedMessages)
             packageSize        = 0
             translatedMessages = {}
@@ -138,84 +135,8 @@ async function translateLanguage(messages,from,to,ctx,task){
     return [result,translatedCount]
 }
 
-/**
- * 
- * @param {string} file
- * @param {import("@voerkai18n/utils").VoerkaI18nProjectContext} ctx
- * 
- */
-async function translateFile(file,ctx,tasks){
-    const { defaultLanguage,languages,language } = ctx
-    const messages = require(file)    
- 
-    // texts = {text:{zh:"",en:"",...,jp:""}}
-    let results = {}
-    const lngs = language ? [{name:language}] : languages
-    for(let lng of lngs ){
-        if(lng.name === defaultLanguage) continue
-        let task
-        try{
-            task = tasks.add(t("翻译 {} -> {}"),[defaultLanguage,lng.name])
-            const [msgs,count] = await translateLanguage(messages,defaultLanguage,lng.name,ctx,task)
-            if(count>0){
-                results = deepMerge(results,msgs)
-                task.complete(`${count}/${Object.keys(messages).length}`)
-            }else{
-                task.skip()
-            }
-        }catch(e){
-            task.error(e)
-        }
-    }
-
-    if(Object.keys(results).length>0){        
-        backupFile(file)                // 备份原始文件        
-        await writeFile(file,JSON.stringify(results,null,4))
-    }
-
-} 
-
-
-function backupFile(file){
-    const bakFile = getBackupFile(file)
-    fs.copyFileSync(file,bakFile)
-} 
-
-
-/**
- * @param {import("@voerkai18n/utils").VoerkaI18nProjectContext} ctx
- */
-async function translate(ctx) {
-    const { langDir } = ctx 
-
-    const tasks = logsets.tasklist({ width:80,grouped:true}) 
-
-    tasks.addGroup(t("准备翻译"))
-    tasks.addMemo(t("翻译模式：{}"),ctx.mode)
-    tasks.addMemo(t("语言目录：{}"),langDir)
-    tasks.addMemo(t("翻译服务：{}"),ctx.provider)
-    tasks.addMemo(t("翻译速度：{}"),ctx.qps)
-    tasks.addMemo(t("翻译语言：{}"),ctx.language ? ctx.language : ctx.languages.map(lng=>lng.name).join(", "))
-    tasks.addMemo(t("请求数据包限制: {}" ),ctx.maxPackageSize)
-
-
-    const translateDir = path.join(langDir,"translates")
-
-    const files = await glob(["*.json","!*.bak.*.json"],{
-        cwd     : translateDir,
-        absolute: true
-    })
-
-    tasks.addMemo(t("文件数量: {}"),files.length)
-    
-    for(let file of files){
-        const relFile= path.relative(process.cwd(),file)        
-        tasks.addGroup(t("翻译{}"),relFile)            
-        await translateFile(file,ctx,tasks)        
-    }   
-    tasks.done()
-}
-
 module.exports = {
-    translate
+    startTranslate,
+    translateMultiLineMessage,
+    translateSingleLineMessage
 }

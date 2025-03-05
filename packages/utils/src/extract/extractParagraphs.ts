@@ -1,5 +1,5 @@
 import { getFileNamespace } from '../getFileNamespace'
-import { trimChars } from '../trimChars'
+import { trimChars } from '../trimChars';
 import { parse, Lang, SgNode } from '@ast-grep/napi' 
 
  
@@ -70,7 +70,7 @@ export function extractParagraphs(code:string,options?:ExtractParagraphsOptions)
         language  : 'ts' 
     },options) as Required<ExtractParagraphsOptions> 
 
-    const { file,namespaces }  = opts    
+    const { file }  = opts    
 
     const translatesAst = parse(Lang.Html,code)        
     const nodes = translatesAst.root().findAll({
@@ -101,6 +101,7 @@ export function extractParagraphs(code:string,options?:ExtractParagraphsOptions)
         }
 
         const message = node.children().slice(1,-1).map(n=>n.text()).join("\n").trim()
+
         if(message.length>0){
             attrs.message=message
             paragraphs.push(attrs as any)

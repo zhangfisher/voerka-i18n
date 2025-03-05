@@ -114,7 +114,7 @@
 </template>
 <script setup>
 import { Edit, CircleX, SquareCheckBig, ClipboardCheck, Square, ClipboardPlus, ListTodo, LayoutList, ListChecks, Trash2 } from "lucide-vue-next";
-import { t, Translate } from "../languages"
+import { t, Translate } from "../languages.bak"
 
 const tasks = [
     { 

@@ -1,8 +1,9 @@
 const { MixCommand } = require("mixcli");
-const { t } = require("../../i18n");
-const { translate } = require("./translate");
+const { t } = require("../../i18n"); 
 const logsets = require("logsets");
 const { getProjectContext } = require("@voerkai18n/utils");
+const { translateMessages } = require("./messages");
+const { translateParagraphs } = require("./paragraphs");
 
 
 /**
@@ -24,7 +25,7 @@ module.exports = () => {
         .option('--api-model <name>', t('AI模型名称'))
         .option('--api-key <key>', t('API密钥'))
         .option('--api <name>', t('API服务名称,声明在languages/api.json中'),{default:"baidu"})
-        .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), {default:1})  
+        .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), {default:0})  
         .option('--prompt <value>', t('languages/prompts文件夹中的提示文件名称'),{default:"translate"})  
         .action(async (options) => {          
             const ctx = await getProjectContext(options);   
@@ -34,7 +35,24 @@ module.exports = () => {
                 logsets.log(t("- 在{}文件中配置翻译API服务参数,详见文档"),"languages/api.json");                
                 return
             }
-            await translate(ctx);
+            const { langDir } = ctx 
+            const tasks = logsets.tasklist({ width:80,grouped:true}) 
+            ctx.tasks = tasks
+            tasks.addGroup(t("准备翻译"))
+            tasks.addMemo(t("翻译模式：{}"),ctx.mode)
+            tasks.addMemo(t("语言目录：{}"),langDir)
+            tasks.addMemo(t("翻译服务：{}"),ctx.provider)
+            tasks.addMemo(t("翻译速度：{}"),ctx.qps)
+            tasks.addMemo(t("翻译语言：{}"),ctx.language ? ctx.language : ctx.languages.map(lng=>lng.name).join(", "))
+            tasks.addMemo(t("请求数据包限制: {}" ),ctx.maxPackageSize)
+        
+            await translateMessages.call(ctx)
+            
+            //  翻译段落时,将maxPackageSize设置为0,以便每个段落都是一个请求            
+            ctx.maxPackageSize = 0 
+            await translateParagraphs.call(ctx)
+        
+            tasks.done()
         });
     return translateCommand;
 };

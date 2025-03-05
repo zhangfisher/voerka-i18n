@@ -1,15 +1,15 @@
 const { VoerkaI18nScope } = require("@voerkai18n/runtime")
 const storage = require("./storage")
 const formatters = require("@voerkai18n/formatters")
-const idMap = require("./idMap.json")
+const idMap = require("./messages/idMap.json")
 const { component } = require("./component")
 const settings = require("./settings.json")
-const defaultMessages = require("./{{defaultLanguage}}")
-{{if activeLanguage !== defaultLanguage}}const activeMessages = require("./{{activeLanguage}}"){{/if}}
+const defaultMessages = require("./messages/{{defaultLanguage}}")
+{{if activeLanguage !== defaultLanguage}}const activeMessages = require("./messages/{{activeLanguage}}"){{/if}}
  
 
 const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
-    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>require("./{{$value.name}}.js"),{{/if}}
+    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>require("./messages/{{$value.name}}.js"),{{/if}}
 {{/each}}}
 
 

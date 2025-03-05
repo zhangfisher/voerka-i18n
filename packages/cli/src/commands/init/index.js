@@ -2,7 +2,6 @@ const { MixCommand } = require("mixcli");
 const { t } = require("../../i18n");
 const { getLanguageDir } = require("@voerkai18n/utils")
 const { isTypeScriptPackage } = require("flex-tools/package/isTypeScriptPackage");
-const { getPackageRootPath } = require("flex-tools/package/getPackageRootPath");
 const { getBcp47LanguageApi,getProjectContext } = require("@voerkai18n/utils");
 
 const initializer = require("./initializer");

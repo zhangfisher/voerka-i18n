@@ -8,7 +8,9 @@ import type {
     VoerkaI18nLanguageLoader,
     VoerkaI18nTranslate, 
     VoerkaI18nTranslateComponentBuilder,
-    VoerkaI18nTranslateProps
+    VoerkaI18nTranslateProps,
+    VoerkaI18nParagraphs,
+    VoerkaI18nLanguageParagraphs
 } from "@/types" 
 import { DefaultLanguageSettings } from '../consts';
 import { Mixin } from "ts-mixer"
@@ -39,6 +41,7 @@ export interface VoerkaI18nScopeOptions<TranslateComponent=any> {
     languages      : VoerkaI18nLanguageDefine[]                              // 当前作用域支持的语言列表
     fallback?      : string                                                  // 默认回退语言
     messages       : VoerkaI18nLanguageMessagePack                           // 当前语言包
+    paragraphs     : VoerkaI18nParagraphs                                    // 段落
     idMap?         : Voerkai18nIdMap                                         // 消息id映射列表
     storage?       : IVoerkaI18nStorage                                      // 语言包存储器
     formatters?    : VoerkaI18nFormatters                                    // 当前作用域的格式化
@@ -74,7 +77,10 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     protected _activeMessages     : VoerkaI18nLanguageMessages = {}                     // 当前语言包
     protected _patchedMessages    : VoerkaI18nLanguagePack = {}                         // 补丁语言包
     protected _translateComponent?: TranslateComponent
+    protected _activeParagraphs   : VoerkaI18nLanguageParagraphs = {}                   // 当前段落
+
     $id:number = ++VoerkaI18nScope.idSeq
+
     /**
      * 
      * @param options  
@@ -105,6 +111,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     get defaultLanguage() { return this._defaultLanguage }                      // 默认语言名称    
     get defaultMessages() { return this.messages[this.defaultLanguage];}        // 默认语言包    
 	get messages() { return this._options.messages;	}                           // 所有语言包	
+    get paragraphs() { return this._options.paragraphs;}                        // 段落
 	get idMap() { return this._options.idMap;}                                  // 消息id映射列表	
 	get languages() { return this._options.languages;}                          // 当前作用域支持的语言列表[{name,title,fallback}]	
 	get manager() {	return this._manager;}                                      // 引用全局VoerkaI18n配置，注册后自动引用    
@@ -114,6 +121,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     get t():VoerkaI18nTranslate{ return this.translate.bind(this) as VoerkaI18nTranslate}
     get Translate():TranslateComponent { return this._getTranslateComponent()!  }
     get activeMessages() { return this._activeMessages;}                        // 当前语言包 
+    get activeParagraphs() { return this._activeParagraphs;}                    // 当前段落
 
     /**
      * 激活语言名称： 以appScope为准    
@@ -168,7 +176,8 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         if(isFunction(this.messages[this._defaultLanguage])){
             throw new Error("[VoerkaI18n] default language pack must be static content, can't use async load way.")
         }
-        this._activeMessages = this.messages[this._activeLanguage] as VoerkaI18nLanguageMessages
+        this._activeMessages   = this.messages[this._activeLanguage] as VoerkaI18nLanguageMessages
+        this._activeParagraphs = this.paragraphs[this._activeLanguage] as VoerkaI18nLanguageParagraphs
     } 
     /**
      * 对输入的语言配置进行处理

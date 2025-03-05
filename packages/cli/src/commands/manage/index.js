@@ -8,12 +8,12 @@ const logsets = require("logsets");
  */
 module.exports = () => {
 
-    const uiCommand = new MixCommand("ui");  
-    uiCommand
+    const manageCommand = new MixCommand("manage");  
+    manageCommand
         .description(t("管理控制台"))
         .action(async () => {
             console.log("TODO!")
         });
-    return uiCommand
+    return manageCommand
 
 };

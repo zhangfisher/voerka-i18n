@@ -9,7 +9,7 @@
 const path = require("node:path");
 const fs = require("node:fs");
 const logsets = require("logsets");
-const { getBcp47LanguageApi,addToGitIgnore } = require("@voerkai18n/utils");
+const { getBcp47LanguageApi,addToGitIgnore,getDir } = require("@voerkai18n/utils");
 const { getPackageJson } = require("flex-tools/package/getPackageJson");
 const { t } = require("../../i18n"); 
 const { copyFiles } = require("flex-tools/fs/copyFiles")
@@ -49,11 +49,49 @@ function getDefaultScopeId(){
     } 
 
 }
+
+function createParagraphsDir(opts){    
+
+    const  { languages,langDir,typescript:isTypeScript } = opts
+    const codeFileExtName = isTypeScript ? "ts" : 'js'
+    const paragraphsDir = getDir(path.join(langDir,"paragraphs"))      
+
+    const langEsmImports = languages.reduce((acc,lng)=>{
+        acc.push(`\t'${lng.name}': () => import("./${lng.name}")`)
+        return acc
+    },[]).join(",\n")
+    const langCjsImports = languages.reduce((acc,lng)=>{
+        acc.push(`\t'${lng.name}' : () => require("./${lng.name}")`)
+        return acc
+    },[]).join(",\n")
+    const paragraphsCode = isTypeScript || moduleType === 'esm' ? 
+        `export default {\n${langEsmImports}\n}` 
+        : `module.exports =  ${langCjsImports}`
+
+    fs.writeFileSync(path.join(paragraphsDir,`index.${codeFileExtName}`),paragraphsCode)
+    return paragraphsDir
+}
+
+function createMessagesDir(opts){    
+    const  { languages,langDir,typescript:isTypeScript } = opts
+    const codeFileExtName = isTypeScript ? "ts" : 'js'
+    const messagesDir = getDir(path.join(langDir,"messages"))      
+
+    languages.forEach(lng=>{ // 生成信息文件       
+        const msgFile    = path.join(messagesDir,`${lng.name}.${codeFileExtName}`)
+        const msgContent = isTypeScript || moduleType === 'esm' ? "export default {}" : "module.exports = {}"
+        if(!fs.existsSync(msgFile)){
+            fs.writeFileSync(msgFile,msgContent)
+        }  
+    })
+    return messagesDir
+}
+
 async function initializer(opts={}){
  
     formatLanguages(opts)
 
-    const { langDir,langRelDir,library, settingRelFile, moduleType, typescript:isTypeScript } =  opts
+    const { langDir,langRelDir,library, settingRelFile, moduleType, typescript:isTypeScript } =  opts 
 
     const tasks = logsets.createTasks([
         {
@@ -67,23 +105,21 @@ async function initializer(opts={}){
                     cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : (moduleType=='cjs' ? moduleType : "esm")),
                     vars     : opts, 
                     overwrite: file=>{
-                        return !file.endsWith(".json") && !file.endsWith("idMap.json")
+                        return !file.endsWith(".json") && !file.endsWith("idMap.json") 
                     }
                 }) 
+
                 await copyFiles("**/*.*",path.join(langDir,"prompts"), { 
                     cwd: path.join(__dirname,"prompts"),
                     overwrite: false  
                 }) 
-                opts.languages.forEach(lng=>{
-                    const msgFile    = path.join(langDir,`${lng.name}.${isTypeScript ? "ts" : "js"}`)
-                    const msgContent = isTypeScript || moduleType === 'esm' ? "export default {}" : "module.exports = {}"
-                    if(!fs.existsSync(msgFile)){
-                        fs.writeFileSync(msgFile,msgContent)
-                    }
-                })
+
+                createParagraphsDir(opts) 
+                createMessagesDir(opts) 
+
                 addToGitIgnore([
                     `${langRelDir}/api.json`, 
-                    `${langRelDir}/translates/*.bak.*.json`,
+                    `${langRelDir}/translates/*/*.bak.*.json`,
                     "**/*.wrapped.*",
                 ])
             }

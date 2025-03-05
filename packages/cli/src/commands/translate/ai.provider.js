@@ -53,7 +53,7 @@ module.exports = function(params){
                 model,
                 apiKey
             }) 
-            return trimAll(result).split("\n")  
+            return trimAll(result).replaceAll("\\n","\n").split("\n")  
         }
     }
 }

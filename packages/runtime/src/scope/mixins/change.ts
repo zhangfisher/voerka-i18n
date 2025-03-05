@@ -48,6 +48,7 @@ export class ChangeLanguageMixin{
             if(!fallback){
                 this._activeLanguage = finalLanguage
                 if(typeof(this.messages[finalLanguage])==='function') this.messages[finalLanguage] = this._activeMessages
+                this._activeParagraphs = this._activeParagraphs[finalLanguage]
                 this._refreshSignal.resolve()
                 this._refreshSignal = undefined
                 await this.emit('scope/change',finalLanguage,true)

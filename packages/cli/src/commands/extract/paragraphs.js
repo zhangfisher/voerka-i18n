@@ -1,58 +1,55 @@
 const { t } = require("../../i18n");
-const glob = require("fast-glob");
-const { extractMessages } = require("@voerkai18n/utils/extract");
-const logsets = require("logsets");
-const path = require("path"); 
-const { readFile } = require("flex-tools/fs/nodefs");
-const { getDefaultLanguage } = require("./utils");
+const fs = require("node:fs");
+const path = require("node:path"); 
+const { readFile, writeFile } = require("flex-tools/fs/nodefs");
+const htmlParser = require("node-html-parser");
+const { indentString } = require("@voerkai18n/utils")
+ 
 
-/**
- * 生成要翻译的文本内容
- * {
- *    message:{ }
- * }
- * @param {*} messages 
- * @returns 
- */
-function formatParagraphs(paragraphs,ctx){
-    const languages = ctx.languages.map(lng=>lng.name)
-    const defaultLanguage = getDefaultLanguage(languages)
-    const defaultMessageRecord =(text)=>languages.reduce((acc,lng)=>{
-        if(lng!=defaultLanguage) acc[lng] = text
-        return acc
-    },{})
-    return messages.reduce((results,record)=>{        
-        const message = record.message
-        if(!results[record.namespace]){
-            results[record.namespace] = {}
+
+async function overwriteParagraph(paragraph){    
+    const ctx = this
+    const { languages,paragraphFile } = ctx
+    const results = []
+    results.push(`<div class="paragraph" id="${paragraph.id}" scope="${paragraph.scope}" file="${paragraph.file}" rang="${paragraph.rang.start}-${paragraph.rang.end}" />`)    
+    languages.forEach(lng=>{
+        results.push(`<div language="${lng.name}">\n${paragraph.message}\n</div>`)
+    })
+    await writeFile(paragraphFile,results.join('\n'))
+}
+
+
+async function syncParagraph(paragraph){    
+    const ctx = this 
+    const { languages,paragraphFile } = ctx
+
+    const oldParagraph = fs.existsSync(paragraphFile) ? await readFile(paragraphFile) : ''
+    const oldParagraphObj = htmlParser.parse(oldParagraph,{comment:true})
+    // 如果没有注释，添加注释
+    if(!/<!--[\s\S]*?id:[\s\S]*?scope:[\s\S]*?[\s\S]*?-->/gm.test(oldParagraphObj.innerHTML)){
+        oldParagraphObj.prepend(indentString(`<!-- 
+            id:    ${paragraph.id || ''} 
+            scope: ${paragraph.scope || ''} 
+            file:  ${path.relative(process.cwd(),paragraph.file)} 
+            rang:  ${paragraph.rang.start}-${paragraph.rang.end} 
+        -->\n`,8))
+    }    
+
+    languages.forEach(lng=>{
+        const paragraphNode = oldParagraphObj.querySelector(`div[language="${lng.name}"]`)
+        if(paragraphNode){  // 已经存在             
+            // done代表已经翻译过了
+            const isDone = paragraphNode.getAttribute('done') 
+            if(paragraphNode.innerHTML != paragraph.message || isDone) return            
+            paragraphNode.innerHTML = "\n"+paragraph.message+"\n"
+        }else{                    // 不存在
+            oldParagraphObj.appendChild(`\n<div language="${lng.name}">\n${paragraph.message}\n</div>`)
         }
-        const messageRecord = message in results[record.namespace] ? results[record.namespace][message] : defaultMessageRecord(message) 
-        if(!messageRecord.$files) messageRecord.$files = []
-        const relFile = path.relative(process.cwd(),record.file).replaceAll("\\","/")
-        messageRecord.$files.push(`${relFile}(${record.rang.start}-${record.rang.end})`)
-        messageRecord.$id = getNextId()
-        results[record.namespace][record.message] = messageRecord
-        return results
-    },{})
-}
+    })
+    await writeFile(paragraphFile,oldParagraphObj.innerHTML)
 
-
-
-async function overwriteParagraphs(newParagraphs){    
-    const ctx = this
-    for(let newParagraph of Object.values(newParagraphs)){
-        newMessage.$id = getNextId()
-    }
-    await writeFile(namespaceFile,JSON.stringify(newMessages,null,4))
-}
-
-
-async function syncParagraphs(paragraphs){    
-    const ctx = this
 }
 /**
- * 
- * 
  * 
  *     type ParagraphNode = {
  *         id?        : string
@@ -67,16 +64,19 @@ async function syncParagraphs(paragraphs){
  */
 async function updateParagraphs(paragraphs,ctx){    
     const mode = ctx.mode || 'sync' 
-
     for(let paragraph of paragraphs){
         const paragraphFile = path.join(ctx.getTranslateParagraphsDir(),`${paragraph.id}.html`)
+        ctx.paragraphFile = paragraphFile
         const isExisted = fs.existsSync(paragraphFile)
         if(isExisted && mode === 'overwrite') {
-            await overwriteMessages.call(ctx,paragraphs)
+            await overwriteParagraph.call(ctx,paragraph)
         }else{
-            await syncParagraphs.call(ctx,paragraphs)
+            await syncParagraph.call(ctx,paragraph)
         }
     }
 }
 
+module.exports = {
+    updateParagraphs 
+}
 

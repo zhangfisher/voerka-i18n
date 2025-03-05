@@ -57,7 +57,7 @@
 <script setup>
 
 import { ref, onMounted,onUnmounted } from 'vue'; 
-import { i18nScope, Translate,t } from '../languages';
+import { i18nScope, Translate,t } from '../languages.bak';
 import { useVoerkaI18n } from '@voerkai18n/vue';
    
 const { activeLanguage,languages } =  useVoerkaI18n()

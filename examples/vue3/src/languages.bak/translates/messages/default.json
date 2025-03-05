@@ -1,0 +1,650 @@
+{
+    "用心开源，精良制作": {
+        "en-US": "Heartfelt Open Source, Exquisite Production",
+        "ja-JP": "心を込めてオープンソース化し、精良に制作",
+        "$files": [
+            "src/components/Footer.vue(T4:30-T4:39)"
+        ],
+        "$id": 78
+    },
+    "关于": {
+        "en-US": "About",
+        "ja-JP": "概要",
+        "$files": [
+            "src/components/Footer.vue(T9:34-T9:36)"
+        ],
+        "$id": 79
+    },
+    "联系我们": {
+        "en-US": "Contact Us",
+        "ja-JP": "お問い合わせ",
+        "$files": [
+            "src/components/Footer.vue(T14:34-T14:38)"
+        ],
+        "$id": 80
+    },
+    "常见问题": {
+        "en-US": "FAQ",
+        "ja-JP": "よくある質問",
+        "$files": [
+            "src/components/Footer.vue(T19:34-T19:38)"
+        ],
+        "$id": 81
+    },
+    "开源推荐": {
+        "en-US": "Open Source Recommendations",
+        "ja-JP": "オープンソース推薦",
+        "$files": [
+            "src/components/Footer.vue(T24:34-T24:38)"
+        ],
+        "$id": 82
+    },
+    "版权所有 © 2021-2022": {
+        "en-US": "All rights reserved © 2021-2022",
+        "ja-JP": "すべての権利予約 © 2021-2022",
+        "$files": [
+            "src/components/Footer.vue(T29:30-T29:46)"
+        ],
+        "$id": 83
+    },
+    "首页": {
+        "en-US": "Home",
+        "ja-JP": "ホーム",
+        "$files": [
+            "src/components/Navbar.vue(T26:38-T26:40)"
+        ],
+        "$id": 74
+    },
+    "特性": {
+        "en-US": "Features",
+        "ja-JP": "特徴",
+        "$files": [
+            "src/components/Navbar.vue(T33:38-T33:40)"
+        ],
+        "$id": 222
+    },
+    "任务": {
+        "en-US": "Tasks",
+        "ja-JP": "タスク",
+        "$files": [
+            "src/components/Navbar.vue(T40:38-T40:40)"
+        ],
+        "$id": 75
+    },
+    "开源项目": {
+        "en-US": "Open Source Projects",
+        "ja-JP": "オープンソースプロジェクト",
+        "$files": [
+            "src/components/Navbar.vue(T47:38-T47:42)"
+        ],
+        "$id": 76
+    },
+    "翻译组件": {
+        "en-US": "Translation Component",
+        "ja-JP": "翻訳コンポーネント",
+        "$files": [
+            "src/Features/index.vue(S8:14-S8:20)",
+            "src/Features/index.vue(S8:14-S8:20)",
+            "src/Features/Trans.vue(T4:36-T4:40)"
+        ],
+        "$id": 223
+    },
+    "语言补丁": {
+        "en-US": "Language patches",
+        "ja-JP": "言語パッチ",
+        "$files": [
+            "src/Features/index.vue(S9:14-S9:20)",
+            "src/Features/index.vue(S9:14-S9:20)",
+            "src/Features/Patch.vue(T2:27-T2:31)",
+            "src/Home/Features.vue(S49:12-S49:18)",
+            "src/Home/Features.vue(S49:12-S49:18)"
+        ],
+        "$id": 94
+    },
+    "输出:": {
+        "en-US": "Output:",
+        "ja-JP": "出力:",
+        "$files": [
+            "src/Features/Trans.vue(T9:40-T9:43)",
+            "src/Features/Trans.vue(T25:40-T25:43)",
+            "src/Features/Trans.vue(T41:40-T41:43)"
+        ],
+        "$id": 224
+    },
+    "My name is {}": {
+        "en-US": "My name is {}",
+        "ja-JP": "My name is {}",
+        "$files": [
+            "src/Features/Trans.vue(T12:40-T12:53)"
+        ],
+        "$id": 272
+    },
+    "异步翻译组件": {
+        "en-US": "Async Translation Component",
+        "ja-JP": "非同期翻訳コンポーネント",
+        "$files": [
+            "src/Features/Trans.vue(T20:36-T20:42)"
+        ],
+        "$id": 225
+    },
+    "异步翻译组件-加载出错": {
+        "en-US": "Async Translation Component - Load Error",
+        "ja-JP": "非同期翻訳コンポーネント-読み込みエラー",
+        "$files": [
+            "src/Features/Trans.vue(T36:36-T36:47)"
+        ],
+        "$id": 226
+    },
+    "加载中...": {
+        "en-US": "Loading...",
+        "ja-JP": "読み込み中...",
+        "$files": [
+            "src/Features/Trans.vue(T44:92-T44:114)"
+        ],
+        "$id": 227
+    },
+    "适用任意场景": {
+        "en-US": "Suitable for Any Scenario",
+        "ja-JP": "あらゆるシーンに適用可能",
+        "$files": [
+            "src/Home/Features.vue(S29:12-S29:20)",
+            "src/Home/Features.vue(S29:12-S29:20)"
+        ],
+        "$id": 86
+    },
+    "全面支持React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...等任何ts/js场景": {
+        "en-US": "Comprehensive support for React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/... and any other ts/js scenarios",
+        "ja-JP": "React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...など、すべてのts/jsシーンを全面的にサポート",
+        "$files": [
+            "src/Home/Features.vue(S30:19-S30:83)",
+            "src/Home/Features.vue(S30:19-S30:83)"
+        ],
+        "$id": 87
+    },
+    "全流程工具链": {
+        "en-US": "Full Process Toolchain",
+        "ja-JP": "全プロセスのツールチェーン",
+        "$files": [
+            "src/Home/Features.vue(S34:12-S34:20)",
+            "src/Home/Features.vue(S34:12-S34:20)"
+        ],
+        "$id": 88
+    },
+    "覆盖从语言提取、编译、自动翻译、插件集成等国际化全流程支持，为大型应用提供工程化支持": {
+        "en-US": "Covers the entire internationalization process including language extraction, compilation, automatic translation, plugin integration, providing engineering support for large-scale applications",
+        "ja-JP": "言語抽出、コンパイル、自動翻訳、プラグイン統合などの国際化全プロセスをカバーし、大規模アプリケーションに工学的サポートを提供",
+        "$files": [
+            "src/Home/Features.vue(S35:19-S35:63)",
+            "src/Home/Features.vue(S35:19-S35:63)"
+        ],
+        "$id": 89
+    },
+    "自动翻译": {
+        "en-US": "Automatic Translation",
+        "ja-JP": "自動翻訳",
+        "$files": [
+            "src/Home/Features.vue(S39:12-S39:18)",
+            "src/Home/Features.vue(S39:12-S39:18)"
+        ],
+        "$id": 90
+    },
+    "支持在线翻译服务和基于AI大模型的翻译工具,可以实现自动化翻译": {
+        "en-US": "Supports online translation services and AI model-based translation tools to achieve automated translation",
+        "ja-JP": "オンライン翻訳サービスやAI大規模モデルに基づく翻訳ツールをサポートし、自動翻訳が可能です",
+        "$files": [
+            "src/Home/Features.vue(S40:19-S40:52)",
+            "src/Home/Features.vue(S40:19-S40:52)"
+        ],
+        "$id": 91
+    },
+    "多库联动": {
+        "en-US": "Multi-library linkage",
+        "ja-JP": "多庫連携",
+        "$files": [
+            "src/Home/Features.vue(S44:12-S44:18)",
+            "src/Home/Features.vue(S44:12-S44:18)"
+        ],
+        "$id": 92
+    },
+    "支持大型应用中多个外部库的国际化联动,适合企业应用和第三方库开发": {
+        "en-US": "Supports internationalization linkage of multiple external libraries in large applications, suitable for enterprise applications and third-party library development",
+        "ja-JP": "大規模アプリケーションにおける複数の外部ライブラリの国際化連携をサポート、企業アプリケーションやサードパーティライブラリの開発に最適",
+        "$files": [
+            "src/Home/Features.vue(S45:19-S45:53)",
+            "src/Home/Features.vue(S45:19-S45:53)"
+        ],
+        "$id": 93
+    },
+    "应用发布后，可以通过语言补丁方式在线修复翻译错误，极致实用性": {
+        "en-US": "After application release, translation errors can be fixed online via language patches, offering ultimate practicality",
+        "ja-JP": "アプリケーションのリリース後、翻訳エラーをオンラインで修正するための言語パッチ方式を採用、極めて実用的",
+        "$files": [
+            "src/Home/Features.vue(S50:19-S50:51)",
+            "src/Home/Features.vue(S50:19-S50:51)"
+        ],
+        "$id": 95
+    },
+    "测试覆盖率": {
+        "en-US": "Test coverage",
+        "ja-JP": "テストカバレッジ",
+        "$files": [
+            "src/Home/Features.vue(S54:12-S54:19)",
+            "src/Home/Features.vue(S54:12-S54:19)"
+        ],
+        "$id": 96
+    },
+    "核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率，保证品质": {
+        "en-US": "Core runtime `@voerkai18n/runtime` has over 90% test coverage, ensuring quality",
+        "ja-JP": "コアランタイム`@voerkai18n/runtime`は90%以上のテストカバレッジを達成し、品質を保証",
+        "$files": [
+            "src/Home/Features.vue(S55:19-S55:63)",
+            "src/Home/Features.vue(S55:19-S55:63)"
+        ],
+        "$id": 97
+    },
+    "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....": {
+        "en-US": "Supports React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
+        "ja-JP": "React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....をサポート",
+        "$files": [
+            "src/Home/Hero.vue(T16:26-T16:81)"
+        ],
+        "$id": 98
+    },
+    "访问官网": {
+        "en-US": "Visit the official website",
+        "ja-JP": "公式サイトにアクセス",
+        "$files": [
+            "src/Home/Hero.vue(T19:30-T19:34)"
+        ],
+        "$id": 99
+    },
+    "全流程国际化解决方案": {
+        "en-US": "Full-process internationalization solution",
+        "ja-JP": "フルプロセスの国際化ソリューション",
+        "$files": [
+            "src/Home/Hero.vue(T29:26-T29:36)",
+            "src/Repos/index.vue(S11:19-S11:31)",
+            "src/Repos/index.vue(S11:19-S11:31)"
+        ],
+        "$id": 100
+    },
+    "快速入门": {
+        "en-US": "Quick Start",
+        "ja-JP": "クイックスタート",
+        "$files": [
+            "src/Home/Hero.vue(T34:30-T34:34)"
+        ],
+        "$id": 101
+    },
+    "打补丁": {
+        "en-US": "打补丁",
+        "ja-JP": "打补丁",
+        "$files": [
+            "src/Home/Hero.vue(T39:30-T39:33)"
+        ],
+        "$id": 273
+    },
+    "了解更多": {
+        "en-US": "Learn More",
+        "ja-JP": "さらに詳しく",
+        "$files": [
+            "src/Home/Hero.vue(T42:30-T42:34)"
+        ],
+        "$id": 102
+    },
+    "更多开源项目...": {
+        "en-US": "More open-source projects...",
+        "ja-JP": "その他のオープンソースプロジェクト...",
+        "$files": [
+            "src/Repos/index.vue(T55:30-T55:39)"
+        ],
+        "$id": 122
+    },
+    "Nodejs/Vue/React/ReactNative/UniApp/...": {
+        "en-US": "Nodejs/Vue/React/ReactNative/UniApp/...",
+        "ja-JP": "Nodejs/Vue/React/ReactNative/UniApp/...",
+        "$files": [
+            "src/Repos/index.vue(S14:13-S14:54)",
+            "src/Repos/index.vue(S14:13-S14:54)"
+        ],
+        "$id": 103
+    },
+    "支持异步计算/信号组件/表单绑定的全自动状态管理库": {
+        "en-US": "A fully automatic state management library that supports asynchronous computation/signal components/form binding",
+        "ja-JP": "非同期計算/シグナルコンポーネント/フォームバインディングをサポートする完全自動ステート管理ライブラリ",
+        "$files": [
+            "src/Repos/index.vue(S21:19-S21:46)",
+            "src/Repos/index.vue(S21:19-S21:46)"
+        ],
+        "$id": 104
+    },
+    "Nodejs下高效的树数据库存储管理工具库": {
+        "en-US": "An efficient tree database storage management toolkit for Nodejs",
+        "ja-JP": "Nodejs用の効率的なツリーデータベースストレージ管理ツールキット",
+        "$files": [
+            "src/Repos/index.vue(S28:19-S28:42)",
+            "src/Repos/index.vue(S28:19-S28:42)"
+        ],
+        "$id": 105
+    },
+    "vitepress/dumi/docsify等文档网站专用的轻量树UI组件": {
+        "en-US": "A lightweight tree UI component designed for documentation websites like vitepress/dumi/docsify",
+        "ja-JP": "vitepress/dumi/docsifyなどのドキュメントサイト専用の軽量ツリーUIコンポーネント",
+        "$files": [
+            "src/Repos/index.vue(S35:19-S35:58)",
+            "src/Repos/index.vue(S35:19-S35:58)"
+        ],
+        "$id": 106
+    },
+    "轻量React/CSS-IN-JS解决方案": {
+        "en-US": "A lightweight React/CSS-IN-JS solution",
+        "ja-JP": "軽量React/CSS-IN-JSソリューション",
+        "$files": [
+            "src/Repos/index.vue(S42:19-S42:42)",
+            "src/Repos/index.vue(S42:19-S42:42)"
+        ],
+        "$id": 107
+    },
+    "有限状态机实现": {
+        "en-US": "Finite state machine implementation",
+        "ja-JP": "有限状態機械の実装",
+        "$files": [
+            "src/Repos/index.vue(S49:19-S49:28)",
+            "src/Repos/index.vue(S49:19-S49:28)"
+        ],
+        "$id": 108
+    },
+    "实用的工具函数库": {
+        "en-US": "A practical utility function library",
+        "ja-JP": "実用的なユーティリティ関数ライブラリ",
+        "$files": [
+            "src/Repos/index.vue(S56:19-S56:29)",
+            "src/Repos/index.vue(S56:19-S56:29)"
+        ],
+        "$id": 109
+    },
+    "强大的字符串插值工具库": {
+        "en-US": "A powerful string interpolation tool library",
+        "ja-JP": "強力な文字列補間ツールキット",
+        "$files": [
+            "src/Repos/index.vue(S63:19-S63:32)",
+            "src/Repos/index.vue(S63:19-S63:32)"
+        ],
+        "$id": 110
+    },
+    "简化装饰器开发的工具库": {
+        "en-US": "A toolkit to simplify decorator development",
+        "ja-JP": "デコレータ開発を簡素化するツールキット",
+        "$files": [
+            "src/Repos/index.vue(S70:19-S70:32)",
+            "src/Repos/index.vue(S70:19-S70:32)"
+        ],
+        "$id": 111
+    },
+    "日志工具库": {
+        "en-US": "Logging utility library",
+        "ja-JP": "ログツールキット",
+        "$files": [
+            "src/Repos/index.vue(S77:19-S77:26)",
+            "src/Repos/index.vue(S77:19-S77:26)"
+        ],
+        "$id": 112
+    },
+    "Vite插件/将Vue组件中的样式注入到JS文件中": {
+        "en-US": "Vite plugin/inject styles from Vue components into JS files",
+        "ja-JP": "Viteプラグイン/Vueコンポーネント内のスタイルをJSファイルに注入",
+        "$files": [
+            "src/Repos/index.vue(S84:19-S84:46)",
+            "src/Repos/index.vue(S84:19-S84:46)"
+        ],
+        "$id": 113
+    },
+    "增强型命令行开发工具，能自动生成交互提示": {
+        "en-US": "Enhanced command-line development tools that automatically generate interactive prompts",
+        "ja-JP": "拡張コマンドライン開発ツールで、インタラクティブなプロンプトを自動生成可能",
+        "$files": [
+            "src/Repos/index.vue(S91:19-S91:41)",
+            "src/Repos/index.vue(S91:19-S91:41)"
+        ],
+        "$id": 114
+    },
+    "终端输出增强组件": {
+        "en-US": "Terminal output enhancement component",
+        "ja-JP": "ターミナル出力を強化するコンポーネント",
+        "$files": [
+            "src/Repos/index.vue(S98:19-S98:29)",
+            "src/Repos/index.vue(S98:19-S98:29)"
+        ],
+        "$id": 115
+    },
+    "VSCODE插件/支持为任意JSON文件注入注释": {
+        "en-US": "VSCODE plugin/support injecting comments into any JSON file",
+        "ja-JP": "VSCODEプラグイン/任意のJSONファイルにコメントを注入可能",
+        "$files": [
+            "src/Repos/index.vue(S105:19-S105:45)",
+            "src/Repos/index.vue(S105:19-S105:45)"
+        ],
+        "$id": 116
+    },
+    "异步信号处理库": {
+        "en-US": "Asynchronous signal processing library",
+        "ja-JP": "非同期信号処理ライブラリ",
+        "$files": [
+            "src/Repos/index.vue(S112:19-S112:28)",
+            "src/Repos/index.vue(S112:19-S112:28)"
+        ],
+        "$id": 117
+    },
+    "prisma数据库交互式控制台": {
+        "en-US": "Prisma database interactive console",
+        "ja-JP": "prismaデータベース対話型コンソール",
+        "$files": [
+            "src/Repos/index.vue(S119:19-S119:36)",
+            "src/Repos/index.vue(S119:19-S119:36)"
+        ],
+        "$id": 118
+    },
+    "将文件以base64方式嵌入到了源码的vite/webpack/esbuild/...插件": {
+        "en-US": "A plugin for vite/webpack/esbuild/... that embeds files into source code in base64 format",
+        "ja-JP": "ファイルをbase64形式でソースコードに埋め込むvite/webpack/esbuild/...プラグイン",
+        "$files": [
+            "src/Repos/index.vue(S126:19-S126:66)",
+            "src/Repos/index.vue(S126:19-S126:66)"
+        ],
+        "$id": 119
+    },
+    "生成captcha图片": {
+        "en-US": "Generate captcha images",
+        "ja-JP": "captcha画像の生成",
+        "$files": [
+            "src/Repos/index.vue(S133:19-S133:32)",
+            "src/Repos/index.vue(S133:19-S133:32)"
+        ],
+        "$id": 120
+    },
+    "符合简化BCP47规格的语言编码库": {
+        "en-US": "Language coding library compliant with simplified BCP47 specifications",
+        "ja-JP": "簡略化されたBCP47規格に準拠した言語コードライブラリ",
+        "$files": [
+            "src/Repos/index.vue(S140:19-S140:38)",
+            "src/Repos/index.vue(S140:19-S140:38)"
+        ],
+        "$id": 121
+    },
+    "我的任务": {
+        "en-US": "My tasks",
+        "ja-JP": "私のタスク",
+        "$files": [
+            "src/Task/index.vue(T4:32-T4:36)"
+        ],
+        "$id": 133
+    },
+    "新建": {
+        "en-US": "New",
+        "ja-JP": "新規作成",
+        "$files": [
+            "src/Task/index.vue(T12:34-T12:36)"
+        ],
+        "$id": 134
+    },
+    "全部": {
+        "en-US": "All",
+        "ja-JP": "すべて",
+        "$files": [
+            "src/Task/index.vue(T24:36-T24:38)"
+        ],
+        "$id": 135
+    },
+    "未完成": {
+        "en-US": "Incomplete",
+        "ja-JP": "未完了",
+        "$files": [
+            "src/Task/index.vue(T34:36-T34:39)"
+        ],
+        "$id": 136
+    },
+    "已完成": {
+        "en-US": "Completed",
+        "ja-JP": "完了済み",
+        "$files": [
+            "src/Task/index.vue(T43:36-T43:39)"
+        ],
+        "$id": 137
+    },
+    "已删除": {
+        "en-US": "Deleted",
+        "ja-JP": "削除済み",
+        "$files": [
+            "src/Task/index.vue(T52:36-T52:39)"
+        ],
+        "$id": 228
+    },
+    "标题": {
+        "en-US": "Title",
+        "ja-JP": "タイトル",
+        "$files": [
+            "src/Task/index.vue(T63:71-T63:73)"
+        ],
+        "$id": 139
+    },
+    "描述": {
+        "en-US": "Description",
+        "ja-JP": "説明",
+        "$files": [
+            "src/Task/index.vue(T64:71-T64:73)"
+        ],
+        "$id": 140
+    },
+    "创建于": {
+        "en-US": "Created at",
+        "ja-JP": "作成日",
+        "$files": [
+            "src/Task/index.vue(T65:71-T65:74)"
+        ],
+        "$id": 141
+    },
+    "完成": {
+        "en-US": "Completed",
+        "ja-JP": "完了",
+        "$files": [
+            "src/Task/index.vue(T66:71-T66:73)"
+        ],
+        "$id": 142
+    },
+    "动作": {
+        "en-US": "Action",
+        "ja-JP": "アクション",
+        "$files": [
+            "src/Task/index.vue(T67:71-T67:73)"
+        ],
+        "$id": 143
+    },
+    "编辑": {
+        "en-US": "Edit",
+        "ja-JP": "編集",
+        "$files": [
+            "src/Task/index.vue(T96:24-T96:40)"
+        ],
+        "$id": 144
+    },
+    "删除": {
+        "en-US": "Delete",
+        "ja-JP": "削除",
+        "$files": [
+            "src/Task/index.vue(T103:24-T103:40)"
+        ],
+        "$id": 229
+    },
+    "准备周会演示文稿": {
+        "en-US": "Prepare presentation slides for the weekly meeting",
+        "ja-JP": "週会プレゼンテーションの準備",
+        "$files": [
+            "src/Task/index.vue(S129:17-S129:27)",
+            "src/Task/index.vue(S129:17-S129:27)"
+        ],
+        "$id": 125
+    },
+    "汇总团队本周工作内容,制作简报,重点突出项目里程碑的完成情况。": {
+        "en-US": "Summarize the team's work content for this week, create a briefing, and highlight the completion of project milestones.",
+        "ja-JP": "チームの今週の作業内容を集約し、簡報を作成し、プロジェクトのマイルストーン達成状況を強調する。",
+        "$files": [
+            "src/Task/index.vue(S130:23-S130:56)",
+            "src/Task/index.vue(S130:23-S130:56)"
+        ],
+        "$id": 126
+    },
+    "安排团队建设活动": {
+        "en-US": "Arrange team building activities",
+        "ja-JP": "チームビルディング活動の手配",
+        "$files": [
+            "src/Task/index.vue(S137:17-S137:27)",
+            "src/Task/index.vue(S137:17-S137:27)"
+        ],
+        "$id": 127
+    },
+    "联系活动策划公司,讨论团建方案,预算控制在每人500元以内,时间定在下个月第一个周末。": {
+        "en-US": "Contact event planning companies, discuss team building plans, keep the budget within 500 yuan per person, and set the time for the first weekend of next month.",
+        "ja-JP": "イベント企画会社に連絡を取り、団体建設プランを検討し、予算を1人当たり500元以内に抑え、時期を来月の第一週末に設定する。",
+        "$files": [
+            "src/Task/index.vue(S138:23-S138:68)",
+            "src/Task/index.vue(S138:23-S138:68)"
+        ],
+        "$id": 128
+    },
+    "更新个人简历": {
+        "en-US": "Update personal resume",
+        "ja-JP": "履歴書を更新する",
+        "$files": [
+            "src/Task/index.vue(S145:17-S145:25)",
+            "src/Task/index.vue(S145:17-S145:25)"
+        ],
+        "$id": 129
+    },
+    "添加最近完成的项目经验,更新技能列表,重新设计简历版式使其更有吸引力。": {
+        "en-US": "Add recently completed project experience, update the skills list, and redesign the resume layout to make it more attractive.",
+        "ja-JP": "最近完了したプロジェクトの経験を追加し、スキルリストを更新し、履歴書のレイアウトを再設計してより魅力的にする。",
+        "$files": [
+            "src/Task/index.vue(S146:23-S146:60)",
+            "src/Task/index.vue(S146:23-S146:60)"
+        ],
+        "$id": 130
+    },
+    "学习新的编程语言": {
+        "en-US": "Learn a new programming language",
+        "ja-JP": "新しいプログラミング言語を学ぶ",
+        "$files": [
+            "src/Task/index.vue(S153:17-S153:27)",
+            "src/Task/index.vue(S153:17-S153:27)"
+        ],
+        "$id": 131
+    },
+    "开始学习Python,完成Codecademy上的Python入门课程,每天至少编程1小时。": {
+        "en-US": "Start learning Python, complete the Python introductory course on Codecademy, and code at least 1 hour every day.",
+        "ja-JP": "Pythonの学習を開始し、CodecademyのPython入門コースを完了し、毎日少なくとも1時間コーディングする。",
+        "$files": [
+            "src/Task/index.vue(S154:23-S154:71)",
+            "src/Task/index.vue(S154:23-S154:71)"
+        ],
+        "$id": 132
+    }
+}

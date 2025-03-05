@@ -33,11 +33,13 @@ export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:V
 
 
 export type VoerkaI18nTranslateProps= {
-    message  : VoerkaI18nToBeTranslatedMessage
+    id?      : string
+    message? : VoerkaI18nToBeTranslatedMessage
     vars?    : VoerkaI18nTranslateVars
     default? : any
     tag?     : string
     options? : VoerkaI18nTranslateOptions    
+    children?: any
 }
 
 export type VoerkaI18nTranslateComponentBuilder<T=any> = (scope:VoerkaI18nScope)=>T
@@ -105,7 +107,12 @@ export type LanguageCodes = BCP47LanguageTagName
  
 
 export type VoerkaI18nSettings ={
-    entry?                  : string    // 语言包入口，默认为"languages"
+    entry?                  : string                // 语言包入口，默认为"languages"
     readonly defaultLanguage: string
     readonly activeLanguage : string
 } & Omit<VoerkaI18nScopeOptions, 'storage' | 'idMap' | 'formatters' | 'log' | 'attached' | 'loader' | 'messages'>  
+
+
+export type VoerkaI18nLanguageParagraphs = Record<string, any>
+// { zh-CN: { <id>: message,..., <id>: message} }
+export type VoerkaI18nParagraphs = Record<LanguageName, Record<string, VoerkaI18nLanguageParagraphs>>

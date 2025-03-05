@@ -28,6 +28,10 @@
  *      options={{...}}         // 传递给翻译器的参数
  *  />
  * 
+ *  <Translate id="aaa">
+ *      段落内容
+ *  </Translate>
+ * 
  */
 
 import { createElement,useState, useEffect, useCallback, useRef,ComponentType } from 'react';
@@ -47,9 +51,16 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
 
     return function(scope:VoerkaI18nScope){
         return (props:VoerkaI18nTranslateProps)=>{
-            const { message, vars, options:tOptions,default:tDefault = '' } = props                
+            const { id:msgId, message, vars, options:tOptions,default:tDefault = '',children } = props             
+
+            const isParagraph = !msgId && children && children.length>0
+
             const [ result, setResult ] = useState(()=>{
-                return typeof(message)==='function' ? tDefault : scope.translate(message,vars,tOptions)
+                if(isParagraph){
+                    
+                }else{
+                    return typeof(message)==='function' ? tDefault : scope.translate(message!,vars,tOptions)
+                }                
             })
     
             const isFirst = useRef(false) 
@@ -57,7 +68,7 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
             const loadMessage = useCallback(async (language:string) => {
                 const loader = typeof(message)==='function' ? ()=>message(language,vars,tOptions) : ()=>message
                 return Promise.resolve(loader()).then((result)=>{                    
-                    setResult(scope.translate(result,vars,tOptions))
+                    setResult(scope.translate(result!,vars,tOptions))
                 })
             },[message,vars,tOptions]) 
     
@@ -72,11 +83,11 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
             },[]) 
             
             return (tagName ?
-                    createElement(tagName,{
-                        dangerouslySetInnerHTML:{__html:result},
-                        ...attrs
-                    })
-                    : <>{result}</>
+                        createElement(tagName,{
+                            dangerouslySetInnerHTML:{__html:result},
+                            ...attrs
+                        })
+                        : <>{result}</>
                 )
         } 
     }

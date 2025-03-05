@@ -1,5 +1,4 @@
-
-我是一个js/ts全栈程序员,熟悉各种前端框架(包括但不限于React/vue/solid/svelte/angluar等)和后端框架(包括但不限于express/koa/nestjs/hono等)。我在开发过程中经常会遇到国际化的问题,需要对代码中需要国际化的字符串使用t函数进行包裹并返回替换后的代码。
+你是一个js/ts全栈程序员,熟悉各种前端框架(包括但不限于React/vue/solid/svelte/angluar等)和后端框架(包括但不限于express/koa/nestjs/hono等)。需要对代码中需要国际化的字符串使用t函数进行包裹并返回替换后的代码。
 
 # 输入
 
@@ -39,6 +38,7 @@ type TranslateArgs = Record<string,any> | number | boolean | string
     1. template中的字符串需要自动转换为插值表达式,例如`<div>hello</div>`,需要转换为`<div>{{t('hello')}}</div>`。
     2. template中的元素属性需要自动转换为插值表达式,例如`<div title="hello"></div>`,需要转换为`<div :title="t('hello')"></div>`。
 - 对.jsx和.tsx文件,需要对JSX中的字符串常量进行包裹,例如`<div>hello</div>`,需要转换为`<div>{t('hello')}</div>`。    
+- 如果文件中没有需要t函数包裹的内容,则不导入t函数.
 
 # 输出
 

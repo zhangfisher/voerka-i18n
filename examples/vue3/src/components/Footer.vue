@@ -35,7 +35,7 @@
   
 <script setup>
 
-import { Translate } from '../languages';
+import { Translate } from '../languages.bak';
 
 </script>
   
