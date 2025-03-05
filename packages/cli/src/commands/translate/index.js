@@ -1,4 +1,5 @@
 const { MixCommand } = require("mixcli");
+const path = require("node:path");
 const { t } = require("../../i18n"); 
 const logsets = require("logsets");
 const { getProjectContext } = require("@voerkai18n/utils");
@@ -18,6 +19,7 @@ module.exports = () => {
         .disablePrompts()
         .option('-m, --mode <value>', t('翻译模式,取值auto=仅翻译未翻译的,full=全部翻译'), {default:'auto'})
         .option('-l, --language <name>', t('只翻译指定的语言'))        
+        .option('-f, --file <name>', t('只翻译指定的文件,如messages/default.json'))       
         .option('-p, --provider <value>', t('在线翻译服务提供者名称或翻译脚本文,取值:ai | baidu'), {default:'ai'})
         .option('--max-package-size <value>', t('将多个文本合并提交的最大包字节数'), {default:150})
         .option('--api-url <url>',t('API URL'))
@@ -25,8 +27,7 @@ module.exports = () => {
         .option('--api-model <name>', t('AI模型名称'))
         .option('--api-key <key>', t('API密钥'))
         .option('--api <name>', t('API服务名称,声明在languages/api.json中'),{default:"baidu"})
-        .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), {default:0})  
-        .option('--prompt <value>', t('languages/prompts文件夹中的提示文件名称'),{default:"translate"})  
+        .option('-q, --qps <value>', t('翻译速度限制,即每秒可调用的API次数'), {default:0})   
         .action(async (options) => {          
             const ctx = await getProjectContext(options);   
             if(!ctx.api){ 
@@ -40,16 +41,18 @@ module.exports = () => {
             ctx.tasks = tasks
             tasks.addGroup(t("准备翻译"))
             tasks.addMemo(t("翻译模式：{}"),ctx.mode)
-            tasks.addMemo(t("语言目录：{}"),langDir)
+            tasks.addMemo(t("语言目录：{}"),path.relative(process.cwd(),langDir))
             tasks.addMemo(t("翻译服务：{}"),ctx.provider)
             tasks.addMemo(t("翻译速度：{}"),ctx.qps)
             tasks.addMemo(t("翻译语言：{}"),ctx.language ? ctx.language : ctx.languages.map(lng=>lng.name).join(", "))
             tasks.addMemo(t("请求数据包限制: {}" ),ctx.maxPackageSize)
-        
+            
+            ctx.prompt="translate-messages"
             await translateMessages.call(ctx)
             
             //  翻译段落时,将maxPackageSize设置为0,以便每个段落都是一个请求            
             ctx.maxPackageSize = 0 
+            ctx.prompt="translate-paragraphs"
             await translateParagraphs.call(ctx)
         
             tasks.done()

@@ -94,6 +94,7 @@ async function translateParagraphs(){
         await translateFileParagraphs.call(file)        
     }    
 
+    
     await outputLanguageParagraphsIndex.call(this,files) 
 
 }

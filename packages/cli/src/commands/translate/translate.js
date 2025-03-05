@@ -24,7 +24,7 @@ function getTranslateProvider(){
  
 async function sendToTranslate(messages={},from,to,options){
     let { qps=0 } = this
-    const { strictLine } = options 
+    const { strictLine = true } = Object.assign({},options)
     const texts = Object.keys(messages)
     const lineCount = texts.length
     if(lineCount===0) return;
@@ -34,7 +34,9 @@ async function sendToTranslate(messages={},from,to,options){
     try{
         translatedMessages = await provider.translate.call(this,texts,from,to,this)
         if(strictLine && lineCount!==translatedMessages.length){
-            throw new Error(t("翻译后的内容与原始内容行数不一致"))
+            console.log("\n--------------------")
+            console.log(texts.map((text,i)=>text + " -> " + translatedMessages[i]))            
+            throw new Error(t("翻译后的内容与原始内容行数不一致,建议更换翻译提供者"))            
         }
     }catch(e){
         throw new Error(e.message)
@@ -48,7 +50,7 @@ async function sendToTranslate(messages={},from,to,options){
 function getTranslateOptions(options){
     return Object.assign({
         strictLine: true,
-        promptFile: undefined
+        prompt: undefined
     },options)
 }
 /**
@@ -111,7 +113,6 @@ function isMessageUpdated(message,lngMessage){
  * @returns 
  */
 async function startTranslate(messages,from,to){
-    const ctx = this
     const { maxPackageSize,mode,task } = this;
     const result = messages                // 保存翻译结果    
     const msgCount = Object.keys(messages).length    

@@ -1,3 +1,4 @@
+const fs = require("node:fs")
 const { getBackupFile } = require("@voerkai18n/utils")
 
 function backupFile(file){
