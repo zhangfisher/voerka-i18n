@@ -120,6 +120,7 @@ export type VoerkaI18nTranslateProps<
     options? : Options    
     children?: Children
     fallback?: Fallback
+    loading? : boolean     // 当加载段落时是否显示一个loading
 }
 
-export type VoerkaI18nTranslateComponentBuilder<T=any> = (scope:VoerkaI18nScope)=>T
+export type VoerkaI18nTranslateComponentBuilder<Component=any> = (scope:VoerkaI18nScope)=>Component

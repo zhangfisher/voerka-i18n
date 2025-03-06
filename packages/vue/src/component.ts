@@ -2,8 +2,6 @@ import { defineComponent, h, ref, watch, onUnmounted, Component, ComponentPublic
 import { loadAsyncModule, type VoerkaI18nScope, type VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
 
 
- 
-
 export type CreateTranslateComponentOptions = {
     default?: string
     tagName?: string 
@@ -11,16 +9,14 @@ export type CreateTranslateComponentOptions = {
     style?  : string
     loading?: Component | boolean | string
 }
-
-export type VoerkaI18nVueTranslateProps = VoerkaI18nTranslateProps & {}
-
+ 
 export type VueTranslateComponentType = Component<VoerkaI18nTranslateProps> 
 
 // 一个简单的加载中组件
 const Loading = defineComponent({
     name: 'VoerkaI18nLoading',
     props: {
-        message: { type: String, default: 'Loading...' }
+        tips: { type: String, default: 'Loading...' }
     },
     setup(props){
         return () => h('span', { style: { 
@@ -35,28 +31,34 @@ const Loading = defineComponent({
             "align-items": 'center',
             "background-color": 'rgba(255, 255, 255, 0.8)',
             "z-index": 9999
-        } }, props.message)
+        } }, props.tips)
     }
 })
 
 export function createTranslateComponent(options?: CreateTranslateComponentOptions){
-    const { default: defaultMessage = '',  tagName, class:className = 'vt-msg' ,style,loading } = Object.assign({ },options)
+    const { default: defaultMessage = '',  tagName, class:className = 'vt-msg' ,style,loading:gLoading } = Object.assign({ },options)
+    const isCustomLoading = ['object','function'].includes(typeof(gLoading)) // 自定义加载中组件
+    const gShowLoading:boolean = typeof(gLoading) === 'boolean' ? gLoading : isCustomLoading // 全局开关
+    const LoadingComponent = (isCustomLoading  ? gLoading : Loading) as Component
 
     return function(scope:VoerkaI18nScope){       
         return defineComponent<VoerkaI18nTranslateProps>({
             name: 'VoerkaI18nTranslate',
             props: {
-                id: { type: String },
-                message: { type: [String, Function] },
-                vars   : { type: Array, default: () => [] },
-                options: { type: Object, default: () => ({}) },
-                tag    : { type: String },
-                default: { type: String, default: '' }
+                id      : { type: String },
+                message : { type: [ String, Function ] },
+                vars    : { type: Array, default: () => [] },
+                options : { type: Object, default: () => ({}) },
+                tag     : { type: String },
+                loading : { type: [ Boolean,String ], default: gShowLoading },
+                default : { type: String, default: '' }
             },   
             setup:(props,{ slots }) => {
 
-                const { message, id } = props
-                const isParagraph: boolean = typeof(id) === 'string' && id.length > 0
+                const { message, id: paragraphId, loading: loadingArgs  } = props
+                const isParagraph: boolean = typeof(paragraphId) === 'string' && paragraphId.length > 0
+                const showLoading = typeof(loadingArgs) === 'boolean' ? loadingArgs : typeof(loadingArgs)==='string'
+                const loadingTips = typeof(loadingArgs)==='string' ? loadingArgs : 'Loading...'
 
                 const result = ref(
                     isParagraph ? slots.default && slots.default()
@@ -67,16 +69,18 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                         )
                 )
                 // 仅当是段落时才显示加载中
-                const isLoading = ref<boolean>(!!(isParagraph && loading))
+                const isLoading = ref<boolean>(false)
+
                 const isFirst = ref(false)
                 const tag = props.tag || tagName
                 const msgId = scope.getMessageId(props.message)
 
                 const loadParagraph = async () => {
-                    if(id){
-                        const loader =  scope.activeParagraphs[id]
+                    if(paragraphId){
+                        const loader =  scope.activeParagraphs[paragraphId]
                         if(!loader) return
-                        try{                   
+                        isLoading.value = true
+                        try{               
                             const paragraphText = await loadAsyncModule(loader)
                             result.value = paragraphText
                         }catch(e:any){
@@ -96,8 +100,7 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                 }
 
                 const refresh = (language: string) => {
-                    if(isParagraph){
-                        isLoading.value = true
+                    if(isParagraph){ 
                         loadParagraph()
                     }else{
                         loadMessage(language)
@@ -129,13 +132,12 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                             style: Object.assign({"position":"relative"},style)
                         }
                         if(msgId) attrs['data-id'] = msgId
-                        if(id) attrs['data-id'] = id
+                        if(paragraphId) attrs['data-id'] = paragraphId
                         if(scope.library) attrs['data-scope'] = scope.$id
                         return h(tag, attrs, [
                             result.value,
-                            loading && isLoading.value && h(typeof(loading)==='boolean' ?
-                                Loading : loading
-                            )
+                            showLoading && LoadingComponent && isLoading.value  ?
+                                h(LoadingComponent,{ tips: loadingTips }) : null 
                         ])
                     }else{
                         return result.value

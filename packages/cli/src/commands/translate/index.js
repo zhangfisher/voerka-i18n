@@ -50,7 +50,7 @@ module.exports = () => {
             ctx.prompt="translate-messages"
             await translateMessages.call(ctx)
             
-            //  翻译段落时,将maxPackageSize设置为0,以便每个段落都是一个请求            
+            //  翻译段落时,将maxPackageSize设置为0,以便每个段落都是一个请求
             ctx.maxPackageSize = 0 
             ctx.prompt="translate-paragraphs"
             await translateParagraphs.call(ctx)

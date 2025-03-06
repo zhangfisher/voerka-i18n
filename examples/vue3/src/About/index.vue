@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto  pt-4 px-8 min-h-lvh">
         <h1>MIT许可证</h1>
-        <Translate id="license" tag="div" style="border:1px solid red;">
+        <Translate id="license" tag="div" style="border:1px solid red;" >
 版权所有 (c) [年份] [版权持有者]
 特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地处理本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和/或出售本软件的副本，并允许获得本软件的人这样做，但须满足以下条件：
 上述版权声明和本许可声明应包含在本软件的所有副本或重要部分中。

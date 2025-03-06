@@ -12,7 +12,7 @@ export default  {
     "136": "Translation Component",
     "137": "Language Patch",
     "138": "Output:",
-    "139": "My name is {}",
+    "139": "My name is {}\r",
     "140": "Async Translation Component",
     "141": "Async Translation Component - Load Error",
     "142": "Loading...",
@@ -73,5 +73,7 @@ export default  {
     "197": "Update Personal Resume",
     "198": "Add recently completed project experience, update the skills list, and redesign the resume layout to make it more appealing.",
     "199": "Learn a new programming language",
-    "200": "Start learning Python, complete the Python introductory course on Codecademy, and code for at least 1 hour every day."
+    "200": "Start learning Python, complete the Python introductory course on Codecademy, and code for at least 1 hour every day.",
+    "281": "Complete the project report",
+    "282": "Organize the project progress for this quarter, prepare the PPT, and send it to the project manager for review by Friday."
 }

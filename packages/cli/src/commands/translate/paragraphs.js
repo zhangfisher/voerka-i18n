@@ -29,7 +29,10 @@ async function translateFileParagraphs(file){
                 paragraphDoc.appendChild(`\n<div language="${lng.name}">${defaultLangParagraphEle && defaultLangParagraphEle.innerHTML}</div>`)
             }
             
-            if(langParagraphEle.getAttribute("done")) continue
+            if(langParagraphEle.getAttribute("done")) {
+                task.skip()
+                continue
+            }
  
             const translated = await translateParagraph.call(this, langParagraphEle.innerHTML,defaultLanguage,lng.name)
             if(translated){
@@ -40,7 +43,6 @@ async function translateFileParagraphs(file){
             }else{
                 task.skip()
             }
-
      
         }catch(e){
             task.error(e)
@@ -72,10 +74,7 @@ async function translateParagraphs(){
         tasks.addGroup(t("翻译{}"),relFile)            
         await translateFileParagraphs.call(this,file)        
     }    
-
-    
-    //await outputLanguageParagraphsIndex.call(this,files) 
-
+ 
 }
 
 module.exports = {

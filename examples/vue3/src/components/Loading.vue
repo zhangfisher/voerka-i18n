@@ -1,6 +1,6 @@
 <template>
     <div class="loading">
-         loading...
+         加载段落...
     </div>
 </template>
  
