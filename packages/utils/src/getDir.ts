@@ -10,7 +10,7 @@ import path from "node:path"
 export function getDir(spath:string){
     spath = path.isAbsolute(spath) ? spath : path.join(process.cwd(),spath)
     if(!fs.existsSync(spath)){
-        fs.mkdirSync(spath)
+        fs.mkdirSync(spath,{recursive:true})
     }
     return spath
 }

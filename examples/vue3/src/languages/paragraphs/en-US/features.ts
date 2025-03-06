@@ -1,0 +1,14 @@
+export default `Based on this, the VoerkaI18n internationalization multilingual solution is being developed, with the main features including:
+-    A comprehensive engineering solution, providing toolchain support such as initialization, text extraction, automatic translation, and compilation.
+-    Intuitive, no need to manually define text Key mappings.
+-    A powerful interpolator variable formatter mechanism that can extend robust multilingual features.
+-    Supports Babel plugin for automatic import of the t translation function.
+-    Compatible with Node.js, browsers (Vue/React/Solid), React Native, and any other JS environments.
+-    Separates the toolchain from runtime design, requiring only a minimal runtime integration during release.
+-    Highly extensible mechanisms for handling plurals, currencies, numbers, and other commonly used multilingual features.
+-    During the translation process, extracted text can be automatically synchronized while retaining already translated content.
+-    Languages can be dynamically added online.
+-    Supports releasing online language pack patches post-release to fix translation errors.
+-    Supports invoking online automatic translation services to translate extracted text.
+-    Core runtime @voerkai18n/runtime has over 90% test coverage.
+-    Supports TypeScript development.`

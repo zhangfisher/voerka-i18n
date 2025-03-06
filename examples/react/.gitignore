@@ -25,3 +25,6 @@ dist-ssr
 
 
 src/**/*.wrapped.*
+src/languages/api.json
+src/languages/translates/*/*.bak.*.json
+**/*.wrapped.*

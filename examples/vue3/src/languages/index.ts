@@ -3,6 +3,7 @@ import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
 import idMap from "./messages/idMap.json"
 import { component,type TranslateComponentType } from "./component"
+import paragraphs from "./paragraphs"
 import settings from "./settings.json"
 import defaultMessages from "./messages/zh-CN"  
 
@@ -22,6 +23,7 @@ export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器
     messages,                                           // 语言包
+    paragraphs,                                         // 段落
     component,                                          // 翻译组件
     ...settings
 }) 

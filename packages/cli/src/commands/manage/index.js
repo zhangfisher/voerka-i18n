@@ -11,6 +11,7 @@ module.exports = () => {
     const manageCommand = new MixCommand("manage");  
     manageCommand
         .description(t("管理控制台"))
+        .alias("ui")
         .action(async () => {
             console.log("TODO!")
         });

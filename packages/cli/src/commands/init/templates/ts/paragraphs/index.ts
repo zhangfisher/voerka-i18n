@@ -1,2 +1,4 @@
-export * from "./en-US"
-export * from "./zh-CN"
+export default {
+"./en-US": () => import("./en-US"),
+"./zh-CN": () => import("./zh-CN")
+}
