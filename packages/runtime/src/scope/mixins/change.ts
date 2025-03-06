@@ -48,7 +48,7 @@ export class ChangeLanguageMixin{
             if(!fallback){
                 this._activeLanguage = finalLanguage
                 if(typeof(this.messages[finalLanguage])==='function') this.messages[finalLanguage] = this._activeMessages
-                this._activeParagraphs = this._activeParagraphs[finalLanguage]
+                this._activeParagraphs = this.paragraphs[finalLanguage]
                 this._refreshSignal.resolve()
                 this._refreshSignal = undefined
                 await this.emit('scope/change',finalLanguage,true)
@@ -81,7 +81,7 @@ export class ChangeLanguageMixin{
             messages = loader as unknown as VoerkaI18nLanguageMessages;
         } else if(isFunction(loader)) {             // 异步chunk语言包 
             try{
-                messages = await loadAsyncModule(this,loader)
+                messages = await loadAsyncModule.call(this,loader)
             }catch(e:any){
                 this.logger.error(`加载异步语言包<${language}>失败:${e.message}`)
                 messages = undefined

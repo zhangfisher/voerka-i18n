@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { t, Translate } from "../languages.bak"
+import { t, Translate } from "../languages"
 import SyntaxHighlighter from "../components/SyntaxHighlighter"
 
 

@@ -20,7 +20,7 @@
     </div>
 </template>
 <script setup>
-import { Translate } from "../languages.bak"
+import { Translate } from "../languages"
 </script>
 
 

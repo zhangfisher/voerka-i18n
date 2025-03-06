@@ -11,7 +11,13 @@ export default defineConfig({
     viteInspector(),     
     tailwindcss(),
     i18nPlugin({debug:true}),
-    vue()
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag === 'v-translate'
+        }
+      }
+    })
   ],
   resolve:{
     alias: {
@@ -19,4 +25,4 @@ export default defineConfig({
     },
     extensions: ['.js', '.ts', '.vue', '.json']
   }
-})
+}) 

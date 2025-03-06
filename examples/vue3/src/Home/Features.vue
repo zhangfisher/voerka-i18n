@@ -22,7 +22,7 @@
     </section>
 </template>
 <script setup>
-import { t, Translate } from "../languages.bak";
+import { t, Translate } from "../languages";
 import { Bird,Beef,Archive,Component,Flower,ChartNoAxesCombined } from "lucide-vue-next";
 
 const features = [

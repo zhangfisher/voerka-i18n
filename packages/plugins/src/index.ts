@@ -26,7 +26,7 @@ export const unpluginFactory: UnpluginFactory<VoerkaI18nPluginOptions | undefine
     console.warn('VoerkaI18n is not availabled.')
   }
 
-  const idMapFile = path.join(langDir, 'idMap.json')
+  const idMapFile = path.join(langDir, 'messages', 'idMap.json')
   const idMap = JSON.parse(fs.readFileSync(idMapFile, 'utf-8'))
 
   return {

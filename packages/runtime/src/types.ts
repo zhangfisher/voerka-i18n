@@ -32,17 +32,6 @@ export type Voerkai18nIdMap = Record<string, number>
 export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:VoerkaI18nTranslateVars,options?: VoerkaI18nTranslateOptions)=>string | Promise<string>)
 
 
-export type VoerkaI18nTranslateProps= {
-    id?      : string
-    message? : VoerkaI18nToBeTranslatedMessage
-    vars?    : VoerkaI18nTranslateVars
-    default? : any
-    tag?     : string
-    options? : VoerkaI18nTranslateOptions    
-    children?: any
-}
-
-export type VoerkaI18nTranslateComponentBuilder<T=any> = (scope:VoerkaI18nScope)=>T
  
 export interface VoerkaI18nLanguageDefine {
     name        : string               // 语言代码
@@ -116,3 +105,21 @@ export type VoerkaI18nSettings ={
 export type VoerkaI18nLanguageParagraphs = Record<string, any>
 // { zh-CN: { <id>: message,..., <id>: message} }
 export type VoerkaI18nParagraphs = Record<LanguageName, Record<string, VoerkaI18nLanguageParagraphs>>
+
+
+export type VoerkaI18nTranslateProps<
+    Options extends VoerkaI18nTranslateOptions = VoerkaI18nTranslateOptions,
+    Children=any,
+    Fallback=any
+>= {
+    id?      : string
+    message? : VoerkaI18nToBeTranslatedMessage
+    vars?    : VoerkaI18nTranslateVars
+    default? : any
+    tag?     : string
+    options? : Options    
+    children?: Children
+    fallback?: Fallback
+}
+
+export type VoerkaI18nTranslateComponentBuilder<T=any> = (scope:VoerkaI18nScope)=>T

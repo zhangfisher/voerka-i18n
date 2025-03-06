@@ -63,7 +63,7 @@
 
 <script setup >
 import { GitFork, Star, UserRound } from "lucide-vue-next";
-import { t,Translate } from '../languages.bak';
+import { t,Translate } from '../languages';
 import FillStar from '../components/FillStar';
 
 import {useVoerkaI18n} from '@voerkai18n/vue'
