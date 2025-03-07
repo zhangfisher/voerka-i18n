@@ -3,16 +3,17 @@ import { createClientTranslateComponent,ReactTranslateComponentType }  from "@vo
 import { VoerkaI18nScope } from '@voerkai18n/runtime';
 import formatters from "@voerkai18n/formatters" 
 import storage  from "./storage"
-import idMap from "./idMap.json"
+import idMap from "./messages/idMap.json"
+import paragraphs from "./paragraphs"
 import settings from "./settings.json"
-import defaultMessages from "./zh-CN"    
+import defaultMessages from "./messages/zh-CN"    
   
 const component = createClientTranslateComponent()  
  
 const messages = { 
     'zh-CN'    : defaultMessages,
-    'en-US'    : ()=>import("./en-US"),
-    'ja-JP'    : ()=>import("./ja-JP"),
+    'en-US'    : ()=>import("./messages/en-US"),
+    'ja-JP'    : ()=>import("./messages/ja-JP"),
 }
 
 
@@ -23,6 +24,7 @@ export const i18nScope = new VoerkaI18nScope<ReactTranslateComponentType>({
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器
     messages,                                           // 语言包 
+    paragraphs,                                         // 段落
     component,                                          // 翻译组件
     ...settings
 }) 

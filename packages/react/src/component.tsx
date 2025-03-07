@@ -34,8 +34,9 @@
  * 
  */
 
-import { createElement,useState, useEffect, useCallback, useRef,ComponentType } from 'react';
+import { createElement,useState, useEffect, useCallback, useRef } from 'react';
 import { type VoerkaI18nTranslateProps, type VoerkaI18nScope, type VoerkaI18nTranslateComponentBuilder, loadAsyncModule } from "@voerkai18n/runtime" 
+import React from 'react';
 
  
 export type CreateTranslateComponentOptions = {
@@ -45,10 +46,8 @@ export type CreateTranslateComponentOptions = {
     style?    : React.CSSProperties
     loading?  : React.ReactNode | boolean | string
 }
-
-const delay = (ms: number=2000) => new Promise(resolve => setTimeout(resolve, ms))
-
-const Loading = (props:{tips:string})=>(<div
+ 
+const Loading = (props:{tips?:string})=>(<div
     style={{ 
         position: 'absolute',
         top: 0,
@@ -64,12 +63,13 @@ const Loading = (props:{tips:string})=>(<div
     }}
 >{ props.tips || 'Loading...'}</div>)
 
-export type VoerkaI18nReactTranslateComponentBuilder = VoerkaI18nTranslateComponentBuilder<ComponentType<VoerkaI18nTranslateProps>>
+export type ReactTranslateComponentType = React.FC<VoerkaI18nTranslateProps>
 
- export type ReactTranslateComponentType = ComponentType<VoerkaI18nTranslateProps>
+export type VoerkaI18nReactTranslateComponentBuilder = VoerkaI18nTranslateComponentBuilder<ReactTranslateComponentType>
+
 
 export function createTranslateComponent(options?:CreateTranslateComponentOptions):VoerkaI18nReactTranslateComponentBuilder{        
-    const { tagName,attrs={}, class:className = 'vt-msg' ,style, loading:gLoading } = Object.assign({ },options) as CreateTranslateComponentOptions
+    const { tagName,attrs={}, class:className = 'vt-msg' ,style:gStyle, loading:gLoading } = Object.assign({ },options) as CreateTranslateComponentOptions
     
     const isCustomLoading = ['object','function'].includes(typeof(gLoading)) // 自定义加载中组件
     const gShowLoading:boolean = typeof(gLoading) === 'boolean' ? gLoading : isCustomLoading // 全局开关
@@ -77,13 +77,16 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
 
     return function(scope:VoerkaI18nScope){
         return (props:VoerkaI18nTranslateProps)=>{
-            const { id:paragraphId, message, vars, options:tOptions,default:tDefault = '', loading:showLoading = gShowLoading } = props             
+            const { id:paragraphId, message, vars, options:tOptions,default:tDefault = '', loading:loadingArgs = gShowLoading } = props             
 
             const isParagraph: boolean = typeof(paragraphId) === 'string' && paragraphId.length > 0
-
+            const showLoading = typeof(loadingArgs) === 'boolean' ? loadingArgs : typeof(loadingArgs)==='string'
+            const loadingTips = typeof(loadingArgs)==='string' ? loadingArgs : 'Loading...'
+            
+            // if(isParagraph) debugger
             const [ result, setResult ] = useState(()=>{
                 if(isParagraph){
-                    
+                    return props.children
                 }else{
                     return typeof(message)==='function' ? tDefault : scope.translate(message!,vars,tOptions)
                 }                
@@ -91,7 +94,7 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
     
             const isFirst = useRef(false) 
             // 仅当是段落时才显示加载中
-            const isLoading = useRef<boolean>(false)         
+            const [ loading, setLoading ]  = useState<boolean>(false)         
             const tag = props.tag || tagName
             const msgId = scope.getMessageId(props.message)
             
@@ -106,15 +109,14 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
                 if(paragraphId){
                     const loader =  scope.activeParagraphs[paragraphId]
                     if(!loader) return
-                    isLoading.current = true
-                    try{                   
-                        await delay()
+                    if(showLoading) setLoading(true)
+                    try{                    
                         const paragraphText = await loadAsyncModule(loader)
-                        result.value = paragraphText
+                        setResult(paragraphText)
                     }catch(e:any){
                         console.error(e)
                     }finally{
-                        isLoading.current = false
+                        if(showLoading) setLoading(false)
                     }                        
                 }                    
             }
@@ -127,26 +129,39 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
                 }
             },[]) 
 
-            useEffect(()=>{            
-                // 第一次渲染时执行函数进行加载
-                if(!isFirst.current && typeof(message)==='function' ){
-                    refresh(scope.activeLanguage)
-                    isFirst.current = true 
-                }
-                const listener = scope.on("change",loadMessage) as any
+            // 第一次渲染时执行函数进行加载
+            if(!isFirst.current && (typeof(message)==='function'  || isParagraph)){
+                refresh(scope.activeLanguage)
+                isFirst.current = true 
+            }
+
+            useEffect(()=>{  
+                const listener = scope.on("change",refresh) as any
                 return ()=>listener.off()
             },[]) 
             
             if(msgId) attrs['data-id'] = msgId
             if(paragraphId) attrs['data-id'] = paragraphId
+            if(scope.library) attrs['data-scope'] = String(scope.$id)
 
-            return (tag ?
-                        createElement(tag,{
-                            dangerouslySetInnerHTML:{ __html:result },
-                            ...attrs
-                        })
-                    : <>{result}</>
+            
+            if(tag || isParagraph){
+                const isShowLoading = showLoading && LoadingComponent && loading
+                return createElement(tag || 'div',{
+                    ...attrs,
+                    className,
+                    style:Object.assign({"position":"relative"},gStyle,props.style)
+                },
+                result,
+                isShowLoading ? 
+                (
+                    typeof LoadingComponent === 'function' ? <LoadingComponent tips={loadingTips}/> : LoadingComponent 
                 )
+                : null 
+                )
+            }else{
+                return <>{result}</>
+            }   
         } 
     }
 

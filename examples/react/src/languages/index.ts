@@ -1,13 +1,11 @@
-import { VoerkaI18nScope } from "@voerkai18n/runtime"
+import { VoerkaI18nScope, VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
 import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
 import idMap from "./messages/idMap.json"
 import { component,type TranslateComponentType } from "./component"
 import paragraphs from "./paragraphs"
 import settings from "./settings.json"
-import defaultMessages from "./messages/zh-CN" 
-
- 
+import defaultMessages from "./messages/zh-CN"  
 
 const messages = { 
     'zh-CN'    : defaultMessages,
@@ -29,5 +27,5 @@ export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({
 
 
 export const t = i18nScope.t
-export const Translate = i18nScope.Translate
+export const Translate = i18nScope.Translate  as React.FC<VoerkaI18nTranslateProps>
 

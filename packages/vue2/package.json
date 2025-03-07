@@ -2,10 +2,13 @@
   "name": "@voerkai18n/vue2",
   "version": "3.0.0",
   "description": "voerkai18n for vue2",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "access": "public",
+  "main":"./src/index.ts",
+  "publishConfig":{
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch"

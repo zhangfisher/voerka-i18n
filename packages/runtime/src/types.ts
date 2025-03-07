@@ -109,18 +109,19 @@ export type VoerkaI18nParagraphs = Record<LanguageName, Record<string, VoerkaI18
 
 export type VoerkaI18nTranslateProps<
     Options extends VoerkaI18nTranslateOptions = VoerkaI18nTranslateOptions,
-    Children=any,
-    Fallback=any
+    Children=any
 >= {
-    id?      : string
-    message? : VoerkaI18nToBeTranslatedMessage
-    vars?    : VoerkaI18nTranslateVars
-    default? : any
-    tag?     : string
-    options? : Options    
-    children?: Children
-    fallback?: Fallback
-    loading? : boolean     // 当加载段落时是否显示一个loading
+    id?       : string
+    message?  : VoerkaI18nToBeTranslatedMessage
+    vars?     : VoerkaI18nTranslateVars
+    default?  : any
+    tag?      : string
+    options?  : Options    
+    children? : Children
+    loading?  : boolean     // 当加载段落时是否显示一个loading    
+    style?    : any
+    className?: string
 }
 
 export type VoerkaI18nTranslateComponentBuilder<Component=any> = (scope:VoerkaI18nScope)=>Component
+ 

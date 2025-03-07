@@ -1,4 +1,4 @@
-// "paragraph": ()=>import("./paragraph")    
 export default {
-     
+	'about' : () => import('./about'),
+	'license' : () => import('./license')
 }

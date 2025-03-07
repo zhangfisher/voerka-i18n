@@ -126,7 +126,7 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                 )
             
                 return function(this:ComponentPublicInstance){                     
-                    if (tag) {
+                    if (tag || isParagraph) {
                         const attrs:Record<string,any> = {
                             class: className,
                             style: Object.assign({"position":"relative"},style)
@@ -134,7 +134,7 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                         if(msgId) attrs['data-id'] = msgId
                         if(paragraphId) attrs['data-id'] = paragraphId
                         if(scope.library) attrs['data-scope'] = scope.$id
-                        return h(tag, attrs, [
+                        return h(tag || 'div', attrs, [
                             result.value,
                             showLoading && LoadingComponent && isLoading.value  ?
                                 h(LoadingComponent,{ tips: loadingTips }) : null 

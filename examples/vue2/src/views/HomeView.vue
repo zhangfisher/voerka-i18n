@@ -8,7 +8,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import VoerkaI18n from '@/components/VoerkaI18n.vue'; // @ is an alias to /src
-import { t } from '@/languages';
 
 export default Vue.extend({
   name: 'HomeView',

@@ -3,11 +3,12 @@ import { createServerTranslateComponent,ReactServerTranslateComponentType }  fro
 import { VoerkaI18nScope } from '@voerkai18n/runtime';
 import formatters from "@voerkai18n/formatters"
 import storage  from "./storage"
-import idMap from "./idMap.json"
+import idMap from "./messages/idMap.json"
+import paragraphs from "./paragraphs"
 import settings from "./settings.json"
-import zhCNMessages from "./zh-CN"    
-import enUSMessages from "./en-US";
-import jaJPMessages from "./ja-JP";
+import zhCNMessages from "./messages/zh-CN"    
+import enUSMessages from "./messages/en-US";
+import jaJPMessages from "./messages/ja-JP";
   
 const component = createServerTranslateComponent() 
  
@@ -27,6 +28,7 @@ export const i18nScope = new VoerkaI18nScope<ReactServerTranslateComponentType>(
     formatters,                            // 格式化器
     storage,                               // 语言配置存储器
     messages,                              // 语言包 
+    paragraphs,
     component,                             // 翻译组件
     ...settings
 }) 

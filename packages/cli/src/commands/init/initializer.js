@@ -105,7 +105,7 @@ async function initializer(opts={}){
                     cwd      : path.join(__dirname,"templates",isTypeScript ? "ts" : (moduleType=='cjs' ? moduleType : "esm")),
                     vars     : opts, 
                     overwrite: file=>{
-                        return !file.endsWith(".json") && !file.endsWith("idMap.json") 
+                        return !file.endsWith(".json")
                     }
                 }) 
 

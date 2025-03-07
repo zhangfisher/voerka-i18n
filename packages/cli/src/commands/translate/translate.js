@@ -35,7 +35,9 @@ async function sendToTranslate(messages={},from,to,options){
         translatedMessages = await provider.translate.call(this,texts,from,to,this)
         if(strictLine && lineCount!==translatedMessages.length){
             console.log("\n--------------------")
-            console.log(texts.map((text,i)=>text + " -> " + translatedMessages[i]))            
+            const lines = texts.length>translatedMessages.length ? texts : translatedMessages
+            console.log(lines.map((text,i)=>text + " -> " + translatedMessages[i]).join("\n"))
+            console.log("--------------------")            
             throw new Error(t("翻译后的内容与原始内容行数不一致,建议更换翻译提供者或优化提示词"))            
         }
     }catch(e){

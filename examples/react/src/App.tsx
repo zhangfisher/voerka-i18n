@@ -5,13 +5,16 @@ import HomePage from './home'
 import TaskPage from './task' 
 import FeaturesPage from "./features"
 import RepoPage from './repos'
+import AboutPage from './about'
+
 import { Footer } from './components/Footer'
 
 const pages = [
   { name: 'home', title:t('首页'),active:true, component:HomePage},
   { name: 'features',title:t('特性'), component:FeaturesPage},
   { name: 'task',title:t('任务'), component:TaskPage},
-  { name: 'repos',title:t('开源项目'), component:RepoPage} 
+  { name: 'repos',title:t('开源项目'), component:RepoPage} ,
+  { name: 'about',title:t('关于'), component:AboutPage} 
 ]
 
 export default function App() {

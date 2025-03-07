@@ -23,5 +23,7 @@ export const i18nPlugin = {
         i18nScope.on("change",(language:string)=>{
             state.langauge = language
         })
+
+        Vue.component('Translate',i18nScope.Translate);
     }
 } 

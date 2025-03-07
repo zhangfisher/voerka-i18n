@@ -68,7 +68,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     ){
     __VoerkaI18nScope__ = true
     static idSeq:number = 0
-    private _options              : Required<VoerkaI18nScopeOptions>
+    private _options              : Required<VoerkaI18nScopeOptions<TranslateComponent>>
     private _manager!             : VoerkaI18nManager                                   // 引用全局VoerkaI18nManager配置，注册后自动引用
     private _formatterManager     : VoerkaI18nFormatterManager | null = null
     private _logger!              : VoerkaI18nLogger    
@@ -79,7 +79,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     protected _translateComponent?: TranslateComponent
     protected _activeParagraphs   : VoerkaI18nLanguageParagraphs = {}                   // 当前段落
 
-    $id:number = ++VoerkaI18nScope.idSeq
+    $id:number = ++VoerkaI18nScope.idSeq                        
 
     /**
      * 
@@ -119,20 +119,13 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
 	get interpolator(){ return this._flexVars! }                                // 变量插值处理器,使用flexvars    
     get logger(){ return this._logger!}                                         // 日志记录器
     get t():VoerkaI18nTranslate{ return this.translate.bind(this) as VoerkaI18nTranslate}
-    get Translate():TranslateComponent { return this._getTranslateComponent()!  }
+    get Translate():TranslateComponent { return this._getTranslateComponent()! as TranslateComponent }
     get activeMessages() { return this._activeMessages;}                        // 当前语言包 
     get activeParagraphs() { return this._activeParagraphs;}                    // 当前段落
-
-    /**
-     * 激活语言名称： 以appScope为准    
-     */
-	get activeLanguage():string { 
-        return this._activeLanguage
-        // return  this._options.attached ? ((this.library ? this._manager.activeLanguage : this._activeLanguage)) : this._activeLanguage as string 
-    }  
-    // 
+	get activeLanguage():string { return this._activeLanguage   }  
     get storage(){ return this.getScopeOption<IVoerkaI18nStorage>('storage')}    
     get loader(){ return this.getScopeOption<VoerkaI18nLanguageLoader>('loader') }
+    
     /**
      * 有些配置项是以appScope为准
      * @param name 

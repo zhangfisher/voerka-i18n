@@ -11,8 +11,10 @@ Vue.use(i18nPlugin,{
   i18nScope
 })
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+i18nScope.ready(()=>{
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app')
+})

@@ -24,14 +24,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Translate } from '../languages';
-
+import Vue from 'vue'; 
 export default Vue.extend({
   name: 'i18n',
-  components: {
-    Translate,
-  },
   props: {
     msg: String,
   },

@@ -14,6 +14,7 @@ export function Navbar() {
             <Link href="/">首页</Link>
             <Link href="/features">特性</Link> 
             <Link href="/repos">开源推荐</Link>
+            <Link href="/about">关于</Link>
         </span>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <LanguageBar />

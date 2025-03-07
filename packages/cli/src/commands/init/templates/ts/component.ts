@@ -13,6 +13,9 @@
 
 // --- Vue2 ---
 
+// import { createTranslateComponent, type VueTranslateComponentType } from "@voerkai18n/vue2";
+// export const component = createTranslateComponent({loading:true})
+// export type TranslateComponentType = VueTranslateComponentType
 
 // --- Svelte ---
 
