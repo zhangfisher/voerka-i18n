@@ -17,5 +17,8 @@ export default  {
     "52": "Features",
     "53": "Open-source Projects",
     "54": "Switching Collaboration among Multiple Libraries",
-    "55": "Execute Automatic Translation"
+    "55": "Execute Automatic Translation",
+    "79": "Home",
+    "80": "Open Source Recommendations",
+    "81": "About"
 }

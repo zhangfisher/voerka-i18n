@@ -16,11 +16,10 @@ export function createServerTranslateComponent(options?:createServerTranslateCom
             const msgId = isNumber(message) ? message : scope.options.idMap[message] || message
             return tagName ?
                     createElement(tagName,{
-                        dangerouslySetInnerHTML: {__html:message},
                         className              : "vt-msg s" ,
                         "data-id"              : msgId,
                         ...scopeAttr
-                    })
+                    },message)
                     : (
                         <span 
                             className="vt-msg s" 
@@ -34,5 +33,4 @@ export function createServerTranslateComponent(options?:createServerTranslateCom
     }
 }
   
-export type { ReactTranslateComponentType } from "@voerkai18n/react"
-export type ReactServerTranslateComponentType = ReactTranslateComponentType
+export type ReactServerTranslateComponentType = React.FC<VoerkaI18nTranslateProps>

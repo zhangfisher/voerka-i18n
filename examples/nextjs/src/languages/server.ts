@@ -1,6 +1,6 @@
 
 import { createServerTranslateComponent,ReactServerTranslateComponentType }  from "@voerkai18n/nextjs/server"
-import { VoerkaI18nScope } from '@voerkai18n/runtime';
+import { VoerkaI18nScope, VoerkaI18nTranslateProps } from '@voerkai18n/runtime';
 import formatters from "@voerkai18n/formatters"
 import storage  from "./storage"
 import idMap from "./messages/idMap.json"
@@ -36,4 +36,4 @@ export const i18nScope = new VoerkaI18nScope<ReactServerTranslateComponentType>(
 
 
 export const t = i18nScope.t
-export const Translate = i18nScope.Translate
+export const Translate = i18nScope.Translate as React.FC<VoerkaI18nTranslateProps>

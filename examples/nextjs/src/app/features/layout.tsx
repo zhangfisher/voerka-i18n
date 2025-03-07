@@ -1,4 +1,3 @@
-import "@/utils/scope"
 import Link from 'next/link'
 import { Translate } from "@/languages/server"
 

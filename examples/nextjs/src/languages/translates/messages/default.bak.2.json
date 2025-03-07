@@ -128,8 +128,8 @@
         "$id": 50
     },
     "首页": {
-        "en-US": "Home",
-        "ja-JP": "ホーム",
+        "en-US": "首页",
+        "ja-JP": "首页",
         "$files": [
             "src/components/NavBar.tsx(T14:46-T14:50)"
         ],
@@ -146,16 +146,16 @@
         "$id": 52
     },
     "开源推荐": {
-        "en-US": "Open Source Recommendations",
-        "ja-JP": "オープンソースのおすすめ",
+        "en-US": "开源推荐",
+        "ja-JP": "开源推荐",
         "$files": [
             "src/components/NavBar.tsx(T16:51-T16:57)"
         ],
         "$id": 80
     },
     "关于": {
-        "en-US": "About",
-        "ja-JP": "について",
+        "en-US": "关于",
+        "ja-JP": "关于",
         "$files": [
             "src/components/NavBar.tsx(T17:51-T17:55)"
         ],

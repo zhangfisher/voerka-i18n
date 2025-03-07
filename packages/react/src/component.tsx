@@ -46,22 +46,7 @@ export type CreateTranslateComponentOptions = {
     style?    : React.CSSProperties
     loading?  : React.ReactNode | boolean | string
 }
- 
-const Loading = (props:{tips?:string})=>(<div
-    style={{ 
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        fontSize: '1em',
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',            
-        alignItems: 'center',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        zIndex: 9999
-    }}
->{ props.tips || 'Loading...'}</div>)
+  
 
 export type ReactTranslateComponentType = React.FC<VoerkaI18nTranslateProps>
 
@@ -69,21 +54,15 @@ export type VoerkaI18nReactTranslateComponentBuilder = VoerkaI18nTranslateCompon
 
 
 export function createTranslateComponent(options?:CreateTranslateComponentOptions):VoerkaI18nReactTranslateComponentBuilder{        
-    const { tagName,attrs={}, class:className = 'vt-msg' ,style:gStyle, loading:gLoading } = Object.assign({ },options) as CreateTranslateComponentOptions
-    
-    const isCustomLoading = ['object','function'].includes(typeof(gLoading)) // 自定义加载中组件
-    const gShowLoading:boolean = typeof(gLoading) === 'boolean' ? gLoading : isCustomLoading // 全局开关
-    const LoadingComponent = isCustomLoading  ? gLoading : Loading 
+    const { tagName,attrs={}, class:className = 'vt-msg' ,style:gStyle, loading:LoadingComponent } = Object.assign({ },options) as CreateTranslateComponentOptions
+    const hasLoading:boolean = !!LoadingComponent
 
     return function(scope:VoerkaI18nScope){
-        return (props:VoerkaI18nTranslateProps)=>{
-            const { id:paragraphId, message, vars, options:tOptions,default:tDefault = '', loading:loadingArgs = gShowLoading } = props             
+        return (props:VoerkaI18nTranslateProps)=>{            
+            const { id:paragraphId, message, vars, options:tOptions,default:tDefault = '' } = props             
 
-            const isParagraph: boolean = typeof(paragraphId) === 'string' && paragraphId.length > 0
-            const showLoading = typeof(loadingArgs) === 'boolean' ? loadingArgs : typeof(loadingArgs)==='string'
-            const loadingTips = typeof(loadingArgs)==='string' ? loadingArgs : 'Loading...'
-            
-            // if(isParagraph) debugger
+            const isParagraph: boolean = typeof(paragraphId) === 'string' && paragraphId.length > 0 
+
             const [ result, setResult ] = useState(()=>{
                 if(isParagraph){
                     return props.children
@@ -91,7 +70,7 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
                     return typeof(message)==='function' ? tDefault : scope.translate(message!,vars,tOptions)
                 }                
             })
-    
+        
             const isFirst = useRef(false) 
             // 仅当是段落时才显示加载中
             const [ loading, setLoading ]  = useState<boolean>(false)         
@@ -109,14 +88,14 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
                 if(paragraphId){
                     const loader =  scope.activeParagraphs[paragraphId]
                     if(!loader) return
-                    if(showLoading) setLoading(true)
+                    if(hasLoading) setLoading(true)
                     try{                    
                         const paragraphText = await loadAsyncModule(loader)
                         setResult(paragraphText)
                     }catch(e:any){
                         console.error(e)
                     }finally{
-                        if(showLoading) setLoading(false)
+                        if(hasLoading) setLoading(false)
                     }                        
                 }                    
             }
@@ -143,21 +122,16 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
             if(msgId) attrs['data-id'] = msgId
             if(paragraphId) attrs['data-id'] = paragraphId
             if(scope.library) attrs['data-scope'] = String(scope.$id)
-
             
             if(tag || isParagraph){
-                const isShowLoading = showLoading && LoadingComponent && loading
                 return createElement(tag || 'div',{
                     ...attrs,
                     className,
+                    suppressHydrationWarning:true,
                     style:Object.assign({"position":"relative"},gStyle,props.style)
                 },
                 result,
-                isShowLoading ? 
-                (
-                    typeof LoadingComponent === 'function' ? <LoadingComponent tips={loadingTips}/> : LoadingComponent 
-                )
-                : null 
+                hasLoading && loading ? LoadingComponent : null,
                 )
             }else{
                 return <>{result}</>

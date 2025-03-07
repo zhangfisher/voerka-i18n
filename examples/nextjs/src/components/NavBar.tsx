@@ -1,3 +1,4 @@
+import { Translate } from "@/languages/server";
 import { LanguageBar } from "./LanguageBar";
 import Link from 'next/link'
 
@@ -11,10 +12,10 @@ export function Navbar() {
           </span>
         </div>
         <span className="flex flex-row justify-center space-x-3 grow text-center ">
-            <Link href="/">首页</Link>
-            <Link href="/features">特性</Link> 
-            <Link href="/repos">开源推荐</Link>
-            <Link href="/about">关于</Link>
+            <Link href="/"><Translate message="首页"/></Link>
+            <Link href="/features"><Translate message="特性"/></Link> 
+            <Link href="/repos"><Translate message="开源推荐"/></Link>
+            <Link href="/about"><Translate message="关于"/></Link>
         </span>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <LanguageBar />

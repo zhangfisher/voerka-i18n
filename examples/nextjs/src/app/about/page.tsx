@@ -1,10 +1,10 @@
  
-import { Translate } from "@/languages/server";
+import { Translate } from "@/languages/client";
 
 export default function About() {
   return (
     <> 
-    <div className="flex flex-row items-center justify-center gap-4 p-8 mt-18 ">       
+    <div className="flex flex-col items-center justify-center gap-4 p-8 mt-18 ">       
     <Translate id="about">
         VoerkaI18n是一款功能强大的现代化前端多语言框架，致力于为开发者提供灵活、高效且全链路的国际化支持。其核心优势在于深度适配主流技术生态，无缝支持Vue、React、SolidJS、Svelte等前端框架，并兼容Node.js服务端及原生JavaScript项目，真正实现跨平台多场景覆盖。
 该方案创新性地提出了“全自动化翻译工作流”，通过智能CLI工具自动扫描源码提取待翻译文本，结合可视化编辑器实现翻译协作，大幅降低人工维护成本。其运行时动态加载能力支持语言包按需加载，显著优化性能。功能上，除基础的变量插值、复数规则、日期货币格式化外，还提供强大的上下文敏感翻译、微翻译模式（精准更新局部内容）及智能诊断工具，可自动检测翻译覆盖率与语法错误。
