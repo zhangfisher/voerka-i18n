@@ -1,10 +1,11 @@
 <script lang="ts">
-	import '../app.css';
-	import { VoerkaI18nContext } from "../languages"
+	import '../app.css'; 
+	import Navbar from "../components/Navbar.svelte";
+
 	let { children } = $props();
 	
 </script>
-
-<VoerkaI18nContext>
-{@render children()}
-</VoerkaI18nContext>
+<div class="min-h-full">
+    <Navbar/>
+	{@render children()} 
+</div>

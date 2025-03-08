@@ -3,12 +3,9 @@ import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
 import idMap from "./messages/idMap.json"
 import paragraphs from "./paragraphs"
-import { component } from "./component"
+import { component,type TranslateComponentType } from "./component"
 import settings from "./settings.json"
-import defaultMessages from "./messages/zh-CN"  
-export { VoerkaI18nContext } from "@voerkai18n/svelte"
-
-console.log("component=",component) 
+import defaultMessages from "./messages/zh-CN"   
 
 const messages = { 
     'zh-CN'    : defaultMessages,
@@ -17,7 +14,7 @@ const messages = {
 }
 
 
-export const i18nScope = new VoerkaI18nScope<typeof component>({    
+export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({    
     id: "svelte__0_0_1",                                  // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 格式化器
