@@ -12,34 +12,11 @@ export type CreateTranslateComponentOptions = {
  
 export type VueTranslateComponentType = Component<VoerkaI18nTranslateProps> 
 
-// 一个简单的加载中组件
-const Loading = defineComponent({
-    name: 'VoerkaI18nLoading',
-    props: {
-        tips: { type: String, default: 'Loading...' }
-    },
-    setup(props){
-        return () => h('span', { style: { 
-            "position": 'absolute',
-            "top": 0,
-            "left": 0,
-            "font-size": '1em',
-            "width": '100%',
-            "height": '100%',
-            "display": 'flex',
-            "justify-content": 'center',            
-            "align-items": 'center',
-            "background-color": 'rgba(255, 255, 255, 0.8)',
-            "z-index": 9999
-        } }, props.tips)
-    }
-})
 
 export function createTranslateComponent(options?: CreateTranslateComponentOptions){
-    const { default: defaultMessage = '',  tagName, class:className = 'vt-msg' ,style,loading:gLoading } = Object.assign({ },options)
-    const isCustomLoading = ['object','function'].includes(typeof(gLoading)) // 自定义加载中组件
-    const gShowLoading:boolean = typeof(gLoading) === 'boolean' ? gLoading : isCustomLoading // 全局开关
-    const LoadingComponent = (isCustomLoading  ? gLoading : Loading) as Component
+    const { default: defaultMessage = '',  tagName, class:className = 'vt-msg' ,style,loading:LoadingComponent } = Object.assign({ },options)
+ 
+    const hasLoading:boolean = !!LoadingComponent
 
     return function(scope:VoerkaI18nScope){       
         return defineComponent<VoerkaI18nTranslateProps>({
@@ -49,16 +26,13 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                 message : { type: [ String, Function ] },
                 vars    : { type: Array, default: () => [] },
                 options : { type: Object, default: () => ({}) },
-                tag     : { type: String },
-                loading : { type: [ Boolean,String ], default: gShowLoading },
+                tag     : { type: String }, 
                 default : { type: String, default: '' }
             },   
             setup:(props,{ slots }) => {
 
-                const { message, id: paragraphId, loading: loadingArgs  } = props
-                const isParagraph: boolean = typeof(paragraphId) === 'string' && paragraphId.length > 0
-                const showLoading = typeof(loadingArgs) === 'boolean' ? loadingArgs : typeof(loadingArgs)==='string'
-                const loadingTips = typeof(loadingArgs)==='string' ? loadingArgs : 'Loading...'
+                const { message, id: paragraphId } = props
+                const isParagraph: boolean = typeof(paragraphId) === 'string' && paragraphId.length > 0 
 
                 const result = ref(
                     isParagraph ? slots.default && slots.default()
@@ -70,7 +44,6 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                 )
                 // 仅当是段落时才显示加载中
                 const isLoading = ref<boolean>(false)
-
                 const isFirst = ref(false)
                 const tag = props.tag || tagName
                 const msgId = scope.getMessageId(props.message)
@@ -136,8 +109,8 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                         if(scope.library) attrs['data-scope'] = scope.$id
                         return h(tag || 'div', attrs, [
                             result.value,
-                            showLoading && LoadingComponent && isLoading.value  ?
-                                h(LoadingComponent,{ tips: loadingTips }) : null 
+                            hasLoading && isLoading.value  ?
+                                LoadingComponent : null 
                         ])
                     }else{
                         return result.value

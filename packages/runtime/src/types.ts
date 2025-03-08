@@ -117,8 +117,7 @@ export type VoerkaI18nTranslateProps<
     default?  : any
     tag?      : string
     options?  : Options    
-    children? : Children
-    loading?  : boolean     // 当加载段落时是否显示一个loading    
+    children? : Children 
     style?    : any
     className?: string
 }

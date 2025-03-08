@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true} >
+      <body  >
         <VoerkaI18nNextjsProvider fallback={<div>loading language...</div>}>
           <Navbar/>    
           {children} 
