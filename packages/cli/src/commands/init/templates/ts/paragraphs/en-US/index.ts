@@ -1,4 +1,4 @@
-// "paragraph": ()=>import("./paragraph")    
+// { paragrapgId: ()=>import('./<paragrapgId>') }
 export default {
-    
+	
 }

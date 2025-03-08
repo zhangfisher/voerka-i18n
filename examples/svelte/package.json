@@ -1,0 +1,38 @@
+{
+	"name": "svelte",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"i18n:init": "voerkai18n init",
+		"i18n:extract": "voerkai18n extract",
+		"i18n:translate": "voerkai18n translate --api qwen --provider ai",
+		"i18n:compile": "voerkai18n compile",
+		"i18n:wrap": "voerkai18n wrap --api qwen"
+	},
+	"dependencies": {
+		"@voerkai18n/cli": "workspace:*",
+		"@voerkai18n/runtime": "workspace:*",
+		"@voerkai18n/svelte": "workspace:*",
+		"@voerkai18n/formatters": "workspace:*"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^4.0.0",
+		"@sveltejs/kit": "^2.16.0",
+		"@sveltejs/vite-plugin-svelte": "^5.0.0",
+		"@tailwindcss/forms": "^0.5.9",
+		"@tailwindcss/typography": "^0.5.15",
+		"@tailwindcss/vite": "^4.0.0",
+		"svelte": "^5.0.0",
+		"svelte-check": "^4.0.0",
+		"tailwindcss": "^4.0.0",
+		"typescript": "^5.0.0",
+		"vite": "^6.0.0"
+	}
+}

@@ -94,6 +94,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
             injectLangAttr : true,                          // 是否注入一个langauge属性到body元素，或者指定元素选择器
             languages      : [],                            // 当前作用域支持的语言列表
             messages       : {},                            // 所有语言包={[language]:VoerkaI18nLanguageMessages}
+            paragraphs     : {},                            // 段落
             idMap          : {},                            // 消息id映射列表
             formatters     : [],                            // 是否挂接到appScope
             attached       : true,                          // 是否挂接到appScope

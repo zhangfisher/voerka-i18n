@@ -1,4 +1,4 @@
 // { paragrapgId: ()=>import('./<paragrapgId>') }
-export default {
+module.exports = {
 	
 }

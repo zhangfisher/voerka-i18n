@@ -1,6 +1,7 @@
 const { VoerkaI18nScope } = require("@voerkai18n/runtime")
 const storage = require("./storage")
 const formatters = require("@voerkai18n/formatters")
+import paragraphs from "./paragraphs"
 const idMap = require("./messages/idMap.json")
 const { component } = require("./component")
 const settings = require("./settings.json")
@@ -19,6 +20,7 @@ const i18nScope = new VoerkaI18nScope({
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器
     messages,                                           // 语言包
+    paragraphs,                                         // 段落
     component,                                          // 翻译组件
     ...settings
 }) 

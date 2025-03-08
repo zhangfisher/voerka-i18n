@@ -1,4 +1,7 @@
+import zhCN from './zh-CN'
+import enUS from './en-US' 
+
 export default {
-"./en-US": () => import("./en-US"),
-"./zh-CN": () => import("./zh-CN")
+	'zh-CN' : zhCN,
+	'en-US' : enUS 
 }

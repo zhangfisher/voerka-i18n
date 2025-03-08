@@ -45,5 +45,10 @@
       "scripts.release:all": "一健自动化发布所有包"
     }
   },
-  "packageManager": "pnpm@10.4.1"
+  "packageManager": "pnpm@10.4.1",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
 }

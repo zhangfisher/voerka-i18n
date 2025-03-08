@@ -1,7 +1,9 @@
 import type { VoerkaI18nManager } from "./manager"
 import { VoerkaI18nFormatterConfig } from "./formatter/types"
 import type { VoerkaI18nScope, VoerkaI18nScopeOptions } from "./scope" 
-import type { BCP47LanguageTagName } from "bcp47-language-tags" 
+import type { BCP47LanguageTagName } from "bcp47-language-tags"  
+import { LiteEventListener,LiteEventSubscriber } from "flex-tools/events/liteEvent" 
+
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
@@ -123,4 +125,6 @@ export type VoerkaI18nTranslateProps<
 }
 
 export type VoerkaI18nTranslateComponentBuilder<Component=any> = (scope:VoerkaI18nScope)=>Component
- 
+
+export type VoerkaI18nEventListener = LiteEventListener
+export type VoerkaI18nEventSubscriber = LiteEventSubscriber
