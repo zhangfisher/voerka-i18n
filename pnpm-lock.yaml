@@ -244,6 +244,9 @@ importers:
 
   examples/svelte:
     dependencies:
+      '@lucide/svelte':
+        specifier: ^0.479.0
+        version: 0.479.0(svelte@5.22.6)
       '@voerkai18n/cli':
         specifier: workspace:*
         version: link:../../packages/cli
@@ -2601,6 +2604,11 @@ packages:
     resolution: {integrity: sha512-gOPHgZ7PmrQuMuB2GaB6PyDKvI00HhxMJn6gzUoNJ8ZhSIAwmpF6D0pdF0UNryA1wXA+MMNdiBBpoWOxvZg93A==}
     peerDependencies:
       vue: ^3.0.0
+
+  '@lucide/svelte@0.479.0':
+    resolution: {integrity: sha512-k/JaO8FHvmK7GLCy9vibA7O1a9nCtlfIs0tU/yYlmkqykVEvz9NRFkpR8g2kbsc79uFVz0Q2tjnRC09vd9AxmA==}
+    peerDependencies:
+      svelte: ^5
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -12257,6 +12265,10 @@ snapshots:
     dependencies:
       vue: 3.5.13(typescript@5.8.2)
       vue-slide-up-down: 3.0.0(vue@3.5.13(typescript@5.8.2))
+
+  '@lucide/svelte@0.479.0(svelte@5.22.6)':
+    dependencies:
+      svelte: 5.22.6
 
   '@manypkg/find-root@1.1.0':
     dependencies:

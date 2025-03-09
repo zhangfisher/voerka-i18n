@@ -16,7 +16,7 @@
 </script>
 
 <script lang="ts">
-import { onMount } from 'svelte'; 
+  
 import classNames from 'classnames';
 import { Translate,i18nScope, t } from "../languages"
  
@@ -27,7 +27,9 @@ function handleLanguageClick(lang: any) {
     const index = i18nScope.languages.findIndex((l) => l.name === lang.name);
     if (index !== -1) {
       activeIndex = index;
-      i18nScope.change(lang.name)
+      i18nScope.change(lang.name).then((lang)=>{
+        console.log("Language changed to: ", lang);
+      })
     }
 }
 

@@ -17,6 +17,7 @@
 		"i18n:wrap": "voerkai18n wrap --api qwen"
 	},
 	"dependencies": {
+		"@lucide/svelte": "^0.479.0",
 		"@voerkai18n/cli": "workspace:*",
 		"@voerkai18n/formatters": "workspace:*",
 		"@voerkai18n/runtime": "workspace:*",
