@@ -184,14 +184,6 @@
         ],
         "$id": 69
     },
-    "多语言": {
-        "en-US": "Multilingual\r",
-        "ja-JP": "多言語\r",
-        "$files": [
-            "src/routes/about/+page.svelte(T3:23-T3:28)"
-        ],
-        "$id": 70
-    },
     "特性": {
         "en-US": "Features\r",
         "ja-JP": "特徴\r",
@@ -199,6 +191,14 @@
             "src/routes/features/+page.svelte(T4:21-T4:25)"
         ],
         "$id": 71
+    },
+    "多语言": {
+        "en-US": "Multilingual\r",
+        "ja-JP": "多言語\r",
+        "$files": [
+            "src/routes/about/+page.svelte(T3:23-T3:28)"
+        ],
+        "$id": 70
     },
     "更多开源项目...": {
         "en-US": "More open-source projects...\r",

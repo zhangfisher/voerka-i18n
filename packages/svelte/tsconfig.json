@@ -8,8 +8,10 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
+		"verbatimModuleSyntax": true,
 		"strict": true,
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext"
+		"module": "ES2022",
+		"isolatedModules": true,
+		"moduleResolution": "bundler"
 	}
 }

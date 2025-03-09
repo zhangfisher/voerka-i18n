@@ -1,13 +1,15 @@
 <script lang="ts">
 import { onMount, onDestroy } from 'svelte';
 import { loadAsyncModule,type VoerkaI18nTranslateProps, type VoerkaI18nScope, type VoerkaI18nEventSubscriber } from "@voerkai18n/runtime";
+import type { TranslateComponentContext } from './types';
 
 
-    let props:VoerkaI18nTranslateProps & { scope?:VoerkaI18nScope }= $props();
+    let props:VoerkaI18nTranslateProps & { $context?:TranslateComponentContext }= $props();
+     
+    let { id: paragraphId, message, vars, options, default:defaultMessage  } = props;
+    const { tagName,attrs,class:className, style, loading:LoadingComponent  } = props.$context as TranslateComponentContext
 
-    let { id: paragraphId, message, tag, vars, options, default:defaultMessage  } = props;
-
-    const scope = (props.scope || VoerkaI18n.scope ) as VoerkaI18nScope;
+    const scope = (props.$context?.scope || VoerkaI18n.scope ) as VoerkaI18nScope;
 
     let isParagraph: boolean = typeof paragraphId === 'string' && paragraphId.length > 0;
 
@@ -48,7 +50,7 @@ import { loadAsyncModule,type VoerkaI18nTranslateProps, type VoerkaI18nScope, ty
         if (typeof message === 'function' || isParagraph) {
             refresh(scope.activeLanguage);
         }
-        const listener = scope.on('change', refresh) as any; 
+        subscriber = scope.on('change', refresh) as any; 
     });
 
     onDestroy(() => {        
@@ -57,10 +59,19 @@ import { loadAsyncModule,type VoerkaI18nTranslateProps, type VoerkaI18nScope, ty
         
 </script>
 
-{#if tag || isParagraph}
-    <svelte:element this={tag || 'div'} data-id={paragraphId || msgId} data-scope={scope.$id} >
-        {result}
+{#if tagName || isParagraph} 
+    <svelte:element this={tagName || 'div'} 
+        data-id={ paragraphId || msgId } 
+        data-scope={scope.$id} 
+        class={className}
+        style={style}
+        {...attrs}
+    >
+        {result} 
+        {#if LoadingComponent}
+            <LoadingComponent />
+        {/if} 
     </svelte:element>
 {:else}
-    {result}
+    { result}
 {/if}

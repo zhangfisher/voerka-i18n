@@ -1,12 +1,17 @@
-import type { VoerkaI18nTranslateComponentBuilder } from "@voerkai18n/runtime";
-import type { SvelteComponent } from "svelte";
+import type { VoerkaI18nScope, VoerkaI18nTranslateComponentBuilder } from "@voerkai18n/runtime";
+import type { Component } from "svelte";
+import type { ClassValue } from 'svelte/elements';
+
 
 export type CreateTranslateComponentOptions = {
-    tagName?: string;
-    attrs?: Record<string, string>;
-    class?: string;
-    style?: string;
-    loading?: any;
-};
-
-export type VoerkaI18nSvelteTranslateComponentBuilder = VoerkaI18nTranslateComponentBuilder<SvelteComponent>;
+    tagName?  : string
+    attrs?    : Record<string,string>        
+    class?    : ClassValue
+    style?    : string
+    loading?  : Component
+}
+export type TranslateComponentContext = CreateTranslateComponentOptions & {
+    scope: VoerkaI18nScope
+}
+ 
+export type VoerkaI18nSvelteTranslateComponentBuilder = VoerkaI18nTranslateComponentBuilder<Component>;

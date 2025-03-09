@@ -236,7 +236,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
         if(!this.attached) return
         const isAppScope = !this.options.library 
         if(isAppScope){
-            if(globalThis.VoerkaI18n && globalThis.VoerkaI18n.scope){
+            if(globalThis.VoerkaI18n && globalThis.VoerkaI18n.scope && isBrowser()){
                console.warn("Only can have one i18nScope with library=false")
             }
             this._manager = new VoerkaI18nManager(this)            

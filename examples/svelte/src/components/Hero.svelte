@@ -1,5 +1,5 @@
 <script>
-  import { Translate } from '../languages';
+import { Translate } from '../languages';
 </script>
 
 <div class="relative px-4 pt-0">
