@@ -1,3 +1,2 @@
 export * from "./component"
-export * from "./plugin"
-export * from "./provider"
+export * from "./plugin" 

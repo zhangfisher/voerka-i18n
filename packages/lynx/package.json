@@ -1,0 +1,46 @@
+{
+    "name": "@voerkai18n/lynx",
+    "version": "3.0.0",
+    "description": "voerkai18n for lynx",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "publishConfig": {
+        "main": "dist/index.js",
+        "module": "dist/index.mjs",
+        "types": "dist/index.d.ts"
+    },
+    "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zhangfisher/voerka-i18n"
+    },
+    "keywords": [
+        "voerkai18n",
+        "i18n",
+        "language",
+        "translation",
+        "internationalize",
+        "react"
+    ],
+    "scripts": {
+        "build": "tsup"
+    },
+    "author": "wxzhang",
+    "license": "MIT",
+    "devDependencies": {
+        "@lynx-js/react": "^0.105.1",
+        "@lynx-js/types": "^3.2.0",
+        "@types/react": "^18.0.0",
+        "@voerkai18n/runtime": "workspace:^",
+        "react": "^18.0.0",
+        "tsup": "^8.3.6"
+    },
+    "peerDependencies": {
+        "@lynx-js/react": "^0.105.1",
+        "@lynx-js/types": "^3.2.0",
+        "@types/react": "^18.0.0",
+        "@voerkai18n/runtime": "workspace:^",
+        "react": "^18.0.0"
+    }
+}

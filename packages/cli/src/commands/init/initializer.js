@@ -57,18 +57,32 @@ function createParagraphsDir(opts){
     const paragraphsDir = getDir(path.join(langDir,"paragraphs"))      
 
     const langEsmImports = languages.reduce((acc,lng)=>{
-        acc.push(`\t'${lng.name}': () => import("./${lng.name}")`)
+        acc.push(`import ${lng.name.replace("-","")} from './${lng.name}'`)
         return acc
-    },[]).join(",\n")
+    },[]).join("\n")
+
     const langCjsImports = languages.reduce((acc,lng)=>{
-        acc.push(`\t'${lng.name}' : () => require("./${lng.name}")`)
+        acc.push(`const ${lng.name.replace("-","")} = require('./${lng.name}')`)
         return acc
-    },[]).join(",\n")
+    },[]).join("\n")
+
+
+    const exportDict = languages.map(lang=>(`\t'${lang.name}' : ${lang.name.replace("-","")}`)).join(",\n")
     const paragraphsCode = isTypeScript || moduleType === 'esm' ? 
-        `export default {\n${langEsmImports}\n}` 
-        : `module.exports =  ${langCjsImports}`
+        `${langEsmImports}\n\nexport default {\n${exportDict}\n}` 
+        : `${langCjsImports}\n\nmodule.exports = {\n${exportDict}\n}`
 
     fs.writeFileSync(path.join(paragraphsDir,`index.${codeFileExtName}`),paragraphsCode)
+
+    languages.forEach(lng=>{
+        const lngDir = getDir(path.join(paragraphsDir,lng.name))
+        const paragraphfile = path.join(lngDir,`index.${codeFileExtName}`)
+        if(!fs.existsSync(paragraphfile)){
+            fs.writeFileSync(paragraphfile,isTypeScript || moduleType === 'esm' ? "export default {}" : "module.exports = {}")
+        }
+     })
+
+
     return paragraphsDir
 }
 

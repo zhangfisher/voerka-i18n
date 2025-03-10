@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+src/languages/api.json
+src/languages/translates/*/*.bak.*.json
+**/*.wrapped.*

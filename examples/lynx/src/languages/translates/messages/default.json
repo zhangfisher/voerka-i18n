@@ -1,0 +1,18 @@
+{
+    "欢迎使用VoerkaI18n国际化解决方案": {
+        "en-US": "Welcome to VoerkaI18n internationalization solution",
+        "ja-JP": "VoerkaI18n国際化ソリューションへようこそ",
+        "$files": [
+            "src/App.tsx(T26:33-T26:56)"
+        ],
+        "$id": 3
+    },
+    "一站式全流程解决方案": {
+        "en-US": "One-stop full-process solution",
+        "ja-JP": "ワンストップフルプロセスソリューション",
+        "$files": [
+            "src/App.tsx(T29:31-T29:43)"
+        ],
+        "$id": 4
+    }
+}

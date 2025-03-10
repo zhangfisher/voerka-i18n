@@ -1,5 +1,3 @@
-'use client'
-
 import { createTranslateComponent,CreateTranslateComponentOptions } from "@voerkai18n/react"
  
 
