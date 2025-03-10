@@ -25,7 +25,7 @@ module.exports = () => {
     const applyCommand = new MixCommand("apply");  
 
     applyCommand
-        .description(t("配置vue/react等应用框架集成"))
+        .description(t("配置vue/react/nextjs/uniapp等支持"))
         .action(async (options) => {
             
         });
