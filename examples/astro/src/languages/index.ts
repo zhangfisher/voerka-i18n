@@ -3,11 +3,11 @@ import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
 import paragraphs from "./paragraphs"
 import idMap from "./messages/idMap.json"
-import { component,type TranslateComponentType } from "./component"
+import {createTranslateComponent} from "./component.tsx"
 import settings from "./settings.json"
 import defaultMessages from "./messages/zh-CN"  
 
- 
+const component = createTranslateComponent()
 
 const messages = { 
     'zh-CN'    : defaultMessages,
@@ -16,7 +16,7 @@ const messages = {
 }
 
 
-export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({    
+export const i18nScope = new VoerkaI18nScope({    
     id: "astro__0_0_1",                                  // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 格式化器
