@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/node": "^22.13.9",
     "@voerkai18n/runtime": "workspace:^",
+    "esbuild-plugin-copy": "^2.1.1",
     "tslib": "^2.8.1",
     "tsup": "^8.3.6",
     "vue": "^2.7.0"

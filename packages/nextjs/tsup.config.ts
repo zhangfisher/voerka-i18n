@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup' 
+import copyFiles from "esbuild-plugin-copy"
 
 
 export default defineConfig([{
@@ -14,7 +15,16 @@ export default defineConfig([{
     treeshake:true,   
     minify: false,
     noExternal:['flex-tools','@voerkai18n/react'],
-    cjsInterop: false,
+    cjsInterop: false,       
+    esbuildPlugins: [
+        // @ts-ignore
+        copyFiles({
+            assets:{
+                from:"./src/install/**/*",
+                to:'./install'
+            }
+        })
+    ], 
     banner: {
         js: `/***        
     *   ---=== VoerkaI18n for Nextjs ===---

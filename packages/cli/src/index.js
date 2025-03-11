@@ -4,9 +4,10 @@ const { MixCli }                                    = require("mixcli");
 const InitCommand                                   = require("./commands/init");
 const ExtractCommand                                = require("./commands/extract");
 const CompileCommand                                = require("./commands/compile");
-const WrapCommand                                   = require("./commands/wrap");
+const wrapCommand                                   = require("./commands/wrap");
 const TranslateCommand                              = require("./commands/translate");
 const inspectCommand                                = require("./commands/inspect");
+const applyCommand                                 = require("./commands/apply");
 const { getCliLanguage }                            = require("./oslocale");
 const {  isVoerkaI18nInstalled, getProjectContext } = require("@voerkai18n/utils"); 
 const { i18nScope }                                 = require("./i18n");
@@ -34,8 +35,9 @@ getProjectContext().then(async ctx=>{
     cli.register(ExtractCommand)
     cli.register(CompileCommand)
     cli.register(TranslateCommand)
-    cli.register(WrapCommand)
+    cli.register(wrapCommand)
     cli.register(inspectCommand)
+    cli.register(applyCommand)
     cli.run();       
   })
 

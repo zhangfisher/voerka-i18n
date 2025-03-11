@@ -36,6 +36,7 @@ export default defineConfig([
         minify: false,
         noExternal:['flex-tools'], 
         esbuildPlugins: [
+            // @ts-ignore
             copyFiles({
                 assets:{
                     from:"./src/extract/schemas/configs/*.yaml",
