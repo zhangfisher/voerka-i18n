@@ -31,5 +31,9 @@ export type TranslateComponentType = any
 
 
 // 自定义组件
-// export const component = (props:VoerkaI18nTranslateProps)=>{....}
-// export type TranslateComponentType = typeof component
+// export const component = (scope:VoerkaI18nScope)=>{
+//      return (props:VoerkaI18nTranslateProps)=>{
+//          ....
+//      }
+// }
+// export type TranslateComponentType = ReturnType<typeof component>

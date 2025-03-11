@@ -1,4 +1,4 @@
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils/createFormatter"
 import { toDate } from "../utils/toDate" 
 import { relativeTime } from "flex-tools/misc/relativeTime"
 

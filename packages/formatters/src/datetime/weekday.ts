@@ -1,4 +1,4 @@
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils/createFormatter"
 import { toDate } from "../utils/toDate" 
 import { CN_SHORT_WEEK_DAYS, CN_WEEK_DAYS } from "flex-tools/chinese"
 

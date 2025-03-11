@@ -57,9 +57,11 @@ module.exports = () => {
         })
         .action(async (options) => {
           
-            const { framework } = options
-            console.log(framework)
-            const tasks = logsets.tasklist(t("启用{}框架集成"),framework)
+            const { framework } = options 
+            const tasks = logsets.tasklist({
+                title: [t("配置框架支持{}"),framework],
+                grouped:true
+            })
             try{
                 tasks.add(t("安装{}依赖"),framework)
                 if(await packageIsInstalled(framework)){
@@ -79,11 +81,11 @@ module.exports = () => {
                
                 const installDir = path.join(path.dirname(require.resolve(framework)),"install",typescript ? "ts" : "esm")
                 
-                if(!fs.existsSync(installSourceDir)){
+                if(!fs.existsSync(installDir)){
                     throw new Error(t("框架{}不支持当前语言模式",framework))
                 }else{
                     await copyFiles("**/*.*",langDir, { 
-                        cwd      : installSourceDir,
+                        cwd      : installDir,
                         overwrite: true,
                         vars     : ctx
                     }) 

@@ -113,9 +113,21 @@ importers:
 
   examples/html:
     dependencies:
+      '@voerkai18n/nextjs':
+        specifier: workspace:*
+        version: link:../../packages/nextjs
       '@voerkai18n/react':
         specifier: workspace:*
         version: link:../../packages/react
+      '@voerkai18n/svelte':
+        specifier: workspace:*
+        version: link:../../packages/svelte
+      '@voerkai18n/vue':
+        specifier: workspace:*
+        version: link:../../packages/vue
+      '@voerkai18n/vue2':
+        specifier: workspace:*
+        version: link:../../packages/vue2
     devDependencies:
       '@voerkai18n/cli':
         specifier: workspace:*

@@ -1,6 +1,6 @@
 
 import { toCurrency } from "../utils/toCurrency" 
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils/createFormatter"
 
 type CurrencyFormatterConfig = {
     default  : string                       // "{symbol}{value}{unit}",

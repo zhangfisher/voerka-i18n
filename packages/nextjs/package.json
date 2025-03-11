@@ -4,6 +4,11 @@
   "description": "voerkai18n for nextjs",
   "main": "src/index.js",
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
     "./client": "./src/client/index.ts",
     "./server": "./src/server/index.ts"
   },

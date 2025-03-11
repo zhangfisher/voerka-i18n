@@ -8,7 +8,11 @@
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <script  src="node_modules\@voerkai18n\runtime\dist\index.global.js"></script>
+    <script>
+      console.log("VoerkaI18n=",VoerkaI18n);
+    </script>
+
     <v-translate message="欢迎使用VoerkaI18n"/>
     <v-translate id="about"> 
   VoerkaI18n是一款功能强大的现代化前端多语言框架，致力于为开发者提供灵活、高效且全链路的国际化支持。其核心优势在于深度适配主流技术生态，无缝支持Vue、React、SolidJS、Svelte等前端框架，并兼容Node.js服务端及原生JavaScript项目，真正实现跨平台多场景覆盖。
@@ -16,7 +20,7 @@
 VoerkaI18n的突破性设计体现在“去中心化”管理架构，开发者可将翻译文件与代码库解耦，通过轻量级API实现云端协同。其类型安全的TypeScript支持和响应式语言切换机制，进一步提升了开发体验。无论是轻量应用还是大型工程，VoerkaI18n均以高扩展性和极简API重新定义了国际化开发范式，成为全球化项目的理想之选。
     </v-translate>
   <h2>MIT许可证</h2>
-  <v-translate id="license" className="sdds" style={{border:'1px solid red'}} >
+  <v-translate id="license" className="sdds" style="border:1px solid red" >
 版权所有 (c) [年份] [版权持有者]
 特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地处理本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和/或出售本软件的副本，并允许获得本软件的人这样做，但须满足以下条件：
 上述版权声明和本许可声明应包含在本软件的所有副本或重要部分中。

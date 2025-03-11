@@ -11,19 +11,25 @@ const formatters:any = [
     "datetime/relativeTime.ts"
 ]
 
+function firstUpper(str: string): string {
+    if (!str) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export default defineConfig([
         {
             entry: [
                 'src/index.ts'
             ],
-            format: ['esm','cjs'],
+            format: ['esm','cjs','iife'],
             dts: true,
             splitting: false,
             sourcemap: true,
             clean: true,
             treeshake:true,   
             minify: false,
-            noExternal:['flex-tools'],
+            noExternal:['flex-tools'], 
+            globalName: 'VoerkaI18nFormatters',
             cjsInterop: false,
             banner: {
                 js: `/***        
@@ -35,7 +41,7 @@ export default defineConfig([
                 entry: [
                     `src/${name}`  
                 ],
-                format: ['esm','cjs'],
+                format: ['esm','cjs','iife'],
                 outDir: `./dist/datetime/`,
                 dts: true,
                 splitting: false,
@@ -44,13 +50,14 @@ export default defineConfig([
                 treeshake:true,  
                 cjsInterop: false,
                 minify: true,
-                noExternal:['flex-tools']
+                noExternal:['flex-tools'],
+                globalName: `VoerkaI18n${firstUpper(name)}Formatters`
             })),
         {
             entry: [
                 `src/number/index.ts`   
             ],
-            format: ['esm','cjs'],
+            format: ['esm','cjs','iife'],
             dts: true,
             outDir: './dist/number/',
             splitting: false,
@@ -59,13 +66,14 @@ export default defineConfig([
             treeshake:true,  
             cjsInterop: false,
             minify: true,
-            noExternal:['flex-tools']
+            noExternal:['flex-tools'],
+            globalName: `VoerkaI18nNumberFormatter`
         },{
             entry: [
                 `src/currency/index.ts`        
             ],
             outDir: './dist/currency/',
-            format: ['esm','cjs'],
+            format: ['esm','cjs','iife'],
             dts: true,
             splitting: false,
             sourcemap: true,
@@ -73,7 +81,8 @@ export default defineConfig([
             treeshake:true,  
             cjsInterop: false,
             minify: true,
-            noExternal:['flex-tools']
+            noExternal:['flex-tools'],
+            globalName: `VoerkaI18nCurrencyFormatter`
         }
     ]
 ) 

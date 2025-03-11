@@ -1,4 +1,4 @@
-import { createFormatter } from "@voerkai18n/runtime"
+import { createFormatter } from "../utils/createFormatter"
 import { toDate } from "../utils/toDate" 
 import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/chinese"
 

@@ -23,6 +23,10 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
-    "@voerkai18n/react": "workspace:*"
+    "@voerkai18n/react": "workspace:*",
+    "@voerkai18n/vue2": "workspace:*",
+    "@voerkai18n/vue": "workspace:*",
+    "@voerkai18n/nextjs": "workspace:*",
+    "@voerkai18n/svelte": "workspace:*"
   }
 }
