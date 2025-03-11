@@ -1,4 +1,3 @@
-'use client'
 
 import { definePlugin, VoerkaI18nManager } from '@voerkai18n/runtime'
 import { applyTranslate } from '../utils'
