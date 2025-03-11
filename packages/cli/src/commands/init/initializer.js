@@ -52,7 +52,7 @@ function getDefaultScopeId(){
 
 function createParagraphsDir(opts){    
 
-    const  { languages,langDir,typescript:isTypeScript } = opts
+    const  { languages,langDir,typescript:isTypeScript,moduleType } = opts
     const codeFileExtName = isTypeScript ? "ts" : 'js'
     const paragraphsDir = getDir(path.join(langDir,"paragraphs"))      
 
@@ -87,7 +87,7 @@ function createParagraphsDir(opts){
 }
 
 function createMessagesDir(opts){    
-    const  { languages,langDir,typescript:isTypeScript } = opts
+    const  { moduleType,languages,langDir,typescript:isTypeScript } = opts
     const codeFileExtName = isTypeScript ? "ts" : 'js'
     const messagesDir = getDir(path.join(langDir,"messages"))      
 
@@ -173,6 +173,7 @@ async function initializer(opts={}){
     summary.addMemo(t("工作模式   :  {}"),library ? t("库模式") : t("应用模式"))
     summary.addGroup(t("下一步："))    
     summary.addMemo(t("修改{}文件编辑语言参数"),`${langRelDir}/settings.json`)
+    summary.addMemo(t("运行<{}>自动配置React/Vue等框架集成"),"voerkai18n apply")
     summary.addMemo(t("运行<{}>自动包裹要翻译的文本"),"voerkai18n wrap")
     summary.addMemo(t("运行<{}>扫描提取要翻译的文本"),"voerkai18n extract")    
     summary.addMemo(t("运行<{}>在线自动翻译"),"voerkai18n translate")

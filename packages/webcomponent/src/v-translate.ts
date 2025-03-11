@@ -10,7 +10,9 @@ export class TranslateElement extends LitElement {
   _scope: VoerkaI18nScope | undefined
 
   @state()
-  result = ''
+  result = ''  
+  @property({ type: String })
+  id = ''
   @property({ type: String })
   message = ''
   @property({ type: Array })
@@ -20,7 +22,7 @@ export class TranslateElement extends LitElement {
   @property({ type: String })
   scope = ''
   @property({ type: String })
-  tag = ''
+  tag = 'span'
 
   connectedCallback() {
     super.connectedCallback()
@@ -33,7 +35,11 @@ export class TranslateElement extends LitElement {
   }
 
   private _onChangeLanguage() {
-    this.result = this._scope!.t(this.message,this.vars,this.options)
+    if(this.id && this.id.length>0){
+      this.result = this._scope?.activeParagraphs[this.id] || ''
+    }else{
+      this.result = this._scope!.t(this.message,this.vars,this.options)
+    }
   }
 
   disconnectedCallback(): void {
@@ -50,8 +56,15 @@ export class TranslateElement extends LitElement {
   }
 
   render() {
+    const msgId = this._scope!.getMessageId(this.message)
+
+    const attrs = {
+      class: 'vt-msg',
+      scope: this._scope?.$id,
+      "data-id": msgId || this.id
+    } 
     return html` 
-      ${this.tag=='' ? this.result : `${this.tag}>${this.result}</${this.tag}>`}
+      ${this.tag=='' ? this.result : `<${this.tag} ${Object.entries(attrs).map(([key, value]) =>`${key}="${value}"`).join(' ')} >${this.result}</${this.tag}>`}
     `
   }
 }

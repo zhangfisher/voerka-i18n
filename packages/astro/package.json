@@ -21,8 +21,7 @@
       "require": "./dist/server/index.js"
     }
   },
-  "scripts": { 
-    "build": "tsup"
+  "scripts": {  
   },
   "keywords": [
     "voerkai18n",

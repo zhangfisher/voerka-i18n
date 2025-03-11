@@ -1,0 +1,36 @@
+{
+  "name": "voerkai18n-example-openinula",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "i18n:init": "voerkai18n init",
+    "i18n:extract": "voerkai18n extract",
+    "i18n:translate": "voerkai18n translate --api qwen",
+    "i18n:compile": "voerkai18n compile",
+    "i18n:wrap": "voerkai18n wrap --api qwen"
+  },
+  "keywords": [],
+  "author": "wxzhang",
+  "license": "MIT",
+  "dependencies": {
+    "@voerkai18n/openinula": "workspace:^",
+    "@voerkai18n/cli": "workspace:*",
+    "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/react": "workspace:*",
+    "@voerkai18n/runtime": "workspace:*",
+    "classnames": "^2.5.1",
+    "openinula": "0.1.3-experimental-20240718-2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-react": "^7.18.6",
+    "@vitejs/plugin-react": "^3.1.0",
+    "@vitejs/plugin-react-refresh": "^1.3.6",  
+    "vite": "^4.2.1"
+  }
+}

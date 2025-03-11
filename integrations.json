@@ -1,0 +1,8 @@
+[
+    { "name": "React", "package":"@voerkai18n/react" },
+    { "name": "Vue 2", "package":"@voerkai18n/vue2" },
+    { "name": "Vue 3", "package":"@voerkai18n/vue" },
+    { "name": "Svelte", "package":"@voerkai18n/svelte" },
+    { "name": "Angular", "package":"@voerkai18n/angular" },
+    { "name": "Nextjs", "package":"@voerkai18n/nextjs"}
+]

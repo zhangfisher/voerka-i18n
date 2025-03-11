@@ -23,8 +23,7 @@
         "internationalize",
         "react"
     ],
-    "scripts": {
-        "build": "tsup"
+    "scripts": { 
     },
     "author": "wxzhang",
     "license": "MIT",

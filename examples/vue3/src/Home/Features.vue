@@ -6,6 +6,8 @@
               <div v-for="feature of features" :key="feature.name">
                 <button
                   type="button"
+                  :title="t('点击查看详情')"
+                  :placeholder="t('密码')" 
                   className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                 >
                   <Component :is="feature.icon" />

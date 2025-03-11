@@ -14,7 +14,7 @@
 
 const { MixCommand } = require("mixcli");
 const { t } = require("../../i18n"); 
-const { getProjectContext } = require("@voerkai18n/utils");
+const { getProjectContext,fetchJson } = require("@voerkai18n/utils");
 const logsets = require("logsets");
 
 /**
@@ -27,7 +27,7 @@ module.exports = () => {
     applyCommand
         .description(t("配置vue/react/nextjs/uniapp等支持"))
         .action(async (options) => {
-            
+            const SvelteTranslateComponent
         });
     return applyCommand
 

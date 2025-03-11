@@ -44,7 +44,6 @@ function getSelectedLanguages(selectedTags) {
     : primaryLangs;
   return selectedLangs;
 }
- 
 
 /**
  * @param {import('mixcli').MixCli} cli
@@ -98,12 +97,16 @@ module.exports = () => {
             default: isTypeScript,
             prompt: true,
         }) 
+
+
         if(!isTypeScript){
             initCommand.option("-m, --module-type", t("模块类型"), {
                 choices: ["esm", "cjs"],
                 prompt: "select",
             });
         }
+
+
         initCommand.action(async (options) => {
             const opts = Object.assign({ 
                 moduleType     : "esm",

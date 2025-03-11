@@ -1,0 +1,19 @@
+{
+  "name": "html",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0",
+    "@voerkai18n/cli": "workspace:*",
+    "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/webcomponent": "workspace:*",
+    "@voerkai18n/runtime": "workspace:*"
+  }
+}

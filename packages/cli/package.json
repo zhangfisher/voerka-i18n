@@ -17,12 +17,10 @@
     ],
     "scripts": {
         "cli": "node src/index.js --",
-        "init": "node src/index.js init",
-        "extract": "node src/index.js extract",
-        "translate": "node src/index.js translate",
-        "compile": "node src/index.js compile",
-        "wrap": "node src/index.js wrap --api qwen -p ./tests/wraps/**/*.{js,ts,tsx,vue,jsx,svelte,astro} !./tests/wraps/**/*.wrapped.{js,ts,tsx,vue,jsx,svelte,astro}",
-        "ai:translate": "node src/index.js translate --api qwen --provider ai",
+        "i18n:init": "node src/index.js init",
+        "i18n:extract": "node src/index.js extract",
+        "i18n:translate": "node src/index.js translate --api qwen",
+        "i18n:compile": "node src/index.js compile",
         "extract:en": "cross-env LANGUAGE=en-US node src/index.js extract"
     },
     "author": "wxzhang",

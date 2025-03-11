@@ -18,7 +18,10 @@
 // export type TranslateComponentType = VueTranslateComponentType
 
 // --- Svelte ---
+// import { createTranslateComponent,type SvelteTranslateComponent } from "@voerkai18n/svelte";
 
+// export const component  = createTranslateComponent()
+// export type TranslateComponentType = SvelteTranslateComponent
 
 
 // --- 无组件 ---

@@ -17,5 +17,5 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
     }
 }
 
-export type VoerkaI18nSvelteTranslateComponent = Component<VoerkaI18nTranslateProps>
+export type SvelteTranslateComponent = Component<VoerkaI18nTranslateProps>
 
