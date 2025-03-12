@@ -21,13 +21,15 @@
     "author": "wxzhang",
     "license": "MIT",
     "devDependencies": {
-        "@types/react": "^19.0.10",
+        "@types/react": "^18.0.0",
         "@voerkai18n/runtime": "workspace:^",
         "openinula": "0.1.3-experimental-20240718-2",
-        "tsup": "^8.3.6"
+        "tsup": "^8.3.6",
+        "react": "^18.0.0"
     },
     "peerDependencies": {
         "@voerkai18n/runtime": "workspace:^",
-        "openinula": "0.1.3-experimental-20240718-2"
+        "openinula": "0.1.3-experimental-20240718-2",
+        "react": "^18.0.0"
     }
 }

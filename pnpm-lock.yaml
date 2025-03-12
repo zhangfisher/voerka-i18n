@@ -757,14 +757,17 @@ importers:
   packages/openinula:
     devDependencies:
       '@types/react':
-        specifier: ^19.0.10
-        version: 19.0.10
+        specifier: ^18.0.0
+        version: 18.3.18
       '@voerkai18n/runtime':
         specifier: workspace:^
         version: link:../runtime
       openinula:
         specifier: 0.1.3-experimental-20240718-2
         version: 0.1.3-experimental-20240718-2
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.51.1(@types/node@22.13.9))(@swc/core@1.10.18(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
