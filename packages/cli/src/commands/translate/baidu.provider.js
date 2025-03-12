@@ -1,6 +1,7 @@
 const md5 = require("md5");
 const qs = require("qs");
 const baiduTagMap = require('bcp47-language-tags/mapper/baidu').default;
+const axios = require('axios');
  
 
 // const ERRORS = {
@@ -100,21 +101,18 @@ module.exports = function(params){
                 salt,
                 sign
             });   
-            return new Promise((resolve,reject)=>{             
-                fetch(`${baseurl}?${params}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error_code) {
-                            reject(new Error(`${data.error_msg}(code=${data.error_code})`));
-                        } else {
-                            const result = data.trans_result.map(item =>fixMesssage(item.dst))
-                            resolve(restoreInterpVars(result,interpVars));
-                        }
-                    })
-                    .catch(err => {
-                        reject(err);
-                    });
-            });
+            try {
+                const response = await axios.get(`${baseurl}?${params}`);
+                const data = response.data;
+                if (data.error_code) {
+                    throw new Error(`${data.error_msg}(code=${data.error_code})`);
+                } else {
+                    const result = data.trans_result.map(item => fixMesssage(item.dst));
+                    return restoreInterpVars(result, interpVars);
+                }
+            } catch (err) {
+                throw err;
+            }
         }
 
     }

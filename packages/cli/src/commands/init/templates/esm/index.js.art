@@ -10,7 +10,7 @@ import defaultMessages from "./messages/{{defaultLanguage}}"
  
 
 const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
-    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>import("./messages/{{$value.name}}.mjs"),{{/if}}
+    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>import("./messages/{{$value.name}}.js"),{{/if}}
 {{/each}}}
 
 
