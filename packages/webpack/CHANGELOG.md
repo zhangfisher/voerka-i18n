@@ -1,5 +1,14 @@
 # voerkai18n-loader
 
+## 3.0.3
+
+### Patch Changes
+
+- [`67868d1`](https://github.com/zhangfisher/voerka-i18n/commit/67868d112c631e1b4970a205f22afd43ba95c1be) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix: 修复加载动态语言时的错误
+
+- Updated dependencies [[`de00571`](https://github.com/zhangfisher/voerka-i18n/commit/de005711b2f691bc0300c0db1f86dc1c94cce8f4), [`67868d1`](https://github.com/zhangfisher/voerka-i18n/commit/67868d112c631e1b4970a205f22afd43ba95c1be)]:
+  - @voerkai18n/utils@3.0.3
+
 ## 3.0.2
 
 ### Patch Changes

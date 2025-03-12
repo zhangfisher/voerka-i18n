@@ -1,5 +1,13 @@
 # @voerkai18n/runtime
 
+## 3.0.3
+
+### Patch Changes
+
+- [`de00571`](https://github.com/zhangfisher/voerka-i18n/commit/de005711b2f691bc0300c0db1f86dc1c94cce8f4) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix: 当在 package.json 中指定 voerkai18n.entry 时初始化出错的问题
+
+- [`67868d1`](https://github.com/zhangfisher/voerka-i18n/commit/67868d112c631e1b4970a205f22afd43ba95c1be) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix: 修复加载动态语言时的错误
+
 ## 3.0.2
 
 ### Patch Changes
