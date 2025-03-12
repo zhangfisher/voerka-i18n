@@ -37,7 +37,7 @@ export function getLanguageDir(options?:LanguagesDirOptions):string{
         autoCreate:true,
         absolute:true
     }, options)      
-
+ 
     const cwd = process.env.INIT_CWD ||  process.cwd()
 
     try{
@@ -47,7 +47,7 @@ export function getLanguageDir(options?:LanguagesDirOptions):string{
         langDir = path.isAbsolute(langDir) ?  langDir : path.join(cwd,langDir)
 
         if(autoCreate && !fs.existsSync(langDir)){
-            fs.mkdirSync(langDir)
+            fs.mkdirSync(langDir,{ recursive: true })
         }
 
         return absolute ? langDir : path.relative(cwd,langDir)

@@ -220,7 +220,9 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
             if(this._defaultLanguage !== this._activeLanguage || isFunction(this.activeMessages)){
                 tasks.push(this.refresh(undefined,{ patch:false }))                
             }    
-            tasks.push(this.patch())
+            tasks.push(
+                this.patch()
+            )
             Promise.all(tasks).then(()=>{
                 this.emit('ready',this.activeLanguage,true)                
                 this._setLanguageAttr()   

@@ -47,7 +47,7 @@ export class ChangeLanguageMixin{
         }finally{
             if(!fallback){
                 this._activeLanguage = finalLanguage
-                if(typeof(this.messages[finalLanguage])==='function') this.messages[finalLanguage] = this._activeMessages
+                if(typeof(this.messages[finalLanguage])==='function' || !(finalLanguage in this.messages)) this.messages[finalLanguage] = this._activeMessages
                 this._activeParagraphs = this.paragraphs[finalLanguage]
                 this._refreshSignal.resolve()
                 this._refreshSignal = undefined

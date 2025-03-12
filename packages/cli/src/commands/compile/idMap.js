@@ -9,12 +9,13 @@ const { writeFile } = require("flex-tools/fs/nodefs");
 
 async function generateIdMap(allMessages){
     const { langDir,tasks,langRelDir } = this
+    let idSeq = 0
     try{
         tasks.add([t("生成IDMap文件: {}"),`${langRelDir}/messages/idMap.json`])
         const idMapFile = path.join(langDir, "messages", "idMap.json")    
         const idMap = {}
         for(let [ text,translated ] of Object.entries(allMessages)){
-            idMap[text] = translated.$id
+            idMap[text] = translated.$id || ++idSeq
         }
         const content = JSON.stringify(idMap,null,4)
         await writeFile(idMapFile,content,{ encoding: "utf-8" })
