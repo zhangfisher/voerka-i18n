@@ -47,6 +47,7 @@
     "@types/node": "^22.13.8",
     "@types/react": "^19.0.10",
     "@voerkai18n/runtime": "workspace:*",
+    "esbuild-plugin-copy": "^2.1.1",
     "next": "15.0.0",
     "react": "^18.0.0",
     "tsup": "^8.3.6",
