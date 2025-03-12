@@ -72,7 +72,8 @@ export class TranslateMixin {
             if(typeof(builder)==='function'){
                 this._translateComponent =  builder.call(this,this)
             }else{
-                throw new Error("No translate component builder configured")
+                this._translateComponent = ()=>{}
+                this.logger.warn("No translate component builder configured")
             }
         }
         return this._translateComponent

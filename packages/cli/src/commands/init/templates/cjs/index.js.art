@@ -1,7 +1,7 @@
 const { VoerkaI18nScope } = require("@voerkai18n/runtime")
 const storage = require("./storage")
 const formatters = require("@voerkai18n/formatters")
-import paragraphs from "./paragraphs"
+const paragraphs = require("./paragraphs")
 const idMap = require("./messages/idMap.json")
 const { component } = require("./component")
 const settings = require("./settings.json")

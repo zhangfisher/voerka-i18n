@@ -10,11 +10,7 @@ const formatters:any = [
     "datetime/quarter.ts",
     "datetime/relativeTime.ts"
 ]
-
-function firstUpper(str: string): string {
-    if (!str) return str;
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
+ 
 
 export default defineConfig([
         {
@@ -51,7 +47,7 @@ export default defineConfig([
                 cjsInterop: false,
                 minify: true,
                 noExternal:['flex-tools'],
-                globalName: `VoerkaI18n${firstUpper(name)}Formatters`
+                globalName: `VoerkaI18n${name.split("/")[1].charAt(0).toUpperCase() + name.split("/")[1].slice(1)}Formatters`
             })),
         {
             entry: [

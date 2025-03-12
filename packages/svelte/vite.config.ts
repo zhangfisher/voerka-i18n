@@ -1,18 +1,16 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import { viteStaticCopy } from 'vite-plugin-static-copy'
-import path from "node:path"
+import copyPlugin from "vite-copy-plugin"; 
  
 export default defineConfig({
 	plugins: [
 		sveltekit(),
-		viteStaticCopy({
-			targets: [
+		copyPlugin([
+			
 				{ 
-					src: 'src/install/**/*.*', 
-					dest: path.join(__dirname,'./dist/install') 
+					from: 'src/install', 
+					to: './dist/install' 
 				}
-			]
-		})
+			])			
 	]
 });

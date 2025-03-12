@@ -4,7 +4,7 @@
  * 
  */
 
-import { Dict, LanguageName, VoerkaI18nFormatter, VoerkaI18nFormatterBuilder, VoerkaI18nScope } from "@voerkai18n/runtime"
+import type { Dict, LanguageName, VoerkaI18nFormatter, VoerkaI18nFormatterBuilder, VoerkaI18nScope } from "@voerkai18n/runtime"
 
 
 export function createFormatter<Args extends Dict,Config extends  Dict = Args>(
