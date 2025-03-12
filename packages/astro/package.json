@@ -21,8 +21,7 @@
       "require": "./dist/server/index.js"
     }
   },
-  "scripts": {  
-  },
+  "scripts": {},
   "keywords": [
     "voerkai18n",
     "astro",
@@ -40,14 +39,14 @@
   "devDependencies": {
     "@types/node": "^22.13.8",
     "@types/react": "^19.0.10",
-    "@voerkai18n/runtime": "workspace:*", 
+    "@voerkai18n/runtime": "workspace:*",
     "react": "^18.0.0",
     "tsup": "^8.3.6",
     "typescript": "^5.8.2",
     "vitest": "^2.1.8"
   },
   "peerDependencies": {
-    "@voerkai18n/runtime": "workspace:*", 
+    "@voerkai18n/runtime": "workspace:*",
     "react": "^18.0.0"
   }
 }
