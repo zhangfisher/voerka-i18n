@@ -1,5 +1,14 @@
 # @voerkai18n/utils
 
+## 3.0.4
+
+### Patch Changes
+
+- [`b5aef61`](https://github.com/zhangfisher/voerka-i18n/commit/b5aef61f95e298733763b75888901aed0effba12) Thanks [@zhangfisher](https://github.com/zhangfisher)! - 修复初始化 esm 代码时出错的问题
+
+- Updated dependencies []:
+  - @voerkai18n/runtime@3.0.4
+
 ## 3.0.3
 
 ### Patch Changes
