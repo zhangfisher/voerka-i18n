@@ -1,4 +1,4 @@
-// ../node_modules/.pnpm/@lite-tree+icons@1.0.6/node_modules/@lite-tree/icons/index.js
+// node_modules/.pnpm/@lite-tree+icons@1.0.6/node_modules/@lite-tree/icons/index.js
 var SupportedIcons = [
   "ts",
   "tsx",
