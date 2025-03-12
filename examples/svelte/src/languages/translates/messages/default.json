@@ -1,0 +1,363 @@
+{
+    "适用任意场景": {
+        "en-US": "Applicable to any scenario",
+        "ja-JP": "任意のシーンに適用",
+        "$files": [
+            "src/components/Features.svelte(S6:14-S6:22)"
+        ],
+        "$id": 47
+    },
+    "全面支持React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...等任何ts/js场景": {
+        "en-US": "Fully supports any ts/js scenarios including React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...",
+        "ja-JP": "React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/... など、任意の ts/js シーンを全面的にサポート",
+        "$files": [
+            "src/components/Features.svelte(S7:21-S7:85)"
+        ],
+        "$id": 48
+    },
+    "全流程工具链": {
+        "en-US": "Full-process toolchain",
+        "ja-JP": "フルプロセスツールチェーン",
+        "$files": [
+            "src/components/Features.svelte(S11:14-S11:22)"
+        ],
+        "$id": 49
+    },
+    "覆盖从语言提取、编译、自动翻译、插件集成等国际化全流程支持，为大型应用提供工程化支持": {
+        "en-US": "Covers the entire internationalization process, from language extraction, compilation, automatic translation, and plugin integration, providing engineering support for large applications",
+        "ja-JP": "言語抽出からコンパイル、自動翻訳、プラグイン統合まで、国際化の全プロセスをカバーし、大規模アプリケーションにエンジニアリングサポートを提供",
+        "$files": [
+            "src/components/Features.svelte(S12:21-S12:65)"
+        ],
+        "$id": 50
+    },
+    "自动翻译": {
+        "en-US": "Automatic translation",
+        "ja-JP": "自動翻訳",
+        "$files": [
+            "src/components/Features.svelte(S16:14-S16:20)"
+        ],
+        "$id": 51
+    },
+    "支持在线翻译服务和基于AI大模型的翻译工具,可以实现自动化翻译": {
+        "en-US": "Supports online translation services and AI model-based translation tools, enabling automated translation",
+        "ja-JP": "オンライン翻訳サービスとAI大規模モデルに基づく翻訳ツールをサポートし、自動化された翻訳を実現します",
+        "$files": [
+            "src/components/Features.svelte(S17:21-S17:54)"
+        ],
+        "$id": 52
+    },
+    "多库联动": {
+        "en-US": "Multi-library联动",
+        "ja-JP": "マルチライブラリ連携",
+        "$files": [
+            "src/components/Features.svelte(S21:14-S21:20)"
+        ],
+        "$id": 53
+    },
+    "支持大型应用中多个外部库的国际化联动,适合企业应用和第三方库开发": {
+        "en-US": "Supports internationalization coordination among multiple external libraries in large applications, suitable for enterprise applications and third-party library development",
+        "ja-JP": "大規模アプリケーションにおける複数の外部ライブラリの国際化連携をサポートし、企業向けアプリケーションやサードパーティライブラリ開発に適しています",
+        "$files": [
+            "src/components/Features.svelte(S22:21-S22:55)"
+        ],
+        "$id": 54
+    },
+    "语言补丁": {
+        "en-US": "Language Patches",
+        "ja-JP": "言語パッチ",
+        "$files": [
+            "src/components/Features.svelte(S26:14-S26:20)"
+        ],
+        "$id": 55
+    },
+    "应用发布后，可以通过语言补丁方式在线修复翻译错误，极致实用性": {
+        "en-US": "After the application is released, translation errors can be fixed online through language patches, offering ultimate practicality",
+        "ja-JP": "アプリケーションのリリース後、言語パッチを使用してオンラインで翻訳エラーを修正できるため、非常に実用的です",
+        "$files": [
+            "src/components/Features.svelte(S27:21-S27:53)"
+        ],
+        "$id": 56
+    },
+    "测试覆盖率": {
+        "en-US": "Test Coverage",
+        "ja-JP": "テストカバレッジ",
+        "$files": [
+            "src/components/Features.svelte(S31:14-S31:21)"
+        ],
+        "$id": 57
+    },
+    "核心运行时`@voerkai18n/runtime`超过90%的测试覆盖率，保证品质": {
+        "en-US": "The core runtime `@voerkai18n/runtime` has over 90% test coverage, ensuring quality",
+        "ja-JP": "コアランタイム`@voerkai18n/runtime`は90％以上のテストカバレッジがあり、品質が保証されています",
+        "$files": [
+            "src/components/Features.svelte(S32:21-S32:65)"
+        ],
+        "$id": 58
+    },
+    "用心开源，精良制作": {
+        "en-US": "Dedicated to Open Source, Crafted with Care",
+        "ja-JP": "心をこめてオープンソースで、精巧に作られています",
+        "$files": [
+            "src/components/Footer.svelte(T5:25-T5:36)"
+        ],
+        "$id": 59
+    },
+    "关于": {
+        "en-US": "About",
+        "ja-JP": "について",
+        "$files": [
+            "src/components/Footer.svelte(T9:29-T9:33)"
+        ],
+        "$id": 60
+    },
+    "联系我们": {
+        "en-US": "Contact Us",
+        "ja-JP": "お問い合わせ",
+        "$files": [
+            "src/components/Footer.svelte(T12:29-T12:35)"
+        ],
+        "$id": 61
+    },
+    "常见问题": {
+        "en-US": "Frequently Asked Questions",
+        "ja-JP": "よくある質問",
+        "$files": [
+            "src/components/Footer.svelte(T15:29-T15:35)"
+        ],
+        "$id": 62
+    },
+    "开源推荐": {
+        "en-US": "Open Source Recommendations",
+        "ja-JP": "オープンソース推奨",
+        "$files": [
+            "src/components/Footer.svelte(T18:29-T18:35)"
+        ],
+        "$id": 63
+    },
+    "版权所有 © 2021-2022": {
+        "en-US": "Copyright © 2021-2022",
+        "ja-JP": "著作権所有 © 2021-2022",
+        "$files": [
+            "src/components/Footer.svelte(T22:25-T22:43)"
+        ],
+        "$id": 64
+    },
+    "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....": {
+        "en-US": "Supports React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....\r",
+        "ja-JP": "React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....\r",
+        "$files": [
+            "src/components/Hero.svelte(T15:27-T15:84)"
+        ],
+        "$id": 65
+    },
+    "访问官网": {
+        "en-US": "Visit official website\r",
+        "ja-JP": "公式サイトを訪問\r",
+        "$files": [
+            "src/components/Hero.svelte(T18:29-T18:35)"
+        ],
+        "$id": 66
+    },
+    "全流程国际化解决方案": {
+        "en-US": "Full-process internationalization solution\r",
+        "ja-JP": "フルフローグローバル化ソリューション\r",
+        "$files": [
+            "src/components/Hero.svelte(T28:27-T28:39)",
+            "src/routes/repos/+page.ts(T11:23-T11:35)"
+        ],
+        "$id": 67
+    },
+    "快速入门": {
+        "en-US": "Quick start\r",
+        "ja-JP": "クイックスタート\r",
+        "$files": [
+            "src/components/Hero.svelte(T35:29-T35:35)"
+        ],
+        "$id": 68
+    },
+    "了解更多": {
+        "en-US": "Learn more\r",
+        "ja-JP": "もっと詳しく\r",
+        "$files": [
+            "src/components/Hero.svelte(T39:29-T39:35)"
+        ],
+        "$id": 69
+    },
+    "特性": {
+        "en-US": "Features\r",
+        "ja-JP": "特徴\r",
+        "$files": [
+            "src/routes/features/+page.svelte(T4:21-T4:25)"
+        ],
+        "$id": 71
+    },
+    "多语言": {
+        "en-US": "Multilingual\r",
+        "ja-JP": "多言語\r",
+        "$files": [
+            "src/routes/about/+page.svelte(T3:23-T3:28)"
+        ],
+        "$id": 70
+    },
+    "更多开源项目...": {
+        "en-US": "More open-source projects...\r",
+        "ja-JP": "もっと多くのオープンソースプロジェクト...\r",
+        "$files": [
+            "src/routes/repos/+page.svelte(T55:27-T55:38)"
+        ],
+        "$id": 72
+    },
+    "Nodejs/Vue/React/ReactNative/UniApp/...": {
+        "en-US": "Nodejs/Vue/React/ReactNative/UniApp/...\r",
+        "ja-JP": "Nodejs/Vue/React/ReactNative/UniApp/...\r",
+        "$files": [
+            "src/routes/repos/+page.ts(T14:17-T14:58)"
+        ],
+        "$id": 73
+    },
+    "支持异步计算/信号组件/表单绑定的全自动状态管理库": {
+        "en-US": "Fully automatic state management library supporting asynchronous computation/signal components/form binding",
+        "ja-JP": "非同期計算/信号コンポーネント/フォームバインディングをサポートする完全自動状態管理ライブラリ",
+        "$files": [
+            "src/routes/repos/+page.ts(T21:23-T21:50)"
+        ],
+        "$id": 74
+    },
+    "Nodejs下高效的树数据库存储管理工具库": {
+        "en-US": "Highly efficient tree database storage management library for Nodejs  ",
+        "ja-JP": "Node.js向けの効率的なツリー型データベース管理ツールキット",
+        "$files": [
+            "src/routes/repos/+page.ts(T28:23-T28:46)"
+        ],
+        "$id": 75
+    },
+    "vitepress/dumi/docsify等文档网站专用的轻量树UI组件": {
+        "en-US": "Lightweight tree UI component specifically for documentation websites like vitepress/dumi/docsify  ",
+        "ja-JP": "vitepress/dumi/docsifyなどのドキュメントサイト専用の軽量ツリーUIコンポーネント",
+        "$files": [
+            "src/routes/repos/+page.ts(T35:23-T35:62)"
+        ],
+        "$id": 76
+    },
+    "轻量React/CSS-IN-JS解决方案": {
+        "en-US": "Lightweight React/CSS-IN-JS solution  ",
+        "ja-JP": "軽量のReact/CSS-IN-JSソリューション",
+        "$files": [
+            "src/routes/repos/+page.ts(T42:23-T42:46)"
+        ],
+        "$id": 77
+    },
+    "有限状态机实现": {
+        "en-US": "Implementation of finite state machine  ",
+        "ja-JP": "有限状態機械の実装",
+        "$files": [
+            "src/routes/repos/+page.ts(T49:23-T49:32)"
+        ],
+        "$id": 78
+    },
+    "实用的工具函数库": {
+        "en-US": "Practical utility function library  ",
+        "ja-JP": "実用的なユーティリティ関数ライブラリ",
+        "$files": [
+            "src/routes/repos/+page.ts(T56:23-T56:33)"
+        ],
+        "$id": 79
+    },
+    "强大的字符串插值工具库": {
+        "en-US": "Powerful string interpolation library  ",
+        "ja-JP": "強力な文字列補間ツールキット",
+        "$files": [
+            "src/routes/repos/+page.ts(T63:23-T63:36)"
+        ],
+        "$id": 80
+    },
+    "简化装饰器开发的工具库": {
+        "en-US": "Library to simplify decorator development  ",
+        "ja-JP": "デコレータ開発を簡素化するツールキット",
+        "$files": [
+            "src/routes/repos/+page.ts(T70:23-T70:36)"
+        ],
+        "$id": 81
+    },
+    "日志工具库": {
+        "en-US": "Logging library  ",
+        "ja-JP": "ログツールキット",
+        "$files": [
+            "src/routes/repos/+page.ts(T77:23-T77:30)"
+        ],
+        "$id": 82
+    },
+    "Vite插件/将Vue组件中的样式注入到JS文件中": {
+        "en-US": "Vite plugin / Injects styles from Vue components into JS files  ",
+        "ja-JP": "Viteプラグイン/VueコンポーネントのスタイルをJSファイルに注入",
+        "$files": [
+            "src/routes/repos/+page.ts(T84:23-T84:50)"
+        ],
+        "$id": 83
+    },
+    "增强型命令行开发工具，能自动生成交互提示": {
+        "en-US": "Enhanced command-line development tool, capable of auto-generating interactive prompts",
+        "ja-JP": "拡張されたコマンドライン開発ツール、自動生成の対話型プロンプト付き",
+        "$files": [
+            "src/routes/repos/+page.ts(T91:23-T91:45)"
+        ],
+        "$id": 84
+    },
+    "终端输出增强组件": {
+        "en-US": "Terminal output enhancement component  ",
+        "ja-JP": "ターミナル出力強化コンポーネント",
+        "$files": [
+            "src/routes/repos/+page.ts(T98:23-T98:33)"
+        ],
+        "$id": 85
+    },
+    "VSCODE插件/支持为任意JSON文件注入注释": {
+        "en-US": "VSCODE plugin / supports injecting comments into any JSON file  ",
+        "ja-JP": "VSCODEプラグイン/任意のJSONファイルにコメントを注入するサポート",
+        "$files": [
+            "src/routes/repos/+page.ts(T105:23-T105:49)"
+        ],
+        "$id": 86
+    },
+    "异步信号处理库": {
+        "en-US": "Asynchronous signal processing library  ",
+        "ja-JP": "非同期信号処理ライブラリ",
+        "$files": [
+            "src/routes/repos/+page.ts(T112:23-T112:32)"
+        ],
+        "$id": 87
+    },
+    "prisma数据库交互式控制台": {
+        "en-US": "Prisma database interactive console  ",
+        "ja-JP": "prismaデータベース対話型コンソール",
+        "$files": [
+            "src/routes/repos/+page.ts(T119:23-T119:40)"
+        ],
+        "$id": 88
+    },
+    "将文件以base64方式嵌入到了源码的vite/webpack/esbuild/...插件": {
+        "en-US": "A plugin that embeds files as base64 into the source code for vite/webpack/esbuild/...  ",
+        "ja-JP": "ファイルをBase64方式でソースコードに埋め込むvite/webpack/esbuild/...プラグイン",
+        "$files": [
+            "src/routes/repos/+page.ts(T126:23-T126:70)"
+        ],
+        "$id": 89
+    },
+    "生成captcha图片": {
+        "en-US": "Generate captcha images  ",
+        "ja-JP": "captcha画像の生成",
+        "$files": [
+            "src/routes/repos/+page.ts(T133:23-T133:36)"
+        ],
+        "$id": 90
+    },
+    "符合简化BCP47规格的语言编码库": {
+        "en-US": "Library for language codes conforming to the simplified BCP47 specification",
+        "ja-JP": "簡略化BCP47仕様に準拠した言語コードライブラリ",
+        "$files": [
+            "src/routes/repos/+page.ts(T140:23-T140:42)"
+        ],
+        "$id": 91
+    }
+}

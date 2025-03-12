@@ -1,22 +1,30 @@
 {
-    "name": "voerkai18n-loader",
-    "version": "2.1.13",
+    "name": "@voerkai18n/webpack",
+    "version": "3.0.0",
     "description": "voerkai18n loader for webpack",
-    "main": "loader.js",
+    "main": "src/index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+    "access": "public",
+    "private": false,
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "scripts": {
-        "release": "npm publish",
-        "build": "tsup"
+         
     },
-    "keywords": [],
+    "keywords": [
+        "voerkai18n",
+        "i18n",
+        "language",
+        "translation",
+        "internationalize"
+    ],
     "author": "wxzhang",
     "license": "MIT",
     "devDependencies": {
-        "loader-runner": "^4.3.0"
+        "loader-runner": "^4.3.0",
+        "tsup": "8.3.6"
     },
     "dependencies": {
         "@voerkai18n/utils": "workspace:^"

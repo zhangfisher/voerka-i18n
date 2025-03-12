@@ -1,234 +1,74 @@
 {
-    "这是一个测试:{a}+{b | x}={c}": {
-        "en": "This is:{a}+{b | x}={c}",
+    "这是一个测试": {
+        "en-US": "This is a test",
         "$files": [
-            "index.js"
+            "src\\index.js(5:18-5:26)",
+            "src\\index.js(21:18-21:26)"
         ],
-        "jp": "これはテストです:{a}+{b｜x}={c}"
+        "$id": 64
     },
     "你好": {
-        "en": "Hello",
+        "en-US": "Hello",
         "$files": [
-            "index.js"
+            "src\\index.js(6:18-6:22)",
+            "src\\index.js(22:18-22:22)"
         ],
-        "jp": "こんにちは"
+        "$id": 65
     },
     "我叫{name},今年{age}岁": {
-        "en": "My Name is {name},Now {age} years old year",
+        "en-US": "My name is {name}, I am {age} years old",
         "$files": [
-            "index.js"
+            "src\\index.js(7:18-7:37)",
+            "src\\index.js(23:18-23:37)"
         ],
-        "jp": "私は名前を{name}と申します、今年{age}歳です"
-    },
-    "中国": {
-        "en": "China",
-        "$files": [
-            "index.js"
-        ],
-        "jp": "中国"
+        "$id": 66
     },
     "我有{}部车": {
-        "en": "I have {} cars",
-        "$files": [
-            "index.js"
+        "en-US": [
+            "I don't have a car",
+            "I have a cars",
+            "I have two cars",
+            "I have three cars",
+            "I have {} cars"
         ],
-        "jp": "私は車を持っています。"
+        "$files": [
+            "src\\index.js(8:18-8:26)",
+            "src\\index.js(9:18-9:26)",
+            "src\\index.js(10:18-10:26)",
+            "src\\index.js(11:18-11:26)",
+            "src\\index.js(12:18-12:26)",
+            "src\\index.js(24:18-24:26)",
+            "src\\index.js(25:18-25:26)",
+            "src\\index.js(26:18-26:26)",
+            "src\\index.js(27:18-27:26)",
+            "src\\index.js(28:18-28:26)"
+        ],
+        "$id": 67
     },
     "我有{count}部车": {
-        "en": "I have {count} cars",
+        "en-US": "I have {count} cars",
         "$files": [
-            "index.js"
+            "src\\index.js(13:18-13:31)",
+            "src\\index.js(14:18-14:31)",
+            "src\\index.js(29:18-29:31)",
+            "src\\index.js(30:18-30:31)"
         ],
-        "jp": "私は車を持っています。"
-    },
-    "请输入旧密码:": {
-        "en": "Please enter old password:",
-        "$files": [
-            "auth\\changepassword.js"
-        ],
-        "jp": "古いパスワードを入力してください："
-    },
-    "请再次输入旧密码:": {
-        "en": "Please re-enter the old password:",
-        "$files": [
-            "auth\\changepassword.js"
-        ],
-        "jp": "古いパスワードを再入力してください："
-    },
-    "请输入新密码:": {
-        "en": "Please enter new password:",
-        "$files": [
-            "auth\\changepassword.js"
-        ],
-        "jp": "新しいパスワードを入力してください："
-    },
-    "请再次输入新密码:": {
-        "en": "Please re-enter new password:",
-        "$files": [
-            "auth\\changepassword.js"
-        ],
-        "jp": "新しいパスワードを再入力してください："
-    },
-    "密码至少需要6位，并且至少包含数字、字符或特殊符号中的两种": {
-        "en": "Passwords must be at least 6 digits long and contain at least two types of numbers, characters, or special symbols",
-        "$files": [
-            "auth\\changepassword.js"
-        ],
-        "jp": "パスワードには少なくとも6ビットが必要であり、少なくとも数字、文字、または特殊な記号の2つを含む"
-    },
-    "密码强度: {strength}": {
-        "en": "Password strength: {strength}",
-        "$files": [
-            "auth\\changepassword.js"
-        ],
-        "jp": "パスワード強度:{strength}"
-    },
-    "用户名或密码错误": {
-        "en": "Incorrect username or password",
-        "$files": [
-            "auth\\login.js"
-        ],
-        "jp": "ユーザー名またはパスワードが間違っています"
-    },
-    "请输入用户名:": {
-        "en": "Please enter username:",
-        "$files": [
-            "auth\\login.js",
-            "auth\\login.html"
-        ],
-        "jp": "ユーザー名を入力してください："
-    },
-    "请输入密码：": {
-        "en": "Please input a password:",
-        "$files": [
-            "auth\\login.js"
-        ],
-        "jp": "パスワードを入力してください："
-    },
-    "欢迎您: {}": {
-        "en": "Welcome: {}",
-        "$files": [
-            "auth\\login.js"
-        ],
-        "jp": "ようこそ:{}"
-    },
-    "数据库类型：{}、{}、{}": {
-        "en": "Database type: {}, {}, {}",
-        "$files": [
-            "db\\index.js"
-        ],
-        "jp": "データベースのタイプ：{}、{}、{}"
-    },
-    "数据库密码:{pwd}": {
-        "en": "Database password: {pwd}",
-        "$files": [
-            "db\\index.js"
-        ],
-        "jp": "データベースのパスワード:{pwd}"
-    },
-    "数据库地址:{url}": {
-        "en": "Database address: {url}",
-        "$files": [
-            "db\\index.js"
-        ],
-        "jp": "データベースアドレス:{url}"
-    },
-    "编码:{encode}": {
-        "en": "Encode:{encode}",
-        "$files": [
-            "db\\index.js"
-        ],
-        "jp": "エンコーディング:{encode}"
-    },
-    "编码": {
-        "en": "Encode",
-        "$files": [
-            "db\\models.js"
-        ],
-        "jp": "エンコード"
-    },
-    "名称": {
-        "en": "name",
-        "$files": [
-            "db\\models.js"
-        ],
-        "jp": "の名前をあげる"
-    },
-    "描述": {
-        "en": "description",
-        "$files": [
-            "db\\models.js"
-        ],
-        "jp": "説明"
-    },
-    "文件名称": {
-        "en": "Filename",
-        "$files": [
-            "db\\models.js"
-        ],
-        "jp": "ファイル名"
-    },
-    "您有{}条未读消息": {
-        "en": "You have {} unread messages",
-        "$files": [
-            "messages\\index.js"
-        ],
-        "jp": "未読メッセージがあります"
-    },
-    "消息总数:{$count}": {
-        "en": "Count:{$count}",
-        "$files": [
-            "messages\\index.js"
-        ],
-        "jp": "合計メッセージ数:{$count}"
-    },
-    "消息类型:{type}": {
-        "en": "Message type:{type}",
-        "$files": [
-            "messages\\index.js"
-        ],
-        "jp": "メッセージの種類:{type}"
-    },
-    "登录": {
-        "en": "Login",
-        "$files": [
-            "auth\\login.html"
-        ],
-        "jp": "ログイン＃ログイン＃"
-    },
-    "请输入密码:": {
-        "en": "Please enter password:",
-        "$files": [
-            "auth\\login.html"
-        ],
-        "jp": "パスワードを入力してください："
-    },
-    "头像": {
-        "en": "Avatar",
-        "$files": [
-            "auth\\login.html"
-        ],
-        "jp": "アイコン"
-    },
-    "相片": {
-        "en": "Photo",
-        "$files": [
-            "auth\\login.html"
-        ],
-        "jp": "写真"
+        "$id": 68
     },
     "现在是{|date}": {
-        "en": "Now it's {| date}",
-        "jp": "今は{｜date}",
+        "en-US": "The current date is {|date}",
         "$files": [
-            "index.js"
-        ]
-    },
-    "百度翻译还能用吗": {
-        "en": "Can Baidu Translate still be used",
-        "$files": [
-            "index.js"
+            "src\\index.js(15:18-15:30)",
+            "src\\index.js(31:18-31:30)"
         ],
-        "jp": "百度翻訳はまだ使えますか"
+        "$id": 69
+    },
+    "今天天气{condition}": {
+        "en-US": "The weather today is {condition}",
+        "$files": [
+            "src\\index.js(16:18-16:35)",
+            "src\\index.js(32:18-32:35)"
+        ],
+        "$id": 70
     }
 }

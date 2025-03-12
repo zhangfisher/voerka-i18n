@@ -1,19 +1,29 @@
-import { toCurrency } from "../currency/toCurrency"
-import { createFormatter } from "../../../runtime/src/formatter/utils"
+import { toCurrency } from "../utils/toCurrency"
+import { createFormatter } from "../utils/createFormatter"
 
+type NumberFormatterConfig = {   
+    precision: number,          // 精度
+    division : number,          // , 分割位，3代表每3位添加一个,
+}
 
-export const numberFormatter = createFormatter(()=>{
-    return {
-        name: "number",
-        args:["precision","division"],
-        default: ()=>{
-            return {
-                division      : 3,          // , 分割位，3代表每3位添加一个, 
-                precision     : -1          // 精度，即保留小数点位置,-1代表保留所有小数位数 
-            }
-        },
-        next(value:any,args){
-            return toCurrency(value, args,{})
-        }
-    } 
+type NumberFormatterArgs = {  
+    precision: number,          // 精度
+    division : number,          // , 分割位，3代表每3位添加一个,
+}  
+ 
+
+export default createFormatter<NumberFormatterArgs,NumberFormatterConfig>({
+    name: "number",
+    args:["precision","division"],
+    next(value,args,ctx){
+        const config  = ctx.getConfig()
+        return toCurrency(value, Object.assign({},config,args))
+    }
+},{
+    "en-US":{
+        division      : 3,          // , 分割位，3代表每3位添加一个, 
+    },
+    "zh-CN":{
+        division      : 4,          // , 分割位，4代表每4位添加一个, 
+    }    
 })

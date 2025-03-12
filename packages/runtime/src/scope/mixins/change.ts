@@ -10,12 +10,14 @@ import { isPlainObject } from "flex-tools/typecheck/isPlainObject";
 import type { VoerkaI18nScope } from "..";
 import type { VoerkaI18nDynamicLanguageMessages, VoerkaI18nLanguageMessages } from "@/types";
 import { IAsyncSignal,asyncSignal } from "asyncsignal"
-import { VoerkaI18nChangeLanguageError, VoerkaI18nError, VoerkaI18nInvalidLanguageError, VoerkaI18nLoadLanguageError } from "@/errors";
+import {  VoerkaI18nError, VoerkaI18nLoadLanguageError } from "@/errors";
+import { loadAsyncModule } from "@/utils/loadAsyncModule";
 
 
 
 export class ChangeLanguageMixin{     
     protected _refreshSignal? :IAsyncSignal 
+
     /** 
      * 刷新语言包 
      * @param language 
@@ -23,54 +25,36 @@ export class ChangeLanguageMixin{
     async refresh(this:VoerkaI18nScope,language?:string,options?:{fallback?:boolean,patch:boolean}):Promise<string>{
         if(!this._refreshSignal) this._refreshSignal = asyncSignal() 
         if (!language) language   = this.activeLanguage;        
-        let finalLanguage: string = language; 
-        let finalMessages         = { $remote : false } as VoerkaI18nLanguageMessages
-        const { patch:enablePatch,fallback } = Object.assign({
-            fallback:false,
-            patch:true },options)
+        let finalLanguage : string = language; 
+        let finalMessages : VoerkaI18nLanguageMessages | undefined = undefined
+        const { patch,fallback } = Object.assign({ fallback:false,patch:true },options)
+
         try{
-            // 静态加载不是异步块,因此只需要简单的替换即可
-            if(language in this.messages && isPlainObject(this.messages[language])) {
-                finalMessages = this.messages[language] as VoerkaI18nLanguageMessages;                
-            }else if(isFunction(this.loader)){ // 异步加载语言包
-                try{
-                    const messages = await this._loadLanguageFromRemote(language)
-                    if(messages && isPlainObject(messages)){                        // 语言包加载成功
-                        finalMessages = messages   
-                        this.messages[language]  = messages                         // 覆盖当前语言包，这样当再次切换时就可以直接使用
-                    }else{                    
-                        this.logger.warn(`无法加载语言包<${language}>(scope=${this.id}),将回退到默认语言`);
-                        throw new VoerkaI18nLoadLanguageError()
-                    }
-                }catch(e:any){
-                    this.logger.warn(`当加载语言包<${language}>时出错(scope=${this.id}): ${e.message}`);
-                    throw new VoerkaI18nLoadLanguageError(e.message)
-                }  
-            }else{
-                throw new VoerkaI18nInvalidLanguageError(language)
-            } 
+            finalMessages = await this._loadLanguageMessages(language)
             this._activeMessages = finalMessages as VoerkaI18nLanguageMessages
             // 打语言包补丁, 如果是从远程加载语言包则不需要再打补丁了,因为远程加载的语言包已经是补丁过的了            
-            if(!finalMessages.$remote && enablePatch) {
+            if(finalMessages && !finalMessages.$remote && patch) {
                 await this.patch(language);
             }
         }catch(e:any){
-            // 切换语言失败，回退到默认语言
-            // 注意：回退语言是不可能出错的，无论回退到了何种语言，默认语言总是可以兜底的回退语言
+            // 切换语言失败，回退到默认语言,  注意：回退语言是不可能出错的，无论回退到了何种语言，默认语言总是可以兜底的回退语言
             if(e && e instanceof VoerkaI18nError){
                 const fallbackLanguage = this.getFallbackLanguage(language)
                 if(fallbackLanguage && fallbackLanguage!==language){
-                    finalLanguage = await this.refresh(fallbackLanguage,{patch:enablePatch,fallback:true})
+                    finalLanguage = await this.refresh(fallbackLanguage,{ patch,fallback:true })
                 }
             }
         }finally{
             if(!fallback){
                 this._activeLanguage = finalLanguage
+                if(typeof(this.messages[finalLanguage])==='function') this.messages[finalLanguage] = this._activeMessages
+                this._activeParagraphs = this.paragraphs[finalLanguage]
                 this._refreshSignal.resolve()
                 this._refreshSignal = undefined
                 await this.emit('scope/change',finalLanguage,true)
             }
         }
+        this._setLanguageAttr()    
         return finalLanguage
     }
     /**
@@ -84,37 +68,45 @@ export class ChangeLanguageMixin{
      * @param language 语言名称
      * @returns 
      */
-    private async _loadLanguageFromRemote(this:VoerkaI18nScope,language:string):Promise<VoerkaI18nLanguageMessages | undefined>{
+    private async _loadLanguageMessages(this:VoerkaI18nScope,language:string):Promise<VoerkaI18nLanguageMessages | undefined>{
+        
         this.logger.debug(`准备加载语言包:${language}`)
+
         // 非默认语言可以是：语言包对象，也可以是一个异步加载语言包文件,加载器是一个异步函数
 		// 如果没有加载器，则无法加载语言包，因此回退到默认语言
-		let loader = this.messages[language];
+		const loader = this.messages[language];
         let messages:VoerkaI18nLanguageMessages | undefined = undefined;
+
         if (isPlainObject(loader)) {                // 静态语言包
             messages = loader as unknown as VoerkaI18nLanguageMessages;
-        } else if (isFunction(loader)) {            // 语言包异步chunk            
-            const loadResult = (await (loader as any).call(this))          
-            if(("__esModule" in loadResult) || (Symbol.toStringTag in loadResult)){
-                messages = (loadResult as any).default 
-            }else{
-                messages = loadResult
+        } else if(isFunction(loader)) {             // 异步chunk语言包 
+            try{
+                messages = await loadAsyncModule.call(this,loader)
+            }catch(e:any){
+                this.logger.error(`加载异步语言包<${language}>失败:${e.message}`)
+                messages = undefined
             }
-        } else if (isFunction(this.loader)) { 
+        } 
+
+        // 使用全局默认加载器从服务器加载语言包
+        if (!messages && isFunction(this.loader)) { 
             // 从远程加载语言包:如果该语言没有指定加载器，则使用全局配置的默认加载器
-            const loadedMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nDynamicLanguageMessages;
-            if(isPlainObject(loadedMessages)){  
-                messages = Object.assign(
-                    { $remote : true },                     // 添加一个标识，表示该语言包是从远程加载的                     
-                    this.messages[this.defaultLanguage], 
-                    loadedMessages
-                ) as VoerkaI18nLanguageMessages;            // 合并默认语言包和动态语言包,这样就可以局部覆盖默认语言包
-                if(loadedMessages.$config){
-                    messages.$config = Object.assign({},messages.$config,loadedMessages.$config)
+            try{
+                const remoteMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nDynamicLanguageMessages;
+                if(isPlainObject(remoteMessages)){  
+                    messages = Object.assign(
+                        { $remote : true },                     // 添加一个标识，表示该语言包是从远程加载的                     
+                        this.messages[this.defaultLanguage], 
+                        remoteMessages
+                    ) as VoerkaI18nLanguageMessages;            // 合并默认语言包和动态语言包,这样就可以局部覆盖默认语言包
+                }else{
+                    this.logger.error(`错误的语言包<${language}>数据:${remoteMessages}`)
                 }
+            }catch(e:any){
+                throw new VoerkaI18nLoadLanguageError(e.message)
             }
-        }else{
-            this.logger.error(`没有为<${language}>指定语言包加载器`)
         }
+        if(!isPlainObject(messages)) throw new VoerkaI18nLoadLanguageError(language)
         return messages
     }
     /**
@@ -129,14 +121,39 @@ export class ChangeLanguageMixin{
             return await this.loader.call(this,language,this)      
         }
     }
-
     /**
-     * 如果正在刷新语言包，则等待刷新完成
+     * 
+     * - 如果正在刷新语言包，则等待刷新完成
+     *  
+     * i18nScope.ready(callback,timeout)
+     *   
      * @param this 
      * @returns 
      */
-    async ready(this:VoerkaI18nScope,timeout?:number){
-        if(!this._refreshSignal && !this._patching) return        
-        await Promise.all([this._refreshSignal?.(timeout), this._patching?.(timeout)])
+    ready(this:VoerkaI18nScope,timeout?:number):Promise<void>  
+    ready(this:VoerkaI18nScope,callback:(activeLanguage:string)=>void,timeout?:number):void
+    ready(this:VoerkaI18nScope):any{  
+        const callback = typeof arguments[0] === 'function' ? arguments[0] : undefined
+        const timeout = typeof arguments[0] === 'number' ? arguments[0] : arguments[1]
+        if(typeof(callback)==='function'){
+            this.manager.ready(callback,timeout)      
+        }else{
+            return new Promise(resolve=>{
+                this.manager.ready(resolve,timeout)      
+            })
+        }        
+    }
+    /**
+     * await changing()
+     * 
+     * @param this 
+     * @param timeout 
+     * @returns 
+     */
+    async changing(this:VoerkaI18nScope,timeout?:number){
+        if(!this._refreshSignal && !this._patching) {
+            return        
+        }
+        await Promise.all([this._refreshSignal?.(timeout), this._patching?.(timeout)]) 
     }
 }

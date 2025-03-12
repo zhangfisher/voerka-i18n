@@ -1,33 +1,41 @@
 {
-    "name": "@voerkai18n/vue",
-    "version": "2.1.13",
-    "description": "voerkai18n for vue3",
-    "access": "public",
+  "name": "@voerkai18n/vue",
+  "version": "3.0.1",
+  "main": "./src/index.ts",
+  "publishConfig": {
     "main": "dist/index.js",
     "module": "dist/index.mjs",
-    "types": "dist/index.d.ts",
-    "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/zhangfisher/voerka-i18n"
-    },
-    "publishConfig": {
-        "main": "dist/index.js",
-        "module": "dist/index.mjs",
-        "types": "dist/index.d.ts"
-    },
-    "scripts": {
-        "release": "npm publish",
-        "build": "tsup"
-    },
-    "author": "wxzhang",
-    "license": "MIT",
-    "peerDependencies": {
-        "@voerkai18n/runtime": "workspace:^",
-        "vue": "^3.0.0"
-    },
-    "devDependencies": {
-        "tsup": "^6.7.0",
-        "@voerkai18n/runtime": "workspace:^"
-    }
+    "types": "dist/index.d.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "voerkai18n",
+    "i18n",
+    "language",
+    "translation",
+    "internationalize"
+  ],
+  "dependencies": {
+    "flex-tools": "^1.4.33",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.8",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@voerkai18n/runtime": "workspace:*",
+    "@voerkai18n/utils": "workspace:*",
+    "@vue/tsconfig": "^0.7.0",
+    "esbuild-plugin-copy": "^2.1.1",
+    "tsup": "^8.3.6",
+    "typescript": "~5.7.3",
+    "vite": "^6.1.0",
+    "vue-tsc": "^2.2.0"
+  },
+  "peerDependencies": {
+    "@voerkai18n/runtime": "workspace:*"
+  }
 }

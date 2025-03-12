@@ -3,17 +3,24 @@
   "changelog": ["@changesets/changelog-github", { "repo": "zhangfisher/voerka-i18n" }],
   "commit": true,
   "fixed": [ 
-    [
-      "@voerkai18n/cli",
+    [      
       "@voerkai18n/runtime", 
-      "@voerkai18n/react",
-      "@voerkai18n/vue",
-      "@voerkai18n/vite",
+      "@voerkai18n/react",      
       "@voerkai18n/utils",
+      "@voerkai18n/plugins",      
+      "@voerkai18n/vue",
       "@voerkai18n/vue2",
       "@voerkai18n/babel",
+      "@voerkai18n/patch",
       "@voerkai18n/openinula",
-      "voerkai18n-loader"
+      "@voerkai18n/webpack",
+      "@voerkai18n/formatters",
+      "@voerkai18n/nextjs",
+      "@voerkai18n/svelte",
+      "@voerkai18n/webcomponent"
+    ],
+    [
+      "@voerkai18n/cli"
     ]
   ],
   "linked": [],
@@ -21,9 +28,8 @@
   "baseBranch": "master",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "voerkai18n-example-**",
-    "voerkai18n-docs", 
-    "voerkai18n-example-main-app"
+    "@voerkai18n-examples/**",
+    "voerkai18n-docs" 
   ]
 
 }

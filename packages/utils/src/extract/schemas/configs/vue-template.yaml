@@ -1,0 +1,60 @@
+utils:
+  is-t-component:
+    any:
+      - kind: element
+      - kind: self_closing_tag
+      - kind: start_tag
+    has:
+      kind: tag_name
+      regex: ^Translate$
+  is-message:
+    kind: attribute
+    has:
+      kind: attribute_name
+      regex: ^message$
+    inside:
+      matches: is-t-component
+  is-vars:
+    kind: attribute
+    has:
+      kind: attribute_name
+      regex: ^vars$
+    inside:
+      matches: is-t-component
+  is-options:
+    kind: attribute
+    has:
+      kind: attribute_name
+      regex: ^options$
+    inside:
+      matches: is-t-component
+rule:
+  any:
+    - kind: attribute_value
+      pattern: $MESSAGE
+      inside:
+        matches: is-message
+        stopBy: end
+    - kind: attribute_value
+      pattern: $VARS
+      inside:
+        matches: is-vars
+        stopBy: end
+    - kind: attribute_value
+      pattern: $OPTIONS
+      inside:
+        matches: is-options
+        stopBy: end
+    - pattern:
+        selector: attribute
+        context: "<$$$ $ATTR_NAME=$ATTR_VALUE />"
+    - pattern: $TEXT
+      kind: text
+      regex: "^\\{\\{[\\s\\S]*\\}\\}$"
+constraints:
+  TEXT:
+    regex: "t\\(.*?\\)"
+  ATTR_NAME:
+    regex: "^[:@]"
+  ATTR_VALUE:
+    regex: "t\\(.*?\\)"

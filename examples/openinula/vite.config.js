@@ -24,10 +24,7 @@ let alias = {
 
 export default {
   plugins: [
-    react(),
-    Voerkai18nPlugin({ 
-      debug: true     // 输出一些调试信息
-    })
+    react() 
   ],
   resolve: {
     alias,

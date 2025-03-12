@@ -1,8 +1,8 @@
 
-import { toCurrency } from "./toCurrency" 
-import { createFormatter } from "@/formatter/utils"
+import { toCurrency } from "../utils/toCurrency" 
+import { createFormatter } from "../utils/createFormatter"
 
-export type CurrencyFormatterConfig = {
+type CurrencyFormatterConfig = {
     default  : string                       // "{symbol}{value}{unit}",
     long     : string                       // "{prefix} {symbol}{value}{unit}{suffix}", 
     short    : string                       // "{symbol}{value}{unit}",
@@ -19,7 +19,7 @@ export type CurrencyFormatterConfig = {
 }
 
 
-export type CurrencyFormatterArgs = { 
+type CurrencyFormatterArgs = { 
     format    : string                       // "default",
     /**
      * 转换数制单位   比如将元转换到万元单位
@@ -35,66 +35,54 @@ export type CurrencyFormatterArgs = {
     division? : number                       // ,分割位
     symbol?   : string                       // "$",符号    
     radix?    : number                       // 进制，即三位一进，中文是4位一进
-} 
+} & Record<string,any>
  
 
-export default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>(()=>{
-    return {
+export  default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>({
         name   : "currency",
         args   : [ "format", "unit", "precision", "prefix", "suffix", "division", "symbol", "radix" ],
-        default: { 
-            format   : "default",
-            unit     : 0,
-            precision: 2,
-            prefix   : "USD",
-            suffix   : "",
-            division : 3,
-            symbol   : "$",
-            radix    : 3     
-        },
         next(value,args,ctx){
-            const config = ctx.getFormatterConfig("currency")
-            // format可以取预设值的名称，如long,short等    
-            if(args.format in config){
-                args.format = (config as any)[args.format]
+            const config = ctx.getConfig()               
+            const params = Object.assign({},config, args)
+            if (params.format in params) { 
+                params.format = (params as any)[params.format]
             }
-            args.unit = parseInt(String(args.unit)) || 0
-            if(args.unit>config.units.length-1) args.unit = config.units.length-1
-            if(args.unit<0) args.unit = 0
+            params.unit = parseInt(String(params.unit)) || 0
+            if (params.unit > params.units.length - 1) params.unit = params.units.length - 1
+            if (params.unit < 0) params.unit = 0
             // 当指定unit大于0时取消小数点精度控制
             // 例 value = 12345678.99  默认情况下精度是2,如果unit=1,则显示1234.47+,
             // 将params.precision=-1取消精度限制就可以显示1234.567899万，从而保证完整的精度
             // 除非显式将precision设置为>2的值
-            if(args.unit>0 && args.precision==2){
-                args.precision = -1
+            if (params.unit > 0 && params.precision == 2) {
+                params.precision = -1
             }
-            return toCurrency(value, args,config)
+            return toCurrency(value,params)
         }
-    } 
-},{
-    en:{
+    },{
+        "en-US":{
+            units    : [""," thousands"," millions"," billions"," trillions"],    //千,百万,十亿,万亿
+            radix    : 3,                       // 进制，即三位一进，中文是4位一进
+            symbol   : "$",                     // 符号
+            prefix   : "USD",                   // 前缀
+            suffix   : "",                      // 后缀
+            division : 3,                       // ,分割位
+            precision: 2,                       // 精度             
+        },
+        "zh-CN":{        
+            units    : ["","万","亿","万亿","万万亿"],
+            radix    : 4,                       // 进制，即三位一进制，中文是是4位一进
+            symbol   : "￥",
+            prefix   : "RMB",
+            suffix   : "元",
+            division : 4,
+            precision: 2            
+        }    
+    },{
         default  : "{symbol}{value}{unit}",
         long     : "{prefix} {symbol}{value}{unit}{suffix}", 
         short    : "{symbol}{value}{unit}",
-        custom   : "{prefix} {symbol}{value}{unit}{suffix}", 
-        format   : "default",
-        //--
-        units    : [""," thousands"," millions"," billions"," trillions"],    //千,百万,十亿,万亿
-        radix    : 3,                       // 进制，即三位一进，中文是4位一进
-        symbol   : "$",                     // 符号
-        prefix   : "USD",                   // 前缀
-        suffix   : "",                      // 后缀
-        division : 3,                       // ,分割位
-        precision: 2,                       // 精度             
-    },
-    zh:{
-        units    : ["","万","亿","万亿","万万亿"],
-        radix    : 4,                       // 进制，即三位一进制，中文是是4位一进
-        symbol   : "￥",
-        prefix   : "RMB",
-        suffix   : "元",
-        division : 4,
-        precision: 2            
-    }    
-})
+        custom   : "{prefix} {symbol}{value}{unit}{suffix}",
+        format   : "default", 
+    })
 

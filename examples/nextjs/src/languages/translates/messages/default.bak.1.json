@@ -1,0 +1,171 @@
+{
+    "客户端组件": {
+        "en-US": "Client Components",
+        "ja-JP": "クライアントコンポーネント",
+        "$files": [
+            "src/app/client.tsx(T10:27-T10:34)"
+        ],
+        "$id": 37
+    },
+    "主要特性": {
+        "en-US": "Main Features",
+        "ja-JP": "主要特性",
+        "$files": [
+            "src/app/client.tsx(T14:29-T14:35)",
+            "src/app/server.tsx(T13:29-T13:35)"
+        ],
+        "$id": 38
+    },
+    "适用任意场景": {
+        "en-US": "Suitable for Any Scenario",
+        "ja-JP": "任意のシーンに適用",
+        "$files": [
+            "src/app/client.tsx(T18:41-T18:49)",
+            "src/app/server.tsx(T17:41-T17:49)"
+        ],
+        "$id": 39
+    },
+    "全流程工具链": {
+        "en-US": "Full-process Toolchain",
+        "ja-JP": "全プロセス ツールチェーン",
+        "$files": [
+            "src/app/client.tsx(T21:41-T21:49)",
+            "src/app/server.tsx(T20:41-T20:49)"
+        ],
+        "$id": 40
+    },
+    "全自动翻译": {
+        "en-US": "Fully Automatic Translation",
+        "ja-JP": "完全自動翻訳",
+        "$files": [
+            "src/app/client.tsx(T24:41-T24:48)",
+            "src/app/server.tsx(T23:41-T23:48)"
+        ],
+        "$id": 41
+    },
+    "多库联动": {
+        "en-US": "Multi-library Collaboration",
+        "ja-JP": "複数ライブラリ連携",
+        "$files": [
+            "src/app/client.tsx(T27:41-T27:47)",
+            "src/app/server.tsx(T26:41-T26:47)",
+            "src/app/features/layout.tsx(T17:35-T17:41)"
+        ],
+        "$id": 42
+    },
+    "语言补丁": {
+        "en-US": "Language Patches",
+        "ja-JP": "言語パッチ",
+        "$files": [
+            "src/app/client.tsx(T30:41-T30:47)",
+            "src/app/server.tsx(T29:41-T29:47)",
+            "src/app/features/layout.tsx(T11:35-T11:41)"
+        ],
+        "$id": 43
+    },
+    "用心开源，精良制作": {
+        "en-US": "Dedicated to Open Source, Exquisite Production",
+        "ja-JP": "真心を込めてオープンソース、高品質な制作",
+        "$files": [
+            "src/app/client.tsx(T34:29-T34:40)",
+            "src/app/server.tsx(T33:29-T33:40)"
+        ],
+        "$id": 44
+    },
+    "联系我们": {
+        "en-US": "Contact Us",
+        "ja-JP": "お問い合わせ",
+        "$files": [
+            "src/app/client.tsx(T38:41-T38:47)",
+            "src/app/server.tsx(T37:41-T37:47)"
+        ],
+        "$id": 45
+    },
+    "常见问题": {
+        "en-US": "Frequently Asked Questions",
+        "ja-JP": "よくある質問",
+        "$files": [
+            "src/app/client.tsx(T41:41-T41:47)",
+            "src/app/server.tsx(T40:41-T40:47)"
+        ],
+        "$id": 46
+    },
+    "版权所有": {
+        "en-US": "All Rights Reserved",
+        "ja-JP": "すべての権利予約",
+        "$files": [
+            "src/app/client.tsx(T44:41-T44:47)",
+            "src/app/server.tsx(T43:41-T43:47)"
+        ],
+        "$id": 47
+    },
+    "友情链接": {
+        "en-US": "Friendly Links",
+        "ja-JP": "友情链接",
+        "$files": [
+            "src/app/client.tsx(T47:41-T47:47)",
+            "src/app/server.tsx(T46:41-T46:47)"
+        ],
+        "$id": 48
+    },
+    "客户服务": {
+        "en-US": "Customer Service",
+        "ja-JP": "客户服务",
+        "$files": [
+            "src/app/client.tsx(T50:41-T50:47)",
+            "src/app/server.tsx(T49:41-T49:47)"
+        ],
+        "$id": 49
+    },
+    "服务端组件": {
+        "en-US": "Server Components",
+        "ja-JP": "サーバーコンポーネント",
+        "$files": [
+            "src/app/server.tsx(T9:27-T9:34)",
+            "src/app/features/layout.tsx(T20:35-T20:42)",
+            "src/app/features/server-component/page.tsx(T8:29-T8:36)"
+        ],
+        "$id": 50
+    },
+    "自动翻译": {
+        "en-US": "Automatic Translation",
+        "ja-JP": "自動翻訳",
+        "$files": [
+            "src/app/features/layout.tsx(T14:35-T14:41)"
+        ],
+        "$id": 51
+    },
+    "特性": {
+        "en-US": "Features",
+        "ja-JP": "特性",
+        "$files": [
+            "src/app/features/page.tsx(T6:29-T6:33)",
+            "src/app/features/patch/page.tsx(T7:29-T7:33)"
+        ],
+        "$id": 52
+    },
+    "开源项目": {
+        "en-US": "Open-source Projects",
+        "ja-JP": "オープンソースプロジェクト",
+        "$files": [
+            "src/app/repos/page.tsx(T7:27-T7:33)"
+        ],
+        "$id": 53
+    },
+    "多个库联动切换": {
+        "en-US": "Switching Collaboration among Multiple Libraries",
+        "ja-JP": "複数のライブラリ連携切り替え",
+        "$files": [
+            "src/app/features/multilib/page.tsx(T7:29-T7:38)"
+        ],
+        "$id": 54
+    },
+    "执行自动翻译": {
+        "en-US": "Execute Automatic Translation",
+        "ja-JP": "自動翻訳を実行",
+        "$files": [
+            "src/app/features/translate/page.tsx(T7:29-T7:37)"
+        ],
+        "$id": 55
+    }
+}

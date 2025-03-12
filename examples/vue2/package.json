@@ -1,0 +1,34 @@
+{
+  "name": "vue2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "i18n:init": "voerkai18n init",
+    "i18n:extract": "voerkai18n extract",
+    "i18n:translate": "voerkai18n translate --api qwen --provider ai",
+    "i18n:compile": "voerkai18n compile",
+    "i18n:wrap": "voerkai18n wrap --api qwen"
+  },
+  "dependencies": {
+    "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/runtime": "workspace:*",
+    "@voerkai18n/vue2": "workspace:*",
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@voerkai18n/cli": "workspace:*",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "less": "^4.0.0",
+    "less-loader": "^8.0.0",
+    "typescript": "~4.5.5",
+    "vue-template-compiler": "^2.6.14",
+    "webpack-dev-server": "^5.2.0"
+  }
+}

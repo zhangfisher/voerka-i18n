@@ -11,20 +11,20 @@
  *                                   每个元素要么是Promise的返回值，要么是Error对象
  */
 export async function execAsyncs<T=any>(promises: Promise<T>[]): Promise<(T | Error)[]> {
-    if (typeof Promise.allSettled === 'function') { // 更安全地检查Promise.allSettled是否存在      
-        const results = await Promise.allSettled(promises);
-        return results.map(result => 
-            result.status === 'fulfilled' ? result.value : result.reason
-        );
-    } else {
-        // 先包装每个Promise，统一处理错误
-        const wrappedPromises = promises.map(promise =>{
-            return new Promise<T | Error>(resolve => {
-                Promise.resolve(promise)
-                    .then(r => resolve(r))
-                    .catch(e => resolve(e instanceof Error ? e : new Error(String(e)))); // 确保错误是Error实例            
-            });            
-        })
-        return await Promise.all(wrappedPromises); 
-    }
+    // if (typeof Promise.allSettled === 'function') { // 更安全地检查Promise.allSettled是否存在      
+    const results = await Promise.allSettled(promises);
+    return results.map(result => 
+        result.status === 'fulfilled' ? result.value : result.reason
+    );
+    // } else {
+    //     // 先包装每个Promise，统一处理错误
+    //     const wrappedPromises = promises.map(promise =>{
+    //         return new Promise<T | Error>(resolve => {
+    //             Promise.resolve(promise)
+    //                 .then(r => resolve(r))
+    //                 .catch(e => resolve(e instanceof Error ? e : new Error(String(e)))); // 确保错误是Error实例            
+    //         });            
+    //     })
+    //     return await Promise.all(wrappedPromises); 
+    // }
 }

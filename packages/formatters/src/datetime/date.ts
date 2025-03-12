@@ -1,16 +1,15 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate" 
+import { createFormatter } from "../utils/createFormatter"
+import { toDate } from "../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime" 
 
-export type DateFormatterConfig = {
+type DateFormatterConfig = {
     format: 'long' | 'short' | 'local' | 'iso' | 'utc' | 'gmt' | string | ((date:Date)=>string)    
-    long  : string
-    short : string   
+    long  : string 
+    short : string 
     [key: string]: string | ((date: Date) => string)
 }
 
-
-export type DateFormatterArgs = {
+type DateFormatterArgs = {
     format?: string
 }
 
@@ -21,40 +20,36 @@ const transformers =  {
     gmt  : (value:any)=>value.toGMTString()    
 }  
 
-export const dateFormatter = createFormatter<DateFormatterArgs,DateFormatterConfig>(()=>{
-    return {
+export default createFormatter<DateFormatterArgs,DateFormatterConfig>({
         global : true,
         name   : "date",
         args   : [ "format" ],
-        default: { 
-            format : "local" 
-        },
         next(value:any,args,ctx){         
-            const config   = ctx.getFormatterConfig<DateFormatterConfig>("date")
+            const config   = ctx.getConfig()
             const dateValue = toDate(value) 
-            const format    = args.format || 'local'
+            let format :any   = args.format || config.format
             if( format in transformers ){
                 return (transformers as any)[format](dateValue)
             }else if(format in config){
-                const formatVal = config[format] 
-                if(typeof formatVal === 'function'){
-                    return (formatVal as any)(dateValue)
+                format = config[format] 
+                if(typeof format === 'function'){
+                    return (format as any)(dateValue)
                 }
-            }else if(typeof(format) === 'string'){
+            }
+            if(typeof(format) === 'string'){
                 return formatDateTime(dateValue,format)
             }
         }
-    } 
-},{
-    en:{ 
-        long        : 'YYYY/MM/DD HH:mm:ss', 
-        short       : "YYYY/MM/DD",
-        format      : "local" 
-    },
-    zh:{ 
-        long        : 'YYYY年M月D日 HH点mm分ss秒',       
-        short       : "YYYY年M月D日",                          
-        format      : 'local' 
-    }
-})
- 
+    },{
+        "en-US":{ 
+            long        : 'YYYY/MM/DD HH:mm:ss', 
+            short       : "YYYY/MM/DD"
+        },
+        "zh-CN":{ 
+            long        : 'YYYY年M月D日 HH点mm分ss秒',       
+            short       : "YYYY年M月D日"
+        }
+    },{
+        format      : 'local'
+    })
+    

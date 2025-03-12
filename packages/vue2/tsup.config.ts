@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup' 
+import copyFiles from "esbuild-plugin-copy"
 
 
 export default defineConfig({
@@ -12,7 +13,16 @@ export default defineConfig({
     clean: true,
     treeshake:true,  
     minify: true,
-    external:["vue"],
+    external:["vue"],    
+    esbuildPlugins: [
+        // @ts-ignore
+        copyFiles({
+            assets:{
+                from:"./src/install/**/*",
+                to:'./install'
+            }
+        })
+    ], 
     banner: {
         js: `/***        
 *   ---=== VoerkaI18n for Vue2 ===---

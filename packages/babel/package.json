@@ -1,20 +1,40 @@
 {
     "name": "@voerkai18n/babel",
-    "version": "2.1.13",
-    "description": "Babel插件,实现自动导入t函数和自动文本映射",
-    "main": "index.js",
+    "version": "3.0.0",
+    "description": "Babel插件,实现自动文本映射",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "scripts": {
-        "release": "npm publish"
+        "build": "tsup"
     },
+    "keywords": [
+        "voerkai18n",
+        "i18n",
+        "language",
+        "translation",
+        "internationalize"
+    ],
     "author": "wxzhang",
     "license": "MIT",
     "dependencies": {
         "@voerkai18n/utils": "workspace:^"
     },
-    "lastPublish": "2023-03-29T17:37:24+08:00"
+    "devDependencies": {
+        "@babel/core": "^7.26.9",
+        "@babel/preset-env": "^7.26.9",
+        "@babel/traverse": "^7.26.9",
+        "@babel/types": "^7.26.9",
+        "@types/babel__core": "^7.20.5",
+        "@types/babel__traverse": "^7.20.6",
+        "@types/node": "^22.13.8",
+        "tsup": "8.3.6",
+        "typescript": "^5.8.2",
+        "vitest": "^3.0.7"
+    }
 }

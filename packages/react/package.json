@@ -1,37 +1,42 @@
 {
     "name": "@voerkai18n/react",
-    "version": "2.1.13",
+    "version": "3.0.0",
     "description": "React支持,提供语言切换等功能",
-    "main": "dist/index.js",
-    "module": "dist/index.mjs",
-    "types": "dist/index.d.ts",
+    "main": "./src/index.tsx",
+    "publishConfig": {
+        "main": "dist/index.js",
+        "module": "dist/index.mjs",
+        "types": "dist/index.d.ts"
+    },
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/zhangfisher/voerka-i18n"
     },
     "keywords": [
+        "voerkai18n",
         "i18n",
-        "react",
-        "voerkai18n"
+        "language",
+        "translation",
+        "internationalize",
+        "react"
     ],
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "release": "npm publish",
-        "build": "tsup"
+        "build": "tsup",
+        "build:watch": "tsup --watch"
     },
     "author": "wxzhang",
     "license": "MIT",
     "devDependencies": {
-        "@types/react": "^18.2.15",
-        "react": "^18.2.0",
-        "tsup": "^6.7.0",
-        "@voerkai18n/runtime": "workspace:^"
+        "@types/react": "^18.0.0",
+        "@voerkai18n/runtime": "workspace:^",
+        "esbuild-plugin-copy": "^2.1.1",
+        "react": "^18.0.0",
+        "tsup": "^8.3.6"
     },
     "peerDependencies": {
-        "@types/react": "^16.9.0",
+        "@types/react": "^18.0.0",
         "@voerkai18n/runtime": "workspace:^",
-        "react": "^16.9.0"
-    },
-    "lastPublish": "2023-03-30T08:53:32+08:00"
+        "react": "^18.0.0"
+    }
 }

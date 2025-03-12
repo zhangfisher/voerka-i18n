@@ -1,0 +1,38 @@
+{
+  "name": "@voerkai18n-examples/lynx",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "rspeedy build",
+    "dev": "rspeedy dev",
+    "preview": "rspeedy preview",
+    "i18n:init": "voerkai18n init",
+    "i18n:extract": "voerkai18n extract",
+    "i18n:translate": "voerkai18n translate --api qwen --provider ai",
+    "i18n:compile": "voerkai18n compile",
+    "i18n:wrap": "voerkai18n wrap --api qwen"
+  },
+  "dependencies": {
+    "@lynx-js/react": "^0.105.1",
+    "@voerkai18n/cli": "workspace:*",
+    "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/lynx": "workspace:*",
+    "@voerkai18n/react": "workspace:*",
+    "@voerkai18n/runtime": "workspace:*",
+    "classnames": "^2.5.1"
+  },
+  "devDependencies": {
+    "@lynx-js/qrcode-rsbuild-plugin": "^0.3.4",
+    "@lynx-js/react-rsbuild-plugin": "^0.9.1",
+    "@lynx-js/rspeedy": "^0.8.3",
+    "@lynx-js/types": "^3.2.0",
+    "@types/react": "^18.3.18",
+    "typescript": "~5.7.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "@lynx-js/types": "^3.2.0"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "name": "@voerkai18n/nextjs",
+  "version": "3.0.0",
+  "description": "voerkai18n for nextjs",
+  "main": "src/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./client": "./src/client/index.ts",
+    "./server": "./src/server/index.ts"
+  },
+  "module": "dist/index.mjs",
+  "publishConfig": {
+    "access": "public",
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "import": "./dist/client/index.mjs",
+      "require": "./dist/client/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "voerkai18n",
+    "nextjs",
+    "i18n",
+    "language",
+    "translation",
+    "internationalize"
+  ],
+  "author": "wxzhang",
+  "license": "MIT",
+  "dependencies": {
+    "@voerkai18n/react": "workspace:*",
+    "flex-tools": "^1.4.33"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.8",
+    "@types/react": "^19.0.10",
+    "@voerkai18n/runtime": "workspace:*",
+    "next": "15.0.0",
+    "react": "^18.0.0",
+    "tsup": "^8.3.6",
+    "typescript": "^5.8.2",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@voerkai18n/runtime": "workspace:*",
+    "next": "15.0.0",
+    "react": "^18.0.0"
+  }
+}

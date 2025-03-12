@@ -1,8 +1,0 @@
-{
-    "库:中文": {
-        "en": "lib1:china",
-        "$files": [
-            "index.js"
-        ]
-    }
-}

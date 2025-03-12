@@ -6,9 +6,9 @@ import { deepMerge } from 'flex-tools/object/deepMerge'
 export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>,useDeepMerge?:boolean): VoerkaI18nScope {
     const merge = useDeepMerge ? deepMerge : Object.assign
     return new VoerkaI18nScope(merge({
-        id: 'test-scope',
-        debug: false,
-        library: false,
+        id       : 'test-scope',
+        debug    : false,
+        library  : false,
         languages: {
             zh: { name: 'Chinese', title: '中文', active: true,default: true },
             en: { name: 'English', title: 'English'} 
@@ -17,10 +17,10 @@ export function createVoerkaI18nScope(opts?:Partial<VoerkaI18nScopeOptions>,useD
           en: { message: 'Hello' },
           zh: { message: '你好' } 
         },
-        idMap: {},
-        storage: undefined,
-        formatters: {},
-        ready: () => {},    
+        idMap     : {},
+        storage   : undefined,
+        formatters: [],
+        ready     : () => {},    
       }, opts) as VoerkaI18nScopeOptions)
 }
 

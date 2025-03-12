@@ -14,6 +14,7 @@ export default defineConfig({
     treeshake:true,  
     minify: true,
     noExternal:['flex-tools'],
+    globalName: 'VoerkaI18n',
     banner: {
         js: `/***        
 *   ---=== VoerkaI18n Runtime ===---

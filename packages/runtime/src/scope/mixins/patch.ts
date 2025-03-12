@@ -43,8 +43,8 @@ export class PatchMessageMixin{
 		try {
 			if (isFunction(this.loader)){
 				const pachedMessages = (await this._loadMessagesFromLoader(language)) as unknown as VoerkaI18nLanguageMessages;
-				if (isPlainObject(pachedMessages)) {
-					Object.assign(this.activeMessages, pachedMessages);
+				if(isPlainObject(pachedMessages)){
+					Object.assign(this._activeMessages, pachedMessages);
 					this._setPatchedMessages(pachedMessages, language);
 					this.emit('patched',{ language:language,scope:this.id })
 				}
@@ -61,7 +61,7 @@ export class PatchMessageMixin{
 	 */
 	protected _restorePatchedMessages(this:VoerkaI18nScope,messages:VoerkaI18nLanguageMessages,language:string) {
 		const patchedMessages = this._getPatchedMessages(language);
-		if (isPlainObject(patchedMessages)) {
+		if (isPlainObject(patchedMessages)){
             Object.assign(messages, patchedMessages);
             this.emit('restore',{language,scope:this.id})
             this.logger.debug(`成功恢复补丁语言包<${language}>(scope=${this.id})`);

@@ -1,20 +1,25 @@
 import type { VoerkaI18nManager } from "./manager"
 import { VoerkaI18nFormatterConfig } from "./formatter/types"
-import type { VoerkaI18nScope } from "./scope" 
-import type { BCP47LanguageTagName } from "bcp47-language-tags"
+import type { VoerkaI18nScope, VoerkaI18nScopeOptions } from "./scope" 
+import type { BCP47LanguageTagName } from "bcp47-language-tags"  
+import { LiteEventListener,LiteEventSubscriber } from "flex-tools/events/liteEvent" 
 
 
 export type SupportedDateTypes = "String" | "Number" | "Boolean" | "Object" | "Array" | "Function" | "Error" | "Symbol" | "RegExp" | "Date" | "Null" | "Undefined" | "Set" | "Map" | "WeakSet" | "WeakMap"
 
 // 语言包
-export type VoerkaI18nLanguageMessages = {
-    $config?: VoerkaI18nFormatterConfig
-    $remote?: boolean
-}  & {
-    [key in string]?: string | string[]
-}  
+export type VoerkaI18nLanguageMessages = Record<
+    string, 
+    string | string[] | VoerkaI18nFormatterConfig | boolean
+>
 
-export type VoerkaI18nLanguageMessagePack = Record<LanguageName, VoerkaI18nLanguageMessages | VoerkaI18nLanguageLoader> 
+export type VoerkaI18nLanguageMessagePack = Record<LanguageName, 
+    VoerkaI18nLanguageMessages 
+    | VoerkaI18nLanguageLoader
+    | VoerkaI18nLanguageAsyncChunk
+> 
+
+export type VoerkaI18nLanguageAsyncChunk = ()=> Promise<any>
 
 export type VoerkaI18nDynamicLanguageMessages = Record<string, string | string[]> & {
     $config?: VoerkaI18nFormatterConfig
@@ -26,12 +31,17 @@ export interface VoerkaI18nLanguagePack {
 
 export type Voerkai18nIdMap = Record<string, number>
 
+export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:VoerkaI18nTranslateVars,options?: VoerkaI18nTranslateOptions)=>string | Promise<string>)
+
+
+ 
 export interface VoerkaI18nLanguageDefine {
-    name     : string               // 语言代码
-    title?   : string               // 语言标题
-    default? : boolean              // 是否默认语言
-    active?  : boolean              // 是否激活      
-    fallback?: string               // 回退语言
+    name        : string               // 语言代码
+    title?      : string               // 语言标题
+    nativeTitle?: string               // 用原语言表达的标题
+    default?    : boolean              // 是否默认语言
+    active?     : boolean              // 是否激活      
+    fallback?   : string               // 回退语言
 }
 
 // 提供一个简单的KV存储接口,用来加载相关的存储
@@ -41,27 +51,31 @@ export interface IVoerkaI18nStorage{
     remove(key:string):any
 }
 
+export type VoerkaI18nNamespaces = Record<string, string | string[] | ((file: string) => boolean)>
  
 export type VoerkaI18nLanguageLoader = (newLanguage:string,scope:VoerkaI18nScope)=>Promise<VoerkaI18nLanguageMessages | undefined | void>
-
-export type TranslateMessageVars = number | boolean | string | Function | Date
-
-export interface VoerkaI18nTranslate {
-    (message: string, ...vars: TranslateMessageVars[]): string
-    (message: string, vars: TranslateMessageVars[]): string
-    (message: string, vars?: Record<string, TranslateMessageVars>): string
+ 
+export type VoerkaI18nTranslateOptions = {
+    language?:  LanguageCodes
 }
+export type VoerkaI18nTranslateVars    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>VoerkaI18nTranslateVars)
+
+
+export type VoerkaI18nTranslate =(message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions)=>string
+ 
 
 
 export interface VoerkaI18nSupportedLanguages {
     [key: string]: VoerkaI18nLanguageDefine
 }
 
+export type VoerkaI18nPlugin = (manager:VoerkaI18nManager)=>void
 
 export type LanguageName = string
 declare global {   
     export var VoerkaI18n: VoerkaI18nManager
     export var __VoerkaI18nScopes__: VoerkaI18nScope[]
+    export var __VoerkaI18nPlugins__: VoerkaI18nPlugin[]
 }
 
    
@@ -81,33 +95,36 @@ export type VoerkaI18nEvents = {
 export type Dict<T=any> = Record<string,T>
 
 export type LanguageCodes = BCP47LanguageTagName
+ 
 
-// export type ISO639LanguageCodes = 'aa' | 'ab' | 'ae' | 'af' | 'ak' | 'am' | 'an' | 'ar' | 'as' | 'av' | 'ay' | 'az' 
-//     | 'ba' | 'be' | 'bg' | 'bh' | 'bi' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' 
-//     | 'ca' | 'ce' | 'ch' | 'co' | 'cr' | 'cs' | 'cu' | 'cv' | 'cy' 
-//     | 'da' | 'de' | 'dv' | 'dz' 
-//     | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' 
-//     | 'fa' | 'ff' | 'fi' | 'fj' | 'fo' | 'fr' | 'fy' 
-//     | 'ga' | 'gd' | 'gl' | 'gn' | 'gu' | 'gv' 
-//     | 'ha' | 'he' | 'hi' | 'ho' | 'hr' | 'ht' | 'hu' | 'hy' | 'hz' 
-//     | 'ia' | 'id' | 'ie' | 'ig' | 'ii' | 'ik' | 'io' | 'is' | 'it' | 'iu' 
-//     | 'ja' | 'jv' 
-//     | 'ka' | 'kg' | 'ki' | 'kj' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'kr' | 'ks' | 'ku' | 'kv' | 'kw' | 'ky' 
-//     | 'la' | 'lb' | 'lg' | 'li' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' 
-//     | 'mg' | 'mh' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' 
-//     | 'na' | 'nb' | 'nd' | 'ne' | 'ng' | 'nl' | 'nn' | 'no' | 'nr' | 'nv' | 'ny' 
-//     | 'oc' | 'oj' | 'om' | 'or' | 'os' 
-//     | 'pa' | 'pi' | 'pl' | 'ps' | 'pt' 
-//     | 'qu' 
-//     | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' 
-//     | 'sa' | 'sc' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sm' | 'sn' | 'so' | 'sq' | 'sr' | 'ss' | 'st' | 'su' | 'sv' | 'sw' 
-//     | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'tl' | 'tn' | 'to' | 'tr' | 'ts' | 'tt' | 'tw' | 'ty' 
-//     | 'ug' | 'uk' | 'ur' | 'uz' 
-//     | 've' | 'vi' | 'vo' 
-//     | 'wa' | 'wo' 
-//     | 'xh' 
-//     | 'yi' | 'yo' 
-//     | 'za' | 'zh' | 'zu'
+export type VoerkaI18nSettings ={
+    entry?                  : string                // 语言包入口，默认为"languages"
+    readonly defaultLanguage: string
+    readonly activeLanguage : string
+} & Omit<VoerkaI18nScopeOptions, 'storage' | 'idMap' | 'formatters' | 'log' | 'attached' | 'loader' | 'messages'>  
 
 
+export type VoerkaI18nLanguageParagraphs = Record<string, any>
+// { zh-CN: { <id>: message,..., <id>: message} }
+export type VoerkaI18nParagraphs = Record<LanguageName, Record<string, VoerkaI18nLanguageParagraphs>>
 
+
+export type VoerkaI18nTranslateProps<
+    Options extends VoerkaI18nTranslateOptions = VoerkaI18nTranslateOptions,
+    Children=any
+>= {
+    id?       : string
+    message?  : VoerkaI18nToBeTranslatedMessage
+    vars?     : VoerkaI18nTranslateVars
+    default?  : any
+    tag?      : string
+    options?  : Options    
+    children? : Children 
+    style?    : any
+    className?: string
+}
+
+export type VoerkaI18nTranslateComponentBuilder<Component=any> = (scope:VoerkaI18nScope)=>Component
+
+export type VoerkaI18nEventListener = LiteEventListener
+export type VoerkaI18nEventSubscriber = LiteEventSubscriber

@@ -1,0 +1,68 @@
+{
+    "这是一个测试": {
+        "en-US": "This is a test",
+        "$files": [
+            "src/index.js(S5:18-S5:26)",
+            "src/index.js(S21:18-S21:26)"
+        ],
+        "$id": 25
+    },
+    "你好": {
+        "en-US": "Hello",
+        "$files": [
+            "src/index.js(S6:18-S6:22)",
+            "src/index.js(S22:18-S22:22)"
+        ],
+        "$id": 26
+    },
+    "我叫{name},今年{age}岁": {
+        "en-US": "My name is {name}, I am {age} years old",
+        "$files": [
+            "src/index.js(S7:18-S7:37)",
+            "src/index.js(S23:18-S23:37)"
+        ],
+        "$id": 27
+    },
+    "我有{}部车": {
+        "en-US": "I have {} cars",
+        "$files": [
+            "src/index.js(S8:18-S8:26)",
+            "src/index.js(S9:18-S9:26)",
+            "src/index.js(S10:18-S10:26)",
+            "src/index.js(S11:18-S11:26)",
+            "src/index.js(S12:18-S12:26)",
+            "src/index.js(S24:18-S24:26)",
+            "src/index.js(S25:18-S25:26)",
+            "src/index.js(S26:18-S26:26)",
+            "src/index.js(S27:18-S27:26)",
+            "src/index.js(S28:18-S28:26)"
+        ],
+        "$id": 28
+    },
+    "我有{count}部车": {
+        "en-US": "I have {count} cars",
+        "$files": [
+            "src/index.js(S13:18-S13:31)",
+            "src/index.js(S14:18-S14:31)",
+            "src/index.js(S29:18-S29:31)",
+            "src/index.js(S30:18-S30:31)"
+        ],
+        "$id": 29
+    },
+    "现在是{|date}": {
+        "en-US": "The current date is {|date}",
+        "$files": [
+            "src/index.js(S15:18-S15:30)",
+            "src/index.js(S31:18-S31:30)"
+        ],
+        "$id": 30
+    },
+    "今天天气{condition}": {
+        "en-US": "The weather today is {condition}",
+        "$files": [
+            "src/index.js(S16:18-S16:35)",
+            "src/index.js(S32:18-S32:35)"
+        ],
+        "$id": 31
+    }
+}

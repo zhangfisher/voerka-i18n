@@ -1,0 +1,31 @@
+{
+  "name": "@voerkai18n/patch",
+  "version": "3.0.0",
+  "description": "voerkai18n patch plugin",
+  "main": "src/index.ts",
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "voerkai18n",
+    "i18n",
+    "language",
+    "translation",
+    "internationalize"
+  ],
+  "author": "wxzhang",
+  "license": "MIT",
+  "packageManager": "pnpm@10.4.1",
+  "devDependencies": {
+    "@voerkai18n/runtime": "workspace:*",
+    "tsup": "8.3.6"
+  },
+  "peerDependencies": {
+    "@voerkai18n/runtime": "workspace:*"
+  }
+}

@@ -1,13 +1,7 @@
-import type { VoerkaI18nScope, VoerkaI18nTranslate } from "@voerkai18n/runtime"
-
-export declare interface VoerkaI18nVuePluginOptions{
-    i18nScope:VoerkaI18nScope
+export {}
+import { VoerkaI18nTranslate } from "@voerkai18n/runtime"
+declare module 'vue' {
+    interface ComponentCustomProperties { 
+        t: VoerkaI18nTranslate
+    }
 }
-  
-declare module 'vue' { 
-    interface ComponentCustomProperties  {
-        $activeLanguage:string
-        t: VoerkaI18nTranslate 
-    } 
-  }
-   

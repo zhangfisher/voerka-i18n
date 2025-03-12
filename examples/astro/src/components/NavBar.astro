@@ -1,0 +1,23 @@
+---
+import { Translate } from "../languages/server";
+import LanguageBar from "./LanguageBar.astro";
+---
+
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <div class="flex items-center space-x-3 rtl:space-x-reverse">
+      <span class="self-center text-2xl font-semibold whitespace-nowrap text-emerald-600">
+        VoerkaI18n Astro Example
+      </span>
+    </div>
+    <span class="flex flex-row justify-center space-x-3 grow text-center ">
+      <a href="/"><Translate message="首页"/></a>
+      <a href="/features"><Translate message="特性"/></a>
+      <a href="/repos"><Translate message="开源推荐"/></a>
+      <a href="/about"><Translate message="关于"/></a>
+    </span>
+    <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+      <LanguageBar />
+    </div>
+  </div>
+</nav>

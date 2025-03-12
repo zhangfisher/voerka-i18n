@@ -1,0 +1,32 @@
+{
+  "name": "@voerkai18n-examples/html",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "i18n:init": "voerkai18n init",
+    "i18n:apply": "voerkai18n apply",
+    "i18n:extract": "voerkai18n extract",
+    "i18n:translate": "voerkai18n translate --api qwen --provider ai",
+    "i18n:compile": "voerkai18n compile",
+    "i18n:wrap": "voerkai18n wrap --api qwen"
+  },
+  "devDependencies": {
+    "@voerkai18n/cli": "workspace:*",
+    "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/runtime": "workspace:*",
+    "@voerkai18n/webcomponent": "workspace:*",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "@voerkai18n/react": "workspace:*",
+    "@voerkai18n/vue2": "workspace:*",
+    "@voerkai18n/vue": "workspace:*",
+    "@voerkai18n/nextjs": "workspace:*",
+    "@voerkai18n/svelte": "workspace:*"
+  }
+}

@@ -1,0 +1,5 @@
+{
+    "languages":{{@ languages | json }},
+    "library":{{library}},
+    "debug":false
+}

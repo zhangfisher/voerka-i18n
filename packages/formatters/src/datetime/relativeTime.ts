@@ -1,42 +1,39 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate" 
+import { createFormatter } from "../utils/createFormatter"
+import { toDate } from "../utils/toDate" 
 import { relativeTime } from "flex-tools/misc/relativeTime"
 
  
 
-export type RelativeTimeFormatterConfig = {
+type RelativeTimeFormatterConfig = {
     units       : string[]
     now         : string
     before      : string
     after       : string
 }
 
-
-export type RelativeTimeFormatterArgs = {
+type RelativeTimeFormatterArgs = {
     base: Date
 }
  
-export const relativeTimeFormatter =  createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>(()=>{
-    return {
+export default createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterConfig>({
         name   : "relativeTime",
         args   : [ "base" ],
         default: ()=>({
             base: new Date()
         }) ,
         next(value,args,ctx){              
-            const config   = ctx.getFormatterConfig<RelativeTimeFormatterConfig>("relativeTime")
+            const config   = ctx.getConfig()
             const baseTime = args.base || new Date()
             return relativeTime(toDate(value),baseTime,config)   
         }
-    } 
-},{
-    en:{ 
+    },{
+    "en-US":{ 
         units       : ["seconds","minutes","hours","days","weeks","months","years"],
         now         : "Just now",
         before      : "{value} {unit} ago",
         after       : "after {value} {unit}"
     },
-    zh:{ 
+    "zh-CN":{ 
         units       : ["秒","分钟","小时","天","周","个月","年"],
         now         : "刚刚",
         before      : "{value}{unit}前",

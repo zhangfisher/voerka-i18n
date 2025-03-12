@@ -1,0 +1,12 @@
+rule:
+  any:
+    - pattern:
+      selector: call_expression
+      context: t($MESSAGE)
+    - pattern: t($MESSAGE,$VARS) 
+    - pattern: t($MESSAGE,$VARS,$OPTIONS)      
+constraints:
+  MESSAGE: 
+    kind: string
+  OPTIONS: 
+    kind: object

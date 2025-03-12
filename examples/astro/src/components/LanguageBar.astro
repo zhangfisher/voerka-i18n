@@ -1,0 +1,19 @@
+---
+import classnames from "classnames";
+import { i18nScope } from "../languages";
+---
+
+{ i18nScope.languages.map(lang => (
+    <button 
+        type="button" 
+        key={ lang.name }
+        onClick={() => i18nScope.change(lang.name) }             
+        class={classnames("cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium mr-4 rounded-lg text-sm px-4 py-2 text-center ",
+            {
+                "bg-emerald-800 hover:bg-emerald-600 text-white ": lang.name === i18nScope.activeLanguage,
+                "border-1 border-gray-400" : lang.name !== i18nScope.activeLanguage
+            })
+        }>
+        {lang.name}
+    </button>
+))}

@@ -25,6 +25,6 @@
     "test",
     "docs",
     "tests",
-    "packages/cli/templates"
+    "packages/cli/src/templates"
   ]
 }

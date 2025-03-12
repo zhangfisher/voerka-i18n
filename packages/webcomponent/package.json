@@ -1,0 +1,42 @@
+{
+  "name": "@voerkai18n/webcomponent",
+  "description": "translate web component for voerkai18n",
+  "version": "3.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "access": "public",
+  "exports": {
+    ".": {
+      "types": "./dist/v-translate.d.ts",
+      "import": "./dist/v-translate.js",
+      "require": "./dist/v-translate.cjs"
+    },
+    "./cjs": "./dist/v-translate.cjs",
+    "./esm": "./dist/v-translate.js",
+    "./umd": "./dist/v-translate.umd.js",
+    "./iife": "./dist/v-translate.iife.js",
+    "./system": "./dist/v-translate.system.js"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "voerkai18n",
+    "i18n",
+    "language",
+    "translation",
+    "internationalize"
+  ],
+  "dependencies": {
+    "lit": "^3.2.1"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@voerkai18n/runtime": "workspace:*",
+    "typescript": "~5.7.3",
+    "vite": "^6.1.0",
+    "vite-plugin-dts": "^4.5.0"
+  }
+}

@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+
+
+:root{
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
+  --vp-font-family-base: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --vp-font-family-mono: ui-monospace, "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+  font-optical-sizing: auto;
+}
+.colorized-title{
+  background: var(--vp-home-hero-name-background);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: var(--vp-home-hero-name-color);
+  font-size: 56px;  
+  line-height: 100%; 
+  font-weight: 700;
+  white-space: pre-wrap;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--vp-font-family-base);
+}

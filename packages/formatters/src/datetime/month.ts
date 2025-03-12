@@ -1,50 +1,44 @@
-import { createFormatter } from "../../../runtime/src/formatter/utils"
-import { toDate } from "../../../runtime/src/utils/toDate" 
+import { createFormatter } from "../utils/createFormatter"
+import { toDate } from "../utils/toDate" 
 import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/chinese"
 
-export type MonthFormatterConfig = {
+type MonthFormatterConfig = {
     format: 'long' | 'short' | string | ((date:Date)=>string)
     long  : string[]
     short : string[] 
 }
 
-
-export type MonthFormatterArgs = {
+type MonthFormatterArgs = {
     format: string
 }
 
-export const monthFormatter = createFormatter<MonthFormatterArgs>(()=>{
-    return {
+export default createFormatter<MonthFormatterArgs,MonthFormatterConfig>({
         name   : "month",
-        args   : [ "format" ],
-        default: { 
-            format : "long" 
-        },
+        args   : [ "format" ], 
         next(value,args,ctx){
-            const config = ctx.getFormatterConfig<MonthFormatterConfig>("month")
+            const config = ctx.getConfig()
             const month   = toDate(value).getMonth() + 1
-            const format  = args.format || 'long'
+            const format  = args.format ||  config.format
             if( typeof(format)==='string' && format in config ){
                 const formatVal = (config as any)[format]
                 if(typeof formatVal === 'function'){
                     return (formatVal as any)(month)
                 }else{
-                    return formatVal[month]
+                    return formatVal[month-1]
                 }                    
             }
             return month 
         }
-    } 
-},{
-    en:{ 
-        long        : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        short       : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-        format      : "long"           // 0-长名称，1-短名称，2-数字
-    },
-    zh:{ 
-        long        : CN_MONTH_NAMES,
-        short       : CN_SHORT_MONTH_NAMES,
-        format      : "long",           // 0-长名称，1-短名称，2-数字
-    }
-})
+    },{
+        "en-US":{ 
+            long        : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            short       : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        },
+        "zh-CN":{ 
+            long        : CN_MONTH_NAMES,
+            short       : CN_SHORT_MONTH_NAMES,
+        }
+    },{
+        format      : "long",
+    })
  
