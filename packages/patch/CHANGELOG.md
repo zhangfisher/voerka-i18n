@@ -1,5 +1,12 @@
 # @voerkai18n/patch
 
+## 3.0.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @voerkai18n/runtime@3.0.4
+
 ## 3.0.3
 
 ### Patch Changes

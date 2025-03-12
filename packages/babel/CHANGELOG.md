@@ -1,5 +1,12 @@
 # @voerkai18n/babel
 
+## 3.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`b5aef61`](https://github.com/zhangfisher/voerka-i18n/commit/b5aef61f95e298733763b75888901aed0effba12)]:
+  - @voerkai18n/utils@3.0.4
+
 ## 3.0.3
 
 ### Patch Changes
