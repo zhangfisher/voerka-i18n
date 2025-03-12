@@ -1,7 +1,8 @@
 {
   "name": "@voerkai18n-examples/lynx",
   "version": "0.0.0",
-  "type": "module",
+  "type": "module",  
+  "private":true,
   "scripts": {
     "build": "rspeedy build",
     "dev": "rspeedy dev",

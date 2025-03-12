@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/lynx",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "voerkai18n for lynx",
     "main": "dist/index.js",
     "module": "dist/index.mjs",

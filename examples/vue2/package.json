@@ -1,5 +1,5 @@
 {
-  "name": "vue2",
+  "name": "@voerkai18n-examples/vue2",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,7 @@
     "@voerkai18n/formatters": "workspace:*",
     "@voerkai18n/runtime": "workspace:*",
     "@voerkai18n/vue2": "workspace:*",
-    "vue": "^2.6.14",
+    "vue": "^2.7.0",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
   },
