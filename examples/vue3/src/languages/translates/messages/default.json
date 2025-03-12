@@ -162,18 +162,18 @@
         "$id": 142
     },
     "点击查看详情": {
-        "en-US": "点击查看详情",
-        "ru-RU": "点击查看详情",
-        "ja-JP": "点击查看详情",
+        "en-US": "Click to view details",
+        "ru-RU": "Нажмите, чтобы просмотреть подробности",
+        "ja-JP": "詳細を表示",
         "$files": [
             "src/Home/Features.vue(T8:18-T8:38)"
         ],
         "$id": 286
     },
     "密码": {
-        "en-US": "密码",
-        "ru-RU": "密码",
-        "ja-JP": "密码",
+        "en-US": "Password",
+        "ru-RU": "пароль",
+        "ja-JP": "パスワード",
         "$files": [
             "src/Home/Features.vue(T9:18-T9:40)"
         ],

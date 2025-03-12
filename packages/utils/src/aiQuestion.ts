@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 
 export type AiRole = {
     role: string
@@ -71,51 +73,22 @@ export async function  aiQuestion<T=string>(prompt:string,options?:AiQuestionOpt
     }
     // 使用fetch向API发送请求
     let data:any 
-    try {
-        const res = await fetch(apiUrl,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-                "Authorization":`Bearer ${apiKey}`,
-                "Cache-Control": "no-cache" 
-            },
-            body:JSON.stringify(request)
-        })
-
-        if (!res.ok) {
-            throw new Error(`API request failed with status ${res.status}`)
+    try{
+        const res = await axios.post(apiUrl, request, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`,
+                "Cache-Control": "no-cache"
+            }
+        });
+        if (res.status !== 200) {
+            throw new Error(`API request failed with status ${res.status}`);
         }
-        data = await res.json() 
-        const result = removeCodeBlock(data.choices[0].message.content.trim()) as T
-        return result
+        data = res.data;
+        const result = removeCodeBlock(data.choices[0].message.content.trim()) as T;
+        return result;
 
     } catch (err:any) {
         throw new Error(`Error when calling AI api: ${err.message}`)
     }
 }
-
-
-// async function test(){
-//     const code= `
-//         const answer = "今天天气如何"
-//         console.log("今天天气如何","泉州天气晴朗")
-//         console.log(answer)        
-    
-//     `
-//     const answer = await aiQuestion(`
-//         以下这是一个javascript/typescript/tsx/jsx/vue/astro代码块，将里面的所有字符串字面量均使用t()函数进行国际化处理，要求如下：
-//         - 将所有字符串字面量替换为t()函数
-//         - 例如将"hello"转换为t('hello')
-//         - 忽略注释中的字符串
-//         - 如果字符串已经使用了t()函数，则不要重复处理        
-//         - 
-        
-//         ${code}
-//     `, {
-//         apiUrl: "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-//         model: "glm-4-flash",
-//         apiKey: "b84b4e14442345c0bf78d9e7d13a826b.863QzZmtpccPPEcH"
-//     });
-//     console.log(answer)
-// }
-// test().then(()=>console.log("done")).catch(console.error)
