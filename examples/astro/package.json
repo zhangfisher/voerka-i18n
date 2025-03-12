@@ -1,8 +1,8 @@
 {
   "name": "@voerkai18n-examples/astro",
   "type": "module",
-  "version": "0.0.1",  
-  "private":true,
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -28,7 +28,7 @@
     "tailwindcss": "^4.0.9",
     "@voerkai18n/formatters": "workspace:*",
     "@voerkai18n/patch": "workspace:*",
-    "@voerkai18n/runtime": "workspace:*",    
+    "@voerkai18n/runtime": "workspace:*",
     "@voerkai18n/astro": "workspace:*"
   }
 }

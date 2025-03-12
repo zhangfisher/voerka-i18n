@@ -23,8 +23,7 @@
         "internationalize",
         "react"
     ],
-    "scripts": { 
-    },
+    "scripts": {},
     "author": "wxzhang",
     "license": "MIT",
     "devDependencies": {

@@ -1,10 +1,10 @@
 {
   "name": "@voerkai18n/vue",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "main": "./src/index.ts",
   "publishConfig": {
     "main": "dist/index.js",
-    "module": "dist/index.mjs", 
+    "module": "dist/index.mjs",
     "types": "dist/index.d.ts"
   },
   "scripts": {
