@@ -1,5 +1,11 @@
 # @voerkai18n/webcomponent
 
+## 3.0.3
+
+### Patch Changes
+
+- [`67868d1`](https://github.com/zhangfisher/voerka-i18n/commit/67868d112c631e1b4970a205f22afd43ba95c1be) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix: 修复加载动态语言时的错误
+
 ## 3.0.2
 
 ### Patch Changes

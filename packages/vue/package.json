@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/vue",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "main": "./src/index.ts",
   "publishConfig": {
     "main": "dist/index.js",
