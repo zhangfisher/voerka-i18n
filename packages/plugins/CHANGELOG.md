@@ -1,5 +1,12 @@
 # @voerkai18n/plugins
 
+## 3.0.6
+
+### Patch Changes
+
+- Updated dependencies [[`d150b8b`](https://github.com/zhangfisher/voerka-i18n/commit/d150b8b2c6afad121308d698f1746c85869979d9)]:
+  - @voerkai18n/utils@3.0.6
+
 ## 3.0.5
 
 ### Patch Changes
