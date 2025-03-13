@@ -1,6 +1,6 @@
 # 复数
 
-当翻译文本内容是一个`数组`时启用复数处理机制。即在`langauges/tranclates/*.json`中的文本翻译项是一个数组。
+当翻译文本内容是一个`数组`时启用复数处理机制。即在`langauges/tranclates/messages/*.json`中的文本翻译项是一个数组。
 
 ## 启用复数处理机制
 假设在`index.html`文件中具有一个翻译内容
@@ -9,7 +9,7 @@
 ```
 经过`extract`命令提取为翻译文件后，如下：
 ```json
-// languages/translates/default.json
+// languages/translates/messages/default.json
 {
     "我有{}辆车":{
         "en":"",
@@ -18,6 +18,7 @@
 }
 ```
 现在我们要求引入复数处理机制，为不同数量采用不同的翻译，只需要将上述翻译文本更改为数组形式。
+
 ```json
 {
     "我有{}辆车":{

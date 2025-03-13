@@ -52,6 +52,7 @@ export default defineConfig({
               items: [
                 { text: '翻译函数', link: '/zh/guide/use/t' },
                 { text: '翻译组件', link: '/zh/guide/use/translate' },
+                { text: '段落', link: '/zh/guide/use/paragraph' },
                 { text: '插值变量', link: '/zh/guide/use/interpolation' },
                 { text: '日期时间', link: '/zh/guide/use/datetime' },
                 { text: '复数', link: '/zh/guide/use/plural' },

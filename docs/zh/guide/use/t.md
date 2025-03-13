@@ -1,6 +1,16 @@
 # 翻译函数
 
-默认提供翻译函数`t`用来进行翻译。一般情况下，`t`函数声明在执行`voerkai18n compile`命令生成在工程目录下的`languages/index.(js|ts)`文件中。
+默认提供翻译函数`t`用来进行翻译。
+
+```ts
+export type VoerkaI18nTranslate =(
+        message:string, 
+        vars?:VoerkaI18nTranslateVars, 
+        options?:VoerkaI18nTranslateOptions
+    )=>string
+```
+
+**`t`函数可以从`languages/index.(js|ts)`文件中导入。**
 
 ```javascript 
 

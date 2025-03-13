@@ -14,7 +14,7 @@ const { i18nScope }                                 = require("./i18n");
 const replaceAll                                    = require('string.prototype.replaceall');
 replaceAll.shim()
  
-getProjectContext().then(async ctx=>{
+getProjectContext().then(async ()=>{
     const cliLanguage = getCliLanguage()
     global.OSLanguage = cliLanguage 
     await i18nScope.change(cliLanguage) 

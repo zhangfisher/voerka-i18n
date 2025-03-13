@@ -2,7 +2,7 @@
 
 `voerkai18n `的名称空间是为了解决当源码文件非常多时，通过名称空间对翻译内容进行分类翻译的。
 
-假设一个大型项目，其中源代码文件有上千个。默认情况下，`voerkai18n extract`会扫描所有源码文件将需要翻译的文本提取到`languages/translates/default.json`文件中。由于文件太多会导致以下问题：
+假设一个大型项目，其中源代码文件有上千个。默认情况下，`voerkai18n extract`会扫描所有源码文件将需要翻译的文本提取到`languages/translates/messages/default.json`文件中。由于文件太多会导致以下问题：
 
 - 内容太多导致`default.json`文件太大，不利于管理
 - 有些翻译往往需要联系上下文才可以作出更准确的翻译，没有适当分类，不容易联系上下文。
@@ -32,14 +32,16 @@ module.exports = {
 
 最终在` languages/translates`中会包括：
 
-```shell
-languages
-  |-- translates
-      |-- default.json
-      |-- routes.sjon
-      |-- auth.json
-      |-- admin.json      
-```
+<lite-tree>
+myapp
+    languages
+        translates
+            messages
+                default.json            //!
+                routes.json             //!
+                auth.json               //!
+                admin.json              //!
+</lite-tree>
 
 然后，`voerkai18n compile`在编译时会自动合并这些文件，后续就不再需要名称空间的概念了。
 

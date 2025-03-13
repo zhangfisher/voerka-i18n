@@ -4,7 +4,7 @@
 
 ## 开箱即用
 
-记住最后切换的语言功能在`voerkaI18n 2.0`中已经是开箱即用的。当我们在浏览器端切换语言时会自动记住最后切换的语言，并保存在`localStorage`，并在下次打开应用时自动切换到上次的语言。
+记住最后切换的语言功能在是开箱即用的。当我们在浏览器端切换语言时会自动记住最后切换的语言，并保存在`localStorage`，并在下次打开应用时自动切换到上次的语言。
 
 **实现原理如下：**
 
@@ -27,7 +27,6 @@ const scope = new VoerkaI18nScope({
 `languages/storage.(js|ts)`文件默认是将语言存储到`localStorage`中，打开`languages/storage.(js|ts)`，其内容如下：
 
 ```typescript
-
 export default {
     get(key:string){
         if(globalThis.localStorage){
@@ -44,7 +43,7 @@ export default {
             globalThis.localStorage.removeItem(key)
         }
     }
-}
+} as IVoerkaI18nStorage
 ```
 
 

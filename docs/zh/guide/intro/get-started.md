@@ -61,6 +61,7 @@ myapp
             settings.json
             storage.js
             loader.js
+            formatters.json                 // 格式化器配置
             translates/           // 提取需要翻译的内容
     package.json
     index.js    
@@ -185,7 +186,8 @@ myapp
         settings.json                   // 语言配置文件        
         index.js                        // 包含该应用作用域下的翻译函数等
         storage.js
-        loader.js
+        loader.js 
+        formatters.json                 // 格式化器配置
         component.js                        // 翻译组件
         api.json                            // 翻译API配置
         messages                            //+ 编译生成的语言包
