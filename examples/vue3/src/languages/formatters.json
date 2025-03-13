@@ -1,0 +1,12 @@
+{
+    "zh-CN":{
+        "date":{
+            "short":"yyyy-MM-dd"
+        }
+    },
+    "ja-JP":{
+        "date":{
+            "short":"yyyy-MM-dd"
+        }
+    }
+}

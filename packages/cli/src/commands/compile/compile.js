@@ -39,6 +39,7 @@ async function compile(ctx){
     ctx.tasks = logsets.tasklist({grouped:true})
 
     await compileMessages.call(ctx,allMessages)
+    
     await generateIdMap.call(ctx,allMessages)     
 
     await compileParagraphs.call(ctx)
