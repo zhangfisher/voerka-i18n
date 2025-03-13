@@ -14,7 +14,7 @@ module.exports = () => {
             default:"sync",
             choices:["sync","overwrite","merge"]
         })
-        .option("-r, --regex", t("使用正则表达式提取")) 
+        .option("-a, --ast", t("使用AST提取")) 
         .option("-p, --patterns [patterns...]", t("文件匹配规则"))
         .action(async (options) => {
             const opts = Object.assign({

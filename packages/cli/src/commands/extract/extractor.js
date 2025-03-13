@@ -42,7 +42,7 @@ async function scanSourceFiles(ctx) {
     "patterns"
   );
 
-  const files = await glob(patterns, {
+  const files =  await glob(patterns, {
     cwd: process.cwd(),
     absolute: true,
   });
@@ -68,7 +68,7 @@ async function scanSourceFiles(ctx) {
         namespaces: ctx.namespaces,
         file      : file,
         language  : codeLang || "ts",
-        extractor : ctx.regex ? "regex" : "ast",
+        extractor : ctx.ast ? "ast" : "regex",
       });
       if (msgs && msgs.length > 0)  messages.push(...msgs);
 

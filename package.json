@@ -12,7 +12,7 @@
     "changeset": "changeset",
     "release:all": "changeset publish",
     "version:all": "changeset version",
-    "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/openinula @voerkai18n/vite @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel voerkai18n-loader",
+    "sync": "cnpm sync @voerkai18n/cli @voerkai18n/runtime @voerkai18n/vue @voerkai18n/formatters @voerkai18n/patch  @voerkai18n/openinula @voerkai18n/plugins @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel @voerkai18n/webpack @voerkai18n/svelte  @voerkai18n/nextjs",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",

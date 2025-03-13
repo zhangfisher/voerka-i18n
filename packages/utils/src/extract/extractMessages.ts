@@ -79,6 +79,7 @@ export function extractMessagesUseRegex(code:string,options:ExtractMessagesOptio
         vars:undefined,
         options:undefined,
         namespace,
+        file,
         ...message
     }))
 }

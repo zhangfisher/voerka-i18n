@@ -60,6 +60,7 @@ myapp
             prompts/        
             settings.json
             storage.js
+            loader.js
             translates/           // 提取需要翻译的内容
     package.json
     index.js    
@@ -113,6 +114,7 @@ myapp
             prompts/        
             settings.json
             storage.js
+            loader.js
             translates/           // 提取需要翻译的内容
                 messages
                     default.json      //! 需要翻译的内容提取到这里
@@ -183,6 +185,9 @@ myapp
         settings.json                   // 语言配置文件        
         index.js                        // 包含该应用作用域下的翻译函数等
         storage.js
+        loader.js
+        component.js                        // 翻译组件
+        api.json                            // 翻译API配置
         messages                            //+ 编译生成的语言包
             idMap.js                        //+ 文本信息id映射表
             zh.js                           //+ 语言包
