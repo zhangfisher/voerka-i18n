@@ -1,5 +1,16 @@
 # @voerkai18n/cli
 
+## 3.0.5
+
+### Patch Changes
+
+- [`c05201c`](https://github.com/zhangfisher/voerka-i18n/commit/c05201c56cba3a5f8b8e74aeeb95498d3b70b34c) Thanks [@zhangfisher](https://github.com/zhangfisher)! - 修复提取 vue 文件的 t 翻译内容没有提取的问题
+
+- Updated dependencies [[`c05201c`](https://github.com/zhangfisher/voerka-i18n/commit/c05201c56cba3a5f8b8e74aeeb95498d3b70b34c)]:
+  - @voerkai18n/utils@3.0.5
+  - @voerkai18n/runtime@3.0.5
+  - @voerkai18n/formatters@3.0.5
+
 ## 3.0.4
 
 ### Patch Changes
