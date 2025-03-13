@@ -39,7 +39,7 @@
         "@ast-grep/napi": "^0.33.1",
         "axios": "^1.8.3",
         "bcp47-language-tags": "^1.0.8",
-        "flex-tools": "^1.4.33",
+        "flex-tools": "^1.4.34",
         "fs-extra": "^10.0.1",
         "glob": "^11.0.1",
         "js-yaml": "^4.1.0",
