@@ -4,6 +4,7 @@ import formatters from "@voerkai18n/formatters"
 import paragraphs from "./paragraphs"
 import idMap from "./messages/idMap.json"
 import { component } from "./component"
+import loader from "./loader"
 import settings from "./settings.json"
 import defaultMessages from "./messages/{{defaultLanguage}}"  
 {{if activeLanguage !== defaultLanguage}}import activeMessages from "./messages/{{activeLanguage}}"{{/if}}
@@ -22,6 +23,7 @@ export const i18nScope = new VoerkaI18nScope({
     messages,                                           // 语言包
     paragraphs,                                         // 段落
     component,                                          // 翻译组件
+    loader
     ...settings
 }) 
 

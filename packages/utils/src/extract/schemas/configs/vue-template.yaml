@@ -50,7 +50,7 @@ rule:
         context: "<$$$ $ATTR_NAME=$ATTR_VALUE />"
     - pattern: $TEXT
       kind: text
-      regex: "^\\{\\{[\\s\\S]*\\}\\}$"
+      regex: "\\{\\{[\\s\\S]*\\}\\}"
 constraints:
   TEXT:
     regex: "t\\(.*?\\)"

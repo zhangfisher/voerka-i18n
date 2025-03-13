@@ -1,4 +1,67 @@
 {
+    "系统信息": {
+        "en-US": "系统信息",
+        "ru-RU": "系统信息",
+        "ja-JP": "系统信息",
+        "$files": [
+            "src/About/Software.vue(T2:42-T2:57)"
+        ],
+        "$id": 292
+    },
+    "系统名称": {
+        "en-US": "系统名称",
+        "ru-RU": "系统名称",
+        "ja-JP": "系统名称",
+        "$files": [
+            "src/About/Software.vue(T5:40-T5:56)"
+        ],
+        "$id": 300
+    },
+    "系统版本": {
+        "en-US": "系统版本",
+        "ru-RU": "系统版本",
+        "ja-JP": "系统版本",
+        "$files": [
+            "src/About/Software.vue(T11:40-T11:56)"
+        ],
+        "$id": 301
+    },
+    "系统型号": {
+        "en-US": "系统型号",
+        "ru-RU": "系统型号",
+        "ja-JP": "系统型号",
+        "$files": [
+            "src/About/Software.vue(T17:40-T17:56)"
+        ],
+        "$id": 302
+    },
+    "硬件版本": {
+        "en-US": "硬件版本",
+        "ru-RU": "硬件版本",
+        "ja-JP": "硬件版本",
+        "$files": [
+            "src/About/Software.vue(T23:40-T23:56)"
+        ],
+        "$id": 303
+    },
+    "序列号": {
+        "en-US": "序列号",
+        "ru-RU": "序列号",
+        "ja-JP": "序列号",
+        "$files": [
+            "src/About/Software.vue(T27:40-T27:55)"
+        ],
+        "$id": 304
+    },
+    "设备授权号": {
+        "en-US": "设备授权号",
+        "ru-RU": "设备授权号",
+        "ja-JP": "设备授权号",
+        "$files": [
+            "src/About/Software.vue(T31:40-T31:57)"
+        ],
+        "$id": 305
+    },
     "用心开源，精良制作": {
         "en-US": "Heartfelt open source, exquisite production",
         "ru-RU": "Открытый исходный код с душой, качественно изготовлен",

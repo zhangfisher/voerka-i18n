@@ -1,8 +1,8 @@
 # 快速入门
 
-`VoerkaI18n`是一个通用的面向`Javascript/Typescript`的国陨化框架，支持`Vue`、`React`、`Svelte`、`Nextjs`等主流框架。
+`VoerkaI18n`是一个通用的面向`Javascript/Typescript`的国际化解决方案，支持`Vue`、`React`、`Svelte`、`Nextjs`等主流框架。
 
-本节以标准的`Nodejs js`应用程序为例，简要介绍`VoerkaI18n`国际化框架的基本使用。
+本节以标准的`Nodejs js`应用程序为例，简要介绍`VoerkaI18n`国际化框架的基本使用流程。
 
 <lite-tree>
 myapp
@@ -156,43 +156,44 @@ myapp
 
 `voerkai18n`支持通过`voerkai18n translate`命令来实现**调用在线翻译服务**进行自动翻译。
 
+从`voerkai18n 3.0`开发除了`百度翻译`，优先支持采用`AI翻译`
+
 ```javascript 
->voerkai18n translate --appkey <在百度翻译上申请的密钥> --appid <在百度翻译上申请的appid>
+// 使用百度翻译
+>voerkai18n translate --api-key <在百度翻译上申请的密钥> --api-id <在百度翻译上申请的appid> --provider baidu
+// 使用AI翻译，支持OpenAI兼容的大模型PI
+>voerkai18n translate --api-key <API密钥> --api-url <AI API URL> --api-model <模型名称> 
 ```
 
-在项目文件夹下执行上面的语句，将会自动调用`百度的在线翻译API`进行翻译，以现在的翻译水平而言，您只需要进行少量的微调即可。关于`voerkai18n translate`命令的使用请查阅后续介绍。
+在项目文件夹下执行上面的语句，将会自动调用`在线翻译API`进行翻译，以现在的翻译水平而言，您只需要进行少量的微调即可。关于`voerkai18n translate`命令的使用请查阅后续介绍。
 
 ## 第七步：编译语言包
 
-当我们完成`myapp/languages/translates`下的所有`JSON语言文件`的翻译后（如果配置了名称空间后，每一个名称空间会对应生成一个文件，详见后续`名称空间`介绍），接下来需要对翻译后的文件进行编译。
+当我们完成`myapp/languages/translates/messages`下的所有`JSON语言文件`的翻译后，接下来需要对翻译后的文件进行编译。
 
 ```shell
 myapp> voerkai18n compile
 ```
 
-`compile`命令根据`myapp/languages/translates/*.json`和`myapp/languages/settings.json`文件编译生成以下文件： 
+`compile`命令根据`myapp/languages/translates/messages/*.json`和`myapp/languages/settings.json`文件编译生成以下文件： 
 
 <lite-tree>
 myapp
     languages
-        settings.json                // 语言配置文件
-        idMap.js                     // 文本信息id映射表
-        index.js                     // 包含该应用作用域下的翻译函数等
+        settings.json                   // 语言配置文件        
+        index.js                        // 包含该应用作用域下的翻译函数等
         storage.js
-        zh.js                        // 语言包
-        en.js
-        jp.js
-        de.js
-        formatters                   // 自定义扩展格式化器
-            zh.js                     
-            en.js
-            jp.js
-            de.js
-        translates                   // 此文件夹包含了所有需要翻译的内容
-            default.json
+        messages                            //+ 编译生成的语言包
+            idMap.js                        //+ 文本信息id映射表
+            zh.js                           //+ 语言包
+            en.js                           //+ 语言包
+            jp.js                           //+
+            de.js                           //+
+        translates                          // 此文件夹包含了所有需要翻译的内容
+            messages
+                default.json
     package.json
     index.js
-
 </lite-tree>
 
 ## 第八步：导入翻译函数
@@ -205,7 +206,7 @@ import { t } from "./languages"
 
 因此，我们需要在需要进行翻译时导入该函数即可。
 
-但是如果源码文件很多，重次重复导入`t`函数也是比较麻烦的，所以我们也提供了一个`babel/vite`等插件来自动导入`t`函数，可以根据使用场景进行选择。
+但是如果源码文件很多，重次重复导入`t`函数也是比较麻烦的，推荐采用`unplugin-auto-import`插件来自动导入`t`函数。
 
 ## 第九步：切换语言
 
@@ -239,7 +240,8 @@ VoerkaI18n.on("change",(newLanguage)=>{
      ...
 })
 ```
-[@voerkai18n/vue](../integration/vue)和[@voerkai18n/react](../integration/react.md)提供了相对应的插件和库来简化重新界面更新渲染。
+
+针对不同的前端框架，提供了相应开箱即用的库来简化，包括`vue/vue2/svelte/nextjs/...`等。
 
 ## 第十步：语言包补丁
 
@@ -253,13 +255,16 @@ VoerkaI18n.on("change",(newLanguage)=>{
 
 **方法如下：**
 
-1. 注册一个默认的语言包加载器函数，用来从服务器加载语言包文件。
-```javascript 
-import { i18nScope } from "./languages"
+1. 打开`languages/loader.{js|ts}`修改语言包加载器函数，用来从服务器加载语言包文件。
 
-i18nScope.registerDefaultLoader(async (language,scope)=>{
+
+```javascript 
+
+module.exports = async (language,scope)=>{
     return await (await fetch(`/languages/${scope.id}/${language}.json`)).json()
-})
+}
+
+
 ```
 
 2. 将语言包补丁文件保存在Web服务器上指定的位置`/languages/<应用名称>/<语言名称>.json`即可。
@@ -267,6 +272,15 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 4. 利用该特性也可以实现动态增加临时支持一种语言的功能
 
 更完整的说明详见[`动态加载语言包`](../advanced/dynamic-add)和[`语言包补丁`](../advanced/lang-patch)功能介绍。
-
-
  
+:::warning 提示
+利用此特性，可以实现动态增加语言支持，动态打补丁等功能。
+:::
+
+ ## 小结
+
+- 在源代码中使用`t`函数包装要翻译的文本信息。如果是`React/Vue`等框架，可以使用`VoerkaI18n`提供的`<Translate>`组件。
+- 基本工作流：
+    - 使用`voerkai18n extract`命令提取要翻译的文本信息，可以重复执行自动同步。
+    - 使用`voerkai18n translate`命令调用在线翻译服务进行自动翻译。
+    - 使用`voerkai18n compile`命令编译语言包。
