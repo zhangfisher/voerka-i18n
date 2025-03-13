@@ -1,5 +1,12 @@
 # @voerkai18n/formatters
 
+## 3.0.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @voerkai18n/runtime@3.0.5
+
 ## 3.0.4
 
 ### Patch Changes
