@@ -1,5 +1,16 @@
 # @voerkai18n/cli
 
+## 3.0.6
+
+### Patch Changes
+
+- [`d150b8b`](https://github.com/zhangfisher/voerka-i18n/commit/d150b8b2c6afad121308d698f1746c85869979d9) Thanks [@zhangfisher](https://github.com/zhangfisher)! - 修复在某些环境下运行 voerkai18n 时会出现 lib/index 的导入错误
+
+- Updated dependencies [[`d150b8b`](https://github.com/zhangfisher/voerka-i18n/commit/d150b8b2c6afad121308d698f1746c85869979d9)]:
+  - @voerkai18n/utils@3.0.6
+  - @voerkai18n/runtime@3.0.6
+  - @voerkai18n/formatters@3.0.6
+
 ## 3.0.5
 
 ### Patch Changes
