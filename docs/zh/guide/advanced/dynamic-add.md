@@ -11,7 +11,7 @@
 
 ## 使用方法
 
-### 准备
+### 第1步：准备
 
 为说明如何利用远程加载语言包的机制为应用动态增加语言支持，我们将假设以下的应用：
 应用`chat`，依赖于`user`、`manager`、`log`等三个库，均使用了`voerkiai18n`作为多语言解决方案
@@ -20,74 +20,92 @@
 <Tree>
 chat
     languages
-        translates
-            default.json
-        index.js
-        idMap.js   
-        runtime.js
+        + translates
+            messages
+                default.json
+            paragraphs/
+        messages
+            zh-CN.ts
+            en-US.ts
+            idMap.json
+        loader.ts
+        index.ts
         settings.json                  
-        cn.js
-        en.js
   index.js
   package.json      // name=chat
 </Tree>
 
 
-打开`languages/index.js`,大概如下:
-```javascript
-// ....
-const scope = new i18nScope({
-    id: "chat",                          // 当前作用域的id，自动取当前工程的package.json的name
-    messages:{ 
-        "en" : ()=>import("./en.js")
-    },
-    //.....
+打开`languages/index.ts`,大概如下:
+
+```ts
+import { VoerkaI18nScope } from "@voerkai18n/runtime"
+import storage  from "./storage"
+import formatters from "@voerkai18n/formatters"
+import idMap from "./messages/idMap.json"
+import { component,type TranslateComponentType } from "./component"
+import paragraphs from "./paragraphs"
+import settings from "./settings.json"
+import defaultMessages from "./messages/zh-CN"  
+
+const messages = { 
+    'zh-CN'    : defaultMessages,
+    'en-US'    : ()=>import("./messages/en-US"), 
+}
+
+export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({    
+    id: "chat_1_0_0",                                  // 当前作用域的id
+    idMap,                                              // 消息id映射列表
+    formatters,                                         // 格式化器
+    storage,                                            // 语言配置存储器
+    messages,                                           // 语言包
+    paragraphs,                                         // 段落
+    component,                                          // 翻译组件
+    ...settings
 }) 
-/// ....
+export const t = i18nScope.t
+export const Translate = i18nScope.Translate
 ```
-- 可以看到在`languages/index.js`中创建了一个以当前工程`package.json`的`name`为`id`的`i18nScope`实例，其会自动注册到全局`voerkaI18n`实例中。
-- 为`en`语言创建了一个异步加载器，用来异步加载`en`语言包。
-- 当打包`chat`应用时，`zh.js`、`en.js`等语言包均作为源码的一部分打包，差别在于非默认语言`en.js`单独作为一个`chunk`打包以便能异步加载。
+
+
+- 当打包`chat`应用时，`zh.js`、`en.js`等语言包均作为源码的一部分打包，差别在于非默认语言`en-US.ts`单独作为一个`chunk`打包以便能异步加载。
 
 **下面假设**，当应用上线后，客户要求增加`de`语言，但是我们的源码包中并没有包含`de`语言，利用`voerkiai18n`语言加载器功能，可以比较方便地实现`动态增加语种`的功能。
 
-### 第一步：注册默认的语言加载器
+### 第2步：修改语言加载器
 
- `voerkiai18n`是采用语言加载器来加载语言包的，默认语言包以静态方法打包到源码中，而非默认语言则采用异步加载方式进行加载。 
-当注册了一个默认的语言包加载器后,如果切换到一个未注册的语言时，会调用默认的语言包加载器来获取语言包。
-利用此特性就可以实现随时动态为应用增加语言支持的特性。
+`voerkiai18n`是采用`loader.ts`来从服务器加载语言包。
 
-首先需要在应用中(例如`app.js`或`main.js`等)导入`i18nScope`实例，或者直接在`languages/index.js`注册一个默认的语言加载器。
+`languages/loader.ts`负责从服务器加载语言包。
 
-```javascript
+<Tree>
+chat
+    languages
+        + translates
+            messages
+                default.json
+            paragraphs/
+        messages
+            zh-CN.ts
+            en-US.ts
+            idMap.json
+        loader.ts            //! 语言加载器
+        index.ts
+        settings.json                  
+  index.js
+  package.json      // name=chat
+</Tree>
 
-// 从当前工程导入`scope`实例
-import { i18nScope } from "./languages"
+修改`languages/loader.ts`文件内容，大概如下：
 
-// 注册默认的语言加载器
-i18nScope.registerDefaultLoader(async (language,scope)=>{
-    // language: 要切换到此语言
-    // scope: 语言作用域实例   
-    // 在此向服务器发起请求，请返回翻译后的其他语言文本
-    return {.....}
-})
-```
-
-### 第二步：编写语言包加载器
-
-然后，我们就可以在此向服务器发起异步请求来读取语言包文件。
-
-```javascript
-
-// 从当前工程导入`scope`实例
-import { i18nScope } from "./languages"
-
-i18nScope.registerDefaultLoader(async (language,scope)=>{
+```ts
+export const loader = async (language:string,scope:VoerkaI18nScope)=>{
     return await (await fetch(`/languages/${scope.id}/${language}.json`)).json()
-})
+}
 ```
 
-语言加载器函数需要返回JSON格式的语言包，大概如下：
+`loader`函数需要返回JSON格式的语言包，大概如下：
+
 ```json
 {
     "1":"xxxxx",
@@ -97,7 +115,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 }
 ```
 
-### 第三步：将语言包文件保存在服务器
+### 第3步：将语言包文件保存在服务器
 
 在上一步中，我们通过`fetch(/languages/${scope.id}/${language}.json)`来传递读取语言包（您可以使用任意您喜欢的方式,如`axios`），这意味着我们需要在web服务器上根据此`URL`来组织语言包，以便可以下载到语言包。比如可以这样组织：
 
@@ -120,9 +138,11 @@ webroot
 ### 第四步：生成语言包文件
 
 在本例中，我们要增加`de`语言，这就需要在服务器上生成一个对应的`de`语言包文件。
-方法很简单，打开`languages/cn.js`文件，该文件大概如下：
-```javascript
-module.exports = {
+
+方法很简单，打开`languages/messages/zh-CN.ts`文件，该文件大概如下：
+
+```ts
+export default {
     "1": "支持的语言",
     "2": "默认语言",
     "3": "激活语言",
@@ -131,8 +151,9 @@ module.exports = {
 }
 ```
 复制一份修改和更名为`de.json`，内容大概概如下：
-```javascript
-{
+
+```ts
+export default {
     "1": "支持的语言",
     "2": "默认语言",
     "3": "激活语言",
@@ -143,48 +164,18 @@ module.exports = {
 然后将`de.json`复制到`languages/chat/de.json`即可。
 同样地，我们也需要对`user`、`manager`、`log`等三个库的语言文件如法泡制，生成语言包文件`languages/user/de.json`,`languages/manager/de.json`,`languages/log/de.json`,这样这三个库也能实现扩展支持`de`语言。
 
-### 第五步：编写语言包补丁
-
-至此，我们已经实现了可以为应用动态添加语言支持的功能。但是默认语言加载器只是针对的未知的语言起作用，而对内置的语言是不起作用的。也就是说上例中的内置语言`zh`和`en`不能通过此方法来加载。
-
-在实际应用中，我们经常会在应用上线的，发现应用中的某此语言翻译错误，此时就可以利用`voerkaI18n`的语言包补丁特性来解决此问题。
-利用`voerkaI18n`的语言包补丁特性,您就可以随时修复翻译错误，而不需要重新打包应用。
-
-`voerkaI18n`的语言包补丁特性的工作机制同样也是利用了默认语言加载器来加载语言包补丁。其工作原理很简单，如下：
-- 按上例中的方式注册默认语言加载器
-- 当`i18nScope`注册到全局`VoerkaI18n`时，会调用默认的语言加载器,从服务器加载语言包，然后**合并到本地语言包中**，这样就很轻松地实现了为语言包打补丁的功能。
-
-在本例中，我们假设`chat`应用的中文语言发现翻译错误，需要一个语言包补丁来修复，方法如下：
-
-<Tree> 
-webroot
-  languages
-    chat            //! chat应用的语言包
-        zh.json    
-</Tree>
-
-
-按上例说明的方式，在服务器上编辑一个`zh.json`文件，保存到`languages/char/zh.json`，里面内容只需要包括出错的内容修复即可，其会自动合并到目标语言包中，整个过程对用户是无感的。
-
-```javascript
-{
-    "4": "名称空间"
-}
-```
-然后，当应用切换到指定`zh`语言时，就会下载该语言包合并到源码中的语言包，从而实现为语言包打补丁的功能，修复翻译错误。**此功能简单而实用，强烈推荐。**
-
+ 
 ### 小结
 
- - 当注册了一个默认的语言加载器后，当切换到未配置过的语言时，会调用默认的文本加载器来从服务器加载语言文本。
- - 对于已配置的语言，会在注册时从服务器加载进行合并，从而实现为语言包打补丁的功能。
- - 您需要自己在服务器上组织存放配套的语言包文件，然后编写通过`fetch/axios`等从服务器加载
+ - `languages/loader.{ts|js}`负责从服务器加载语言包
+ - 需要自己在服务器上组织存放配套的语言包文件，然后编写通过`fetch/axios`等从服务器加载
  
 
 ## 指南
 
 ### 语言包加载器
 
-语言加载器是一个普通`异步函数`或者`返回Promise`的函数，可以用来从远程加载语言包文件。
+`languages/loader.{ts|js}`是一个普通`异步函数`或者`返回Promise`的函数，可以用来从远程加载语言包文件。
 
 语言加载器时会传入两个参数：
 
@@ -192,14 +183,8 @@ webroot
 | --- | --- |
 | **language** | 要切换的此语言|
 | **scope** |语言作用域实例,其中`scope.id`值默认等于`package.json`中的`name`字段。详见[参考](../../reference/i18nscope)。 |
+ 
 
-- 典型的语言加载器非常简单，如下：
-```javascript
-import { i18nScope } from "./languages"
-i18nScope.registerDefaultLoader(async (language,scope)=>{
-    return await (await fetch(`/languages/${scope.id}/${language}.json`)).json()
-})
-```
 - 为什么要应用自己编写语言加载器,而不是提供开箱即用的功能？
   主要原因是编写语言加载器很简单，只是简单地使用HTTP从服务器上读取JSON语言包文件，不存在任何难度，甚至您可以直接使用上面的例子即可。
   而关键是语言包在服务器上的如何组织与保存，可以让应用开发者自行决定。比如，开发者完全可以将语言包保存在数据库表中，以便能扩展其他功能。另外考虑安全、兼容性等原因，因此`voerkaI18n`就将此交由开发者自行编写。
@@ -207,7 +192,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 
 ### 编写语言切换界面
 
- 当编写语言切换界面时，对未注册的语言是无法枚举出来的，需要应用自行处理逻辑。例如在Vue应用中
+当编写语言切换界面时，对未注册的语言是无法枚举出来的，需要应用自行处理逻辑。例如在Vue应用中
 
 ```javascript
    	<div>
@@ -239,6 +224,7 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
     </div>
 </template>
 ```
+
 通过编写合适的语言切换界面，您可以在后期随时在线增加语种支持。
 
 ### `scope.id`参数
@@ -258,29 +244,6 @@ i18nScope.registerDefaultLoader(async (language,scope)=>{
 
 当切换到动态增加的语言时会从远程服务器加载语言包，取决于语言包的大小，可能会产生延迟，这可能对用户体验造成不良影响。因此，您可以在客户端对语言包进行缓存。
 
-```javascript
-import { i18nScope } from "./languages"
-
-async function loadLanguageMessages(language,scope){
-    let messages  = await (await fetch(`/languages/${scope.id}/${language}.json`)).json()    
-    localStorage.setItem(`voerkai18n_${scope.id}_${language}_messages`,JSON.stringify(messages));
-    return messages
-}
-
-i18nScope.registerDefaultLoader(async (language,scope)=>{
-    let message = localStorage.getItem(`voerkai18n_${scope.id}_${language}_messages`);
-    if(messages){        
-        setTimeout(async ()=>{
-            const messages  = loadLanguageMessages(language,scope)
-            scope.refresh()            
-        },0)        
-    }else{
-        messages  = loadLanguageMessages(language,scope)        
-    }
-    return messages
-})
-
-```
 
 
 

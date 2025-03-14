@@ -27,7 +27,7 @@ const commentRegexs ={
         /(^[^\n\r\w\W]*\/\/.*$)|(\/\/.*$)/gm,                   // 单行注释
         /\/\*\s*[\W\w|\r|\n|*]*\s*\*\//gm,                      // 多行注释
     ],
-    "html,vue" : [
+    "html,vue,svelte" : [
         /\<\!--[\s\r\n-]*?[\w\r\n-\W]*?[\s\r\n-]*?--\>/gm,    // 注释
     ]
 } 

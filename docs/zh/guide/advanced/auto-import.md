@@ -15,13 +15,4 @@ import { t } from "../../languages"
 import { t } from "../../../languages"
 ```
 
-作为国际化解决方案，一般工程的大部份源码中均会使用到翻译函数，这种使用体验比较差。
-
-为此，我们提供了插件可以来自动完成翻译函数的自动导入，包括：
-
-- [Babel插件](../tools/babel)
-- [Vite插件](../tools/vite)
-
-
-- 当启用了`babel/vite`插件并且配置`autoImport=true`时，就会在编译时自动导入`t`函数。关于插件如何使用请参阅文档。
-- 但是如果自动导入`t`函数，则在`typescript`开发时会导入类型丢失，所以不建议开启。
+建议使用`unplugin-auto-import`插件进行自动导入，可以简化代码。

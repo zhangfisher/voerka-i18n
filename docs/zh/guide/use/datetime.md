@@ -6,36 +6,40 @@
 
 关于插值变量格式化器的工作原理和配置说明请[参阅](../advanced/custom-formatter)
 
+
 ## 基本用法
 
 当需要对日期和时间进行本地化显示时，请使用相对应的日期时间格式化器，可以在`t`函数中使用来对日期型变量进行本地化格式输出。
 
-- **无参数(默认格式)** 
+### **无参数(默认格式)** 
 
-    ```javascript
-    t("{ value | date }",new Date())                      // Date类型
-    t("{ value | date }","2022/12/9 09:12:36")            // 标准的日期时间字符串
-    t("{ value | date }",1661084229790)                   // 时间戳  
-    ```
+```js
+t("{ value | date }",new Date())                      // Date类型
+t("{ value | date }","2022/12/9 09:12:36")            // 标准的日期时间字符串
+t("{ value | date }",1661084229790)                   // 时间戳  
+```
 
-- **指定预定义的格式**  
-    ```javascript
-    t("{ value | date('<格式名称>') }",new Date())
-    t("{ value | date('<格式名称>') }","2022/12/9 09:12:36")
-    t("{ value | date('<格式名称>') }",1661084229790)
-    ```
-    不同格式化器的预定义格式名称不同，但是一般：
-    - `long` = 长格式
-    - `short` = 短格式
-    - `number` = 原始数值，如星期一=1，八月=8
+### **指定预定义的格式**  
 
-- **自定义格式** 
-    ```javascript
-    t("{ value | date('<模板字符串>') }",new Date())
-    t("{ value | date('<模板字符串>') }","2022/12/9 09:12:36")
-    t("{ value | date('<模板字符串>') }",1661084229790)
-    ```
-    根据指定的模板字符串进行插值后输出。模板字符串中可以使用如`YYYY`、`MM`、`DD`等`占位符`来表示日期时间中的年月日等，可用的模板占位符见本文最后。
+```js
+t("{ value | date('<格式名称>') }",new Date())
+t("{ value | date('<格式名称>') }","2022/12/9 09:12:36")
+t("{ value | date('<格式名称>') }",1661084229790)
+```
+不同格式化器的预定义格式名称不同，但是一般：
+- `long` = 长格式
+- `short` = 短格式
+- `number` = 原始数值，如星期一=1，八月=8
+
+
+### **自定义格式** 
+
+```js
+t("{ value | date('<模板字符串>') }",new Date())
+t("{ value | date('<模板字符串>') }","2022/12/9 09:12:36")
+t("{ value | date('<模板字符串>') }",1661084229790)
+```
+根据指定的模板字符串进行插值后输出。模板字符串中可以使用如`YYYY`、`MM`、`DD`等`占位符`来表示日期时间中的年月日等，可用的模板占位符见本文最后。
 
 ## 格式化器
 
@@ -45,7 +49,7 @@
 
 - **用法**
 
-```javascript
+```js
 t("{ value | date }",new Date())
 t("{ value | date }","2022/12/9 09:12:36")      
 t("{ value | date }",1661084229790)
@@ -80,7 +84,7 @@ t("{ value | date('YYYY-MM-DD') }",1661084229790)
 
 - **示例**
 
-**当`activeLanguage == "zh"`时：**
+**当`activeLanguage == "zh-CN"`时：**
 
 | 翻译  |  输出  |
 | --- | --- |
@@ -97,7 +101,7 @@ t("{ value | date('YYYY-MM-DD') }",1661084229790)
 |  `t("现在是{ value \| date('YYYY/MM/DD') }",NOW)",NOW)` | `现在是2022-08-12`|
 |  `t("现在是{ value \| date('HH:mm:ss') }",NOW)`       | `10:12:36` |
 
-**当`activeLanguage == "en"`时：**
+**当`activeLanguage == "en-US"`时：**
 
 | 翻译  |  输出  |
 | --- | --- |
@@ -116,26 +120,21 @@ t("{ value | date('YYYY-MM-DD') }",1661084229790)
 
 - **配置**
 
-除了`local`,`iso`,`gmt`,`utc`是调用`Date原型方法`外，`date`格式化器的支持以下配置：
+可以在`languages/formatters.json`为不同的语言配置格式化规则:
 
-1. **配置文件**：`languages/formatters/<语言名称>.js`
-2. **配置位置**： `$config.datetime.date`
-3. **配置参数**：
-
-    ```javascript 
-    export default {
-        $config:{ 
-            datetime:{
-                date:{
-                    long:"<模板字符串>",
-                    short:"<模板字符串>",
-                    format:"<local | iso | gmt | utc | long | short | [模板字符串]>"
-                }
-            }
+```json {3-7}
+{
+    "ja-JP"{        
+        "date":{
+            "format":"<local | iso | gmt | utc | long | short | [模板字符串]>",
+            "short":"<模板字符串>",                
+            "format":"<local | iso | gmt | utc | long | short | [模板字符串]>"
         }
-    }
+    },
+    // ...其他语言
+}
+```
 
-    ```
 
 
 ### 时间 - `time`
@@ -143,7 +142,7 @@ t("{ value | date('YYYY-MM-DD') }",1661084229790)
 
 - **用法**
 
-```javascript
+```js
 t("{ value | time }",new Date())
 t("{ value | time('local') }","2022/12/9 09:12:36")      
 t("{ value | timetime('long') }",new Date())
@@ -165,7 +164,7 @@ t("{ value | time('HH:mms:ss') }",1661084229790)
 
 - **示例**
 
-**当`activeLanguage == "zh"`时：**
+**当`activeLanguage == "zh-CN"`时：**
 
 | 翻译  |  输出  |
 | --- | --- |
@@ -179,7 +178,7 @@ t("{ value | time('HH:mms:ss') }",1661084229790)
 | `t("现在时间 - { value \| time('mm:ss') }",NOW)` | `现在时间 - 12:36`   | 
 | `t("现在时间 - { value \| time('ss') ",NOW)` | `现在时间 - 36`   | 
 
-**当`activeLanguage == "en"`时：**
+**当`activeLanguage == "en-US"`时：**
 
 | 翻译  |  输出  |
 | --- | --- |
@@ -195,29 +194,25 @@ t("{ value | time('HH:mms:ss') }",1661084229790)
 
 - **配置**
 
-1. **配置文件**：`languages/formatters/<语言名称>.js`
-2. **配置位置**： `$config.datetime.time`
-3. **配置参数**：
-  
-    ```javascript 
-    export default {
-        $config:{ 
-            datetime:{
-                time:{
-                    long:"<模板字符串>",
-                    short:"<模板字符串>",
-                    format:"<local | long | short | [模板字符串]>"
-                }
-            }
+可以在`languages/formatters.json`为不同的语言配置格式化规则:
+
+```json
+{
+    "<语言代码>":{
+        "time":{
+            "long":"<模板字符串>",
+            "short":"<模板字符串>",
+            "format":"<local | long | short | [模板字符串]>"
         }
     }
-    ```
+}
+```
 
 ### 季度 - `quarter`
 输出一年中第几个季度。
 - **用法**
 
-```javascript
+```js
 t("{ value | quarter }",new Date())
 t("{ value | quarter('long') }",new Date())
 t("{ value | quarter('short') }","2022/12/9 09:12:36")      
@@ -241,7 +236,7 @@ t("{ value | quarter('number') }","2022/12/9 09:12:36")
 | `t("今年{ value \| quarter("short") }",NOW)` | `今年Q1 `    |
 | `t("今年{ value \| quarter("number") }",NOW)` | `今年1`    |
 
-**当`activeLanguage == "en"`时：**
+**当`activeLanguage == "en-US"`时：**
 
 | 文本  |  输出  |
 | --- | --- |
@@ -251,31 +246,27 @@ t("{ value | quarter('number') }","2022/12/9 09:12:36")
 | `t("今年{ value \| quarter("number") }",NOW)` | `1 of this year`    |
 
 - **配置**
+可以在`languages/formatters.json`为不同的语言配置格式化规则:
 
-- **配置文件**：`languages/formatters/<语言名称>.js`
-- **配置位置**： `$config.datetime.quarter`
-- **配置参数**：
-    ```javascript 
-    export default {
-        $config:{ 
-            datetime:{
-                quarter:{
-                    long:"<模板字符串>",
-                    short:"<模板字符串>",
-                    format:"< 0:long | 1:short | 2:number>"
-                }
-            }
+```json
+{
+    "<语言代码>":{
+        "quarter":{
+            "long":"<模板字符串>",
+            "short":"<模板字符串>",
+            "format":"< 0:long | 1:short | 2:number>"
         }
     }
-    ```
+} 
+```
 
 ### 月份 - `month`
-输出月份
 
 `month`格式化器用来输出月份。
+
 - **用法**
 
-```javascript
+```js
 t("{ value | month }",new Date())
 t("{ value | month('long') }",new Date())
 t("{ value | month('short') }","2022/12/9 09:12:36")      
@@ -295,7 +286,7 @@ t("{ value | month('number') }","2022/12/9 09:12:36")
 
 - **示例**
 
-**当`activeLanguage == "zh"`时：**
+**当`activeLanguage == "zh-CN"`时：**
 
 | 翻译  |  输出  |
 | --- | --- |
@@ -304,7 +295,7 @@ t("{ value | month('number') }","2022/12/9 09:12:36")
 | `t("现在时间 - { value \| month('short') }",NOW)` | `现在时间 - 八`   | 
 | `t("现在时间 - { value \| month('number') }",  ",NOW)` | `现在时间 - 8`   | 
 
-**当`activeLanguage == "en"`时：**
+**当`activeLanguage == "en-US"`时：**
 
 | 翻译  |  输出  |
 | --- | --- |
@@ -316,30 +307,27 @@ t("{ value | month('number') }","2022/12/9 09:12:36")
 
 - **配置**
 
-1. **配置文件**：`languages/formatters/<语言名称>.js`
-2. **配置位置**： `$config.datetime.month`
-3. **配置参数**：
-  
-    ```javascript 
-    export default {
-        $config:{ 
-            datetime:{
-                month:{
-                    long:["一月",...,"十二月"],
-                    short:["1月",...,"12月"],
-                    format:"< 0:long | 1:short | 2:number>"
-                }
-            }
+可以在`languages/formatters.json`为不同的语言配置格式化规则:
+
+```json
+{
+    "<语言代码>":{
+        "month":{
+            "long":["一月",...,"十二月"],
+            "short":["1月",...,"12月"],
+            "format":"< 0:long | 1:short | 2:number>"
         }
     }
-    ```
+} 
+```
 
 ### 星期 - `weekday`
+
 输出一星期中的第几天，如星期一、星期二、...星期日。
 
 - **用法**
 
-```javascript
+```js
 t("{ value | weekday }",new Date())
 t("{ value | weekday('long') }",new Date())
 t("{ value | weekday('short') }","2022/12/9 09:12:36")      
@@ -363,7 +351,7 @@ t("{ value | weekday('number') }","2022/12/9 09:12:36")
 | `t("今天是{ value \| weekday("short") }",NOW)` | `今天是周一 `    |
 | `t("今天是{ value \| weekday("number") }",NOW)` | `今天是1`    |
 
-**当`activeLanguage == "en"`时：**
+**当`activeLanguage == "en-US"`时：**
 
 | 文本  |  输出  |
 | --- | --- |
@@ -374,29 +362,27 @@ t("{ value | weekday('number') }","2022/12/9 09:12:36")
 
 - **配置**
 
-1. **配置文件**：`languages/formatters/<语言名称>.js`
-2. **配置位置**： `$config.datetime.weekday`
-3. **配置参数**：
+可以在`languages/formatters.json`为不同的语言配置格式化规则:
 
-    ```javascript 
-    export default {
-        $config:{ 
-            datetime:{
-                weekday:{
-                    long:["星期日","星期一","星期二","星期三","星期四","星期五","星期六"],
-                    short:["周日","周一","周二","周三","周四","周五","周六"],
-                    format:"< 0:long | 1:short | 2:number>"
-                }
-            }
+```json
+{
+    "<语言代码>":{
+        "weekday":{
+            "long":["星期日","星期一","星期二","星期三","星期四","星期五","星期六"],
+            "short":["周日","周一","周二","周三","周四","周五","周六"],
+            "format":"< 0:long | 1:short | 2:number>"
         }
     }
-    ```
+} 
+```
 
 ### 相对时间 - `relativeTime`
+
 显示相对当前时间，如6分钟前、一小时后等。
+
 - **用法**
 
-```javascript
+```js
 t("{ value | relativeTime }","2022/12/9 09:12:36")
 // 指定基准时间
 t("{ value | relativeTime('2022/12/2 09:12:36') }","2022/12/9 09:12:36")
@@ -412,7 +398,7 @@ t("{ value | relativeTime('"+"2022/12/2 09:12:36" + "') }","2022/12/9 09:12:36")
 
 - **示例**
 
-```javascript
+```js
 const NOW =  new Date("2022/08/12 10:12:36")
 t("{value | relativeTime }",NOW)
 ```
@@ -434,153 +420,50 @@ t("{value | relativeTime }",NOW)
 
 - **配置**
 
-1. **配置文件**：`languages/formatters/<语言名称>.js`
-2. **配置位置**： `$config.datetime.relativeTime`
-3. **配置参数**：
+可以在`languages/formatters.json`为不同的语言配置格式化规则:
 
-    ```javascript 
-    export default {
-        $config:{ 
-            datetime:{
-                weekday:{
-                    units       : ["seconds","minutes","hours","days","weeks","months","years"],
-                    now         : "Now",
-                    before      : "{value} {unit} ago",
-                    after       : "after {value} {unit}"
-                }
-            }
+```json
+{
+    "<语言代码>":{
+        "weekday":{
+            "units"       : ["seconds","minutes","hours","days","weeks","months","years"],
+            "now"         : "Now",
+            "before"      : "{value} {unit} ago",
+            "after"       : "after {value} {unit}"
         }
     }
-    ```
-
-## 扩展配置
-`voerkai18n`运行时已经内置了`zh`、`en`两种语言的日期时间相关的的格式化器。
-为了满足复杂的应用需要求，日期时间格式化器被设计为可以进行配置。当以上格式化器不能满足要求，或者缺少某种语言的日期时间格式化时，可以非常容易地进行扩展。
-
-扩展支持不同语言言的日期时间格式化非常简单，当使用`voerkai18n compile`后，项目结构中会生成`formatters`如下：
-
-```javascript
-<myapp>
-   |--src
-   |  |-- languages
-   |  |   |--
-   |  |   |-- formatters
-   |  |   |   |-- zh.js
-   |  |   |   |-- en.js
-   |  |   |   |-- de.js
-    
-   ....   
+} 
 ```
-`formatters`文件夹中的`zh.js`、`en.js`、`de.js`文件中包括了您自定义的格式化器。
 
-当您第一次打开这些文件时，会发现里面除了一些注释来引导您如何编写扩展格式化器外，并没有其他有效的内容。
-
-如果您对现有的日期格式化器的输出不满意，或者缺少某种语言的日期时间格式化，您可以按下面介绍的方式来进行扩展。
-
-**放心**，整个扩展过程非常简单，大部分情况下，只需要配置一些模板字符串即可。
-
-以下开始介绍内容:
-
-- **通过简单的配置修改内置的日期时间格式化规则**
-- **为运行时没有支持的语言增加日期时间格式化规则**
-- **自定义预设的规则**
-- **编写日期时间格式化模板**
-
-###  修改内置规则
-
-由于`@voerkai18n/formatters`中已经内置了`zh`和`en`两种语言的日期时间格式化器，大多数情况下，我们会定时更新确保其有效工作，一般情况下，您是不需要修改`zh.js`、`en.js`这两个文件了。
-但是如果内置的`zh`和`en`两种语言的日期时间格式化器不能满足要求，您可以选择性地修改`zh.js`、`en.js`这两个文件，这些文件会覆盖合并到内置的日期和时间格式化规则。
-
-当您第一次打开`languages/formatters/<语言名称>.js`时会发现里面是空的(除了一些注释外)。内容大概如下：
-```javascript
-export default {
-    $config:{
-    }
-}    
-```
-现在假设我们需要将`zh`语言的日期时间`long`格式的输出从默认的`YYYY年MM月DD日 HH点mm分ss秒`调整为`北京时间: YYYY年MM月DD日 HH点mm分ss秒`，那么只需要修改 `languages/formatters/zh.js`，如下:
-```javascript
-export default {
-    $config:{
-        datetime:{
-            date:{
-                long:"北京时间: YYYY年MM月DD日 HH点mm分ss秒"
-            }
-        }
-    }
-}    
-```
-`languages/formatters/zh.js`中的配置优先级最高，会覆盖内置的格式化规则。
-
-**为什么可以通过修改`$config.datetime.date`来修改默认的日期时间格式化？**
-
-因为`date`格式化器是可配置的，该格式化器函数会从`$config.datetime.date`读取模板字符串来进行格式化输出。因此，只需要修改`$config.datetime.date`中的配置参数即可实现自定义格式化。
-
-事实上，`date`/`quarter`/`month`/`weekday`/`time`等格式化器均是可配置的，对应的配置位置是：
-```javascript
-export default {
-    $config:{
-        datetime:{
-            date:{ ... },
-            quarter:{ ... },
-            month:{ ... },
-            weekday:{ ... },
-            time:{ ... },
-        }
-    }
-}    
-```
-按照这样的机制，我们就可以很容易分别配置在不种语言下对日期时间等显示方式。并且在多库开发模式下，这种修改只会对当前应用或库生效。
-
-###  增加格式化规则
-由于开发者对各语种日期时间格式化知识的缺失。目前，`voerkai18n`只内置了`zh`,`en`两种语言的日期时间规则支持。
-其中，`en`语言的日期时间格式化器被注册到全局。当切换到`zh`,`en`两种语言之外的其他语言时，会使用`en`语言的日期时间格式化规则。
-
-很明显，`en`语言的日期时间格式化规则并不能适应所有语言的要求，在官方提供该语言支持前,您可以自行配置语言支持。
-
-方法很简单，以`de`语言为例，打开`languages/formatters/de.js`文件。
-
-```javascript
-export default {
-    $config:{
-        datetime:{
-            date:{                
-                long:"<de语言的长日期时间格式模板>"
-                short:"<de语言的长日期时间格式模板>"
-                format:"long"         // 默认使用long格式，也可以使用一个模板字符串
-            }
-        }
-    }
-}    
-```
-这样，当切换到`de`语言时，date格式化器就会读取`languages/formatters/de.js`文件中的配置，从而实现符合要求的`de`语言的日期时间格式化。
-
-最后，欢迎大家贡献其他语种的日期时间格式化规则，贡献方法可以直接提交在[issues](https://gitee.com/zhangfisher/voerka-i18n/issues)，也可以通过[源码方式](https://gitee.com/zhangfisher/voerka-i18n)提交PR。
-
-###  扩展预设规则
+### 自定义模板
 
 除了预设的`long`、`short`、`number`等规则外，您可以通过模板字符串来自定义更加灵活的格式化规则。
 您也可以自己定义一个预设格式化规则。
 
 比如可以为`date`格式化器定义一个`full`的规则来显示更加完整的日期时间：
-```javascript
-t("现在是{ value | date('full') }")        // 北京时间：2022年08月12日 10点12分36秒 上午
+
+```js
+// 北京时间：2022年08月12日 10点12分36秒 上午
+t("现在是{ value | date('full') }")        
 ```
 
 方法如下：
-在`languages/formatters/zh.json`中，增加一个`full`配置项即可。
-```javascript
-export default {
-    $config: {
-        full: "北京时间：YYYY年MM月DD日 HH点mm分ss秒 a"
+在`languages/formatters.json`中，增加一个`full`配置项即可。
+
+```json
+{
+    "zh-CN": {
+        "date":{
+            "full": "北京时间：YYYY年MM月DD日 HH点mm分ss秒 a"
+        }
     }
 }
 ```
+
 有了自定义的`full`预设规则，应用中就可以直接使用`t("现在是{ value | date('full') }") `进行格式化，而不需要使用自定义模板字符串的形式。
+ 
 
-### 自定义模板
-
-日期时间格式化时可以自定义显示格式模板，模板字符串中支持以下占位符：
+**当使用自定义模板字符串时，可以使用以下占位符：**
 
 | 占位符  |  说明  |
 | --- | --- |

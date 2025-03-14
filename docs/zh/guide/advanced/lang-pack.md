@@ -2,7 +2,7 @@
 
 当使用`webpack`、`rollup`、`esbuild`进行项目打包时，默认语言包采用静态加载，会被打包进行源码中，而其他语言则采用异步打包方式。在`languages/index.js`中。
 
-```javascript
+```js
 const defaultMessages =  require("./zh.js")   
 // 语言作用域
 const scope = new i18nScope({
@@ -16,4 +16,5 @@ const scope = new i18nScope({
 })
 ```
 
-利用异步打包机制，从而避免将多个语言静态打包到源码包。
+- 利用异步打包机制，从而避免将多个语言静态打包到源码包。
+- 

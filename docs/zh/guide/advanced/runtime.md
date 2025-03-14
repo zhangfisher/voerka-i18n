@@ -4,8 +4,7 @@
 
 **注意**
 
-- `@voerkai18n/runtime`发布了`commonjs`和`esm`两个经过转码后的版本。
-- 当运行`voerkai18n compile`时会尝试自动升级`@voerkai18n/runtime`
+- `@voerkai18n/runtime`发布了`commonjs`,`esm`,`iife`经过转码后的版本。
 - 建议及时升级`@voerkai18n/runtime`到最新版本
 
   

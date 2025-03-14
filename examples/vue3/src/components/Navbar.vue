@@ -64,11 +64,9 @@
 <script setup>
 
 import { ref, onMounted,onUnmounted } from 'vue'; 
-import { i18nScope, Translate,t } from '../languages';
+import { i18nScope } from '../languages';
 import { useVoerkaI18n } from '@voerkai18n/vue';
    
-const { activeLanguage,languages } =  useVoerkaI18n()
-
-
+const { activeLanguage,languages } =  useVoerkaI18n(i18nScope)
 
 </script>

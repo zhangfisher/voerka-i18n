@@ -16,8 +16,7 @@ export const i18nPlugin: Plugin<VoerkaI18nVuePluginOptions> =   {
             throw new Error('VoerkaI18n is not installed');
         }
         
-        let activeLanguage = ref(curScope.activeLanguage)        
-        
+        let activeLanguage = ref(curScope.activeLanguage)                
 
         curScope.on("change", ()=>{
             activeLanguage.value = curScope.activeLanguage;
@@ -30,11 +29,6 @@ export const i18nPlugin: Plugin<VoerkaI18nVuePluginOptions> =   {
             return curScope.t(message,...args)
         } 
 
-        // app.config.globalProperties.t =  function(message:string,...args:any[]){
-        //     // 通过访问计算属性activeLanguage来实现当activeLanguage变更时的重新渲染,有没有更好的办法？
-        //     activeLanguage
-        //     return curScope.t(message,...args)
-        // } 
         app.component('Translate',curScope.Translate)
     }
 }

@@ -63,8 +63,9 @@ import { Translate } from "<myapp>/languages"
 
 ```
 
+## 指南
 
-## 组件属性
+### 组件属性
 
 `<Translate>`组件支持以下属性：
 
@@ -96,7 +97,7 @@ type VoerkaI18nToBeTranslatedMessage = string
 :::
 
 
-## 启用组件支持
+### 启用组件支持
 
 `<Translate>`翻译组件是框架相关的，不同的前端框架(React/Vue/Vue2/Svelte/Solid)的翻译组件实现是不一样的。
 
@@ -128,8 +129,7 @@ export type TranslateComponentType = VueTranslateComponentType
 
 - 更多框架支持详见[集成框架](../integration)
 
-
-## 自动启用组件支持
+### 自动启用组件支持
 
 也可以通过`voerkai18n apply`命令来自动配置`Vue 3`框架支持。
 
@@ -137,10 +137,26 @@ export type TranslateComponentType = VueTranslateComponentType
 > voerkai18n apply 
 ```
 
-## 自定义翻译组件
+### 动态翻译
 
-除了官方提供的`@voerkai18n/{vue|vue2|react|svelte|nextjs|solid}`翻诩组件外，您也可以自定义翻译组件。
+`<Translate>`组件支持动态翻译，可以在`message`属性中传递一个函数，函数的参数是当前语言和插值变量。
 
+```vue
+<template>
+    <div>
+        <Translate :message="async (language)=>{return language==='zh-CN' ? '你好':'Hello'}" />  
+    </div>
+</template>
+```
+
+- 利用此特性可以实现动态翻译，比如从服务器获取翻译内容。
+- `message`属性可以是一个异步函数，返回一个字符串或者一个`Promise<string>`。
+- `tag`属性可以指定渲染的标签名称。
+- `t`函数不支持动态翻译。
+
+### 自定义翻译组件
+
+除了官方提供的`@voerkai18n/{vue|vue2|react|svelte|nextjs|solid}`翻译组件外，您也可以自定义翻译组件。
 
 ```ts
 // languages/component.ts
@@ -154,7 +170,6 @@ export const component = (scope:VoerkaI18nScope)=>{
 export type TranslateComponentType = ReturnType<typeof component>
 
 ```
-
 
 `VoerkaI18nTranslateProps`类型声明如下：
 

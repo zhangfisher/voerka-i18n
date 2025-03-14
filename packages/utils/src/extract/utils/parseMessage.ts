@@ -42,9 +42,10 @@ export function parseTranslateMessages(code:string){
     return messages
 }
 
-// // 捕获翻译文本正则表达式二： 能够支持复杂的表达式，但是当提供不完整的t函数定义时，也会进行匹配提取 
-const MessageExtractor = /\bt\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/gm
-
+const messageExtractors = [
+  /\bt\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/gm,
+  /\<Translate[^:#@]*?message\s*=\s*(["'])(?<text>.*?)\1/gm
+]
  
 // /**
 //  * 使用正则表达式提取翻译文本
@@ -60,19 +61,20 @@ const MessageExtractor = /\bt\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/gm
 export function parseTranslateMessagesByRegex(code:string){
     let result
     let messages:MessageNode[] = []
-    while ((result = MessageExtractor.exec(code)) !== null) {
-        // 这对于避免零宽度匹配的无限循环是必要的
-        if (result.index === MessageExtractor.lastIndex) {
-            MessageExtractor.lastIndex++;
-        }           
-        const text = result.groups?.text 
-
-        if(text){
-            messages.push({
-              message:text,
-              rang:{ start:String(result.index), end:String(result.index) }
-            })
-        }
-    }
+    for(let regex of messageExtractors){
+      while ((result = regex.exec(code)) !== null) {
+          // 这对于避免零宽度匹配的无限循环是必要的
+          if (result.index === regex.lastIndex) {
+            regex.lastIndex++;
+          }           
+          const text = result.groups?.text 
+          if(text){
+              messages.push({
+                message:text,
+                rang:{ start:String(result.index), end:String(result.index) }
+              })
+          }
+      }
+    }    
     return messages 
 }

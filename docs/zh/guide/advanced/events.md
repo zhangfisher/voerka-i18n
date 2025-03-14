@@ -18,17 +18,23 @@
 ```typescript
 import { i18nScope } from "./languages"
 
-i18nScope.on("ready",({language,scope})=>{
-    // 初始语言包加载完成，可以在此初始化`Vue/React`等应用中
-    // 在Vue3中可以在此初始化Vue应用
-    const app = createApp(App)
-    // 应用插件
-    app.use<VoerkaI18nPluginOptions>(i18nPlugin as any,{
-        i18nScope
-    })
+i18nScope.on("ready",({language,scope})=>{    
+    const app = createApp(App)    
     app.mount('#app')
 })
 ```
+
+也可以使用快捷方式：
+
+```typescript
+import { i18nScope } from "./languages"
+
+i18nScope.ready(()=>{    
+    const app = createApp(App)    
+    app.mount('#app')
+})
+```
+
 
 ## change
 
@@ -46,24 +52,7 @@ i18nScope.on("change",(newLanguage)=>{
 })
 
 ```
-
-## registered
-
-当`scope`注册到全局`VoerkaI18n`实例时会触发`registered`事件。
-
-```typescript
-
-i18nScope.on("registered",({language,scope})=>{
-    // 语言切换完成，可以在此重新渲染界面
-    // ...
-})
-
-```
-
-- `registered`事件回调函数：`({language,scope})=>void`，其中`language`是当前语言，`scope`是当前作用域`id`。
-- 一个应用可能会有多个`scope`，每个`scope`都会触发`registered`事件。
-
-
+ 
 ## restore
 
 每次切换语言（包括初始化时），`VoerkaI18n`均会从存储中恢复语言补丁，然后触发`restore`事件。
@@ -91,3 +80,27 @@ i18nScope.on("patched",({language,scope})=>{
 ```
 
 
+
+## 支持的事件
+
+```ts
+export type VoerkaI18nEvents = {
+    // 当有日志输出时
+    log             : { level: string, message:string }                  
+    // 当第一个应用Scope注册时触发
+    init            : ()=>string                                             
+    // 当初始化切换完成后触发
+    ready           : string                                             
+    // 当语言切换后时, payload=language
+    change          : string                                             
+    // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
+    restore         : { scope:string,language:string }                   
+    // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}    
+    patched         : { scope:string,language:string }                   
+    // 当有错误发生时    
+    error           : Error                                              
+    "scope/change"  : { scope:string,language:string }                   
+    // 当切换到无效的语言或者加载失败时，进行回退
+    "scope/fallback": { scope:string,from:string,to:string}             
+} 
+```

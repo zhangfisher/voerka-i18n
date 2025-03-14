@@ -38,7 +38,6 @@ function parseTranslateAttrs(code:string):ParagraphNode {
 
 
 export type ParagraphNode = {
-    [key: string]: any
     id?        : string
     message   : string
     vars?      : string
@@ -46,6 +45,7 @@ export type ParagraphNode = {
     options?   : string
     rang     : { start: string, end: string }
     file?     : string
+    [key: string]: any
 }
 
 export type ExtractParagraphsOptions = {
@@ -72,6 +72,9 @@ export function extractParagraphs(code:string,options?:ExtractParagraphsOptions)
 
     const { file }  = opts    
 
+    const paragraphs:ParagraphNode[] = []
+
+    
     const translatesAst = parse(Lang.Html,code)        
     const nodes = translatesAst.root().findAll({
         rule:{
@@ -81,7 +84,6 @@ export function extractParagraphs(code:string,options?:ExtractParagraphsOptions)
         }
     })
 
-    const paragraphs:ParagraphNode[] = []
     nodes.forEach((node:SgNode)=>{        
         const attrs = parseTranslateAttrs(node.text()) || {}        
         const range = node.range()
@@ -97,7 +99,7 @@ export function extractParagraphs(code:string,options?:ExtractParagraphsOptions)
         }
         if(!attrs.id){
             console.warn("[VoerkaI18n] translate paragraph attribute 'id' is required")
-            return 
+            return
         }
 
         const message = node.children().slice(1,-1).map(n=>n.text()).join("\n").trim()

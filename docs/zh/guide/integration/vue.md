@@ -8,176 +8,214 @@
 
   **Vue插件**，在初始化`Vue`应用时引入，提供访问`当前语言`、`切换语言`、`自动更新`等功能。
 
-- **@voerkai18n/vite**
+- **@voerkai18n/plugins**
 
-  **Vite插件**，在`vite.config.js`中配置，用来实现`自动文本映射`和`t函数的自动导入`等功能。
+  **编译期插件**，在`vite.config.js`中配置，用来实现`自动文本映射`等功能。
 
-  
-`@voerkai18n/vue`和`@voerkai18n/vite`两件插件相互配合，安装配置好这两个插件后，就可以在`Vue`文件使用多语言`t`函数。
+## 使用步骤
 
-## 第一步：基本流程
+### 第1步：安装依赖
 
-`Vue`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
+首先安装`@voerkai18n/cli`到全局.
 
-- 调用`voerkai18n init`初始化多语言工程
-- 调用`voerkai18n extract`提取要翻译的文本
-- 调用`voerkai18n translate`进行自动翻译或人工翻译
-- 调用`voerkai18n compile`编译语言包
-- 在`Vue`应用中引入`@voerkai18n/vue`和`@voerkai18n/vite`插件
-- 在源码中使用`t`函数进行翻译
+::: code-group
 
-完整的工程化流程请参见[工程化](../intro/get-started)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
-
-## 第二步：启用`@voerkai18n/vite`插件
-
-`@voerkai18n/vite`插件作用是：
-
-- 可以根据`idMap.ts`映射文件将源码中的`t("xxxxx")`转换为`t("<数字>")`的形式，从而实现消除翻译内容的冗余内容。
-- 实现自动导入`t`函数的功能，省却手动导入的麻烦。
-
-`@voerkai18n/vite`插件的安装非常简单，只需要在`vite.config.(ts|js)`中添加如下内容：
-
-```javascript
-
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import Inspect from 'vite-plugin-inspect'
-import Voerkai18nPlugin from "@voerkai18n/vite"
- 
-export default defineConfig({
-  plugins: [    
-    Inspect(),                // 可选    
-    Voerkai18nPlugin(),       // 新增加
-    vue()
-  ],
-})
-
+```bash [npm]
+npm install -g @voerkai18n/cli
 ```
-- `@voerkai18n/vite`插件仅在开发和构建阶段作用。事实上，如果不在乎文本内容的冗余，不安装此插件也是可以工作正常的。
-- `vite-plugin-inspect`仅用于调试，可以在`http://localhost:3000/__inspect/`查看当前工程中的`@voerkai18n/vite`是否正确地进行自动导入和`idMap.ts`映射，供开发阶段进行调试使用。
-- `@voerkai18n/vite`插件的完整[使用说明](../tools/vite)。
-## 第三步：配置`@voerkai18n/vue`插件
 
-`@voerkai18n/vue`插件用来自动注入`t`函数、切换语言等功能。
+```bash [yarn]
+yarn global add @voerkai18n/cli
+```
+```bash [pnpm]
+pnpm  add -g @voerkai18n/cli
+```
+:::
+
+### 第2步：初始化
+
+接着`VoerkaI18n init`初始化工程。
+
+```bash
+> voerkai18n init
+```
 
 
-安装方法如下：
+### 第3步：启用`Vue`支持
+
+接下需要`voerkai18n apply`来启用`Vue`支持。
+
+```bash
+> voerkai18n apply
+```
+
+执行`voerkai18n apply`命令后，选择`Vue3`后，会执行以下操作：
+
+- 安装`@voerkai18n/vue`
+- 更新`languages`的相关文件，主要是`languages/component.{ts|js}`。
+
+
+### 第4步：配置代码
+
+修改`main.ts`文件，引入`@voerkai18n/vue`。
 
 ```typescript
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
-// 导入插件
+import { i18nScope } from "./languages"
+import { router } from "./router"
 import { i18nPlugin } from '@voerkai18n/vue'
-// 导入当前作用域
-import { i18nScope } from './languages'
 
-// 等待i18nScope初始化完成
 i18nScope.ready(()=>{
-  const app = createApp(App)
-  // 应用插件
-  app.use<VoerkaI18nPluginOptions>(i18nPlugin as any,{
-      i18nScope
-  })
-  app.mount('#app')
+    createApp(App)
+      .use(i18nPlugin,{       // [!code ++]
+        i18nScope    // [!code ++]
+      })          // [!code ++]
+      .use(router)
+      .mount('#app')
 })
 
-
 ```
 
-`@voerkai18n/vue`插件本质上是为**每一个Vue组件自动混入`t`函数**。
+`i18nPlugin`插件的作用为`Vue组件`提供：
 
-## 第四步：使用`t`翻译函数
+- 提供全局组件实例`t`函数
+- 全局的`Translate`组件
 
-`Vue`应用使用多语言本质是调用`import { t } from 'langauges`导入的`t`函数来进行翻译。
+
+### 第5步：翻译内容
+
+接下来就可以直接在`Vue`组件中使用`t`函数和`Translate`组件进行翻译。
+
 
 ```vue
-
-<script setup>
-// 手动导入t函数
-// 如果启用了@voerkai18n/vite插件，则可以省略此行实现自动导入
-import { t } from "./languages"
-console.log(t("Welcome to VoerkaI18n"))
-
-</script>
-
-
-// 直接使用t函数，不需要导入
-<script>
-export default {
-    data(){
-        return {
-            username:"",
-            password:"",
-            title:t("认证")
-        }
-    },
-    methods:{
-        login(){
-            alert(t("登录"))
-        }
-    }
-}
-</script>
-// 直接使用
 <template>
 	<div>
-        <h1>{{ t("请输入用户名称") }}</h1>
+        <h1>
+          <Translate message="请输入用户名称"/>
+        </h1>
         <div>
-            <span>{{t("用户名:")}}</span><input type="text" :placeholder="t('邮件/手机号码/帐号')"/>
-            <span>{{t("密码:")}}</span><input type="password" :placeholder="t('至少6位的密码')"/>            
+            <span>
+              <Translate message="用户名:" />
+            </span>
+            <input type="text" :placeholder="t('邮件/手机号码/帐号')"/>
+            <span>
+              <Translate message="密码:" />
+            </span>
+            <input type="password" :placeholder="t('至少6位的密码')"/>            
+            <Translate id="notice">
+              大段文本内容
+            </Translate>
     	</div>            
     </div>
-        <button @click="login">{{t("登录")}}</button>
+        <button @click="login">
+          <Translate message="登录" />
+        </button>
     </div>
 </template>
 ```
- 
-**重点：**
-- 在`<script setup>`中手动导入`import { t } from "./languages"`
-- 在`<script>`和`<template>`中可以直接使用`t`函数进行翻译。
-- `@voerkai18n/vue`插件本质上是为每一个Vue组件自动混入`t`函数，并在在语言切换时会自动重新渲染
+:::warning 提示
+- 使用`t`函数和`Translate`组件时来包裹要翻译的内容。
+- 大段落文本内容可以使用`Translate`组件来包裹。
+- `t`函数和`Translate`已经由`@voerkai18n/vue`插件自动注入到组件中，不需要额外导入。
+:::
 
+### 第6步：切换语言
 
-## 第五步：切换语言
-
-引入`@voerkai18n/vue`插件来实现切换语言和自动重新渲染的功能。
+引入`useVoerkaI18n`插件来实现切换语言的功能。
 
 ```vue
-
-<script setup lang="ts">
-import { injectVoerkaI18n } from "@voerkai18n/vue"
-
-// 提供一个i18n对象
-const i18n = injectVoerkaI18n()
-</script>
-
-<script>
-export default {
-   //......
-}
-</script>  
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <h1>{{ t("中华人民共和国")}} </h1>
-  <h2>{{ t("迎接中华民族的伟大复兴")}} </h2>
-  <h5>默认语言：{{ i18n.defaultLanguage }}</h5>
-  <h5>当前语言：{{ i18n.activeLanguage }}</h5>
-  <!-- 遍历支持的语言  -->
-  <button v-for="lng of i18n.languages" 
-    @click="i18n.activeLanguage = lng.name"  
-    >{{ lng.title }}</button>
+  <div>
+    <button  
+      v-for="(lang, index) in languages"
+      @click="i18nScope.change(lang.name)"
+      type="button"       
+      :class="{'red-text': activeLanguage === lang.name }"
+      >  
+      {{ lang.name }}     
+      </button>
+  </div>
 </template>
 
+<script setup>
+import { i18nScope} from './languages';
+import { useVoerkaI18n } from '@voerkai18n/vue';   
+const { activeLanguage,languages } =  useVoerkaI18n(i18nScope)
+</script>
 ```
  
 
-## 小结
+## 指南
 
-- `@voerkai18n/vue`插件为`Vue`单文件组件提供自动注入`t`函数，可以在`<script>`和`<template>`中直接使用，在`<script setup>`中需要手动从`language`中导入`t`函数。
-- Vue应用的中普通`js/ts`文件需要手动从`language`中导入`t`函数。
-- 使用`injectVoerkaI18n()`来实现遍历支持的语言和切换语言的功能。
-- 当切换语言时会自动重新渲染组件。
-- `@voerkai18n/vue`插件只能用在`Vue 3`。
-- 完整的示例请见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/vue3-ts)
+### 手动配置
 
+`voerkai18n apply`负责自动配置`Vue`应用支持，也可以手动配置.
+
+- **编辑`languages/component.ts`文件**
+
+```ts
+import { 
+  createTranslateComponent, 
+  type VueTranslateComponentType 
+} from "@voerkai18n/vue";
+export const component = createTranslateComponent()
+export type TranslateComponentType = VueTranslateComponentType
+```
+
+### 加载中
+
+当使用翻译组件的[动态翻译](../use/translate)时，允许在翻译过程中显示加载中的状态。
+
+可以按如下方式提供一个加载中的状态：
+
+```ts
+import { 
+  createTranslateComponent, 
+  type VueTranslateComponentType 
+} from "@voerkai18n/vue";
+import Loading from './Loading.vue'  //! 您的加载中组件
+export const component = createTranslateComponent({
+  loading:Loading   //!
+})
+export type TranslateComponentType = VueTranslateComponentType
+```
+
+### 切换刷新陷阱
+
+在使用`VoerkaI18n`时，新手经常会碰到的问题，就是切换语言后，`Vue`组件不会自动刷新。
+
+比如以下代码在切换语言时自动刷新渲染：
+
+```vue
+<template>
+  <div>  
+    <h1 :title="t('你好')">  
+    <div> {{ title }} </div>
+  </div>
+</template>
+<script setup>
+import { ref } from 'vue';
+import { t } from '../languages'; 
+const title = ref(t('你好'))
+<script>
+
+```
+
+**为什么以上代码在切换语言后不会自动刷新呢？**
+
+因为`Vue`组件的`setup`函数只会在组件初始化时执行一次，所以在`setup`函数中调用`t`函数时，`t`函数的执行结果已经固定，所以不会再随着语言的切换而刷新。
+
+**如何解决？**
+
+要解决这个问题，需要充分理解`Vue`的晌应式机制：
+
+- 让翻译的结果成为响应式数据
+- 在语言切换时更新翻译的结果
+
+重点就是让翻译的结果成为响应式数据，这样在语言切换时，`Vue`会自动更新视图。
+
+可以使用`useVoerkaI18n`来实现：
+
+
+### 示例
+
+- 完整的示例请见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/vue3)
