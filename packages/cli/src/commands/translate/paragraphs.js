@@ -26,17 +26,15 @@ async function translateFileParagraphs(file){
             this.task = task
             const langParagraphEle = paragraphDoc.querySelector(`div[language=${lng.name}]`)
             if(!langParagraphEle){
-                paragraphDoc.appendChild(`\n<div language="${lng.name}">${defaultLangParagraphEle && defaultLangParagraphEle.innerHTML}</div>`)
-            }
-            
+                paragraphDoc.appendChild(`\n<div language="${lng.name}">\n${defaultLangParagraphEle && defaultLangParagraphEle.innerHTML}\n</div>`)
+            }            
             if(langParagraphEle.getAttribute("done")) {
                 task.skip()
                 continue
-            }
- 
+            } 
             const translated = await translateParagraph.call(this, langParagraphEle.innerHTML,defaultLanguage,lng.name)
             if(translated){
-                langParagraphEle.innerHTML = translated
+                langParagraphEle.innerHTML = "\n" + translated + "\n"
                 langParagraphEle.setAttribute("done",true)
                 task.complete()                    
                 updatedCount++

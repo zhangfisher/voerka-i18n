@@ -24,7 +24,7 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
             props: {
                 id      : { type: String },
                 message : { type: [ String, Function ] },
-                vars    : { type: Array, default: () => [] },
+                vars    : { type: [String,Number,Array,Boolean,Object], default: () => [] },
                 options : { type: Object, default: () => ({}) },
                 tag     : { type: String }, 
                 default : { type: String, default: '' }

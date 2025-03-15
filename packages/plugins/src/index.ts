@@ -45,9 +45,7 @@ export const unpluginFactory: UnpluginFactory<VoerkaI18nPluginOptions | undefine
           return false
         }
       })
-
       if (debug && isMatched) console.log(`[VoerkaI18n] apply ${id}`)
-
       return isMatched
     },
     transform(code) {
@@ -60,7 +58,7 @@ export const unpluginFactory: UnpluginFactory<VoerkaI18nPluginOptions | undefine
           codeResult = addImport(code, fromModule, 't')
         }
         return codeResult
-      }catch (e) {
+      } catch (e: any) {
         console.warn('Error while applyIdMap: ', e)
       }
     },

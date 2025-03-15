@@ -36,7 +36,6 @@
         "internationalize"
     ],
     "dependencies": {
-        "@ast-grep/napi": "^0.33.1",
         "axios": "^1.8.3",
         "bcp47-language-tags": "^1.0.8",
         "flex-tools": "^1.4.34",

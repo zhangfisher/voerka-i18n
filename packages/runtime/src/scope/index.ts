@@ -10,7 +10,11 @@ import type {
     VoerkaI18nTranslateComponentBuilder,
     VoerkaI18nTranslateProps,
     VoerkaI18nParagraphs,
-    VoerkaI18nLanguageParagraphs
+    VoerkaI18nLanguageParagraphs,
+    VoerkaI18nTranslateVars,
+    VoerkaI18nTranslateOptions,
+    VoerkaI18nTranslateTransformBuilder,
+    VoerkaI18nTranslateTransformer
 } from "@/types" 
 import { DefaultLanguageSettings } from '../consts';
 import { Mixin } from "ts-mixer"
@@ -32,9 +36,11 @@ import { assignObject } from "flex-tools/object/assignObject"
 import { VoerkaI18nManager } from "../manager"
 import { LocalStorage } from "@/storage";
 import { isBrowser } from "@/utils/isBrowser";
-import { isMessageId } from "@/utils/isMessageId";
+import { isMessageId } from "@/utils/isMessageId"; 
 
-export interface VoerkaI18nScopeOptions<TranslateComponent=any> {
+
+
+export interface VoerkaI18nScopeOptions<TranslateComponent=any,TranslateTransformResult=any> {
     id?            : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
     debug?         : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
     library?       : boolean                                                 // 当使用在库中时应该置为true
@@ -54,10 +60,10 @@ export interface VoerkaI18nScopeOptions<TranslateComponent=any> {
     namespaces?    : Record<string,string>                                   // 命名空间
     patterns?      : string[]                                                // 源文件匹配清单，使用fast-glob匹配文件
     component?     : VoerkaI18nTranslateComponentBuilder<TranslateComponent> // 翻译组件       
-    translate?     : ( props:VoerkaI18nTranslateProps )=>string              // 翻译函数
+    transform?     : VoerkaI18nTranslateTransformBuilder<TranslateTransformResult>  // 对翻译结果进行变换，比如变换为vue/ref对象
 } 
 
-export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
+export class VoerkaI18nScope<TranslateComponent=any,TranslateTransformResult=any> extends Mixin(
         EventEmitterMixin,
         PatchMessageMixin,
         ChangeLanguageMixin,
@@ -77,6 +83,7 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
     protected _activeMessages     : VoerkaI18nLanguageMessages = {}                     // 当前语言包
     protected _patchedMessages    : VoerkaI18nLanguagePack = {}                         // 补丁语言包
     protected _translateComponent?: TranslateComponent
+    protected _translateTransformer?:VoerkaI18nTranslateTransformer<TranslateTransformResult>
     protected _activeParagraphs   : VoerkaI18nLanguageParagraphs = {}                   // 当前段落
 
     $id:number = ++VoerkaI18nScope.idSeq                        
@@ -126,7 +133,14 @@ export class VoerkaI18nScope<TranslateComponent=any> extends Mixin(
 	get activeLanguage():string { return this._activeLanguage   }  
     get storage(){ return this.getScopeOption<IVoerkaI18nStorage>('storage')}    
     get loader(){ return this.getScopeOption<VoerkaI18nLanguageLoader>('loader') }
-    
+    get $t():VoerkaI18nTranslate<TranslateTransformResult>{ 
+        return (message:string,vars?:VoerkaI18nTranslateVars,options?:VoerkaI18nTranslateOptions)=>{
+            this._getTranslateTransformer()
+            if(!options)  options = {}
+            options.transform = true
+            return this.translate(message,vars,options)
+        }
+    }
     /**
      * 有些配置项是以appScope为准
      * @param name 

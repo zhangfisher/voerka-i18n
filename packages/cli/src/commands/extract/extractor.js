@@ -1,6 +1,6 @@
 const { t } = require("../../i18n");
 const glob = require("fast-glob");
-const { extractMessages, extractParagraphs } = require("@voerkai18n/utils/extract");
+const { extractMessages, extractParagraphs } = require("@voerkai18n/utils");
 const logsets = require("logsets");
 const path = require("path"); 
 const { readFile } = require("flex-tools/fs/nodefs");
@@ -82,7 +82,7 @@ async function scanSourceFiles(ctx) {
       if (msgs.length === 0 && pghs.length === 0) {
         tasks.skip();
       } else {
-        tasks.complete([ t("发现{}文本, {}段落"), msgs.length, pghs.length ]);
+        tasks.complete([ t("文本{}, 段落{}"), msgs.length, pghs.length ]);
       }
 
       msgCount += msgs.length;

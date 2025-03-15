@@ -4,8 +4,8 @@
         "ru-RU": "Привет",
         "ja-JP": "こんにちは",
         "$files": [
-            "src/About/index.vue(503-503)",
-            "src/About/index.vue(774-774)"
+            "src/About/index.vue(503-508)",
+            "src/About/index.vue(774-779)"
         ],
         "$id": 240
     },
@@ -14,7 +14,7 @@
         "ru-RU": "Системная информация",
         "ja-JP": "システム情報",
         "$files": [
-            "src/About/Software.vue(127-127)"
+            "src/About/Software.vue(127-134)"
         ],
         "$id": 85
     },
@@ -23,7 +23,7 @@
         "ru-RU": "Имя системы",
         "ja-JP": "システム名",
         "$files": [
-            "src/About/Software.vue(272-272)"
+            "src/About/Software.vue(272-279)"
         ],
         "$id": 86
     },
@@ -32,7 +32,7 @@
         "ru-RU": "Версия системы",
         "ja-JP": "システムバージョン",
         "$files": [
-            "src/About/Software.vue(538-538)"
+            "src/About/Software.vue(538-545)"
         ],
         "$id": 87
     },
@@ -41,7 +41,7 @@
         "ru-RU": "Модель системы",
         "ja-JP": "システムモデル",
         "$files": [
-            "src/About/Software.vue(733-733)"
+            "src/About/Software.vue(733-740)"
         ],
         "$id": 88
     },
@@ -50,7 +50,7 @@
         "ru-RU": "Версия оборудования",
         "ja-JP": "ハードウェアバージョン",
         "$files": [
-            "src/About/Software.vue(1001-1001)"
+            "src/About/Software.vue(1001-1008)"
         ],
         "$id": 89
     },
@@ -59,7 +59,7 @@
         "ru-RU": "Серийный номер",
         "ja-JP": "シリアル番号",
         "$files": [
-            "src/About/Software.vue(1203-1203)"
+            "src/About/Software.vue(1203-1209)"
         ],
         "$id": 90
     },
@@ -68,7 +68,7 @@
         "ru-RU": "Номер авторизации устройства",
         "ja-JP": "デバイス認証番号",
         "$files": [
-            "src/About/Software.vue(1400-1400)"
+            "src/About/Software.vue(1400-1408)"
         ],
         "$id": 91
     },
@@ -77,7 +77,7 @@
         "ru-RU": "Имя учетной записи",
         "ja-JP": "アカウント名",
         "$files": [
-            "src/About/UpdateUserModal.vue(250-250)"
+            "src/About/UpdateUserModal.vue(250-257)"
         ],
         "$id": 92
     },
@@ -86,7 +86,7 @@
         "ru-RU": "Пожалуйста, введите имя учетной записи",
         "ja-JP": "アカウント名を入力してください",
         "$files": [
-            "src/About/UpdateUserModal.vue(417-417)"
+            "src/About/UpdateUserModal.vue(417-427)"
         ],
         "$id": 93
     },
@@ -95,8 +95,8 @@
         "ru-RU": "Пароль",
         "ja-JP": "パスワード",
         "$files": [
-            "src/About/UpdateUserModal.vue(548-548)",
-            "src/Home/Features.vue(464-464)"
+            "src/About/UpdateUserModal.vue(548-553)",
+            "src/Home/Features.vue(464-469)"
         ],
         "$id": 94
     },
@@ -105,7 +105,7 @@
         "ru-RU": "Пожалуйста, введите пароль",
         "ja-JP": "パスワードを入力してください",
         "$files": [
-            "src/About/UpdateUserModal.vue(627-627)"
+            "src/About/UpdateUserModal.vue(627-635)"
         ],
         "$id": 95
     },
@@ -114,7 +114,7 @@
         "ru-RU": "Подтвердите пароль",
         "ja-JP": "パスワードの確認",
         "$files": [
-            "src/About/UpdateUserModal.vue(708-708)"
+            "src/About/UpdateUserModal.vue(708-715)"
         ],
         "$id": 96
     },
@@ -123,7 +123,7 @@
         "ru-RU": "Пожалуйста, введите пароль снова",
         "ja-JP": "再度パスワードを入力してください",
         "$files": [
-            "src/About/UpdateUserModal.vue(817-817)"
+            "src/About/UpdateUserModal.vue(817-827)"
         ],
         "$id": 97
     },
@@ -132,7 +132,7 @@
         "ru-RU": "Имя",
         "ja-JP": "氏名",
         "$files": [
-            "src/About/UpdateUserModal.vue(944-944)"
+            "src/About/UpdateUserModal.vue(944-949)"
         ],
         "$id": 98
     },
@@ -141,8 +141,8 @@
         "ru-RU": "Пожалуйста, введите имя",
         "ja-JP": "氏名を入力してください",
         "$files": [
-            "src/About/UpdateUserModal.vue(1042-1042)",
-            "src/About/UpdateUserModal.vue(4278-4278)"
+            "src/About/UpdateUserModal.vue(1042-1050)",
+            "src/About/UpdateUserModal.vue(4278-4286)"
         ],
         "$id": 99
     },
@@ -151,7 +151,7 @@
         "ru-RU": "Имя роли",
         "ja-JP": "ロール名",
         "$files": [
-            "src/About/UpdateUserModal.vue(1191-1191)"
+            "src/About/UpdateUserModal.vue(1191-1198)"
         ],
         "$id": 100
     },
@@ -160,7 +160,7 @@
         "ru-RU": "Пожалуйста, выберите права доступа",
         "ja-JP": "権限を選択してください",
         "$files": [
-            "src/About/UpdateUserModal.vue(1274-1274)"
+            "src/About/UpdateUserModal.vue(1274-1282)"
         ],
         "$id": 101
     },
@@ -169,7 +169,7 @@
         "ru-RU": "Телефон",
         "ja-JP": "携帯電話",
         "$files": [
-            "src/About/UpdateUserModal.vue(1552-1552)"
+            "src/About/UpdateUserModal.vue(1552-1557)"
         ],
         "$id": 102
     },
@@ -178,7 +178,7 @@
         "ru-RU": "Пожалуйста, введите номер телефона",
         "ja-JP": "携帯電話番号を入力してください",
         "$files": [
-            "src/About/UpdateUserModal.vue(1623-1623)"
+            "src/About/UpdateUserModal.vue(1623-1632)"
         ],
         "$id": 103
     },
@@ -187,7 +187,7 @@
         "ru-RU": "Отмена",
         "ja-JP": "キャンセル",
         "$files": [
-            "src/About/UpdateUserModal.vue(1795-1795)"
+            "src/About/UpdateUserModal.vue(1795-1800)"
         ],
         "$id": 104
     },
@@ -196,7 +196,7 @@
         "ru-RU": "Подтверждение",
         "ja-JP": "確認",
         "$files": [
-            "src/About/UpdateUserModal.vue(2003-2003)"
+            "src/About/UpdateUserModal.vue(2003-2008)"
         ],
         "$id": 105
     },
@@ -205,7 +205,7 @@
         "ru-RU": "Администратор конфигурации",
         "ja-JP": "設定管理者",
         "$files": [
-            "src/About/UpdateUserModal.vue(3260-3260)"
+            "src/About/UpdateUserModal.vue(3260-3268)"
         ],
         "$id": 106
     },
@@ -214,7 +214,7 @@
         "ru-RU": "Администратор стратегии",
         "ja-JP": "ポリシー管理者",
         "$files": [
-            "src/About/UpdateUserModal.vue(3324-3324)"
+            "src/About/UpdateUserModal.vue(3324-3332)"
         ],
         "$id": 107
     },
@@ -223,7 +223,7 @@
         "ru-RU": "Аудитор журналов",
         "ja-JP": "ログ監査者",
         "$files": [
-            "src/About/UpdateUserModal.vue(3388-3388)"
+            "src/About/UpdateUserModal.vue(3388-3396)"
         ],
         "$id": 108
     },
@@ -232,7 +232,7 @@
         "ru-RU": "Добавить аккаунт",
         "ja-JP": "アカウント追加",
         "$files": [
-            "src/About/UpdateUserModal.vue(3491-3491)"
+            "src/About/UpdateUserModal.vue(3491-3498)"
         ],
         "$id": 109
     },
@@ -241,7 +241,7 @@
         "ru-RU": "Редактировать аккаунт",
         "ja-JP": "アカウント編集",
         "$files": [
-            "src/About/UpdateUserModal.vue(3503-3503)"
+            "src/About/UpdateUserModal.vue(3503-3510)"
         ],
         "$id": 110
     },
@@ -250,8 +250,8 @@
         "ru-RU": "Длина от 2 до 20 символов",
         "ja-JP": "2～20文字の長さ",
         "$files": [
-            "src/About/UpdateUserModal.vue(3940-3940)",
-            "src/About/UpdateUserModal.vue(4354-4354)"
+            "src/About/UpdateUserModal.vue(3940-3953)",
+            "src/About/UpdateUserModal.vue(4354-4367)"
         ],
         "$id": 111
     },
@@ -260,7 +260,7 @@
         "ru-RU": "Пожалуйста, выберите роль",
         "ja-JP": "ロールを選択してください",
         "$files": [
-            "src/About/UpdateUserModal.vue(4550-4550)"
+            "src/About/UpdateUserModal.vue(4550-4558)"
         ],
         "$id": 112
     },
@@ -269,108 +269,17 @@
         "ru-RU": "Пароли не совпадают, пожалуйста, проверьте внимательно",
         "ja-JP": "二回のパスワードが一致しません、ご確認ください",
         "$files": [
-            "src/About/UpdateUserModal.vue(4806-4806)"
+            "src/About/UpdateUserModal.vue(4806-4822)"
         ],
         "$id": 113
-    },
-    "用心开源，精良制作": {
-        "en-US": "用心开源，精良制作",
-        "ru-RU": "用心开源，精良制作",
-        "ja-JP": "用心开源，精良制作",
-        "$files": [
-            "src/components/Footer.vue(216-216)"
-        ],
-        "$id": 279
-    },
-    "关于": {
-        "en-US": "关于",
-        "ru-RU": "关于",
-        "ja-JP": "关于",
-        "$files": [
-            "src/components/Footer.vue(492-492)",
-            "src/components/Navbar.vue(4038-4038)"
-        ],
-        "$id": 280
-    },
-    "联系我们": {
-        "en-US": "联系我们",
-        "ru-RU": "联系我们",
-        "ja-JP": "联系我们",
-        "$files": [
-            "src/components/Footer.vue(681-681)"
-        ],
-        "$id": 281
-    },
-    "常见问题": {
-        "en-US": "常见问题",
-        "ru-RU": "常见问题",
-        "ja-JP": "常见问题",
-        "$files": [
-            "src/components/Footer.vue(872-872)"
-        ],
-        "$id": 282
-    },
-    "开源推荐": {
-        "en-US": "开源推荐",
-        "ru-RU": "开源推荐",
-        "ja-JP": "开源推荐",
-        "$files": [
-            "src/components/Footer.vue(1063-1063)"
-        ],
-        "$id": 283
-    },
-    "版权所有 © 2021-2022": {
-        "en-US": "版权所有 © 2021-2022",
-        "ru-RU": "版权所有 © 2021-2022",
-        "ja-JP": "版权所有 © 2021-2022",
-        "$files": [
-            "src/components/Footer.vue(1233-1233)"
-        ],
-        "$id": 284
-    },
-    "首页": {
-        "en-US": "首页",
-        "ru-RU": "首页",
-        "ja-JP": "首页",
-        "$files": [
-            "src/components/Navbar.vue(1998-1998)"
-        ],
-        "$id": 285
-    },
-    "特性": {
-        "en-US": "特性",
-        "ru-RU": "特性",
-        "ja-JP": "特性",
-        "$files": [
-            "src/components/Navbar.vue(2507-2507)"
-        ],
-        "$id": 286
-    },
-    "任务": {
-        "en-US": "任务",
-        "ru-RU": "任务",
-        "ja-JP": "任务",
-        "$files": [
-            "src/components/Navbar.vue(3012-3012)"
-        ],
-        "$id": 287
-    },
-    "开源项目": {
-        "en-US": "开源项目",
-        "ru-RU": "开源项目",
-        "ja-JP": "开源项目",
-        "$files": [
-            "src/components/Navbar.vue(3518-3518)"
-        ],
-        "$id": 288
     },
     "翻译组件": {
         "en-US": "Translation Component",
         "ru-RU": "Компонент перевода",
         "ja-JP": "翻訳コンポーネント",
         "$files": [
-            "src/Features/index.vue(1338-1338)",
-            "src/Features/Trans.vue(295-295)"
+            "src/Features/index.vue(1338-1345)",
+            "src/Features/Trans.vue(295-320)"
         ],
         "$id": 114
     },
@@ -379,9 +288,9 @@
         "ru-RU": "Языковой патч",
         "ja-JP": "言語パッチ",
         "$files": [
-            "src/Features/index.vue(1382-1382)",
-            "src/Features/Patch.vue(72-72)",
-            "src/Home/Features.vue(1983-1983)"
+            "src/Features/index.vue(1382-1389)",
+            "src/Features/Patch.vue(72-97)",
+            "src/Home/Features.vue(1983-1990)"
         ],
         "$id": 115
     },
@@ -390,55 +299,146 @@
         "ru-RU": "Загрузка...",
         "ja-JP": "読み込み中...",
         "$files": [
-            "src/Features/Trans.vue(2313-2313)",
-            "src/Features/Trans.vue(2669-2669)"
+            "src/Features/Trans.vue(2313-2322)",
+            "src/Features/Trans.vue(2669-2678)"
         ],
         "$id": 116
     },
     "输出:": {
-        "en-US": "输出:",
-        "ru-RU": "输出:",
-        "ja-JP": "输出:",
+        "en-US": "Output:",
+        "ru-RU": "Вывод:",
+        "ja-JP": "出力:",
         "$files": [
-            "src/Features/Trans.vue(531-531)",
-            "src/Features/Trans.vue(1303-1303)",
-            "src/Features/Trans.vue(2097-2097)"
+            "src/Features/Trans.vue(531-555)",
+            "src/Features/Trans.vue(1303-1327)",
+            "src/Features/Trans.vue(2097-2121)"
         ],
         "$id": 289
     },
     "My name is {}": {
         "en-US": "My name is {}",
-        "ru-RU": "My name is {}",
-        "ja-JP": "My name is {}",
+        "ru-RU": "Меня зовут {}",
+        "ja-JP": "私の名前は {}",
         "$files": [
-            "src/Features/Trans.vue(666-666)"
+            "src/Features/Trans.vue(666-700)"
         ],
         "$id": 290
     },
     "异步翻译组件": {
-        "en-US": "异步翻译组件",
-        "ru-RU": "异步翻译组件",
-        "ja-JP": "异步翻译组件",
+        "en-US": "Asynchronous translation component",
+        "ru-RU": "Компонент асинхронного перевода",
+        "ja-JP": "非同期翻訳コンポーネント",
         "$files": [
-            "src/Features/Trans.vue(1065-1065)"
+            "src/Features/Trans.vue(1065-1092)"
         ],
         "$id": 291
     },
     "异步翻译组件-加载出错": {
-        "en-US": "异步翻译组件-加载出错",
-        "ru-RU": "异步翻译组件-加载出错",
-        "ja-JP": "异步翻译组件-加载出错",
+        "en-US": "Asynchronous translation component - Loading error",
+        "ru-RU": "Компонент асинхронного перевода - ошибка загрузки",
+        "ja-JP": "非同期翻訳コンポーネント-読み込みエラー",
         "$files": [
-            "src/Features/Trans.vue(1853-1853)"
+            "src/Features/Trans.vue(1853-1885)"
         ],
         "$id": 292
+    },
+    "用心开源，精良制作": {
+        "en-US": "Heartfelt open source, finely crafted",
+        "ru-RU": "Искренне создавать открытый исходный код, качественно производить",
+        "ja-JP": "真心を込めてオープンソース、精良な製作",
+        "$files": [
+            "src/components/Footer.vue(216-246)"
+        ],
+        "$id": 279
+    },
+    "关于": {
+        "en-US": "About",
+        "ru-RU": "О нас",
+        "ja-JP": "について",
+        "$files": [
+            "src/components/Footer.vue(492-515)",
+            "src/components/Navbar.vue(4038-4061)"
+        ],
+        "$id": 280
+    },
+    "联系我们": {
+        "en-US": "Contact us",
+        "ru-RU": "Свяжитесь с нами",
+        "ja-JP": "お問い合わせ",
+        "$files": [
+            "src/components/Footer.vue(681-706)"
+        ],
+        "$id": 281
+    },
+    "常见问题": {
+        "en-US": "FAQ",
+        "ru-RU": "Часто задаваемые вопросы",
+        "ja-JP": "よくある質問",
+        "$files": [
+            "src/components/Footer.vue(872-897)"
+        ],
+        "$id": 282
+    },
+    "开源推荐": {
+        "en-US": "Open source recommendations",
+        "ru-RU": "Рекомендации по открытому исходному коду",
+        "ja-JP": "オープンソース推薦",
+        "$files": [
+            "src/components/Footer.vue(1063-1088)"
+        ],
+        "$id": 283
+    },
+    "版权所有 © 2021-2022": {
+        "en-US": "All rights reserved © 2021-2022",
+        "ru-RU": "Все права защищены © 2021-2022",
+        "ja-JP": "すべての権利予約 © 2021-2022",
+        "$files": [
+            "src/components/Footer.vue(1233-1270)"
+        ],
+        "$id": 284
+    },
+    "首页": {
+        "en-US": "Home",
+        "ru-RU": "Главная страница",
+        "ja-JP": "ホーム",
+        "$files": [
+            "src/components/Navbar.vue(1998-2021)"
+        ],
+        "$id": 285
+    },
+    "特性": {
+        "en-US": "Features",
+        "ru-RU": "Особенности",
+        "ja-JP": "特徴",
+        "$files": [
+            "src/components/Navbar.vue(2507-2530)"
+        ],
+        "$id": 286
+    },
+    "任务": {
+        "en-US": "Tasks",
+        "ru-RU": "Задачи",
+        "ja-JP": "タスク",
+        "$files": [
+            "src/components/Navbar.vue(3012-3035)"
+        ],
+        "$id": 287
+    },
+    "开源项目": {
+        "en-US": "Open source projects",
+        "ru-RU": "Проекты с открытым исходным кодом",
+        "ja-JP": "オープンソースプロジェクト",
+        "$files": [
+            "src/components/Navbar.vue(3518-3543)"
+        ],
+        "$id": 288
     },
     "点击查看详情": {
         "en-US": "Click to view details",
         "ru-RU": "Нажмите для просмотра деталей",
         "ja-JP": "クリックして詳細を見る",
         "$files": [
-            "src/Home/Features.vue(418-418)"
+            "src/Home/Features.vue(418-427)"
         ],
         "$id": 117
     },
@@ -447,7 +447,7 @@
         "ru-RU": "Подходит для любого сценария",
         "ja-JP": "任意のシーンに適用",
         "$files": [
-            "src/Home/Features.vue(1504-1504)"
+            "src/Home/Features.vue(1504-1513)"
         ],
         "$id": 118
     },
@@ -456,7 +456,7 @@
         "ru-RU": "Полная поддержка React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/... и любых других сценариев ts/js",
         "ja-JP": "React/Vue/Solidjs/Uniapp/Nodejs/Svelte/Astro/...など、あらゆるts/jsシーンを全面的にサポート",
         "$files": [
-            "src/Home/Features.vue(1535-1535)"
+            "src/Home/Features.vue(1535-1600)"
         ],
         "$id": 119
     },
@@ -465,7 +465,7 @@
         "ru-RU": "Инструментарий полного цикла",
         "ja-JP": "フルプロセスのツールチェーン",
         "$files": [
-            "src/Home/Features.vue(1643-1643)"
+            "src/Home/Features.vue(1643-1652)"
         ],
         "$id": 120
     },
@@ -474,7 +474,7 @@
         "ru-RU": "Охватывает весь процесс международизации, включая извлечение языка, компиляцию, автоматический перевод, интеграцию плагинов и предоставляет инженерную поддержку для крупных приложений",
         "ja-JP": "言語抽出、コンパイル、自動翻訳、プラグイン統合などの国際化フルプロセスに対応し、大規模アプリケーションに工学的サポートを提供",
         "$files": [
-            "src/Home/Features.vue(1674-1674)"
+            "src/Home/Features.vue(1674-1719)"
         ],
         "$id": 121
     },
@@ -483,7 +483,7 @@
         "ru-RU": "Автоматический перевод",
         "ja-JP": "自動翻訳",
         "$files": [
-            "src/Home/Features.vue(1762-1762)"
+            "src/Home/Features.vue(1762-1769)"
         ],
         "$id": 122
     },
@@ -492,7 +492,7 @@
         "ru-RU": "Поддержка онлайн-сервисов перевода и инструментов перевода на основе больших языковых моделей ИИ, позволяющих выполнять автоматический перевод",
         "ja-JP": "オンライン翻訳サービスやAI大規模モデルに基づく翻訳ツールをサポートし、自動翻訳を実現",
         "$files": [
-            "src/Home/Features.vue(1791-1791)"
+            "src/Home/Features.vue(1791-1825)"
         ],
         "$id": 123
     },
@@ -501,7 +501,7 @@
         "ru-RU": "Многократная связь библиотек",
         "ja-JP": "多庫連携",
         "$files": [
-            "src/Home/Features.vue(1871-1871)"
+            "src/Home/Features.vue(1871-1878)"
         ],
         "$id": 124
     },
@@ -510,7 +510,7 @@
         "ru-RU": "Поддержка интернационализации нескольких внешних библиотек в крупных приложениях, подходит для корпоративных приложений и разработки сторонних библиотек",
         "ja-JP": "大規模アプリケーションにおける複数の外部ライブラリの国際化連携をサポート、エンタープライズアプリケーションおよびサードパーティライブラリ開発に最適です。",
         "$files": [
-            "src/Home/Features.vue(1900-1900)"
+            "src/Home/Features.vue(1900-1935)"
         ],
         "$id": 125
     },
@@ -519,7 +519,7 @@
         "ru-RU": "После выпуска приложения можно исправлять ошибки перевода онлайн с помощью языковых патчей, высочайшая практичность",
         "ja-JP": "アプリケーションリリース後、言語パッチ方式でオンライン翻訳エラーを修正可能、極めて実用的です。",
         "$files": [
-            "src/Home/Features.vue(2012-2012)"
+            "src/Home/Features.vue(2012-2045)"
         ],
         "$id": 126
     },
@@ -528,7 +528,7 @@
         "ru-RU": "Покрытие тестами",
         "ja-JP": "テストカバレッジ",
         "$files": [
-            "src/Home/Features.vue(2090-2090)"
+            "src/Home/Features.vue(2090-2098)"
         ],
         "$id": 127
     },
@@ -537,7 +537,7 @@
         "ru-RU": "Уровень покрытия тестами основного времени выполнения `@voerkai18n/runtime` превышает 90%, гарантируя качество",
         "ja-JP": "コアランタイム`@voerkai18n/runtime`は90%以上のテストカバレッジ、品質を保証します。",
         "$files": [
-            "src/Home/Features.vue(2120-2120)"
+            "src/Home/Features.vue(2120-2165)"
         ],
         "$id": 128
     },
@@ -546,54 +546,54 @@
         "ru-RU": "Полное решение для интернационализации",
         "ja-JP": "フルプロセスの国際化ソリューション",
         "$files": [
-            "src/Home/Hero.vue(1623-1623)",
-            "src/Home/Hero.vue(1526-1526)",
-            "src/Repos/index.vue(3466-3466)"
+            "src/Home/Hero.vue(1623-1636)",
+            "src/Home/Hero.vue(1526-1557)",
+            "src/Repos/index.vue(3466-3479)"
         ],
         "$id": 156
     },
     "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....": {
-        "en-US": "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
-        "ru-RU": "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
-        "ja-JP": "支持React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
+        "en-US": "Supports React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
+        "ru-RU": "Поддержка React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....",
+        "ja-JP": "React/Vue/ReactNative/Solid/uniapp/Svelte/Nodejs/....をサポート",
         "$files": [
-            "src/Home/Hero.vue(939-939)"
+            "src/Home/Hero.vue(939-1015)"
         ],
         "$id": 293
     },
     "访问官网": {
-        "en-US": "访问官网",
-        "ru-RU": "访问官网",
-        "ja-JP": "访问官网",
+        "en-US": "Visit the official website",
+        "ru-RU": "Посетите официальный сайт",
+        "ja-JP": "公式サイトにアクセス",
         "$files": [
-            "src/Home/Hero.vue(1159-1159)"
+            "src/Home/Hero.vue(1159-1184)"
         ],
         "$id": 294
     },
     "快速入门": {
-        "en-US": "快速入门",
-        "ru-RU": "快速入门",
-        "ja-JP": "快速入门",
+        "en-US": "Quick start",
+        "ru-RU": "Быстрый старт",
+        "ja-JP": "クイックスタート",
         "$files": [
-            "src/Home/Hero.vue(1999-1999)"
+            "src/Home/Hero.vue(1999-2024)"
         ],
         "$id": 295
     },
     "打补丁": {
-        "en-US": "打补丁",
-        "ru-RU": "打补丁",
-        "ja-JP": "打补丁",
+        "en-US": "Patch",
+        "ru-RU": "Установка патча",
+        "ja-JP": "パッチを適用",
         "$files": [
-            "src/Home/Hero.vue(2373-2373)"
+            "src/Home/Hero.vue(2373-2397)"
         ],
         "$id": 296
     },
     "了解更多": {
-        "en-US": "了解更多",
-        "ru-RU": "了解更多",
-        "ja-JP": "了解更多",
+        "en-US": "Learn more",
+        "ru-RU": "Узнать больше",
+        "ja-JP": "もっと詳しく",
         "$files": [
-            "src/Home/Hero.vue(2498-2498)"
+            "src/Home/Hero.vue(2498-2523)"
         ],
         "$id": 297
     },
@@ -602,8 +602,8 @@
         "ru-RU": "Больше проектов с открытым исходным кодом...",
         "ja-JP": "その他のオープンソースプロジェクト...",
         "$files": [
-            "src/Repos/index.vue(2938-2938)",
-            "src/Repos/index.vue(2889-2889)"
+            "src/Repos/index.vue(2938-2950)",
+            "src/Repos/index.vue(2889-2919)"
         ],
         "$id": 129
     },
@@ -612,7 +612,7 @@
         "ru-RU": "Nodejs/Vue/React/ReactNative/UniApp/...",
         "ja-JP": "Nodejs/Vue/React/ReactNative/UniApp/...",
         "$files": [
-            "src/Repos/index.vue(3530-3530)"
+            "src/Repos/index.vue(3530-3572)"
         ],
         "$id": 130
     },
@@ -621,7 +621,7 @@
         "ru-RU": "Библиотека автоматического управления состоянием с поддержкой асинхронных вычислений/компонентов сигналов/привязки форм",
         "ja-JP": "非同期計算/シグナルコンポーネント/フォームバインディングをサポートする全自動状態管理ライブラリ",
         "$files": [
-            "src/Repos/index.vue(3740-3740)"
+            "src/Repos/index.vue(3740-3768)"
         ],
         "$id": 131
     },
@@ -630,7 +630,7 @@
         "ru-RU": "Эффективная библиотека управления древовидными базами данных для Node.js",
         "ja-JP": "Nodejs用の効率的なツリーデータベースストレージ管理ツールキット",
         "$files": [
-            "src/Repos/index.vue(3933-3933)"
+            "src/Repos/index.vue(3933-3957)"
         ],
         "$id": 132
     },
@@ -639,7 +639,7 @@
         "ru-RU": "Легковесный древовидный UI-компонент, предназначенный для сайтов документации, таких как vitepress/dumi/docsify",
         "ja-JP": "vitepress/dumi/docsifyなどのドキュメントサイト専用の軽量ツリーUIコンポーネント",
         "$files": [
-            "src/Repos/index.vue(4124-4124)"
+            "src/Repos/index.vue(4124-4164)"
         ],
         "$id": 133
     },
@@ -648,7 +648,7 @@
         "ru-RU": "Легковесное решение React/CSS-IN-JS",
         "ja-JP": "軽量React/CSS-IN-JSソリューション",
         "$files": [
-            "src/Repos/index.vue(4334-4334)"
+            "src/Repos/index.vue(4334-4358)"
         ],
         "$id": 134
     },
@@ -657,7 +657,7 @@
         "ru-RU": "Реализация конечного автомата",
         "ja-JP": "有限状態機械の実装",
         "$files": [
-            "src/Repos/index.vue(4525-4525)"
+            "src/Repos/index.vue(4525-4535)"
         ],
         "$id": 135
     },
@@ -666,7 +666,7 @@
         "ru-RU": "Практическая библиотека утилитарных функций",
         "ja-JP": "実用的なユーティリティ関数ライブラリ",
         "$files": [
-            "src/Repos/index.vue(4704-4704)"
+            "src/Repos/index.vue(4704-4715)"
         ],
         "$id": 136
     },
@@ -675,7 +675,7 @@
         "ru-RU": "Мощная библиотека инструментов для строковой интерполяции",
         "ja-JP": "強力な文字列補間ツールキット",
         "$files": [
-            "src/Repos/index.vue(4879-4879)"
+            "src/Repos/index.vue(4879-4893)"
         ],
         "$id": 137
     },
@@ -684,7 +684,7 @@
         "ru-RU": "Библиотека инструментов для упрощения разработки декораторов",
         "ja-JP": "デコレータ開発を簡素化するツールキット",
         "$files": [
-            "src/Repos/index.vue(5078-5078)"
+            "src/Repos/index.vue(5078-5092)"
         ],
         "$id": 138
     },
@@ -693,7 +693,7 @@
         "ru-RU": "Библиотека инструментов для логирования",
         "ja-JP": "ログツールキット",
         "$files": [
-            "src/Repos/index.vue(5268-5268)"
+            "src/Repos/index.vue(5268-5276)"
         ],
         "$id": 139
     },
@@ -702,7 +702,7 @@
         "ru-RU": "Плагин Vite/инъекция стилей из компонентов Vue в JS-файлы",
         "ja-JP": "Viteプラグイン/Vueコンポーネント内のスタイルをJSファイルに注入します",
         "$files": [
-            "src/Repos/index.vue(5492-5492)"
+            "src/Repos/index.vue(5492-5520)"
         ],
         "$id": 140
     },
@@ -711,7 +711,7 @@
         "ru-RU": "Улучшенный инструмент разработки командной строки, способный автоматически генерировать интерактивные подсказки",
         "ja-JP": "強化されたコマンドライン開発ツールで、自動的にインタラクティブなプロンプトを生成します",
         "$files": [
-            "src/Repos/index.vue(5678-5678)"
+            "src/Repos/index.vue(5678-5701)"
         ],
         "$id": 141
     },
@@ -720,7 +720,7 @@
         "ru-RU": "Компонент улучшения вывода терминала",
         "ja-JP": "端末出力の強化コンポーネント",
         "$files": [
-            "src/Repos/index.vue(5862-5862)"
+            "src/Repos/index.vue(5862-5873)"
         ],
         "$id": 142
     },
@@ -729,7 +729,7 @@
         "ru-RU": "Плагин VSCODE/Поддержка внедрения комментариев в произвольные JSON файлы",
         "ja-JP": "VSCODEプラグイン/任意のJSONファイルにコメントを注入することをサポート",
         "$files": [
-            "src/Repos/index.vue(6083-6083)"
+            "src/Repos/index.vue(6083-6110)"
         ],
         "$id": 143
     },
@@ -738,7 +738,7 @@
         "ru-RU": "Библиотека асинхронной обработки сигналов",
         "ja-JP": "非同期シグナル処理ライブラリ",
         "$files": [
-            "src/Repos/index.vue(6284-6284)"
+            "src/Repos/index.vue(6284-6294)"
         ],
         "$id": 144
     },
@@ -747,7 +747,7 @@
         "ru-RU": "Интерактивная консоль базы данных Prisma",
         "ja-JP": "prismaデータベースのインタラクティブコンソール",
         "$files": [
-            "src/Repos/index.vue(6470-6470)"
+            "src/Repos/index.vue(6470-6488)"
         ],
         "$id": 145
     },
@@ -756,7 +756,7 @@
         "ru-RU": "Плагин для внедрения файлов в base64 в исходный код: vite/webpack/esbuild/...",
         "ja-JP": "ファイルをbase64形式でソースコードに埋め込むvite/webpack/esbuild/...プラグイン",
         "$files": [
-            "src/Repos/index.vue(6671-6671)"
+            "src/Repos/index.vue(6671-6719)"
         ],
         "$id": 146
     },
@@ -765,7 +765,7 @@
         "ru-RU": "Генерация captcha изображений",
         "ja-JP": "captcha画像を生成",
         "$files": [
-            "src/Repos/index.vue(6911-6911)"
+            "src/Repos/index.vue(6911-6925)"
         ],
         "$id": 147
     },
@@ -774,7 +774,7 @@
         "ru-RU": "Библиотека кодирования языков в соответствии с упрощенной спецификацией BCP47",
         "ja-JP": "簡略化されたBCP47仕様に準拠した言語エンコーディングライブラリ",
         "$files": [
-            "src/Repos/index.vue(7123-7123)"
+            "src/Repos/index.vue(7123-7143)"
         ],
         "$id": 148
     },
@@ -783,7 +783,7 @@
         "ru-RU": "Редактировать",
         "ja-JP": "編集",
         "$files": [
-            "src/Task/index.vue(4853-4853)"
+            "src/Task/index.vue(4853-4858)"
         ],
         "$id": 149
     },
@@ -792,7 +792,7 @@
         "ru-RU": "Удалить",
         "ja-JP": "削除",
         "$files": [
-            "src/Task/index.vue(5417-5417)"
+            "src/Task/index.vue(5417-5422)"
         ],
         "$id": 150
     },
@@ -801,7 +801,7 @@
         "ru-RU": "Завершить отчет по проекту",
         "ja-JP": "プロジェクト報告書の完成  ",
         "$files": [
-            "src/Task/index.vue(6234-6234)"
+            "src/Task/index.vue(6234-6243)"
         ],
         "$id": 151
     },
@@ -810,7 +810,7 @@
         "ru-RU": "Систематизировать ход выполнения проекта за этот квартал, подготовить презентацию PPT и отправить ее менеджеру проекта на рассмотрение до пятницы.",
         "ja-JP": "今四半期のプロジェクト進捗を整理し、PPTを準備し、金曜日までにプロジェクトマネージャーにレビューのために送信してください。  ",
         "$files": [
-            "src/Task/index.vue(6270-6270)"
+            "src/Task/index.vue(6270-6306)"
         ],
         "$id": 152
     },
@@ -819,7 +819,7 @@
         "ru-RU": "Подготовить презентацию для еженедельного совещания",
         "ja-JP": "週会議のプレゼンテーション資料の準備  ",
         "$files": [
-            "src/Task/index.vue(6475-6475)"
+            "src/Task/index.vue(6475-6486)"
         ],
         "$id": 153
     },
@@ -828,7 +828,7 @@
         "ru-RU": "Обобщить работу команды за эту неделю, создать доклад, акцентируя внимание на достижении ключевых этапов проекта.",
         "ja-JP": "チームの今週の作業内容をまとめ、簡易報告書を作成し、プロジェクトのマイルストーン達成状況を特に強調します。  ",
         "$files": [
-            "src/Task/index.vue(6513-6513)"
+            "src/Task/index.vue(6513-6547)"
         ],
         "$id": 154
     },
@@ -837,7 +837,7 @@
         "ru-RU": "Организовать корпоративное мероприятие",
         "ja-JP": "チームビルディング活動の手配  ",
         "$files": [
-            "src/Task/index.vue(6715-6715)"
+            "src/Task/index.vue(6715-6726)"
         ],
         "$id": 155
     },
@@ -846,7 +846,7 @@
         "ru-RU": "Связаться с компанией по организации мероприятий, обсудить планы корпоративного мероприятия, бюджет должен быть ограничен 500 юанями на человека, время назначено на первый уикенд следующего месяца.",
         "ja-JP": "イベント企画会社に連絡を取り、団体建設案について話し合い、予算を1人あたり500元以内に抑え、時期は来月の第一週末に設定します。  ",
         "$files": [
-            "src/Task/index.vue(6753-6753)"
+            "src/Task/index.vue(6753-6799)"
         ],
         "$id": 157
     },
@@ -855,7 +855,7 @@
         "ru-RU": "Обновить личное резюме",
         "ja-JP": "個人の履歴書の更新  ",
         "$files": [
-            "src/Task/index.vue(6968-6968)"
+            "src/Task/index.vue(6968-6977)"
         ],
         "$id": 158
     },
@@ -864,7 +864,7 @@
         "ru-RU": "Добавить недавно завершенный опыт работы над проектами, обновить список навыков, переработать макет резюме, чтобы оно выглядело более привлекательным.",
         "ja-JP": "最近完了したプロジェクト経験を追加し、スキルリストを更新し、履歴書のレイアウトを再設計してより魅力的にします。",
         "$files": [
-            "src/Task/index.vue(7004-7004)"
+            "src/Task/index.vue(7004-7042)"
         ],
         "$id": 159
     },
@@ -873,7 +873,7 @@
         "ru-RU": "Изучение нового языка программирования",
         "ja-JP": "新しいプログラミング言語を学ぶ",
         "$files": [
-            "src/Task/index.vue(7240-7240)"
+            "src/Task/index.vue(7240-7251)"
         ],
         "$id": 160
     },
@@ -882,106 +882,106 @@
         "ru-RU": "Начать изучение Python, завершить вводный курс по Python на Codecademy, программировать не менее 1 часа в день.",
         "ja-JP": "Pythonの学習を開始し、CodecademyのPython入門コースを完了する。毎日少なくとも1時間コーディングする。",
         "$files": [
-            "src/Task/index.vue(7278-7278)"
+            "src/Task/index.vue(7278-7327)"
         ],
         "$id": 161
     },
     "我的任务": {
-        "en-US": "我的任务",
-        "ru-RU": "我的任务",
-        "ja-JP": "我的任务",
+        "en-US": "My Tasks",
+        "ru-RU": "Мои задачи",
+        "ja-JP": "私のタスク",
         "$files": [
-            "src/Task/index.vue(268-268)"
+            "src/Task/index.vue(268-293)"
         ],
         "$id": 298
     },
     "新建": {
-        "en-US": "新建",
-        "ru-RU": "新建",
-        "ja-JP": "新建",
+        "en-US": "New",
+        "ru-RU": "Создать",
+        "ja-JP": "新規作成",
         "$files": [
-            "src/Task/index.vue(789-789)"
+            "src/Task/index.vue(789-812)"
         ],
         "$id": 299
     },
     "全部": {
-        "en-US": "全部",
-        "ru-RU": "全部",
-        "ja-JP": "全部",
+        "en-US": "All",
+        "ru-RU": "Все",
+        "ja-JP": "すべて",
         "$files": [
-            "src/Task/index.vue(1378-1378)"
+            "src/Task/index.vue(1378-1401)"
         ],
         "$id": 300
     },
     "未完成": {
-        "en-US": "未完成",
-        "ru-RU": "未完成",
-        "ja-JP": "未完成",
+        "en-US": "Incomplete",
+        "ru-RU": "Незавершенные",
+        "ja-JP": "未完了",
         "$files": [
-            "src/Task/index.vue(1798-1798)"
+            "src/Task/index.vue(1798-1822)"
         ],
         "$id": 301
     },
     "已完成": {
-        "en-US": "已完成",
-        "ru-RU": "已完成",
-        "ja-JP": "已完成",
+        "en-US": "Completed",
+        "ru-RU": "Завершенные",
+        "ja-JP": "完了済み",
         "$files": [
-            "src/Task/index.vue(2191-2191)"
+            "src/Task/index.vue(2191-2215)"
         ],
         "$id": 302
     },
     "已删除": {
-        "en-US": "已删除",
-        "ru-RU": "已删除",
-        "ja-JP": "已删除",
+        "en-US": "Deleted",
+        "ru-RU": "Удаленные",
+        "ja-JP": "削除済み",
         "$files": [
-            "src/Task/index.vue(2580-2580)"
+            "src/Task/index.vue(2580-2604)"
         ],
         "$id": 303
     },
     "标题": {
-        "en-US": "标题",
-        "ru-RU": "标题",
-        "ja-JP": "标题",
+        "en-US": "Title",
+        "ru-RU": "Заголовок",
+        "ja-JP": "タイトル",
         "$files": [
-            "src/Task/index.vue(3097-3097)"
+            "src/Task/index.vue(3097-3120)"
         ],
         "$id": 304
     },
     "描述": {
-        "en-US": "描述",
-        "ru-RU": "描述",
-        "ja-JP": "描述",
+        "en-US": "Description",
+        "ru-RU": "Описание",
+        "ja-JP": "説明",
         "$files": [
-            "src/Task/index.vue(3180-3180)"
+            "src/Task/index.vue(3180-3203)"
         ],
         "$id": 305
     },
     "创建于": {
-        "en-US": "创建于",
-        "ru-RU": "创建于",
-        "ja-JP": "创建于",
+        "en-US": "Created At",
+        "ru-RU": "Создано",
+        "ja-JP": "作成日時",
         "$files": [
-            "src/Task/index.vue(3263-3263)"
+            "src/Task/index.vue(3263-3287)"
         ],
         "$id": 306
     },
     "完成": {
-        "en-US": "完成",
-        "ru-RU": "完成",
-        "ja-JP": "完成",
+        "en-US": "Complete",
+        "ru-RU": "Завершить",
+        "ja-JP": "完了",
         "$files": [
-            "src/Task/index.vue(3347-3347)"
+            "src/Task/index.vue(3347-3370)"
         ],
         "$id": 307
     },
     "动作": {
-        "en-US": "动作",
-        "ru-RU": "动作",
-        "ja-JP": "动作",
+        "en-US": "Actions",
+        "ru-RU": "Действие",
+        "ja-JP": "アクション",
         "$files": [
-            "src/Task/index.vue(3430-3430)"
+            "src/Task/index.vue(3430-3453)"
         ],
         "$id": 308
     }

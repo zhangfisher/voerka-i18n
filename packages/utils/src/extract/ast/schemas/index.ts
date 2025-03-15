@@ -6,7 +6,7 @@ import javascriptSchema from './javascript'
 import tsxSchema from './tsx'
 import astroSchema from './astro'
 import svelteSchema from './svelte' 
-import type { ExtractSections } from '..'
+import type { ExtractSections } from '../..'
 
 
 export default {

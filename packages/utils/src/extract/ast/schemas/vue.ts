@@ -1,6 +1,6 @@
 import { Lang } from "@ast-grep/napi";
-import { loadAstConfig } from "../utils/loadAstConfig";
-import { ExtractSections } from ".."; 
+import { loadAstConfig } from "../loadAstConfig";
+import { ExtractSections } from "../.."; 
 
 export default  [
     {

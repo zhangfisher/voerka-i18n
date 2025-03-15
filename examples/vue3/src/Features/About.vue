@@ -16,7 +16,11 @@
 -    支持调用在线自动翻译对提取文本进行翻译。
 -    核心运行时@voerkai18n/runtime超过90%的测试覆盖率
 -    支持TypeScript开发 
-        </Translate>
+</Translate>
+
+<Translate id="about">
+VoerkaI18n是一个国际化多语言解决方案
+</Translate>
     </div>
 </template>
 <script setup>

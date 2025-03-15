@@ -3,7 +3,8 @@ const storage = require("./storage")
 const formatters = require("@voerkai18n/formatters")
 const paragraphs = require("./paragraphs")
 const idMap = require("./messages/idMap.json")
-const { loader } = require("./loader")
+const loader = require("./loader")
+const { transform } = require("./transform")
 const { component } = require("./component")
 const settings = require("./settings.json")
 const defaultMessages = require("./messages/{{defaultLanguage}}")
@@ -23,15 +24,18 @@ const i18nScope = new VoerkaI18nScope({
     messages,                                           // 语言包
     paragraphs,                                         // 段落
     component,                                          // 翻译组件
-    loader,
+    loader,                                             // 语言包加载器
+    transform,                                          // 翻译结果转换器
     ...settings
 }) 
 
 
 const t = i18nScope.t
+const $t = i18nScope.$t
 const Translate = i18nScope.Translate
 
 module.exports = {
     i18nScope,
-    t
+    t,
+    $t,
 }

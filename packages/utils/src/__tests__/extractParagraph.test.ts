@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { extractParagraphs, ParagraphNode } from '../extract/extractParagraphs';
+import { extractParagraphs, ParagraphNode } from '../extract/ast/extractParagraphs';
  
 
 describe('extractParagraphs', () => {

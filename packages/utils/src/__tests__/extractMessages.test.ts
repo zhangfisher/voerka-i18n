@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { extractMessages } from '../extract/extractMessages';
-import { MessageNode } from '../extract/types';
+import { extractMessages } from '../extractMessages';
+import type { MessageNode } from '..';
 
 describe('extractMessages', () => {
     it('should extract simple string literals', () => {

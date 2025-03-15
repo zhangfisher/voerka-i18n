@@ -6,8 +6,8 @@
  
 import { getMatchs, parseTranslateMessagesByRegex } from './utils' 
 import { ExtractMessagesOptions, ExtractSection, MessageNode } from './types' 
-import Schemas from "./schemas"
-import astExtractor from './extractors/ast'
+import Schemas from "./ast/schemas"
+import astExtractor from './ast/ast'
 import regexExtractor from './extractors/regex'
 import { getFileNamespace } from '..'
  

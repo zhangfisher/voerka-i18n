@@ -57,14 +57,13 @@ export type VoerkaI18nLanguageLoader = (newLanguage:string,scope:VoerkaI18nScope
  
 export type VoerkaI18nTranslateOptions = {
     language?:  LanguageCodes
+    transform?:  boolean
 }
-export type VoerkaI18nTranslateVars    = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>VoerkaI18nTranslateVars)
+export type VoerkaI18nTranslateVars = Record<string,any> | number | boolean | string | (number | boolean | string)[] | (()=>VoerkaI18nTranslateVars)
 
 
-export type VoerkaI18nTranslate =(message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions)=>string
+export type VoerkaI18nTranslate<R=string> = (message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions)=>R
  
-
-
 export interface VoerkaI18nSupportedLanguages {
     [key: string]: VoerkaI18nLanguageDefine
 }
@@ -82,14 +81,14 @@ declare global {
   
 export type VoerkaI18nEvents = {
     log             : { level: string, message:string }                  // 当有日志输出时
-    init            : ()=>string                                             // 当第一个应用Scope注册时触发
+    init            : ()=>string                                         // 当第一个应用Scope注册时触发
     ready           : string                                             // 当初始化切换完成后触发
     change          : string                                             // 当语言切换后时, payload=language
     restore         : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}
     patched         : { scope:string,language:string }                   // 当Scope加载并从本地存储中读取语言包合并到语言包时 ，data={language,scope}    
     error           : Error                                              // 当有错误发生时    
     "scope/change"  : { scope:string,language:string }                   //  
-    "scope/fallback": { scope:string,from:string,to:string}             // 当切换到无效的语言或者加载失败时，进行回退
+    "scope/fallback": { scope:string,from:string,to:string}              // 当切换到无效的语言或者加载失败时，进行回退
 } 
     
 export type Dict<T=any> = Record<string,T>
@@ -125,6 +124,10 @@ export type VoerkaI18nTranslateProps<
 }
 
 export type VoerkaI18nTranslateComponentBuilder<Component=any> = (scope:VoerkaI18nScope)=>Component
+
+
+export type VoerkaI18nTranslateTransformer<R> = (result:string,vars?:VoerkaI18nTranslateVars,options?:VoerkaI18nTranslateOptions)=>R
+export type VoerkaI18nTranslateTransformBuilder<R> = (scope:VoerkaI18nScope)=>VoerkaI18nTranslateTransformer<R>
 
 export type VoerkaI18nEventListener = LiteEventListener
 export type VoerkaI18nEventSubscriber = LiteEventSubscriber

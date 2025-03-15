@@ -1,9 +1,10 @@
-import { ParagraphNode } from "..";
+import { ParagraphNode } from "../..";
 
-
+// /<Translate\s*[^>]*(id\s*=\s*(['"])(\w+)\2)?[^>]*?(?<![\/])>(?<text>[\s\S]*?)<\/Translate>/gm
 const paragraphExtractors = [
-    /<Translate\s*[^>]*(id\s*=\s*(['"])(\w+)\2)?[^>]*?(?<![\/])>(?<text>[\s\S]*?)<\/Translate>/gm
+    /<Translate\s*(?<attrs>[^>]*)(?<![\/])>(?<text>[\s\S]*?)<\/Translate>/gm
 ]
+
 
 /**
  * 

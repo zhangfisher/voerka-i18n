@@ -5,9 +5,9 @@
  */
 
 import { parse, Lang, SgNode, Range } from '@ast-grep/napi' 
-import { MessageNode, ExtractorOptions  } from '../types'
+import { MessageNode, ExtractorOptions  } from './types'
 import { getFileNamespace } from '../../getFileNamespace';
-import { parseTranslateMessages } from '../utils/parseMessage'; 
+import { parseTranslateMessages } from './utils/parseMessage'; 
 import { trimChars } from '../../trimChars';
 
 

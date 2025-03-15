@@ -1,5 +1,5 @@
 import { Lang } from "@ast-grep/napi"; 
-import { loadAstConfig } from "../utils/loadAstConfig"; 
+import { loadAstConfig } from "../loadAstConfig"; 
 
 export default [
         {

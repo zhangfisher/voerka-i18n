@@ -1,5 +1,5 @@
-import { getFileNamespace } from '../getFileNamespace'
-import { trimChars } from '../trimChars';
+import { getFileNamespace } from '../../getFileNamespace'
+import { trimChars } from '../../trimChars';
 import { parse, Lang, SgNode } from '@ast-grep/napi' 
 
  

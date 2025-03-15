@@ -41,9 +41,9 @@ async function syncParagraph(paragraph){
             // done代表已经翻译过了
             const isDone = paragraphNode.getAttribute('done') 
             if(paragraphNode.innerHTML != paragraph.message || isDone) return            
-            paragraphNode.innerHTML = "\n"+paragraph.message+"\n"
+            paragraphNode.innerHTML = paragraph.message
         }else{                    // 不存在
-            oldParagraphObj.appendChild(`\n<div language="${lng.name}">\n${paragraph.message}\n</div>`)
+            oldParagraphObj.appendChild(`\n<div language="${lng.name}">${paragraph.message}</div>`)
         }
     })
     await writeFile(paragraphFile,oldParagraphObj.innerHTML)

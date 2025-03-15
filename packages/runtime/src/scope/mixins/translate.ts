@@ -78,6 +78,15 @@ export class TranslateMixin {
         }
         return this._translateComponent
     }
+    protected _getTranslateTransformer(this: VoerkaI18nScope ): any {
+        if(!this._translateTransformer){
+            const builder =  this.options.transform || this.appScope.options.transform
+            if(typeof(builder)==='function'){
+                this._translateTransformer =  builder.call(this,this)
+            }
+        }
+        return this._translateTransformer
+    }
 
     private _getActiveMessages(this:VoerkaI18nScope,language:string):VoerkaI18nLanguageMessages{
         const messages = this.messages[language]         
@@ -87,11 +96,10 @@ export class TranslateMixin {
         }
         return (this.messages as any)[language] as VoerkaI18nLanguageMessages
     }
-
-    translate(this:VoerkaI18nScope, message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions):string{ 
+    translate<R=string>(this:VoerkaI18nScope, message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions):R{ 
         if(typeof(message)!=='string'){
             this.logger.debug(`failed to translate message:${message},it is not a string`)
-            return ''
+            return '' as R
         } 
         const activeLanguage = options?.language || this.activeLanguage
         const activeMessages = this._getActiveMessages(activeLanguage)
@@ -99,7 +107,7 @@ export class TranslateMixin {
         // 为什么样要转义换行符？因为在translates/*.json中key不允许换行符存在，需要转义为\\n，这里需要转回来
         message = message.replace(/\n/g,"\\n")
         // 如果内容是复数，则其值是一个数组，数组中的每个元素是从1-N数量形式的文本内容
-        let result:string | string[] = message        
+        let result:any = message        
         if(!(typeof(message)==="string")) return message 
         const finalArgs = vars===undefined ? [] : (isFunction(vars) ? vars() : vars) 
         try{            
@@ -128,12 +136,13 @@ export class TranslateMixin {
             // 进行插值处理
             result = this.interpolator.replace(result as string,...vars)
             
-            if(typeof(this.options.translate)==='function'){
-                result = this.options.translate.call(this,{message:result,vars,options})
+            if(this._translateTransformer && options?.transform){
+                result = this._translateTransformer(result,vars,options)
             }
+
         }catch(e:any){
             this.logger.error(`翻译失败：${e.stack}`) 
         }  
-        return result as string
+        return result as R
     } 
 }

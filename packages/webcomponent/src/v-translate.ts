@@ -1,8 +1,7 @@
-import { LitElement, html } from 'lit'
+import { html, LitElement } from 'lit'
 import { customElement,state, property } from 'lit/decorators.js' 
 import { VoerkaI18nManager, VoerkaI18nScope } from '@voerkai18n/runtime'; 
 
- 
 @customElement('v-translate')
 export class TranslateElement extends LitElement {
   
@@ -21,8 +20,6 @@ export class TranslateElement extends LitElement {
   options = {}
   @property({ type: String })
   scope = ''
-  @property({ type: String })
-  tag = 'span'
 
   connectedCallback() {
     super.connectedCallback()
@@ -35,7 +32,8 @@ export class TranslateElement extends LitElement {
   }
 
   private _onChangeLanguage() {
-    if(this.id && this.id.length>0){
+    const isParagraph = this.id && this.id.length > 0 
+    if(isParagraph){
       this.result = this._scope?.activeParagraphs[this.id] || ''
     }else{
       this.result = this._scope!.t(this.message,this.vars,this.options)
@@ -56,16 +54,16 @@ export class TranslateElement extends LitElement {
   }
 
   render() {
-    const msgId = this._scope!.getMessageId(this.message)
-
-    const attrs = {
-      class: 'vt-msg',
-      scope: this._scope?.$id,
-      "data-id": msgId || this.id
-    } 
-    return html` 
-      ${this.tag=='' ? this.result : `<${this.tag} ${Object.entries(attrs).map(([key, value]) =>`${key}="${value}"`).join(' ')} >${this.result}</${this.tag}>`}
-    `
+    const isParagraph = this.id && this.id.length > 0 
+    let dataId = this._scope!.getMessageId(this.message)
+    if(isParagraph) dataId = this.id
+ 
+    const scopeId =  this._scope?.library  ? this._scope?.$id : undefined    
+   
+    this.setAttribute('class','vt-msg')
+    if(dataId) this.setAttribute('data-id',dataId)    
+    if(scopeId) this.setAttribute('data-scope',String(scopeId))
+    return html`${this.result}`      
   }
 }
 
@@ -73,6 +71,5 @@ declare global {
   interface HTMLElementTagNameMap {
     'v-translate': TranslateElement
   }
-
 }
 
