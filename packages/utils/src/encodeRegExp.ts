@@ -16,7 +16,7 @@ export function encodeRegExp(regex:RegExp,vars?:Record<string,string>){
     let r = regex.toString().replace(/^\/|\/$/g, "");
     if(vars && typeof(vars)==="object"){
         Object.entries(vars).forEach(([k,v])=>{
-            r = r.replaceAll(k,escapeRegex(v))
+            r = r.replaceAll(k,v)
         })        
     }
     return r

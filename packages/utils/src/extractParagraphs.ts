@@ -1,4 +1,6 @@
 import { pick } from "flex-tools/object/pick";
+import { encodeRegExp } from "./encodeRegExp";
+import { escapeRegex } from "./escapeRegex";
 
 
 export type ParagraphNode = {
@@ -13,12 +15,12 @@ export type ParagraphNode = {
 }
 
 export type ExtractParagraphsOptions = {
-    language?  : string
-    namespaces?: Record<string,string>
-    file?      : string
-
-    
+    language?       : string
+    namespaces?     : Record<string,string>
+    file?           : string 
+    tComponentNames?: string[]    
 }
+
 const attrsRegex = /(?<name>\w+)\s*=\s*(["'])(?<value>.*?)\2/gm
 
 function parseTranslateAttrs(attrs:string):Record<string,any> {
@@ -36,16 +38,31 @@ function parseTranslateAttrs(attrs:string):Record<string,any> {
 
 // /<Translate\s*[^>]*(id\s*=\s*(['"])(\w+)\2)?[^>]*?(?<![\/])>(?<text>[\s\S]*?)<\/Translate>/gm
 const paragraphExtractors = [
-    /<Translate\s*(?<attrs>[^>]*)(?<![\/])>(?<text>[\s\S]*?)<\/Translate>/gm
+    /<(__T_COMPONENT__)\s*(?<attrs>[^>]*)(?<![\/])>(?<text>[\s\S]*?)<\/\1>/
 ]
+function getParagraphExtractors(options:{tComponentNames:string[]}){
+    const {  tComponentNames=['Translate','v-translate'] } = options
+    return paragraphExtractors.map(regex=>{
+        return new RegExp(encodeRegExp(regex,{
+            "__T_COMPONENT__" : tComponentNames.map(n=>escapeRegex(n)).join("|")
+        }),"gm")
+    })
+}
 
 /**
  * 解释段落
  */
 export function parseParagraphsByRegex(code:string,options:ExtractParagraphsOptions){
     const { file }  = options    
+    const { tComponentNames } = Object.assign({
+        tComponentNames: ['Translate','v-translate']
+    },options)
+
+    const paragraphExtractors = getParagraphExtractors({ tComponentNames })
+
     let result
     let paragraphs:ParagraphNode[] = []
+
     for(let regex of paragraphExtractors){
       while ((result = regex.exec(code)) !== null) {
           // 这对于避免零宽度匹配的无限循环是必要的

@@ -42,34 +42,34 @@ const commentRegexs ={
 /**
 * 匹配文件中的注释部分
 */
-function removeComments(content:string,language="js"){
+function removeComments(code:string,language="js"){
     Object.entries(commentRegexs).forEach(([filetype,regexps])=>{
         if(filetype.split(",").includes(filetype)){
             regexps.forEach(regex=>{
-                 content = content.replaceAll(regex,"")
+                code = code.replaceAll(regex,"")
             })
         }
     })
-    return content
+    return code
 } 
 
 // const messageExtractors = [
-//     /\bt\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/gm,
+//     /[ \\t\\^;\\{\\(\\,=\\'\\"\\.\\[\\|\\+\\>]t\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/gm,
 //     /\<Translate[^:#@]*?message\s*=\s*(["'])(?<text>.*?)\1/gm
 // ]
    
 const messageExtractors = [
-    /\b__FUNC_NAME__\(\s*("|'){1}(?<text>.*?)(?=(\1\s*\))|(\1\s*\,))/gm,
-    /\<__COMPONENT__[^:#@]*?message\s*=\s*(["'])(?<text>.*?)\1/gm
+    /[ \t\^;\{\(,='"\.\[\|\+\>](__T_FUNC__)\(\s*(["'])(?<text>.*?)(?=(\2\s*\))|(\2\s*\,))/,
+    /<(__T_COMPONENT__)[^:#@\>]*?message\s*=\s*(["'])(?<text>.*?)\2[\s\/\>]/
 ]
    
-function getMessageExtractors(options:Required<ExtractMessagesOptions>){
-    const { tFuncNames, tComponentNames } = options
+function getMessageExtractors(options:{tFuncNames:string[],tComponentNames:string[]}){
+    const { tFuncNames = ['t','$t'], tComponentNames=['Translate','v-translate'] } = options
     return messageExtractors.map(regex=>{
-        return encodeRegExp(regex,{
-            "__FUNC_NAME__" : `(${tFuncNames.map(n=>escapeRegex(n)).join("|")})`,
-            "__COMPONENT__" : `(${tComponentNames.map(n=>escapeRegex(n)).join("|")})`
-        })
+        return new RegExp(encodeRegExp(regex,{
+            "__T_FUNC__"     : tFuncNames.map(n=>escapeRegex(n)).join("|"),
+            "__T_COMPONENT__": tComponentNames.map(n=>escapeRegex(n)).join("|")
+        }),"gm")
     })
 }
 
@@ -89,6 +89,9 @@ export function parseTranslateMessagesByRegex(code:string,options:ExtractMessage
     },options)
     let result
     let messages:MessageNode[] = []
+
+    const messageExtractors = getMessageExtractors({ tFuncNames, tComponentNames })
+
     for(let regex of messageExtractors){
         while ((result = regex.exec(code)) !== null) {
             // 这对于避免零宽度匹配的无限循环是必要的
@@ -98,8 +101,8 @@ export function parseTranslateMessagesByRegex(code:string,options:ExtractMessage
             const text = result.groups?.text 
             if(text){
                 messages.push({
-                  message:text,
-                  rang:{ start:result.index, end:result.index+result[0].length }
+                  message: text,
+                  rang   : { start:result.index, end:result.index+result[0].length }
                 })
             }
         }

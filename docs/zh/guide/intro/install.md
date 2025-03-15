@@ -40,6 +40,7 @@ pnpm add -g @voerkai18n/cli
 | `@voerkai18n/vue` | 适用于`Vue3`的`vue`插件 |
 | `@voerkai18n/vue2` | 适用于`Vue2`的插件 |
 | `@voerkai18n/svelte` | 适用于`svelte`的插件 |
+| `@voerkai18n/solid` | 适用于`solid`的插件 |
 | `@voerkai18n/nextjs` | 适用于`nextjs`的插件 |
 | `@voerkai18n/react` | 可选的，用来为React应用提供语言动态切换功能 |
 | `@voerkai18n/webcomponent` | 可选的，WebComponet翻译组件 |
