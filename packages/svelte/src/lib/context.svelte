@@ -9,7 +9,7 @@ let ready = $state(false);
 
 let subscriber:VoerkaI18nEventSubscriber | undefined;
 
-scope.on("ready",()=>{
+scope.once("ready",()=>{
     ready = true
 })
 

@@ -9,11 +9,11 @@ let { children } = $props();
 	
 </script>
 <VoerkaI18nContext>
-<div class="min-h-full">
-    <Navbar/>
-	<div class="container mx-auto mt-20 p-2 min-h-150">
-		{@render children()} 
-	</div>	
-	<Footer/>
-</div>
+`	<div class="min-h-full">
+		<Navbar/>
+		<div class="container mx-auto mt-20 p-2 min-h-150">
+			{@render children()} 
+		</div>	
+		<Footer/>
+	</div>`
 </VoerkaI18nContext>
