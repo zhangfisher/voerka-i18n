@@ -5,6 +5,7 @@ import formatters from "@voerkai18n/formatters"
 import storage  from "./storage"
 import idMap from "./messages/idMap.json"
 import paragraphs from "./paragraphs"
+
 import settings from "./settings.json"
 import defaultMessages from "./messages/{{defaultLanguage}}"  
 

@@ -40,8 +40,8 @@ pnpm  add -g @voerkai18n/cli
 初始化完成后，会创建一个语言工作目录，默认位置是`src/languages`。文件夹结构如下：
 
 <lite-tree>
-myapp
-    src
+myapp                               //i
+    src                             //i
         languages
             messages/             
             paragraphs/             
@@ -51,16 +51,16 @@ myapp
             prompts/                // 执行AI翻译的相关提示词
             api.json                // API接口
             component.tsx           // 翻译组件
-            server.ts               //* 服务端入口
-            client.ts               //* 客户端入口
+            server.ts               //! 服务端入口
+            client.ts               //! 客户端入口
             index.ts                //! 客户端入口文件       
             settings.json           // 配置文件
             storage.ts              // 存储管理
             loader.ts               // 加载器
             transform.ts            // 翻译变换
             formatters.json         // 格式化器配置            
-    package.json
-    index.ts    
+    package.json                    //i
+    index.ts                        //i
 </lite-tree>
 
 与`React`应用不同的是，`Nextjs`应用需要提供`服务端入口`和`客户端入口`。
@@ -79,106 +79,69 @@ myapp
 - 更新`languages`的相关文件,主要是`server.ts`和`client.ts`。
 
 :::warning 提示
-也可以手动安装`@voerkai18n/react`，并更新`languages`的相关文件。见下文手工配置。
+也可以手动安装`@voerkai18n/nextjs`，并更新`languages`的相关文件。见下文手工配置。
 :::
-
+ 
 ### 第4步：配置应用
 
-修改`main.ts`文件，引入`@voerkai18n/react`。
+不同于其他`Nextjs`国际化方案，`VoerkaI18n`不需配置相应的中间件配置，只需要客户端配置相应的组件即可。
 
-```ts {5-6,8,14}
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx' 
-import "./languages"   
-import { i18nScope } from "./languages"
+修改`app/layout.tsx`文件，引入`VoerkaI18nNextjsProvider`。
 
-i18nScope.ready(()=>{
-  createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  )
-})
+```tsx {1,7,9}
+import { VoerkaI18nNextjsProvider } from "@/languages/client";
+// .....
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <body  >
+        <VoerkaI18nNextjsProvider fallback={<div>loading language...</div>}>
+          {children} 
+        </VoerkaI18nNextjsProvider>
+      </body>
+    </html>
+  );
+}
 
 ```
 
-### 第5步：配置插件
+### 第5步：翻译内容
 
-修改`vite.config.{ts|js}`文件，引入`@voerkai18n/plugins/vite`。
+`Nextjs`应用组件包括`服务端组件`和`客户端组件`两部分，需要导入不同的组件。
 
-```ts
-import { defineConfig } from 'vite'
-import i18nPlugin from '@voerkai18n/plugins/vite'  // [!code ++]
-import react from '@vitejs/plugin-react-swc'
-import tailwindcss from '@tailwindcss/vite'
-import viteInspector from 'vite-plugin-inspect'
+- **服务端组件**
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    i18nPlugin(),             // [!code ++]
-    react(),    
-    tailwindcss(),
-    viteInspector(),    
-  ],
-})
-```      
+```tsx 
 
-- `@voerkai18n/plugins/vite`插件的作用为`Vue`应用提供`自动文本映射`功能。
+import { Translate } from "@/languages/server";
 
-:::warning 注意
-`@voerkai18n/plugins/vite`插件需要在`react`插件之前引入。
-因为`react`插件会对`jsx`进行编译转码，从而导致`@voerkai18n/plugins/vite`插件无法通过正则表达式对代码中的`t`函数和`Translate`组件进行识别。
-:::
-
-### 第6步：翻译内容
-
-接下来就可以直接在`React`组件中使用`t`函数和`Translate`组件进行翻译。
-
-```tsx
-import { t, Translate } from './languages'
-
-export default ()=>{
-  return (
-    <div>
-      <h1>
-        <Translate message="请输入用户名称"/>
-      </h1>
-      <div>
-          <span>
-            <Translate message="用户名:" />
-          </span>
-          <input type="text" placeholder={t('邮件/手机号码/帐号')}/>
-          <span>
-            <Translate message="密码:" />
-          </span>
-          <input type="password" placeholder={t('至少6位的密码')}/>            
-          <Translate id="notice">
-            大段文本内容
-          </Translate>
-      </div>            
-      <button onClick={login}>
-        <Translate message="登录" />
-      </button>
-    </div>
-  )
+export default async function Server() {
+    return (<div>
+        <Translate message="服务端组件"/> 
+    </div>)
 }
 ```
 
-:::warning 提示
-- 使用`t`函数和`Translate`组件时来包裹要翻译的内容。
-- 大段落文本内容可以使用`Translate`组件来包裹。 
-:::
-
-### 第7步：切换语言
-
-引入`useVoerkaI18n`插件来实现切换语言的功能。
+- 客户端组件
 
 ```tsx
+import { Translate } from "@/languages/client";
+
+export default async function Client() {
+    return (<div>
+        <Translate message="客户端组件"/> 
+    </div>)
+}
+```
+
+### 第6步：切换语言
+
+引入`useVoerkaI18n`来实现切换语言的功能。
+
+```tsx {1,3,7}
+'use client'  
 import React from 'react'; 
-import { useVoerkaI18n } from '@voerkai18n/react';
+import { useVoerkaI18n } from "@voerkai18n/nextjs/client";
 import classNames from 'classnames'
 
 const LanguageBar: React.FC = () => {
@@ -216,35 +179,95 @@ const LanguageBar: React.FC = () => {
 
 ### 手动配置
 
-`voerkai18n apply`负责自动配置`React`应用支持，也可以手动配置.
+`voerkai18n apply`负责自动配置`Nextjs`应用支持，也可以手动配置.
 
-- **编辑`languages/component.{tsx|jsx}`文件**
+- **编辑`languages/client.{ts|js}`文件**
 
-```ts
-import { createTranslateComponent,ReactTranslateComponentType } from "@voerkai18n/react";
-export const component = createTranslateComponent()
-export type TranslateComponentType = ReactTranslateComponentType
-```
-
-### 加载中
-
-当使用翻译组件的[动态翻译](../use/translate)时，允许在翻译过程中显示加载中的状态。
-
-可以按如下方式提供一个加载中的状态：
-
-```tsx
-// languages/component.tsx
-import { createTranslateComponent,ReactTranslateComponentType } from "@voerkai18n/react";
-import Loading from '../components/Loading';
-export const component = createTranslateComponent({loading:<Loading/>})
-export type TranslateComponentType = ReactTranslateComponentType
-```
-
-:::warning 提示
-大多数情况下，不需要提供加载中的状态，因为翻译过程是非常快的。
-仅在动态翻译或异步加载大段落的场景下，才需要提供加载中的状态。
-:::
+```ts {1-5,14,37}
+'use client'
+import { 
+    createClientTranslateComponent,
+    ReactTranslateComponentType 
+}  from "@voerkai18n/nextjs/client"
+import { VoerkaI18nScope, VoerkaI18nTranslateProps } from '@voerkai18n/runtime';
+import formatters from "@voerkai18n/formatters" 
+import storage  from "./storage"
+import idMap from "./messages/idMap.json"
+import paragraphs from "./paragraphs"
+import settings from "./settings.json"
+import defaultMessages from "./messages/zh-CN"    
+  
+const component = createClientTranslateComponent() 
  
+const messages = { 
+    'zh-CN'    : defaultMessages,
+    'en-US'    : ()=>import("./messages/en-US"),
+    'ja-JP'    : ()=>import("./messages/ja-JP"),
+}
+
+
+export const i18nScope = new VoerkaI18nScope<ReactTranslateComponentType>({    
+    id: "nextjs_client",                                // 当前作用域的id
+    idMap,                                              // 消息id映射列表    
+    injectLangAttr:false,                               // 不注入lang属性
+    formatters,                                         // 格式化器
+    storage,                                            // 语言配置存储器
+    messages,                                           // 语言包 
+    paragraphs,                                         // 段落
+    component,                                          // 翻译组件
+    ...settings
+}) 
+
+export const t = i18nScope.t
+export const Translate = i18nScope.Translate as React.FC<VoerkaI18nTranslateProps>
+export { VoerkaI18nNextjsProvider } from "@voerkai18n/nextjs/client"
+
+```
+
+- **编辑`languages/server.{ts|js}`文件**
+
+```ts {1-4,15}
+import {                       
+    createServerTranslateComponent,
+    ReactServerTranslateComponentType 
+}  from "@voerkai18n/nextjs/server"
+import { VoerkaI18nScope, VoerkaI18nTranslateProps } from '@voerkai18n/runtime';
+import formatters from "@voerkai18n/formatters"
+import storage  from "./storage"
+import idMap from "./messages/idMap.json"
+import paragraphs from "./paragraphs"
+import settings from "./settings.json"
+import zhCNMessages from "./messages/zh-CN"    
+import enUSMessages from "./messages/en-US";
+import jaJPMessages from "./messages/ja-JP";
+  
+const component = createServerTranslateComponent() 
+
+const messages = { 
+    'zh-CN'    : zhCNMessages,
+    'en-US'    : enUSMessages,
+    'ja-JP'    : jaJPMessages
+}
+
+
+export const i18nScope = new VoerkaI18nScope<ReactServerTranslateComponentType>({    
+    id: "nextjs_server",                   // 当前作用域的id    
+    injectLangAttr:false,                  // 不注入lang属性
+    idMap,                                 // 消息id映射列表
+    formatters,                            // 格式化器
+    storage,                               // 语言配置存储器
+    messages,                              // 语言包 
+    paragraphs,
+    component,                             // 翻译组件
+    ...settings
+}) 
+
+
+
+export const t = i18nScope.t
+export const Translate = i18nScope.Translate as React.FC<VoerkaI18nTranslateProps>
+```
+
 
 ## 示例
 

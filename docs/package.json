@@ -22,12 +22,12 @@
   "author": "wxzhang",
   "license": "MIT",
   "dependencies": {
-    "@voerkai18n/cli": "workspace:*",
-    "@voerkai18n/runtime": "workspace:*",
-    "@voerkai18n/formatters": "workspace:*",
-    "@voerkai18n/vue": "workspace:*",
     "@lite-tree/icons": "^1.0.6",
-    "@lite-tree/vue": "^1.1.4",
+    "@lite-tree/vue": "^1.1.5",
+    "@voerkai18n/cli": "workspace:*",
+    "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/runtime": "workspace:*",
+    "@voerkai18n/vue": "workspace:*",
     "flex-tools": "^1.4.33",
     "flexstyled": "^2.1.2"
   },

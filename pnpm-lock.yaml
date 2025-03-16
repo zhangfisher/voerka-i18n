@@ -54,8 +54,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
       '@lite-tree/vue':
-        specifier: ^1.1.4
-        version: 1.1.4(vue@3.5.13(typescript@5.8.2))
+        specifier: ^1.1.5
+        version: 1.1.5(vue@3.5.13(typescript@5.8.2))
       '@voerkai18n/cli':
         specifier: workspace:*
         version: link:../packages/cli
@@ -3101,8 +3101,8 @@ packages:
   '@lite-tree/icons@1.0.6':
     resolution: {integrity: sha512-MIJ434p+ExRZEPosMVNN6LLHrwJh6vY+FibB6OiLnB/5D9OtO3bK0j/OZmbnustPN59sAS+qEtEtQ6LL5EPv7w==}
 
-  '@lite-tree/vue@1.1.4':
-    resolution: {integrity: sha512-gOPHgZ7PmrQuMuB2GaB6PyDKvI00HhxMJn6gzUoNJ8ZhSIAwmpF6D0pdF0UNryA1wXA+MMNdiBBpoWOxvZg93A==}
+  '@lite-tree/vue@1.1.5':
+    resolution: {integrity: sha512-tFqCvDbVBpGRbXvBx8Fv3PEvK7fZ7T8aYsA83+yVgKXvEsVSHzqzSH+rPX0dGGGQgal7sw9AFXNDEbi+swAupw==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -14935,7 +14935,7 @@ snapshots:
 
   '@lite-tree/icons@1.0.6': {}
 
-  '@lite-tree/vue@1.1.4(vue@3.5.13(typescript@5.8.2))':
+  '@lite-tree/vue@1.1.5(vue@3.5.13(typescript@5.8.2))':
     dependencies:
       vue: 3.5.13(typescript@5.8.2)
       vue-slide-up-down: 3.0.0(vue@3.5.13(typescript@5.8.2))
@@ -17378,7 +17378,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.13':
     dependencies:
-      '@babel/parser': 7.26.9
+      '@babel/parser': 7.26.10
       '@vue/compiler-core': 3.5.13
       '@vue/compiler-dom': 3.5.13
       '@vue/compiler-ssr': 3.5.13
@@ -26183,7 +26183,7 @@ snapshots:
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.3
-      rollup: 4.34.8
+      rollup: 4.35.0
     optionalDependencies:
       '@types/node': 22.13.8
       fsevents: 2.3.3
@@ -26196,7 +26196,7 @@ snapshots:
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.3
-      rollup: 4.34.8
+      rollup: 4.35.0
     optionalDependencies:
       '@types/node': 22.13.9
       fsevents: 2.3.3
