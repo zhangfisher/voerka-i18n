@@ -61,6 +61,7 @@ myapp
             settings.json
             storage.js
             loader.js
+            transform.js
             formatters.json                 // 格式化器配置
             translates/           // 提取需要翻译的内容
     package.json

@@ -3,6 +3,7 @@ import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
 import idMap from "./messages/idMap.json"
 import { component,type TranslateComponentType } from "./component"
+import { transform, type TransformResultType} from "./transform"
 import settings from "./settings.json"
 import defaultMessages from "./messages/zh-CN"  
 import paragraphs from "./paragraphs"
@@ -15,7 +16,7 @@ const messages = {
 }
 
 
-export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({    
+export const i18nScope = new VoerkaI18nScope<TranslateComponentType,TransformResultType>({    
     id: "vue2__0_1_0",                                  // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 格式化器
@@ -23,10 +24,12 @@ export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({
     messages,                                           // 语言包
     paragraphs,                                         // 段落
     component,                                          // 翻译组件
+    transform,                                          // 翻译结果转换器
     ...settings
 }) 
 
 
 export const t = i18nScope.t
+export const $t = i18nScope.$t
 export const Translate = i18nScope.Translate
 

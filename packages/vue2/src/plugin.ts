@@ -13,6 +13,7 @@ export const i18nPlugin = {
             throw new Error('Parameter<i18nScope> is required for VoerkaI18n Vue2 Plugin')
         }        
         const state = Vue.observable({ langauge : i18nScope.activeLanguage })
+
         Vue.prototype.t = (message:string,...args:any[])=>{
             state.langauge 
             return i18nScope.t(message,...args)

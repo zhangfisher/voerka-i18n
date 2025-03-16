@@ -1,4 +1,4 @@
-# Vue应用
+# Vue
 
 > 本节主要介绍如何在`Vue 3`应用中使用`VoerkaI18n`。
 
@@ -39,6 +39,29 @@ pnpm  add -g @voerkai18n/cli
 ```bash
 > voerkai18n init
 ```
+初始化完成后，会创建一个语言工作目录，默认位置是`src/languages`。文件夹结构如下：
+
+<lite-tree>
+myapp
+    src
+        languages
+            messages/             
+            paragraphs/             
+            translates/             // 提取需要翻译的内容
+              messages/             // 提取的需要翻译的内容                
+              paragraphs/           // 提取的需要翻译的段落
+            prompts/                // 执行AI翻译的相关提示词
+            api.json                // API接口
+            component.ts            // 翻译组件
+            index.ts                //! 入口文件       
+            settings.json           // 配置文件
+            storage.ts              // 存储管理
+            loader.ts               // 加载器
+            transform.ts            // 翻译变换
+            formatters.json         // 格式化器配置            
+    package.json
+    index.ts    
+</lite-tree>
 
 
 ### 第3步：启用`Vue`支持
@@ -55,7 +78,7 @@ pnpm  add -g @voerkai18n/cli
 - 更新`languages`的相关文件，主要是`languages/component.{ts|js}`。
 
 
-### 第4步：配置插件
+### 第4步：配置应用
 
 修改`main.ts`文件，引入`@voerkai18n/vue`。
 
@@ -81,8 +104,27 @@ i18nScope.ready(()=>{
 - 全局的`Translate`组件
 - 为`$t`函数提供响应式支持
 
+### 第5步：配置插件
 
-### 第5步：翻译内容
+修改`vite.config.{ts|js}`文件，引入`@voerkai18n/plugins/vite`。
+
+```ts
+import i18nPlugin from '@voerkai18n/plugins/vite'
+
+module.exports = {
+    configureWebpack: {
+      plugins: [
+        vue(),
+        i18nPlugin()
+      ] 
+    }
+  }
+```      
+
+- `@voerkai18n/plugins/vite`插件的作用为`Vue`应用提供`自动文本映射`功能。
+
+
+### 第6步：翻译内容
 
 接下来就可以直接在`Vue`组件中使用`t`函数和`Translate`组件进行翻译。
 
@@ -118,7 +160,7 @@ i18nScope.ready(()=>{
 - `t`函数和`Translate`已经由`@voerkai18n/vue`插件自动注入到组件中，不需要额外导入。
 :::
 
-### 第6步：切换语言
+### 第7步：切换语言
 
 引入`useVoerkaI18n`插件来实现切换语言的功能。
 
@@ -237,17 +279,14 @@ import { t, i18nScope } from '../languages';
 const title = ref(t('你好'))  // [!code ++]
 
 let subscriber
-
 onMounted(()=>{
   subscriber = i18nScope.on('change',()=>{
     title.value = t('你好')
   })
 })
-
 onUnmounted(()=>{
   subscriber.off()
 })
-
 <script>
 ```
 
@@ -255,7 +294,7 @@ onUnmounted(()=>{
 
 显然，这种方式比较繁琐，针对此种场景，`VoerkaI18n`提供了`翻译变换`机制来简化这个过程,参考[翻译变换](../advanced/transform)。
 
-**引入`翻译变换`后，以上代码可以简化为：**
+**引入`翻译变换`机制后，以上代码可以简化为：**
 
 ```vue
 <template>

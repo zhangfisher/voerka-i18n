@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue, { computed } from 'vue';
 import { loadAsyncModule, type VoerkaI18nScope, type VoerkaI18nTranslateComponentBuilder, type VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
 import type { Component } from 'vue';
 
@@ -45,14 +45,17 @@ export function createTranslateComponent<ComponentType=any>(options?: CreateTran
         },
         data() { 
           return {
-            result     : typeof this.message === 'function' ? this.default || defaultMessage
-                       : scope.translate(this.message, this.vars, this.options),
-            isLoading  : false,
-            isParagraph: typeof this.id === 'string' && this.id.length > 0,
+            result        : typeof this.message === 'function' ? this.default || defaultMessage
+                                  : scope.translate(this.message, this.vars, this.options),
+            isLoading     : false,
+            isParagraph   : typeof this.id === 'string' && this.id.length > 0,
           };
         },
+        computed: {
+        
+        },
         mounted() { 
-            this.refresh(scope.activeLanguage);
+            this.refresh();
             // @ts-ignore
             this._subscriber = scope.on('change', this.refresh);
         },
@@ -60,15 +63,9 @@ export function createTranslateComponent<ComponentType=any>(options?: CreateTran
         beforeDestroy() {
             // @ts-ignore
             this._subscriber.off();
-        },
-        watch: {
-          message: 'refresh',
-          vars   : 'refresh',
-          options: 'refresh',
-          id: 'refresh'
-        },
+        }, 
         methods: {
-          async refresh(language: string) {
+          async refresh() {
             if (this.isParagraph) {
               this.loadParagraph();
             } else {
@@ -83,7 +80,7 @@ export function createTranslateComponent<ComponentType=any>(options?: CreateTran
                             : () => this.message;
             const messageText = await Promise.resolve(loader());
             await scope.changing()
-            this.result = scope.translate(messageText, this.vars, this.options);
+            this.result = scope.translate(messageText, this.vars, this.options); 
           },
           async loadParagraph() {
             const paragraphId = this.id;
@@ -108,15 +105,14 @@ export function createTranslateComponent<ComponentType=any>(options?: CreateTran
                 class: className,
                 style: Object.assign({"position":"relative"},style)
             }
-            const msgId      = scope.getMessageId(this.message)
-            if(msgId) attrs['data-id'] = msgId
-            if(this.id) attrs['data-id'] = this.id
+            const msgId                           = scope.getMessageId(this.message)
+            if(msgId) attrs['data-id']            = msgId
+            if(this.id) attrs['data-id']          = this.id
             if(scope.library) attrs['data-scope'] = scope.$id
              
             return h(tag || 'div', attrs, [
-              this.result,
-              hasLoading && this.isLoading  ?
-                    h(LoadingComponent) : null 
+                  this.result,
+                  hasLoading && this.isLoading  ? h(LoadingComponent) : null 
             ])
           }
       }) as any 

@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "i18n:init": "voerkai18n init",
     "i18n:extract": "voerkai18n extract",
-    "i18n:translate": "voerkai18n translate --api qwen --provider ai",
+    "i18n:translate": "voerkai18n translate --api qwen",
     "i18n:compile": "voerkai18n compile",
     "i18n:wrap": "voerkai18n wrap --api qwen"
   },

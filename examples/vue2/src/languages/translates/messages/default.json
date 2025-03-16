@@ -3,7 +3,7 @@
         "en-US": "Home",
         "ja-JP": "ホーム  ",
         "$files": [
-            "src/App.vue(70-70)"
+            "src/App.vue(69-75)"
         ],
         "$id": 18
     },
@@ -11,7 +11,7 @@
         "en-US": "Open Source Projects",
         "ja-JP": "オープンソースプロジェクト  ",
         "$files": [
-            "src/App.vue(138-138)"
+            "src/App.vue(137-145)"
         ],
         "$id": 19
     },
@@ -19,7 +19,7 @@
         "en-US": "About",
         "ja-JP": "について  ",
         "$files": [
-            "src/App.vue(202-202)"
+            "src/App.vue(201-207)"
         ],
         "$id": 20
     },
@@ -27,15 +27,111 @@
         "en-US": "Main Features",
         "ja-JP": "主な特徴  ",
         "$files": [
-            "src/components/VoerkaI18n.vue(170-170)"
+            "src/components/VoerkaI18n.vue(169-177)"
         ],
         "$id": 22
+    },
+    "适用于Javascript/Vue/React/ReactNative的国际化解决方案": {
+        "en-US": "Internationalization solution for Javascript/Vue/React/ReactNative",
+        "ja-JP": "JavaScript/Vue/React/ReactNative向けの国際化ソリューション\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(80-145)"
+        ],
+        "$id": 33
+    },
+    "适用任意场景": {
+        "en-US": "Suitable for any scenario",
+        "ja-JP": "任意のシナリオに適用可能\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(209-237)"
+        ],
+        "$id": 35
+    },
+    "全流程工具链": {
+        "en-US": "Full-process toolchain",
+        "ja-JP": "フルプロセスツールチェーン\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(255-283)"
+        ],
+        "$id": 36
+    },
+    "全自动翻译": {
+        "en-US": "Automatic translation",
+        "ja-JP": "完全自動翻訳\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(301-328)"
+        ],
+        "$id": 37
+    },
+    "多库联动": {
+        "en-US": "Multi-library collaboration",
+        "ja-JP": "マルチライブラリ連携\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(346-372)"
+        ],
+        "$id": 38
+    },
+    "语言补丁": {
+        "en-US": "Language patch",
+        "ja-JP": "言語パッチ\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(390-416)"
+        ],
+        "$id": 39
+    },
+    "测试覆盖率": {
+        "en-US": "Test coverage",
+        "ja-JP": "テストカバレッジ\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(434-461)"
+        ],
+        "$id": 40
+    },
+    "用心开源，精良制作": {
+        "en-US": "Dedicated to open source, finely crafted",
+        "ja-JP": "心を込めてオープンソースで精巧に作成\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(488-519)"
+        ],
+        "$id": 41
+    },
+    "联系我们": {
+        "en-US": "Contact us",
+        "ja-JP": "お問い合わせ\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(547-573)"
+        ],
+        "$id": 44
+    },
+    "常见问题": {
+        "en-US": "Frequently Asked Questions",
+        "ja-JP": "よくある質問\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(592-618)"
+        ],
+        "$id": 45
+    },
+    "版权所有": {
+        "en-US": "Copyright reserved",
+        "ja-JP": "著作権所有\r",
+        "$files": [
+            "src/components/VoerkaI18n.vue(637-663)"
+        ],
+        "$id": 46
+    },
+    "友情链接": {
+        "en-US": "Friendly Links",
+        "ja-JP": "フレンドリンク",
+        "$files": [
+            "src/components/VoerkaI18n.vue(682-708)"
+        ],
+        "$id": 47
     },
     "VoerkaI8n全流程国际化解决方案": {
         "en-US": "VoerkaI8n Full-process internationalization solution",
         "ja-JP": "VoerkaI8n フルプロセス国際化ソリューション",
         "$files": [
-            "src/views/HomeView.vue(107-107)"
+            "src/views/HomeView.vue(106-129)"
         ],
         "$id": 34
     },
@@ -43,7 +139,8 @@
         "en-US": "Open Source Recommendation",
         "ja-JP": "オープンソース推薦",
         "$files": [
-            "src/views/ReposView.vue(46-46)"
+            "src/views/ReposView.vue(50-58)",
+            "src/views/ReposView.vue(64-72)"
         ],
         "$id": 42
     },
@@ -51,7 +148,8 @@
         "en-US": "Repository",
         "ja-JP": "リポジトリ",
         "$files": [
-            "src/views/ReposView.vue(191-191)"
+            "src/views/ReposView.vue(211-217)",
+            "src/views/ReposView.vue(281-287)"
         ],
         "$id": 43
     }

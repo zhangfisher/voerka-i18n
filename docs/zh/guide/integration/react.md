@@ -1,181 +1,250 @@
-# React应用
+# React
 
-`React`应用一般可以采用`create-react-app`或`Vite+"@vitejs/plugin-react`工具来创建工程。
+> 本节主要介绍如何在`React`应用中使用`VoerkaI18n`。
 
-本节介绍如何为`Vite`+`@vitejs/plugin-react`创建的工程添加`voerkai18n`支持。
+创建`React`应用一般采用`Vite`或`Vue Cli`来创建工程。在`Vue 2`应用中引入`voerkai18n`来添加国际化应用需要由两个插件来简化应用。
 
-## 第一步：引入
+- **@voerkai18n/react**
+
+  **React插件**，在初始化`Vue`应用时引入，提供访问`当前语言`、`切换语言`、`自动更新`等功能。
+
+- **@voerkai18n/plugins**
+
+  **编译期插件**，在`vite.config.js`中配置，用来实现`自动文本映射`等功能,参考[IdMap](../advanced/idMap)
+
+## 使用方法
+
+### 第1步：安装依赖
+
+首先安装`@voerkai18n/cli`到全局.
+
+::: code-group
+
+```bash [npm]
+npm install -g @voerkai18n/cli
+```
+
+```bash [yarn]
+yarn global add @voerkai18n/cli
+```
+```bash [pnpm]
+pnpm  add -g @voerkai18n/cli
+```
+:::
+
+### 第2步：初始化
+
+接着`VoerkaI18n init`初始化工程。
+
+```bash
+> voerkai18n init
+```
+初始化完成后，会创建一个语言工作目录，默认位置是`src/languages`。文件夹结构如下：
+
+<lite-tree>
+myapp
+    src
+        languages
+            messages/             
+            paragraphs/             
+            translates/             // 提取需要翻译的内容
+              messages/             // 提取的需要翻译的内容                
+              paragraphs/           // 提取的需要翻译的段落
+            prompts/                // 执行AI翻译的相关提示词
+            api.json                // API接口
+            component.tsx           // 翻译组件
+            index.ts                //! 入口文件       
+            settings.json           // 配置文件
+            storage.ts              // 存储管理
+            loader.ts               // 加载器
+            transform.ts            // 翻译变换
+            formatters.json         // 格式化器配置            
+    package.json
+    index.ts    
+</lite-tree>
 
 
-`React`应用启用`VoerkaI18n`国际化功能的完整工程化流程如下：
+### 第3步：启用`React`支持
 
-- 调用`voerkai18n init`初始化多语言工程
-- 调用`voerkai18n extract`提取要翻译的文本
-- 调用`voerkai18n translate`进行自动翻译或人工翻译
-- 调用`voerkai18n compile`编译语言包
-- 在应用中引入`@voerkai18n/react`和`@voerkai18n/vite`插件
-- 在源码中使用`t`函数进行翻译
+接下需要`voerkai18n apply`来启用`React`支持。
 
-完整的工程化流程请参见[工程化](../intro/get-started)，以下简要介绍如何在`Vue`应用中使用`VoerkaI18n`。
+```bash
+> voerkai18n apply
+```
 
-## 第二步： 安装`Vite`插件
+执行`voerkai18n apply`命令后，选择`React`后，会执行以下操作：
 
-如果应用是采用`Vite`+`@vitejs/plugin-react`创建的工程，则可以通过配置`@voerkai18n/vite`插件实现自动导入`t`函数和`翻译内容自动映射`等。
+- 安装`@voerkai18n/react`
+- 更新`languages`的相关文件，主要是`languages/component.{tsx|jsx}`。
 
-在`vite.config.js`中配置导入安装`@voerkai18n/vite`插件。
+:::warning 提示
+也可以手动安装`@voerkai18n/react`，并更新`languages`的相关文件。见下文手工配置。
+:::
 
-```typescript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import Inspect from 'vite-plugin-inspect'
-import Voerkai18nPlugin from "@voerkai18n/vite"
+### 第4步：配置应用
 
-// https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [
-        Inspect(),  // localhost:3000/__inspect/ 
-        Voerkai18nPlugin({ 
-            debug: true     // 输出一些调试信息
-        }),
-        react()
-    ]
+修改`main.ts`文件，引入`@voerkai18n/react`。
+
+```ts {5-6,8,14}
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx' 
+import "./languages"   
+import { i18nScope } from "./languages"
+
+i18nScope.ready(()=>{
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
 })
-```
-
-详见[@voerkai18n/vite](../tools/vite)插件介绍。
-
-## 第三步：导入`t`翻译函数
-
-`t`翻译函数用来进行文件翻译，普通的`React`应用`t`翻译函数可以用在两个地方：
-
-- 普通的`js`或`ts`文件
-- `React`组件`jsx、tsx`文件
-
-### 在`js|ts`文件中使用
-
-只需要从`languages`直接导入`t`函数即可。
-
-```javascript
-import { t } from "./languages"
-```
-取决于您是从哪一个文件中导入，需要修改导入位置，可能类似这样：
-```javascript
-import { t } from "./languages"
-import { t } from "../languages"
-import { t } from "../../languages"
-import { t } from "../../../languages"
-
-console.log(t("中华人民共和国"))
 
 ```
 
-- 导入`t`函数后就可以直接使用了。如果启用了`@voerkai18n/vite`插件的`autoImport`,则会自动导入`t`函数，无需手动导入。
+### 第5步：配置插件
 
+修改`vite.config.{ts|js}`文件，引入`@voerkai18n/plugins/vite`。
 
-### 在`React`组件中使用
+```ts
+import { defineConfig } from 'vite'
+import i18nPlugin from '@voerkai18n/plugins/vite'  // [!code ++]
+import react from '@vitejs/plugin-react-swc'
+import tailwindcss from '@tailwindcss/vite'
+import viteInspector from 'vite-plugin-inspect'
 
-在`React`组件中使用`t`函数翻译与在`js|ts`文件中使用的最大区别在于：**当切换语言时，需要触发组件的重新渲染**。为此我们需要在根应用配置`Provider`。
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    i18nPlugin(),             // [!code ++]
+    react(),    
+    tailwindcss(),
+    viteInspector(),    
+  ],
+})
+```      
 
-1. **配置根组件Provider**
+- `@voerkai18n/plugins/vite`插件的作用为`Vue`应用提供`自动文本映射`功能。
 
-使用`VoerkaI18nProvider`包装应用根组件，本质上是创建了一个`VoerkaI18nContext.Provider`。
+:::warning 注意
+`@voerkai18n/plugins/vite`插件需要在`react`插件之前引入。
+因为`react`插件会对`jsx`进行编译转码，从而导致`@voerkai18n/plugins/vite`插件无法通过正则表达式对代码中的`t`函数和`Translate`组件进行识别。
+:::
 
-```jsx
+### 第6步：翻译内容
 
-// 1.当前语言Scope
-import { i18nScope } from "./languages"
-import { VoerkaI18nProvider } from "@voerkai18n/react"
+接下来就可以直接在`React`组件中使用`t`函数和`Translate`组件进行翻译。
 
-export default App(){
-	return (
-        <VoerkaI18nProvider scope={i18nScope}>
-            <MyComponent/>
-        <VoerkaI18nProvider/>
-   )
+```tsx
+import { t, Translate } from './languages'
+
+export default ()=>{
+  return (
+    <div>
+      <h1>
+        <Translate message="请输入用户名称"/>
+      </h1>
+      <div>
+          <span>
+            <Translate message="用户名:" />
+          </span>
+          <input type="text" placeholder={t('邮件/手机号码/帐号')}/>
+          <span>
+            <Translate message="密码:" />
+          </span>
+          <input type="password" placeholder={t('至少6位的密码')}/>            
+          <Translate id="notice">
+            大段文本内容
+          </Translate>
+      </div>            
+      <button onClick={login}>
+        <Translate message="登录" />
+      </button>
+    </div>
+  )
 }
 ```
 
-`VoerkaI18nProvider`还具有一个`fallback`属性，用来指定语言包加载未完成时显示一些如`正在加载语言包...`等信息。
+:::warning 提示
+- 使用`t`函数和`Translate`组件时来包裹要翻译的内容。
+- 大段落文本内容可以使用`Translate`组件来包裹。 
+:::
 
-```jsx
+### 第7步：切换语言
 
-// 1.当前语言Scope
-import { i18nScope } from "./languages"
-import { VoerkaI18nProvider } from "@voerkai18n/react"
+引入`useVoerkaI18n`插件来实现切换语言的功能。
 
-export default App(){
-	return (
-        <VoerkaI18nProvider fallback={<div>正在加载语言包...</div>} scope={i18nScope}>
-            <MyComponent/>
-        <VoerkaI18nProvider/>
-   )
-}
-```
+```tsx
+import React from 'react'; 
+import { useVoerkaI18n } from '@voerkai18n/react';
+import classNames from 'classnames'
 
-
-2. **组件中使用`t`翻译函数**
-
-接下来通过`useVoerkaI18n`获取当前作用域的`t`翻译函数。
-
-```jsx
-import { useVoerkaI18n } from "@voerkai18n/react"
-export function MyComponent(){
-     const { t } = useVoerkaI18n()
-    return ( 
-        <div>{t("要翻译的内容")}</div> 
-    )
+const LanguageBar: React.FC = () => {
+  const { activeLanguage, changeLanguage, languages } = useVoerkaI18n();
+  return (
+    <div className="flex md:order-2 flex-row justify-items-center align-middle">
+      { languages.map((lang) => {
+        return (<button 
+          key={lang.name} 
+          onClick={() => changeLanguage(lang.name) } 
+          className={ lang.name === activeLanguage ? 'active' : ''}
+        >{lang.name}</button>)
+      })}
+    </div>
+  )
 }
 
 ```
 
-**注意：**
-在组件中直接使用`import { t } from "languages`也是可以工作的，因为本质上`t`函数仅仅是一个普通的函数。但是当动态切换语言时，对应的组件不能自动重新渲染。因此，只有通过`{ t } = useVoerkaI18n()`导入的`t`函数，才可以在切换语言时自动重新渲染组件。
+`useVoerkaI18n`返回值：
 
-## 第四步：切换语言
-
-接下来在一般我们还需要实现语言切换的功能界面,`useVoerkaI18n`提供了：
-- `t`: 当前作用域的翻译函数
-- `language`: 当前激活语言名称
-- `defaultLanguage`: 默认语言名称
-- `changeLanguage(language)`: 用来切换当前语言
-- `languages`: 读取当应用支持的语言列表。
-
-
-```jsx
-
-import { useVoerkaI18n } from "@voerkai18n/react"
-
-export function MyComponent(){
-     const { t, activeLanguage,changeLanguage,languages,defaultLanguage } = useVoerkaI18n()
-    return ( 
-        <div>
-            <h1>{t("当前语言")}:{activeLanguage}</h1>
-            <h1>{t("默认语言")}:{defaultLanguage}</h1>
-            <div> {
-                {/* 遍历出支持的所有语言 */}
-                languages.map(lang=>{
-                return (<button 
-                            key={lang.name}
-                            onclick={()=>changeLanguage(lang.name)}>
-                            {lang.title}
-                        </button>)
-                })}
-            </div>             
-        </div> 
-    )
-} 
+```ts
+{
+    scope          : VoerkaI18nScope
+    manager        : VoerkaI18nManager
+    activeLanguage : string
+    defaultLanguage: string
+    languages      : VoerkaI18nLanguageDefine
+    changeLanguage : (language:string)=>Promise<string>,
+    t              : VoerkaI18nTranslate
+};
 ```
 
+## 指南
 
-## 小结
+### 手动配置
 
-- 使用`<VoerkaI18nProvider scope={i18nScope}>`封装根组件
-- `const { t } = useVoerkaI18n()`来导入翻译函数
-- 使用`const { changeLanguage } = useVoerkaI18n()`来访问切换语言的函数
-- 在普通`ts/js`文件中使用`import { t } from "./languages"`来导入`t`翻译函数
-- `@voerkai18n/vite`插件是可选的，仅仅普通`ts/js`文件使用`t`翻译函数时用来自动导入。
-- 如果使用`Create React App`创建`React`应用，则请参考`voerki18n-loader`
-- 完整示例见:
-    - [reactapp](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/reactapp)
-    - [reactapp-ts](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/react-ts)
+`voerkai18n apply`负责自动配置`React`应用支持，也可以手动配置.
 
+- **编辑`languages/component.{tsx|jsx}`文件**
+
+```ts
+import { createTranslateComponent,ReactTranslateComponentType } from "@voerkai18n/react";
+export const component = createTranslateComponent()
+export type TranslateComponentType = ReactTranslateComponentType
+```
+
+### 加载中
+
+当使用翻译组件的[动态翻译](../use/translate)时，允许在翻译过程中显示加载中的状态。
+
+可以按如下方式提供一个加载中的状态：
+
+```tsx
+// languages/component.tsx
+import { createTranslateComponent,ReactTranslateComponentType } from "@voerkai18n/react";
+import Loading from '../components/Loading';
+export const component = createTranslateComponent({loading:<Loading/>})
+export type TranslateComponentType = ReactTranslateComponentType
+```
+
+:::warning 提示
+大多数情况下，不需要提供加载中的状态，因为翻译过程是非常快的。
+仅在动态翻译或异步加载大段落的场景下，才需要提供加载中的状态。
+:::
+ 
+
+## 示例
+
+- 完整的示例请见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/react)

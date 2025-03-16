@@ -13,7 +13,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { Translate,$t } from '../languages'; 
+import { $t } from '../languages'; 
  
 const title = $t('你好') 
 
