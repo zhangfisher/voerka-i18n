@@ -290,7 +290,7 @@ export class VoerkaI18nScope<TranslateComponent=any,TranslateTransformResult=any
             if(!injectLangAttr) return
             const ele = injectLangAttr===true ? document.body : document.body.querySelector(injectLangAttr as string)
             if(ele){
-                ele.setAttribute("language",this.activeLanguage)
+                ele.setAttribute("lang",this.activeLanguage)
             }            
         }catch{}
     }

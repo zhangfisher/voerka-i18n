@@ -175,6 +175,10 @@ const LanguageBar: React.FC = () => {
 };
 ```
 
+:::warning 提示
+`useVoerkaI18n`运行在客户端。
+:::
+
 ## 指南
 
 ### 手动配置
@@ -268,7 +272,33 @@ export const t = i18nScope.t
 export const Translate = i18nScope.Translate as React.FC<VoerkaI18nTranslateProps>
 ```
 
+### 常见问题
+
+- **如何处理hydration错误问题？**
+
+`Nextjs`应用经常出现以下错误：
+
+```shell
+A tree hydrated but some attributes of the server rendered 
+HTML didn't match the client properties. This won't be patched up. 
+This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+```
+
+这是`Nextjs`的常见的问题，开发者需要充分了解`Nextjs`的`hydration`机制。
+
+相关问题可以参考[Nextjs](https://vercel.com/frameworks/nextjs)文档以及[这里](https://react.dev/link/hydration-mismatch)。
+
+:::warning 提示
+- 有时`chrome`相关插件也会导致`hydration`错误，因为某些插件可能会在DOM中注入内容而导致`hydrated`错误。
+- `VoerkaI18n`默认会在`body`注入`lang`属性，可能会导致`hydration error`，因此需要在`settings.json`中设置`injectLangAttr`为`true`。
+:::
 
 ## 示例
 
-- 完整的示例请见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/react)
+- 完整的示例请见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/nextjs)

@@ -5,9 +5,17 @@ import type { VoerkaI18nEventSubscriber } from '@voerkai18n/runtime';
 
 const { scope = VoerkaI18n.scope,children } = $props() 
 let activeLanguage = $state(VoerkaI18n.activeLanguage);
+let ready = $state(false);
+
 let subscriber:VoerkaI18nEventSubscriber | undefined;
 
+scope.on("ready",()=>{
+    ready = true
+})
+
+
 onMount(()=>{    
+
     subscriber = scope.on('change', (newLanguage:string) => {
         activeLanguage = newLanguage
     })
@@ -17,6 +25,8 @@ onDestroy(()=>{
     subscriber && subscriber.off()
 });
  
+
+
 setContext('Voerkai18nContext', {
     activeLanguage,
     defaultLanguage: VoerkaI18n.defaultLanguage,
@@ -30,6 +40,8 @@ setContext('Voerkai18nContext', {
 
 </script>
 
+{#if ready}
+    {@render children?.()}
+{/if}
 
-{@render children?.()}
 

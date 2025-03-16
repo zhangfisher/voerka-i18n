@@ -454,6 +454,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.0.9
         version: 4.0.9(vite@6.2.0(@types/node@22.13.9)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
+      '@voerkai18n/plugins':
+        specifier: workspace:*
+        version: link:../../packages/plugins
       svelte:
         specifier: ^5.0.0
         version: 5.22.6

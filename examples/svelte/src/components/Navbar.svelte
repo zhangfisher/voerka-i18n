@@ -7,10 +7,10 @@
   };  
 
   export let items: NavItem[] = [
-    { url: '/', title:t('首页'),active:true},
-    { url: '/features',title:t('特性')},
-    { url: '/repos',title:t('开源项目')} ,
-    { url: '/about',title:t('关于')} 
+    { url: '/', title: t('首页'), active:true},
+    { url: '/features', title: t('特性')},
+    { url: '/repos', title: t('开源项目')},
+    { url: '/about', title: t('关于')} 
   ]
 
 </script>
@@ -18,8 +18,7 @@
 <script lang="ts">
   
 import classNames from 'classnames';
-import { Translate,i18nScope, t } from "../languages"
- 
+import { Translate,i18nScope, t } from "../languages" 
 
 let activeIndex = $state(i18nScope.languages.findIndex((l) => l.name === i18nScope.activeLanguage))
 
@@ -32,7 +31,6 @@ function handleLanguageClick(lang: any) {
       })
     }
 }
-
 </script>
 
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">

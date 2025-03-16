@@ -6,11 +6,10 @@ export default defineConfig({
 	plugins: [
 		sveltekit(),
 		copyPlugin([
-			
-				{ 
-					from: 'src/install', 
-					to: './dist/install' 
-				}
-			])			
+			{ 
+				from: 'src/install', 
+				to: './dist/install' 
+			}
+		])			
 	]
 });

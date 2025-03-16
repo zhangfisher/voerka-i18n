@@ -43,5 +43,7 @@ export default  {
     "88": "Prisma database interactive console  ",
     "89": "A plugin that embeds files as base64 into the source code for vite/webpack/esbuild/...  ",
     "90": "Generate captcha images  ",
-    "91": "Library for language codes conforming to the simplified BCP47 specification"
+    "91": "Library for language codes conforming to the simplified BCP47 specification",
+    "141": "Home",
+    "142": "Open Source Projects"
 }
