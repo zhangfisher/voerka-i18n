@@ -1,5 +1,6 @@
 import { VoerkaI18nManager, VoerkaI18nScope } from "@voerkai18n/runtime"
-import {App, Plugin, ref } from "vue"
+import { ref } from "vue"
+import type { App, Plugin } from "vue"
 
 export type VoerkaI18nVuePluginOptions = {
     scope?: VoerkaI18nScope

@@ -11,6 +11,5 @@ dist/
 examples/nextjs/src/languages/api.json
 **/api.json.
 api.json
-
  
-docs/.vitepress/cache/
+docs/.vitepress/cache

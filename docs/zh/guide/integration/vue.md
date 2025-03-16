@@ -10,9 +10,9 @@
 
 - **@voerkai18n/plugins**
 
-  **编译期插件**，在`vite.config.js`中配置，用来实现`自动文本映射`等功能。
+  **编译期插件**，在`vite.config.js`中配置，用来实现`自动文本映射`等功能,参考[IdMap](../advanced/idMap)
 
-## 使用步骤
+## 使用方法
 
 ### 第1步：安装依赖
 
@@ -55,7 +55,7 @@ pnpm  add -g @voerkai18n/cli
 - 更新`languages`的相关文件，主要是`languages/component.{ts|js}`。
 
 
-### 第4步：配置代码
+### 第4步：配置插件
 
 修改`main.ts`文件，引入`@voerkai18n/vue`。
 
@@ -66,9 +66,9 @@ import { i18nPlugin } from '@voerkai18n/vue'
 
 i18nScope.ready(()=>{
     createApp(App)
-      .use(i18nPlugin,{       // [!code ++]
-        i18nScope    // [!code ++]
-      })          // [!code ++]
+      .use(i18nPlugin,{         // [!code ++]
+        i18nScope               // [!code ++]
+      })                        // [!code ++]
       .use(router)
       .mount('#app')
 })
@@ -79,12 +79,12 @@ i18nScope.ready(()=>{
 
 - 提供全局组件实例`t`函数
 - 全局的`Translate`组件
+- 为`$t`函数提供响应式支持
 
 
 ### 第5步：翻译内容
 
 接下来就可以直接在`Vue`组件中使用`t`函数和`Translate`组件进行翻译。
-
 
 ```vue
 <template>
@@ -150,7 +150,7 @@ const { activeLanguage,languages } =  useVoerkaI18n(i18nScope)
 
 `voerkai18n apply`负责自动配置`Vue`应用支持，也可以手动配置.
 
-- **编辑`languages/component.ts`文件**
+- **编辑`languages/component.{ts|js}`文件**
 
 ```ts
 import { 
@@ -160,6 +160,15 @@ import {
 export const component = createTranslateComponent()
 export type TranslateComponentType = VueTranslateComponentType
 ```
+
+- **编辑`languages/transform.{ts|js}`文件**
+
+```ts
+import { createTranslateTransform,type VueTransformResultType } from "@voerkai18n/vue"
+export const transform = createTranslateTransform()
+export type TransformResultType = VueTransformResultType
+```
+
 
 ### 加载中
 
@@ -206,16 +215,70 @@ const title = ref(t('你好'))
 
 **如何解决？**
 
-要解决这个问题，需要充分理解`Vue`的晌应式机制：
+要解决这个问题，需要**充分理解`Vue`的晌应式机制**：
 
 - 让翻译的结果成为响应式数据
 - 在语言切换时更新翻译的结果
 
-重点就是让翻译的结果成为响应式数据，这样在语言切换时，`Vue`会自动更新视图。
+重点就是**让翻译的结果成为响应式数据**，这样在语言切换时，`Vue`才会自动更新视图。
 
-可以使用`useVoerkaI18n`来实现：
+聪明的你一定想到了，可以使用`ref`等响应式API来包装翻译的结果，这样就可以实现自动刷新。
+
+```vue
+<template>
+  <div>  
+    <div :title="t('你好')"> {{ title }} </div>
+  </div>
+</template>
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import { t, i18nScope } from '../languages';
+
+const title = ref(t('你好'))  // [!code ++]
+
+let subscriber
+
+onMounted(()=>{
+  subscriber = i18nScope.on('change',()=>{
+    title.value = t('你好')
+  })
+})
+
+onUnmounted(()=>{
+  subscriber.off()
+})
+
+<script>
+```
+
+当语言切换时，`i18nScope`会触发`change`事件，我们在`onMounted`钩子中订阅`change`事件，当语言切换时，更新`title`的值，由于`title`是一个响应式值，所以这样就实现了自动刷新。
+
+显然，这种方式比较繁琐，针对此种场景，`VoerkaI18n`提供了`翻译变换`机制来简化这个过程,参考[翻译变换](../advanced/transform)。
+
+**引入`翻译变换`后，以上代码可以简化为：**
+
+```vue
+<template>
+  <div>  
+    <div :title="t('你好')"> {{ title }} </div>
+  </div>
+</template>
+<script setup>
+import { $t } from '../languages';
+const title = $t('你好')
+<script>
+```
+
+- **`$t`函数返回的是一个响应式值，所以在语言切换时，`Vue`会自动刷新视图。**
+- `$t`函数会将翻译的结果转换为响应式数据，所以在语言切换时，`Vue`会自动刷新视图。
+- `$t`函数工作需要配合`@voerkai18n/vue`才可以工作。
 
 
-### 示例
+:::warning 提示
+事实上，在所有响应式框架中，都会遇到这个问题，只要理解了响应式机制，就能很好的解决这个问题。
+:::
+
+
+## 示例
 
 - 完整的示例请见[这里](https://github.com/zhangfisher/voerka-i18n/tree/master/examples/vue3)

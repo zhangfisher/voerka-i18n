@@ -1,5 +1,5 @@
 import { VoerkaI18nManager } from "@voerkai18n/runtime";
-import { VoerkaI18nMessagePatchableOptions, VoerkaI18nMessagePatchArgs } from "./types";
+import type { VoerkaI18nMessagePatchableOptions, VoerkaI18nMessagePatchArgs } from "./types";
 
 
 

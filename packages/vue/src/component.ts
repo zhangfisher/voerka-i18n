@@ -1,4 +1,5 @@
-import { defineComponent, h, ref, watch, onUnmounted, Component, ComponentPublicInstance  } from 'vue'
+import type {  Component,ComponentPublicInstance  } from 'vue'
+import { defineComponent, h, ref, watch, onUnmounted  } from 'vue'
 import { loadAsyncModule, type VoerkaI18nScope, type VoerkaI18nTranslateProps } from "@voerkai18n/runtime"
 
 

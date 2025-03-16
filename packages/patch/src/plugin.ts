@@ -11,7 +11,7 @@
  * 
  */
 import { VoerkaI18nManager, definePlugin } from '@voerkai18n/runtime'; 
-import { VoerkaI18nMessagePatchableOptions } from './types';
+import type { VoerkaI18nMessagePatchableOptions } from './types';
 import { VoerkaI18nMessagePatchable } from './patchable';
  
 

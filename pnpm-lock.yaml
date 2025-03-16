@@ -56,12 +56,28 @@ importers:
       '@lite-tree/vue':
         specifier: ^1.1.4
         version: 1.1.4(vue@3.5.13(typescript@5.8.2))
+      '@voerkai18n/cli':
+        specifier: workspace:*
+        version: link:../packages/cli
+      '@voerkai18n/formatters':
+        specifier: workspace:*
+        version: link:../packages/formatters
+      '@voerkai18n/runtime':
+        specifier: workspace:*
+        version: link:../packages/runtime
+      '@voerkai18n/vue':
+        specifier: workspace:*
+        version: link:../packages/vue
       flex-tools:
         specifier: ^1.4.33
         version: 1.4.33
       flexstyled:
         specifier: ^2.1.2
         version: 2.1.2(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+    devDependencies:
+      vitepress-demo-plugin:
+        specifier: ^1.3.1
+        version: 1.3.1(shiki@3.0.0)(vitepress@1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.9)(@types/react@19.0.10)(axios@1.8.3)(change-case@5.4.4)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.1)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.8.2))(vue@3.5.13(typescript@5.8.2))
 
   examples/astro:
     dependencies:
@@ -969,9 +985,6 @@ importers:
 
   packages/utils:
     dependencies:
-      '@ast-grep/napi':
-        specifier: ^0.33.1
-        version: 0.33.1
       axios:
         specifier: ^1.8.3
         version: 1.8.3
@@ -1262,68 +1275,6 @@ packages:
 
   '@antfu/install-pkg@1.0.0':
     resolution: {integrity: sha512-xvX6P/lo1B3ej0OsaErAjqgFYzYVcJpamjLAFLYh9vRJngBrMoUG7aVnrGTeqM7yxbyTD5p3F2+0/QUEh8Vzhw==}
-
-  '@ast-grep/napi-darwin-arm64@0.33.1':
-    resolution: {integrity: sha512-HJcjxDhF1THn6VlUMpYFQoZBWWMk3flBJpLEDWLjH3Umk7/4tQvaJeKwhl32Snegj35p9SHGz1cS8D2k1nDsEg==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@ast-grep/napi-darwin-x64@0.33.1':
-    resolution: {integrity: sha512-Gu3dd+7RZcLyte/xwBX4ErT12GYgGeQGQh6743NffChyVnpwZpj2aWmdkD8gHRKswXz2dp5R01QMCV0G5o8rDQ==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [darwin]
-
-  '@ast-grep/napi-linux-arm64-gnu@0.33.1':
-    resolution: {integrity: sha512-4rvHBtq/0Ziwr93Mp86GQPMMySNHCMXnSIdJqJjTikt/LhJNdxmXtEVadashwxbBGWvcIy8dL6OCBHblzY/3ZQ==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [glibc]
-
-  '@ast-grep/napi-linux-arm64-musl@0.33.1':
-    resolution: {integrity: sha512-+vTHYYP8iRG9lZHhcpQRxAuD8CBYXJHFXgsevmnurS/R53r0YjNtrtj6W33e7RYXY5hehmey2Cz/5h6OhdLcJw==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [musl]
-
-  '@ast-grep/napi-linux-x64-gnu@0.33.1':
-    resolution: {integrity: sha512-Qm42//ZHIi2XvyvHboRPaNt32v143feG2aCqxZ2qhKJCI33abtH8pW8MF90Ix85d927xYtTwZX/ovOmJ4bghFQ==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-    libc: [glibc]
-
-  '@ast-grep/napi-linux-x64-musl@0.33.1':
-    resolution: {integrity: sha512-+ye9d8nwgi+f9yhA0NEv5lDcpfIF7xhCcF9FerIKpksX57oI68QWNz1bOWHOuebaf9Wc0hgEtfai7lzcDWcsnA==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-    libc: [musl]
-
-  '@ast-grep/napi-win32-arm64-msvc@0.33.1':
-    resolution: {integrity: sha512-0IrPtvqMUJmvmbBN3JcAmUoKUxsWMmrp0VAoJ+zUBHcz3GeWDISgxrUcx1z6edMeF+Ktm0SUG2LfqrzFhUqMyw==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [win32]
-
-  '@ast-grep/napi-win32-ia32-msvc@0.33.1':
-    resolution: {integrity: sha512-rM6kK19Z9mknXQLZYvIGW1vR472n0dzhexWRM4O8BAL33B4NXA0qa7lX7I3ioHBTOUx0dGW10oNRm3yindUohg==}
-    engines: {node: '>= 10'}
-    cpu: [ia32]
-    os: [win32]
-
-  '@ast-grep/napi-win32-x64-msvc@0.33.1':
-    resolution: {integrity: sha512-8ATNhuU28PoUBxSgsPQnPpY+rl8DPEQCuUS55X0BLAvNQwR+Tc4MHHHX1FwjQxLLSAPfd5weiG4XQA+l7sIr0w==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [win32]
-
-  '@ast-grep/napi@0.33.1':
-    resolution: {integrity: sha512-AfUsqmEa8NoYq1QhY2LWKCgKRBrCW89WB2D7t4hhTwXcfBB+CWRtY11vUughpfGLrdyziPst7kpdFzI9TC9Efw==}
-    engines: {node: '>= 10'}
 
   '@astrojs/compiler@2.10.4':
     resolution: {integrity: sha512-86B3QGagP99MvSNwuJGiYSBHnh8nLvm2Q1IFI15wIUJJsPeQTO3eb2uwBmrqRsXykeR/mBzH8XCgz5AAt1BJrQ==}
@@ -12420,6 +12371,13 @@ packages:
       vite:
         optional: true
 
+  vitepress-demo-plugin@1.3.1:
+    resolution: {integrity: sha512-NBVJS2wxtKPFEwzpEnXkL9regmmUte1fYXGAWHaIu85RH2QvqZ6IB/cAdHJvxQ2wa5beTNOxHUoFDmJCkEOKyA==}
+    peerDependencies:
+      shiki: '*'
+      vitepress: '*'
+      vue: ^3.2.0
+
   vitepress@1.6.3:
     resolution: {integrity: sha512-fCkfdOk8yRZT8GD9BFqusW3+GggWYZ/rYncOfmgcDtP3ualNHCAg+Robxp2/6xfH1WwPHtGpPwv7mbA3qomtBw==}
     hasBin: true
@@ -13163,45 +13121,6 @@ snapshots:
     dependencies:
       package-manager-detector: 0.2.9
       tinyexec: 0.3.2
-
-  '@ast-grep/napi-darwin-arm64@0.33.1':
-    optional: true
-
-  '@ast-grep/napi-darwin-x64@0.33.1':
-    optional: true
-
-  '@ast-grep/napi-linux-arm64-gnu@0.33.1':
-    optional: true
-
-  '@ast-grep/napi-linux-arm64-musl@0.33.1':
-    optional: true
-
-  '@ast-grep/napi-linux-x64-gnu@0.33.1':
-    optional: true
-
-  '@ast-grep/napi-linux-x64-musl@0.33.1':
-    optional: true
-
-  '@ast-grep/napi-win32-arm64-msvc@0.33.1':
-    optional: true
-
-  '@ast-grep/napi-win32-ia32-msvc@0.33.1':
-    optional: true
-
-  '@ast-grep/napi-win32-x64-msvc@0.33.1':
-    optional: true
-
-  '@ast-grep/napi@0.33.1':
-    optionalDependencies:
-      '@ast-grep/napi-darwin-arm64': 0.33.1
-      '@ast-grep/napi-darwin-x64': 0.33.1
-      '@ast-grep/napi-linux-arm64-gnu': 0.33.1
-      '@ast-grep/napi-linux-arm64-musl': 0.33.1
-      '@ast-grep/napi-linux-x64-gnu': 0.33.1
-      '@ast-grep/napi-linux-x64-musl': 0.33.1
-      '@ast-grep/napi-win32-arm64-msvc': 0.33.1
-      '@ast-grep/napi-win32-ia32-msvc': 0.33.1
-      '@ast-grep/napi-win32-x64-msvc': 0.33.1
 
   '@astrojs/compiler@2.10.4': {}
 
@@ -14234,6 +14153,17 @@ snapshots:
       - react-dom
       - search-insights
 
+  '@docsearch/js@3.8.2(@algolia/client-search@5.20.3)(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3)':
+    dependencies:
+      '@docsearch/react': 3.8.2(@algolia/client-search@5.20.3)(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3)
+      preact: 10.26.2
+    transitivePeerDependencies:
+      - '@algolia/client-search'
+      - '@types/react'
+      - react
+      - react-dom
+      - search-insights
+
   '@docsearch/react@3.8.2(@algolia/client-search@5.20.3)(@types/react@18.3.18)(react@18.3.1)(search-insights@2.17.3)':
     dependencies:
       '@algolia/autocomplete-core': 1.17.7(@algolia/client-search@5.20.3)(algoliasearch@5.20.3)(search-insights@2.17.3)
@@ -14243,6 +14173,20 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.18
       react: 18.3.1
+      search-insights: 2.17.3
+    transitivePeerDependencies:
+      - '@algolia/client-search'
+
+  '@docsearch/react@3.8.2(@algolia/client-search@5.20.3)(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3)':
+    dependencies:
+      '@algolia/autocomplete-core': 1.17.7(@algolia/client-search@5.20.3)(algoliasearch@5.20.3)(search-insights@2.17.3)
+      '@algolia/autocomplete-preset-algolia': 1.17.7(@algolia/client-search@5.20.3)(algoliasearch@5.20.3)
+      '@docsearch/css': 3.8.2
+      algoliasearch: 5.20.3
+    optionalDependencies:
+      '@types/react': 19.0.10
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
       search-insights: 2.17.3
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -26342,10 +26286,65 @@ snapshots:
     optionalDependencies:
       vite: 6.2.0(@types/node@22.13.9)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1)(sass@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
+  vitepress-demo-plugin@1.3.1(shiki@3.0.0)(vitepress@1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.9)(@types/react@19.0.10)(axios@1.8.3)(change-case@5.4.4)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.1)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.8.2))(vue@3.5.13(typescript@5.8.2)):
+    dependencies:
+      shiki: 3.0.0
+      vitepress: 1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.9)(@types/react@19.0.10)(axios@1.8.3)(change-case@5.4.4)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.1)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.8.2)
+      vue: 3.5.13(typescript@5.8.2)
+
   vitepress@1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.9)(@types/react@18.3.18)(axios@1.8.3)(change-case@5.4.4)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.3)(react@18.3.1)(sass@1.85.1)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.8.2):
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.20.3)(@types/react@18.3.18)(react@18.3.1)(search-insights@2.17.3)
+      '@iconify-json/simple-icons': 1.2.25
+      '@shikijs/core': 2.5.0
+      '@shikijs/transformers': 2.5.0
+      '@shikijs/types': 2.5.0
+      '@types/markdown-it': 14.1.2
+      '@vitejs/plugin-vue': 5.2.1(vite@5.4.14(@types/node@22.13.9)(less@4.2.2)(lightningcss@1.29.1)(sass@1.85.1)(terser@5.39.0))(vue@3.5.13(typescript@5.8.2))
+      '@vue/devtools-api': 7.7.2
+      '@vue/shared': 3.5.13
+      '@vueuse/core': 12.7.0(typescript@5.8.2)
+      '@vueuse/integrations': 12.7.0(axios@1.8.3)(change-case@5.4.4)(focus-trap@7.6.4)(typescript@5.8.2)
+      focus-trap: 7.6.4
+      mark.js: 8.11.1
+      minisearch: 7.1.2
+      shiki: 2.5.0
+      vite: 5.4.14(@types/node@22.13.9)(less@4.2.2)(lightningcss@1.29.1)(sass@1.85.1)(terser@5.39.0)
+      vue: 3.5.13(typescript@5.8.2)
+    optionalDependencies:
+      postcss: 8.5.3
+    transitivePeerDependencies:
+      - '@algolia/client-search'
+      - '@types/node'
+      - '@types/react'
+      - async-validator
+      - axios
+      - change-case
+      - drauu
+      - fuse.js
+      - idb-keyval
+      - jwt-decode
+      - less
+      - lightningcss
+      - nprogress
+      - qrcode
+      - react
+      - react-dom
+      - sass
+      - sass-embedded
+      - search-insights
+      - sortablejs
+      - stylus
+      - sugarss
+      - terser
+      - typescript
+      - universal-cookie
+
+  vitepress@1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.9)(@types/react@19.0.10)(axios@1.8.3)(change-case@5.4.4)(less@4.2.2)(lightningcss@1.29.1)(postcss@8.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.85.1)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.8.2):
+    dependencies:
+      '@docsearch/css': 3.8.2
+      '@docsearch/js': 3.8.2(@algolia/client-search@5.20.3)(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3)
       '@iconify-json/simple-icons': 1.2.25
       '@shikijs/core': 2.5.0
       '@shikijs/transformers': 2.5.0

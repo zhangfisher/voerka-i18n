@@ -1,5 +1,5 @@
 import type { VoerkaI18nScope } from '@voerkai18n/runtime';
-import { computed, ComputedRef,getCurrentInstance } from 'vue'; 
+import { computed, type ComputedRef,getCurrentInstance } from 'vue'; 
 
 export function createTranslateTransform(){
     return (scope:VoerkaI18nScope) => {        

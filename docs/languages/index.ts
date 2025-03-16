@@ -2,22 +2,23 @@ import { VoerkaI18nScope } from "@voerkai18n/runtime"
 import storage  from "./storage"
 import formatters from "@voerkai18n/formatters"
 import loader from "./loader"
+import { transform, type TransformResultType } from "./transform"
 import paragraphs from "./paragraphs"
 import idMap from "./messages/idMap.json"
 import { component,type TranslateComponentType } from "./component"
-import { transform, type TransformResultType } from "./transform"
 import settings from "./settings.json"
-import defaultMessages from "./messages/{{defaultLanguage}}"  
-{{if activeLanguage !== defaultLanguage}}import activeMessages from "./messages/{{activeLanguage}}"{{/if}}
+import defaultMessages from "./messages/zh-CN"  
+
  
 
-const messages = { {{each languages}}{{if $value.name == defaultLanguage}}
-    '{{defaultLanguage}}'    : defaultMessages,{{ else if $value.name == activeLanguage && activeLanguage !== defaultLanguage }}    '{{activeLanguage}}'    : activeMessages,{{ else}}    '{{$value.name}}'    : ()=>import("./messages/{{$value.name}}"),{{/if}}
-{{/each}}}
+const messages = { 
+    'zh-CN'    : defaultMessages,
+    'en-US'    : ()=>import("./messages/en-US"),
+}
 
 
 export const i18nScope = new VoerkaI18nScope<TranslateComponentType,TransformResultType>({    
-    id: "{{scopeId}}",                                  // 当前作用域的id
+    id: "voerkai18n-docs__1_1_0",                                  // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 格式化器
     storage,                                            // 语言配置存储器

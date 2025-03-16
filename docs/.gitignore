@@ -1,0 +1,4 @@
+
+languages/api.json
+languages/translates/*/*.bak.*.json
+**/*.wrapped.*

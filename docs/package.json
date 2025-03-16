@@ -6,20 +6,32 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "@voerkai18n/cli": "workspace:*",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "i18n:init": "voerkai18n init",
+    "i18n:config": "voerkai18n config",
+    "i18n:extract": "voerkai18n extract",
+    "i18n:translate": "voerkai18n translate --api qwen",
+    "i18n:compile": "voerkai18n compile"
   },
   "keywords": [],
   "author": "wxzhang",
   "license": "MIT",
   "dependencies": {
+    "@voerkai18n/cli": "workspace:*",
+    "@voerkai18n/runtime": "workspace:*",
+    "@voerkai18n/formatters": "workspace:*",
+    "@voerkai18n/vue": "workspace:*",
     "@lite-tree/icons": "^1.0.6",
     "@lite-tree/vue": "^1.1.4",
     "flex-tools": "^1.4.33",
     "flexstyled": "^2.1.2"
+  },
+  "devDependencies": {
+    "vitepress-demo-plugin": "^1.3.1"
   }
 }

@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress' 
+import { vitepressDemoPlugin } from 'vitepress-demo-plugin'; 
+import path from "node:path"
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -72,6 +74,9 @@ export default defineConfig({
             { text:'Vue', link: '/zh/guide/integration/vue' },
             { text:'Vue2', link: '/zh/guide/integration/vue2' },
             { text:'React', link: '/zh/guide/integration/react' },
+            { text:'Nextjs', link: '/zh/guide/integration/nextjs' },
+            { text:'Svelte', link: '/zh/guide/integration/svelte' },
+            { text:'Solid', link: '/zh/guide/integration/solid' },
             { text:'uniapp', link: '/zh/guide/integration/uniapp' },
             { text:'openinula', link: '/zh/guide/integration/openinula' },
           ]
@@ -84,6 +89,7 @@ export default defineConfig({
             { text: '文本映射', link: '/zh/guide/advanced/textMap'  },
             { text: '多库联动', link: '/zh/guide/advanced/multi-libs' },
             { text: '事件', link: '/zh/guide/advanced/events' },
+            { text: '翻译变换', link: '/zh/guide/advanced/transform' },
             { text: '定制格式化器', link: '/zh/guide/advanced/custom-formatter' },
             { text: '自动导入翻译函数', link: '/zh/guide/advanced/auto-import'  },
             { text: '语言包', link: '/zh/guide/advanced/lang-pack'  },
@@ -124,7 +130,11 @@ export default defineConfig({
       }
     }
   },
-  // vite:{
-  //   plugins: [codeInspectorPlugin({ bundler: 'vite'})]
-  // }
+  markdown: { 
+    config(md) { 
+      md.use(vitepressDemoPlugin,{
+        demoDir: path.resolve(__dirname, '../demos'),       
+      }); 
+    }, 
+  }
 })

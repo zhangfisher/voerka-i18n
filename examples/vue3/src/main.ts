@@ -1,4 +1,4 @@
-import { createApp,h } from 'vue'
+import { createApp } from 'vue'
 import './style.css'
 import "@voerkai18n/webcomponent"
 import App from './App.vue'
@@ -13,3 +13,4 @@ i18nScope.ready(()=>{
         .use(router)
         .mount('#app')
 })
+
