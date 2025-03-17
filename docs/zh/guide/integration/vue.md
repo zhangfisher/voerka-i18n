@@ -82,7 +82,7 @@ myapp
 
 修改`main.ts`文件，引入`@voerkai18n/vue`。
 
-```typescript
+```ts
 import { i18nScope } from "./languages"
 import { router } from "./router"
 import { i18nPlugin } from '@voerkai18n/vue'

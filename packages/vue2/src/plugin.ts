@@ -12,17 +12,18 @@ export const i18nPlugin = {
         if(!i18nScope){
             throw new Error('Parameter<i18nScope> is required for VoerkaI18n Vue2 Plugin')
         }        
-        const state = Vue.observable({ langauge : i18nScope.activeLanguage })
+        const state = Vue.observable({ value : i18nScope.activeLanguage })
+        Vue.prototype.$activeLanguage = state
 
         Vue.prototype.t = (message:string,...args:any[])=>{
-            state.langauge 
+            state.value 
             return i18nScope.t(message,...args)
         }   
         i18nScope.ready((language:string)=>{
-            state.langauge = language
+            state.value = language
         })      
         i18nScope.on("change",(language:string)=>{
-            state.langauge = language
+            state.value = language
         })
 
         Vue.component('Translate',i18nScope.Translate);

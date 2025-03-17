@@ -107,12 +107,12 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: '命令行', link: '/zh/guide/tools/cli' },
-            { text: 'Babel插件', link: '/zh/guide/tools/babel' },
             { text: '编译插件', link: '/zh/guide/tools/plugins' },
             { text: 'Vue插件', link: '/zh/guide/tools/vue' },
             { text: 'Vue2插件', link: '/zh/guide/tools/vue2' },
             { text: 'Nextjs', link: '/zh/guide/tools/nextjs' },            
             { text: 'Svelte', link: '/zh/guide/tools/svelte' },
+            { text: 'Babel插件', link: '/zh/guide/tools/babel' },
             { text: 'Eslint', link: '/zh/guide/tools/eslint' }
           ]
         }

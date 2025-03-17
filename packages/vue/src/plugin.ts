@@ -3,16 +3,16 @@ import { ref } from "vue"
 import type { App, Plugin } from "vue"
 
 export type VoerkaI18nVuePluginOptions = {
-    scope?: VoerkaI18nScope
+    i18nScope?: VoerkaI18nScope
 }
 
 export const i18nPlugin: Plugin<VoerkaI18nVuePluginOptions> =   {
     install: (app:App, options?:VoerkaI18nVuePluginOptions) => { 
-        const { scope } = Object.assign({
-            scope: undefined
+        const { i18nScope } = Object.assign({
+            i18nScope: undefined
         },options)
         const manager:VoerkaI18nManager = globalThis.VoerkaI18n;
-        const curScope = scope || manager.scope
+        const curScope = i18nScope || manager.scope
         if (!manager || !curScope) {
             throw new Error('VoerkaI18n is not installed');
         }

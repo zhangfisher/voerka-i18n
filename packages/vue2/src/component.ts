@@ -105,14 +105,16 @@ export function createTranslateComponent<ComponentType=any>(options?: CreateTran
                 class: className,
                 style: Object.assign({"position":"relative"},style)
             }
+            
             const msgId                           = scope.getMessageId(this.message)
             if(msgId) attrs['data-id']            = msgId
             if(this.id) attrs['data-id']          = this.id
             if(scope.library) attrs['data-scope'] = scope.$id
-             
+            const showLoading = this.isParagraph || typeof(this.message) === 'function'
+
             return h(tag || 'div', attrs, [
                   this.result,
-                  hasLoading && this.isLoading  ? h(LoadingComponent) : null 
+                  showLoading && hasLoading && this.isLoading  ? h(LoadingComponent) : null 
             ])
           }
       }) as any 

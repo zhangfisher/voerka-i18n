@@ -1,14 +1,7 @@
 # Vue插件
 
-`@voerkai18n/vue`为`Vue3`应用提供国际化支持，实现`枚举语言`、`变量注入`、`语言切换`等功能。
-
-`@voerkai18n/vue`包含以下功能：
-
-- 翻译组件
-- 翻译变换
-- 翻译插件
-- useVoerkaI18n
-
+`@voerkai18n/vue`为`Vue3`应用提供国际化支持，实现`翻译组件`、`翻译变换`、`枚举语言`、`语言切换`等功能。
+ 
 ## 安装
 
 将`@voerkai18n/vue`安装为运行时依赖
@@ -27,11 +20,7 @@ yarn add -D @voerkai18n/vue
 pnpm add -D @voerkai18n/vue
 ```
 :::
-
-
-`@voerkai18n/vue`
-
-
+ 
 ## 指南
 
 ### 启用插件
@@ -46,7 +35,7 @@ import { i18nPlugin } from '@voerkai18n/vue'
 
 i18nScope.ready(()=>{
     createApp(App)
-        .use(i18nPlugin,{scope:i18nScope})
+        .use(i18nPlugin,{i18nScope})
         .use(router)
         .mount('#app')
 })
