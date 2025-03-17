@@ -162,7 +162,7 @@ module.exports = {
 
 ### 第7步：切换语言
 
-引入`useVoerkaI18n`插件来实现切换语言的功能。
+引入`useVoerkaI18n`来实现切换语言的功能。
 
 ```vue
 <template>

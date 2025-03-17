@@ -54,8 +54,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
       '@lite-tree/vue':
-        specifier: ^1.1.5
-        version: 1.1.5(vue@3.5.13(typescript@5.8.2))
+        specifier: ^1.1.6
+        version: 1.1.6(vue@3.5.13(typescript@5.8.2))
       '@voerkai18n/cli':
         specifier: workspace:*
         version: link:../packages/cli
@@ -3104,8 +3104,8 @@ packages:
   '@lite-tree/icons@1.0.6':
     resolution: {integrity: sha512-MIJ434p+ExRZEPosMVNN6LLHrwJh6vY+FibB6OiLnB/5D9OtO3bK0j/OZmbnustPN59sAS+qEtEtQ6LL5EPv7w==}
 
-  '@lite-tree/vue@1.1.5':
-    resolution: {integrity: sha512-tFqCvDbVBpGRbXvBx8Fv3PEvK7fZ7T8aYsA83+yVgKXvEsVSHzqzSH+rPX0dGGGQgal7sw9AFXNDEbi+swAupw==}
+  '@lite-tree/vue@1.1.6':
+    resolution: {integrity: sha512-+15i4sIJVcJTSuN1VAdU6+z+7BQGlLIvimJM2d04ulfa24N1dqX7eDylS3CNYIPGA58E5Nrm2bwT/F1SE5x37A==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -14938,7 +14938,7 @@ snapshots:
 
   '@lite-tree/icons@1.0.6': {}
 
-  '@lite-tree/vue@1.1.5(vue@3.5.13(typescript@5.8.2))':
+  '@lite-tree/vue@1.1.6(vue@3.5.13(typescript@5.8.2))':
     dependencies:
       vue: 3.5.13(typescript@5.8.2)
       vue-slide-up-down: 3.0.0(vue@3.5.13(typescript@5.8.2))

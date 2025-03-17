@@ -85,6 +85,7 @@ export default defineConfig({
           text: '高级',
           collapsed: false,
           items: [
+            { text: '配置', link: '/zh/guide/advanced/settings'  },
             { text: '运行时', link: '/zh/guide/advanced/runtime'  },
             { text: '文本映射', link: '/zh/guide/advanced/textMap'  },
             { text: '多库联动', link: '/zh/guide/advanced/multi-libs' },
@@ -107,9 +108,12 @@ export default defineConfig({
           items: [
             { text: '命令行', link: '/zh/guide/tools/cli' },
             { text: 'Babel插件', link: '/zh/guide/tools/babel' },
-            { text: 'Vite插件', link: '/zh/guide/tools/vite' },
+            { text: '编译插件', link: '/zh/guide/tools/plugins' },
             { text: 'Vue插件', link: '/zh/guide/tools/vue' },
-            { text: 'WebPack', link: '/zh/guide/tools/webpack' },
+            { text: 'Vue2插件', link: '/zh/guide/tools/vue2' },
+            { text: 'Nextjs', link: '/zh/guide/tools/nextjs' },            
+            { text: 'Svelte', link: '/zh/guide/tools/svelte' },
+            { text: 'Eslint', link: '/zh/guide/tools/eslint' }
           ]
         }
       ],

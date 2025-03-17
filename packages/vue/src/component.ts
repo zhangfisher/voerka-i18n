@@ -8,7 +8,7 @@ export type CreateTranslateComponentOptions = {
     tagName?: string 
     class?  : string
     style?  : string
-    loading?: Component | boolean | string
+    loading?: Component
 }
  
 export type VueTranslateComponentType = Component<VoerkaI18nTranslateProps> 
@@ -45,6 +45,7 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                 )
                 // 仅当是段落时才显示加载中
                 const isLoading = ref<boolean>(false)
+                const showLoading = typeof props.message === 'function' || isParagraph
                 const isFirst = ref(false)
                 const tag = props.tag || tagName
                 const msgId = scope.getMessageId(props.message)
@@ -110,7 +111,7 @@ export function createTranslateComponent(options?: CreateTranslateComponentOptio
                         if(scope.library) attrs['data-scope'] = scope.$id
                         return h(tag || 'div', attrs, [
                             result.value,
-                            hasLoading && isLoading.value  ?
+                            showLoading && hasLoading && isLoading.value  ?
                                 LoadingComponent : null 
                         ])
                     }else{

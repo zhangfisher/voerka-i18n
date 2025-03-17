@@ -1,13 +1,23 @@
 # Babel插件
 
 全局安装`@voerkai18n/babel`插件用来进行自动导入`t`函数和自动文本映射。
+
 ## 安装
 
-```javascript
+::: code-group
+
+```npm
 > npm install -g @voerkai18n/babel
+```
+
+```yarn
 > yarn global add @voerkai18n/babel
+```
+
+```pnpm
 > pnpm add -g @voerkai18n/babel
 ```
+:::
 
 ## 启用插件
 
@@ -38,12 +48,6 @@ module.expors = {
 
 插件支持以下参数:
 
-- **location**
-
-  配置`langauges`文件夹位置，默认会使用当前文件夹下的`languages`文件。
-
-  因此，如果你的`babel.config.js`在项目根文件夹，而`languages`文件夹位于`src/languages`，则可以将`location="src/languages"`，这样插件会自动从该文件夹读取需要的数据。
-
 - **autoImport**
 
   用来配置导入的路径。比如 `autoImport="#/languages"  `，则当在babel转码时，如果插件检测到t函数的存在并没有导入，就会自动在该源码中自动导入`import { t } from "#/languages"`
@@ -56,7 +60,7 @@ module.expors = {
           [
               "module-resolver",
               {
-                  root:"./",
+                root:"./",
   				alias:{
                       "languages":"./src/languages"
                   }

@@ -14,7 +14,7 @@ export default (options: VoerkaI18nPluginOptions): any => {
           console.log('[VoerkaI18n] submit language patch=', patchData)
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify({ patched: true }))
-        }) 
+        })
       })
     }
   })

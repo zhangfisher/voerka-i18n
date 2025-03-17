@@ -13,8 +13,7 @@ module.exports = () => {
         .option("-m, --mode [value]", t("更新模式,取值sync,overwrite,merge"),{
             default:"sync",
             choices:["sync","overwrite","merge"]
-        })
-        .option("-a, --ast", t("使用AST提取")) 
+        }) 
         .option("-p, --patterns [patterns...]", t("文件匹配规则"))
         .action(async (options) => {
             const opts = Object.assign({

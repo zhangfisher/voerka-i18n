@@ -149,5 +149,5 @@
 
 .vp-code .line.highlighted:before{
     content: '👉';
-    margin-left: -1em;
+    margin-left: -1.5em;
 }
