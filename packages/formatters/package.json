@@ -71,13 +71,9 @@
     "flex-tools": "^1.4.33"
   },
   "devDependencies": {
-    "@types/node": "^22.13.8",
-    "@voerkai18n/runtime": "workspace:*",
+    "@types/node": "^22.13.8", 
     "tsup": "^8.3.6",
     "typescript": "^5.8.2",
     "vitest": "^2.1.8"
-  },
-  "peerDependencies": {
-    "@voerkai18n/runtime": "workspace:*"
-  }
+  } 
 }

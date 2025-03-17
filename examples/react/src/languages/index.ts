@@ -5,6 +5,8 @@ import idMap from "./messages/idMap.json"
 import { component,type TranslateComponentType } from "./component"
 import paragraphs from "./paragraphs"
 import settings from "./settings.json"
+import loader from "./loader"
+import { transform, type TransformResultType } from "./transform"
 import defaultMessages from "./messages/zh-CN"  
 
 const messages = { 
@@ -14,7 +16,7 @@ const messages = {
 }
 
 
-export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({    
+export const i18nScope = new VoerkaI18nScope<TranslateComponentType,TransformResultType>({    
     id: "@voerkai18n-examples/react__1_0_0",                                  // 当前作用域的id
     idMap,                                              // 消息id映射列表
     formatters,                                         // 格式化器
@@ -22,6 +24,8 @@ export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({
     messages,                                           // 语言包
     component,                                          // 翻译组件
     paragraphs,
+    loader,
+    transform,
     ...settings
 }) 
 

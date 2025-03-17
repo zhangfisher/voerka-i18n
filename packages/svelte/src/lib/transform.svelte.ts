@@ -6,7 +6,7 @@ export function createTranslateTransform(){
         
         return (result:string)=>{       
             let subscriber:VoerkaI18nEventSubscriber
-            let text = $state(result)
+            let text = $state(result) 
             onMount(() => {
                 subscriber = scope.on('change',(lang:string)=>{
                     text = scope.t(result)
