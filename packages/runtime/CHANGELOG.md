@@ -1,5 +1,11 @@
 # @voerkai18n/runtime
 
+## 3.0.7
+
+### Patch Changes
+
+- [`ee3f5c2`](https://github.com/zhangfisher/voerka-i18n/commit/ee3f5c2dd398353b76c465bdd6c902547cb904ee) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix some error
+
 ## 3.0.6
 
 ## 3.0.5
