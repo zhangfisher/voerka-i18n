@@ -205,7 +205,7 @@ const LanguageBar: React.FC = () => {
     manager        : VoerkaI18nManager
     activeLanguage : string
     defaultLanguage: string
-    languages      : VoerkaI18nLanguageDefine
+    languages      : VoerkaI18nLanguage
     changeLanguage : (language:string)=>Promise<string>,
     t              : VoerkaI18nTranslate
 };
@@ -225,6 +225,138 @@ export const component = createTranslateComponent()
 export type TranslateComponentType = ReactTranslateComponentType
 ```
 
+### 翻译组件
+
+使用`voerkai18n apply -f vue`后，会更新`languages/component.ts`，导出一个`Vue 2`组件，该组件可以在切换语言时自动重新渲染。也可以手动更新修改`languages/component.ts`，内容如下：
+
+```ts
+import { 
+  createTranslateComponent, 
+  type VueTranslateComponentType 
+} from "@voerkai18n/vue2";
+export const component = createTranslateComponent()
+export type TranslateComponentType = VueTranslateComponentType
+```
+
+#### 创建参数
+
+`createTranslateComponent`方法用来构建Vue组件，类型如下：
+
+```ts
+type CreateTranslateComponentOptions = {
+  default?: string
+  tagName?: string 
+  class?  : string
+  style?  : string
+  loading?: Component
+}
+```
+
+| 参数 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `default` |  `string`    |       | 默认显示文本   |
+| `tagName` |  `string`    | `div` | 标签名称       |
+| `class`   |  `string`    |       | CSS类名        |
+| `style`   |  `string`    |       | CSS样式        |
+| `loading` |  `Component` |       | 是否显示加载中  |
+
+
+- `loading`参数用来提供一个加载中的`Vue`组件，当加载远程文本时显示。加载中组件仅在`message`参数是一个`Function`或提供`段落id`时有效。
+
+#### 组件参数
+
+```ts
+type VoerkaI18nTranslateProps<
+  Options extends VoerkaI18nTranslateOptions = VoerkaI18nTranslateOptions,
+  Children = any> = {
+    id?       : string;
+    message?  : VoerkaI18nToBeTranslatedMessage;
+    vars?     : VoerkaI18nTranslateVars;
+    default?  : any;
+    tag?      : string;
+    options?  : Options;
+}
+```
+
+| 参数 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `id` |  `string` |  | 可选，段落ID |
+| `message` |  `VoerkaI18nToBeTranslatedMessage` |  | 可选，要翻译的文本 |
+| `vars` |  `VoerkaI18nTranslateVars` |  | 可选，插值变量 |
+| `default` |  `any` |  | 可选，默认文本 |
+| `tag` |  `string` |  | 可选，标签名称 |
+| `options` |  `Options` |  | 可选，选项 |
+
+- **`id`和`message`二选一，`id`优先级高于`message`**
+ 
+ 
+### useVoerkaI18n
+
+`useVoerkaI18n`是一个`React`的`Hook`，用来访问`VoerkaI18n`的相关信息。
+
+```ts
+import { useVoerkaI18n } from "@voerkai18n/react"
+
+const { 
+  t, 
+  activeLanguage,
+  defaultLanguage, 
+  changeLanguage,
+  scope,
+  manager
+} = useVoerkaI18n()
+```
+
+使用`useVoerkaI18n`可以渲染出语言切换的组件：
+
+```vue
+<template>
+  <div>
+    <button  
+      v-for="(lang, index) in languages"
+      @click="i18nScope.change(lang.name)"
+      type="button"       
+      :class="{'red-text': activeLanguage === lang.name }"
+      >  
+      {{ lang.name }}     
+      </button>
+  </div>
+</template>
+
+<script setup>
+import { i18nScope} from './languages';
+import { useVoerkaI18n } from '@voerkai18n/vue';   
+const { activeLanguage,languages } =  useVoerkaI18n(i18nScope)
+</script>
+```
+
+### VoerkaI18nProvider
+
+`VoerkaI18nProvider`用来包装入口，是对`i18nScope.ready`的封装。
+
+
+```tsx
+import { VoerkaI18nProvider } from '@voerkai18n/react'
+
+<VoerkaI18nProvider>
+    <StrictMode>
+      <App />
+    </StrictMode>,
+</VoerkaI18nProvider>
+
+// 等效于
+
+i18nScope.ready(()=>{
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+})
+
+```
+
+- `VoerkaI18nProvider`提供一个`fallback`属性，用来在加载过程中显示一个`loading`组件。
 ### 加载中
 
 当使用翻译组件的[动态翻译](../use/translate)时，允许在翻译过程中显示加载中的状态。

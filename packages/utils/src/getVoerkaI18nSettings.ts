@@ -2,7 +2,7 @@ import { getLanguageDir } from "./getLanguageDir";
 import { getSettingsFromPackageJson } from "./getSettingsFromPackageJson";
 import path from "node:path"
 import fs from "node:fs"
-import type { VoerkaI18nLanguageDefine, VoerkaI18nSettings } from "@voerkai18n/runtime";
+import type { VoerkaI18nLanguage, VoerkaI18nSettings } from "@voerkai18n/runtime";
 
 
 export function getVoerkaI18nSettings():VoerkaI18nSettings{
@@ -24,10 +24,10 @@ export function getVoerkaI18nSettings():VoerkaI18nSettings{
     }        
 
     // @ts-ignore
-    settings.defaultLanguage = (settings.languages || []).find((lang:VoerkaI18nLanguageDefine) => lang.default)?.name
+    settings.defaultLanguage = (settings.languages || []).find((lang:VoerkaI18nLanguage) => lang.default)?.name
 
     // @ts-ignore
-    settings.activeLanguage = (settings.languages || []).find((lang:VoerkaI18nLanguageDefine) => lang.active)?.name
+    settings.activeLanguage = (settings.languages || []).find((lang:VoerkaI18nLanguage) => lang.active)?.name
 
     return settings as VoerkaI18nSettings
 }

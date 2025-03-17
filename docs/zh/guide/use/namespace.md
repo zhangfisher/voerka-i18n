@@ -14,7 +14,7 @@
 ```javascript
 // 工程目录：d:/code/myapp
 // languages/settings.json
-module.exports = {
+{
     namespaces:{
         //"名称":"相对路径"，
         "routes":"routes",

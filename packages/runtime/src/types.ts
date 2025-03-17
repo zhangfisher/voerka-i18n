@@ -35,7 +35,7 @@ export type VoerkaI18nToBeTranslatedMessage = string | ((language:string,vars?:V
 
 
  
-export interface VoerkaI18nLanguageDefine {
+export interface VoerkaI18nLanguage {
     name        : string               // 语言代码
     title?      : string               // 语言标题
     nativeTitle?: string               // 用原语言表达的标题
@@ -65,7 +65,7 @@ export type VoerkaI18nTranslateVars = Record<string,any> | number | boolean | st
 export type VoerkaI18nTranslate<R=string> = (message:string, vars?:VoerkaI18nTranslateVars, options?:VoerkaI18nTranslateOptions)=>R
  
 export interface VoerkaI18nSupportedLanguages {
-    [key: string]: VoerkaI18nLanguageDefine
+    [key: string]: VoerkaI18nLanguage
 }
 
 export type VoerkaI18nPlugin = (manager:VoerkaI18nManager)=>void

@@ -44,7 +44,7 @@ export type CreateTranslateComponentOptions = {
     attrs?    : Record<string,string>        
     class?    : string
     style?    : React.CSSProperties
-    loading?  : React.ReactNode | boolean | string
+    loading?  : React.ReactNode  
 }
   
 
@@ -76,6 +76,7 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
             const [ loading, setLoading ]  = useState<boolean>(false)         
             const tag = props.tag || tagName
             const msgId = scope.getMessageId(props.message)
+            const showLoading = isParagraph || typeof(message)==='function' 
             
             const loadMessage = useCallback(async (language:string) => {
                 const loader = typeof(message)==='function' ? ()=>message(language,vars,tOptions) : ()=>message
@@ -131,7 +132,7 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
                     style:Object.assign({"position":"relative"},gStyle,props.style)
                 },
                 result,
-                hasLoading && loading ? LoadingComponent : null,
+                showLoading && hasLoading && loading ? LoadingComponent : null,
                 )
             }else{
                 return <>{result}</>

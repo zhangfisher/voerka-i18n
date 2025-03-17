@@ -169,7 +169,7 @@ const LanguageBar: React.FC = () => {
     manager        : VoerkaI18nManager
     activeLanguage : string
     defaultLanguage: string
-    languages      : VoerkaI18nLanguageDefine
+    languages      : VoerkaI18nLanguage
     changeLanguage : (language:string)=>Promise<string>,
     t              : VoerkaI18nTranslate
 };
@@ -271,6 +271,14 @@ export const i18nScope = new VoerkaI18nScope<ReactServerTranslateComponentType>(
 export const t = i18nScope.t
 export const Translate = i18nScope.Translate as React.FC<VoerkaI18nTranslateProps>
 ```
+
+### React
+
+`@voerkai18n/nextjs`依赖于`@voerkai18n/react`，并且导出了`@voerkai18n/react`的所有API。
+
+详见[@voerkai18n/react](./react)文档。
+
+
 
 ### 常见问题
 

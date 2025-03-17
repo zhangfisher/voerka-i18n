@@ -202,7 +202,7 @@ const LanguageBar: React.FC = () => {
     manager        : VoerkaI18nManager
     activeLanguage : string
     defaultLanguage: string
-    languages      : VoerkaI18nLanguageDefine
+    languages      : VoerkaI18nLanguage
     changeLanguage : (language:string)=>Promise<string>,
     t              : VoerkaI18nTranslate
 };

@@ -1,4 +1,4 @@
-import type { VoerkaI18nLanguageDefine } from "@/types";
+import type { VoerkaI18nLanguage } from "@/types";
 import type { VoerkaI18nScope } from "..";
 
 
@@ -8,7 +8,7 @@ export class LanguageMixin{
 	 * @param {*} language
 	 * @returns
 	 */
-	getLanguage(this:VoerkaI18nScope,language:string):VoerkaI18nLanguageDefine | undefined{
+	getLanguage(this:VoerkaI18nScope,language:string):VoerkaI18nLanguage | undefined{
 		let index = this.languages.findIndex((lng) => lng.name == language);
 		if (index !== -1) return this.languages[index];
     }
@@ -31,7 +31,7 @@ export class LanguageMixin{
 	 * @returns
 	 */
 	hasLanguage(this:VoerkaI18nScope,language:string) {
-		return this.languages.findIndex((lang:VoerkaI18nLanguageDefine) => lang.name == language) != -1;
+		return this.languages.findIndex((lang:VoerkaI18nLanguage) => lang.name == language) != -1;
 	} 
 }
 

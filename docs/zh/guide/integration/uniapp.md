@@ -1,5 +1,9 @@
 # UniApp
 
+`uniapp`是一个使用`Vue`语法开发跨平台应用的框架，并且有`Vue 2`和`Vue 3`两个版本。
+
+只需要使用`@voerkaI18n/vue`和``@voerkaI18n/vue2`即可。
+
 在`uniapp`中使用`voerkai18n init`时可能会遇到如下错误：`Cannot read properties of undefined (reading 'name')`
 
 原因是`uniapp`创建时只有`manifest.json`，而没有`package.json`，就算有了`package.json`也可能缺少相应的`name`字段，`voerkai18n init`会尝试在读取`package.json`的`name`作为`i18nScope.id`，因此会报错。

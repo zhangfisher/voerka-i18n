@@ -1,6 +1,6 @@
 import type { 
     Voerkai18nIdMap, 
-    VoerkaI18nLanguageDefine, 
+    VoerkaI18nLanguage, 
     VoerkaI18nLanguageMessages,   
     VoerkaI18nLanguageMessagePack,
     IVoerkaI18nStorage,  
@@ -44,7 +44,7 @@ export interface VoerkaI18nScopeOptions<TranslateComponent=any,TranslateTransfor
     id?            : string                                                  // 作用域唯一id，一般可以使用package.json中的name字段
     debug?         : boolean                                                 // 是否开启调试模式，开启后会输出调试信息
     library?       : boolean                                                 // 当使用在库中时应该置为true
-    languages      : VoerkaI18nLanguageDefine[]                              // 当前作用域支持的语言列表
+    languages      : VoerkaI18nLanguage[]                              // 当前作用域支持的语言列表
     fallback?      : string                                                  // 默认回退语言
     messages       : VoerkaI18nLanguageMessagePack                           // 当前语言包
     paragraphs     : VoerkaI18nParagraphs                                    // 段落

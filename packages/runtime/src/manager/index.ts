@@ -1,5 +1,5 @@
 import type {  VoerkaI18nScope } from "../scope"
-import type { VoerkaI18nLanguageDefine, VoerkaI18nEvents, VoerkaI18nPlugin }  from "../types"
+import type { VoerkaI18nLanguage, VoerkaI18nEvents, VoerkaI18nPlugin }  from "../types"
 import { LiteEvent } from "flex-tools/events/liteEvent" 
 import { execAsyncs, isI18nScope } from "../utils"  
  
@@ -154,7 +154,7 @@ export class VoerkaI18nManager extends LiteEvent<VoerkaI18nEvents>{
 	 * @returns
 	 */
 	hasLanguage(language:string) {
-		return this.languages.findIndex((lang:VoerkaI18nLanguageDefine) => lang.name == language) != -1;
+		return this.languages.findIndex((lang:VoerkaI18nLanguage) => lang.name == language) != -1;
 	}
     clearLanguage(){
         this.scope.clearLanguage()
