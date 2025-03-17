@@ -8,13 +8,13 @@
 
 ::: code-group
 
-```npm
+```bash [npm]
 npm install --save-dev @voerkai18n/plugins
 ```
-```yarn
+```bash [yarn]
 yarn add -D @voerkai18n/plugins
 ```
-```pnpm
+```bash [pnpm]
 pnpm add -D @voerkai18n/plugins
 ```
 :::

@@ -6,15 +6,15 @@
 
 ::: code-group
 
-```npm
+```bash [npm]
 > npm install -g @voerkai18n/babel
 ```
 
-```yarn
+```bash [yarn]
 > yarn global add @voerkai18n/babel
 ```
 
-```pnpm
+```bash [pnpm]
 > pnpm add -g @voerkai18n/babel
 ```
 :::

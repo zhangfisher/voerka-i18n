@@ -126,8 +126,7 @@ import { createTranslateComponent, type VueTranslateComponentType } from "@voerk
 export const component = createTranslateComponent()
 export type TranslateComponentType = VueTranslateComponentType
 ```
-
-- 更多框架支持详见[集成框架](../integration)
+ 
 
 ### 自动启用组件支持
 

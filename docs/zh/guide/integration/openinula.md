@@ -41,7 +41,7 @@ export default defineConfig({
 })
 ```
 
-详见[@voerkai18n/vite](../tools/vite)插件介绍。
+详见[@voerkai18n/vite](../tools/plugins)插件介绍。
 
 ## 第三步：导入`t`翻译函数
 

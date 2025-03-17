@@ -4,6 +4,7 @@
   "private": true,
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
     "build": "turbo run build --filter=@voerkai18n/*",
