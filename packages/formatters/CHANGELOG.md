@@ -1,5 +1,15 @@
 # @voerkai18n/formatters
 
+## 3.0.8
+
+### Patch Changes
+
+- [`eb0d113`](https://github.com/zhangfisher/voerka-i18n/commit/eb0d11326651a74fdb66320f085df5d228e7649e) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix formatters types
+
+- [`e7f3fc1`](https://github.com/zhangfisher/voerka-i18n/commit/e7f3fc16d8f359543489f300248b7f18c931fd7c) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix some error
+
+- [`dc5c12f`](https://github.com/zhangfisher/voerka-i18n/commit/dc5c12f51ac92f08b0522afcca9c687cebca4081) Thanks [@zhangfisher](https://github.com/zhangfisher)! - 修复类型错误
+
 ## 3.0.7
 
 ### Patch Changes

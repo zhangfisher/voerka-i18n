@@ -1,5 +1,14 @@
 # @voerkai18n/vue
 
+## 3.0.8
+
+### Patch Changes
+
+- [`e7f3fc1`](https://github.com/zhangfisher/voerka-i18n/commit/e7f3fc16d8f359543489f300248b7f18c931fd7c) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix some error
+
+- Updated dependencies [[`e7f3fc1`](https://github.com/zhangfisher/voerka-i18n/commit/e7f3fc16d8f359543489f300248b7f18c931fd7c)]:
+  - @voerkai18n/runtime@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes
