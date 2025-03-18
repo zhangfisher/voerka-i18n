@@ -15,7 +15,7 @@ type MonthFormatterArgs = {
 export default createFormatter<MonthFormatterArgs,MonthFormatterConfig>({
         name   : "month",
         args   : [ "format" ], 
-        next(value,args,ctx){
+        next(value:string,args:MonthFormatterArgs,ctx:any){
             const config = ctx.getConfig()
             const month   = toDate(value).getMonth() + 1
             const format  = args.format ||  config.format

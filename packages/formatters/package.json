@@ -71,9 +71,10 @@
     "flex-tools": "^1.4.33"
   },
   "devDependencies": {
-    "@types/node": "^22.13.8", 
+    "@types/node": "^22.13.8",
+    "flexvars": "^1.0.6",
     "tsup": "^8.3.6",
     "typescript": "^5.8.2",
     "vitest": "^2.1.8"
-  } 
+  }
 }
