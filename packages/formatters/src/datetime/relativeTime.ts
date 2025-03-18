@@ -21,7 +21,7 @@ export default createFormatter<RelativeTimeFormatterArgs,RelativeTimeFormatterCo
         default: ()=>({
             base: new Date()
         }) ,
-        next(value,args,ctx){              
+        next(value:string,args:RelativeTimeFormatterArgs,ctx:any){              
             const config   = ctx.getConfig()
             const baseTime = args.base || new Date()
             return relativeTime(toDate(value),baseTime,config)   

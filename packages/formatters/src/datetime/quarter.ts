@@ -15,7 +15,7 @@ type QuarterFormatterArgs = {
 export default  createFormatter<QuarterFormatterArgs,QuarterFormatterConfig>({
         name   : "quarter",
         args   : [ "format" ], 
-        next(value,args,ctx){ 
+        next(value:string,args:QuarterFormatterArgs,ctx:any){ 
             const config = ctx.getConfig()
             const month   = toDate(value).getMonth() + 1  
             const quarter = Math.floor( ( month % 3 == 0 ? ( month / 3 ) : (month / 3 + 1 ) )) - 1

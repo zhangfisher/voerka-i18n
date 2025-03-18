@@ -21,7 +21,7 @@ const transformers =  {
 export default createFormatter<TimeFormatterArgs,TimeFormatterConfig>({
         name   : "time",
         args   : [ "format" ], 
-        next(value,args,ctx){             
+        next(value:string,args:TimeFormatterArgs,ctx:any){             
             const config   = ctx.getConfig()
             const dateValue = toDate(value)
             let format:any    = args.format || config.format

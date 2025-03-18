@@ -15,8 +15,8 @@ type WeekdayFormatterArgs = {
 export default createFormatter<WeekdayFormatterArgs,WeekdayFormatterConfig>({
         name   : "weekday",
         args   : [ "format" ], 
-        next(value:any,args,ctx){
-            const options = ctx.getConfig()
+        next(value:string,args:WeekdayFormatterArgs,ctx:any){
+            const options = ctx.getConfig() as WeekdayFormatterConfig
             const day   = toDate(value).getDay()            
             const format  = args.format || 'long'
             if( typeof(format)==='string' && format in options ){

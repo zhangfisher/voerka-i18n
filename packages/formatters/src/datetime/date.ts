@@ -24,7 +24,7 @@ export default createFormatter<DateFormatterArgs,DateFormatterConfig>({
         global : true,
         name   : "date",
         args   : [ "format" ],
-        next(value:any,args,ctx){         
+        next(value:string,args:DateFormatterArgs,ctx:any){         
             const config   = ctx.getConfig()
             const dateValue = toDate(value) 
             let format :any   = args.format || config.format

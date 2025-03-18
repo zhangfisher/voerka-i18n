@@ -19,8 +19,8 @@ export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>(
         default:{
             upper: true
         },
-        next(value,args,ctx){               
-            const options = ctx.getConfig()
+        next(value:string,args:TimeSlotsFormatterArgs,ctx:any){               
+            const options = ctx.getConfig() as TimeSlotsFormatterConfig
             const hour    = toDate(value).getHours()
             const isUpper = Boolean(args.upper)
             let slotIndex = options.slots.findIndex(slot=>hour<slot)

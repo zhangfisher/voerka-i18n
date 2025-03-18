@@ -15,7 +15,7 @@ type NumberFormatterArgs = {
 export default createFormatter<NumberFormatterArgs,NumberFormatterConfig>({
     name: "number",
     args:["precision","division"],
-    next(value,args,ctx){
+    next(value:string,args:NumberFormatterArgs,ctx:any){
         const config  = ctx.getConfig()
         return toCurrency(value, Object.assign({},config,args))
     }

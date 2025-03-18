@@ -41,7 +41,7 @@ type CurrencyFormatterArgs = {
 export  default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>({
         name   : "currency",
         args   : [ "format", "unit", "precision", "prefix", "suffix", "division", "symbol", "radix" ],
-        next(value,args,ctx){
+        next(value:string,args:CurrencyFormatterArgs,ctx:any){
             const config = ctx.getConfig()               
             const params = Object.assign({},config, args)
             if (params.format in params) { 
