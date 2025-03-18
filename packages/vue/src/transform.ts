@@ -6,7 +6,7 @@ export function createTranslateTransform(){
         return (result:string)=>{             
             const instance = getCurrentInstance()
             return computed(()=>{
-                instance?.appContext.config.globalProperties.$$activeLanguage.value
+                instance?.appContext.config.globalProperties.$activeLanguage.value
                 return scope.t(result)
             });                
         }

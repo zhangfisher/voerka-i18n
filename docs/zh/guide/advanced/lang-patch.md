@@ -22,15 +22,13 @@
 <Tree>
 chat
     languages
-        + translates
-            messages
-                default.json
-            paragraphs/
-        messages
-            zh-CN.ts
-            en-US.ts
-            idMap.json
-        loader.ts
+        translates/
+        messages/ 
+        paragraphs/        
+        loader.ts   //!
+        storage.ts
+        transform.ts
+        formatters.json
         index.ts
         settings.json                  
   index.js
@@ -40,15 +38,11 @@ chat
 
 打开`languages/index.ts`,大概如下:
 
-```ts
+```ts {3,13}
 import { VoerkaI18nScope } from "@voerkai18n/runtime"
 import storage  from "./storage"
-import formatters from "@voerkai18n/formatters"
-import idMap from "./messages/idMap.json"
-import { component,type TranslateComponentType } from "./component"
-import paragraphs from "./paragraphs"
-import settings from "./settings.json"
-import defaultMessages from "./messages/zh-CN"  
+import loader from "./loader"
+// ...
 
 const messages = { 
     'zh-CN'    : defaultMessages,
@@ -57,19 +51,14 @@ const messages = {
 
 export const i18nScope = new VoerkaI18nScope<TranslateComponentType>({    
     id: "chat_1_0_0",                                  // 当前作用域的id
-    idMap,                                              // 消息id映射列表
-    formatters,                                         // 格式化器
-    storage,                                            // 语言配置存储器
-    messages,                                           // 语言包
-    paragraphs,                                         // 段落
-    component,                                          // 翻译组件
+    loader,
     ...settings
 }) 
 export const t = i18nScope.t
 export const Translate = i18nScope.Translate
 ```
 
-### 第2步：修改语言加载器
+### 第2步：修改语言加载器源代码
 
 `voerkiai18n`是采用`loader.ts`来从服务器加载语言包。
 
@@ -77,13 +66,7 @@ export const Translate = i18nScope.Translate
 chat
     languages
         + translates
-            messages
-                default.json
-            paragraphs/
-        messages
-            zh-CN.ts
-            en-US.ts
-            idMap.json
+        messages/
         loader.ts            //! 语言加载器
         index.ts
         settings.json                  
@@ -99,7 +82,7 @@ export const loader = async (language:string,scope:VoerkaI18nScope)=>{
 }
 ```
 
-`loader`函数需要返回JSON格式的语言包，大概如下：
+`loader`函数需要返回`JSON`格式的语言包，大概如下：
 
 ```json
 {
@@ -112,8 +95,8 @@ export const loader = async (language:string,scope:VoerkaI18nScope)=>{
 
 ### 第3步：编写语言包补丁文件
 
-假设我们发现`zh`语言的翻译错误，这就需要在服务器上生成一个对应的`zh`语言包补丁文件。
-方法很简单，打开`languages/zh.js`文件，该文件大概如下：
+假设我们发现`zh-CN`语言的翻译错误，这就需要在服务器上生成一个对应的`zh-CN`语言包补丁文件。
+方法很简单，打开`languages/zh-CN.js`文件，该文件大概如下：
 ```javascript
 module.exports = {
     "1": "支持的语言",
@@ -123,14 +106,16 @@ module.exports = {
     ....
 }
 ```
-复制一份修改和更名为`zh.json`，其中仅保留需要修复的条目，内容大概如下：
+复制一份修改和更名为`zh-CN.json`，其中仅保留需要修复的条目，内容大概如下：
+
 ```javascript
 {
     "1": "支持的语言",       
 }
 ```
-然后将`zh.json`复制到`languages/chat/zh.json`即可。
-同样地，我们如果要修复`user`、`manager`、`log`等三个库的翻译错误，如法泡制，生成语言包文件`languages/user/de.json`,`languages/manager/de.json`,`languages/log/de.json`。
+
+然后将`zh-CN.json`复制到`languages/chat/zh-CN.json`即可。
+同样地，我们如果要修复`user`、`manager`、`log`等三个库的翻译错误，如法泡制，生成语言包文件`languages/user/de-DE.json`,`languages/manager/de-DE.json`,`languages/log/de-DE.json`。
 
 ### 第4步：组织语言包补丁文件
 在上面中，我们通过`fetch(/languages/${scope.id}/${language}.json)`来读取语言包（您可以使用任意您喜欢的方式,如`axios`），这意味着我们需要在web服务器上根据此`URL`来组织语言包补丁，以便可以下载到语言包补丁。需要将语言包补丁保存在服务器的指定位置，如下：
@@ -139,13 +124,13 @@ module.exports = {
 webroot
     languages
         chat          
-            de.json        
+            de-DE.json        
         user               
-            de.json    
+            de-DE.json    
         manager
-            de.json   
+            de-DE.json   
         log                 
-            de.json               
+            de-DE.json               
 </Tree>
 
 ### 完成：自动打语言包补丁

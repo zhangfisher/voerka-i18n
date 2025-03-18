@@ -12,7 +12,8 @@ export default defineConfig({
     clean: true,
     treeshake:true,  
     minify: true,
-    noExternal:['flex-tools'],
+    noExternal:['flex-tools'],    
+    globalName: 'VoerkaI18nPatch',
     banner: {
         js: `/***        
     *   ---=== VoerkaI18n Patch Utility  ===---

@@ -34,7 +34,7 @@ export class ChangeLanguageMixin{
             this._activeMessages = finalMessages as VoerkaI18nLanguageMessages
             // 打语言包补丁, 如果是从远程加载语言包则不需要再打补丁了,因为远程加载的语言包已经是补丁过的了            
             if(finalMessages && !finalMessages.$remote && patch) {
-                await this.patch(language);
+                await this._patch(language);
             }
         }catch(e:any){
             // 切换语言失败，回退到默认语言,  注意：回退语言是不可能出错的，无论回退到了何种语言，默认语言总是可以兜底的回退语言

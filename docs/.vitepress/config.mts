@@ -87,7 +87,7 @@ export default defineConfig({
           items: [
             { text: '配置', link: '/zh/guide/advanced/settings'  },
             { text: '运行时', link: '/zh/guide/advanced/runtime'  },
-            { text: '文本映射', link: '/zh/guide/advanced/textMap'  },
+            { text: '文本映射', link: '/zh/guide/advanced/idMap'  },
             { text: '多库联动', link: '/zh/guide/advanced/multi-libs' },
             { text: '事件', link: '/zh/guide/advanced/events' },
             { text: '翻译变换', link: '/zh/guide/advanced/transform' },
@@ -98,7 +98,7 @@ export default defineConfig({
             { text: '动态增加语言支持', link: '/zh/guide/advanced/dynamic-add'  },
             { text: '更改语言目录', link: '/zh/guide/advanced/lang-entry-path'  },
             { text: '语言包补丁', link: '/zh/guide/advanced/lang-patch' },
-            { text: '在线编辑应用界面', link: '/zh/guide/advanced/lang-edit'  },
+            { text: '在线补丁编辑', link: '/zh/guide/advanced/edit-patch'  },
             { text: 'TypeScript', link: '/zh/guide/advanced/typescript' },
           ]
         },
@@ -115,8 +115,8 @@ export default defineConfig({
       ],
       "/zh/reference/": [ 
             { text: '语言代码', link: '/zh/reference/lang-code' },
-            { text: 'i18nScope', link: '/zh/reference/i18nscope' },
-            { text: 'VoerkaI18n', link: '/zh/reference/voerkai18n' },
+            { text: 'VoerkaI18nScope', link: '/zh/reference/i18nscope' },
+            { text: 'VoerkaI18nManager', link: '/zh/reference/voerkai18n' },
           ]  
     },
     socialLinks: [

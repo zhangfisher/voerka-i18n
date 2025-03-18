@@ -24,7 +24,7 @@ export class PatchMessageMixin{
                 this.storage.remove(this._getPatchKey(lang));
             }
         }
-    }
+    } 
 	/**
 	 * 当指定了默认语言包加载器后，会从服务加载语言补丁包来更新本地的语言包
 	 *
@@ -34,7 +34,7 @@ export class PatchMessageMixin{
 	 * @param {*} language
 	 * @returns {Promise<number>} 返回补丁包的数量
 	 */
-	async patch(this:VoerkaI18nScope, language?:string){
+	protected async _patch(this:VoerkaI18nScope, language?:string){
 		this._patching = asyncSignal();
 		if (!language) language = this.activeLanguage;
       	// 1. 从本地存储中恢复补丁

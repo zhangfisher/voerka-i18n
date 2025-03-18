@@ -8,7 +8,6 @@ import type {
     VoerkaI18nLanguageLoader,
     VoerkaI18nTranslate, 
     VoerkaI18nTranslateComponentBuilder,
-    VoerkaI18nTranslateProps,
     VoerkaI18nParagraphs,
     VoerkaI18nLanguageParagraphs,
     VoerkaI18nTranslateVars,
@@ -53,7 +52,7 @@ export interface VoerkaI18nScopeOptions<TranslateComponent=any,TranslateTransfor
     formatters?    : VoerkaI18nFormatters                                    // 当前作用域的格式化
     log?           : VoerkaI18nLoggerOutput                                  // 日志记录器
     attached?      : boolean                                                 // 是否挂接到appScope
-    sorageKey?     : string                                                  // 保存到Storeage时的Key
+    storageKey?    : string                                                  // 保存到Storeage时的Key
     loader?        : VoerkaI18nLanguageLoader                                // 从远程加载语言包 
     cachePatch?    : boolean                                                 // 是否缓存补丁语言包    
     injectLangAttr?: boolean | string                                        // 是否注入到html元素上注入一个langauge属性指向当前活动语言
@@ -105,7 +104,7 @@ export class VoerkaI18nScope<TranslateComponent=any,TranslateTransformResult=any
             idMap          : {},                            // 消息id映射列表
             formatters     : [],                            // 是否挂接到appScope
             attached       : true,                          // 是否挂接到appScope
-            sorageKey      : 'language',                    // 保存语言配置到Storage时的Key
+            storageKey     : 'language',                    // 保存语言配置到Storage时的Key
             cachePatch     : true                           // 是否缓存补丁语言包
         },options) as Required<VoerkaI18nScopeOptions>
         this._init()
@@ -235,7 +234,7 @@ export class VoerkaI18nScope<TranslateComponent=any,TranslateTransformResult=any
                 tasks.push(this.refresh(undefined,{ patch:false }))                
             }    
             tasks.push(
-                this.patch()
+                this._patch()
             )
             Promise.all(tasks).then(()=>{
                 this.emit('ready',this.activeLanguage,true)                

@@ -228,7 +228,7 @@ t("我有{value | currency({format:'bitcoin',symbol:'฿') }个比特币",123443
 对`currency`格式化器内置支持`zh-CN`和`en-US`两种语言的货币格式化规则。也可以进行覆盖修改。
 比如我们要将`zh-CN`的`radix`参数修改为`3`。
 
-```json {3-19}
+```json {4}
 {
     "zh-CN":{
         "currency" : {

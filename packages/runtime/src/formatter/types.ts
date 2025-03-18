@@ -28,9 +28,7 @@ export type VoerkaI18nFormatterContext<Config extends Dict = Dict> = {
 export type VoerkaI18nFormatter<
     Args extends Dict =  Dict,
     Config extends  Dict = Args
-> = FlexFilter<Args,VoerkaI18nFormatterContext<Config>> & {
-    global?  : boolean             // 是否全局格式化器，=true时，会在所有的scope中注册,默认为false
-}
+> = FlexFilter<Args,VoerkaI18nFormatterContext<Config>>  
 
 export type VoerkaI18nFormatterName = string
 

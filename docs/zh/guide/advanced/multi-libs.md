@@ -8,7 +8,7 @@
 
 整体原理框架如下：
 
-![结构图](./arch.png)
+![结构图](./arch.drawio.png)
 
 当我们在开发一个应用或者库并`import "./languages"`时，在`langauges/index.js`进行了如下处理：
 

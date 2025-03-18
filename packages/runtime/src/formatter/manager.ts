@@ -4,10 +4,8 @@
  *  
  */
 import type { VoerkaI18nScope } from '../scope';        
-import { VoerkaI18nFormatter, VoerkaI18nFormatterBuilder, VoerkaI18nFormatters } from './types';
-import { createFormatter } from './utils';
-import { Dict } from '@/types';
-
+import { VoerkaI18nFormatterBuilder, VoerkaI18nFormatters } from './types';
+ 
 export interface VoerkaI18nScopeCache{
     activeLanguage :string | null,
     typedFormatters: VoerkaI18nFormatters,
@@ -18,8 +16,7 @@ export class FormattersNotLoadedError extends Error{
     constructor(language:string){
         super(`Formatters of language<${language}> is not loaded,try to call load()`)
     }
-}
- 
+} 
 
 export class VoerkaI18nFormatterManager{
     private _formatters        : VoerkaI18nFormatters = [] 
@@ -32,36 +29,27 @@ export class VoerkaI18nFormatterManager{
     }    
     get scope(){ return this._scope! }      
     get formatters(){ return this._formatters }    
-    /**
-     * 
-     * 加载所有格式化器
-     * 
+    /** 
+     * 加载所有格式化器 
      */
     private _loadFormatters(){
         this._formatters && this._formatters.forEach((builder)=>{
-            this._registerFormatter(builder)
+            this.register(builder,true)
         })        
     }  
-    private _registerFormatter(builder:VoerkaI18nFormatterBuilder<any,any>){
+    register(builder:VoerkaI18nFormatterBuilder<any,any>,asGlobal:boolean=false){
         const filter = builder(this.scope)
         try{
             this.scope.interpolator.addFilter(filter)
             // 如果是全局格式化器，则注册到全局scope(即appCcope)里面
-            if(filter.global){
+            if(asGlobal){
                 const appScope = this.scope.manager.scope
                 if(appScope.id !== this.scope.id){
-                    appScope.formatters.register(filter)
-                }                
+                    appScope.interpolator.addFilter(filter)
+                }
             }
         }catch(e:any){
             this.scope.logger.error(`fail while register formatter<${filter.name}>：${e.stack}`)
         }
-    }
-    /**
-    * 动态注册格式化器
-    */
-    register<Args extends Dict,Config extends  Dict = Args>(formatter:VoerkaI18nFormatter<Args,Config>,configs?: Partial<Record<string,Partial<Config>>>){  
-        const builder =  createFormatter(formatter,configs) 
-        this._registerFormatter(builder)
-    }     
+    } 
 }

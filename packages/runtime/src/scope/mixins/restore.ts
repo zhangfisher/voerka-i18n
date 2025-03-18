@@ -18,7 +18,7 @@ export class RestoreMixin{
      * @param this 
      */
     private _getStorageKey(this:VoerkaI18nScope){
-        const storageKey = this.options.sorageKey       
+        const storageKey = this.options.storageKey       
         return storageKey.replace("{scope}",this.id)
     }
     /**
