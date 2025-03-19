@@ -52,6 +52,7 @@ export default defineConfig({
             { 
               collapsed: false,
               items: [
+                { text: '工作流', link: '/zh/guide/use/workflow' },
                 { text: '翻译函数', link: '/zh/guide/use/t' },
                 { text: '翻译组件', link: '/zh/guide/use/translate' },
                 { text: '段落', link: '/zh/guide/use/paragraph' },
