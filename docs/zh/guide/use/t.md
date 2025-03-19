@@ -73,23 +73,36 @@ import { t,i18nScope } from "<myapp>/languages"
 
 因此，解决的办法就很简单了，只需要在语言切换后重新渲染组件即可。
 
-```vue
+```vue {16}
 <template>
     <div>
         <p>{{ t("你好") }}</p>
-        <button @click="i18nScope.change('en-US')">切换语言</button>
+        <button 
+            @click="i18nScope.change('en-US')">
+            切换语言
+        </button>
     </div>
 </template>
 <script setup>
-import { t,i18nScope } from "<myapp>/languages"
+import { t:tt,i18nScope } from "<myapp>/languages"
 import { ref } from "vue"
 const render = ref(0)
+
+const t = (message:string,vars?:VoerkaI18nTranslateVars,options?:VoerkaI18nTranslateOptions)=>{
+    render.value  // 依赖render的值，当render的值发生变化时，组件会重新渲染
+    return tt(message,vars,options)
+}
+
 i18nScope.on("change",()=>{
     render.value++
 })
 </script>
 ```
 
-这样，当切换语言时，`render`的值会发生变化，从而触发组件的重新渲染，`t`函数也会重新执行，从而实现了语言切换。
+这样，当切换语言时,`render`的值会发生变化，从而触发组件的重新渲染，`t`函数也会重新执行，从而实现了语言切换。
 
 `t`函数是基本的翻译函数，不同的前端框架提供了相应的库来简化这个过程，包括`vue/vue2/svelte/nextjs/...`等。
+
+:::warning 提示
+实际应用时，`VoerkaI18n`提供了`React/Vue/Svelte`等框架的集成库，可以直接使用这些库简化语言切换时的自动更新。
+:::
