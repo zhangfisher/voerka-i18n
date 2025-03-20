@@ -26,3 +26,7 @@ gitignore
 # System Files
 .DS_Store
 Thumbs.db
+
+src/languages/api.json
+src/languages/translates/*/*.bak.*.json
+**/*.wrapped.*
