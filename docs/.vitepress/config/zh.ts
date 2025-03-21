@@ -1,24 +1,4 @@
-import { defineConfig } from 'vitepress' 
-import { vitepressDemoPlugin } from 'vitepress-demo-plugin'; 
-import path from "node:path"
-
-// https://vitepress.dev/reference/site-config
-export default defineConfig({
-  title: "VoerkaI18n",
-  description: "一键国际化全流程解决方案",
-  base: '/voerka-i18n/',
-  locales: {
-    root: {
-      label: '中文',
-      lang: 'zh-CN',
-    },
-    en: {
-      label: 'English',
-      lang: 'en', // 可选，将作为 `lang` 属性添加到 `html` 标签中
-      link: '/en/' // 默认 /fr/ -- 显示在导航栏翻译菜单上，可以是外部的
-      // 其余 locale 特定属性...
-    }
-  },
+export default {
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     outline: {
@@ -122,20 +102,7 @@ export default defineConfig({
     },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/zhangfisher/voerka-i18n/' }
-    ]
-  }, 
-  vue: {
-    template: {
-      compilerOptions: {
-        whitespace: 'preserve'
-      }
-    }
-  },
-  markdown: { 
-    config(md) { 
-      md.use(vitepressDemoPlugin,{
-        demoDir: path.resolve(__dirname, '../demos'),       
-      }); 
-    }, 
+    ]  
+  
   }
-})
+}

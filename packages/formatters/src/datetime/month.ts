@@ -1,4 +1,4 @@
-import { createFormatter } from "../utils/createFormatter"
+import { VoerkaI18nFormatterContext } from "@/types"
 import { toDate } from "../utils/toDate" 
 import { CN_MONTH_NAMES, CN_SHORT_MONTH_NAMES } from "flex-tools/chinese"
 
@@ -12,10 +12,11 @@ type MonthFormatterArgs = {
     format: string
 }
 
-export default createFormatter<MonthFormatterArgs,MonthFormatterConfig>({
+export default [
+    {
         name   : "month",
         args   : [ "format" ], 
-        next(value:string,args:MonthFormatterArgs,ctx:any){
+        next(value:string,args:MonthFormatterArgs,ctx:VoerkaI18nFormatterContext<MonthFormatterConfig>){
             const config = ctx.getConfig()
             const month   = toDate(value).getMonth() + 1
             const format  = args.format ||  config.format
@@ -40,5 +41,6 @@ export default createFormatter<MonthFormatterArgs,MonthFormatterConfig>({
         }
     },{
         format      : "long",
-    })
+    }
+]
  

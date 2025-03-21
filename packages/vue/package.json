@@ -20,7 +20,7 @@
     "internationalize"
   ],
   "dependencies": {
-    "flex-tools": "^1.4.33",
+    "flex-tools": "^1.4.41",
     "vue": "^3.0.0"
   },
   "devDependencies": {

@@ -43,11 +43,3 @@ voerkai18n translate
 ```shell
 voerkai18n compile
 ```
-
-## Next Steps
-
-- [Introduction](./intro/index.md)
-- [Integration Guide](./integration/index.md)
-- [Advanced Usage](./advanced/index.md)
-- [Tools Reference](./tools/index.md)
-- [Usage Examples](./use/index.md)

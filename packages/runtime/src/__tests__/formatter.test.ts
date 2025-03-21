@@ -19,7 +19,7 @@ describe('格式化器', () => {
     test("简单格式化器", async () => {
         const appScope = createVoerkaI18nScope({
             formatters:[
-                createFormatter({
+                {
                     name:"add",
                     args:['count'],
                     default:{
@@ -28,7 +28,7 @@ describe('格式化器', () => {
                     next:(value,args,ctx)=>{
                         return String(Number(value)+args.count)
                     }
-                })
+                }
             ]
         })
         expect(appScope.t('{ | add }',1)).toBe("2")
@@ -42,7 +42,7 @@ describe('格式化器', () => {
                     en:{ $config:{ add: { count: 2 } } }                    
                 },
                 formatters:[
-                    createFormatter({
+                    {
                         name:"add",
                         args:['count'],
                         default:{
@@ -61,7 +61,7 @@ describe('格式化器', () => {
                             resolve()
                             return String(Number(value)+args.count)
                         }
-                    })
+                    }
                 ]
             },            
             // {
@@ -81,7 +81,7 @@ describe('格式化器', () => {
         return new Promise<void>((resolve)=>{
             const appScope = createVoerkaI18nScope({ 
                 formatters:[
-                    createFormatter({
+                    [{
                         name:"add",
                         args:['count'],
                         default:{
@@ -102,7 +102,7 @@ describe('格式化器', () => {
                     },{
                         zh:{  count: 1 },
                         en:{  count: 3 }      
-                    })
+                    }]
                 ]
             }
             )
@@ -126,7 +126,7 @@ describe('格式化器', () => {
                     en:{ $config:{ add: { count: 20,x:2 } } }                    
                 },
                 formatters:[
-                    createFormatter<Args,Config>({
+                    [{
                         name:"add",
                         args:['count'],
                         default:{
@@ -149,7 +149,7 @@ describe('格式化器', () => {
                     },{
                         zh:{  count: 1 },
                         en:{  count: 3 }      
-                    })
+                    }]
                 ]
             })             
             
@@ -179,7 +179,7 @@ describe('格式化器', () => {
             },
         });
 
-        scope.formatters.register<BookNameArgs>({
+        scope.formatters.register({
             name:"bookname",
             args:['beginChar','endChar'], 
             next:(value, args, ctx) => {       

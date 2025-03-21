@@ -1,6 +1,6 @@
 
+import { VoerkaI18nFormatterContext } from "@/types"
 import { toCurrency } from "../utils/toCurrency" 
-import { createFormatter } from "../utils/createFormatter"
 
 type CurrencyFormatterConfig = {
     default  : string                       // "{symbol}{value}{unit}",
@@ -38,11 +38,12 @@ type CurrencyFormatterArgs = {
 } & Record<string,any>
  
 
-export  default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>({
+export default [
+    {
         name   : "currency",
         args   : [ "format", "unit", "precision", "prefix", "suffix", "division", "symbol", "radix" ],
-        next(value:string,args:CurrencyFormatterArgs,ctx:any){
-            const config = ctx.getConfig()               
+        next(value:string,args:CurrencyFormatterArgs,ctx:VoerkaI18nFormatterContext<CurrencyFormatterConfig>){
+            const config = ctx.getConfig()         
             const params = Object.assign({},config, args)
             if (params.format in params) { 
                 params.format = (params as any)[params.format]
@@ -84,5 +85,6 @@ export  default createFormatter<CurrencyFormatterArgs,CurrencyFormatterConfig>({
         short    : "{symbol}{value}{unit}",
         custom   : "{prefix} {symbol}{value}{unit}{suffix}",
         format   : "default", 
-    })
+    }
+]
 

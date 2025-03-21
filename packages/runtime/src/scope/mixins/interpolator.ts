@@ -1,6 +1,6 @@
 import { FlexVars } from "flexvars"
 import type { VoerkaI18nScope } from ".."
-import {  get as getByPath } from "flex-tools/object/get"
+import {  getByPath } from "flex-tools/object/getByPath"
 import { VoerkaI18nFormatterContext } from "@/formatter/types"
 
 export class InterpolatorMixin{

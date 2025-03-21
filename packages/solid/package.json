@@ -40,7 +40,7 @@
   "author": "wxzhang",
   "license": "MIT",
   "dependencies": {
-    "flex-tools": "^1.4.33"
+    "flex-tools": "^1.4.41"
   },
   "devDependencies": {
     "@solidjs/router": "^0.15.0",

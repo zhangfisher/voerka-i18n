@@ -34,7 +34,7 @@
   "license": "MIT",
   "dependencies": {
     "@voerkai18n/react": "workspace:*",
-    "flex-tools": "^1.4.33"
+    "flex-tools": "^1.4.41"
   },
   "devDependencies": {
     "@types/node": "^22.13.8",

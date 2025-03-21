@@ -28,7 +28,9 @@ export type VoerkaI18nFormatterContext<Config extends Dict = Dict> = {
 export type VoerkaI18nFormatter<
     Args extends Dict =  Dict,
     Config extends  Dict = Args
-> = FlexFilter<Args,VoerkaI18nFormatterContext<Config>>  
+> = FlexFilter<Args,VoerkaI18nFormatterContext<Config>> & {
+    global?: boolean
+}
 
 export type VoerkaI18nFormatterName = string
 
@@ -42,4 +44,4 @@ export interface VoerkaI18nFormatterBuilder<
 } 
 
 // 实例化VoerkaI18nScope时传入的格式化器配置
-export type VoerkaI18nFormatters =  VoerkaI18nFormatterBuilder<any,any>[] 
+export type VoerkaI18nFormatters =  (VoerkaI18nFormatter | [VoerkaI18nFormatter,Record<string,any>?,Record<string,any>?])[]

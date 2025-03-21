@@ -1,4 +1,4 @@
-import { createFormatter } from "../utils/createFormatter"
+import { VoerkaI18nFormatterContext } from "@/types"
 import { toDate } from "../utils/toDate"  
 
 type TimeSlotsFormatterConfig = { 
@@ -13,14 +13,15 @@ type TimeSlotsFormatterArgs = {
  }
 
 
-export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>({
+export default [
+    {
         name   : "timeSlots",
         args   : [ "upper" ],
         default:{
             upper: true
         },
-        next(value:string,args:TimeSlotsFormatterArgs,ctx:any){               
-            const options = ctx.getConfig() as TimeSlotsFormatterConfig
+        next(value:string,args:TimeSlotsFormatterArgs,ctx:VoerkaI18nFormatterContext<TimeSlotsFormatterConfig>){               
+            const options = ctx.getConfig()  
             const hour    = toDate(value).getHours()
             const isUpper = Boolean(args.upper)
             let slotIndex = options.slots.findIndex(slot=>hour<slot)
@@ -38,5 +39,6 @@ export default createFormatter<TimeSlotsFormatterArgs,TimeSlotsFormatterConfig>(
             lowerCases: ["凌晨", "早上", "上午", "中午", "下午", "晚上"],
             upperCases: ["凌晨", "早上", "上午", "中午", "下午", "晚上"]
         }
-    } )
+    } 
+]
  

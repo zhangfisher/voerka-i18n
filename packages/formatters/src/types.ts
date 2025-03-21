@@ -12,6 +12,4 @@ export type VoerkaI18nFormatter<
     global?: boolean;
 };
 export type VoerkaI18nScope = any
-export interface VoerkaI18nFormatterBuilder<Args extends Dict = Dict, Config extends Dict = Args> {
-    (scope: VoerkaI18nScope): VoerkaI18nFormatter<Args, Config>;
-}
+ 

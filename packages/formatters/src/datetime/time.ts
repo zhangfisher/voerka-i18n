@@ -1,4 +1,4 @@
-import { createFormatter } from "../utils/createFormatter"
+import { VoerkaI18nFormatterContext } from "@/types"
 import { toDate } from "../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime"
 
@@ -18,11 +18,12 @@ const transformers =  {
     timestamp: (value:Date)=>value.getTime()
 }  
 
-export default createFormatter<TimeFormatterArgs,TimeFormatterConfig>({
+export default [
+    {
         name   : "time",
         args   : [ "format" ], 
-        next(value:string,args:TimeFormatterArgs,ctx:any){             
-            const config   = ctx.getConfig()
+        next(value:string,args:TimeFormatterArgs,ctx:VoerkaI18nFormatterContext<TimeFormatterConfig>){             
+            const config   = ctx.getConfig() 
             const dateValue = toDate(value)
             let format:any    = args.format || config.format
             if( format in transformers ){
@@ -47,5 +48,6 @@ export default createFormatter<TimeFormatterArgs,TimeFormatterConfig>({
     },{
         format      : 'local',
         short       : "HH:mm:ss"
-    })
+    }
+]
  

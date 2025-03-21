@@ -1,4 +1,4 @@
-import { createFormatter } from "../utils/createFormatter"
+import { VoerkaI18nFormatterContext } from "@/types"
 import { toDate } from "../utils/toDate" 
 import { formatDateTime } from "flex-tools/misc/formatDateTime" 
 
@@ -20,11 +20,12 @@ const transformers =  {
     gmt  : (value:any)=>value.toGMTString()    
 }  
 
-export default createFormatter<DateFormatterArgs,DateFormatterConfig>({
+export default [
+    {
         global : true,
         name   : "date",
         args   : [ "format" ],
-        next(value:string,args:DateFormatterArgs,ctx:any){         
+        next(value:string,args:DateFormatterArgs,ctx:VoerkaI18nFormatterContext<DateFormatterConfig>){         
             const config   = ctx.getConfig()
             const dateValue = toDate(value) 
             let format :any   = args.format || config.format
@@ -51,5 +52,6 @@ export default createFormatter<DateFormatterArgs,DateFormatterConfig>({
         }
     },{
         format      : 'local'
-    })
+    }
+]
     

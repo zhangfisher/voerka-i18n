@@ -38,7 +38,7 @@
     "dependencies": {
         "axios": "^1.8.3",
         "bcp47-language-tags": "^1.0.8",
-        "flex-tools": "^1.4.34",
+        "flex-tools": "^1.4.41",
         "fs-extra": "^10.0.1",
         "glob": "^11.0.1",
         "js-yaml": "^4.1.0",
