@@ -28,7 +28,7 @@ export function createTranslateComponent(options?:CreateTranslateComponentOption
     const hasLoading:boolean = !!LoadingComponent
 
     return function(scope:VoerkaI18nScope){
-        return clientOnly((props: VoerkaI18nTranslateProps) => {
+        return ((props: VoerkaI18nTranslateProps) => {
             const { id: paragraphId, message, vars, options: tOptions, default: tDefault = '' } = props;
 
             const isParagraph: boolean = typeof paragraphId === 'string' && paragraphId.length > 0;

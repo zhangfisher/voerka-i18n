@@ -6,7 +6,6 @@ import { VoerkaI18nManager } from "@voerkai18n/runtime";
 export function NavigationEvents() {
     const location = useLocation();
     const searchParams = useSearchParams();
-
     createEffect(() => {
         applyTranslate();
     }, [location, searchParams]);
@@ -29,7 +28,7 @@ export type VoerkaI18nSolidProviderProps = {
     children: any;
 };
 
-export function VoerkaI18nNextjsProvider(props: VoerkaI18nSolidProviderProps) {
+export function VoerkaI18nSolidjsProvider(props: VoerkaI18nSolidProviderProps) {
     const { fallback, children } = props;
     const manager = globalThis.VoerkaI18n;
     const [ready, setReady] = createSignal(getInitReady(manager));

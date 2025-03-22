@@ -1,4 +1,5 @@
 import { useLocation } from "@solidjs/router";
+import { i18nScope } from "../languages"
 
 export default function Nav() {
   const location = useLocation();
