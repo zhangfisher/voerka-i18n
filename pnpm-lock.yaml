@@ -751,6 +751,9 @@ importers:
       '@types/node':
         specifier: ^22.13.8
         version: 22.13.8
+      '@voerkai18n/runtime':
+        specifier: workspace:*
+        version: link:../runtime
       flexvars:
         specifier: ^1.0.6
         version: 1.0.6

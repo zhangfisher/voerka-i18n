@@ -1,5 +1,5 @@
 {
-  "name": "@voerkai18n/solid",
+  "name": "@voerkai18n2/solid",
   "version": "3.0.8",
   "description": "voerkai18n for solidjs",
   "main": "src/index.js",
@@ -26,8 +26,7 @@
       "require": "./dist/server/index.js"
     }
   },
-  "scripts": {
-    "build": "tsup"
+  "scripts": { 
   },
   "keywords": [
     "voerkai18n",
