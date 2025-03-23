@@ -1,5 +1,5 @@
 import { useLocation } from "@solidjs/router";
-import { i18nScope } from "../languages"
+import { LanguageBar } from "./LanguageBar";
 
 export default function Nav() {
   const location = useLocation();
@@ -15,6 +15,7 @@ export default function Nav() {
           <a href="/about">About</a>
         </li>
       </ul>
+      <LanguageBar/>
     </nav>
   );
 }

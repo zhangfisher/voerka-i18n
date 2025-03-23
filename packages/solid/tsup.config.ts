@@ -15,7 +15,7 @@ export default defineConfig([{
     clean: true,
     treeshake:true,   
     minify: false,
-    noExternal:['flex-tools','@voerkai18n/react'],
+    noExternal:['flex-tools'],
     cjsInterop: false,       
     esbuildPlugins: [
         // @ts-ignore

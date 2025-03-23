@@ -86,5 +86,4 @@ export default [
         custom   : "{prefix} {symbol}{value}{unit}{suffix}",
         format   : "default", 
     }
-]
-
+]  

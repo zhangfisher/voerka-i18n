@@ -22,12 +22,11 @@ export function useVoerkaI18n(scope?: VoerkaI18nScope) {
         const listener = manager.on("change", (newLanguage: string) => {
             setActiveLanguage(newLanguage);
         });
-
-        return () => {
+        onCleanup(() => {
             if (listener) {
                 (listener as any).off();
             }
-        };
+        }); 
     }, []);
 
     return {

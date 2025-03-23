@@ -35,4 +35,4 @@ export function createServerTranslateComponent(options?:createServerTranslateCom
     }
 }
   
-export type ReactServerTranslateComponentType = React.FC<VoerkaI18nTranslateProps>
+export type ServerTranslateComponentType = React.FC<VoerkaI18nTranslateProps>

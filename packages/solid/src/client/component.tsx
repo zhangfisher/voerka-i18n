@@ -4,12 +4,11 @@
  */
 
 import { createSignal, createEffect, onCleanup, Component } from 'solid-js';
-import { clientOnly } from "@solidjs/start";
 import { Dynamic } from "solid-js/web"
 import { type VoerkaI18nTranslateProps, type VoerkaI18nScope, type VoerkaI18nTranslateComponentBuilder, loadAsyncModule } from "@voerkai18n/runtime" 
  
 
-export type CreateTranslateComponentOptions = {
+export type CreateClientTranslateComponentOptions = {
     tagName?  : string
     attrs?    : Record<string,string>        
     class?    : string
@@ -18,13 +17,13 @@ export type CreateTranslateComponentOptions = {
 }
   
 
-export type SolidTranslateComponentType = Component<VoerkaI18nTranslateProps>
+export type SolidClientTranslateComponentType = Component<VoerkaI18nTranslateProps>
 
-export type VoerkaI18nSolidTranslateComponentBuilder = VoerkaI18nTranslateComponentBuilder<SolidTranslateComponentType>
+export type VoerkaI18nSolidClientTranslateComponentBuilder = VoerkaI18nTranslateComponentBuilder<SolidClientTranslateComponentType>
 
 
-export function createTranslateComponent(options?:CreateTranslateComponentOptions):VoerkaI18nSolidTranslateComponentBuilder{        
-    const { tagName,attrs={}, class:className = 'vt-msg' ,style:gStyle, loading:LoadingComponent } = Object.assign({ },options) as CreateTranslateComponentOptions
+export function createClientTranslateComponent(options?:CreateClientTranslateComponentOptions):VoerkaI18nSolidClientTranslateComponentBuilder{        
+    const { tagName,attrs={}, class:className = 'vt-msg' ,style:gStyle, loading:LoadingComponent } = Object.assign({ },options) as CreateClientTranslateComponentOptions
     const hasLoading:boolean = !!LoadingComponent
 
     return function(scope:VoerkaI18nScope){

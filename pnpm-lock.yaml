@@ -422,6 +422,9 @@ importers:
       '@voerkai18n/runtime':
         specifier: workspace:*
         version: link:../../packages/runtime
+      '@voerkai18n/solid':
+        specifier: workspace:*
+        version: link:../../packages/solid
       solid-js:
         specifier: ^1.9.5
         version: 1.9.5

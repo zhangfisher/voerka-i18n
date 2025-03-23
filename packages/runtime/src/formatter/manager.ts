@@ -36,7 +36,7 @@ export class VoerkaI18nFormatterManager{
     private _registerFormatters(){
         this._formatters && this._formatters.forEach((formatter)=>{
             if(Array.isArray(formatter)){
-                this.register.apply(this,formatter);
+                this.register.apply(this,formatter as any);
             }else{
                 this.register.apply(this,[formatter]);
             }

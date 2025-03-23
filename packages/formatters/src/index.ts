@@ -6,8 +6,7 @@ import timeFormatter from "./datetime/time"
 import weekdayFormatter from "./datetime/weekday"
 import monthFormatter from "./datetime/month"
 import quarterFormatter from "./datetime/quarter"
-import relativeTimeFormatter from "./datetime/relativeTime"
-
+import relativeTimeFormatter from "./datetime/relativeTime" 
 
 export default [
     currencyFormatter,

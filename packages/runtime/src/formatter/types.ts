@@ -44,4 +44,4 @@ export interface VoerkaI18nFormatterBuilder<
 } 
 
 // 实例化VoerkaI18nScope时传入的格式化器配置
-export type VoerkaI18nFormatters =  (VoerkaI18nFormatter | [VoerkaI18nFormatter,Record<string,any>?,Record<string,any>?])[]
+export type VoerkaI18nFormatters =  any[][]
