@@ -28,7 +28,7 @@ export type VoerkaI18nSolidProviderProps = {
     children: any;
 };
 
-export function VoerkaI18nSolidjsProvider(props: VoerkaI18nSolidProviderProps) {
+export function VoerkaI18nSolidProvider(props: VoerkaI18nSolidProviderProps) {
     const { fallback, children } = props;
     const manager = globalThis.VoerkaI18n;
     const [ready, setReady] = createSignal(getInitReady(manager));

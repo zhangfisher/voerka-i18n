@@ -1,0 +1,150 @@
+{
+    "客户端组件": {
+        "en-US": "Client-side Components",
+        "ja-JP": "クライアントコンポーネント",
+        "$files": [
+            "src/components/client.tsx(411-438)"
+        ],
+        "$id": 36
+    },
+    "主要特性": {
+        "en-US": "Main Features",
+        "ja-JP": "主な特徴",
+        "$files": [
+            "src/components/client.tsx(634-660)",
+            "src/components/server.server.tsx(615-641)"
+        ],
+        "$id": 37
+    },
+    "适用任意场景": {
+        "en-US": "Suitable for Any Scenario",
+        "ja-JP": "任意のシーンに適用",
+        "$files": [
+            "src/components/client.tsx(908-936)",
+            "src/components/server.server.tsx(889-917)"
+        ],
+        "$id": 38
+    },
+    "全流程工具链": {
+        "en-US": "Full Process Toolchain",
+        "ja-JP": "全工程ツールチェーン",
+        "$files": [
+            "src/components/client.tsx(1076-1104)",
+            "src/components/server.server.tsx(1057-1085)"
+        ],
+        "$id": 39
+    },
+    "全自动翻译": {
+        "en-US": "Fully Automated Translation",
+        "ja-JP": "完全自動翻訳",
+        "$files": [
+            "src/components/client.tsx(1243-1270)",
+            "src/components/server.server.tsx(1224-1251)"
+        ],
+        "$id": 40
+    },
+    "多库联动": {
+        "en-US": "Multi-library Synergy",
+        "ja-JP": "多庫連携",
+        "$files": [
+            "src/components/client.tsx(1410-1436)",
+            "src/components/server.server.tsx(1391-1417)"
+        ],
+        "$id": 41
+    },
+    "语言补丁": {
+        "en-US": "Language Patch",
+        "ja-JP": "言語パッチ",
+        "$files": [
+            "src/components/client.tsx(1576-1602)",
+            "src/components/server.server.tsx(1557-1583)"
+        ],
+        "$id": 42
+    },
+    "用心开源，精良制作": {
+        "en-US": "Dedicated to Open Source, Exquisitely Crafted",
+        "ja-JP": "心をこめてオープンソース、精巧に制作",
+        "$files": [
+            "src/components/client.tsx(1750-1781)",
+            "src/components/server.server.tsx(1731-1762)"
+        ],
+        "$id": 43
+    },
+    "联系我们": {
+        "en-US": "Contact Us",
+        "ja-JP": "お問い合わせ",
+        "$files": [
+            "src/components/client.tsx(2029-2055)",
+            "src/components/server.server.tsx(2010-2036)"
+        ],
+        "$id": 44
+    },
+    "常见问题": {
+        "en-US": "Frequently Asked Questions",
+        "ja-JP": "よくある質問",
+        "$files": [
+            "src/components/client.tsx(2195-2221)",
+            "src/components/server.server.tsx(2176-2202)"
+        ],
+        "$id": 45
+    },
+    "版权所有": {
+        "en-US": "All Rights Reserved",
+        "ja-JP": "著作権所有",
+        "$files": [
+            "src/components/client.tsx(2361-2387)",
+            "src/components/server.server.tsx(2342-2368)"
+        ],
+        "$id": 46
+    },
+    "友情链接": {
+        "en-US": "Friendly Links",
+        "ja-JP": "関連リンク",
+        "$files": [
+            "src/components/client.tsx(2527-2553)",
+            "src/components/server.server.tsx(2508-2534)"
+        ],
+        "$id": 47
+    },
+    "客户服务": {
+        "en-US": "Customer Service",
+        "ja-JP": "カスタマーサービス",
+        "$files": [
+            "src/components/client.tsx(2693-2719)",
+            "src/components/server.server.tsx(2674-2700)"
+        ],
+        "$id": 48
+    },
+    "首页": {
+        "en-US": "Home",
+        "ja-JP": "ホーム",
+        "$files": [
+            "src/components/Nav.tsx(562-586)"
+        ],
+        "$id": 4
+    },
+    "开源": {
+        "en-US": "Open Source",
+        "ja-JP": "オープンソース",
+        "$files": [
+            "src/components/Nav.tsx(700-724)"
+        ],
+        "$id": 5
+    },
+    "关于": {
+        "en-US": "About",
+        "ja-JP": "について",
+        "$files": [
+            "src/components/Nav.tsx(843-867)"
+        ],
+        "$id": 6
+    },
+    "服务端组件": {
+        "en-US": "Server-side Components",
+        "ja-JP": "サーバーコンポーネント",
+        "$files": [
+            "src/components/server.server.tsx(392-419)"
+        ],
+        "$id": 49
+    }
+}
