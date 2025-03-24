@@ -31,7 +31,9 @@
     "@voerkai18n-examples/**",
     "@voerkai18n-examples/*",
     "@voerkai18n/astro",
+    "@voerkai18n/solid",
     "@voerkai18n-examples/astro",
+    "@voerkai18n-examples/solid",
     "@voerkai18n-examples/lynx",
     "@voerkai18n/lynx",
     "voerkai18n-docs" 
