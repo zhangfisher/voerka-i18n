@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/babel",
-    "version": "3.0.8",
+    "version": "3.0.9",
     "description": "Babel插件,实现自动文本映射",
     "main": "dist/index.js",
     "module": "dist/index.mjs",

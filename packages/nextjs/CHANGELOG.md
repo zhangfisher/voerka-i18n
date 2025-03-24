@@ -1,5 +1,15 @@
 # @voerkai18n/nextjs
 
+## 3.0.9
+
+### Patch Changes
+
+- [`0bc5446`](https://github.com/zhangfisher/voerka-i18n/commit/0bc5446ae6c6e6279e709cb132a681a4c08340d3) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix some error
+
+- Updated dependencies [[`0bc5446`](https://github.com/zhangfisher/voerka-i18n/commit/0bc5446ae6c6e6279e709cb132a681a4c08340d3)]:
+  - @voerkai18n/react@3.0.9
+  - @voerkai18n/runtime@3.0.9
+
 ## 3.0.8
 
 ### Patch Changes
