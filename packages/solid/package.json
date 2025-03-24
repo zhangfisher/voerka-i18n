@@ -26,8 +26,7 @@
       "require": "./dist/server/index.js"
     }
   },
-  "scripts": { 
-  },
+  "scripts": {},
   "keywords": [
     "voerkai18n",
     "solidjs",
