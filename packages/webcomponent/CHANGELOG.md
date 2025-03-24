@@ -1,5 +1,11 @@
 # @voerkai18n/webcomponent
 
+## 3.0.9
+
+### Patch Changes
+
+- [`0bc5446`](https://github.com/zhangfisher/voerka-i18n/commit/0bc5446ae6c6e6279e709cb132a681a4c08340d3) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix some error
+
 ## 3.0.8
 
 ### Patch Changes
