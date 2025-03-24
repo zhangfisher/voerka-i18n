@@ -10,10 +10,8 @@ import zhCNMessages from "./messages/zh-CN"
 import enUSMessages from "./messages/en-US";
 import jaJPMessages from "./messages/ja-JP";
   
-const component = createServerTranslateComponent() 
- 
+const component = createServerTranslateComponent()  
 
- 
 const messages = { 
     'zh-CN'    : zhCNMessages,
     'en-US'    : enUSMessages,
@@ -22,8 +20,8 @@ const messages = {
 
 
 export const i18nScope = new VoerkaI18nScope<ServerTranslateComponentType>({    
-    id: "nextjs_server",                   // 当前作用域的id    
-    injectLangAttr:false,                  // 不注入lang属性
+    id            : "solid_server",                    // 当前作用域的id    
+    injectLangAttr: false,                  // 不注入lang属性
     idMap,                                 // 消息id映射列表
     formatters,                            // 格式化器
     storage,                               // 语言配置存储器

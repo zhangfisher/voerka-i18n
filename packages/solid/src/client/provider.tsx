@@ -1,17 +1,5 @@
-import { Suspense, createEffect, createSignal, Component, onCleanup } from "solid-js";
-import { useLocation, useSearchParams } from "@solidjs/router";
-import { applyTranslate } from "../utils";
+import { Suspense, createSignal, Component, onCleanup, onMount } from "solid-js";
 import { VoerkaI18nManager } from "@voerkai18n/runtime";
-
-export function NavigationEvents() {
-    const location = useLocation();
-    const searchParams = useSearchParams();
-    createEffect(() => {
-        applyTranslate();
-    }, [location, searchParams]);
-
-    return null;
-}
 
 function getInitReady(manager: VoerkaI18nManager) {
     return (
@@ -20,11 +8,8 @@ function getInitReady(manager: VoerkaI18nManager) {
     );
 }
 
-/**
- *  
- */
 export type VoerkaI18nSolidProviderProps = {
-    fallback?: Component;
+    fallback?: JSX.Element;
     children: any;
 };
 
@@ -32,24 +17,23 @@ export function VoerkaI18nSolidProvider(props: VoerkaI18nSolidProviderProps) {
     const { fallback, children } = props;
     const manager = globalThis.VoerkaI18n;
     const [ready, setReady] = createSignal(getInitReady(manager));
+    
+    let listener:any
 
-    createEffect(() => {
-        if (ready()) return;
-        const listener = manager.on("ready", () => {
+    onMount(() => { 
+        listener = manager.on("ready", () => { 
             setReady(true);
-        }) as any
-        onCleanup(() =>listener &&  listener.off());
- 
+        }) 
     });
+    onCleanup(() => listener && listener.off()); 
 
-    return (<>
-            {ready() || (!ready() && !fallback) ? (
-                <Suspense fallback={null}>
-                    <NavigationEvents />
-                    {children}
-                </Suspense>
-            ) : (
-                fallback
-            )}
-        </>);
+    return <>{
+        ready() ? (
+            <Suspense fallback={null}> 
+                {children}
+            </Suspense>
+        ) : (
+            fallback
+        )}
+    </>
 }
