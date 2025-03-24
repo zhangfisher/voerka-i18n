@@ -19,12 +19,9 @@ export function VoerkaI18nSolidProvider(props: VoerkaI18nSolidProviderProps) {
     const [ready, setReady] = createSignal(getInitReady(manager));
     
     let listener:any
-
-    onMount(() => { 
-        listener = manager.on("ready", () => { 
-            setReady(true);
-        }) 
-    });
+    listener = manager.on("ready", () => { 
+        setReady(true);
+    })  
     onCleanup(() => listener && listener.off()); 
 
     return <>{
