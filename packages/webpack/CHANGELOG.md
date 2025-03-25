@@ -1,5 +1,12 @@
 # voerkai18n-loader
 
+## 3.0.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @voerkai18n/utils@3.0.10
+
 ## 3.0.9
 
 ### Patch Changes
