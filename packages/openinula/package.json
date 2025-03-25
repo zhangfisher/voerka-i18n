@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/openinula",
-    "version": "3.0.9",
+    "version": "3.0.10",
     "description": "openinula支持,提供语言切换等功能",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
