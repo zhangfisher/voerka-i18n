@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/nextjs",
-  "version": "3.0.9",
+  "version": "3.0.10",
   "description": "voerkai18n for nextjs",
   "main": "src/index.js",
   "exports": {
