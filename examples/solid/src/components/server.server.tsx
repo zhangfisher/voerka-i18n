@@ -1,6 +1,6 @@
 
 import { Check } from "./Check"; 
-import { Translate } from "~/languages/server";
+import { Translate } from "~/languages/client";
  
 
 export default function Server() {

@@ -1,5 +1,5 @@
 import { createClientTranslateComponent,SolidClientTranslateComponentType }  from "@voerkai18n/solid/client"
-import { VoerkaI18nScope, VoerkaI18nTranslateProps } from '@voerkai18n/runtime';
+import { VoerkaI18nScope } from '@voerkai18n/runtime';
 import formatters from "@voerkai18n/formatters"
 import storage  from "./storage"
 import loader from "./loader"

@@ -3,7 +3,7 @@
  *  翻译组件
  */
 
-import { createSignal, createEffect, onCleanup, Component } from 'solid-js';
+import { createSignal, onCleanup, Component, onMount } from 'solid-js';
 import { Dynamic } from "solid-js/web"
 import { type VoerkaI18nTranslateProps, type VoerkaI18nScope, type VoerkaI18nTranslateComponentBuilder, loadAsyncModule } from "@voerkai18n/runtime" 
  
@@ -33,62 +33,58 @@ export function createClientTranslateComponent(options?:CreateClientTranslateCom
             const isParagraph: boolean = typeof paragraphId === 'string' && paragraphId.length > 0;
 
             const [result, setResult] = createSignal(() => {
-            if (isParagraph) {
-                return props.children;
-            } else {
-                return typeof message === 'function' ? tDefault : scope.translate(message!, vars, tOptions);
-            }
+                if (isParagraph) {
+                    return props.children;
+                } else {
+                    return typeof message === 'function' ? tDefault : scope.translate(message!, vars, tOptions);
+                }
             });
 
-            const [first,setFirst] = createSignal(false);
             const [loading, setLoading] = createSignal(false);
             const tag = props.tag || tagName;
             const msgId = scope.getMessageId(props.message);
             const showLoading = isParagraph || typeof message === 'function';
 
             const loadMessage = async (language: string) => {
-            const loader = typeof message === 'function' ? () => message(language, vars, tOptions) : () => message;
-            try {
-                const resultValue = await Promise.resolve(loader());
-                setResult(scope.translate(resultValue!, vars, tOptions));
-            } catch (e) {
-                console.error(e);
-            }
+                const loader = typeof message === 'function' ? () => message(language, vars, tOptions) : () => message;
+                try {
+                    const resultValue = await Promise.resolve(loader());
+                    setResult(scope.translate(resultValue!, vars, tOptions));
+                } catch (e) {
+                    console.error(e);
+                }
             };
 
             const loadParagraph = async () => {
-            if (paragraphId) {
-                const loader = scope.activeParagraphs[paragraphId];
-                if (!loader) return;
-                if (hasLoading) setLoading(true);
-                try {
-                const paragraphText = await loadAsyncModule(loader);
-                setResult(paragraphText);
-                } catch (e: any) {
-                console.error(e);
-                } finally {
-                if (hasLoading) setLoading(false);
+                if (paragraphId) {
+                    const loader = scope.activeParagraphs[paragraphId];
+                    if (!loader) return;
+                    if (hasLoading) setLoading(true);
+                    try {
+                        const paragraphText = await loadAsyncModule(loader);
+                        setResult(paragraphText);
+                    } catch (e: any) {
+                        console.error(e);
+                    } finally {
+                        if (hasLoading) setLoading(false);
+                    }
                 }
-            }
             };
 
             const refresh = (language: string) => {
-            if (isParagraph) {
-                loadParagraph();
-            } else {
-                loadMessage(language);
-            }
+                if (isParagraph) {
+                    loadParagraph();
+                } else {
+                    loadMessage(language);
+                }
             };
-
-            // First render logic
-            if (!first() && (typeof message === 'function' || isParagraph)) {
-                refresh(scope.activeLanguage);
-                setFirst(true);
-            }
-
-            createEffect(() => {
+            
+            onMount(() => {
+                scope.ready(refresh)    
                 const listener = scope.on('change', refresh) as any;
-                onCleanup(() => listener.off());
+                onCleanup(() => {
+                    listener && listener.off()
+                });
             });
 
             if (msgId) attrs['data-id'] = msgId;
