@@ -13,7 +13,7 @@ export default defineConfig({
     clean: true,
     treeshake:true,  
     minify: true,
-    noExternal:['flex-tools'],
+    noExternal:['flex-tools','flexvars','asyncsignal','ts-mixer'],
     globalName: 'VoerkaI18n',
     banner: {
         js: `/***        

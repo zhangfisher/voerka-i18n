@@ -17,6 +17,7 @@
       "@voerkai18n/formatters",
       "@voerkai18n/nextjs",
       "@voerkai18n/svelte",
+      "@voerkai18n/solid",
       "@voerkai18n/webcomponent"
     ],
     [
@@ -31,9 +32,7 @@
     "@voerkai18n-examples/**",
     "@voerkai18n-examples/*",
     "@voerkai18n/astro",
-    "@voerkai18n/solid",
-    "@voerkai18n-examples/astro",
-    "@voerkai18n-examples/solid",
+    "@voerkai18n-examples/astro", 
     "@voerkai18n-examples/lynx",
     "@voerkai18n/lynx",
     "voerkai18n-docs" 
