@@ -174,7 +174,7 @@ export default ()=>{
 
 ```tsx
 import React from 'react'; 
-import { useVoerkaI18n } from '@voerkai18n/react';
+import { useVoerkaI18n } from '@voerkai18n/svelte';
 import classNames from 'classnames'
 
 const LanguageBar: React.FC = () => {
@@ -212,14 +212,14 @@ const LanguageBar: React.FC = () => {
 
 ### 手动配置
 
-`voerkai18n apply`负责自动配置`React`应用支持，也可以手动配置.
+`voerkai18n apply`负责自动配置`Svelte`应用支持，也可以手动配置.
 
 - **编辑`languages/component.{tsx|jsx}`文件**
 
 ```ts
-import { createTranslateComponent,ReactTranslateComponentType } from "@voerkai18n/react";
-export const component = createTranslateComponent()
-export type TranslateComponentType = ReactTranslateComponentType
+import { createTranslateComponent,type SvelteTranslateComponent } from "@voerkai18n/svelte";
+export const component  = createTranslateComponent()
+export type TranslateComponentType = SvelteTranslateComponent
 ```
 
 ### 加载中
