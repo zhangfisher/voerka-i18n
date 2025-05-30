@@ -5,7 +5,8 @@ import typescriptSchema from './typescript'
 import javascriptSchema from './javascript'
 import tsxSchema from './tsx'
 import astroSchema from './astro'
-import svelteSchema from './svelte' 
+import svelteSchema from './svelte'
+import litSchema from './lit'
 import type { ExtractSections } from '../..'
 
 
@@ -17,5 +18,6 @@ export default {
     jsx   : tsxSchema,
     astro : astroSchema,
     svelte: svelteSchema,
-    mdx   : tsxSchema
+    mdx   : tsxSchema,
+    lit   : litSchema
 } as unknown as Record<string,ExtractSections>

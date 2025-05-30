@@ -1,0 +1,125 @@
+{
+    "语言切换": {
+        "en-US": "Language Switch",
+        "ja-JP": "言語切り替え",
+        "$files": [
+            "src/index.ts(868-876)",
+            "src/components/i18n-demo.ts(1222-1230)"
+        ],
+        "$id": 26
+    },
+    "当前语言": {
+        "en-US": "Current Language",
+        "ja-JP": "現在の言語",
+        "$files": [
+            "src/index.ts(1242-1250)",
+            "src/index.ts(2116-2124)",
+            "src/components/i18n-demo.ts(1596-1604)",
+            "src/components/i18n-hooks-demo.ts(649-657)"
+        ],
+        "$id": 27
+    },
+    "基本翻译": {
+        "en-US": "Basic Translation",
+        "ja-JP": "基本的な翻訳",
+        "$files": [
+            "src/index.ts(1347-1355)",
+            "src/components/i18n-demo.ts(1701-1709)"
+        ],
+        "$id": 28
+    },
+    "这是一个使用 Lit 和 voerka-i18n 的示例": {
+        "en-US": "This is an example using Lit and voerka-i18n",
+        "ja-JP": "これはLitとvoerka-i18nを使用した例です",
+        "$files": [
+            "src/index.ts(1382-1414)",
+            "src/components/i18n-demo.ts(1736-1768)"
+        ],
+        "$id": 29
+    },
+    "你可以切换语言来查看翻译效果": {
+        "en-US": "You can switch languages to see the translation effect",
+        "ja-JP": "言語を切り替えて翻訳効果を確認できます",
+        "$files": [
+            "src/index.ts(1440-1458)",
+            "src/components/i18n-demo.ts(1794-1812)"
+        ],
+        "$id": 30
+    },
+    "带参数的翻译": {
+        "en-US": "Translation with Parameters",
+        "ja-JP": "パラメータ付きの翻訳",
+        "$files": [
+            "src/index.ts(1545-1555)",
+            "src/components/i18n-demo.ts(1899-1909)"
+        ],
+        "$id": 31
+    },
+    "你好，{name}": {
+        "en-US": "Hello, {name}",
+        "ja-JP": "こんにちは、{name}",
+        "$files": [
+            "src/index.ts(1582-1595)",
+            "src/components/i18n-demo.ts(1936-1949)"
+        ],
+        "$id": 32
+    },
+    "使用 Hooks API": {
+        "en-US": "Using Hooks API",
+        "ja-JP": "Hooks APIの使用",
+        "$files": [
+            "src/index.ts(2070-2086)",
+            "src/components/i18n-hooks-demo.ts(603-619)"
+        ],
+        "$id": 33
+    },
+    "这是使用 hooks API 的示例": {
+        "en-US": "This is an example of using the hooks API",
+        "ja-JP": "これはHooks APIを使用した例です",
+        "$files": [
+            "src/index.ts(2182-2204)",
+            "src/components/i18n-hooks-demo.ts(715-737)"
+        ],
+        "$id": 34
+    },
+    "组件翻译": {
+        "en-US": "Component Translation",
+        "ja-JP": "コンポーネントの翻訳",
+        "$files": [
+            "src/components/i18n-demo.ts(2053-2061)"
+        ],
+        "$id": 35
+    },
+    "段落翻译": {
+        "en-US": "Paragraph Translation",
+        "ja-JP": "段落の翻訳",
+        "$files": [
+            "src/components/i18n-demo.ts(2227-2235)"
+        ],
+        "$id": 36
+    },
+    "欢迎使用 VoerkaI18n": {
+        "en-US": "Welcome to VoerkaI18n",
+        "ja-JP": "VoerkaI18nへようこそ",
+        "$files": [
+            "src/components/i18n-demo.ts(2291-2310)"
+        ],
+        "$id": 37
+    },
+    "切换到英文": {
+        "en-US": "Switch to English",
+        "ja-JP": "英語に切り替える",
+        "$files": [
+            "src/components/i18n-hooks-demo.ts(831-840)"
+        ],
+        "$id": 38
+    },
+    "切换到中文": {
+        "en-US": "Switch to Chinese",
+        "ja-JP": "中国語に切り替える",
+        "$files": [
+            "src/components/i18n-hooks-demo.ts(947-956)"
+        ],
+        "$id": 39
+    }
+}

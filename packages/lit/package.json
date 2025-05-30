@@ -1,0 +1,43 @@
+{
+  "name": "@voerkai18n/lit",
+  "description": "Lit support for VoerkaI18n",
+  "version": "3.0.10",
+  "author": {
+    "email": "maonianyou@gmail.com",
+    "name": "Maonianyou"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "test": "vitest"
+  },
+  "keywords": [
+    "voerkai18n",
+    "i18n",
+    "language",
+    "translation",
+    "internationalize",
+    "lit"
+  ],
+  "dependencies": {
+    "@voerkai18n/runtime": "workspace:*",
+    "lit": "^3.3.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "vitest": "^3.1.4"
+  }
+}
