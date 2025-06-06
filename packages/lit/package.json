@@ -33,11 +33,15 @@
     "lit"
   ],
   "dependencies": {
-    "@voerkai18n/runtime": "workspace:*",
-    "lit": "^3.3.0"
+    "@voerkai18n/runtime": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.5.0",
-    "vitest": "^3.1.4"
+    "vitest": "^3.1.4",
+    "lit": "^3.3.0"
+  },
+  "peerDependencies": {
+    "lit": "^3.3.0"
   }
+
 }
