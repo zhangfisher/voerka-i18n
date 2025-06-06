@@ -1,0 +1,4 @@
+<!-- component.wxml -->
+<button bindtap="increment">
+  Count is: {{ state.count }}, double is: {{ state.double }}
+</button>

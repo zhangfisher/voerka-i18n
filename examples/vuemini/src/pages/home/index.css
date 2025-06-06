@@ -1,0 +1,21 @@
+.home {
+  text-align: center;
+}
+
+.logo {
+  width: 400px;
+  height: 400px;
+  margin-top: 120px;
+}
+
+.greeting {
+  color: #2c3e50;
+  font-size: 64px;
+  font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+  .greeting {
+    color: #fff;
+  }
+}

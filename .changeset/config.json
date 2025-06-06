@@ -16,6 +16,7 @@
       "@voerkai18n/webpack",
       "@voerkai18n/formatters",
       "@voerkai18n/nextjs",
+      "@voerkai18n/lit",
       "@voerkai18n/svelte",
       "@voerkai18n/solid",
       "@voerkai18n/webcomponent"

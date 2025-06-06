@@ -1,0 +1,10 @@
+.DS_Store
+node_modules
+dist
+*.log*
+.vscode
+.idea
+
+src/languages/api.json
+src/languages/translates/*/*.bak.*.json
+**/*.wrapped.*
