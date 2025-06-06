@@ -1,5 +1,13 @@
 # @voerkai18n/nextjs
 
+## 3.0.12
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @voerkai18n/runtime@3.0.12
+  - @voerkai18n/react@3.0.12
+
 ## 3.0.11
 
 ### Patch Changes

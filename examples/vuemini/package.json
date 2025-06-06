@@ -1,6 +1,6 @@
 {
   "name": "vuemini",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.4.1",
