@@ -1,7 +1,7 @@
 {
   "name": "@voerkai18n/webcomponent",
   "description": "translate web component for voerkai18n",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "access": "public",
