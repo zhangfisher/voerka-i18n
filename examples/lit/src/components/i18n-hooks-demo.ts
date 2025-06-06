@@ -19,7 +19,7 @@ export class I18nHooksDemo extends LitElement {
     }
   `
 
-  private i18n = useI18n(i18nScope, this)
+  private i18n = useI18n(this, i18nScope)
 
   render() {
     return html`
