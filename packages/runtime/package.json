@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/runtime",
-    "version": "3.0.10",
+    "version": "3.0.11",
     "description": "runtime of voerkai18n",
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",

@@ -1,5 +1,12 @@
 # @voerkai18n/vue
 
+## 3.0.11
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @voerkai18n/runtime@3.0.11
+
 ## 3.0.10
 
 ### Patch Changes
