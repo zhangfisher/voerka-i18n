@@ -4,8 +4,36 @@
 
 `@voerkai18n/lit`用于将`VoerkaI18n`集成到`lit`中，感谢[CoderMonkie](https://github.com/CoderMonkie)的贡献。
 
+## 使用方法
 
-## 使用示例
+`VoerkaI18n`在`Lit`中提供了两种集成方式：
+
+### 使用高阶组件 (HOC)
+
+```ts
+import { withI18n } from '@voerkai18n/lit';
+
+class MyComponent extends withI18n(LitElement) {
+  render() {
+    return html`<div>${this.t('Hello World')}</div>`;
+  }
+}
+```
+### 使用 Hooks API
+
+```ts
+import { useI18n } from '@voerkai18n/lit';
+
+class MyComponent extends LitElement {
+  i18n = useI18n(this);
+  
+  render() {
+    return html`<div>${this.i18n.t('Hello World')}</div>`;
+  }
+}
+```
+
+## 示例
 
 ```ts
 import { LitElement, html, css } from 'lit'
@@ -67,7 +95,5 @@ class I18nHooksDemo extends LitElement {
   }
 }
 ```
-
-
 
 完整的示例请参考[这里](https://github.com/voerkai18n/voerka-i18n/tree/main/examples/lit)。

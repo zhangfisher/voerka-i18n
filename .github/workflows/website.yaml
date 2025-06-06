@@ -6,8 +6,8 @@ on:
   # Runs on pushes targeting the `main` branch. Change this to `master` if you're
   # using the `master` branch as the default branch.
   push:
-    branches: 
-      master
+    branches:
+      - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,11 +41,10 @@ jobs:
           node-version: 18
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - name: Install pnpm 
-        run:
-          npm install -g pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile 
+        run: pnpm install --no-frozen-lockfile
       - name: pnpm docs:build
         run: |
           pnpm docs:build 
