@@ -1,5 +1,14 @@
 # @voerkai18n/cli
 
+## 3.0.12
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @voerkai18n/runtime@3.0.12
+  - @voerkai18n/utils@3.0.12
+  - @voerkai18n/formatters@3.0.12
+
 ## 3.0.11
 
 ### Patch Changes

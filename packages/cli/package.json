@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/cli",
-    "version": "3.0.11",
+    "version": "3.0.12",
     "description": "命令行工具,用来初始化/提取/编译/自动翻译等工具链",
     "main": "src/index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
