@@ -60,6 +60,7 @@ export default {
             { text:'Solid', link: '/zh/guide/integration/solid' },
             { text:'uniapp', link: '/zh/guide/integration/uniapp' },
             { text:'openinula', link: '/zh/guide/integration/openinula' },
+            { text:'lit', link: '/zh/guide/integration/lit' },
           ]
         },
         {
