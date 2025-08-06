@@ -1,31 +1,33 @@
 <template>
-    <section className="bg-white dark:bg-gray-900">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-        <div className="mx-auto max-w-screen-xl space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+  <section className="bg-white dark:bg-gray-900">
+    {{ t('适用任意场景') }}
+    <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+      <div className="mx-auto max-w-screen-xl space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
 
-              <div v-for="feature of features" :key="feature.name">
-                <button
-                  type="button"
-                  :title="t('点击查看详情')"
-                  :placeholder="t('密码')" 
-                  className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                >
-                  <Component :is="feature.icon" />
-                </button>
-                <h3 className="mb-2 text-xl text-gray-600 font-bold dark:text-white">
-                  <Translate :message="() => feature.name" />
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400">
-                  <Translate :message="()=> feature.description" />
-                </p>
-              </div> 
+        <div v-for="feature of features" :key="feature.name">
+          <button type="button" :title="t('点击查看详情')" :placeholder="t('密码')"
+            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+            <Component :is="feature.icon" />
+          </button>
+          <h3 className="mb-2 text-xl text-gray-600 font-bold dark:text-white">
+            <Translate :message="() => feature.name" />
+          </h3>
+          <p className="text-gray-500 dark:text-gray-400">
+            <Translate :message="() => feature.description" />
+          </p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 </template>
 <script setup>
-import { t, Translate } from "../languages";
-import { Bird,Beef,Archive,Component,Flower,ChartNoAxesCombined } from "lucide-vue-next";
+import { Translate } from "../languages";
+import { Bird, Beef, Archive, Component, Flower, ChartNoAxesCombined } from "lucide-vue-next";
+import { t } from '../languages'
+
+
+// import { useVoerkaI18n } from '@voerkai18n/vue'
+// const { t } = useVoerkaI18n()
 
 const features = [
   {
