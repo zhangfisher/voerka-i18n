@@ -1,5 +1,14 @@
 # @voerkai18n/svelte
 
+## 3.0.14
+
+### Patch Changes
+
+- [`a3da2a8`](https://github.com/zhangfisher/voerka-i18n/commit/a3da2a8f2c5f949f35191126494ac3ef651f268f) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix delop
+
+- Updated dependencies [[`a3da2a8`](https://github.com/zhangfisher/voerka-i18n/commit/a3da2a8f2c5f949f35191126494ac3ef651f268f)]:
+  - @voerkai18n/runtime@3.0.14
+
 ## 3.0.13
 
 ### Patch Changes
