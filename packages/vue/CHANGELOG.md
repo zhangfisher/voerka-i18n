@@ -1,5 +1,14 @@
 # @voerkai18n/vue
 
+## 3.0.13
+
+### Patch Changes
+
+- [`936c8b8`](https://github.com/zhangfisher/voerka-i18n/commit/936c8b8d384a698aa0e60eec093250e52db5ace7) Thanks [@zhangfisher](https://github.com/zhangfisher)! - 修复在 script setup 中引入 t 函数不生效的问题
+
+- Updated dependencies [[`936c8b8`](https://github.com/zhangfisher/voerka-i18n/commit/936c8b8d384a698aa0e60eec093250e52db5ace7)]:
+  - @voerkai18n/runtime@3.0.13
+
 ## 3.0.12
 
 ### Patch Changes
