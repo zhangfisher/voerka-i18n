@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/formatters",
-  "version": "3.0.13",
+  "version": "3.0.14",
   "description": "formatters for voerkai18n",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
