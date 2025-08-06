@@ -1,5 +1,12 @@
 # @voerkai18n/solid
 
+## 3.0.13
+
+### Patch Changes
+
+- Updated dependencies [[`936c8b8`](https://github.com/zhangfisher/voerka-i18n/commit/936c8b8d384a698aa0e60eec093250e52db5ace7)]:
+  - @voerkai18n/runtime@3.0.13
+
 ## 3.0.12
 
 ### Patch Changes
