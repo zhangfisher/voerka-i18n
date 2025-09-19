@@ -1,5 +1,11 @@
 # @voerkai18n/runtime
 
+## 3.0.16
+
+### Patch Changes
+
+- [`56b109b`](https://github.com/zhangfisher/voerka-i18n/commit/56b109b354bd19b73910fecee7b959ce4b65d5cf) Thanks [@zhangfisher](https://github.com/zhangfisher)! - 修复多个命名插值变量解析出错的问题
+
 ## 3.0.15
 
 ### Patch Changes
