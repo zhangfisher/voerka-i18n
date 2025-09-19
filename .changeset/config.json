@@ -36,8 +36,10 @@
     "@voerkai18n-examples/astro",
     "@voerkai18n-examples/lynx",
     "@voerkai18n-examples/vuemini",
+    "@voerkai18n-examples/openinula",
     "@voerkai18n/openinula",
     "@voerkai18n/lynx",
-    "voerkai18n-docs"
+    "voerkai18n-docs",
+    "vue2-js"
   ]
 }
