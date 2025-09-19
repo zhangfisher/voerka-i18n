@@ -1,5 +1,13 @@
 # @voerkai18n/nextjs
 
+## 3.0.16
+
+### Patch Changes
+
+- Updated dependencies [[`56b109b`](https://github.com/zhangfisher/voerka-i18n/commit/56b109b354bd19b73910fecee7b959ce4b65d5cf)]:
+  - @voerkai18n/runtime@3.0.16
+  - @voerkai18n/react@3.0.16
+
 ## 3.0.15
 
 ### Patch Changes
