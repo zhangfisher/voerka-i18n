@@ -1,5 +1,11 @@
 # @voerkai18n/runtime
 
+## 3.0.15
+
+### Patch Changes
+
+- [`f04ca86`](https://github.com/zhangfisher/voerka-i18n/commit/f04ca8659b03641a51b37968adf115d8443b34f8) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix: 升级 flexvars 依赖，解决当翻译内容包括多个命名插值变量时存在的错误判断问题
+
 ## 3.0.14
 
 ### Patch Changes
