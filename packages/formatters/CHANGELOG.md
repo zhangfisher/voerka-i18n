@@ -1,5 +1,12 @@
 # @voerkai18n/formatters
 
+## 3.0.15
+
+### Patch Changes
+
+- Updated dependencies [[`f04ca86`](https://github.com/zhangfisher/voerka-i18n/commit/f04ca8659b03641a51b37968adf115d8443b34f8)]:
+  - @voerkai18n/runtime@3.0.15
+
 ## 3.0.14
 
 ### Patch Changes
