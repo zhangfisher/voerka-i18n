@@ -15,7 +15,6 @@
       "@voerkai18n/vue2",
       "@voerkai18n/babel",
       "@voerkai18n/patch",
-      "@voerkai18n/openinula",
       "@voerkai18n/webpack",
       "@voerkai18n/formatters",
       "@voerkai18n/nextjs",
@@ -37,6 +36,7 @@
     "@voerkai18n-examples/astro",
     "@voerkai18n-examples/lynx",
     "@voerkai18n-examples/vuemini",
+    "@voerkai18n/openinula",
     "@voerkai18n/lynx",
     "voerkai18n-docs"
   ]
