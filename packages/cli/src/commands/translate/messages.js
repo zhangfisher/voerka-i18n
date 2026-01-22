@@ -10,7 +10,7 @@ const { startTranslate } = require("./translate")
 const { writeFile } = require('flex-tools/fs/nodefs');
 const { backupFile } = require("./utils");
 const glob = require("fast-glob")
-const { deepMerge }  = require("flex-tools/object/deepmerge")
+const { deepMerge }  = require("flex-tools/object/deepMerge")
 
 /**
  * 

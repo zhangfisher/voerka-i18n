@@ -2,7 +2,7 @@
 
 const fs = require("node:fs") 
 const path = require("node:path")
-const { deepMerge }  = require("flex-tools/object/deepmerge")
+const { deepMerge }  = require("flex-tools/object/deepMerge")
 const { delay } = require("flex-tools/async/delay") 
 const { t } = require("../../i18n"); 
 
