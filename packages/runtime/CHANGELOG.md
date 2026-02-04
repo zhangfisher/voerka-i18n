@@ -1,5 +1,11 @@
 # @voerkai18n/runtime
 
+## 3.0.17
+
+### Patch Changes
+
+- [`1b1b4e9`](https://github.com/zhangfisher/voerka-i18n/commit/1b1b4e997e6ace9fa97cafd002f670b838416214) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix import errors
+
 ## 3.0.16
 
 ### Patch Changes

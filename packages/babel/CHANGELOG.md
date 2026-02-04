@@ -1,5 +1,12 @@
 # @voerkai18n/babel
 
+## 3.0.17
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @voerkai18n/utils@3.0.17
+
 ## 3.0.16
 
 ### Patch Changes
