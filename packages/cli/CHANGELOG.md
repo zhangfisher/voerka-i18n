@@ -1,5 +1,14 @@
 # @voerkai18n/cli
 
+## 3.0.17
+
+### Patch Changes
+
+- Updated dependencies [[`1b1b4e9`](https://github.com/zhangfisher/voerka-i18n/commit/1b1b4e997e6ace9fa97cafd002f670b838416214)]:
+  - @voerkai18n/runtime@3.0.17
+  - @voerkai18n/formatters@3.0.17
+  - @voerkai18n/utils@3.0.17
+
 ## 3.0.16
 
 ### Patch Changes

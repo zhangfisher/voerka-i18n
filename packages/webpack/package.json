@@ -1,6 +1,6 @@
 {
     "name": "@voerkai18n/webpack",
-    "version": "3.0.16",
+    "version": "3.0.17",
     "description": "voerkai18n loader for webpack",
     "main": "src/index.js",
     "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
