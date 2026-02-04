@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          registry-url: "https://registry.npmjs.org"
+          # registry-url: "https://registry.npmjs.org"
           # OIDC 配置：允许 GitHub Actions 使用 ID token 向 npm 进行身份验证
 
       - name: Install pnpm
