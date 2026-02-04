@@ -27,6 +27,8 @@ jobs:
               with:
                   node-version: 20
                   cache: pnpm
+                  registry-url: 'https://registry.npmjs.org'
+                  # OIDC 配置：允许 GitHub Actions 使用 ID token 向 npm 进行身份验证
 
             - name: Install pnpm
               run: npm install -g pnpm
@@ -35,17 +37,17 @@ jobs:
             - name: Install dependencies
               run: pnpm install  --no-frozen-lockfile
             - name: Build all packages
-              run: pnpm build  
+              run: pnpm build
+
             - name: Create Release Pull Request or Publish to npm
               id: changesets
               uses: changesets/action@v1
               with:
                   # This expects you to have a script called release which does a build for your packages and calls changeset publish
                   publish: pnpm publish:all
+                  version: pnpm changeset:version
               env:
-                  # this doesn't work but semantic-release works
-                  # see https://github.com/sonofmagic/npm-lib-rollup-template/blob/main/.github/workflows/release.yml#L46
-                  # NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-                  npm_config_registry: https://registry.npmjs.org
+                  # NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  # 启用 npm provenance (需要 OIDC 配置)
+                  NPM_CONFIG_PROVENANCE: true
