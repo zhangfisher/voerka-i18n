@@ -26,8 +26,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "24"
-          cache: "npm"
           registry-url: "https://registry.npmjs.org"
+          # cache: "npm"  # 暂时禁用，需要先生成 package-lock.json
 
       # npm Trusted Publishing 需要 npm CLI 11.5.1+
       - name: Upgrade npm
