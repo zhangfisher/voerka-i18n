@@ -27,7 +27,6 @@ jobs:
         with:
           node-version: "24"
           cache: "npm"
-          cache-dependency-path: "package-lock.json"
           registry-url: "https://registry.npmjs.org"
 
       # npm Trusted Publishing 需要 npm CLI 11.5.1+
