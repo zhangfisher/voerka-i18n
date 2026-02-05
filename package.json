@@ -5,11 +5,14 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
     "build": "turbo run build --filter=@voerkai18n/*",
     "build:watch": "turbo run build:watch --filter=@voerkai18n/*",
-    "publish:all": "pnpm build && changeset version && changeset publish",
+    "publish:all": "npm run build && npm run changeset version && changeset publish",
     "changeset": "changeset",
     "release:all": "changeset publish",
     "version:all": "changeset version",
@@ -45,11 +48,5 @@
       "scripts.sync": "同步淘宝镜像",
       "scripts.release:all": "一健自动化发布所有包"
     }
-  },
-  "packageManager": "pnpm@10.4.1",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
   }
 }
