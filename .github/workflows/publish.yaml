@@ -20,29 +20,21 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@6
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v6
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v3
         with:
           node-version: 24
-          package-manager-cache: false
 
-      # npm Trusted Publishing 需要 npm CLI 11.5.1+
-      - name: Upgrade npm
-        run: |
-          npm install -g npm@latest
-          npm --version
+      - name: npm install
+        run: npm install -g pnpm@latest
 
-      - name: Install Dependencies
-        run: pnpm install
+      - name: install dependencies
+        run: pnpm install --force
 
-      - name: Build all packages
-        run: pnpm run build
-
-      - name: changeset version all packages
-        run: pnpm changeset version
-
-      # 使用 npm publish --workspaces 直接发布所有包
-      - name: Publish packages to npm
-        run: pnpm -r publish
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm run publish:all
