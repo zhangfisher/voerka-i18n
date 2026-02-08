@@ -25,60 +25,24 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
-          registry-url: "https://registry.npmjs.org"
-          # cache: "npm"  # 暂时禁用，需要先生成 package-lock.json
+          node-version: 24
+          package-manager-cache: false
 
       # npm Trusted Publishing 需要 npm CLI 11.5.1+
       - name: Upgrade npm
-        run: npm install -g npm@latest
-
-      # 验证 npm 版本和 OIDC 配置
-      - name: Verify npm and OIDC setup
         run: |
-          echo "Node version: $(node --version)"
-          echo "npm version: $(npm --version)"
-          echo "npm config registry: $(npm config get registry)"
-          echo "OIDC token URL: $ACTIONS_ID_TOKEN_REQUEST_URL"
-          echo "OIDC token present: ${ACTIONS_ID_TOKEN_REQUEST_TOKEN:+<set>}"
+          npm install -g npm@latest
+          npm --version
 
-          # 测试 npm whoami（应该显示 OIDC 工作流程的用户）
-          echo "Testing npm authentication..."
-          npm whoami || echo "npm whoami test"
-
-      # 安装依赖
-      - name: Install dependencies
-        run: npm ci
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Build all packages
-        run: npm run build
+        run: pnpm run build
 
-      # 使用 changeset 更新版本（如果有 changeset 文件）
-      - name: Apply changeset versions
-        id: changeset-version
-        run: |
-          if [ -d ".changeset" ] && [ "$(ls -A .changeset/*.md 2>/dev/null | grep -v README | wc -l)" -gt 0 ]; then
-            echo "Applying changeset versions..."
-            npm run changeset version
-            echo "changeset_applied=true" >> $GITHUB_OUTPUT
-
-            # 提交版本更新
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "chore: version packages"
-            git push
-          else
-            echo "No changesets to apply"
-            echo "changeset_applied=false" >> $GITHUB_OUTPUT
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: changeset version all packages
+        run: pnpm changeset version
 
       # 使用 npm publish --workspaces 直接发布所有包
       - name: Publish packages to npm
-        run: |
-          echo "Publishing packages using npm workspaces and OIDC..."
-          npm publish --workspaces --access public --provenance
-        env:
-          NPM_CONFIG_PROVENANCE: true
+        run: pnpm -r publish
