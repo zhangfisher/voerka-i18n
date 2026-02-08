@@ -81,5 +81,13 @@
   },
   "peerDependencies": {
     "@voerkai18n/runtime": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangfisher/voerka-i18n.git"
+  },
+  "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/formatters#readme",
+  "bugs": {
+    "url": "https://github.com/zhangfisher/voerka-i18n/issues"
   }
 }

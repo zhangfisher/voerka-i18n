@@ -38,5 +38,13 @@
     "typescript": "~5.7.3",
     "vite": "^6.1.0",
     "vite-plugin-dts": "^4.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangfisher/voerka-i18n.git"
+  },
+  "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/webcomponent#readme",
+  "bugs": {
+    "url": "https://github.com/zhangfisher/voerka-i18n/issues"
   }
 }

@@ -37,5 +37,13 @@
   },
   "dependencies": {
     "vue-typed-mixins": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangfisher/voerka-i18n.git"
+  },
+  "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/vue2#readme",
+  "bugs": {
+    "url": "https://github.com/zhangfisher/voerka-i18n/issues"
   }
 }

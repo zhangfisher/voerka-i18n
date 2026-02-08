@@ -57,5 +57,13 @@
     "@solidjs/start": "^1.1.0",
     "@voerkai18n/runtime": "workspace:*",
     "solid-js": "^1.9.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangfisher/voerka-i18n.git"
+  },
+  "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/solid#readme",
+  "bugs": {
+    "url": "https://github.com/zhangfisher/voerka-i18n/issues"
   }
 }

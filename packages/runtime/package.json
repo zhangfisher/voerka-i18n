@@ -1,50 +1,53 @@
 {
-    "name": "@voerkai18n/runtime",
-    "version": "3.0.17",
-    "description": "runtime of voerkai18n",
+  "name": "@voerkai18n/runtime",
+  "version": "3.0.17",
+  "description": "runtime of voerkai18n",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
-    "types": "./dist/index.d.ts",
-    "publishConfig": {
-        "main": "./dist/index.js",
-        "module": "./dist/index.mjs",
-        "types": "./dist/index.d.ts"
-    },
-    "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/zhangfisher/voerka-i18n"
-    },
-    "scripts": {
-        "test": "vitest",
-        "test:coverage": "vitest --coverage",
-        "build": "tsup",
-        "build:watch": "tsup --watch"
-    },
-    "keywords": [
-        "voerkai18n",
-        "i18n",
-        "language",
-        "translation",
-        "internationalize"
-    ],
-    "author": "wxzhang",
-    "license": "MIT",
-    "dependencies": {
-        "asyncsignal": "^0.0.5",
-        "flex-tools": "^1.5.6",
-        "flexvars": "^1.0.9",
-        "ts-mixer": "^6.0.4"
-    },
-    "devDependencies": {
-        "@swc/core": "^1.10.4",
-        "@types/node": "^22.13.8",
-        "@vitest/coverage-c8": "^0.33.0",
-        "@vitest/coverage-v8": "^2.1.8",
-        "bcp47-language-tags": "^1.0.1",
-        "esbuild-analyzer": "^0.2.0",
-        "tsup": "^8.3.6",
-        "typescript": "^5.8.2",
-        "vitest": "^2.1.8"
-    }
+    "types": "./dist/index.d.ts"
+  },
+  "homepage": "https://gitee.com/zhangfisher/voerka-i18n",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangfisher/voerka-i18n.git"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "build": "tsup",
+    "build:watch": "tsup --watch"
+  },
+  "keywords": [
+    "voerkai18n",
+    "i18n",
+    "language",
+    "translation",
+    "internationalize"
+  ],
+  "author": "wxzhang",
+  "license": "MIT",
+  "dependencies": {
+    "asyncsignal": "^0.0.5",
+    "flex-tools": "^1.5.6",
+    "flexvars": "^1.0.9",
+    "ts-mixer": "^6.0.4"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.10.4",
+    "@types/node": "^22.13.8",
+    "@vitest/coverage-c8": "^0.33.0",
+    "@vitest/coverage-v8": "^2.1.8",
+    "bcp47-language-tags": "^1.0.1",
+    "esbuild-analyzer": "^0.2.0",
+    "tsup": "^8.3.6",
+    "typescript": "^5.8.2",
+    "vitest": "^2.1.8"
+  },
+  "bugs": {
+    "url": "https://github.com/zhangfisher/voerka-i18n/issues"
+  }
 }

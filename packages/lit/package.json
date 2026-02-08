@@ -42,5 +42,13 @@
   },
   "peerDependencies": {
     "lit": "^3.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangfisher/voerka-i18n.git"
+  },
+  "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/lit#readme",
+  "bugs": {
+    "url": "https://github.com/zhangfisher/voerka-i18n/issues"
   }
 }

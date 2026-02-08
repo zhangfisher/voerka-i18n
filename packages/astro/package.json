@@ -48,5 +48,13 @@
   "peerDependencies": {
     "@voerkai18n/runtime": "workspace:*",
     "react": "^18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangfisher/voerka-i18n.git"
+  },
+  "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/astro#readme",
+  "bugs": {
+    "url": "https://github.com/zhangfisher/voerka-i18n/issues"
   }
 }
