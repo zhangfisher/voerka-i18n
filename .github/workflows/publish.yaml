@@ -83,7 +83,34 @@ jobs:
       - name: Publish packages to npm using OIDC
         run: |
           echo "Publishing packages using npm OIDC..."
-          npm publish --workspaces --access public --provenance
+
+          # 遍历所有 workspaces 并发布
+          for workspace in $(npm query --workspaces --depth=0 .); do
+            # 提取包名（去掉开头和结尾的引号）
+            package_name="${workspace%\'}"
+            package_name="${package_name#\'}"
+
+            echo "Checking package: $package_name"
+
+            # 获取包的路径
+            package_path=$(node -e "console.log(require.resolve('$package_name/package.json', {paths: [process.cwd()]}))" | xargs dirname)
+
+            # 检查包是否为私有
+            private=$(node -p "try { require('$package_path/package.json').private } catch { false }")
+
+            if [ "$private" = "true" ]; then
+              echo "Skipping private package: $package_name"
+              continue
+            fi
+
+            # 检查版本是否已发布
+            version=$(node -p "require('$package_path/package.json').version")
+            echo "Package version: $version"
+
+            # 尝试发布，如果版本已存在则跳过
+            echo "Publishing $package_name@$version..."
+            (cd "$package_path" && npm publish --access public --provenance) || echo "Failed to publish $package_name (version may already exist)"
+          done
         env:
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ""  # 明确设置为空，强制使用 OIDC

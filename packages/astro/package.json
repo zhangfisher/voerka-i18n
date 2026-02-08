@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/astro",
-  "version": "3.0.1",
+  "version": "3.0.17",
   "description": "voerkai18n for astro",
   "main": "src/index.js",
   "exports": {
