@@ -20,7 +20,7 @@
     "internationalize"
   ],
   "dependencies": {
-    "flex-tools": "^1.4.41",
+    "flex-tools": "^1.5.9",
     "vue": "^3.0.0"
   },
   "devDependencies": {
@@ -45,5 +45,8 @@
   "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/vue#readme",
   "bugs": {
     "url": "https://github.com/zhangfisher/voerka-i18n/issues"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

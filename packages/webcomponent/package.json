@@ -46,5 +46,8 @@
   "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/webcomponent#readme",
   "bugs": {
     "url": "https://github.com/zhangfisher/voerka-i18n/issues"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

@@ -28,7 +28,7 @@
     "@voerkai18n/formatters": "workspace:*",
     "@voerkai18n/runtime": "workspace:*",
     "@voerkai18n/vue": "workspace:*",
-    "flex-tools": "^1.4.41",
+    "flex-tools": "^1.5.9",
     "flexstyled": "^2.1.2",
     "vitepress": "^1.6.3",
     "vue": "^3.5.13"

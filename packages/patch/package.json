@@ -35,5 +35,8 @@
   "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/patch#readme",
   "bugs": {
     "url": "https://github.com/zhangfisher/voerka-i18n/issues"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

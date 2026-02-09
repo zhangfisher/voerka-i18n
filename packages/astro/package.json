@@ -42,7 +42,7 @@
   "license": "MIT",
   "dependencies": {
     "@voerkai18n/react": "workspace:*",
-    "flex-tools": "^1.4.41"
+    "flex-tools": "^1.5.9"
   },
   "devDependencies": {
     "@types/node": "^22.13.8",
@@ -64,5 +64,8 @@
   "homepage": "https://github.com/zhangfisher/voerka-i18n/tree/master/packages/astro#readme",
   "bugs": {
     "url": "https://github.com/zhangfisher/voerka-i18n/issues"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

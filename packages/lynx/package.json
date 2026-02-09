@@ -44,5 +44,8 @@
   },
   "bugs": {
     "url": "https://github.com/zhangfisher/voerka-i18n/issues"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
