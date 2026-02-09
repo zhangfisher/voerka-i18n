@@ -1,5 +1,14 @@
 # @voerkai18n/react
 
+## 3.0.20
+
+### Patch Changes
+
+- [`185d931`](https://github.com/zhangfisher/voerka-i18n/commit/185d931fa176d1f5edb5c5e3a6f945028d9c755e) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix exports
+
+- Updated dependencies [[`185d931`](https://github.com/zhangfisher/voerka-i18n/commit/185d931fa176d1f5edb5c5e3a6f945028d9c755e)]:
+  - @voerkai18n/runtime@3.0.20
+
 ## 3.0.19
 
 ### Patch Changes

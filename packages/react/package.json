@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/react",
-  "version": "3.0.19",
+  "version": "3.0.20",
   "description": "React支持,提供语言切换等功能",
   "main": "./src/index.tsx",
   "publishConfig": {
