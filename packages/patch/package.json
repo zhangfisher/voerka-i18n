@@ -1,6 +1,6 @@
 {
   "name": "@voerkai18n/patch",
-  "version": "3.0.17",
+  "version": "3.0.18",
   "description": "voerkai18n patch plugin",
   "main": "src/index.ts",
   "publishConfig": {
