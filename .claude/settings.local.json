@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm changeset status:*)",
+      "Bash(dir \"c:\\\\Work\\\\Code\\\\voerka-i18n\\\\examples\")",
+      "Bash(find:*)",
+      "Bash(npm version patch:*)"
+    ]
+  }
+}

@@ -1,13 +1,21 @@
 {
   "name": "@voerkai18n/astro",
-  "version": "3.0.17",
+  "version": "3.0.18",
   "description": "voerkai18n for astro",
   "main": "src/index.js",
+  "private": true,
   "exports": {
-    "./client": "./src/client/index.ts",
-    "./server": "./src/server/index.ts"
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "import": "./dist/client/index.mjs",
+      "require": "./dist/client/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js"
+    }
   },
-  "module": "dist/index.mjs",
   "publishConfig": {
     "access": "public",
     "./client": {
