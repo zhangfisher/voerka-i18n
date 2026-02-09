@@ -4,7 +4,7 @@
     "@changesets/changelog-github",
     { "repo": "zhangfisher/voerka-i18n" }
   ],
-  "commit": true,
+  "commit": false,
   "fixed": [
     [
       "@voerkai18n/runtime",

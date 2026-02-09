@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       # npm Trusted Publishing 需要 npm CLI 11.5.1+
       - name: Upgrade npm
@@ -57,33 +57,23 @@ jobs:
       - name: Build all packages
         run: pnpm run build
 
-      # 使用 changeset 更新版本（如果有 changeset 文件）
-      - name: Apply changeset versions
-        id: changeset-version
-        run: |
-          if [ -d ".changeset" ] && [ "$(ls -A .changeset/*.md 2>/dev/null | grep -v README | wc -l)" -gt 0 ]; then
-            echo "Applying changeset versions..."
-            pnpm changeset version
-            echo "changeset_applied=true" >> $GITHUB_OUTPUT
+      - name: Apply patch versions
+        run: npm version patch --workspaces --workspaces-update
 
-            # 提交版本更新
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "chore: version packages"
-            git push
-          else
-            echo "No changesets to apply"
-            echo "changeset_applied=false" >> $GITHUB_OUTPUT
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # 提交版本更新到仓库
+      - name: Commit version updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: version packages" || echo "No changes to commit"
+          git push
 
       # 使用 npm publish --workspaces 直接发布所有包（OIDC 原生支持）
       - name: Publish packages to npm using OIDC
         run: |
           echo "Publishing packages using npm OIDC..."
-          npm publish --workspaces --access public --provenance || true
+          npm publish --workspaces --workspaces-update --access public --provenance || true
         env:
           NPM_CONFIG_PROVENANCE: true
-          NODE_AUTH_TOKEN: ""  # 明确设置为空，强制使用 OIDC
+          NODE_AUTH_TOKEN: "" # 明确设置为空，强制使用 OIDC
