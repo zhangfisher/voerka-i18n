@@ -77,3 +77,34 @@ jobs:
         env:
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: "" # 明确设置为空，强制使用 OIDC
+
+      # 创建 GitHub Release
+      - name: Create GitHub Release
+        run: |
+          # 获取主包的版本号
+          VERSION=$(node -p "require('./packages/runtime/package.json').version")
+          echo "Creating release for version $VERSION"
+
+          # 生成 release notes（包含所有包的版本信息）
+          RELEASE_NOTES="## 🚀 Release v$VERSION\n\n"
+          RELEASE_NOTES+="### 📦 Published Packages\n\n"
+
+          # 收集所有已发布的包信息
+          for pkg in packages/*/package.json; do
+            if [ -f "$pkg" ]; then
+              PKG_NAME=$(node -p "require('./$pkg').name")
+              PKG_VERSION=$(node -p "require('./$pkg').version")
+              RELEASE_NOTES+="- **$PKG_NAME**: \`$PKG_VERSION\`\n"
+            fi
+          done
+
+          RELEASE_NOTES+="\n---\n\n"
+          RELEASE_NOTES+="✅ Automatically published by GitHub Actions\n"
+
+          # 创建 release
+          gh release create "v$VERSION" \
+            --title "🎉 v$VERSION" \
+            --notes "$RELEASE_NOTES" \
+            --generate-notes || echo "Release v$VERSION already exists or creation failed"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
