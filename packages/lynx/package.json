@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "private":true,
+  "private": true,
   "publishConfig": {
     "main": "dist/index.js",
     "module": "dist/index.mjs",
