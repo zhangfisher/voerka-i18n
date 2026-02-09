@@ -26,11 +26,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       # npm Trusted Publishing 需要 npm CLI 11.5.1+
       - name: Upgrade npm
-        run: npm install -g npm@latest 
+        run: npm install -g npm@latest
       # 安装 pnpm（用于构建和依赖管理）
       - name: Install pnpm
         run: npm install -g pnpm
@@ -42,8 +42,8 @@ jobs:
       # 构建所有包
       - name: Build all packages
         run: pnpm run build
- 
-      - name: Apply patch versions 
+
+      - name: Apply patch versions
         run: npm version patch --workspaces --workspaces-update
       # 使用 npm publish --workspaces 直接发布所有包（OIDC 原生支持）
       - name: Publish packages to npm using OIDC
@@ -52,4 +52,4 @@ jobs:
           npm publish --workspaces --workspaces-update --access public --provenance || true
         env:
           NPM_CONFIG_PROVENANCE: true
-          NODE_AUTH_TOKEN: ""  # 明确设置为空，强制使用 OIDC
+          NODE_AUTH_TOKEN: "" # 明确设置为空，强制使用 OIDC

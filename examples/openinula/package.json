@@ -17,7 +17,7 @@
   "author": "wxzhang",
   "license": "MIT",
   "dependencies": {
-    "@voerkai18n/openinula": "workspace:^",
+    "@voerkai18n/openinula": "workspace:*",
     "@voerkai18n/cli": "workspace:*",
     "@voerkai18n/formatters": "workspace:*",
     "@voerkai18n/react": "workspace:*",

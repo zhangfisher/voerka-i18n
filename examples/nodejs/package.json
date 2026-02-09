@@ -2,7 +2,7 @@
     "name": "@voerkai18n-examples/nodejs",
     "private": true,
     "dependencies": {
-        "@voerkai18n/cli": "workspace:^",
+        "@voerkai18n/cli": "workspace:*",
         "@voerkai18n/formatters": "workspace:*",
         "@voerkai18n/runtime": "workspace:*"
     },

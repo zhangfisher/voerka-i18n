@@ -31,7 +31,7 @@
     "@lynx-js/react": "^0.105.1",
     "@lynx-js/types": "^3.2.0",
     "@types/react": "^18.0.0",
-    "@voerkai18n/runtime": "workspace:^",
+    "@voerkai18n/runtime": "workspace:*",
     "react": "^18.0.0",
     "tsup": "^8.3.6"
   },
@@ -39,7 +39,7 @@
     "@lynx-js/react": "^0.105.1",
     "@lynx-js/types": "^3.2.0",
     "@types/react": "^18.0.0",
-    "@voerkai18n/runtime": "workspace:^",
+    "@voerkai18n/runtime": "workspace:*",
     "react": "^18.0.0"
   },
   "bugs": {

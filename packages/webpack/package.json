@@ -25,7 +25,7 @@
     "tsup": "8.3.6"
   },
   "dependencies": {
-    "@voerkai18n/utils": "workspace:^"
+    "@voerkai18n/utils": "workspace:*"
   },
   "bugs": {
     "url": "https://github.com/zhangfisher/voerka-i18n/issues"

@@ -23,7 +23,7 @@
   "author": "wxzhang",
   "license": "MIT",
   "dependencies": {
-    "@voerkai18n/utils": "workspace:^"
+    "@voerkai18n/utils": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
