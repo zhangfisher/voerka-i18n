@@ -17,4 +17,4 @@
 "@voerkai18n/webpack": patch
 ---
 
-fix ci use
+启用 changeset
