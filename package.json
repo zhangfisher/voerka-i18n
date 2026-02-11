@@ -12,7 +12,7 @@
     "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
     "build": "turbo run build --filter=@voerkai18n/*",
     "build:watch": "turbo run build:watch --filter=@voerkai18n/*",
-    "publish:all": "pnpm run build && pnpm version patch --workspaces --workspaces-update && pnpm -r publish",
+    "publish:all": "pnpm run build && node scripts/bump-versions.js && pnpm -r publish",
     "sync": "cnpm sync @voerkai18n/cli @voerkai18n/lit @voerkai18n/runtime @voerkai18n/vue @voerkai18n/formatters @voerkai18n/patch  @voerkai18n/openinula @voerkai18n/plugins @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel @voerkai18n/webpack @voerkai18n/svelte  @voerkai18n/nextjs",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",

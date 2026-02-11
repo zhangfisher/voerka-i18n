@@ -8,7 +8,11 @@
       "Bash(pnpm install)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push)"
+      "Bash(git push)",
+      "Bash(pnpm version:*)",
+      "Bash(pnpm:*)",
+      "Bash(node:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }

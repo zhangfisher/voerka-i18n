@@ -40,7 +40,7 @@ jobs:
       - name: Bump package versions
         run: |
           echo "Auto incrementing package versions..."
-          pnpm version patch --workspaces --workspaces-update
+          node scripts/bump-versions.js
 
       # 构建所有包
       - name: Build all packages
