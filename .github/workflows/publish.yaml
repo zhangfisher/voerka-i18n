@@ -41,8 +41,6 @@ jobs:
         run: |
           echo "Auto incrementing package versions..."
           pnpm version patch --workspaces --workspaces-update
-          # 暂存版本变更，稍后提交
-          git add .
 
       # 构建所有包
       - name: Build all packages
@@ -62,5 +60,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
           git commit -m "chore: bump package versions [skip ci]" || echo "No changes to commit"
           git push origin master
