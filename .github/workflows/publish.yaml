@@ -43,13 +43,11 @@ jobs:
       - name: Build all packages
         run: pnpm run build
 
-      - name: Apply patch versions
-        run: npm version patch --workspaces --workspaces-update
-      # 使用 npm publish --workspaces 直接发布所有包（OIDC 原生支持）
+      # 使用 changeset 发布所有包
       - name: Publish packages to npm using OIDC
         run: |
-          echo "Publishing packages using npm OIDC..."
-          npm publish --workspaces --workspaces-update --access public --provenance || true
+          echo "Publishing packages using pnpm and OIDC..."
+          pnpm -r publish --access public --no-git-checks --provenance || true
         env:
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: "" # 明确设置为空，强制使用 OIDC
