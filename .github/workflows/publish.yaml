@@ -2,8 +2,6 @@ name: Publish Package
 
 on:
   push:
-    branches:
-      - master
     tags:
       - "v*"
 
@@ -15,12 +13,14 @@ permissions:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  build-and-publish:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
@@ -28,10 +28,7 @@ jobs:
           node-version: 24
           registry-url: "https://registry.npmjs.org"
 
-      # npm Trusted Publishing 需要 npm CLI 11.5.1+
-      - name: Upgrade npm
-        run: npm install -g npm@latest
-      # 安装 pnpm（用于构建和依赖管理）
+      # 安装 pnpm
       - name: Install pnpm
         run: npm install -g pnpm
 
@@ -39,15 +36,30 @@ jobs:
       - name: Install dependencies
         run: pnpm install --force
 
+      # 自动递增所有包的版本号
+      - name: Bump package versions
+        run: |
+          echo "Auto incrementing package versions..."
+          pnpm bump:versions
+          # 提交版本变更
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: bump package versions [skip ci]" || echo "No changes to commit"
+
       # 构建所有包
       - name: Build all packages
         run: pnpm run build
 
-      # 使用 changeset 发布所有包
+      # 发布所有包到 npm
       - name: Publish packages to npm using OIDC
         run: |
           echo "Publishing packages using pnpm and OIDC..."
-          pnpm -r publish --access public --no-git-checks --provenance || true
+          pnpm -r publish --access public --no-git-checks --provenance
         env:
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: "" # 明确设置为空，强制使用 OIDC
+
+      # 推送版本变更回仓库
+      - name: Push version changes
+        run: git push origin master
