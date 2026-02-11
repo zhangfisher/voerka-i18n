@@ -1,5 +1,14 @@
 # @voerkai18n/vue
 
+## 3.0.22
+
+### Patch Changes
+
+- [`6505581`](https://github.com/zhangfisher/voerka-i18n/commit/65055810d91e20a4bb6144f2b5318b4502f016db) Thanks [@zhangfisher](https://github.com/zhangfisher)! - 启用 changeset
+
+- Updated dependencies [[`6505581`](https://github.com/zhangfisher/voerka-i18n/commit/65055810d91e20a4bb6144f2b5318b4502f016db)]:
+  - @voerkai18n/runtime@3.0.22
+
 ## 3.0.20
 
 ### Patch Changes
