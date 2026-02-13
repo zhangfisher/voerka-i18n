@@ -306,7 +306,10 @@ export class VoerkaI18nScope<
    */
   private _initRefresh(getInitLanguage?: () => string) {
     if (this.library) {
-      this.refresh(getInitLanguage && getInitLanguage());
+      const task = this.refresh(getInitLanguage && getInitLanguage());
+      task.then(() => {
+        this.emit("patched", this.activeLanguage, true);
+      });
     } else {
       const tasks: any[] = [];
       if (
