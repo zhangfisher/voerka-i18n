@@ -33,6 +33,7 @@
     "esbuild-plugin-copy": "^2.1.1",
     "tslib": "^2.8.1",
     "tsup": "^8.3.6",
+    "typescript": "^5.8.2",
     "vue": "^2.7.0"
   },
   "dependencies": {

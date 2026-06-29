@@ -6,13 +6,19 @@
   "main": "index.js",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/**",
+    "examples/**",
+    "docs",
+    "!**/test/**"
   ],
   "scripts": {
     "test:runtime": "cross-env  NODE_OPTIONS=--experimental-vm-modules jest runtime --coverage --collectCoverageFrom packages/runtime/dist/runtime.cjs",
-    "build": "turbo run build --filter=@voerkai18n/*",
-    "build:watch": "turbo run build:watch --filter=@voerkai18n/*",
-    "publish-packages": "pnpm run build  && changeset version && changeset publish",
+    "build": "turbo run build --filter=\"@voerkai18n/*\"",
+    "build:watch": "turbo run build:watch --filter=\"@voerkai18n/*\"",
+    "publish-packages": "bun run build && bun run scripts/apply-publish-config.js && changeset version && bun run scripts/update-workspace-deps.js && changeset publish && git checkout -- package.json packages/*/package.json",
+    "only-publish-packages": "bun run build && bun run scripts/apply-publish-config.js && bun run scripts/update-workspace-deps.js && npm publish --workspaces && git checkout -- package.json packages/*/package.json",
+    "publish-versions": "bun run scripts/publish-versions.js",
+    "update:changelog": "cpx packages/core/CHANGELOG.md docs/zh/guide/intro/core.changelog.md",
     "sync": "cnpm sync @voerkai18n/cli @voerkai18n/lit @voerkai18n/runtime @voerkai18n/vue @voerkai18n/formatters @voerkai18n/patch  @voerkai18n/openinula @voerkai18n/plugins @voerkai18n/react @voerkai18n/utils @voerkai18n/vue2 @voerkai18n/babel @voerkai18n/webpack @voerkai18n/svelte  @voerkai18n/nextjs",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -22,18 +28,17 @@
   "author": "wxzhang@126.com",
   "license": "MIT",
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.0",
-    "@changesets/cli": "^2.27.9",
+    "@changesets/changelog-github": "^0.5.2",
+    "@changesets/cli": "^2.31.0",
     "changeset": "^0.2.6",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.1.0",
     "deepmerge": "^4.2.2",
-    "fs-extra": "^10.1.0",
-    "oxlint": "^0.15.3",
-    "prettier": "^2.7.1",
-    "semver": "^7.5.4",
-    "tsx": "^4.19.2",
-    "turbo": "^2.4.4",
-    "vitepress": "^1.6.3",
+    "fs-extra": "^11.3.5",
+    "oxlint": "^0.15.15",
+    "prettier": "^3.9.3",
+    "semver": "^7.8.5",
+    "turbo": "^2.10.0",
+    "vitepress": "^1.6.4",
     "yorkie": "^2.0.0"
   },
   "json-comments": {
@@ -46,5 +51,5 @@
       "scripts.release:all": "一健自动化发布所有包"
     }
   },
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "bun@1.3.14"
 }
