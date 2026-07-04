@@ -3,8 +3,15 @@ name: Publish Package
 on:
   push:
     branches:
-      - master
-  workflow_dispatch:
+      - "master"
+    tags:
+      - "release-*"
+  # 允许你从 Actions 选项卡手动运行此工作流程
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_run:
+    workflows: ["publish"]
+    types:
+      - completed
 
 permissions:
   contents: write # to create release (changesets/action)
@@ -15,34 +22,31 @@ permissions:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  publish:
+  build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: pnpm/action-setup@v4
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: pnpm
 
-      # 安装依赖
-      - name: Install Dependencies
-        run: pnpm i
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
+      - name: Install dependencies
+        run: bun install
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm publish-packages
+          publish: ${{ startsWith(github.ref_name, 'release-') && 'bun run only-publish-packages' || 'bun run publish-packages' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           npm_config_registry: https://registry.npmjs.org
-          # https://github.com/changesets/changesets/pull/1659
           NPM_CONFIG_PROVENANCE: true
