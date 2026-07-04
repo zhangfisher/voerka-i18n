@@ -1,5 +1,11 @@
 # @voerkai18n/cli
 
+## 3.1.0
+
+### Minor Changes
+
+- [`48ed968`](https://github.com/zhangfisher/voerka-i18n/commit/48ed968840e33d44b70f16d9068ffaa6e604bde1) Thanks [@zhangfisher](https://github.com/zhangfisher)! - fix cli error
+
 ## 3.0.22
 
 ### Patch Changes
