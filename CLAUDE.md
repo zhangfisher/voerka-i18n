@@ -22,19 +22,19 @@ VoerkaI18n 是一个为 JavaScript/TypeScript/Vue/React/Solidjs/SvelteJs/ReactNa
 ### 项目管理
 ```bash
 # 安装依赖
-pnpm install
+bun install
 
 # 构建所有包
-pnpm build
+bun run build
 
 # 监听模式构建
-pnpm build:watch
+bun run build:watch
 
 # 发布所有包
-pnpm publish:all
+bun run publish-packages
 
 # 代码检查
-pnpm lint
+bun run lint
 ```
 
 ### CLI 工具使用
@@ -61,23 +61,23 @@ voerkai18n compile --module-type esm,cjs
 ### 测试
 ```bash
 # 运行运行时测试
-pnpm test:runtime
+bun run test:runtime
 
 # 运行单个包的测试（在 packages 目录下）
-cd packages/runtime && pnpm test
-cd packages/runtime && pnpm test:coverage
+cd packages/runtime && bun run test
+cd packages/runtime && bun run test:coverage
 ```
 
 ### 文档
 ```bash
 # 开发文档
-pnpm docs:dev
+bun run docs:dev
 
 # 构建文档
-pnpm docs:build
+bun run docs:build
 
 # 预览文档
-pnpm docs:preview
+bun run docs:preview
 ```
 
 ## 开发工作流程
@@ -131,9 +131,9 @@ pnpm docs:preview
 
 ## 包管理
 
-- 使用 `pnpm` 作为包管理器
+- 使用 `bun` 作为包管理器（`package.json` 中 `packageManager: bun@1.3.14`）
 - 工作区依赖使用 `workspace:*` 或 `workspace:^`
-- 发布前自动执行 `pnpm build`
+- 发布前自动执行 `bun run build`
 
 ## 示例项目
 
